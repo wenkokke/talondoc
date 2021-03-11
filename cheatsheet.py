@@ -1,5 +1,5 @@
 from talon import  Module, actions, registry
-import sys, os, pprint 
+import sys, os
 
 
 def list_to_markdown_table(file, list_name):
@@ -50,7 +50,11 @@ def pretty_print_context_name(file, name):
             index = -2
             short_name = splits[index].replace("_", " ")
         else:
-            short_name = ""
+            short_name = splits[index].replace("_", " ")
+
+        if "mac" == short_name or "win" == short_name or "linux" == short_name:
+            index = index - 1
+            short_name = short_name + " " + splits[index].replace("_", " ")
 
         file.write("\n\n\n" + "# " + short_name + "\n\n")
 
@@ -60,13 +64,10 @@ mod = Module()
 class user_actions:
         def cheatsheet():
             """Print out a sheet of talon commands"""
-
-            
-
             #open file
 
             this_dir = os.path.dirname(os.path.realpath(__file__))
-            file_path = os.path.join(this_dir, 'cheatsheet.txt')
+            file_path = os.path.join(this_dir, 'cheatsheet.md')
             file = open(file_path,"w") 
 
 
