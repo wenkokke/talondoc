@@ -16,7 +16,11 @@ def write_numbers(file):
 
 def write_modifiers(file):
 	pp = pprint.PrettyPrinter(indent=2)
-	file.write(pp.pformat(registry.lists['user.number_key']) + "\n\n")
+	file.write(pp.pformat(registry.lists['user.modifier_key']) + "\n\n")
+
+def write_special(file):
+	pp = pprint.PrettyPrinter(indent=2)
+	file.write(pp.pformat(registry.lists['user.special_key']) + "\n\n")
 
 def write_formatters(file):
 	pp = pprint.PrettyPrinter(indent=2)
@@ -58,7 +62,10 @@ class user_actions:
 		write_alphabet(file)
 		write_numbers(file)
 		write_modifiers(file)
+		write_special(file)
+
 		write_formatters(file)
+
 
 		#print out all the commands in all of the contexts
 
