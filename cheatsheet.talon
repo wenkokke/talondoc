@@ -1,0 +1,2 @@
+print cheatsheet: user.cheatsheet()
+
