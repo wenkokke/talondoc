@@ -1,4 +1,4 @@
-from talon import  Module, actions, registry
+rt  Module, actions, registry
 import sys, os
 
 
@@ -24,6 +24,20 @@ def write_modifiers(file):
 def write_special(file):
     list_to_markdown_table(file, 'user.special_key')
 
+def write_symbol(file):
+    list_to_markdown_table(file, 'user.symbol_key')
+
+def write_arrow(file):
+    list_to_markdown_table(file, 'user.arrow_key')
+
+def write_punctuation(file):
+    list_to_markdown_table(file, 'user.punctuation')
+
+def write_function(file):
+    list_to_markdown_table(file, 'user.function_key')
+
+
+
 def write_formatters(file):
     file.write(f"# formatters \n\n")
     command_list = registry.lists['user.formatters'][0].items()
@@ -46,6 +60,16 @@ def pretty_print_context_name(file, name):
     ## The logic here is intended to only print from talon files that have actual voice commands.  
         splits = name.split(".")
         index = -1
+        
+        os = ""
+        
+        if "mac" in name:
+            os = "mac"
+        if "win" in name: 
+            os = "win"
+        if "linux" in name:
+            os = "linux"
+
         if "talon" in splits[index]:
             index = -2
             short_name = splits[index].replace("_", " ")
@@ -54,9 +78,9 @@ def pretty_print_context_name(file, name):
 
         if "mac" == short_name or "win" == short_name or "linux" == short_name:
             index = index - 1
-            short_name = short_name + " " + splits[index].replace("_", " ")
+            short_name = splits[index].replace("_", " ")
 
-        file.write("\n\n\n" + "# " + short_name + "\n\n")
+        file.write("\n\n\n" + "# " + os + " " + short_name + "\n\n")
 
 mod = Module()
 
@@ -75,9 +99,13 @@ class user_actions:
             write_numbers(file)
             write_modifiers(file)
             write_special(file)
+            write_symbol(file)
+            write_arrow(file)
+            write_punctuation(file)
+            write_function(file)
+
 
             write_formatters(file)
-
 
             #print out all the commands in all of the contexts
 
@@ -89,4 +117,3 @@ class user_actions:
                     pretty_print_context_name(file, key)
                     write_context_commands(file,commands)
             file.close()
-    
