@@ -1,4 +1,4 @@
-rt  Module, actions, registry
+from talon import  Module, actions, registry
 import sys, os
 
 
