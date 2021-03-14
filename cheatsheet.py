@@ -94,7 +94,7 @@ class user_actions:
 
             this_dir = os.path.dirname(os.path.realpath(__file__))
             file_path = os.path.join(this_dir, 'cheatsheet.md')
-            file = open("C:\\Users\\Tara\\Desktop\\pandoc-test\\cheatsheet.md","w") 
+            file = open(file_path,"w") 
 
 
             write_alphabet(file)
