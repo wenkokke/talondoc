@@ -3,12 +3,14 @@ import sys, os
 
 
 def list_to_markdown_table(file, list_name):
+
     file.write(f"# {list_name} \n\n")
     command_list = registry.lists[list_name][0].items()
-    file.write(f"|command word | {list_name} | \n")
-    file.write("|------|-----|\n")
+    file.write(f">\n")
+    file.write(f"> command word  {list_name}   \n\n")
     for key, value in command_list:
-        file.write( "| " + key + "|" + value  + "|\n")
+        file.write( "> **" + key + "** *" + value + "*\n>\n")
+
     file.write("\n\n")
 
 
@@ -41,10 +43,10 @@ def write_function(file):
 def write_formatters(file):
     file.write(f"# formatters \n\n")
     command_list = registry.lists['user.formatters'][0].items()
-    file.write("|command word | user.formatters | \n")
-    file.write("|------|-----|\n")
+    file.write("> command word  user.formatters  \n")
+#    file.write("|------|-----|\n")
     for key, value in command_list:
-        file.write( "|"+ key + "|" + actions.user.formatted_text(f"example of formatting with {key}", key) + "| \n")
+        file.write( "> **"+ key + "** `" + actions.user.formatted_text(f"example of formatting with {key}", key) + "` \n>\n")
 
 def write_context_commands(file, commands): 
     # write out each command and it's implementation
@@ -54,7 +56,7 @@ def write_context_commands(file, commands):
             implementation = commands[key].target.code.replace("\n","\n\t\t")
         except Exception:
             continue
-        file.write("\n\t" + rule + " : " + implementation)
+        file.write("\n - **" + rule + "**  `" + implementation + "`\n")
 
 def pretty_print_context_name(file, name):
     ## The logic here is intended to only print from talon files that have actual voice commands.  
@@ -92,7 +94,7 @@ class user_actions:
 
             this_dir = os.path.dirname(os.path.realpath(__file__))
             file_path = os.path.join(this_dir, 'cheatsheet.md')
-            file = open(file_path,"w") 
+            file = open("C:\\Users\\Tara\\Desktop\\pandoc-test\\cheatsheet.md","w") 
 
 
             write_alphabet(file)
