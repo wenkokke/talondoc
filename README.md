@@ -1,3 +1,5 @@
+#Talon Voice Commands Cheatsheet
+
 This is a demo for how to get a cheatsheet of all Talon voice commands.  
 
 To recreate what I did: 
