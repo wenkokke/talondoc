@@ -16,7 +16,7 @@ This will generate a markdown file in the same directory you put cheatsheet.py. 
 4.  In a shell, I open pandoc and run the command 
 
 ```
-> pandoc -s cheatsheet.md -c cheatsheet.css -f markdown -t html -o cheatsheet.html
+> pandoc -s cheatsheet.md -c cheatsheet.css -f markdown-raw_html -t html -o cheatsheet.html
 ```
 
 This command says "create a standalone document (-s) from the markdown document cheatsheet.md  markdown (cheatsheet.md -f markdown) to html (-t html) with the css styleshees cheatsheet.css (-c cheatsheet.css)"
