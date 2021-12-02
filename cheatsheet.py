@@ -12,13 +12,15 @@ import sys
 
 mod = Module()
 
+def html_escape(text: str) -> str:
+    return text.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
 
 def write_talon_list(file: TextIOWrapper, list_name:str) -> None:
     """Write a Talon list as an HTML table"""
     file.write(f"<table class=\"talon-list\">\n")
     file.write(f"<thead>\n")
     file.write(f"\t<tr>\n")
-    file.write(f"\t\t<th colspan=\"2\">{list_name}</tr>\n")
+    file.write(f"\t\t<th colspan=\"2\">{html_escape(list_name)}</tr>\n")
     file.write(f"\t</th>\n")
     file.write(f"\t</tr>\n")
     file.write(f"</thead>\n")
@@ -26,8 +28,8 @@ def write_talon_list(file: TextIOWrapper, list_name:str) -> None:
     command_list = registry.lists[list_name][0].items()
     for key, value in command_list:
         file.write(f"\t<tr>\n")
-        file.write(f"\t\t<td class=\"talon-list-key\">{key}</td>\n")
-        file.write(f"\t\t<td class=\"talon-list-value\">{value}</td>\n")
+        file.write(f"\t\t<td class=\"talon-list-key\">{html_escape(key)}</td>\n")
+        file.write(f"\t\t<td class=\"talon-list-value\">{html_escape(value)}</td>\n")
         file.write(f"\t</tr>\n")
     file.write(f"</tbody>\n")
     file.write(f"</table>\n\n")
@@ -47,8 +49,8 @@ def write_formatters(file: TextIOWrapper) -> None:
     for key, _ in command_list:
         file.write(f"\t<tr>\n")
         example = actions.user.formatted_text(f"example of formatting with {key}", key)
-        file.write(f"\t<td class=\"talon-formatter-key\">{key}</td>\n")
-        file.write(f"\t<td class=\"talon-formatter-example\">{example}</td>\n")
+        file.write(f"\t<td class=\"talon-formatter-key\">{html_escape(key)}</td>\n")
+        file.write(f"\t<td class=\"talon-formatter-example\">{html_escape(example)}</td>\n")
         file.write(f"\t</tr>\n")
     file.write(f"</tbody>\n")
     file.write(f"</table>\n\n")
@@ -89,7 +91,7 @@ def write_context(file: TextIOWrapper, context_name:str, context: Context) -> No
         file.write(f"<table class=\"talon-context\">\n")
         file.write(f"<thead>\n")
         file.write(f"\t<tr>\n")
-        file.write(f"\t\t<th colspan=\"2\">{describe_context_name(context_name)}</tr>\n")
+        file.write(f"\t\t<th colspan=\"2\">{html_escape(describe_context_name(context_name))}</tr>\n")
         file.write(f"\t</th>\n")
         file.write(f"\t</tr>\n")
         file.write(f"</thead>\n")
@@ -100,21 +102,21 @@ def write_context(file: TextIOWrapper, context_name:str, context: Context) -> No
             impl = describe_command_implementation(command)
             if docs:
                 file.write(f"\t<tr>\n")
-                file.write(f"\t\t<td rowspan=\"2\" class=\"talon-command-rule\">{rule}</td>\n")
+                file.write(f"\t\t<td rowspan=\"2\" class=\"talon-command-rule\">{html_escape(rule)}</td>\n")
                 file.write(f"\t\t<td class=\"talon-command-docs\">\n")
                 for line in docs:
-                    file.write(f"\t\t\t{line.strip()}<br />\n")
+                    file.write(f"\t\t\t{html_escape(line.strip())}<br />\n")
                 file.write(f"\t\t</td>\n")
                 file.write(f"\t<tr>\n")
                 file.write(f"\t\t<td class=\"talon-command-impl\">\n")
-                file.write(f"<pre>{impl}</pre>\n")
+                file.write(f"<pre>{html_escape(impl)}</pre>\n")
                 file.write(f"</td>\n")
                 file.write(f"\t<tr>\n")
             else:
                 file.write(f"\t<tr>\n")
-                file.write(f"\t\t<td class=\"talon-command-rule\">{rule}</td>\n")
+                file.write(f"\t\t<td class=\"talon-command-rule\">{html_escape(rule)}</td>\n")
                 file.write(f"\t\t<td class=\"talon-command-impl\"><pre>\n")
-                file.write(f"\t\t\t{impl}\n")
+                file.write(f"\t\t\t{html_escape(impl)}\n")
                 file.write(f"\t\t</pre></td>\n")
                 file.write(f"\t<tr>\n")
         file.write(f"</tbody>\n")
@@ -140,12 +142,13 @@ def describe_action_custom(action_name: str, args: list[Doc]) -> Doc:
     if all(map(is_simple, args)):
         try:
             return {
-                'key'                : ["Press {}".format(*args)],
-                'insert'             : ["Insert <code>{}</code>".format(*args)],
-                'auto_insert'        : ["Insert <code>{}</code> using automatic formatting".format(*args)],
+                'key'                : ["Press {}".format(args)],
+                'insert'             : ["Insert '{}'".format(*args)],
+                'auto_insert'        : ["Insert '{}'".format(*args)],
                 'sleep'              : [],
                 'edit.selected_text' : "the selected text",
-                'user.vscode'        : ["Execute {}".format(*args)],
+                'user.vscode'        : ["Ask VSCode to run {}".format(*args)],
+                'user.idea'          : ["Ask Jetbrains IDE to run {}".format(*args)],
             }.get(action_name)
         except (KeyError, IndexError):
             pass
@@ -194,9 +197,9 @@ def describe(expr: Expr) -> Doc:
         # Special cases for default values:
         if isinstance(expr, ExprOr):
             if isinstance(expr.v1, Variable) and isinstance(expr.v2, StringValue) and expr.v2.value == "":
-                return f"&lt;{expr.v1.name} or \"\"&gt;"
+                return f"<{expr.v1.name} or \"\">"
             if isinstance(expr.v2, Variable) and isinstance(expr.v1, StringValue) and expr.v1.value == "":
-                return f"&lt;{expr.v2.name} or \"\"&gt;"
+                return f"<{expr.v2.name} or \"\">"
             if is_simple(v1) and isinstance(v2, list):
                 return [*v2, f"Using a default value of {v1}."]
             if isinstance(v2, list) and is_simple(v2):
@@ -233,11 +236,11 @@ def describe(expr: Expr) -> Doc:
 
     # Describe variables:
     if isinstance(expr, Variable):
-        return f"&lt;{expr.name}&gt;"
+        return f"<{expr.name}>"
 
     # Describe actions:
     if isinstance(expr, Action):
-        args = list(map(describe, expr.args))
+        args = [describe(arg) for arg in expr.args]
         custom_doc = describe_action_custom(expr.name, args)
         doc_string = describe_action(expr.name)
         return custom_doc or doc_string
@@ -259,7 +262,7 @@ def describe(expr: Expr) -> Doc:
     if isinstance(expr, Assignment):
         rhs = describe(expr.expr)
         if is_simple(rhs):
-            return [f"Let &lt;{expr.var}&gt; be {rhs}"]
+            return [f"Let <{expr.var}> be {rhs}"]
         else:
             print(f"Cowardly refusing to document complex variable assignment {expr} with right hand side {rhs}")
             return None
