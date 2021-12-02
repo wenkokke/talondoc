@@ -165,7 +165,7 @@ def describe_action(action_name: str) -> Doc:
             doc_string = repr(action_path)
             doc_string = doc_string.splitlines()[1]
             doc_string = doc_string.strip()
-            if doc_string.startswith(('Return', 'return')):
+            if doc_string.startswith(('Return', 'return', 'Get', 'get')):
                 return ' '.join(doc_string.split(' ')[1:])
             else:
                 return [doc_string]
