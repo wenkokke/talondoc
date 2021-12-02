@@ -1,2 +1,2 @@
-print cheatsheet: user.cheatsheet()
-
+print cheatsheet:
+  user.cheatsheet()

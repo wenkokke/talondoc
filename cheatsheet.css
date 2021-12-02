@@ -1,48 +1,11 @@
 body {
-  column-count: 3
-    
+	column-count: 3impli
 }
 
-ul {
-  margin: 0 0 0 0;
-  padding: 0 0 0 0
+td.talon-list-key, td.talon-command-rule {
+  font-family: monospace;
 }
 
-pre{
-  overflow: hidden
+td.talon-command-impl {
+/* display: none; */
 }
-p { 
-display: flex;
-border: solid black;
-margin: 0 0 0 0
-  
-}
-blockquote{
-  padding: 0 0 0 0;
-  margin: unset
-}
-
-p > * {
-  flex: 1;
-  /*! margin: 0 0 0 0; */
-  align-content: ;
-}
-
-li {
-  list-style:none
-  
-}
-
-li > p {
-  border: none;
-  overflow: hidden;
-  display: block
-    
-} 
-
-p:nth-child(2n){
-  background-color:lightgrey
-    
-}
-
-
