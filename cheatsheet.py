@@ -381,7 +381,7 @@ class HtmlSection(Section):
         self.doc.file.write(f"</section>\n")
 
     def title(self, title: str):
-        self.doc.file.write(f'<p>{HtmlDoc.escape(title)}</p>\n')
+        self.doc.file.write(f'<h1>{HtmlDoc.escape(title)}</h1>\n')
 
     def table(self, cols: int, anchor: Optional[str] = None):
         return HtmlTable(self, cols, anchor)

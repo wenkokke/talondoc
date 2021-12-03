@@ -1,29 +1,46 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
 body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+section.section-1-cols {
+	column-count: 1;
+}
+section.section-2-cols {
+	column-count: 2;
+}
+section.section-3-cols {
 	column-count: 3;
 }
-
+section.section-4-cols {
+	column-count: 3;
+}
 table {
   width: 100%;
   overflow: hidden;
-  border: solid;
+  border-style: solid;
+  border-color: black;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
   background-color: aliceblue;
 }
-
-table > tbody > tr > td {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-}
-
-thead > tr > th {
+th, td {
   text-align: left;
-}
-
-td.talon-list-key, td.talon-command-rule {
-  font-family: monospace;
-}
-
-td.talon-command-impl {
-  display: none;
 }
