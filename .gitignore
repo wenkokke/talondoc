@@ -1,8 +1,7 @@
-/cheatsheet.aux
-/cheatsheet.py
-/cheatsheet.fls
-/cheatsheet.log
-/cheatsheet.synctex.gz
-/cheatsheet.tex
-/cheatsheet.fdb_latexmk
-/cheatsheet.lot
+cheatsheet.tex
+*.aux
+*.fls
+*.log
+*.synctex.gz
+*.fdb_latexmk
+*.lot
