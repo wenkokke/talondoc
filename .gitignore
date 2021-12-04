@@ -5,3 +5,4 @@ cheatsheet.tex
 *.synctex.gz
 *.fdb_latexmk
 *.lot
+.parcel-cache
