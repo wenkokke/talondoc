@@ -1,0 +1,14 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  pages:
+    runs-on: macOS-latest
+    steps:
+    - run: brew install --cask talon
+    - run: open /Applications/Talon.app
+    - run: echo 'actions.user.print_cheatsheet("html")' | ~/.talon/bin/repl
