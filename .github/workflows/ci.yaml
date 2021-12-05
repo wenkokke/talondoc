@@ -9,6 +9,8 @@ jobs:
   pages:
     runs-on: macOS-latest
     steps:
-    - run: brew install --cask talon
-    - run: open /Applications/Talon.app
-    - run: echo 'actions.user.print_cheatsheet("html")' | ~/.talon/bin/repl
+    - name: Install Talon
+      run: brew install --cask talon
+    - name: Open Talon
+      run: open /Applications/Talon.app
+    - run: ls ~/.talon
