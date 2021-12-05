@@ -6,7 +6,7 @@ To recreate what I did:
 
 1. Install Talon on your computer (see [Getting Started][talon-getting-started]).
 2. Clone this repository into your Talon user directory (see [Getting Scripts](talon-getting-scripts)).
-3. Say `print help` or `phrase print latex help`.
+3. Say `print help` or `print latex help`.
 
 This will generate self contained HTML or LaTeX  file in the repository directory.
 
