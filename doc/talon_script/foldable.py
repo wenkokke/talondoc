@@ -13,7 +13,7 @@ class FoldableTalonScript(ABC):
         return self.fold_script(command.target)
 
     def fold_script(self, talon_script: TalonScript):
-        return [self.fold_expr(stmt) for stmt in talon_script.lines]
+        return tuple(self.fold_expr(stmt) for stmt in talon_script.lines)
 
     def fold_expr(self, expr: Expr):
         """"""

@@ -2,10 +2,7 @@ from contextlib import AbstractContextManager
 from talon import Module, actions, registry
 from talon.scripting.context import Context
 from typing import *
-from user.cheatsheet.doc.talon_script.describe import (
-    describe_context_name,
-    describe_command,
-)
+from user.cheatsheet.doc.talon_script.describe import Describe
 
 
 # Abstract classes for printing cheatsheet document
@@ -55,24 +52,21 @@ class Section(AbstractContextManager):
         """Write each command and its implementation as a table"""
         if context.commands:
             with self.table(
-                title=describe_context_name(context_name),
+                title=Describe.context_name(context_name),
                 cols=2,
                 anchor="talon-context",
             ) as table:
                 for command in context.commands.values():
                     with table.row() as row:
                         row.cell(command.rule.rule)
-                        docs = describe_command(command)
+                        docs = Describe.command(command)
                         impl = "\n".join(map(str.strip, command.target.code.splitlines()))
                         if docs is not None:
-                            with row.cell() as cell:
-                                for line in docs:
-                                    cell.line(line.strip().capitalize())
+                            row.cell(docs)
                         else:
                             row.cell(impl, verbatim=True)
         else:
             pass
-            # print(f"{context_name}: Defines no commands")
 
 
 class Doc(AbstractContextManager):
