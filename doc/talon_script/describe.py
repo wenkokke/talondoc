@@ -60,7 +60,7 @@ class Chunk(Description):
         if isinstance(other, Chunk):
             return Chunk(f"{self.chunk} {other.chunk}")
         if isinstance(other, Lines) and not other.lines:
-            return self # self.join(Ignore()) == self
+            return self  # self.join(Ignore()) == self
         return Line(self).join(other)
 
 
@@ -102,7 +102,7 @@ class Lines(Description):
 
     def join(self, other: Description) -> Description:
         if not self.lines:
-            return other # Ignore().join(other) == other
+            return other  # Ignore().join(other) == other
         return Lines((*self.lines, *Line(other).lines))
 
 
@@ -163,8 +163,6 @@ class Describe(TalonScriptWalker):
 
     def action(self, name: str, args: Sequence[Expr]) -> Description:
         """Describe an action.
-
-
 
         The following methods are tried in order:
         1. using a custom description function;
