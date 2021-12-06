@@ -7,7 +7,7 @@ from talon.scripting.types import *
 import re
 
 
-class FoldableTalonScript(ABC):
+class TalonScriptWalker(ABC):
 
     def fold_command(self, command: CommandImpl):
         return self.fold_script(command.target)

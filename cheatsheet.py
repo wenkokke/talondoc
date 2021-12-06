@@ -13,10 +13,15 @@ mod = Module()
 @mod.action_class
 class CheatSheetActions:
     def print_cheatsheet(format: str):
-        """Print out a sheet of Talon commands"""
+        """
+        Print out a help document of all Talon commands as <format>
+
+        Args:
+            format: The format for the help document. Must be 'HTML' or 'TeX'.
+        """
         this_dir = os.path.dirname(os.path.realpath(__file__))
 
-        if format == "html":
+        if format.lower() == "html":
             html_file_path = os.path.join(this_dir, "cheatsheet.html")
             css_file_path = os.path.join(this_dir, "style.css")
             doc = HtmlDoc(
@@ -25,7 +30,7 @@ class CheatSheetActions:
                 css_file_path=css_file_path,
             )
 
-        if format == "tex":
+        if format.lower() == "tex":
             tex_file_path = os.path.join(this_dir, "cheatsheet.tex")
             tex_preamble_file_path = os.path.join(this_dir, "preamble.tex")
             doc = TeXDoc(
@@ -36,17 +41,17 @@ class CheatSheetActions:
             )
 
         with doc:
-            # with doc.section("Talon Lists", 4) as sec:
-            #     sec.list("user.letter")
-            #     sec.list("user.number_key")
-            #     sec.list("user.modifier_key")
-            #     sec.list("user.special_key")
-            #     sec.list("user.symbol_key")
-            #     sec.list("user.arrow_key")
-            #     sec.list("user.punctuation")
-            #     sec.list("user.function_key")
-            # with doc.section("Talon Formatters", 1) as sec:
-            #     sec.formatters()
+            with doc.section("Talon Lists", 4) as sec:
+                sec.list("user.letter")
+                sec.list("user.number_key")
+                sec.list("user.modifier_key")
+                sec.list("user.special_key")
+                sec.list("user.symbol_key")
+                sec.list("user.arrow_key")
+                sec.list("user.punctuation")
+                sec.list("user.function_key")
+            with doc.section("Talon Formatters", 1) as sec:
+                sec.formatters()
             with doc.section("Talon Contexts", 2) as sec:
                 for context_name, context in registry.contexts.items():
                     if context_name != "user.personal":

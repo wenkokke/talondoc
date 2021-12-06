@@ -1,5 +1,5 @@
 print [html] help:
-  user.print_cheatsheet('html')
+  user.print_cheatsheet('HTML')
 
 print latex help:
-  user.print_cheatsheet('tex')
+  user.print_cheatsheet('TeX')

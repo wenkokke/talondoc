@@ -25,7 +25,8 @@ class HtmlCell(Cell):
             self.first_line = False
         else:
             self.row.tab.sec.doc.file.write(f"<br />\n")
-        self.row.tab.sec.doc.file.write(f"{HtmlDoc.escape(contents)}\n")
+        line = HtmlDoc.escape(contents).replace("\n","<br />\n")
+        self.row.tab.sec.doc.file.write(f"{line}\n")
 
 
 class HtmlRow(Row):
