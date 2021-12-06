@@ -48,7 +48,6 @@ class HtmlTable(Table):
         self.sec.doc.file.write(
             f'<th colspan="{self.cols}">{HtmlDoc.escape(self.title)}</th>\n'
         )
-        self.sec.doc.file.write(f"</th>\n")
         self.sec.doc.file.write(f"</tr>\n")
         self.sec.doc.file.write(f"</thead>\n")
         self.sec.doc.file.write(f"<tbody>\n")
