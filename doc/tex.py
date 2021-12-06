@@ -65,7 +65,7 @@ class TeXTable(Table):
 
 
 class TeXSection(Section):
-    def __init__(self, doc, title: str, cols: int, anchor: Optional[str] = None):
+    def __init__(self, doc, title: str, cols: int = 1, anchor: Optional[str] = None):
         self.doc = doc
         self.title = title
         self.cols = cols
@@ -81,7 +81,7 @@ class TeXSection(Section):
             self.doc.file.write(f"\\end{{multicols}}%\n")
         self.doc.file.write(f"\\clearpage%\n")
 
-    def table(self, title: str, cols: int, anchor: Optional[str] = None):
+    def table(self, title: str, cols: int = 1, anchor: Optional[str] = None):
         return TeXTable(self, title, cols, anchor)
 
 
@@ -144,5 +144,5 @@ class TeXDoc(Doc):
         self.file.write(f"\\end{{document}}\n")
         self.file.close()
 
-    def section(self, title: str, cols: int, anchor: Optional[str] = None):
+    def section(self, title: str, cols: int = 1, anchor: Optional[str] = None):
         return TeXSection(self, title, cols, anchor)

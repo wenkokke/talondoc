@@ -63,7 +63,7 @@ class HtmlTable(Table):
 
 
 class HtmlSection(Section):
-    def __init__(self, doc, title: str, cols: int, anchor: Optional[str] = None):
+    def __init__(self, doc, title: str, cols: int = 1, anchor: Optional[str] = None):
         self.doc = doc
         self.title = title
         self.cols = cols
@@ -79,7 +79,7 @@ class HtmlSection(Section):
     def __exit__(self, exception_type, exception_value, traceback):
         self.doc.file.write(f"</section>\n")
 
-    def table(self, title: str, cols: int, anchor: Optional[str] = None) -> HtmlTable:
+    def table(self, title: str, cols: int = 1, anchor: Optional[str] = None) -> HtmlTable:
         return HtmlTable(self, title, cols, anchor)
 
 
@@ -117,5 +117,5 @@ class HtmlDoc(Doc):
         self.file.write(f"</html>\n")
         self.file.close()
 
-    def section(self, title: str, cols: int, anchor: Optional[str] = None) -> HtmlSection:
+    def section(self, title: str, cols: int = 1, anchor: Optional[str] = None) -> HtmlSection:
         return HtmlSection(self, title, cols, anchor)

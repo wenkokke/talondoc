@@ -20,7 +20,7 @@ class Table(AbstractContextManager):
 
 
 class Section(AbstractContextManager):
-    def table(self, title: str, cols: int, anchor: Optional[str] = None) -> Table:
+    def table(self, title: str, cols: int = 1, anchor: Optional[str] = None) -> Table:
         """Creates a table with <cols> columns."""
 
     def list(self, list_name: str) -> None:
