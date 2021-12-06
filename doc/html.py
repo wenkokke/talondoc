@@ -1,52 +1,33 @@
+from __future__ import annotations
 from typing import *
 from user.cheatsheet.doc.abc import *
 import os
 
 # Instance which prints an HTML document to a file
-class HtmlCell(Cell):
-    def __init__(self, row, verbatim: bool = False):
-        self.row = row
-        self.first_line = True
-        self.verbatim = verbatim
-
-    def __enter__(self):
-        self.row.tab.sec.doc.file.write(f"<td>\n")
-        if self.verbatim:
-            self.row.tab.sec.doc.file.write(f"<pre>\n")
-        return self
-
-    def __exit__(self, exception_type, exception_value, traceback):
-        if self.verbatim:
-            self.row.tab.sec.doc.file.write(f"</pre>\n")
-        self.row.tab.sec.doc.file.write(f"</td>\n")
-
-    def line(self, contents: str):
-        if self.first_line:
-            self.first_line = False
-        else:
-            self.row.tab.sec.doc.file.write(f"<br />\n")
-        line = HtmlDoc.escape(contents).replace("\n","<br />\n")
-        self.row.tab.sec.doc.file.write(f"{line}\n")
 
 
 class HtmlRow(Row):
     def __init__(self, table):
         self.tab = table
 
-    def __enter__(self):
+    def __enter__(self) -> HtmlRow:
         self.tab.sec.doc.file.write(f"<tr>\n")
         return self
 
     def __exit__(self, exception_type, exception_value, traceback):
         self.tab.sec.doc.file.write(f"</tr>\n")
 
-    def cell(self, contents: Optional[str] = None, verbatim: bool = False):
-        cell = HtmlCell(self)
-        if contents:
-            with cell:
-                cell.line(contents)
+    def cell(self, contents: str, verbatim: bool = False):
+        self.tab.sec.doc.file.write(f"<td>\n")
+        if verbatim:
+            self.tab.sec.doc.file.write(f"<pre>\n")
+            self.tab.sec.doc.file.write(f"{contents}")
+            self.tab.sec.doc.file.write(f"</pre>\n")
         else:
-            return cell
+            for line in contents.splitlines():
+                line = HtmlDoc.escape(line).replace("\n","<br />\n")
+                self.tab.sec.doc.file.write(f"{line}\n")
+        self.tab.sec.doc.file.write(f"</td>\n")
 
 
 class HtmlTable(Table):
@@ -56,7 +37,7 @@ class HtmlTable(Table):
         self.cols = cols
         self.css_class = anchor
 
-    def __enter__(self):
+    def __enter__(self) -> HtmlTable:
         if self.css_class:
             self.sec.doc.file.write(f'<div class="{self.css_class}">\n')
         else:
@@ -78,7 +59,7 @@ class HtmlTable(Table):
         self.sec.doc.file.write(f"</table>\n")
         self.sec.doc.file.write(f"</div>\n")
 
-    def row(self):
+    def row(self) -> HtmlRow:
         return HtmlRow(self)
 
 
@@ -89,7 +70,7 @@ class HtmlSection(Section):
         self.cols = cols
         self.css_class = anchor or ""
 
-    def __enter__(self):
+    def __enter__(self) -> HtmlSection:
         self.doc.file.write(f"<h1>{HtmlDoc.escape(self.title)}</h1>\n")
         self.doc.file.write(
             f'<section class="section-{self.cols}-cols {self.css_class}">\n'
@@ -99,7 +80,7 @@ class HtmlSection(Section):
     def __exit__(self, exception_type, exception_value, traceback):
         self.doc.file.write(f"</section>\n")
 
-    def table(self, title: str, cols: int, anchor: Optional[str] = None):
+    def table(self, title: str, cols: int, anchor: Optional[str] = None) -> HtmlTable:
         return HtmlTable(self, title, cols, anchor)
 
 
@@ -115,7 +96,7 @@ class HtmlDoc(Doc):
         self.file = open(html_file_path, "w")
         self.title = title
 
-    def __enter__(self):
+    def __enter__(self) -> HtmlDoc:
         self.file.write(f"<!doctype html>\n")
         self.file.write(f'<html lang="en">\n')
         self.file.write(f"<head>\n")
@@ -137,5 +118,5 @@ class HtmlDoc(Doc):
         self.file.write(f"</html>\n")
         self.file.close()
 
-    def section(self, title: str, cols: int, anchor: Optional[str] = None):
+    def section(self, title: str, cols: int, anchor: Optional[str] = None) -> HtmlSection:
         return HtmlSection(self, title, cols, anchor)

@@ -2,30 +2,7 @@ from typing import *
 from user.cheatsheet.doc.abc import *
 import os
 
-# Instance which prints an HTML document to a file
-class TeXCell(Cell):
-    def __init__(self, row, verbatim: bool = False):
-        self.row = row
-        self.verbatim = verbatim
-        self.first_line = True
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exception_type, exception_value, traceback):
-        pass
-
-    def line(self, contents: str):
-        if self.first_line:
-            self.first_line = False
-        else:
-            self.row.tab.sec.doc.file.write(f"\\newline%\n")
-        if self.verbatim:
-            c = TeXDoc.verbatim_character(contents)
-            for line in contents.splitlines():
-                self.row.tab.sec.doc.file.write(f"\\verb{c}{line}{c}%\n")
-        else:
-            self.row.tab.sec.doc.file.write(TeXDoc.escape(contents) + "%\n")
+# Instance which prints an TeX document to a file
 
 
 class TeXRow(Row):
@@ -39,17 +16,19 @@ class TeXRow(Row):
     def __exit__(self, exception_type, exception_value, traceback):
         self.tab.sec.doc.file.write(f"\\\\ \\hline%\n")
 
-    def cell(self, contents: Optional[str] = None, verbatim: bool = False):
+    def cell(self, contents: str, verbatim: bool = False):
         if self.first_cell:
             self.first_cell = False
         else:
             self.tab.sec.doc.file.write(f"&%\n")
-        cell = TeXCell(self, verbatim=verbatim)
-        if contents:
-            with cell:
-                cell.line(contents)
+        if verbatim:
+            for line in contents.splitlines():
+                c = TeXDoc.verbatim_character(line)
+                self.tab.sec.doc.file.write(f"\\Verb{c}{line}{c}\\newline%\n")
         else:
-            return cell
+            for line in contents.splitlines():
+                line = TeXDoc.escape(line).replace("\n", "\n\\newline%\n")
+                self.tab.sec.doc.file.write(f"{line}%\n")
 
 
 class TeXTable(Table):
@@ -149,11 +128,11 @@ class TeXDoc(Doc):
         self.doc_options = document_options
 
     def __enter__(self):
-        self.file = open(self.tex_file_path, 'w')
+        self.file = open(self.tex_file_path, "w")
         self.file.write(f"\\documentclass[{self.doc_options}]{{{self.doc_class}}}%\n")
         if self.tex_preamble_file_path and os.path.exists(self.tex_preamble_file_path):
-          with open(self.tex_preamble_file_path, 'r') as f:
-            self.file.write(f"{f.read().strip()}\n")
+            with open(self.tex_preamble_file_path, "r") as f:
+                self.file.write(f"{f.read().strip()}\n")
         self.file.write(f"\\begin{{document}}%\n")
         self.file.write(f"{{\\Huge\\bf {TeXDoc.escape(self.title)}}}%\n")
         return self
@@ -167,5 +146,3 @@ class TeXDoc(Doc):
 
     def section(self, title: str, cols: int, anchor: Optional[str] = None):
         return TeXSection(self, title, cols, anchor)
-
-

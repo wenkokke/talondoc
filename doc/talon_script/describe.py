@@ -1,125 +1,13 @@
-from __future__ import annotations
-from abc import *
-from dataclasses import dataclass
-from docstring_parser.common import Docstring
 from docstring_parser.google import ParseError, parse
-from functools import reduce
-from talon import actions  # Used by eval
-from talon.scripting.context import *
-from talon.scripting.talon_script import *
-from talon.scripting.types import *
+from talon import actions  # type: ingore
+from talon.scripting.context import *  # type: ignore
+from talon.scripting.talon_script import *  # type: ignore
+from talon.scripting.types import *  # type: ignore
 from typing import *
+from user.cheatsheet.doc.talon_script.description import *
 from user.cheatsheet.doc.talon_script.walker import TalonScriptWalker
 
 import re
-
-
-@dataclass(frozen=True)
-class MissingDocumentation(Exception):
-    """Exception raised when a doc string cannot be built"""
-
-    action_name: str
-
-
-@dataclass(frozen=True)
-class InvalidInterpolation(Exception):
-    """Exception raised when attempting to interpolate a multiline doc string"""
-
-    lines: tuple[str]
-
-
-class Description(ABC):
-    def compile(self) -> str:
-        """Compiles the Description to a string."""
-        return str(self)
-
-    @staticmethod
-    def flatten(descs: Sequence[Description]) -> Description:
-        if not descs:
-            return Ignore()
-        else:
-            result = descs[0]
-            for desc in descs[1:]:
-                result = result.join(desc)
-            return result
-
-    def join(self, other: Description) -> Description:
-        """Combines the description with another description."""
-
-
-@dataclass(frozen=True)
-class Chunk(Description):
-    """A description of a value or a component of a format string, which can be interpolated into templates."""
-
-    chunk: str
-
-    def __str__(self):
-        return self.chunk
-
-    def join(self, other: Description) -> Description:
-        if isinstance(other, Chunk):
-            return Chunk(f"{self.chunk} {other.chunk}")
-        if isinstance(other, Lines) and not other.lines:
-            return self  # self.join(Ignore()) == self
-        return Line(self).join(other)
-
-
-@dataclass(frozen=True)
-class Template(Description, Callable[[Sequence[Description]], Description]):
-    """A description of an action as a template."""
-
-    template: str
-    params: tuple[str]
-
-    def __str__(self):
-        return self.template
-
-    def __call__(self, args: Sequence[Description]):
-        result = self.template
-        for param, arg in zip(self.params, args):
-            result = result.replace(f"<{param}>", str(arg))
-        return Line(result)
-
-    def join(self, other: Description) -> Description:
-        return Line(self.template).join(other)
-
-
-@dataclass(frozen=True)
-class Lines(Description):
-    """A multiline description, which can no longer be interpolated."""
-
-    lines: tuple[str]
-
-    def compile(self) -> str:
-        return "".join(f"{line}.\n" for line in self.lines)
-
-    def __str__(self):
-        """
-        Raises:
-            InvalidInterpolation: Multiline descriptions should not be interpolated, so this raises an exception.
-        """
-        raise InvalidInterpolation(self.lines)
-
-    def join(self, other: Description) -> Description:
-        if not self.lines:
-            return other  # Ignore().join(other) == other
-        return Lines((*self.lines, *Line(other).lines))
-
-
-def Ignore() -> Description:
-    """An empty description."""
-    return Lines(tuple())
-
-
-def Line(text: Union[Description, str]) -> Description:
-    """Coerce a string or description into a multiline descriptions"""
-    if isinstance(text, str):
-        return Lines(tuple(text.splitlines()))
-    if isinstance(text, Lines):
-        return text
-    if isinstance(text, Description):
-        return Line(str(text))  # Interpolate, then goto next case.
-    raise ValueError(f"Unexpected value {text} of type {type(text)}")
 
 
 class Describe(TalonScriptWalker):
@@ -148,7 +36,7 @@ class Describe(TalonScriptWalker):
         """Describe a Talon context"""
         try:
             desc_lines = Describe().fold_command(command)
-            desc = Description.flatten(desc_lines)
+            desc = flatten(desc_lines)
             desc = desc.compile()
             return desc
         except MissingDocumentation as e:
@@ -186,17 +74,15 @@ class Describe(TalonScriptWalker):
         """Describe the action using a custom function."""
         try:
             return {
-                "key": lambda key_values: Line(
-                    f"Press {Description.flatten(key_values)}"
-                ),
+                "key": lambda key_values: Line(f"Press {flatten(key_values)}"),
                 "insert": lambda args: Line(f'Insert "{args[0]}"'),
                 "auto_insert": lambda args: Line(f'Insert "{args[0]}"'),
                 "sleep": lambda _: Ignore(),
                 "repeat": lambda args: Line(f"Repeat {args[0]} times"),
                 "edit.selected_text": lambda _: Chunk("the selected text"),
-                "user.formatted_text": lambda args: Chunk(
-                    f"{args[0]} (formatted with {args[1]})"
-                ),
+                "user.vscode": lambda _: Ignore(),
+                "user.idea": lambda _: Ignore(),
+                "user.formatted_text": lambda args: Chunk(f"{args[0]} (formatted with {args[1]})"),
                 "user.homophones_select": lambda args: Chunk(f"homophone #{args[0]}"),
             }[action_name](args)
         except KeyError:
@@ -270,7 +156,7 @@ class Describe(TalonScriptWalker):
 
     def format_string(self, value: str, parts: Sequence[Expr]) -> Description:
         # print(f"format_string({value})")
-        return Description.flatten(tuple(map(self.fold_expr, parts)))
+        return flatten(tuple(map(self.fold_expr, parts)))
 
     def value(self, value: Any) -> Description:
         # print(f"value({value})")

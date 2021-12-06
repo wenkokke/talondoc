@@ -1,21 +1,17 @@
+from __future__ import annotations
 from contextlib import AbstractContextManager
 from talon import Module, actions, registry
-from talon.scripting.context import Context
+from talon.scripting.context import Context  # type: ignore
 from typing import *
 from user.cheatsheet.doc.talon_script.describe import Describe
 
 
 # Abstract classes for printing cheatsheet document
-class Cell(AbstractContextManager):
-    def line(self):
-        """Inserts a line."""
 
 
 class Row(AbstractContextManager):
-    def cell(
-        self, contents: Optional[str] = None, verbatim: bool = False
-    ) -> Optional[Cell]:
-        """If the first argument is provided, a single line cell is created. Otherwise, a cell is created and returned."""
+    def cell(self, contents: str, verbatim: bool = False):
+        """Writes a cell to the row."""
 
 
 class Table(AbstractContextManager):
@@ -60,7 +56,7 @@ class Section(AbstractContextManager):
                     with table.row() as row:
                         row.cell(command.rule.rule)
                         docs = Describe.command(command)
-                        impl = "\n".join(map(str.strip, command.target.code.splitlines()))
+                        impl = "\n".join(line.strip() for line in command.target.code.splitlines())
                         if docs is not None:
                             row.cell(docs)
                         else:

@@ -1,21 +1,21 @@
 from abc import *
 from typing import *
 from talon import actions
-from talon.scripting.context import *
-from talon.scripting.talon_script import *
-from talon.scripting.types import *
+from talon.scripting.context import * # type: ignore
+from talon.scripting.talon_script import * # type: ignore
+from talon.scripting.types import * # type: ignore
 import re
 
 
-class TalonScriptWalker(ABC):
+class TalonScriptWalker(ABC, Generic[T]):
 
-    def fold_command(self, command: CommandImpl):
+    def fold_command(self, command: CommandImpl) -> T:
         return self.fold_script(command.target)
 
-    def fold_script(self, talon_script: TalonScript):
+    def fold_script(self, talon_script: TalonScript) -> tuple[T]:
         return tuple(self.fold_expr(stmt) for stmt in talon_script.lines)
 
-    def fold_expr(self, expr: Expr):
+    def fold_expr(self, expr: Expr) -> T:
         """"""
 
         # Comments
@@ -68,74 +68,74 @@ class TalonScriptWalker(ABC):
 
         raise ValueError(f"Unexpected value {expr} of type {type(expr)}")
 
-    def comment(self, text):
+    def comment(self, text: str) -> T:
         """"""
 
-    def operator_add(self, v1: Expr, op: str, v2: Expr):
-        """"""
-        return self.operator(v1, op, v2)
-
-    def operator_sub(self, v1: Expr, op: str, v2: Expr):
+    def operator_add(self, v1: Expr, op: str, v2: Expr) -> T:
         """"""
         return self.operator(v1, op, v2)
 
-    def operator_mul(self, v1: Expr, op: str, v2: Expr):
+    def operator_sub(self, v1: Expr, op: str, v2: Expr) -> T:
         """"""
         return self.operator(v1, op, v2)
 
-    def operator_div(self, v1: Expr, op: str, v2: Expr):
+    def operator_mul(self, v1: Expr, op: str, v2: Expr) -> T:
         """"""
         return self.operator(v1, op, v2)
 
-    def operator_mod(self, v1: Expr, op: str, v2: Expr):
+    def operator_div(self, v1: Expr, op: str, v2: Expr) -> T:
         """"""
         return self.operator(v1, op, v2)
 
-    def operator_or(self, v1: Expr, op: str, v2: Expr):
+    def operator_mod(self, v1: Expr, op: str, v2: Expr) -> T:
         """"""
         return self.operator(v1, op, v2)
 
-    def operator(self, v1: Expr, op: str, v2: Expr):
+    def operator_or(self, v1: Expr, op: str, v2: Expr) -> T:
+        """"""
+        return self.operator(v1, op, v2)
+
+    def operator(self, v1: Expr, op: str, v2: Expr) -> T:
         """"""
 
-    def key_value(self, value: str):
+    def key_value(self, value: str) -> T:
         """"""
         return self.string_value(value)
 
-    def string_value(self, value: str):
+    def string_value(self, value: str) -> T:
         """"""
         return self.value(value)
 
-    def format_string(self, value: str, parts: Sequence[Expr]):
+    def format_string(self, value: str, parts: Sequence[Expr]) -> T:
         """"""
         return self.value(value)
 
-    def number_value(self, value: Union[int, float]):
+    def number_value(self, value: Union[int, float]) -> T:
         """"""
         return self.value(value)
 
-    def value(self, value: Any):
+    def value(self, value: Any) -> T:
         """"""
 
-    def variable(self, name: str):
+    def variable(self, name: str) -> T:
         """"""
 
     # Statements
 
-    def action(self, name: str, args: Sequence[Expr]):
+    def action(self, name: str, args: Sequence[Expr]) -> T:
         """"""
 
-    def key_statement(self, keys: Sequence[StringValue]):
+    def key_statement(self, keys: Sequence[StringValue]) -> T:
         """"""
         return self.action("key", keys)
 
-    def sleep(self, args: Sequence[Value]):
+    def sleep(self, args: Sequence[Value]) -> T:
         """"""
         return self.action("sleep", args)
 
-    def repeat(self, value: Value):
+    def repeat(self, value: Value) -> T:
         """"""
         return self.action("repeat", (value,))
 
-    def assignment(self, var: str, expr: Expr):
+    def assignment(self, var: str, expr: Expr) -> T:
         """"""
