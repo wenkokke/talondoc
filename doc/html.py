@@ -20,9 +20,7 @@ class HtmlRow(Row):
     def cell(self, contents: str, verbatim: bool = False):
         self.tab.sec.doc.file.write(f"<td>\n")
         if verbatim:
-            self.tab.sec.doc.file.write(f"<pre>\n")
-            self.tab.sec.doc.file.write(f"{contents}")
-            self.tab.sec.doc.file.write(f"</pre>\n")
+            self.tab.sec.doc.file.write(f"<pre>{contents}</pre>\n")
         else:
             for line in contents.splitlines():
                 line = HtmlDoc.escape(line).replace("\n","<br />\n")
