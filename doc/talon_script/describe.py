@@ -46,6 +46,11 @@ class Describe(TalonScriptWalker):
             for line in e.lines:
                 print(f"\t{line}")
 
+    @staticmethod
+    def command_impl(command: CommandImpl) -> str:
+        impl = command.target.code
+        return "\n".join(line.strip() for line in impl.splitlines())
+
     # Describing actions
 
     def action(self, name: str, args: Sequence[Expr]) -> Description:

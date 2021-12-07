@@ -22,26 +22,19 @@ class CheatSheetActions:
         this_dir = os.path.dirname(os.path.realpath(__file__))
 
         if format.lower() == "html":
-            html_file_path = os.path.join(this_dir, "cheatsheet.html")
-            css_file_path = os.path.join(this_dir, "style.css")
-            doc = HtmlDoc(
-                title="Talon Cheatsheet",
-                html_file_path=html_file_path,
-                css_file_path=css_file_path,
-            )
+            file_path = os.path.join(this_dir, "cheatsheet.html")
+            # css_include_path = os.path.join(this_dir, "dist", "style.css")
+            css_href = "style.sass"
+            doc = HtmlDoc(file_path, title="Talon Cheatsheet", css_href=css_href)
 
         if format.lower() == "tex":
-            tex_file_path = os.path.join(this_dir, "cheatsheet.tex")
-            tex_preamble_file_path = os.path.join(this_dir, "preamble.tex")
-            doc = TeXDoc(
-                title="Talon Cheatsheet",
-                tex_file_path=tex_file_path,
-                tex_preamble_file_path=tex_preamble_file_path,
-                document_options="notitlepage",
-            )
+            file_path = os.path.join(this_dir, "cheatsheet.tex")
+            doc = TeXDoc(file_path, title="Talon Cheatsheet", preamble_path="preamble.tex")
 
         with doc:
-            with doc.section("Talon Lists", 4) as sec:
+            with doc.section(
+                title="Talon Lists", cols=4, css_classes="talon-lists"
+            ) as sec:
                 sec.list("user.letter")
                 sec.list("user.number_key")
                 sec.list("user.modifier_key")
@@ -50,9 +43,13 @@ class CheatSheetActions:
                 sec.list("user.arrow_key")
                 sec.list("user.punctuation")
                 sec.list("user.function_key")
-            with doc.section("Talon Formatters", 1) as sec:
+            with doc.section(
+                title="Talon Formatters", cols=1, css_classes="talon-formatters"
+            ) as sec:
                 sec.formatters()
-            with doc.section("Talon Contexts", 2) as sec:
+            with doc.section(
+                title="Talon Contexts", cols=2, css_classes="talon-contexts"
+            ) as sec:
                 for context_name, context in registry.contexts.items():
                     if context_name != "user.personal":
-                        sec.context(context_name, context)
+                        sec.context(context, context_name=context_name)

@@ -1,94 +1,12 @@
+from io import TextIOWrapper
 from typing import *
 from user.cheatsheet.doc.abc import *
-import os
 
-# Instance which prints an TeX document to a file
+import re
 
-
-class TeXRow(Row):
-    def __init__(self, table):
-        self.first_cell = True
-        self.tab = table
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exception_type, exception_value, traceback):
-        self.tab.sec.doc.file.write(f"\\\\ \\hline%\n")
-
-    def cell(self, contents: str, verbatim: bool = False):
-        if self.first_cell:
-            self.first_cell = False
-        else:
-            self.tab.sec.doc.file.write(f"&%\n")
-        if verbatim:
-            for line in contents.splitlines():
-                c = TeXDoc.verbatim_character(line)
-                self.tab.sec.doc.file.write(f"\\Verb{c}{line}{c}\\newline%\n")
-        else:
-            for line in contents.splitlines():
-                line = TeXDoc.escape(line).replace("\n", "\n\\newline%\n")
-                self.tab.sec.doc.file.write(f"{line}%\n")
-
-
-class TeXTable(Table):
-    def __init__(self, sec, title: str, cols: int, anchor: Optional[str] = None):
-        self.sec = sec
-        self.title = title
-        self.cols = cols
-
-    def __enter__(self):
-        self.sec.doc.file.write(f"\\setbox\\ltmcbox\\vbox{{%\n")
-        self.sec.doc.file.write(f"\\makeatletter\\col@number\\@ne%\n")
-        textwidth_ratio = 1.0 / self.cols
-        tabcolsep_ratio = 1.0 + 1.0 / (self.cols - 2) if self.cols > 2 else 1.0
-        table_format = (
-            f"@{{}}p{{\\dimexpr {textwidth_ratio}\\linewidth - {tabcolsep_ratio}\\tabcolsep \\relax}}"
-            * self.cols
-        ) + "@{{}}"
-        self.sec.doc.file.write(f"\\begin{{longtable}}{{{table_format}}}%\n")
-        self.sec.doc.file.write(
-            f"\\caption{{\\bf {TeXDoc.escape(self.title)}}} \\\\ \\hline%\n"
-        )
-        self.sec.doc.file.write(f"\\endfirsthead%\n")
-        return self
-
-    def __exit__(self, exception_type, exception_value, traceback):
-        self.sec.doc.file.write(f"\\end{{longtable}}%\n")
-        self.sec.doc.file.write(f"\\unskip%\n")
-        self.sec.doc.file.write(f"\\unpenalty%\n")
-        self.sec.doc.file.write(f"\\unpenalty}}%\n")
-        self.sec.doc.file.write(f"\\unvbox\\ltmcbox%\n")
-
-    def row(self):
-        return TeXRow(self)
-
-
-class TeXSection(Section):
-    def __init__(self, doc, title: str, cols: int = 1, anchor: Optional[str] = None):
-        self.doc = doc
-        self.title = title
-        self.cols = cols
-
-    def __enter__(self):
-        if self.cols > 1:
-            self.doc.file.write(f"\\begin{{multicols}}{{{self.cols}}}%\n")
-        self.doc.file.write(f"\\section{{{self.title}}}%\n")
-        return self
-
-    def __exit__(self, exception_type, exception_value, traceback):
-        if self.cols > 1:
-            self.doc.file.write(f"\\end{{multicols}}%\n")
-        self.doc.file.write(f"\\clearpage%\n")
-
-    def table(self, title: str, cols: int = 1, anchor: Optional[str] = None):
-        return TeXTable(self, title, cols, anchor)
-
-
-class TeXDoc(Doc):
-    @staticmethod
-    def escape(text: str) -> str:
-        return (
+def tex_escape(text: str) -> str:
+    return (
+        re.sub(r'\\n+', "\n\\newline%\n",
             text.replace("\\", "\\textbackslash ")
             .replace("&", "\\&\\xspace ")
             .replace("%", "\\%")
@@ -105,36 +23,128 @@ class TeXDoc(Doc):
             .replace("<", " \\textless ")
             .replace(">", "\\textgreater\\xspace ")
             .replace("~", "\\textasciitilde ")
-            .replace("^", "\\textasciicircum ")
-        )
+            .replace("^", "\\textasciicircum "))
+    )
 
-    @staticmethod
-    def verbatim_character(text: str) -> str:
-        return next(filter(lambda c: not c in text, "|\"'=+-!"))
 
-    def __init__(
-        self,
-        title: str,
-        tex_file_path: str,
-        tex_preamble_file_path: Optional[str] = None,
-        document_class: str = "article",
-        document_options: str = "",
-    ):
-        self.title = title
-        self.file = None
-        self.tex_file_path = tex_file_path
-        self.tex_preamble_file_path = tex_preamble_file_path
-        self.doc_class = document_class
-        self.doc_options = document_options
+def tex_verbatim(text: str) -> str:
+    char = tex_verbatim_character(text)
+    return f"\\Verb{char}{text}{char}"
+
+
+def tex_verbatim_character(text: str) -> str:
+    return next(filter(lambda c: not c in text, "|\"'=+-!"))
+
+
+class TeXRow(Row):
+    def __init__(self, file: TextIOWrapper, **kwargs):
+        self.first_cell = True
+        self.file = file
+        self.kwargs = kwargs
 
     def __enter__(self):
-        self.file = open(self.tex_file_path, "w")
-        self.file.write(f"\\documentclass[{self.doc_options}]{{{self.doc_class}}}%\n")
-        if self.tex_preamble_file_path and os.path.exists(self.tex_preamble_file_path):
-            with open(self.tex_preamble_file_path, "r") as f:
-                self.file.write(f"{f.read().strip()}\n")
+        return self
+
+    def __exit__(self, exception_type, exception_value, traceback):
+        self.file.write(f"\\\\ \\hline%\n")
+
+    def cell(self, contents: str, **kwargs):
+        if self.first_cell:
+            self.first_cell = False
+        else:
+            self.file.write(f"&%\n")
+        if self.kwargs.get("verbatim", False):
+            for line in contents.splitlines():
+                self.file.write(f"{tex_verbatim(line)}\\newline%\n")
+        else:
+            self.file.write(f"{tex_escape(contents).strip()}%\n")
+
+
+class TeXTable(Table):
+    def __init__(self, file: TextIOWrapper, **kwargs):
+        self.file = file
+        self.kwargs = kwargs
+
+    def cols(self) -> int:
+        return self.kwargs.get("cols", 2)  # Default is two columns
+
+    def textwidth_ratio(self) -> float:
+        return 1.0 / self.cols()
+
+    def tabcolsep_ratio(self) -> float:
+        if self.cols() <= 2:
+            return 1.0
+        else:
+            return 1.0 + (1.0 / (self.cols() - 2))
+
+    def col_format_desc(self) -> str:
+        return f"p{{\\dimexpr {self.textwidth_ratio()}\\linewidth - {self.tabcolsep_ratio()}\\tabcolsep \\relax}}"
+
+    def table_format_desc(self) -> str:
+        return f"@{{}}{self.col_format_desc() * self.cols()}@{{}}"
+
+    def __enter__(self):
+        self.file.write(f"\\setbox\\ltmcbox\\vbox{{%\n")
+        self.file.write(f"\\makeatletter\\col@number\\@ne%\n")
+        self.file.write(f"\\begin{{longtable}}{{{self.table_format_desc()}}}%\n")
+        if "title" in self.kwargs:
+            self.file.write(
+                f"\\caption{{\\bf {tex_escape(self.kwargs['title'])}}} \\\\ \\hline%\n"
+            )
+        self.file.write(f"\\endfirsthead%\n")
+        return self
+
+    def __exit__(self, exception_type, exception_value, traceback):
+        self.file.write(f"\\end{{longtable}}%\n")
+        self.file.write(f"\\unskip%\n")
+        self.file.write(f"\\unpenalty%\n")
+        self.file.write(f"\\unpenalty}}%\n")
+        self.file.write(f"\\unvbox\\ltmcbox%\n")
+
+    def row(self, **kwargs):
+        return TeXRow(self.file, **kwargs)
+
+
+class TeXSection(Section):
+    def __init__(self, file: TextIOWrapper, **kwargs):
+        self.file = file
+        self.kwargs = kwargs
+
+    def cols(self) -> int:
+        return self.kwargs.get("cols", 1)  # Default is one column
+
+    def __enter__(self):
+        if self.cols() > 1:
+            self.file.write(f"\\begin{{multicols}}{{{self.cols()}}}%\n")
+        if "title" in self.kwargs:
+            self.file.write(f"\\section{{{tex_escape(self.kwargs['title'])}}}%\n")
+        return self
+
+    def __exit__(self, exception_type, exception_value, traceback):
+        if self.cols() > 1:
+            self.file.write(f"\\end{{multicols}}%\n")
+        self.file.write(f"\\clearpage%\n")
+
+    def table(self, **kwargs):
+        return TeXTable(self.file, **kwargs)
+
+
+class TeXDoc(Doc):
+    def __init__(self, file_path: str, **kwargs):
+        self.file = open(file_path, "w")
+        self.kwargs = kwargs
+
+    def __enter__(self):
+        documentclass = self.kwargs.get("documentclass", "article")
+        documentclass_options = self.kwargs.get("documentclass_options", "")
+        self.file.write(
+            f"\\documentclass[{documentclass_options}]{{{documentclass}}}%\n"
+        )
+        if "preamble_path" in self.kwargs:
+            self.file.write(f"\\input{{{self.kwargs['preamble_path']}}}%\n")
         self.file.write(f"\\begin{{document}}%\n")
-        self.file.write(f"{{\\Huge\\bf {TeXDoc.escape(self.title)}}}%\n")
+        if "title" in self.kwargs:
+            self.file.write(f"{{\\Huge\\bf {tex_escape(self.kwargs['title'])}}}%\n")
         return self
 
     def __exit__(self, exception_type, exception_value, traceback):
@@ -144,5 +154,5 @@ class TeXDoc(Doc):
         self.file.write(f"\\end{{document}}\n")
         self.file.close()
 
-    def section(self, title: str, cols: int = 1, anchor: Optional[str] = None):
-        return TeXSection(self, title, cols, anchor)
+    def section(self, **kwargs):
+        return TeXSection(self.file, **kwargs)
