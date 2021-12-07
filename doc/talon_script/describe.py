@@ -1,4 +1,3 @@
-from docstring_parser.google import ParseError, parse
 from talon import actions  # type: ingore
 from talon.scripting.context import *  # type: ignore
 from talon.scripting.talon_script import *  # type: ignore
@@ -107,22 +106,27 @@ class Describe(TalonScriptWalker):
     ) -> Optional[Description]:
         """Describe the action documentation as a template, based on parsing the docstring."""
         try:
-            action_path: ActionPath = eval(f"actions.{action_name}")
-            docstring = parse(action_path.__doc__)
-            if docstring.short_description:
-                template = Template(
-                    docstring.short_description,
-                    tuple(param.arg_name for param in docstring.params),
-                )
-                return template(args)
-            else:
+            from docstring_parser.google import ParseError, parse
+            try:
+                action_path: ActionPath = eval(f"actions.{action_name}")
+                docstring = parse(action_path.__doc__)
+                if docstring.short_description:
+                    template = Template(
+                        docstring.short_description,
+                        tuple(param.arg_name for param in docstring.params),
+                    )
+                    return template(args)
+                else:
+                    return None
+            except (NotImplementedError, KeyError):
+                # When issue 443 is fixed this should be enabled:
+                # print(f"Could not retrieve documentation for {action_name}")
                 return None
-        except (NotImplementedError, KeyError):
-            # When issue 443 is fixed this should be enabled:
-            # print(f"Could not retrieve documentation for {action_name}")
-            return None
-        except ParseError:
-            print(f"Could not parse documentation for {action_name}")
+            except ParseError:
+                print(f"Could not parse documentation for {action_name}")
+                return None
+        except ImportError:
+            print(f"Could not find docstring_parser package")
             return None
 
     @staticmethod
