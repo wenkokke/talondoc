@@ -23,13 +23,21 @@ class CheatSheetActions:
 
         if format.lower() == "html":
             file_path = os.path.join(this_dir, "cheatsheet.html")
-            # css_include_path = os.path.join(this_dir, "dist", "style.css")
+            css_include_path = os.path.join(this_dir, "dist", "style.css")
+            doc = HtmlDoc(
+                file_path, title="Talon Cheatsheet", css_include_path=css_include_path
+            )
+
+        if format.lower() == "html-dev":
+            file_path = os.path.join(this_dir, "cheatsheet-dev.html")
             css_href = "style.sass"
             doc = HtmlDoc(file_path, title="Talon Cheatsheet", css_href=css_href)
 
         if format.lower() == "tex":
             file_path = os.path.join(this_dir, "cheatsheet.tex")
-            doc = TeXDoc(file_path, title="Talon Cheatsheet", preamble_path="preamble.tex")
+            doc = TeXDoc(
+                file_path, title="Talon Cheatsheet", preamble_path="preamble.tex"
+            )
 
         with doc:
             with doc.section(
@@ -51,5 +59,5 @@ class CheatSheetActions:
                 title="Talon Contexts", cols=2, css_classes="talon-contexts"
             ) as sec:
                 for context_name, context in registry.contexts.items():
-                    if context_name != "user.personal":
+                    if not "personal" in context_name:
                         sec.context(context, context_name=context_name)

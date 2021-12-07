@@ -12,11 +12,14 @@ This will generate self contained HTML or LaTeX  file in the repository director
 
 # Building the style sheet
 
-The repository contains a prebuilt CSS file which is used in the HTML file. To rebuild the file from source:
+The repository contains both a Sass stylesheet, `style.sass`, and a precompiled CSS stylesheet, `style.css`.
+When you say 'print cheatsheet', the generated HTML file, `cheatsheet.html` inlines the precompiled CSS stylesheet.
 
-1. Install [npm][install-npm]
-2. Run `npx parcel build index.html`
+To develop the Sass stylesheet you will need [npm][install-npm].
+There exists a precompiled HTML file, `cheatsheet-dev.html`, which links to the Sass stylesheet.
+To build this file and the linked Sass style sheet, run `npm run dev`.
 
+If you wish to compile only the Sass style sheet, run `npm run build-sass`, and then copy the generated CSS file from `dist` to replace `style.css`.
 
 [talon-getting-started]: https://talonvoice.com/docs/index.html#getting-started
 [talon-getting-scripts]: https://talonvoice.com/docs/index.html#getting-scripts
