@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "parcel cheatsheet-dev.html",
-    "build": "parcel build style.sass"
+    "build-sass": "parcel build style.sass && cp dist/style.css style.css"
   },
   "devDependencies": {
     "parcel": "^2.0.1",

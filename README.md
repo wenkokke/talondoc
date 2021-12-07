@@ -19,7 +19,7 @@ To develop the Sass stylesheet you will need [npm][install-npm].
 There exists a precompiled HTML file, `cheatsheet-dev.html`, which links to the Sass stylesheet.
 To build this file and the linked Sass style sheet, run `npm run dev`.
 
-If you wish to compile only the Sass style sheet, run `npm run build-sass`, and then copy the generated CSS file from `dist` to replace `style.css`.
+If you wish to compile only the Sass style sheet, run `npm run build-sass`.
 
 [talon-getting-started]: https://talonvoice.com/docs/index.html#getting-started
 [talon-getting-scripts]: https://talonvoice.com/docs/index.html#getting-scripts
