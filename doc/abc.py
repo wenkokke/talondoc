@@ -96,7 +96,7 @@ class Section(AbstractContextManager):
                         if docs is not None:
                             row.cell(docs, **kwargs)
                         else:
-                            row.cell(impl, css_classes='code', **kwargs)
+                            row.cell(impl, css_classes='talon-script', **kwargs)
         else:
             pass
 

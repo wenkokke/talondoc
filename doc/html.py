@@ -23,9 +23,12 @@ def attr_class(kwargs) -> str:
         css_classes = list(css_classes)
     if "cols" in kwargs:
         css_classes.append(f"columns-{kwargs['cols']}")
-    css_classes = " ".join(css_classes)
-    css_classes = f' class="{css_classes}"'
-    return css_classes
+    if css_classes:
+        css_classes = " ".join(css_classes)
+        css_classes = f' class="{css_classes}"'
+        return css_classes
+    else:
+        return ""
 
 
 def attr_colspan(kwargs) -> str:
