@@ -1,3 +1,5 @@
+@use "bulma/bulma"
+
 *,
 *::before,
 *::after
@@ -20,6 +22,13 @@ body
   text-rendering: optimizeSpeed
   line-height: 1.5
 
+main
+  @extend .container
+  @extend .is-fullhd
+
+section
+  margin-bottom: 40px
+
 section.columns-2
   column-count: 2
 
@@ -32,12 +41,29 @@ section.columns-4
 table
   width: 100%
   overflow: hidden
-  border-width: thin
-  border-style: solid
-  border-color: black
   border-radius: 0.5rem
   margin-bottom: 1rem
-  background-color: aliceblue
+  @extend .has-background-danger-light
+  @extend .table
+  @extend .is-striped
+  @extend .is-hoverable
+  margin-bottom: 20px
+
+  thead tr th
+    text-align: center !important
 
 th, td
   text-align: left
+
+pre
+  background-color: transparent
+  padding: 0
+
+h1
+  @extend .is-size-1
+  @extend .has-text-centered
+  margin-bottom: 20px
+
+.talon-snippet
+  @extend .is-family-code
+  @extend .is-size-7
