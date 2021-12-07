@@ -81,7 +81,7 @@ class Lines(Description):
     lines: tuple[str]
 
     def compile(self) -> str:
-        return "".join(f"{line}.\n" for line in self.lines)
+        return "".join(f"{line}. " for line in self.lines)
 
     def __str__(self):
         """
