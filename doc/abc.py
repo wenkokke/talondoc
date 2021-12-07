@@ -43,7 +43,7 @@ class Section(AbstractContextManager):
             for key, value in registry.lists[list_name][0].items():
                 with table.row(**kwargs) as row:
                     row.cell(key, **kwargs)
-                    row.cell(value, verbatim=True, **kwargs)
+                    row.cell(value, **kwargs)
 
     def formatters(self, **kwargs) -> None:
         """
@@ -68,7 +68,7 @@ class Section(AbstractContextManager):
                 with table.row(**kwargs) as row:
                     example = formatted_text(f"example of formatting with {key}", key)
                     row.cell(key, **kwargs)
-                    row.cell(example, verbatim=True, **kwargs)
+                    row.cell(example, **kwargs)
 
     def context(self, context: Context, **kwargs) -> None:
         """
@@ -96,7 +96,7 @@ class Section(AbstractContextManager):
                         if docs is not None:
                             row.cell(docs, **kwargs)
                         else:
-                            row.cell(impl, verbatim=True, **kwargs)
+                            row.cell(impl, css_classes='code', **kwargs)
         else:
             pass
 

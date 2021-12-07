@@ -15,6 +15,26 @@ def html_escape(text: str) -> str:
     )
 
 
+def attr_class(kwargs) -> str:
+    css_classes = kwargs.get("css_classes", [])
+    if isinstance(css_classes, str):
+        css_classes = [css_classes]
+    elif isinstance(css_classes, Iterable):
+        css_classes = list(css_classes)
+    if "cols" in kwargs:
+        css_classes.append(f"columns-{kwargs['cols']}")
+    css_classes = " ".join(css_classes)
+    css_classes = f' class="{css_classes}"'
+    return css_classes
+
+
+def attr_colspan(kwargs) -> str:
+    if "cols" in kwargs:
+        return f" colspan=\"{kwargs['cols']}\""
+    else:
+        return ""
+
+
 class HtmlRow(Row):
     def __init__(self, file: TextIOWrapper, **kwargs):
         self.file = file
@@ -28,10 +48,7 @@ class HtmlRow(Row):
         self.file.write(f"</tr>\n")
 
     def cell(self, contents: str, **kwargs):
-        if kwargs.get("verbatim", False):
-            self.file.write(f"<td><pre>{contents}</pre></td>\n")
-        else:
-            self.file.write(f"<td>{html_escape(contents)}</td>\n")
+        self.file.write(f"<td{attr_class(kwargs)}>{html_escape(contents)}</td>\n")
 
 
 class HtmlTable(Table):
@@ -39,33 +56,15 @@ class HtmlTable(Table):
         self.file = file
         self.kwargs = kwargs
 
-    def attr_class(self) -> str:
-        css_classes = self.kwargs.get("css_classes", [])
-        if isinstance(css_classes, str):
-            css_classes = [css_classes]
-        elif isinstance(css_classes, Iterable):
-            css_classes = list(css_classes)
-        if "cols" in self.kwargs:
-            css_classes.append(f"columns-{self.kwargs['cols']}")
-        css_classes = " ".join(css_classes)
-        css_classes = f' class="{css_classes}"'
-        return css_classes
-
-    def attr_colspan(self) -> str:
-        if "cols" in self.kwargs:
-            return f" colspan=\"{self.kwargs['cols']}\""
-        else:
-            return ""
-
     def __enter__(self) -> HtmlTable:
-        self.file.write(f"<div{self.attr_class()}>\n")
+        self.file.write(f"<div{attr_class(self.kwargs)}>\n")
         self.file.write(f"<table>\n")
 
         if "title" in self.kwargs:
             self.file.write(f"<thead>")
             self.file.write(f"<tr>")
             self.file.write(
-                f"<th{self.attr_colspan()}>{html_escape(self.kwargs['title'])}</th>"
+                f"<th{attr_colspan(self.kwargs)}>{html_escape(self.kwargs['title'])}</th>"
             )
             self.file.write(f"</tr>")
             self.file.write(f"</thead>")
@@ -87,22 +86,10 @@ class HtmlSection(Section):
         self.file = file
         self.kwargs = kwargs
 
-    def attr_class(self) -> str:
-        css_classes = self.kwargs.get("css_classes", [])
-        if isinstance(css_classes, str):
-            css_classes = [css_classes]
-        elif isinstance(css_classes, Iterable):
-            css_classes = list(css_classes)
-        if "cols" in self.kwargs:
-            css_classes.append(f"columns-{self.kwargs['cols']}")
-        css_classes = " ".join(css_classes)
-        css_classes = f' class="{css_classes}"'
-        return css_classes
-
     def __enter__(self) -> HtmlSection:
         if "title" in self.kwargs:
             self.file.write(f"<h1>{html_escape(self.kwargs['title'])}</h1>\n")
-        self.file.write(f"<section{self.attr_class()}>\n")
+        self.file.write(f"<section{attr_class(self.kwargs)}>\n")
         return self
 
     def __exit__(self, exception_type, exception_value, traceback):

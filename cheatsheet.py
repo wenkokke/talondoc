@@ -41,7 +41,7 @@ class CheatSheetActions:
 
         with doc:
             with doc.section(
-                title="Talon Lists", cols=4, css_classes="talon-lists"
+                title="Talon Lists", cols=3, css_classes="talon-lists"
             ) as sec:
                 sec.list("user.letter")
                 sec.list("user.number_key")
