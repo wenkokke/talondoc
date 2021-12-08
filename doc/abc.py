@@ -4,10 +4,9 @@ from talon import actions, registry
 from talon.scripting.context import Context  # type: ignore
 from typing import *
 from user.cheatsheet.doc.talon_script.describe import Describe
-
+import re
 
 # Abstract classes for printing cheatsheet document
-
 
 class Row(AbstractContextManager):
     def cell(self, contents: str, **kwargs):
@@ -90,7 +89,7 @@ class Section(AbstractContextManager):
             with self.table(cols=2, **kwargs) as table:
                 for command in context.commands.values():
                     with table.row(**kwargs) as row:
-                        row.cell(command.rule.rule, **kwargs)
+                        row.cell(Describe.command_rule(command), non_breaking=True, **kwargs)
                         docs = Describe.command(command)
                         impl = Describe.command_impl(command)
                         if docs is not None:

@@ -36,13 +36,13 @@ class CheatSheetActions:
         if format.lower() == "tex":
             file_path = os.path.join(this_dir, "cheatsheet.tex")
             doc = TeXDoc(
-                file_path, title="Talon Cheatsheet", preamble_path="preamble.tex"
+                file_path,
+                title="Talon Cheatsheet",
+                preamble_path="preamble.tex",
             )
 
         with doc:
-            with doc.section(
-                title="Talon Lists", cols=3, css_classes="talon-lists"
-            ) as sec:
+            with doc.section(cols=3, css_classes="talon-lists") as sec:
                 sec.list("user.letter")
                 sec.list("user.number_key")
                 sec.list("user.modifier_key")
@@ -51,13 +51,9 @@ class CheatSheetActions:
                 sec.list("user.arrow_key")
                 sec.list("user.punctuation")
                 sec.list("user.function_key")
-            with doc.section(
-                title="Talon Formatters", cols=1, css_classes="talon-formatters"
-            ) as sec:
+            with doc.section(cols=1, css_classes="talon-formatters") as sec:
                 sec.formatters()
-            with doc.section(
-                title="Talon Contexts", cols=2, css_classes="talon-contexts"
-            ) as sec:
+            with doc.section(cols=2, css_classes="talon-contexts") as sec:
                 for context_name, context in registry.contexts.items():
                     if not "personal" in context_name:
                         sec.context(context, context_name=context_name)

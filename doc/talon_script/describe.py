@@ -51,6 +51,18 @@ class Describe(TalonScriptWalker):
         impl = command.target.code
         return "\n".join(line.strip() for line in impl.splitlines())
 
+    RuleRegexDel = re.compile(
+        "{}|{}|{}".format(
+            r"(?<=[|([{<])\s*",
+            r"\s*(?=[|)\]}>])",
+            r"(?<=[{<])user\.",
+        )
+    )
+
+    @staticmethod
+    def command_rule(command: CommandImpl) -> str:
+        return re.sub(Describe.RuleRegexDel, "", command.rule.rule)
+
     # Describing actions
 
     def action(self, name: str, args: Sequence[Expr]) -> Description:
@@ -86,7 +98,9 @@ class Describe(TalonScriptWalker):
                 "edit.selected_text": lambda _: Chunk("the selected text"),
                 "user.vscode": lambda _: Ignore(),
                 "user.idea": lambda _: Ignore(),
-                "user.formatted_text": lambda args: Chunk(f"{args[0]} (formatted with {args[1]})"),
+                "user.formatted_text": lambda args: Chunk(
+                    f"{args[0]} (formatted with {args[1]})"
+                ),
                 "user.homophones_select": lambda args: Chunk(f"homophone #{args[0]}"),
             }[action_name](args)
         except KeyError:
@@ -112,6 +126,7 @@ class Describe(TalonScriptWalker):
         """Describe the action documentation as a template, based on parsing the docstring."""
         try:
             from docstring_parser.google import ParseError, parse
+
             try:
                 action_path: ActionPath = eval(f"actions.{action_name}")
                 docstring = parse(action_path.__doc__)
