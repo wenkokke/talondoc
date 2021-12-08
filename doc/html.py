@@ -1,7 +1,7 @@
 from __future__ import annotations
 from io import TextIOWrapper
 from typing import *
-from collections import Iterable
+from collections.abc import Iterable
 from user.cheatsheet.doc.abc import *
 import os
 
