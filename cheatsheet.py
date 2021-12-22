@@ -1,4 +1,4 @@
-from talon import Module, registry
+from talon import Module, actions, registry
 from typing import *
 from user.cheatsheet.doc.html import HtmlDoc
 from user.cheatsheet.doc.tex import TeXDoc
@@ -22,37 +22,36 @@ class CheatSheetActions:
         this_dir = os.path.dirname(os.path.realpath(__file__))
 
         if format.lower() == "html":
-            file_path = os.path.join(this_dir, "cheatsheet.html")
-            css_include_path = os.path.join(this_dir, "dist", "style.css")
             doc = HtmlDoc(
-                file_path, title="Talon Cheatsheet", css_include_path=css_include_path
+                file_path=os.path.join(this_dir, "cheatsheet.html"),
+                title="Talon Cheatsheet",
+                css_include_path=os.path.join(this_dir, "style.css"),
             )
 
         if format.lower() == "html-dev":
-            file_path = os.path.join(this_dir, "cheatsheet-dev.html")
-            css_href = "style.sass"
-            doc = HtmlDoc(file_path, title="Talon Cheatsheet", css_href=css_href)
+            doc = HtmlDoc(
+                file_path=os.path.join(this_dir, "cheatsheet-dev.html"),
+                title="Talon Cheatsheet",
+                css_href="style.sass",
+            )
 
         if format.lower() == "tex":
-            file_path = os.path.join(this_dir, "cheatsheet.tex")
             doc = TeXDoc(
-                file_path,
+                file_path=os.path.join(this_dir, "cheatsheet.tex"),
                 title="Talon Cheatsheet",
                 preamble_path="preamble.tex",
             )
 
         with doc:
-            with doc.section(cols=3, css_classes="talon-lists") as sec:
-                sec.list("user.letter")
-                sec.list("user.number_key")
-                sec.list("user.modifier_key")
-                sec.list("user.special_key")
-                sec.list("user.symbol_key")
-                sec.list("user.arrow_key")
-                sec.list("user.punctuation")
-                sec.list("user.function_key")
-            with doc.section(cols=1, css_classes="talon-formatters") as sec:
-                sec.formatters()
+            with doc.section(cols=2, css_classes="talon-formatters") as sec:
+                sec.formatters(
+                    list_names=(
+                        "user.formatter_code",
+                        "user.formatter_prose",
+                        "user.formatter_word",
+                    ),
+                    formatted_text=actions.user.format_text,
+                )
             with doc.section(cols=2, css_classes="talon-contexts") as sec:
                 for context_name, context in registry.contexts.items():
                     if not "personal" in context_name:

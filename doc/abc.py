@@ -49,25 +49,26 @@ class Section(AbstractContextManager):
         Create table for the talon formatters list.
 
         Args:
-            **list_name: The name of the formatters list. Defaults to 'user.formatters'.
+            **list_names: The names of the formatters lists. Defaults to 'user.formatters'.
             **formatted_text: The name of the formatter function. Defaults to 'actions.user.formatted_text'.
             **table_title: The table title.
             **context_name: The Talon context name. Used to generate the table title if the **table_title keyword is not given.
         """
 
         # Set the default list name and formatting function:
-        list_name = kwargs.get("list_name", "user.formatters")
+        list_names = kwargs.get("list_names", ("user.formatters",))
         formatted_text = kwargs.get("formatted_text", actions.user.formatted_text)
-
-        # Set the default title based on the list name:
-        kwargs["title"] = kwargs.get("title", list_name)
-
-        with self.table(cols=2, **kwargs) as table:
-            for key, _ in registry.lists[list_name][0].items():
-                with table.row(**kwargs) as row:
-                    example = formatted_text(f"example of formatting with {key}", key)
-                    row.cell(key, **kwargs)
-                    row.cell(example, **kwargs)
+        for list_name in list_names:
+            with self.table(cols=2, title=list_name, **kwargs) as table:
+                if list_name in registry.lists:
+                    items = registry.lists[list_name]
+                    if isinstance(items, list):
+                        items = items[0]
+                    for key, val in items.items():
+                        with table.row(**kwargs) as row:
+                            example = formatted_text(f"example of formatting with {key}", val)
+                            row.cell(key, **kwargs)
+                            row.cell(example, **kwargs)
 
     def context(self, context: Context, **kwargs) -> None:
         """
