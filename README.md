@@ -6,7 +6,8 @@ To recreate what I did:
 
 1. Install Talon on your computer (see [Getting Started][talon-getting-started]).
 2. Clone this repository into your Talon user directory (see [Getting Scripts](talon-getting-scripts)).
-3. Say `print help` or `print latex help`.
+3. Install a package that this cheatsheet code relies on by doing `~/.talon/bin/pip install docstring_parser` in your terminal.
+4. Say `print help` or `print latex help`.
 
 This will generate self contained HTML or LaTeX  file in the repository directory.
 
