@@ -43,6 +43,10 @@ class CheatSheetActions:
             )
 
         with doc:
+            with doc.section(cols=2, css_classes="talon-lists") as sec:
+                sec.list(
+                    list_name="user.key_symbol",
+                )
             with doc.section(cols=2, css_classes="talon-formatters") as sec:
                 sec.formatters(
                     list_names=(
