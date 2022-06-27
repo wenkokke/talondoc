@@ -1,11 +1,9 @@
 from talon import Module, actions, registry
 from typing import *
-from user.cheatsheet.doc.html import HtmlDoc
-from user.cheatsheet.doc.tex import TeXDoc
+from .doc.html import HtmlDoc
+from .doc.tex import TeXDoc
 
 import os
-import re
-import sys
 
 mod = Module()
 
@@ -20,26 +18,32 @@ class CheatSheetActions:
             format: The format for the help document. Must be 'HTML' or 'TeX'.
         """
         this_dir = os.path.dirname(os.path.realpath(__file__))
+        talon_cheatsheet_dir = os.path.join(this_dir, "..", "..", "cheatsheet")
+        talon_cheatsheet_build_dir = os.path.join(talon_cheatsheet_dir, "build")
+        talon_cheatsheet_css_dir = os.path.join(talon_cheatsheet_dir, "assets", "css")
+        talon_cheatsheet_tex_dir = os.path.join(talon_cheatsheet_dir, "assets", "tex")
 
         if format.lower() == "html":
             doc = HtmlDoc(
-                file_path=os.path.join(this_dir, "cheatsheet.html"),
+                file_path=os.path.join(talon_cheatsheet_build_dir, "cheatsheet.html"),
                 title="Talon Cheatsheet",
-                css_include_path=os.path.join(this_dir, "style.css"),
+                css_include_path=os.path.join(talon_cheatsheet_css_dir, "style.css"),
             )
 
         if format.lower() == "html-dev":
             doc = HtmlDoc(
-                file_path=os.path.join(this_dir, "cheatsheet-dev.html"),
+                file_path=os.path.join(
+                    talon_cheatsheet_build_dir, "cheatsheet-dev.html"
+                ),
                 title="Talon Cheatsheet",
-                css_href="style.sass",
+                css_href=os.path.join("..", "assets", "sass", "style.sass"),
             )
 
         if format.lower() == "tex":
             doc = TeXDoc(
-                file_path=os.path.join(this_dir, "cheatsheet.tex"),
+                file_path=os.path.join(talon_cheatsheet_build_dir, "cheatsheet.tex"),
                 title="Talon Cheatsheet",
-                preamble_path="preamble.tex",
+                preamble_path=os.path.join(talon_cheatsheet_tex_dir, "preamble.tex"),
             )
 
         with doc:
