@@ -11,6 +11,8 @@ You're probably looking for Margaret.
 
 ## Using Margaret
 
+### Installing Margaret
+
 1. **Install Talon**
 
    See [Getting Started][talon-getting-started].
