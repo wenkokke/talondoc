@@ -13,7 +13,7 @@ You're probably looking for Margaret.
 
 1. **Install Talon**
 
-   See [Getting Started][talon-getting-started]).
+   See [Getting Started][talon-getting-started].
 
 2. **Install Talon Cheatsheet**
 
