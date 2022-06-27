@@ -4,7 +4,7 @@ This is a demo for how to get a cheatsheet of all Talon voice commands.
 
 There are two ongoing projects in this repository:
 
-- **Margaret** runs from within Talon, and requires you to use a voice command to generate the cheatsheet.
+- **Margaret** runs from within Talon.
 - **George** runs independently from Talon.
 
 You're probably looking for Margaret.
