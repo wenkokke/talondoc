@@ -11,7 +11,7 @@ You're probably looking for Margaret.
 
 ## Using Margaret
 
-### Installing Margaret
+### Install Margaret
 
 1. **Install Talon**
 
@@ -52,21 +52,29 @@ You're probably looking for Margaret.
    ```
 
    _This step is not required for the basic functionality._
+   
+### Build the cheatsheet
 
-4. Say `print help` or `print latex help`.
+Say `print help` or `print latex help`.
 
 This will generate a self contained HTML or LaTeX file in the `build` subdirectory, _e.g._, `~/.talon/cheatsheet/build`.
 
-### Building the style sheet
+### Develop the style sheet
 
-The repository contains both a Sass stylesheet, `html/sass/style.sass`, and a precompiled CSS stylesheet, `html/css/style.css`.
-When you say `print help`, the generated HTML file uses the precompiled CSS stylesheet.
+To develop the Sass stylesheet you will need [Node.js][install-npm].
 
-To develop the Sass stylesheet you will need [npm][install-npm].
-There is a precompiled HTML file, `cheatsheet-dev.html`, which links to the Sass stylesheet.
-To build this file and the linked Sass style sheet, run `npm run dev`.
+The repository contains both a Sass stylesheet, `assets/sass/style.sass`, and a precompiled CSS stylesheet, `assets/css/style.css`. When you say `print help`, the generated HTML file inlines the precompiled CSS stylesheet.
 
-If you wish to compile only the Sass style sheet, run `npm run build-sass`.
+To build the Sass stylesheet, and overwrite the precompiled CSS stylesheet, run `npm run build-sass`.
+
+To interactively develop the Sass stylesheet, you'll need two things:
+
+1. Use `build/cheatsheet-dev.html` rather than `build/cheatsheet.html`.
+   The dev version links directly to the Sass stylesheet.
+   To build or rebuild `build/cheatsheet-dev.html`, say `print dev help`.
+  
+2. From the repository root, run `npm run dev` to start a server which hosts `build/cheatsheet-dev.html`
+  and rebuilds the stylesheet when it detects changes.
 
 [talon-getting-started]: https://talonvoice.com/docs/index.html#getting-started
 [talon-getting-scripts]: https://talonvoice.com/docs/index.html#getting-scripts
