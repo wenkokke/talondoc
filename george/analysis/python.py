@@ -1,0 +1,225 @@
+from dataclasses import dataclass
+from logging import warn
+from pathlib import Path
+import re
+from typing import Optional, Sequence, Set
+import ast
+from .info import *
+
+
+def VariableName(path: Path, node: ast.AST):
+    warn(
+        f"""
+        Variable name in {path}:{node.lineno}-{node.end_lineno}:
+        {ast.unparse(node)}
+        """
+    )
+
+
+@dataclass
+class QualifiedNameError(Exception):
+    name: ast.expr
+
+
+def qualified_name(name: ast.expr) -> Sequence[str]:
+    if type(name) == ast.Name:
+        return (name.id,)
+    if type(name) == ast.Attribute:
+        return (*qualified_name(name.value), name.attr)
+    raise QualifiedNameError(name)
+
+
+@dataclass
+class DecoratorInfo:
+    decorator_name: str
+    decorator: ast.ClassDef
+    scope: str
+    is_override: bool
+
+    @staticmethod
+    def from_ast(decorator_name: str, decorator: ast.expr) -> Optional["DecoratorInfo"]:
+        # For @mod.action_class
+        try:
+            if re.match("mod", decorator.value.id) and decorator.attr == decorator_name:
+                return DecoratorInfo(
+                    decorator_name=decorator_name,
+                    decorator=decorator,
+                    scope="user",
+                    is_override=False,
+                )
+        except AttributeError:
+            pass
+        # For @ctx.action_class(scope)
+        try:
+            if (
+                re.match("ctx", decorator.func.value.id)
+                and decorator.func.attr == decorator_name
+            ):
+                return DecoratorInfo(
+                    decorator_name=decorator_name,
+                    decorator=decorator,
+                    scope=decorator.args[0].value,
+                    is_override=True,
+                )
+        except AttributeError:
+            pass
+        return None
+
+
+@dataclass
+class ActionClassInfo:
+    scope: str
+    is_override: bool
+    class_def: ast.ClassDef = None
+
+    @staticmethod
+    def from_ast(class_def: ast.ClassDef) -> Optional["ActionClassInfo"]:
+        for decorator in class_def.decorator_list:
+            decorator_info = DecoratorInfo.from_ast("action_class", decorator)
+            if decorator_info:
+                return ActionClassInfo(
+                    scope=decorator_info.scope,
+                    is_override=decorator_info.is_override,
+                    class_def=class_def,
+                )
+        return None
+
+
+class PythonInfoVisitor(ast.NodeVisitor):
+    def __init__(self, path: Path):
+        self.path: Path = path
+        self.declarations: dict[TalonSort, TalonDecl] = {}
+        self.overrides: dict[TalonSort, list[TalonDecl]] = {}
+        self.uses: dict[TalonSort, list[str]] = {}
+        self.action_class: Optional[ActionClassInfo] = None
+
+    def process(self) -> PythonInfo:
+        with self.path.open("r") as f:
+            tree = ast.parse(f.read(), filename=str(self.path))
+        self.visit(tree)
+        return self.info()
+
+    def info(self) -> PythonInfo:
+        return PythonInfo(
+            path=str(self.path),
+            declarations=self.declarations,
+            overrides=self.overrides,
+            uses=set(self.uses),
+        )
+
+    def add_use(self, sort: TalonSort, name: str):
+        if not sort in self.uses:
+            self.uses[sort] = []
+        self.uses[sort].append(name)
+
+    def add_declaration(self, decl: TalonDecl):
+        name = decl.name
+        if decl.is_override:
+            if not name in self.overrides:
+                self.overrides[name] = []
+            self.overrides[name] = decl
+        else:
+            self.declarations[name] = decl
+
+    def visit_ClassDef(self, class_def: ast.ClassDef):
+        self.action_class = ActionClassInfo.from_ast(class_def)
+        self.generic_visit(class_def)
+        self.action_class = None
+
+    def visit_Call(self, call: ast.Call):
+        try:
+            func_name = qualified_name(call.func)
+
+            # Use Action
+            if func_name[0] == "actions":
+                name = ".".join(func_name[1:])
+                self.add_use(TalonSort.Action, name)
+
+            mod_var, list_func = func_name
+
+            # Declare List
+            if re.match("mod", mod_var) and list_func == "list":
+                name = call.args[0].value
+                try:
+                    desc = call.args[1].value
+                except (IndexError, AttributeError):
+                    desc = None
+                self.add_declaration(
+                    TalonDecl(
+                        name=name,
+                        sort=TalonSort.List,
+                        is_override=False,
+                        desc=desc,
+                        node=call,
+                    )
+                )
+
+            # Declare Tag
+            if re.match("mod", mod_var) and list_func == "tag":
+                name = call.args[0].value
+                try:
+                    desc = call.args[1].value
+                except (IndexError, AttributeError):
+                    desc = None
+                self.add_declaration(
+                    TalonDecl(
+                        name=name,
+                        sort=TalonSort.Tag,
+                        is_override=False,
+                        desc=desc,
+                        node=call,
+                    )
+                )
+        except AttributeError:
+            VariableName(self.path, call)
+        except (ValueError, IndexError, QualifiedNameError) as e:
+            pass
+        self.generic_visit(call)
+
+    def visit_Subscript(self, subscript: ast.Subscript):
+        try:
+            ctx_var, list_func = qualified_name(subscript.value)
+
+            # Override List
+            if re.match("ctx", ctx_var) and list_func == "lists":
+                name = subscript.slice.value
+                self.add_declaration(
+                    TalonDecl(
+                        name=name, sort=TalonSort.List, is_override=True, node=subscript
+                    )
+                )
+        except (QualifiedNameError, ValueError, AttributeError):
+            pass
+
+    def visit_FunctionDef(self, function_def: ast.FunctionDef):
+        if self.action_class:
+            # Declare or Override Action
+            name = f"{self.action_class.scope}.{function_def.name}"
+            desc = ast.get_docstring(function_def)
+            self.add_declaration(
+                TalonDecl(
+                    name=name,
+                    sort=TalonSort.Action,
+                    is_override=self.action_class.is_override,
+                    desc=desc,
+                    node=function_def,
+                )
+            )
+        else:
+            for decorator in function_def.decorator_list:
+                decorator_info = DecoratorInfo.from_ast("capture", decorator)
+                if decorator_info:
+                    # Declare or Override Capture
+                    name = f"{decorator_info.scope}.{function_def.name}"
+                    desc = ast.get_docstring(function_def)
+                    self.add_declaration(
+                        TalonDecl(
+                            name=name,
+                            sort=TalonSort.Capture,
+                            is_override=decorator_info.is_override,
+                            desc=desc,
+                            node=function_def,
+                        )
+                    )
+                    break
+        self.generic_visit(function_def)
