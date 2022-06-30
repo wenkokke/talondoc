@@ -1,5 +1,5 @@
-from dataclasses import dataclass
-from dataclasses_json import dataclass_json
+from dataclasses import dataclass, field
+from dataclasses_json import config, dataclass_json
 from enum import Enum
 from typing import Optional
 import ast
@@ -14,10 +14,6 @@ class TalonSort(Enum):
     List = 3
     Setting = 4
     Tag = 5
-
-    @staticmethod
-    def parse(sort: str) -> "TalonSort":
-        return TalonSort[sort]
 
 
 @dataclass_json
@@ -39,22 +35,19 @@ class Source:
 
     @staticmethod
     def from_ast(node: ast.AST) -> "Source":
-        source = ast.unparse(node)
-        position = Position.from_ast(node)
-        return Source(source=source, position=position)
-
-    def to_ast(self) -> ast.AST:
-        node = ast.parse(self.source)
-        node.lineno = self.position.start.line
-        node.col_offset = self.position.start.column
-        return node
+        return Source(source=ast.unparse(node), position=Position.from_ast(node))
 
 
 @dataclass_json
 @dataclass(frozen=True)
 class TalonDecl:
     name: TalonDeclName
-    sort: TalonSortName
+    sort: TalonSort = field(
+        metadata=config(
+            encoder=lambda sort: sort.name,
+            decoder=lambda name: TalonSort[name]
+        )
+    )
     is_override: bool
     source: Source
     desc: Optional[str] = None

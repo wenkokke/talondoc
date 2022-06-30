@@ -89,8 +89,8 @@ class PythonInfoVisitor(ast.NodeVisitor):
     def __init__(self, path: Path):
         self.path: Path = path
         self.declarations: dict[TalonSort, TalonDecl] = {}
-        self.overrides: dict[TalonSort, list[TalonDecl]] = {}
-        self.uses: dict[TalonSort, list[TalonDeclName]] = {}
+        self.overrides: dict[TalonSort, dict[TalonDeclName, set[TalonDecl]]] = {}
+        self.uses: dict[TalonSort, set[TalonDeclName]] = {}
         self.action_class: Optional[ActionClassInfo] = None
 
     def process(self) -> PythonInfo:
@@ -102,15 +102,15 @@ class PythonInfoVisitor(ast.NodeVisitor):
     def info(self) -> PythonInfo:
         return PythonInfo(
             path=str(self.path),
-            declarations={str(s): ds for s, ds in self.declarations.items()},
-            overrides={str(s): set(os) for s, os in self.overrides.items()},
-            uses={str(s): set(us) for s, us in self.uses.items()},
+            declarations={sort.name: declarations for sort, declarations in self.declarations.items()},
+            overrides={sort.name: overrides for sort, overrides in self.overrides.items()},
+            uses={sort.name: uses for sort, uses in self.uses.items()},
         )
 
     def add_use(self, sort: TalonSort, name: str):
         if not sort in self.uses:
-            self.uses[sort] = []
-        self.uses[sort].append(name)
+            self.uses[sort] = set()
+        self.uses[sort].add(name)
 
     def add_declaration(self, decl: TalonDecl):
         name = decl.name
@@ -119,8 +119,8 @@ class PythonInfoVisitor(ast.NodeVisitor):
             if not sort in self.overrides:
                 self.overrides[sort] = {}
             if not name in self.overrides[sort]:
-                self.overrides[sort][name] = []
-            self.overrides[sort][name].append(decl)
+                self.overrides[sort][name] = set()
+            self.overrides[sort][name].add(decl)
         else:
             if not sort in self.declarations:
                 self.declarations[sort] = {}
