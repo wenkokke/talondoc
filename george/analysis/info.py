@@ -1,11 +1,8 @@
 from dataclasses import dataclass
-from dataclasses_json import dataclass_json, DataClassJsonMixin
-from dataclasses_json.core import Json
+from dataclasses_json import dataclass_json
 from enum import Enum
-from typing import Mapping, Optional, Set, TypeVar
+from typing import Optional
 import ast
-
-A = TypeVar("A", bound="DataClassJsonMixin")
 
 TalonDeclName = str
 TalonSortName = str
@@ -67,6 +64,6 @@ class TalonDecl:
 @dataclass(frozen=True)
 class PythonInfo:
     path: str
-    declarations: Mapping[TalonSortName, Mapping[TalonDeclName, TalonDecl]]
-    overrides: Mapping[TalonSortName, Mapping[TalonDeclName, Set[TalonDecl]]]
-    uses: Mapping[TalonSortName, Set[TalonDeclName]]
+    declarations: dict[TalonSortName, dict[TalonDeclName, TalonDecl]]
+    overrides: dict[TalonSortName, dict[TalonDeclName, set[TalonDecl]]]
+    uses: dict[TalonSortName, set[TalonDeclName]]
