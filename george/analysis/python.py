@@ -90,7 +90,7 @@ class PythonInfoVisitor(ast.NodeVisitor):
         self.path: Path = path
         self.declarations: dict[TalonSort, TalonDecl] = {}
         self.overrides: dict[TalonSort, list[TalonDecl]] = {}
-        self.uses: dict[TalonSort, list[str]] = {}
+        self.uses: dict[TalonSort, list[TalonDeclName]] = {}
         self.action_class: Optional[ActionClassInfo] = None
 
     def process(self) -> PythonInfo:
@@ -102,9 +102,24 @@ class PythonInfoVisitor(ast.NodeVisitor):
     def info(self) -> PythonInfo:
         return PythonInfo(
             path=str(self.path),
-            declarations=self.declarations,
-            overrides=self.overrides,
-            uses=set(self.uses),
+            declarations={
+                str(sort): declaration
+                for sort, declaration in self.declarations.items()
+            }
+            .values()
+            .mapping,
+            overrides={
+                str(sort): frozenset(overrides)
+                for sort, overrides in self.overrides.items()
+            }
+            .values()
+            .mapping,
+            uses={
+                str(sort): frozenset(uses)
+                for sort, uses in self.uses.items()
+            }
+            .values()
+            .mapping,
         )
 
     def add_use(self, sort: TalonSort, name: str):
@@ -115,9 +130,9 @@ class PythonInfoVisitor(ast.NodeVisitor):
     def add_declaration(self, decl: TalonDecl):
         name = decl.name
         if decl.is_override:
-            if not name in self.overrides:
+            if not name in self.overrides.keys():
                 self.overrides[name] = []
-            self.overrides[name] = decl
+            self.overrides[name].append(decl)
         else:
             self.declarations[name] = decl
 
@@ -150,7 +165,7 @@ class PythonInfoVisitor(ast.NodeVisitor):
                         sort=TalonSort.List,
                         is_override=False,
                         desc=desc,
-                        node=call,
+                        source=Source.from_ast(call),
                     )
                 )
 
@@ -167,7 +182,7 @@ class PythonInfoVisitor(ast.NodeVisitor):
                         sort=TalonSort.Tag,
                         is_override=False,
                         desc=desc,
-                        node=call,
+                        source=Source.from_ast(call),
                     )
                 )
         except AttributeError:
@@ -185,7 +200,10 @@ class PythonInfoVisitor(ast.NodeVisitor):
                 name = subscript.slice.value
                 self.add_declaration(
                     TalonDecl(
-                        name=name, sort=TalonSort.List, is_override=True, node=subscript
+                        name=name,
+                        sort=TalonSort.List,
+                        is_override=True,
+                        source=Source.from_ast(subscript),
                     )
                 )
         except (QualifiedNameError, ValueError, AttributeError):
@@ -202,7 +220,7 @@ class PythonInfoVisitor(ast.NodeVisitor):
                     sort=TalonSort.Action,
                     is_override=self.action_class.is_override,
                     desc=desc,
-                    node=function_def,
+                    source=Source.from_ast(function_def),
                 )
             )
         else:
@@ -218,7 +236,7 @@ class PythonInfoVisitor(ast.NodeVisitor):
                             sort=TalonSort.Capture,
                             is_override=decorator_info.is_override,
                             desc=desc,
-                            node=function_def,
+                            source=Source.from_ast(function_def),
                         )
                     )
                     break

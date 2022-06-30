@@ -1,19 +1,26 @@
-from dataclasses import dataclass, field
-from dataclasses_json import dataclass_json, config
+from dataclasses import dataclass
+from dataclasses_json import dataclass_json, DataClassJsonMixin
+from dataclasses_json.core import Json
 from enum import Enum
-from typing import Mapping, Optional, Sequence, Set
+from typing import Mapping, Optional, Set, TypeVar
 import ast
 
-TalonSort = Enum(
-    "TalonSort",
-    [
-        "Action",
-        "List",
-        "Capture",
-        "Tag",
-        "Setting",
-    ],
-)
+A = TypeVar("A", bound="DataClassJsonMixin")
+
+TalonDeclName = str
+TalonSortName = str
+
+
+class TalonSort(Enum):
+    Action = 1
+    Capture = 2
+    List = 3
+    Setting = 4
+    Tag = 5
+
+    @staticmethod
+    def parse(sort: str) -> "TalonSort":
+        return TalonSort[sort]
 
 
 @dataclass_json
@@ -49,25 +56,17 @@ class Source:
 @dataclass_json
 @dataclass(frozen=True)
 class TalonDecl:
-    name: str
-    sort: TalonSort = field(
-        metadata=config(encoder=str, decoder=lambda sort: TalonSort[sort])
-    )
+    name: TalonDeclName
+    sort: TalonSortName
     is_override: bool
+    source: Source
     desc: Optional[str] = None
-    node: Optional[ast.AST] = field(
-        default=None,
-        metadata=config(
-            encoder=lambda node: Source.from_ast(node).to_dict(),
-            decoder=lambda json: Source.from_dict(json).to_ast(),
-        ),
-    )
 
 
 @dataclass_json
 @dataclass(frozen=True)
 class PythonInfo:
     path: str
-    declarations: Mapping[TalonSort, Mapping[str, TalonDecl]]
-    overrides: Mapping[TalonSort, Mapping[str, Sequence[TalonDecl]]]
-    uses: Mapping[TalonSort, Set[str]]
+    declarations: Mapping[TalonSortName, Mapping[TalonDeclName, TalonDecl]]
+    overrides: Mapping[TalonSortName, Mapping[TalonDeclName, Set[TalonDecl]]]
+    uses: Mapping[TalonSortName, Set[TalonDeclName]]
