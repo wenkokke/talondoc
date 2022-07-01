@@ -1,8 +1,11 @@
 from dataclasses import dataclass
 from pathlib import Path
 import re
-from tree_sitter import Language, Parser, Tree
+from typing import Generator
+from tree_sitter import Language, Parser, Tree, TreeCursor
 from sys import platform
+
+from george.analysis.info import TalonDeclName
 
 
 @dataclass
@@ -23,22 +26,35 @@ class TalonAnalyser:
     def parse(self, path: Path) -> Tree:
         # Check for optional header separator
         has_header = False
-        with path.open('r') as f:
+        with path.open("r") as f:
             for ln in f.readlines():
-                if re.match('^-$', ln):
+                if re.match("^-$", ln):
                     has_header = True
         # Prepend header separator if missing
         file_bytes = path.read_bytes()
         if not has_header:
-            file_bytes = b'-\n'.join((file_bytes,))
+            file_bytes = b"-\n".join((file_bytes,))
         # Parse the Talon file
         return self.parser.parse(file_bytes)
 
+    def tags(self, tree: Tree) -> Generator[TalonDeclName, None, None]:
+        query = self.language.query("(match) @match")
+        captures = query.captures(tree.root_node)
+        if captures:
+            for match_node, anchor in captures:
+                assert anchor == "match"
+                key_node = match_node.child_by_field_name('key')
+                if key_node.text == b'tag':
+                    pattern_node = match_node.child_by_field_name('pattern')
+                    yield pattern_node.text.decode('utf-8').strip()
 
-# KNAUSJ_TALON = Path.home().glob("Projects/knausj_talon/**/*.talon")
-
-# for talon_file in KNAUSJ_TALON:
-#   print(talon_file)
-#   talon_file_bytes = talon_file.read_bytes()
-#   tree = parser.parse(talon_file_bytes)
-#   print(tree.root_node.sexp())
+    def tag_includes(self, tree: Tree) -> Generator[TalonDeclName, None, None]:
+        query = self.language.query("(tag_include) @tag_include")
+        captures = query.captures(tree.root_node)
+        if captures:
+            for tag_include_node, anchor in captures:
+                assert anchor == "tag_include"
+                key_node = tag_include_node.child_by_field_name('key')
+                if key_node.text == b'tag':
+                    pattern_node = tag_include_node.child_by_field_name('pattern')
+                    yield pattern_node.text.decode('utf-8').strip()

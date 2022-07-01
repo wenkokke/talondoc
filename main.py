@@ -11,4 +11,5 @@ from george.analysis.talon import TalonAnalyser
 talon_analyser = TalonAnalyser()
 for talon_file in Path("vendor").glob("**/*.talon"):
     talon_file_tree = talon_analyser.parse(talon_file)
-    print(talon_file_tree.root_node.sexp())
+    for tag_name in talon_analyser.tags(talon_file_tree):
+        print(tag_name)
