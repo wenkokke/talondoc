@@ -21,7 +21,16 @@ class TalonAnalyser:
         Language.build_library(self.library_path, [self.repository_path])
         self.language = Language(self.library_path, "talon")
         self.parser = parser = Parser()
-        parser.set_language(self.language)
+        self.parser.set_language(self.language)
+
+        self.match_query = self.language.query("(match) @match")
+        self.include_tags_query = self.language.query("(include_tag) @include_tag")
+        self.setting_assignment_query = self.language.query(
+            "(settings (block (assignment)* @assignment))"
+        )
+        self.action_query = self.language.query("(action) @action")
+        self.capture_query = self.language.query("(capture) @capture")
+        self.list_query = self.language.query("(list) @list")
 
     def parse(self, path: Path) -> Tree:
         # Check for optional header separator
@@ -37,24 +46,57 @@ class TalonAnalyser:
         # Parse the Talon file
         return self.parser.parse(file_bytes)
 
-    def tags(self, tree: Tree) -> Generator[TalonDeclName, None, None]:
-        query = self.language.query("(match) @match")
-        captures = query.captures(tree.root_node)
+    def required_tags(self, tree: Tree) -> Generator[TalonDeclName, None, None]:
+        captures = self.match_query.captures(tree.root_node)
         if captures:
             for match_node, anchor in captures:
                 assert anchor == "match"
-                key_node = match_node.child_by_field_name('key')
-                if key_node.text == b'tag':
-                    pattern_node = match_node.child_by_field_name('pattern')
-                    yield pattern_node.text.decode('utf-8').strip()
+                key_node = match_node.child_by_field_name("key")
+                if key_node.text == b"tag":
+                    pattern_node = match_node.child_by_field_name("pattern")
+                    yield pattern_node.text.decode("utf-8").strip()
 
-    def tag_includes(self, tree: Tree) -> Generator[TalonDeclName, None, None]:
-        query = self.language.query("(tag_include) @tag_include")
-        captures = query.captures(tree.root_node)
+    def included_tags(self, tree: Tree) -> Generator[TalonDeclName, None, None]:
+        captures = self.include_tags_query.captures(tree.root_node)
         if captures:
-            for tag_include_node, anchor in captures:
-                assert anchor == "tag_include"
-                key_node = tag_include_node.child_by_field_name('key')
-                if key_node.text == b'tag':
-                    pattern_node = tag_include_node.child_by_field_name('pattern')
-                    yield pattern_node.text.decode('utf-8').strip()
+            for include_tag_node, anchor in captures:
+                assert anchor == "include_tag"
+                tag_node = include_tag_node.child_by_field_name("tag")
+                if tag_node:
+                    yield tag_node.text.decode("utf-8").strip()
+
+    def referenced_settings(self, tree: Tree) -> Generator[TalonDeclName, None, None]:
+        captures = self.setting_assignment_query.captures(tree.root_node)
+        if captures:
+            for assignment, anchor in captures:
+                assert anchor == "assignment"
+                left = assignment.child_by_field_name("left")
+                if left:
+                    yield left.text.decode("utf-8")
+
+    def referenced_actions(self, tree: Tree) -> Generator[TalonDeclName, None, None]:
+        captures = self.action_query.captures(tree.root_node)
+        if captures:
+            for action, anchor in captures:
+                assert anchor == "action"
+                action_name = action.child_by_field_name("action_name")
+                if action_name:
+                    yield action_name.text.decode("utf-8")
+
+    def referenced_captures(self, tree: Tree) -> Generator[TalonDeclName, None, None]:
+        captures = self.capture_query.captures(tree.root_node)
+        if captures:
+            for capture, anchor in captures:
+                assert anchor == "capture"
+                capture_name = capture.child_by_field_name("capture_name")
+                if capture_name:
+                    yield capture_name.text.decode("utf-8")
+
+    def referenced_lists(self, tree: Tree) -> Generator[TalonDeclName, None, None]:
+        captures = self.list_query.captures(tree.root_node)
+        if captures:
+            for list, anchor in captures:
+                assert anchor == "list"
+                list_name = list.child_by_field_name("list_name")
+                if list_name:
+                    yield list_name.text.decode("utf-8")
