@@ -60,3 +60,20 @@ class PythonInfo:
     declarations: dict[TalonSortName, dict[TalonDeclName, TalonDecl]]
     overrides: dict[TalonSortName, dict[TalonDeclName, set[TalonDecl]]]
     uses: dict[TalonSortName, set[TalonDeclName]]
+
+@dataclass_json
+@dataclass(frozen=True)
+class TalonRule:
+    text: str
+
+@dataclass_json
+@dataclass(frozen=True)
+class TalonScript:
+    script: str
+
+@dataclass_json
+@dataclass(frozen=True)
+class TalonInfo:
+    path: str
+    commands: dict[TalonRule, TalonScript]
+    uses: dict[TalonSortName, set[TalonDeclName]]
