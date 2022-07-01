@@ -6,6 +6,12 @@ from typing import Optional, Sequence, Set
 import ast
 from .info import *
 
+@dataclass
+class PythonAnalyser:
+    @staticmethod
+    def process(path: Path) -> PythonInfo:
+        return PythonInfoVisitor(path).process()
+
 
 def VariableName(path: Path, node: ast.AST):
     warn(
@@ -102,8 +108,13 @@ class PythonInfoVisitor(ast.NodeVisitor):
     def info(self) -> PythonInfo:
         return PythonInfo(
             path=str(self.path),
-            declarations={sort.name: declarations for sort, declarations in self.declarations.items()},
-            overrides={sort.name: overrides for sort, overrides in self.overrides.items()},
+            declarations={
+                sort.name: declarations
+                for sort, declarations in self.declarations.items()
+            },
+            overrides={
+                sort.name: overrides for sort, overrides in self.overrides.items()
+            },
             uses={sort.name: uses for sort, uses in self.uses.items()},
         )
 
