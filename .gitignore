@@ -12,3 +12,8 @@ cheatsheet.tex
 /dist/
 /.parcel-cache/
 /node_modules/
+
+# Build libraries for tree-sitter-talon
+/build/talon.so
+/build/talon.dylib
+/build/talon.dll
