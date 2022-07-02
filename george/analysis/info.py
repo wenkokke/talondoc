@@ -69,11 +69,17 @@ class TalonRule:
 @dataclass_json
 @dataclass(frozen=True)
 class TalonScript:
-    script: str
+    text: str
+
+@dataclass_json
+@dataclass(frozen=True)
+class TalonCommand:
+    rule: TalonRule
+    script: TalonScript
 
 @dataclass_json
 @dataclass(frozen=True)
 class TalonInfo:
     path: str
-    commands: dict[TalonRule, TalonScript]
+    commands: list[tuple[TalonRule, TalonScript]]
     uses: dict[TalonSortName, set[TalonDeclName]]

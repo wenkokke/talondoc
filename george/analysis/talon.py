@@ -4,8 +4,7 @@ import re
 from typing import Generator
 from tree_sitter import Language, Parser, Tree, TreeCursor
 from sys import platform
-
-from george.analysis.info import TalonDeclName
+from .info import TalonCommand, TalonDeclName, TalonRule, TalonScript
 
 
 @dataclass
@@ -20,7 +19,7 @@ class TalonAnalyser:
     def __init__(self):
         Language.build_library(self.library_path, [self.repository_path])
         self.language = Language(self.library_path, "talon")
-        self.parser = parser = Parser()
+        self.parser = Parser()
         self.parser.set_language(self.language)
 
         self.match_query = self.language.query("(match) @match")
@@ -31,6 +30,7 @@ class TalonAnalyser:
         self.action_query = self.language.query("(action) @action")
         self.capture_query = self.language.query("(capture) @capture")
         self.list_query = self.language.query("(list) @list")
+        self.command_query = self.language.query("(command) @command")
 
     def parse(self, path: Path) -> Tree:
         # Check for optional header separator
@@ -100,3 +100,15 @@ class TalonAnalyser:
                 list_name = list.child_by_field_name("list_name")
                 if list_name:
                     yield list_name.text.decode("utf-8")
+
+    def commands(self, tree: Tree) -> Generator[TalonCommand, None, None]:
+        captures = self.command_query.captures(tree.root_node)
+        if captures:
+            for command, anchor in captures:
+                assert anchor == "command"
+                rule = command.child_by_field_name("rule")
+                script = command.child_by_field_name("script")
+                yield TalonCommand(
+                    rule=TalonRule(text=rule.text.decode('utf-8')),
+                    script=TalonScript(text=script.text.decode('utf-8')),
+                )
