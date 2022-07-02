@@ -2,13 +2,13 @@ from dataclasses import dataclass
 from pathlib import Path
 import re
 from typing import Generator
-from tree_sitter import Language, Parser, Tree, TreeCursor
+from tree_sitter import Language, Parser, Node, Tree, TreeCursor
 from sys import platform
-from .info import TalonCommand, TalonDeclName, TalonRule, TalonScript
+from .info import *
 
 
-@dataclass
 class TalonAnalyser:
+    python_package_info: PythonPackageInfo
     library_path: str = {
         "linux": "build/talon.so",
         "darwin": "build/talon.dylib",
@@ -16,7 +16,20 @@ class TalonAnalyser:
     }[platform]
     repository_path: str = "vendor/tree-sitter-talon"
 
-    def __init__(self):
+    def __init__(
+        self,
+        python_package_info: PythonPackageInfo,
+        library_path: Optional[str] = None,
+        repository_path: Optional[str] = None,
+    ):
+        self.python_package_info = python_package_info
+        if library_path:
+            self.library_path = library_path
+        if repository_path:
+            self.repository_path = repository_path
+        self.setup()
+
+    def setup(self):
         Language.build_library(self.library_path, [self.repository_path])
         self.language = Language(self.library_path, "talon")
         self.parser = Parser()
@@ -109,6 +122,7 @@ class TalonAnalyser:
                 rule = command.child_by_field_name("rule")
                 script = command.child_by_field_name("script")
                 yield TalonCommand(
-                    rule=TalonRule(text=rule.text.decode('utf-8')),
-                    script=TalonScript(text=script.text.decode('utf-8')),
+                    rule=TalonRule(text=rule.text.decode("utf-8")),
+                    script=TalonScript(text=script.text.decode("utf-8")),
                 )
+

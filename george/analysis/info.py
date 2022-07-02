@@ -44,10 +44,10 @@ class TalonDecl:
     name: TalonDeclName
     sort: TalonSort = field(
         metadata=config(
-            encoder=lambda sort: sort.name,
-            decoder=lambda name: TalonSort[name]
+            encoder=lambda sort: sort.name, decoder=lambda name: TalonSort[name]
         )
     )
+    file_path: str
     is_override: bool
     source: Source
     desc: Optional[str] = None
@@ -55,21 +55,62 @@ class TalonDecl:
 
 @dataclass_json
 @dataclass(frozen=True)
-class PythonInfo:
-    path: str
+class PythonFileInfo:
+    file_path: str
     declarations: dict[TalonSortName, dict[TalonDeclName, TalonDecl]]
     overrides: dict[TalonSortName, dict[TalonDeclName, set[TalonDecl]]]
     uses: dict[TalonSortName, set[TalonDeclName]]
+
+
+@dataclass_json
+@dataclass(frozen=True)
+class PythonPackageInfo:
+    package_root: str
+    file_infos: dict[str, PythonFileInfo] = field(default_factory=dict)
+    declarations: dict[TalonSortName, dict[TalonDeclName, TalonDecl]] = field(
+        default_factory=dict
+    )
+    overrides: dict[TalonSortName, dict[TalonDeclName, set[TalonDecl]]] = field(
+        default_factory=dict
+    )
+    uses: dict[TalonSortName, set[TalonDeclName]] = field(default_factory=dict)
+
+    def add(self, file_info: PythonFileInfo):
+        self.file_infos[file_info.file_path] = file_info
+        # Merge <file_info.declarations> into <self.declarations>
+        for sort, declarations_for_sort in file_info.declarations.items():
+            if not sort in self.declarations:
+                self.declarations[sort] = {}
+            for name, declaration in declarations_for_sort.items():
+                self.declarations[sort][name] = declaration
+        # Merge <file_info.overrides> into <self.overrides>
+        for sort, overrides_for_sort in file_info.overrides.items():
+            if not sort in self.overrides:
+                self.overrides[sort] = {}
+            for name, overrides_for_name in overrides_for_sort.items():
+                if not name in self.overrides[sort]:
+                    self.overrides[sort] = overrides_for_name
+                else:
+                    self.overrides[sort][name].update(overrides_for_name)
+        # Merge <file_info.overrides> into <self.overrides>
+        for sort, uses_for_sort in file_info.uses.items():
+            if not sort in self.uses:
+                self.uses[sort] = uses_for_sort
+            else:
+                self.uses[sort].update(uses_for_sort)
+
 
 @dataclass_json
 @dataclass(frozen=True)
 class TalonRule:
     text: str
 
+
 @dataclass_json
 @dataclass(frozen=True)
 class TalonScript:
     text: str
+
 
 @dataclass_json
 @dataclass(frozen=True)
@@ -77,9 +118,10 @@ class TalonCommand:
     rule: TalonRule
     script: TalonScript
 
+
 @dataclass_json
 @dataclass(frozen=True)
-class TalonInfo:
+class TalonFileInfo:
     path: str
     commands: list[tuple[TalonRule, TalonScript]]
     uses: dict[TalonSortName, set[TalonDeclName]]

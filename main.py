@@ -3,12 +3,10 @@ from george.analysis.info import *
 from george.analysis.python import PythonAnalyser
 from george.analysis.talon import TalonAnalyser
 
-# python_analyser = PythonAnalyser()
-# for python_file in Path("vendor").glob("**/*.py"):
-#     python_file_info = python_analyser.process(python_file)
-#     print(python_file_info)
+python_analyser = PythonAnalyser()
+python_package_info = python_analyser.process_package(Path("vendor/knausj_talon"))
 
-talon_analyser = TalonAnalyser()
+talon_analyser = TalonAnalyser(python_package_info)
 for talon_file in Path("vendor").glob("**/*.talon"):
     talon_file_tree = talon_analyser.parse(talon_file)
     for command in talon_analyser.commands(talon_file_tree):
