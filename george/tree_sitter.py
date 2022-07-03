@@ -133,7 +133,7 @@ def TypeProvider(
     }
 
     @staticmethod
-    def parse(node: ts.Node) -> Type[AnyNodeClass]:
+    def parse(node: ts.Node) -> AnyNodeClass:
         """
         Convert a tree-sitter Node to an instance of a generated dataclass.
         """
