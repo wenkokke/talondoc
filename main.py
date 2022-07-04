@@ -7,13 +7,14 @@ from george.tree_sitter.talon import TreeSitterTalon
 from george.tree_sitter.type_provider import *
 
 
+package_root = Path("vendor/knausj_talon")
 python_analyser = PythonAnalyser()
-python_package_info = python_analyser.process_package(Path("vendor/knausj_talon"))
+python_package_info = python_analyser.process_package(package_root)
 
-tree_sitter_talon = TreeSitterTalon()
+tree_sitter_talon = TreeSitterTalon(repository_path="vendor/tree-sitter-talon")
 talon_analyser = TalonAnalyser(python_package_info, tree_sitter_talon)
+talon_package_info = talon_analyser.process_package(package_root)
 
-for talon_file in Path("vendor").glob("**/*.talon"):
-    talon_file_tree = tree_sitter_talon.parse(talon_file)
-    for command in talon_analyser.commands(talon_file_tree.root_node):
-        pass
+package_info = PackageInfo(str(package_root), python_package_info, talon_package_info)
+
+print(package_info.to_json())

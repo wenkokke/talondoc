@@ -113,3 +113,20 @@ class TalonAnalyser:
                     rule=TalonRule(text=rule.text.decode()),
                     script=TalonScript(code=script.text.decode(), desc=desc.compile()),
                 )
+
+    def process_file(self, file_path: Path, package_root: Path = Path(".")) -> TalonFileInfo:
+        talon_file_tree = self.tree_sitter_talon.parse(package_root / file_path)
+        commands = list(self.commands(talon_file_tree.root_node))
+        uses = {}
+        uses['Action'] = self.referenced_actions(talon_file_tree)
+        uses['Capture'] = self.referenced_captures(talon_file_tree)
+        uses['List'] = self.referenced_lists(talon_file_tree)
+        uses['Setting'] = self.referenced_settings(talon_file_tree)
+        TalonFileInfo(path=str(file_path), commands=commands, uses=uses)
+
+    def process_package(self, package_root: Path = Path(".")) -> dict[str, TalonFileInfo]:
+        file_infos = {}
+        for file_path in package_root.glob("**/*.talon"):
+            file_path = file_path.relative_to(package_root)
+            file_infos[str(file_path)] = self.process_file(file_path, package_root)
+        return TalonPackageInfo(str(package_root), file_infos)

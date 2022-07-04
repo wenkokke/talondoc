@@ -126,3 +126,19 @@ class TalonFileInfo:
     path: str
     commands: list[tuple[TalonRule, TalonScript]]
     uses: dict[TalonSortName, set[TalonDeclName]]
+
+
+@dataclass_json
+@dataclass(frozen=True)
+class TalonPackageInfo:
+    package_root: str
+    file_infos: dict[str, TalonFileInfo]
+
+
+@dataclass_json
+@dataclass(frozen=True)
+class PackageInfo:
+    package_root: str
+    python_file_info: PythonPackageInfo
+    talon_file_info: TalonPackageInfo
+
