@@ -109,7 +109,8 @@ class TalonRule:
 @dataclass_json
 @dataclass(frozen=True)
 class TalonScript:
-    text: str
+    code: str
+    desc: str
 
 
 @dataclass_json
