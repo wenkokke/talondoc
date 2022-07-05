@@ -5,7 +5,7 @@ import re
 from typing import Optional, Sequence
 import ast
 
-from george.analysis.talon.info import Source
+from ..talon.info import *
 from .info import *
 
 
