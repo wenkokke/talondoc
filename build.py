@@ -1,5 +1,5 @@
 from pathlib import Path
-from george.types.python import *
+from george.types import *
 from george.analysis.python.static_analysis import PythonStaticPackageAnalysis
 from george.analysis.talon.static_analysis import TalonStaticPackageAnalysis
 from george.analysis.talon.tree_sitter import TreeSitterTalon

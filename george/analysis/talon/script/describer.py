@@ -1,8 +1,7 @@
 from logging import warn
 from docstring_parser import Docstring
-from george.types.python import PythonPackageInfo
 from george.types.description import *
-from george.types.talon import *
+from george.types import *
 
 import re
 import docstring_parser.google as dsp

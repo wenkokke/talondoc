@@ -1,15 +1,6 @@
 from pathlib import Path
 from typing import Generator, Optional
-from george.types.talon import (
-    Source,
-    TalonCommand,
-    TalonDeclName,
-    TalonFileInfo,
-    TalonPackageInfo,
-    TalonRule,
-    TalonScript,
-)
-from george.types.python import PythonPackageInfo
+from george.types import *
 from george.analysis.talon.script.describer import AbcTalonScriptDescriber
 from george.analysis.talon.tree_sitter import TreeSitterTalon
 

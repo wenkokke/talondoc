@@ -5,8 +5,7 @@ import re
 from typing import Optional, Sequence
 import ast
 
-from george.types.talon import *
-from george.types.python import *
+from george.types import *
 
 
 def VariableTalonName(path: Path, node: ast.AST):
