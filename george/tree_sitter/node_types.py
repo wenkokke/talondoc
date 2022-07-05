@@ -28,13 +28,12 @@ class SimpleNodeType:
             for simple_node_type in simple_node_types
             if simple_node_type.named
         ]
-        match types:
-            case []:
-                return None
-            case [T]:
-                return T
-            case types:
-                return reduce(lambda R, T: Union[R, T], types)
+        if len(types) == 0:
+            return None
+        elif len(types) == 1:
+            return types[0]
+        else:
+            return reduce(lambda R, T: Union[R, T], types)
 
 
 @dataclass_json
