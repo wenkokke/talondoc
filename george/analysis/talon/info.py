@@ -43,7 +43,9 @@ class Source:
     @staticmethod
     def from_tree_sitter(node: ts.Node) -> "Source":
         line, column = node.start_point
-        return Source(source=node.text.decode(), position=Position(line=line, column=column))
+        return Source(
+            source=node.text.decode(), position=Position(line=line, column=column)
+        )
 
 
 @dataclass_json
@@ -56,11 +58,13 @@ class TalonDecl:
     source: Source
     desc: Optional[str] = None
 
+
 @dataclass_json
 @dataclass(frozen=True)
 class TalonRule:
     text: str
     source: Source
+
 
 @dataclass_json
 @dataclass(frozen=True)
@@ -75,13 +79,12 @@ class TalonScript:
 class TalonCommand:
     rule: TalonRule
     script: TalonScript
-    file_path: str
 
 
 @dataclass_json
 @dataclass(frozen=True)
 class TalonFileInfo:
-    path: str
+    file_path: str
     commands: list[TalonCommand]
     uses: dict[TalonSortName, set[TalonDeclName]]
 

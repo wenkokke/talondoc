@@ -42,7 +42,7 @@ class TalonAnalyser:
             for query_key, query_str in {
                 "match": "(match) @match",
                 "include_tag": "(include_tag) @include_tag",
-                "assignment": "(settings (block (assignment)* @assignment))",
+                "setting_assignment": "(settings (block (assignment)* @setting_assignment))",
                 "action": "(action) @action",
                 "capture": "(capture) @capture",
                 "list": "(list) @list",
@@ -55,13 +55,13 @@ class TalonAnalyser:
     ) -> TalonFileInfo:
         talon_file_analyser = TalonFileAnalyser(self, package_root / file_path)
         return TalonFileInfo(
-            path=str(file_path),
+            file_path=str(file_path),
             commands=list(talon_file_analyser.commands()),
             uses={
-                "Action": talon_file_analyser.referenced_actions(),
-                "Capture": talon_file_analyser.referenced_captures(),
-                "List": talon_file_analyser.referenced_lists(),
-                "Setting": talon_file_analyser.referenced_settings(),
+                "Action": set(talon_file_analyser.referenced_actions()),
+                "Capture": set(talon_file_analyser.referenced_captures()),
+                "List": set(talon_file_analyser.referenced_lists()),
+                "Setting": set(talon_file_analyser.referenced_settings()),
             },
         )
 
@@ -72,7 +72,10 @@ class TalonAnalyser:
         for file_path in package_root.glob("**/*.talon"):
             file_path = file_path.relative_to(package_root)
             file_infos[str(file_path)] = self.process_file(file_path, package_root)
-        return TalonPackageInfo(str(package_root), file_infos)
+        return TalonPackageInfo(
+            package_root=str(package_root),
+            file_infos=file_infos,
+        )
 
 
 class TalonFileAnalyser:
@@ -123,7 +126,7 @@ class TalonFileAnalyser:
         captures = self.talon_analyser.queries["setting_assignment"].captures(node)
         if captures:
             for assignment, anchor in captures:
-                assert anchor == "assignment"
+                assert anchor == "setting_assignment"
                 left = assignment.child_by_field_name("left")
                 if left:
                     yield left.text.decode()
@@ -192,5 +195,4 @@ class TalonFileAnalyser:
                 yield TalonCommand(
                     rule=rule,
                     script=script,
-                    file_path=self.file_path,
                 )

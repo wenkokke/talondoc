@@ -9,6 +9,15 @@ from george.analysis.talon.info import Source
 from .info import *
 
 
+def VariableTalonName(path: Path, node: ast.AST):
+    warn(
+        f"""
+        Variable name in {path}:{node.lineno}-{node.end_lineno}:
+        {ast.unparse(node)}
+        """
+    )
+
+
 @dataclass
 class PythonAnalyser:
     @staticmethod
@@ -21,17 +30,8 @@ class PythonAnalyser:
         for file_path in package_root.glob("**/*.py"):
             file_path = file_path.relative_to(package_root)
             file_info = PythonAnalyser.process_file(file_path, package_root)
-            file_infos[file_path] = file_info
+            file_infos[str(file_path)] = file_info
         return PythonPackageInfo(package_root=str(package_root), file_infos=file_infos)
-
-
-def VariableTalonName(path: Path, node: ast.AST):
-    warn(
-        f"""
-        Variable name in {path}:{node.lineno}-{node.end_lineno}:
-        {ast.unparse(node)}
-        """
-    )
 
 
 @dataclass
@@ -117,24 +117,28 @@ class PythonFileInfoVisitor(ast.NodeVisitor):
         with path.open("r") as f:
             tree = ast.parse(f.read(), filename=str(self.file_path))
         self.visit(tree)
-        return self.info()
-
-    def info(self) -> PythonFileInfo:
         return PythonFileInfo(
             file_path=str(self.file_path),
             declarations={
-                _name: declarations for _name, declarations in self.declarations.items()
+                sort_name: declarations
+                for sort_name, declarations in self.declarations.items()
             },
-            overrides={_name: overrides for _name, overrides in self.overrides.items()},
-            uses={_name: uses for _name, uses in self.uses.items()},
+            overrides={
+                sort_name: overrides for sort_name, overrides in self.overrides.items()
+            },
+            uses={sort_name: uses for sort_name, uses in self.uses.items()},
         )
 
     def add_use(self, sort_name: TalonSortName, name: TalonDeclName):
+        if isinstance(sort_name, TalonSort):
+            warn(f"add_use called with TalonSort: {sort_name}")
         if not sort_name in self.uses:
             self.uses[sort_name] = set()
         self.uses[sort_name].add(name)
 
     def add_declaration(self, decl: TalonDecl):
+        if isinstance(decl.sort_name, TalonSort):
+            warn(f"TalonDecl with TalonSort: {decl}")
         name = decl.name
         sort_name = decl.sort_name
         if decl.is_override:
@@ -160,7 +164,7 @@ class PythonFileInfoVisitor(ast.NodeVisitor):
             # Use Action
             if func_name[0] == "actions":
                 name = ".".join(func_name[1:])
-                self.add_use(TalonSort.Action, name)
+                self.add_use(TalonSort.Action.name, name)
 
             mod_var, list_func = func_name
 
