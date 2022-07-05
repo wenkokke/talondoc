@@ -1,25 +1,12 @@
 from dataclasses import dataclass
-from logging import warn
 from dataclasses_json import dataclass_json
-from typing import Any, Callable, TypeVar, Union
+from typing import Any, Callable, Union
 from .node_types import NodeType, Node
 import tree_sitter as ts
 
 
 def _snake_to_pascal(text: str) -> str:
     return "".join(chunk.capitalize() for chunk in text.split("_"))
-
-
-T = TypeVar("T")
-
-
-@dataclass
-class Hist(tuple[T, ts.Node]):
-    value: T
-    history: ts.Node
-
-    def __str__(self):
-        return str(self.value)
 
 
 def TypeProvider(
@@ -119,15 +106,14 @@ def TypeProvider(
             for field_name in node.__dataclass_fields__.keys():
                 field = getattr(node, field_name)
                 if isinstance(field, Node):
-                    kwargs[field_name] = Hist(
-                        value=self.transform(field), history=field
-                    )
+                    kwargs[field_name] = self.transform(field)
+                    kwargs[f"{field_name}_hist"] = field
                 elif isinstance(field, list):
                     kwargs[field_name] = []
+                    kwargs[f"{field_name}_hist"] = []
                     for field_item in field:
-                        kwargs[field_name].append(
-                            Hist(value=self.transform(field_item), history=field_item)
-                        )
+                        kwargs[field_name].append(self.transform(field_item))
+                        kwargs[f"{field_name}_hist"].append(field_item)
                 else:
                     kwargs[field_name] = field
             return func(**kwargs)

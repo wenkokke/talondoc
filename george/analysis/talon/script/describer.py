@@ -1,22 +1,18 @@
 from logging import warn
 from docstring_parser import Docstring
-from docstring_parser.google import ParseError, parse
+import docstring_parser.google as dsp
 from george.analysis.python.info import PythonPackageInfo
 from george.analysis.talon.description import *
 from george.analysis.talon.info import *
-from george.tree_sitter.type_provider import Hist
 
 import re
-import tree_sitter as ts
-
-DescHist = Hist[Desc, ts.Node]
 
 
 @dataclass(frozen=True)
 class MissingDocumentation(Exception):
     """Exception raised when a doc string cannot be built"""
 
-    sort: TalonSort
+    sort_name: TalonSortName
     name: str
 
 
@@ -31,67 +27,72 @@ class AbcTalonScriptDescriber(ABC):
                 return Chunk(is_return.group(0))
             else:
                 try:
-                    docstring: Docstring = parse(decl.desc)
+                    docstring: Docstring = dsp.parse(decl.desc)
                     return Template(
                         template=docstring.short_description,
                         params=tuple(param.arg_name for param in docstring.params),
                     )
-                except ParseError as e:
-                    warn(e)
+                except dsp.ParseError as e:
+                    warn(
+                        "".join(
+                            [
+                                f"Parse error in docstring for {decl.name} ",
+                                f"in {decl.file_path}:{decl.source.position.line}:{decl.source.position.column}:\n",
+                                str(e),
+                            ]
+                        )
+                    )
                     return Line(decl.desc.splitlines()[0])
         raise MissingDocumentation(sort_name, name)
 
-    def transform_Block(self, text: str, children: list[DescHist], **kwargs) -> Desc:
-        return Lines([child.value for child in children])
+    def transform_Block(self, children: list[Desc], **kwargs) -> Desc:
+        return Lines(children)
 
-    def transform_Expression(self, text: str, expression: DescHist, **kwargs) -> Desc:
-        return expression.value
+    def transform_Expression(self, expression: Desc, **kwargs) -> Desc:
+        return expression
 
-    def transform_Assignment(
-        self, text: str, left: DescHist, right: DescHist, **kwargs
-    ) -> Desc:
+    def transform_Assignment(self, left: Desc, right: Desc, **kwargs) -> Desc:
         try:
             return Line(f"Let <{left}> be {right}")
         except InvalidInterpolation:
-            return right.value
+            return right
 
     def transform_BinaryOperator(
-        self, text: str, left: DescHist, operator: DescHist, right: DescHist, **kwargs
+        self, left: Desc, operator: Desc, right: Desc, **kwargs
     ) -> Desc:
         return Chunk(f"{left} {operator} {right}")
 
-    def transform_Variable(self, text: str, variable_name: DescHist, **kwargs) -> Desc:
+    def transform_Variable(self, variable_name: Desc, **kwargs) -> Desc:
         return Chunk(f"<{variable_name}>")
 
-    def transform_KeyAction(self, text: str, arguments: DescHist, **kwargs) -> Desc:
+    def transform_KeyAction(self, arguments: Desc, **kwargs) -> Desc:
         return Line(f"Press {arguments}")
 
-    def transform_SleepAction(self, text: str, arguments: DescHist, **kwargs) -> Desc:
+    def transform_SleepAction(self, **kwargs) -> Desc:
         return Ignore()
 
     def transform_Action(
-        self, text: str, action_name: DescHist, arguments: list[DescHist], **kwargs
+        self, action_name: Desc, arguments: list[Desc], **kwargs
     ) -> Desc:
         try:
-            docstring = self.get_docstring("Action", str(action_name.value))
+            docstring = self.get_docstring("Action", str(action_name))
             if isinstance(docstring, Template):
-                return docstring(arguments)
+                if isinstance(arguments, Lines):
+                    return docstring(arguments.lines)
+                else:
+                    warn(f"Desc for ArgumentList must be Lines, found: {repr(arguments)}")
             else:
                 return docstring
         except MissingDocumentation as e:
-            return action_name.value
+            return action_name
 
-    def transform_ParenthesizedExpression(
-        self, text: str, expression: DescHist, **kwargs
-    ) -> Desc:
-        return expression.value
+    def transform_ParenthesizedExpression(self, expression: Desc, **kwargs) -> Desc:
+        return expression
 
-    def transform_ArgumentList(
-        self, text: str, children: list[DescHist], **kwargs
-    ) -> Desc:
-        return Lines([child.value for child in children])
+    def transform_ArgumentList(self, children: list[Desc], **kwargs) -> Desc:
+        return Lines(children)
 
-    def transform_Comment(self, text: str, **kwargs) -> Desc:
+    def transform_Comment(self, **kwargs) -> Desc:
         return Ignore()
 
     def transform_Operator(self, text: str, **kwargs) -> Desc:
@@ -109,9 +110,9 @@ class AbcTalonScriptDescriber(ABC):
     def transform_ImplicitString(self, text: str, **kwargs) -> Desc:
         return Chunk(text)
 
-    def transform_String(self, text: str, children: list[DescHist], **kwargs) -> Desc:
+    def transform_String(self, children: list[Desc], **kwargs) -> Desc:
         if children:
-            return Chunk("".join(str(child.value) for child in children))
+            return Chunk("".join(map(str, children)))
         else:
             return Chunk("")
 

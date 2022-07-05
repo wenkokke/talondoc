@@ -1,7 +1,5 @@
 from pathlib import Path
-import re
 from typing import Generator
-from sys import platform
 from george.analysis.talon.description import *
 from george.analysis.talon.info import (
     Source,
@@ -13,8 +11,6 @@ from george.analysis.talon.info import (
 )
 from george.analysis.talon.script.describer import AbcTalonScriptDescriber
 from george.analysis.python.info import *
-from george.tree_sitter.node_types import NodeType
-from george.tree_sitter.type_provider import TypeProvider
 from george.tree_sitter.talon import TreeSitterTalon
 
 import tree_sitter as ts
