@@ -17,7 +17,6 @@ def VariableTalonName(path: Path, node: ast.AST):
     )
 
 
-@dataclass
 class PythonStaticPackageAnalysis:
     @staticmethod
     def process_file(file_path: Path, package_root: Path = Path(".")) -> PythonFileInfo:
