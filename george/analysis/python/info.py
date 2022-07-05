@@ -1,13 +1,10 @@
 from dataclasses import dataclass, field
-from dataclasses_json import config, dataclass_json
-from enum import Enum
+from dataclasses_json import dataclass_json
 from typing import Generator, Optional
-import ast
 
 from george.analysis.talon.info import (
     TalonDecl,
     TalonDeclName,
-    TalonSort,
     TalonSortName,
 )
 
@@ -30,14 +27,14 @@ class PythonPackageInfo:
     def declaration(
         self, sort: TalonSortName, name: TalonDeclName
     ) -> Optional[TalonDecl]:
-        for file_path, file_info in self.file_infos.items():
+        for _, file_info in self.file_infos.items():
             if sort in file_info.declarations and name in file_info.declarations[sort]:
                 return file_info.declarations[sort][name]
 
     def overrides(
         self, sort: TalonSortName, name: TalonDeclName
     ) -> Generator[TalonDecl, None, None]:
-        for file_path, file_info in self.file_infos.items():
+        for _, file_info in self.file_infos.items():
             if sort in file_info.overrides and name in file_info.overrides[sort]:
                 for override in file_info.overrides[sort][name]:
                     yield override
