@@ -1,11 +1,11 @@
 from logging import warn
 from docstring_parser import Docstring
-import docstring_parser.google as dsp
-from george.analysis.python.info import PythonPackageInfo
-from george.analysis.talon.description import *
-from george.analysis.talon.info import *
+from george.types.python import PythonPackageInfo
+from george.types.description import *
+from george.types.talon import *
 
 import re
+import docstring_parser.google as dsp
 
 
 @dataclass(frozen=True)
@@ -80,7 +80,9 @@ class AbcTalonScriptDescriber(ABC):
                 if isinstance(arguments, Lines):
                     return docstring(arguments.lines)
                 else:
-                    warn(f"Desc for ArgumentList must be Lines, found: {repr(arguments)}")
+                    warn(
+                        f"Desc for ArgumentList must be Lines, found: {repr(arguments)}"
+                    )
             else:
                 return docstring
         except MissingDocumentation as e:

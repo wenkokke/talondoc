@@ -1,22 +1,22 @@
 from pathlib import Path
-from typing import Generator
-from george.analysis.talon.description import *
-from george.analysis.talon.info import (
+from typing import Generator, Optional
+from george.types.talon import (
     Source,
     TalonCommand,
+    TalonDeclName,
     TalonFileInfo,
     TalonPackageInfo,
     TalonRule,
     TalonScript,
 )
+from george.types.python import PythonPackageInfo
 from george.analysis.talon.script.describer import AbcTalonScriptDescriber
-from george.analysis.python.info import *
-from george.tree_sitter.talon import TreeSitterTalon
+from george.analysis.talon.tree_sitter import TreeSitterTalon
 
 import tree_sitter as ts
 
 
-class TalonAnalyser:
+class TalonStaticPackageAnalysis:
     def __init__(
         self,
         python_package_info: PythonPackageInfo,
@@ -49,7 +49,7 @@ class TalonAnalyser:
     def process_file(
         self, file_path: Path, package_root: Path = Path(".")
     ) -> TalonFileInfo:
-        talon_file_analyser = TalonFileAnalyser(self, package_root / file_path)
+        talon_file_analyser = TalonStaticFileAnalysis(self, package_root / file_path)
         return TalonFileInfo(
             file_path=str(file_path),
             commands=list(talon_file_analyser.commands()),
@@ -74,8 +74,8 @@ class TalonAnalyser:
         )
 
 
-class TalonFileAnalyser:
-    def __init__(self, talon_analyser: TalonAnalyser, file_path: Path):
+class TalonStaticFileAnalysis:
+    def __init__(self, talon_analyser: TalonStaticPackageAnalysis, file_path: Path):
         self.talon_analyser = talon_analyser
         self.file_path = file_path
         self.tree: Optional[ts.Tree] = None

@@ -5,8 +5,8 @@ import re
 from typing import Optional, Sequence
 import ast
 
-from ..talon.info import *
-from .info import *
+from george.types.talon import *
+from george.types.python import *
 
 
 def VariableTalonName(path: Path, node: ast.AST):
@@ -19,17 +19,17 @@ def VariableTalonName(path: Path, node: ast.AST):
 
 
 @dataclass
-class PythonAnalyser:
+class PythonStaticPackageAnalysis:
     @staticmethod
     def process_file(file_path: Path, package_root: Path = Path(".")) -> PythonFileInfo:
-        return PythonFileInfoVisitor(file_path, package_root).process()
+        return PythonStaticFileAnalysis(file_path, package_root).process()
 
     @staticmethod
     def process_package(package_root: Path) -> PythonPackageInfo:
         file_infos = {}
         for file_path in package_root.glob("**/*.py"):
             file_path = file_path.relative_to(package_root)
-            file_info = PythonAnalyser.process_file(file_path, package_root)
+            file_info = PythonStaticPackageAnalysis.process_file(file_path, package_root)
             file_infos[str(file_path)] = file_info
         return PythonPackageInfo(package_root=str(package_root), file_infos=file_infos)
 
@@ -103,7 +103,7 @@ class ActionClassInfo:
         return None
 
 
-class PythonFileInfoVisitor(ast.NodeVisitor):
+class PythonStaticFileAnalysis(ast.NodeVisitor):
     def __init__(self, file_path: Path, package_root: Path = Path(".")):
         self.file_path: Path = file_path
         self.package_root: Path = package_root

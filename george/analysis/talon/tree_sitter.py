@@ -1,8 +1,6 @@
 from pathlib import Path
 import re
-from typing import Generator
 from sys import platform
-from george.analysis.talon.description import *
 from george.analysis.talon.script.describer import *
 from george.tree_sitter.node_types import NodeType
 from george.tree_sitter.type_provider import TypeProvider

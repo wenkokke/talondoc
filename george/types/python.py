@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from dataclasses_json import dataclass_json
 from typing import Generator, Optional
 
-from george.analysis.talon.info import (
+from george.types.talon import (
     TalonDecl,
     TalonDeclName,
     TalonSortName,
