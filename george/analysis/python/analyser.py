@@ -4,6 +4,8 @@ from pathlib import Path
 import re
 from typing import Optional, Sequence
 import ast
+
+from george.analysis.talon.info import Source
 from .info import *
 
 
@@ -15,12 +17,12 @@ class PythonAnalyser:
 
     @staticmethod
     def process_package(package_root: Path) -> PythonPackageInfo:
-        package_info = PythonPackageInfo(package_root=str(package_root))
+        file_infos = {}
         for file_path in package_root.glob("**/*.py"):
             file_path = file_path.relative_to(package_root)
             file_info = PythonAnalyser.process_file(file_path, package_root)
-            package_info.add(file_info)
-        return package_info
+            file_infos[file_path] = file_info
+        return PythonPackageInfo(package_root=str(package_root), file_infos=file_infos)
 
 
 def VariableTalonName(path: Path, node: ast.AST):
@@ -105,9 +107,9 @@ class PythonFileInfoVisitor(ast.NodeVisitor):
     def __init__(self, file_path: Path, package_root: Path = Path(".")):
         self.file_path: Path = file_path
         self.package_root: Path = package_root
-        self.declarations: dict[TalonSort, TalonDecl] = {}
-        self.overrides: dict[TalonSort, dict[TalonDeclName, set[TalonDecl]]] = {}
-        self.uses: dict[TalonSort, set[TalonDeclName]] = {}
+        self.declarations: dict[TalonSortName, TalonDecl] = {}
+        self.overrides: dict[TalonSortName, dict[TalonDeclName, set[TalonDecl]]] = {}
+        self.uses: dict[TalonSortName, set[TalonDeclName]] = {}
         self.action_class: Optional[ActionClassInfo] = None
 
     def process(self) -> PythonFileInfo:
@@ -121,33 +123,30 @@ class PythonFileInfoVisitor(ast.NodeVisitor):
         return PythonFileInfo(
             file_path=str(self.file_path),
             declarations={
-                sort.name: declarations
-                for sort, declarations in self.declarations.items()
+                _name: declarations for _name, declarations in self.declarations.items()
             },
-            overrides={
-                sort.name: overrides for sort, overrides in self.overrides.items()
-            },
-            uses={sort.name: uses for sort, uses in self.uses.items()},
+            overrides={_name: overrides for _name, overrides in self.overrides.items()},
+            uses={_name: uses for _name, uses in self.uses.items()},
         )
 
-    def add_use(self, sort: TalonSort, name: str):
-        if not sort in self.uses:
-            self.uses[sort] = set()
-        self.uses[sort].add(name)
+    def add_use(self, sort_name: TalonSortName, name: TalonDeclName):
+        if not sort_name in self.uses:
+            self.uses[sort_name] = set()
+        self.uses[sort_name].add(name)
 
     def add_declaration(self, decl: TalonDecl):
         name = decl.name
-        sort = decl.sort
+        sort_name = decl.sort_name
         if decl.is_override:
-            if not sort in self.overrides:
-                self.overrides[sort] = {}
-            if not name in self.overrides[sort]:
-                self.overrides[sort][name] = set()
-            self.overrides[sort][name].add(decl)
+            if not sort_name in self.overrides:
+                self.overrides[sort_name] = {}
+            if not name in self.overrides[sort_name]:
+                self.overrides[sort_name][name] = set()
+            self.overrides[sort_name][name].add(decl)
         else:
-            if not sort in self.declarations:
-                self.declarations[sort] = {}
-            self.declarations[sort][name] = decl
+            if not sort_name in self.declarations:
+                self.declarations[sort_name] = {}
+            self.declarations[sort_name][name] = decl
 
     def visit_ClassDef(self, class_def: ast.ClassDef):
         self.action_class = ActionClassInfo.from_ast(class_def)
@@ -175,7 +174,7 @@ class PythonFileInfoVisitor(ast.NodeVisitor):
                 self.add_declaration(
                     TalonDecl(
                         name=name,
-                        sort=TalonSort.List,
+                        sort_name=TalonSort.List.name,
                         file_path=str(self.file_path),
                         is_override=False,
                         desc=desc,
@@ -193,7 +192,7 @@ class PythonFileInfoVisitor(ast.NodeVisitor):
                 self.add_declaration(
                     TalonDecl(
                         name=name,
-                        sort=TalonSort.Tag,
+                        sort_name=TalonSort.Tag.name,
                         file_path=str(self.file_path),
                         is_override=False,
                         desc=desc,
@@ -216,7 +215,7 @@ class PythonFileInfoVisitor(ast.NodeVisitor):
                 self.add_declaration(
                     TalonDecl(
                         name=name,
-                        sort=TalonSort.List,
+                        sort_name=TalonSort.List.name,
                         file_path=str(self.file_path),
                         is_override=True,
                         source=Source.from_ast(subscript),
@@ -233,7 +232,7 @@ class PythonFileInfoVisitor(ast.NodeVisitor):
             self.add_declaration(
                 TalonDecl(
                     name=name,
-                    sort=TalonSort.Action,
+                    sort_name=TalonSort.Action.name,
                     file_path=str(self.file_path),
                     is_override=self.action_class.is_override,
                     desc=desc,
@@ -250,7 +249,7 @@ class PythonFileInfoVisitor(ast.NodeVisitor):
                     self.add_declaration(
                         TalonDecl(
                             name=name,
-                            sort=TalonSort.Capture,
+                            sort_name=TalonSort.Capture.name,
                             file_path=str(self.file_path),
                             is_override=decorator_info.is_override,
                             desc=desc,
