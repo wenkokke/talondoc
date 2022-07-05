@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Generator, Optional
+from george.talon.analysis.script_describer import AbcTalonScriptDescriber
+from george.talon.tree_sitter import TreeSitterTalon
 from george.types import *
-from george.analysis.talon.script.describer import AbcTalonScriptDescriber
-from george.analysis.talon.tree_sitter import TreeSitterTalon
 
 import tree_sitter as ts
 
