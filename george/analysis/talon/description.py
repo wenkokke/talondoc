@@ -35,13 +35,12 @@ class Chunk(Desc):
     text: str
 
     def __add__(self, other: "Desc") -> "Desc":
-        match other:
-            case Ignore():
-                return self
-            case Chunk(text=text):
-                return Chunk(text=f"{self.text} {text}")
-            case Lines(lines=lines):
-                return Lines(lines=(self.text, *lines))
+        if isinstance(other, Ignore):
+            return self
+        if isinstance(other, Chunk):
+            return Chunk(text=f"{self.text} {other.text}")
+        if isinstance(other, Lines):
+            return Lines(lines=(self.text, *other.lines))
 
     def __str__(self):
         return self.text
