@@ -186,7 +186,7 @@ class TalonFileAnalyser:
                 )
                 desc = self.talon_analyser.talon_script_describer.transform(
                     self.talon_analyser.tree_sitter_talon.types.from_tree_sitter(script)
-                )
+                ).compile()
                 script = TalonScript(
                     text=script.text.decode(),
                     source=Source.from_tree_sitter(script),
