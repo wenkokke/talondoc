@@ -1,9 +1,9 @@
 from george.python.analysis.dynamic import Stub
 
 
-class Phrase(Stub):
+class Job(Stub):
     pass
 
 
-class vm(Stub):
+class Cron(Stub):
     pass

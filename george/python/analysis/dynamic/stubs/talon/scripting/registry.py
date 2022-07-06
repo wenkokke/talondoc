@@ -1,9 +1,13 @@
 from george.python.analysis.dynamic import Stub
 
 
-class Phrase(Stub):
+class Decls(Stub):
     pass
 
 
-class vm(Stub):
+class Modes(Stub):
+    pass
+
+
+class Registry(Stub):
     pass

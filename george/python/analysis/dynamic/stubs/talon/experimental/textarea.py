@@ -1,7 +1,10 @@
-TextArea = None
+from george.python.analysis.dynamic import Stub
 
-Span = None
 
-DarkThemeLabels = None
+TextArea = Stub
 
-LightThemeLabels = None
+Span = Stub
+
+DarkThemeLabels = Stub
+
+LightThemeLabels = Stub
