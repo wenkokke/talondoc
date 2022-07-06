@@ -1,4 +1,7 @@
-from typing import Callable
+from george.python.analysis.dynamic import (
+    register as register,
+    unregister as unregister,
+)
 
 
 KEY: int = 0
@@ -18,11 +21,3 @@ WIN = CMD
 FN: int = 0
 DRAG: int = 0
 MODS: list[tuple[str, int]] = []
-
-
-def register(topic: int, cb: Callable) -> None:
-    pass
-
-
-def unregister(topic: int, cb: Callable) -> None:
-    pass

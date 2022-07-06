@@ -1,11 +1,14 @@
 from typing import *
 
 
+Incomplete = Any
+
 SettingValue = Union[float, int, str, List[Any]]
-Rule = Any
-Capture = Any
-Module = Any
-Context = Any
+Rule = Incomplete
+Capture = Incomplete
+Module = Incomplete
+Context = Incomplete
+
 
 class ActionDecl:
     mod: "Module"
@@ -30,14 +33,6 @@ class NameDecl:
     mod: "Module"
     path: str
     desc: Optional[str]
-
-
-class AppNamespace:
-    def __setitem__(self, key: str, value: str) -> None:
-        pass
-
-    def __setattr__(self, key: str, value: str) -> None:
-        pass
 
 
 class AppDecl:

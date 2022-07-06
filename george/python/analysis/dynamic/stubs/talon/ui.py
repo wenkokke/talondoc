@@ -1,5 +1,9 @@
-from typing import Callable
-from george.python.analysis.dynamic import Stub
+from typing import Callable, Generator
+from george.python.analysis.dynamic import (
+    Stub,
+    register as register,
+    unregister as unregister,
+)
 from .screen import Screen as Screen, Rect as Rect, main_screen as main_screen
 
 
@@ -10,12 +14,5 @@ class App(Stub):
 class Window(Stub):
     pass
 
-
-@staticmethod
-def register(topic: str, cb: Callable) -> None:
-    pass
-
-
-@staticmethod
-def unregister(topic: str, cb: Callable) -> None:
-    pass
+def apps(**kwargs) -> Generator[App, None, None]:
+    yield App()

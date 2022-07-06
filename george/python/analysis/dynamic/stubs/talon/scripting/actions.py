@@ -13,7 +13,7 @@ class ActionClassProxy(Stub):
 
 class Actions:
     def __getattr__(self, path: str) -> ActionPath:
-        pass
+        return Stub()
 
     def sleep(self, duration: Union[float, str]):
         pass

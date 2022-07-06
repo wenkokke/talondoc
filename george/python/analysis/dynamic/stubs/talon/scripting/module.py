@@ -1,8 +1,12 @@
 from typing import *
 
-from .types import Rule, ActionDecl, AppNamespace, NameDecl, SettingDecl
+from .types import Rule, ActionDecl, NameDecl, SettingDecl
 from .actions import ActionClassProxy
 from .scope import ScopeFunc, ScopeDecl
+
+
+class AppNamespace:
+    pass
 
 
 class Module:

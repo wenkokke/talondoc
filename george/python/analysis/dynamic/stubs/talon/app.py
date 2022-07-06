@@ -1,13 +1,9 @@
-from typing import Any, Callable
 from sys import platform as platform_name
 
-
-def register(topic: str, cb: Callable) -> None:
-    pass
-
-
-def unregister(topic: str, cb: Callable) -> None:
-    pass
+from george.python.analysis.dynamic import (
+    register as register,
+    unregister as unregister,
+)
 
 
 platform = {

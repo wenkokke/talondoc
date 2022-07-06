@@ -1,5 +1,8 @@
-from typing import Callable
-from george.python.analysis.dynamic import Stub
+from george.python.analysis.dynamic import (
+    Stub,
+    register as register,
+    unregister as unregister,
+)
 
 
 class NoiseStream(Stub):
@@ -11,12 +14,4 @@ class DeviceInfo(Stub):
 
 
 class Noise(Stub):
-    pass
-
-
-def register(topic: str, cb: Callable) -> None:
-    pass
-
-
-def unregister(topic: str, cb: Callable) -> None:
     pass
