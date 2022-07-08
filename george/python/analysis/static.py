@@ -27,7 +27,9 @@ class PythonStaticPackageAnalysis:
         file_infos = {}
         for file_path in package_root.glob("**/*.py"):
             file_path = file_path.relative_to(package_root)
-            file_info = PythonStaticPackageAnalysis.process_file(file_path, package_root)
+            file_info = PythonStaticPackageAnalysis.process_file(
+                file_path, package_root
+            )
             file_infos[str(file_path)] = file_info
         return PythonPackageInfo(package_root=str(package_root), file_infos=file_infos)
 
@@ -103,52 +105,26 @@ class ActionClassInfo:
 
 class PythonStaticFileAnalysis(ast.NodeVisitor):
     def __init__(self, file_path: Path, package_root: Path = Path(".")):
-        self.file_path: Path = file_path
         self.package_root: Path = package_root
-        self.declarations: dict[TalonSortName, TalonDecl] = {}
-        self.overrides: dict[TalonSortName, dict[TalonDeclName, set[TalonDecl]]] = {}
-        self.uses: dict[TalonSortName, set[TalonDeclName]] = {}
+        self.python_file_info = PythonFileInfo(file_path=str(file_path))
         self.action_class: Optional[ActionClassInfo] = None
+
+    @property
+    def file_path(self) -> str:
+        return self.python_file_info.file_path
 
     def process(self) -> PythonFileInfo:
         path = self.package_root / self.file_path
         with path.open("r") as f:
-            tree = ast.parse(f.read(), filename=str(self.file_path))
+            tree = ast.parse(f.read(), filename=self.file_path)
         self.visit(tree)
-        return PythonFileInfo(
-            file_path=str(self.file_path),
-            declarations={
-                sort_name: declarations
-                for sort_name, declarations in self.declarations.items()
-            },
-            overrides={
-                sort_name: overrides for sort_name, overrides in self.overrides.items()
-            },
-            uses={sort_name: uses for sort_name, uses in self.uses.items()},
-        )
+        return self.python_file_info
 
     def add_use(self, sort_name: TalonSortName, name: TalonDeclName):
-        if isinstance(sort_name, TalonSort):
-            warn(f"add_use called with TalonSort: {sort_name}")
-        if not sort_name in self.uses:
-            self.uses[sort_name] = set()
-        self.uses[sort_name].add(name)
+        self.python_file_info.add_use(sort_name, name)
 
     def add_declaration(self, decl: TalonDecl):
-        if isinstance(decl.sort_name, TalonSort):
-            warn(f"TalonDecl with TalonSort: {decl}")
-        name = decl.name
-        sort_name = decl.sort_name
-        if decl.is_override:
-            if not sort_name in self.overrides:
-                self.overrides[sort_name] = {}
-            if not name in self.overrides[sort_name]:
-                self.overrides[sort_name][name] = set()
-            self.overrides[sort_name][name].add(decl)
-        else:
-            if not sort_name in self.declarations:
-                self.declarations[sort_name] = {}
-            self.declarations[sort_name][name] = decl
+        self.python_file_info.add_declaration(decl)
 
     def visit_ClassDef(self, class_def: ast.ClassDef):
         self.action_class = ActionClassInfo.from_ast(class_def)

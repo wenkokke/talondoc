@@ -1,6 +1,9 @@
 import inspect
 from logging import warn
+from pathlib import Path
 import re
+from types import FunctionType
+from george.types import Source, TalonDecl, TalonSort
 import talon.ui as ui  # type: ignore
 import talon.speech_system as speech_system  # type: ignore
 import talon.cron as cron  # type: ignore
@@ -46,20 +49,38 @@ class Actions:
 
 
 class Module(dynamic.Stub):
+    def __init__(self, desc: Optional[str] = str):
+        self.desc = desc
+
     def action_class(self, cls: Type):
         global actions
         for name, func in inspect.getmembers(cls, inspect.isfunction):
-            actions._register_action(f"user.{name}", func)
+            action_path = f"user.{name}"
+            actions._register_action(action_path, func)
+            file_path = str(
+                Path(func.__code__.co_filename).relative_to(
+                    dynamic.PythonDynamicPackageAnalysis.get_package_info().package_root
+                )
+            )
+            dynamic.PythonDynamicPackageAnalysis.get_file_info().add_declaration(
+                TalonDecl(
+                    name=action_path,
+                    sort_name=TalonSort.Action.name,
+                    file_path=file_path,
+                    is_override=False,
+                    source=Source.from_code_type(func.__code__),
+                    desc=func.__doc__,
+                    value=func,
+                )
+            )
+
+    def action(self, action_path: str) -> Optional[Callable]:
+        global actions
+        return actions.action(action_path)
 
     # name: str
     # path: str
     # desc: Optional[str]
-
-    # def action_class(self, cls: Any) -> ActionClassProxy:
-    #     return cls
-
-    # def action(self, func: Any) -> ActionDecl:
-    #     pass
 
     # def capture(self, rule: Rule) -> Any:
     #     def __capture(func):

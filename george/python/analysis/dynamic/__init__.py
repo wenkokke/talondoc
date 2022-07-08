@@ -1,7 +1,7 @@
 from abc import ABC
 import importlib
 from types import ModuleType
-from george.types import PythonFileInfo
+from george.types import PythonFileInfo, PythonPackageInfo, TalonDecl
 from pathlib import Path
 from typing import *
 
@@ -20,7 +20,14 @@ def _has_prefix(path: str, *prefixes: str):
 
 
 class PythonDynamicPackageAnalysis:
+    current_package_analysis: Optional["PythonDynamicPackageAnalysis"] = None
     current_file_analysis: Optional["PythonDynamicFileAnalysis"] = None
+
+    def __init__(self, package_root: Path):
+        self.package_root = package_root
+        self.package_name = package_root.parts[-1]
+        self.package_path = os.path.join(*package_root.parts[:-1])
+        self.python_package_info = PythonPackageInfo(package_root=str(package_root))
 
     @classmethod
     def clear_file_analysis(cls):
@@ -31,13 +38,31 @@ class PythonDynamicPackageAnalysis:
         cls.current_file_analysis = file_analysis
 
     @classmethod
+    def get_file_info(cls) -> "PythonFileInfo":
+        return cls.get_file_analysis().python_file_info
+
+    @classmethod
     def get_file_analysis(cls) -> "PythonDynamicFileAnalysis":
         return cls.current_file_analysis
 
     @classmethod
-    def process_package(cls, pkg_root: Path):
-        PKG_NAME = pkg_root.parts[-1]
-        PKG_PATH = os.path.join(*pkg_root.parts[:-1])
+    def clear_package_analysis(cls):
+        cls.current_package_analysis = None
+
+    @classmethod
+    def set_package_analysis(cls, package_analysis: "PythonDynamicPackageAnalysis"):
+        cls.current_package_analysis = package_analysis
+
+    @classmethod
+    def get_package_analysis(cls) -> "PythonDynamicPackageAnalysis":
+        return cls.current_package_analysis
+
+    @classmethod
+    def get_package_info(cls) -> "PythonFileInfo":
+        return cls.get_package_analysis().python_package_info
+
+    def process(self):
+        PythonDynamicPackageAnalysis.set_package_analysis(self)
 
         class PkgPathFinder(PathFinder):
             """
@@ -46,48 +71,41 @@ class PythonDynamicPackageAnalysis:
 
             @classmethod
             def find_spec(cls, fullname, path=None, target=None):
-                if _has_prefix(fullname, PKG_NAME):
-                    return super().find_spec(fullname, [PKG_PATH])
+                if _has_prefix(fullname, self.package_name):
+                    return super().find_spec(fullname, [self.package_path])
                 else:
                     # Allow normal sys.path stuff to handle everything else
                     return None
 
-        # Add the PkgPathFinder
         sys.meta_path.append(PkgPathFinder)
 
         file_analyses = []
-        for file_path in pkg_root.glob("**/*.py"):
-            file_path = file_path.relative_to(pkg_root)
-            file_analysis = PythonDynamicFileAnalysis(file_path, pkg_root)
-            cls.set_file_analysis(file_analysis)
+        for file_path in self.package_root.glob("**/*.py"):
+            file_path = file_path.relative_to(self.package_root)
+            file_analysis = PythonDynamicFileAnalysis(file_path, self.package_root)
+            self.python_package_info.file_infos[
+                str(file_path)
+            ] = file_analysis.python_file_info
+            PythonDynamicPackageAnalysis.set_file_analysis(file_analysis)
             file_analysis.process()
-            cls.clear_file_analysis()
+            PythonDynamicPackageAnalysis.clear_file_analysis()
             file_analyses.append(file_analysis)
 
         for file_analysis in file_analyses:
-            cls.set_file_analysis(file_analysis)
-            for cb in file_analysis.on_ready:
-                cb()
-            cls.clear_file_analysis()
+            PythonDynamicPackageAnalysis.set_file_analysis(file_analysis)
+            file_analysis.ready()
+            PythonDynamicPackageAnalysis.clear_file_analysis()
 
         sys.meta_path.remove(PkgPathFinder)
 
+        PythonDynamicPackageAnalysis.clear_package_analysis()
+
 
 class PythonDynamicFileAnalysis:
-    file_path: Path
-    pkg_root: Path
-    python_file_info: PythonFileInfo
-    on_ready: list[Callable]
-
-    def __init__(self, file_path: Path, pkg_root: Path):
+    def __init__(self, file_path: Path, package_root: Path):
         self.file_path = file_path
-        self.pkg_root = pkg_root
-        self.python_file_info = PythonFileInfo(
-            file_path=str(file_path),
-            declarations={},
-            overrides={},
-            uses={},
-        )
+        self.package_root = package_root
+        self.python_file_info = PythonFileInfo(file_path=str(file_path))
         self.on_ready = []
 
     def register(self, topic: Union[int, str], cb: Callable) -> None:
@@ -98,8 +116,12 @@ class PythonDynamicFileAnalysis:
     def unregister(self, topic: Union[int, str], cb: Callable) -> None:
         pass
 
+    def ready(self):
+        for cb in self.on_ready:
+            cb()
+
     def process(self):
-        pkg_name = self.pkg_root.parts[-1]
+        pkg_name = self.package_root.parts[-1]
         module_path = ".".join((pkg_name, *self.file_path.with_suffix("").parts))
         importlib.import_module(module_path)
 

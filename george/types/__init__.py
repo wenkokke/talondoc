@@ -1,7 +1,10 @@
+from collections import defaultdict
 from dataclasses import dataclass, field
-from dataclasses_json import dataclass_json
+from logging import warn
+from types import CodeType, NoneType
+from dataclasses_json import config, dataclass_json
 from enum import Enum
-from typing import Generator, Optional
+from typing import Any, Callable, Generator, Optional, Union
 
 import ast
 import tree_sitter as ts
@@ -23,17 +26,26 @@ class TalonSort(Enum):
 @dataclass(frozen=True)
 class Position:
     line: int
-    column: int
+    column: Optional[int] = None
 
     @staticmethod
     def from_ast(node: ast.AST):
         return Position(line=node.lineno, column=node.col_offset)
 
+    @staticmethod
+    def from_tree_sitter(node: ts.Node) -> "Position":
+        line, column = node.start_point
+        return Position(line=line, column=column)
+
+    @staticmethod
+    def from_code_type(node: CodeType) -> "Position":
+        return Position(line=node.co_firstlineno)
+
 
 @dataclass_json
 @dataclass(frozen=True)
 class Source:
-    source: str
+    source: Optional[str]
     position: Position
 
     @staticmethod
@@ -42,10 +54,24 @@ class Source:
 
     @staticmethod
     def from_tree_sitter(node: ts.Node) -> "Source":
-        line, column = node.start_point
         return Source(
-            source=node.text.decode(), position=Position(line=line, column=column)
+            source=node.text.decode(), position=Position.from_tree_sitter(node)
         )
+
+    @staticmethod
+    def from_code_type(node: CodeType) -> "Source":
+        return Source(source=None, position=Position.from_code_type(node))
+
+
+ValueType = Union[Callable, dict[str, any], str, None]
+
+
+def value_encoder(value: ValueType):
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, str):
+        return value
+    return None
 
 
 @dataclass_json
@@ -57,6 +83,7 @@ class TalonDecl:
     is_override: bool
     source: Source
     desc: Optional[str] = None
+    value: ValueType = field(default=None, metadata=config(encoder=value_encoder))
 
 
 @dataclass_json
@@ -107,9 +134,34 @@ class TalonPackageInfo:
 @dataclass(frozen=True)
 class PythonFileInfo:
     file_path: str
-    declarations: dict[TalonSortName, dict[TalonDeclName, TalonDecl]]
-    overrides: dict[TalonSortName, dict[TalonDeclName, set[TalonDecl]]]
-    uses: dict[TalonSortName, set[TalonDeclName]]
+    declarations: dict[TalonSortName, dict[TalonDeclName, TalonDecl]] = field(
+        default_factory=dict
+    )
+    overrides: dict[TalonSortName, dict[TalonDeclName, set[TalonDecl]]] = field(
+        default_factory=dict
+    )
+    uses: dict[TalonSortName, set[TalonDeclName]] = field(default_factory=dict)
+
+    def add_declaration(self, decl: "TalonDecl"):
+        if isinstance(decl.sort_name, TalonSort):
+            warn(f"TalonDecl with TalonSort: {decl}")
+        if decl.is_override:
+            if not decl.sort_name in self.overrides:
+                self.overrides[decl.sort_name] = {}
+            if not decl.name in self.overrides[decl.sort_name]:
+                self.overrides[decl.sort_name][decl.name] = set()
+            self.overrides[decl.sort_name][decl.name].add(decl)
+        else:
+            if not decl.sort_name in self.declarations:
+                self.declarations[decl.sort_name] = {}
+            self.declarations[decl.sort_name][decl.name] = decl
+
+    def add_use(self, sort_name: TalonSortName, name: TalonDeclName):
+        if isinstance(sort_name, TalonSort):
+            warn(f"add_use called with TalonSort: {sort_name}")
+        if not sort_name in self.uses:
+            self.uses[sort_name] = set()
+        self.uses[sort_name].add(name)
 
 
 @dataclass_json
@@ -139,4 +191,3 @@ class PythonPackageInfo:
         for file_path, file_info in self.file_infos.items():
             if sort in file_info.overrides and name in file_info.uses[sort]:
                 yield file_path
-
