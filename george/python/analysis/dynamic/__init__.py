@@ -1,4 +1,5 @@
 from abc import ABC
+import importlib
 from types import ModuleType
 from george.types import PythonFileInfo
 from pathlib import Path
@@ -54,11 +55,19 @@ class PythonDynamicPackageAnalysis:
         # Add the PkgPathFinder
         sys.meta_path.append(PkgPathFinder)
 
+        file_analyses = []
         for file_path in pkg_root.glob("**/*.py"):
             file_path = file_path.relative_to(pkg_root)
             file_analysis = PythonDynamicFileAnalysis(file_path, pkg_root)
             cls.set_file_analysis(file_analysis)
             file_analysis.process()
+            cls.clear_file_analysis()
+            file_analyses.append(file_analysis)
+
+        for file_analysis in file_analyses:
+            cls.set_file_analysis(file_analysis)
+            for cb in file_analysis.on_ready:
+                cb()
             cls.clear_file_analysis()
 
         sys.meta_path.remove(PkgPathFinder)
@@ -92,10 +101,7 @@ class PythonDynamicFileAnalysis:
     def process(self):
         pkg_name = self.pkg_root.parts[-1]
         module_path = ".".join((pkg_name, *self.file_path.with_suffix("").parts))
-        __import__(module_path, globals(), locals(), [])
-        for call_on_ready in self.on_ready:
-            call_on_ready()
-        self.on_ready.clear()
+        importlib.import_module(module_path)
 
 
 class Register(ABC):
@@ -110,94 +116,105 @@ class Stub(Register):
     def __init__(self, **kwargs):
         pass
 
-    def __add__(self, other):
-        return self
-
-    def __sub__(self, other):
-        return self
-
-    def __mul__(self, other):
-        return self
-
-    def __pow__(self, other):
-        return self
-
-    def __mod__(self, other):
-        return self
-
-    def __floordiv__(self, other):
-        return self
-
-    def __truediv__(self, other):
-        return self
-
-    def __radd__(self, other):
-        return self
-
-    def __rsub__(self, other):
-        return self
-
-    def __rmul__(self, other):
-        return self
-
-    def __rmod__(self, other):
-        return self
-
-    def __rfloordiv__(self, other):
-        return self
-
-    def __rtruediv__(self, other):
-        return self
-
-    def __abs__(self):
-        return self
-
-    def __neg__(self):
-        return self
-
-    def __trunc__(self):
-        return self
-
-    def __floor__(self):
-        return self
-
-    def __ceil__(self):
-        return self
-
-    def __and__(self, other):
-        return self
-
-    def __rand__(self, other):
-        return self
-
-    def __or__(self, other):
-        return self
-
-    def __ror__(self, other):
-        return self
-
-    def __xor__(self, other):
-        return self
-
-    def __rxor__(self, other):
-        return self
-
-    def __invert__(self):
-        return self
-
-    def __lshift__(self, other):
-        return self
-
-    def __rlshift__(self, other):
-        return self
-
-    def __rshift__(self, other):
-        return self
-
-    def __rrshift__(self, other):
-        return self
-
     def __getattr__(self, path: str) -> "Stub":
+        return self
+
+    def __setattr__(self, path: str, value: Any):
+        # print(f"__setattr__({path}, {value})")
+        pass
+
+    def __getitem__(self, path: str) -> "Stub":
+        return self
+
+    def __setitem__(self, path: str, value: Any):
+        # print(f"__setitem__({path}, {value})")
+        pass
+
+    def __add__(self, other) -> "Stub":
+        return self
+
+    def __sub__(self, other) -> "Stub":
+        return self
+
+    def __mul__(self, other) -> "Stub":
+        return self
+
+    def __pow__(self, other) -> "Stub":
+        return self
+
+    def __mod__(self, other) -> "Stub":
+        return self
+
+    def __floordiv__(self, other) -> "Stub":
+        return self
+
+    def __truediv__(self, other) -> "Stub":
+        return self
+
+    def __radd__(self, other) -> "Stub":
+        return self
+
+    def __rsub__(self, other) -> "Stub":
+        return self
+
+    def __rmul__(self, other) -> "Stub":
+        return self
+
+    def __rmod__(self, other) -> "Stub":
+        return self
+
+    def __rfloordiv__(self, other) -> "Stub":
+        return self
+
+    def __rtruediv__(self, other) -> "Stub":
+        return self
+
+    def __abs__(self) -> "Stub":
+        return self
+
+    def __neg__(self) -> "Stub":
+        return self
+
+    def __trunc__(self) -> "Stub":
+        return self
+
+    def __floor__(self) -> "Stub":
+        return self
+
+    def __ceil__(self) -> "Stub":
+        return self
+
+    def __and__(self, other) -> "Stub":
+        return self
+
+    def __rand__(self, other) -> "Stub":
+        return self
+
+    def __or__(self, other) -> "Stub":
+        return self
+
+    def __ror__(self, other) -> "Stub":
+        return self
+
+    def __xor__(self, other) -> "Stub":
+        return self
+
+    def __rxor__(self, other) -> "Stub":
+        return self
+
+    def __invert__(self) -> "Stub":
+        return self
+
+    def __lshift__(self, other) -> "Stub":
+        return self
+
+    def __rlshift__(self, other) -> "Stub":
+        return self
+
+    def __rshift__(self, other) -> "Stub":
+        return self
+
+    def __rrshift__(self, other) -> "Stub":
         return self
 
     def __call__(self, *args, **kwargs) -> "Stub":
@@ -215,8 +232,8 @@ class StubFinder(PathFinder):
     TALON_PKG_PATH = os.path.dirname(__file__)
 
     class StubModule(ModuleType, Stub):
-        def __init__(fullname: str):
-            super(ModuleType, fullname)
+        def __init__(self, fullname: str):
+            ModuleType.__init__(self, fullname)
 
     class StubLoader(Loader):
         def create_module(cls, spec: ModuleSpec):
@@ -226,7 +243,7 @@ class StubFinder(PathFinder):
             pass
 
         def load_module(cls, fullname):
-            return StubFinder.StubModule()
+            return StubFinder.StubModule(fullname)
 
     @classmethod
     def find_spec(cls, fullname, path=None, target=None):
