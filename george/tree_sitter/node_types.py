@@ -3,6 +3,7 @@ from functools import reduce
 from dataclasses_json import DataClassJsonMixin, dataclass_json
 from typing import Callable, ForwardRef, Optional, Type, Union
 
+
 @dataclass
 class Node(DataClassJsonMixin):
     pass
@@ -81,5 +82,5 @@ class NodeType:
             return make_dataclass(
                 cls_name=cls_name,
                 fields=fields.items(),
-                bases=(Node,),
+                bases=(Node, DataClassJsonMixin),
             )

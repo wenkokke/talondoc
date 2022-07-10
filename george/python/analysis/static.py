@@ -52,7 +52,7 @@ class DecoratorInfo:
     decorator_name: str
     decorator: ast.ClassDef
     scope: str
-    is_override: bool
+    matches: bool
 
     @staticmethod
     def from_ast(decorator_name: str, decorator: ast.expr) -> Optional["DecoratorInfo"]:
@@ -63,7 +63,7 @@ class DecoratorInfo:
                     decorator_name=decorator_name,
                     decorator=decorator,
                     scope="user",
-                    is_override=False,
+                    matches=False,
                 )
         except AttributeError:
             pass
@@ -77,7 +77,7 @@ class DecoratorInfo:
                     decorator_name=decorator_name,
                     decorator=decorator,
                     scope=decorator.args[0].value,
-                    is_override=True,
+                    matches=True,
                 )
         except AttributeError:
             pass
@@ -87,7 +87,7 @@ class DecoratorInfo:
 @dataclass
 class ActionClassInfo:
     scope: str
-    is_override: bool
+    matches: bool
     class_def: ast.ClassDef = None
 
     @staticmethod
@@ -97,7 +97,7 @@ class ActionClassInfo:
             if decorator_info:
                 return ActionClassInfo(
                     scope=decorator_info.scope,
-                    is_override=decorator_info.is_override,
+                    matches=decorator_info.matches,
                     class_def=class_def,
                 )
         return None
@@ -120,11 +120,11 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
         self.visit(tree)
         return self.python_file_info
 
-    def add_use(self, sort_name: TalonSortName, name: TalonDeclName):
-        self.python_file_info.add_use(sort_name, name)
+    # def add_use(self, sort_name: TalonSortName, name: TalonDeclName):
+    #     self.python_file_info.add_use(sort_name, name)
 
-    def add_declaration(self, decl: TalonDecl):
-        self.python_file_info.add_declaration(decl)
+    # def add_declaration(self, decl: TalonDecl):
+    #     self.python_file_info.add_declaration(decl)
 
     def visit_ClassDef(self, class_def: ast.ClassDef):
         self.action_class = ActionClassInfo.from_ast(class_def)
@@ -138,7 +138,7 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
             # Use Action
             if func_name[0] == "actions":
                 name = ".".join(func_name[1:])
-                self.add_use(TalonSort.Action.name, name)
+                self.python_file_info.add_use(TalonSort.Action.name, name)
 
             mod_var, list_func = func_name
 
@@ -149,12 +149,12 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
                     desc = call.args[1].value
                 except (IndexError, AttributeError):
                     desc = None
-                self.add_declaration(
+                self.python_file_info.add_declaration(
                     TalonDecl(
                         name=name,
                         sort_name=TalonSort.List.name,
                         file_path=str(self.file_path),
-                        is_override=False,
+                        matches=False,
                         desc=desc,
                         source=Source.from_ast(call),
                     )
@@ -167,12 +167,12 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
                     desc = call.args[1].value
                 except (IndexError, AttributeError):
                     desc = None
-                self.add_declaration(
+                self.python_file_info.add_declaration(
                     TalonDecl(
                         name=name,
                         sort_name=TalonSort.Tag.name,
                         file_path=str(self.file_path),
-                        is_override=False,
+                        matches=False,
                         desc=desc,
                         source=Source.from_ast(call),
                     )
@@ -190,12 +190,12 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
             # Override List
             if re.match("ctx", ctx_var) and list_func == "lists":
                 name = subscript.slice.value
-                self.add_declaration(
+                self.python_file_info.add_declaration(
                     TalonDecl(
                         name=name,
                         sort_name=TalonSort.List.name,
                         file_path=str(self.file_path),
-                        is_override=True,
+                        matches=True,
                         source=Source.from_ast(subscript),
                     )
                 )
@@ -207,12 +207,12 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
             # Declare or Override Action
             name = f"{self.action_class.scope}.{function_def.name}"
             desc = ast.get_docstring(function_def)
-            self.add_declaration(
+            self.python_file_info.add_declaration(
                 TalonDecl(
                     name=name,
                     sort_name=TalonSort.Action.name,
                     file_path=str(self.file_path),
-                    is_override=self.action_class.is_override,
+                    matches=self.action_class.matches,
                     desc=desc,
                     source=Source.from_ast(function_def),
                 )
@@ -224,12 +224,12 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
                     # Declare or Override Capture
                     name = f"{decorator_info.scope}.{function_def.name}"
                     desc = ast.get_docstring(function_def)
-                    self.add_declaration(
+                    self.python_file_info.add_declaration(
                         TalonDecl(
                             name=name,
                             sort_name=TalonSort.Capture.name,
                             file_path=str(self.file_path),
-                            is_override=decorator_info.is_override,
+                            matches=decorator_info.matches,
                             desc=desc,
                             source=Source.from_ast(function_def),
                         )

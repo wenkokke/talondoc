@@ -1,9 +1,6 @@
 import inspect
-from logging import warn
 from pathlib import Path
-import re
-from types import FunctionType
-from george.types import Source, TalonDecl, TalonSort
+from george.types import *
 import talon.ui as ui  # type: ignore
 import talon.speech_system as speech_system  # type: ignore
 import talon.cron as cron  # type: ignore
@@ -28,6 +25,9 @@ class Actions:
         if action_path == "self":
             action_path = "user"
         try:
+            dynamic.PythonDynamicPackageAnalysis.get_file_info().add_use(
+                TalonSort.Action.name, action_path
+            )
             return self.registered_actions[action_path]
         except KeyError:
             return dynamic.Stub()
@@ -49,7 +49,7 @@ class Actions:
 
 
 class Module(dynamic.Stub):
-    def __init__(self, desc: Optional[str] = str):
+    def __init__(self, desc: Optional[str] = None):
         self.desc = desc
 
     def action_class(self, cls: Type):
@@ -57,20 +57,13 @@ class Module(dynamic.Stub):
         for name, func in inspect.getmembers(cls, inspect.isfunction):
             action_path = f"user.{name}"
             actions._register_action(action_path, func)
-            file_path = str(
-                Path(func.__code__.co_filename).relative_to(
-                    dynamic.PythonDynamicPackageAnalysis.get_package_info().package_root
-                )
-            )
-            dynamic.PythonDynamicPackageAnalysis.get_file_info().add_declaration(
-                TalonDecl(
+            file_path = Path(func.__code__.co_filename)
+            file_path = file_path.relative_to(self._package_info.package_root)
+            self._file_info.add_declaration(
+                ActionDecl(
                     name=action_path,
-                    sort_name=TalonSort.Action.name,
-                    file_path=file_path,
-                    is_override=False,
-                    source=Source.from_code_type(func.__code__),
-                    desc=func.__doc__,
-                    value=func,
+                    file_path=str(file_path),
+                    impl=func,
                 )
             )
 
@@ -78,15 +71,22 @@ class Module(dynamic.Stub):
         global actions
         return actions.action(action_path)
 
-    # name: str
-    # path: str
-    # desc: Optional[str]
+    def capture(self, rule: str) -> Any:
+        def __decorator(func: Callable):
+            capture_path = f"user.{func.__code__.co_name}"
+            file_path = Path(func.__code__.co_filename)
+            file_path = file_path.relative_to(self._package_info.package_root)
+            self._file_info.add_declaration(
+                CaptureDecl(
+                    name=capture_path,
+                    file_path=str(file_path),
+                    rule=TalonRule.parse(rule),
+                    impl=func,
+                )
+            )
+            return func
 
-    # def capture(self, rule: Rule) -> Any:
-    #     def __capture(func):
-    #         return func
-
-    #     return __capture
+        return __decorator
 
     # def scope(self, func: "ScopeFunc") -> "ScopeDecl":
     #     return ScopeDecl(mod=self, func=func)
@@ -100,47 +100,92 @@ class Module(dynamic.Stub):
     # ) -> "SettingDecl":
     #     pass
 
-    # def list(self, name: str, desc: str = None) -> NameDecl:
-    #     pass
+    def list(self, name: str, desc: str = None):
+        list_path = f"user.{name}"
+        self._file_info.add_declaration(
+            ListDecl(
+                name=list_path,
+                desc=desc,
+            )
+        )
 
-    # def mode(self, name: str, desc: str = None) -> NameDecl:
-    #     pass
+    def mode(self, name: str, desc: str = None):
+        mode_path = f"user.{name}"
+        self._file_info.add_declaration(
+            ModeDecl(
+                name=mode_path,
+                desc=desc,
+            )
+        )
 
-    # def tag(self, name: str, desc: str = None) -> NameDecl:
-    #     pass
+    def tag(self, name: str, desc: str = None):
+        tag_path = f"user.{name}"
+        self._file_info.add_declaration(
+            TagDecl(
+                name=tag_path,
+                matches=False,
+                desc=desc,
+            )
+        )
+
     pass
 
 
 class Context(dynamic.Stub):
-    # name: str
-    # path: str
-    # desc: Optional[str]
+    def __init__(self):
+        self._matches = True
+        self._decls = []
+        pass
 
-    # def action_class(self, path: str) -> Callable[[Any], ActionClassProxy]:
-    #     def __decorator(cls):
-    #         return cls
+    def action_class(self, path: str):
+        def __decorator(cls: Type):
+            global actions
+            for name, func in inspect.getmembers(cls, inspect.isfunction):
+                action_path = f"user.{name}"
+                file_path = Path(func.__code__.co_filename)
+                file_path = file_path.relative_to(self._package_info.package_root)
+                action_decl = ActionDecl(
+                    name=action_path,
+                    file_path=str(file_path),
+                    matches=self.matches,
+                    impl=func,
+                )
+                self._file_info.add_declaration(action_decl)
+                self._decls.append(action_decl)
 
-    #     return __decorator
+        return __decorator
 
-    # def action(self, path: str):
-    #     def __action(*args):
-    #         pass
+    def action(self, action_path: str) -> Optional[Callable]:
+        global actions
+        return actions.action(action_path)
 
-    #     return __action
+    def capture(self, path: str = None, rule: str = None) -> Any:
+        def __decorator(func: Callable):
+            capture_path = f"user.{func.__code__.co_name}"
+            file_path = Path(func.__code__.co_filename)
+            file_path = file_path.relative_to(self._package_info.package_root)
+            capture_decl = CaptureDecl(
+                name=capture_path,
+                matches=self._matches,
+                file_path=str(file_path),
+                rule=TalonRule.parse(rule),
+                impl=func,
+            )
+            self._file_info.add_declaration(capture_decl)
+            self._decls.append(capture_decl)
 
-    # def capture(self, path: str = None, *, rule: str = None) -> Any:
-    #     def __decorator(func):
-    #         return func
+        return __decorator
 
-    #     return __decorator
+    @property
+    def matches(self) -> Union[str, "Match"]:
+        return self._matches
 
-    # @property
-    # def matches(self) -> Union[str, "Match"]:
-    #     return ""
-
-    # @matches.setter
-    # def matches(self, matches: Union[str, "Match"]):
-    #     pass
+    @matches.setter
+    def matches(self, matches: Union[str, "Match"]):
+        self._matches = matches
+        # talon.types.from_tree_sitter(talon.parse(f"{matches}\n-\n").root_node)
+        for decl in self._decls:
+            decl.matches = matches
 
     # @property
     # def apps(self):

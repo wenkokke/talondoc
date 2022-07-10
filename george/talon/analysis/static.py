@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Generator, Optional
 from george.talon.analysis.script_describer import AbcTalonScriptDescriber
-from george.talon.tree_sitter import TreeSitterTalon
+import george.talon.tree_sitter as talon
 from george.types import *
 
 import tree_sitter as ts
@@ -11,21 +11,21 @@ class TalonStaticPackageAnalysis:
     def __init__(
         self,
         python_package_info: PythonPackageInfo,
-        tree_sitter_talon: TreeSitterTalon,
+        # tree_sitter_talon: TreeSitterTalon,
     ):
         self.python_package_info = python_package_info
-        self.tree_sitter_talon = tree_sitter_talon
+        # self.tree_sitter_talon = tree_sitter_talon
 
         # Build node describer
         self.talon_script_describer = type(
             "TalonScriptDescriber",
-            (AbcTalonScriptDescriber, tree_sitter_talon.types.NodeTransformer),
+            (AbcTalonScriptDescriber, types.NodeTransformer),
             {"python_package_info": python_package_info},
         )()
 
         # Build queries
         self.queries = {
-            query_key: self.tree_sitter_talon.language.query(query_str)
+            query_key: language.query(query_str)
             for query_key, query_str in {
                 "match": "(match) @match",
                 "include_tag": "(include_tag) @include_tag",
@@ -45,10 +45,10 @@ class TalonStaticPackageAnalysis:
             file_path=str(file_path),
             commands=list(talon_file_analyser.commands()),
             uses={
-                "Action": set(talon_file_analyser.referenced_actions()),
-                "Capture": set(talon_file_analyser.referenced_captures()),
-                "List": set(talon_file_analyser.referenced_lists()),
-                "Setting": set(talon_file_analyser.referenced_settings()),
+                "Action": list(talon_file_analyser.referenced_actions()),
+                "Capture": list(talon_file_analyser.referenced_captures()),
+                "List": list(talon_file_analyser.referenced_lists()),
+                "Setting": list(talon_file_analyser.referenced_settings()),
             },
         )
 
@@ -75,7 +75,7 @@ class TalonStaticFileAnalysis:
         if self.tree:
             return self.tree
         else:
-            self.tree = self.talon_analyser.tree_sitter_talon.parse(self.file_path)
+            self.tree = talon.parse_file(self.file_path)
             return self.tree
 
     def required_tags(

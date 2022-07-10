@@ -2,7 +2,6 @@ from pathlib import Path
 from george.python.analysis.dynamic import PythonDynamicPackageAnalysis
 from george.python.analysis.static import PythonStaticPackageAnalysis
 from george.talon.analysis.static import TalonStaticPackageAnalysis
-from george.talon.tree_sitter import TreeSitterTalon
 
 build_dir = Path("build")
 build_dir.mkdir(exist_ok=True)
@@ -15,7 +14,13 @@ package_root = Path("vendor/knausj_talon").absolute()
 python_dynamic_analysis = PythonDynamicPackageAnalysis(package_root)
 python_dynamic_analysis.process()
 
-print(python_dynamic_analysis.python_package_info.to_json())
+package_info = python_dynamic_analysis.python_package_info
+for file_name, file_info in package_info.file_infos.items():
+    for sort_name, overrides_for_sort_name in file_info.overrides.items():
+        for decl_name, overrides_for_decl_name in overrides_for_sort_name.items():
+            for decl in overrides_for_decl_name:
+                if type(decl.matches) != bool:
+                    print(repr(decl.matches))
 
 # python_static_analysis = PythonStaticPackageAnalysis()
 # python_package_info = python_static_analysis.process_package(package_root)

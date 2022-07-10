@@ -1,7 +1,8 @@
 from pathlib import Path
 import re
 from sys import platform
-from typing import Optional
+import sys
+from typing import Optional, Union
 from george.tree_sitter.node_types import NodeType
 from george.tree_sitter.type_provider import TypeProvider
 
@@ -42,17 +43,21 @@ class TreeSitterTalon:
             node_types = NodeType.schema().loads(fp.read(), many=True)
         self.types = TypeProvider("types", node_types)
 
-    def parse(self, path: Path) -> ts.Tree:
-        assert isinstance(path, Path)
-        # Check for optional header separator
-        has_header = False
-        with path.open("r") as f:
-            for ln in f.readlines():
-                if re.match("^-$", ln):
-                    has_header = True
-        # Prepend header separator if missing
-        file_bytes = path.read_bytes()
+    def parse(self, contents: bytes) -> ts.Tree:
+        has_header = contents.startswith(b"-\n") or (b"\n-\n" in contents)
         if not has_header:
-            file_bytes = b"-\n".join((file_bytes,))
-        # Parse the Talon file
-        return self.parser.parse(file_bytes)
+            contents = b"-\n" + contents
+        return self.parser.parse(contents)
+
+    def parse_file(self, path: Path) -> ts.Tree:
+        return self.parse(path.read_bytes())
+
+
+talon_library_path = globals().get("talon_library_path", None)
+talon_repository_path = globals().get("talon_repository_path", None)
+talon_node_types_path = globals().get("talon_node_types_path", None)
+sys.modules[__name__] = TreeSitterTalon(
+    library_path=talon_library_path,
+    repository_path=talon_repository_path,
+    node_types_path=talon_node_types_path,
+)

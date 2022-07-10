@@ -58,7 +58,7 @@ class PythonDynamicPackageAnalysis:
         return cls.current_package_analysis
 
     @classmethod
-    def get_package_info(cls) -> "PythonFileInfo":
+    def get_package_info(cls) -> "PythonPackageInfo":
         return cls.get_package_analysis().python_package_info
 
     def process(self):
@@ -111,18 +111,18 @@ class PythonDynamicFileAnalysis:
     def register(self, topic: Union[int, str], cb: Callable) -> None:
         if topic == "ready":
             self.on_ready.append(cb)
-        pass
 
     def unregister(self, topic: Union[int, str], cb: Callable) -> None:
-        pass
+        if topic == "ready":
+            self.on_ready.remove(cb)
 
     def ready(self):
         for cb in self.on_ready:
             cb()
 
     def process(self):
-        pkg_name = self.package_root.parts[-1]
-        module_path = ".".join((pkg_name, *self.file_path.with_suffix("").parts))
+        package_name = self.package_root.parts[-1]
+        module_path = ".".join((package_name, *self.file_path.with_suffix("").parts))
         importlib.import_module(module_path)
 
 
@@ -138,18 +138,27 @@ class Stub(Register):
     def __init__(self, **kwargs):
         pass
 
+    @property
+    def _package_info(self) -> PythonPackageInfo:
+        return PythonDynamicPackageAnalysis.get_package_info()
+
+    @property
+    def _file_info(self) -> PythonFileInfo:
+        return PythonDynamicPackageAnalysis.get_file_info()
+
     def __getattr__(self, path: str) -> "Stub":
-        return self
+        try:
+            return object.__getattribute__(self, path)
+        except AttributeError:
+            return self
 
     def __setattr__(self, path: str, value: Any):
-        # print(f"__setattr__({path}, {value})")
         pass
 
     def __getitem__(self, path: str) -> "Stub":
         return self
 
     def __setitem__(self, path: str, value: Any):
-        # print(f"__setitem__({path}, {value})")
         pass
 
     def __add__(self, other) -> "Stub":

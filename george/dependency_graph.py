@@ -13,7 +13,7 @@ DefType = Enum("DefType", ["Action", "List", "Capture"])
 class DefInfo:
     name: str
     scope: str
-    is_override: bool
+    matches: bool
     has_default_value: bool
     def_type: DefType
     ast: Optional[Any] = None
@@ -33,7 +33,7 @@ class DefInfo:
 
     def anchor(self) -> Optional[str]:
         if not self.file is None:
-            if not self.is_override:
+            if not self.matches:
                 if self.scope == "user":
                     return DependencyGraph.escape_anchor(f"{self.file}_mod_def_{self}")
             else:
@@ -73,7 +73,7 @@ class DependencyGraph(ast.NodeVisitor):
                     re.match("mod", decorator.value.id)
                     and decorator.attr == "action_class"
                 ):
-                    self._action_class_is_override = False
+                    self._action_class_matches = False
                     self._action_class_scope = "user"
                     return
             except AttributeError:
@@ -84,7 +84,7 @@ class DependencyGraph(ast.NodeVisitor):
                     re.match("ctx", decorator.func.value.id)
                     and decorator.func.attr == "action_class"
                 ):
-                    self._action_class_is_override = True
+                    self._action_class_matches = True
                     self._action_class_scope = decorator.args[0].value
                     return
             except AttributeError:
@@ -96,7 +96,7 @@ class DependencyGraph(ast.NodeVisitor):
         # set by self.open
         self.file: Optional[Path] = None
         # set by self.visit_ClassDef
-        self._action_class_is_override: Optional[bool] = None
+        self._action_class_matches: Optional[bool] = None
         self._action_class_scope: Optional[str] = None
         # set by self.visit_*
         self._def_list: list[DefInfo] = []
@@ -129,14 +129,14 @@ class DependencyGraph(ast.NodeVisitor):
             return DefInfo(
                 name=name,
                 scope=top_level,
-                is_override=False,
+                matches=False,
                 has_default_value=False,
                 def_type=DefType.Action,
             )
 
     def reset(self):
         self.file = None
-        self._action_class_is_override = None
+        self._action_class_matches = None
         self._action_class_scope = None
         self._def_list.clear()
         self._use_list.clear()
@@ -197,7 +197,7 @@ class DependencyGraph(ast.NodeVisitor):
                     DefInfo(
                         name=list_name,
                         scope=list_name.split(".")[0],
-                        is_override=False,
+                        matches=False,
                         has_default_value=False,
                         def_type=DefType.List,
                     )
@@ -216,7 +216,7 @@ class DependencyGraph(ast.NodeVisitor):
             action = DefInfo(
                 name=func.name,
                 scope=self._action_class_scope,
-                is_override=self._action_class_is_override,
+                matches=self._action_class_matches,
                 def_type=DefType.Action,
                 ast=func,
                 file=self.file,
@@ -224,7 +224,7 @@ class DependencyGraph(ast.NodeVisitor):
             )
             action_name = str(action)
             self._def_list.append(action)
-            if action.is_override:
+            if action.matches:
                 if not action_name in self._name_to_ctx_def_infos:
                     self._name_to_ctx_def_infos[action_name] = []
                 self._name_to_ctx_def_infos[action_name].append(action)
@@ -255,7 +255,7 @@ class DependencyGraph(ast.NodeVisitor):
             def_infos = self.def_infos(file)
             nodes.append(Node(anchor=DependencyGraph.escape_anchor(file), label=file))
             for def_info in def_infos:
-                if def_info.is_override:
+                if def_info.matches:
                     mod_def_info = self.get_mod_def_info(def_info)
                     if mod_def_info:
                         head = DependencyGraph.escape_anchor(mod_def_info.file)
@@ -275,7 +275,7 @@ class DependencyGraph(ast.NodeVisitor):
                 lines.append(f"<ul>")
                 for def_info in sorted(def_infos, key=str):
                     lines.append(f"<li>")
-                    if not (def_info.is_override):
+                    if not (def_info.matches):
                         lines.append(f'<a id="{def_info.anchor()}">')
                         lines.append(f"Defines <tt>{def_info}</tt>")
                         lines.append(f'(<a href="{def_info.url()}">Source</a>)')
@@ -291,7 +291,7 @@ class DependencyGraph(ast.NodeVisitor):
                             )
                             lines.append(f"<i>{doc_string}.</i>")
                             lines.append(f"</p>")
-                        if not def_info.is_override:
+                        if not def_info.matches:
                             action_refine_infos = self.get_ctx_def_infos(str(def_info))
                             if action_refine_infos:
                                 lines.append(f"<p>")
