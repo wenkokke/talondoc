@@ -9,17 +9,16 @@ import docstring_parser.google as dsp
 
 @dataclass(frozen=True)
 class MissingDocumentation(Exception):
-    """Exception raised when a doc string cannot be built"""
+    """Exception raised when a docstring cannot be found"""
 
-    sort_name: TalonSortName
     name: str
 
 
 class AbcTalonScriptDescriber(ABC):
     python_package_info: PythonPackageInfo
 
-    def get_docstring(self, sort_name: TalonSortName, name: TalonDeclName) -> str:
-        decl = self.python_package_info.declaration(sort_name, name)
+    def get_action_docstring(self, name: TalonName) -> str:
+        decl = self.python_package_info.get_action_declaration(name)
         if decl and decl.desc:
             is_return = re.match("^[Rr]eturns? (.*)", decl.desc)
             if is_return:
@@ -42,7 +41,7 @@ class AbcTalonScriptDescriber(ABC):
                         )
                     )
                     return Line(decl.desc.splitlines()[0])
-        raise MissingDocumentation(sort_name, name)
+        raise MissingDocumentation(name)
 
     def transform_Block(self, children: list[Desc], **kwargs) -> Desc:
         return Lines(children)
@@ -74,7 +73,7 @@ class AbcTalonScriptDescriber(ABC):
         self, action_name: Desc, arguments: list[Desc], **kwargs
     ) -> Desc:
         try:
-            docstring = self.get_docstring("Action", str(action_name))
+            docstring = self.get_action_docstring(str(action_name))
             if isinstance(docstring, Template):
                 if isinstance(arguments, Lines):
                     return docstring(arguments.lines)

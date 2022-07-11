@@ -7,176 +7,173 @@ from george.types import *
 import tree_sitter as ts
 
 
+MATCH_QUERY = talon.language.query("(match) @match")
+INCLUDE_TAGS_QUERY = talon.language.query("(include_tag) @include_tag")
+SETTING_ASSIGNMENT_QUERY = talon.language.query(
+    "(settings (block (assignment)* @setting_assignment))"
+)
+ACTION_QUERY = talon.language.query("(action) @action")
+CAPTURE_QUERY = talon.language.query("(capture) @capture")
+LIST_QUERY = talon.language.query("(list) @list")
+COMMAND_QUERY = talon.language.query("(command) @command")
+
+
+@dataclass
+class TalonScriptDescriber(AbcTalonScriptDescriber, talon.types.NodeTransformer):
+    python_package_info: PythonPackageInfo
+
+
 class TalonStaticPackageAnalysis:
     def __init__(
-        self,
-        python_package_info: PythonPackageInfo,
-        # tree_sitter_talon: TreeSitterTalon,
+        self, python_package_info: PythonPackageInfo, package_root: Path = Path(".")
     ):
-        self.python_package_info = python_package_info
-        # self.tree_sitter_talon = tree_sitter_talon
+        self.package_root = package_root
+        self.script_describer = TalonScriptDescriber(python_package_info)
 
-        # Build node describer
-        self.talon_script_describer = type(
-            "TalonScriptDescriber",
-            (AbcTalonScriptDescriber, types.NodeTransformer),
-            {"python_package_info": python_package_info},
-        )()
-
-        # Build queries
-        self.queries = {
-            query_key: language.query(query_str)
-            for query_key, query_str in {
-                "match": "(match) @match",
-                "include_tag": "(include_tag) @include_tag",
-                "setting_assignment": "(settings (block (assignment)* @setting_assignment))",
-                "action": "(action) @action",
-                "capture": "(capture) @capture",
-                "list": "(list) @list",
-                "command": "(command) @command",
-            }.items()
-        }
-
-    def process_file(
-        self, file_path: Path, package_root: Path = Path(".")
-    ) -> TalonFileInfo:
-        talon_file_analyser = TalonStaticFileAnalysis(self, package_root / file_path)
-        return TalonFileInfo(
-            file_path=str(file_path),
-            commands=list(talon_file_analyser.commands()),
-            uses={
-                "Action": list(talon_file_analyser.referenced_actions()),
-                "Capture": list(talon_file_analyser.referenced_captures()),
-                "List": list(talon_file_analyser.referenced_lists()),
-                "Setting": list(talon_file_analyser.referenced_settings()),
-            },
-        )
-
-    def process_package(
-        self, package_root: Path = Path(".")
-    ) -> dict[str, TalonFileInfo]:
+    def process(self) -> dict[str, TalonFileInfo]:
         file_infos = {}
-        for file_path in package_root.glob("**/*.talon"):
-            file_path = file_path.relative_to(package_root)
-            file_infos[str(file_path)] = self.process_file(file_path, package_root)
+        for file_path in self.package_root.glob("**/*.talon"):
+            file_path = file_path.relative_to(self.package_root)
+            file_infos[str(file_path)] = TalonStaticFileAnalysis(
+                file_path, self.package_root, self.script_describer
+            ).process()
         return TalonPackageInfo(
-            package_root=str(package_root),
+            package_root=str(self.package_root),
             file_infos=file_infos,
         )
 
 
 class TalonStaticFileAnalysis:
-    def __init__(self, talon_analyser: TalonStaticPackageAnalysis, file_path: Path):
-        self.talon_analyser = talon_analyser
+    def __init__(
+        self,
+        file_path: Path,
+        package_root: Path,
+        script_describer: TalonScriptDescriber,
+    ):
         self.file_path = file_path
-        self.tree: Optional[ts.Tree] = None
+        self.package_root = package_root
+        self.script_describer = script_describer
+        self._tree: Optional[ts.Tree] = None
 
-    def get_tree(self) -> ts.Tree:
-        if self.tree:
-            return self.tree
+    def process(self) -> TalonFileInfo:
+        return TalonFileInfo(
+            file_path=str(self.file_path),
+            package_root=str(self.package_root),
+            commands=list(self.commands()),
+            uses={
+                "Action": list(self.referenced_actions()),
+                "Capture": list(self.referenced_captures()),
+                "List": list(self.referenced_lists()),
+                "Setting": list(self.referenced_settings()),
+            },
+        )
+
+    @property
+    def tree(self) -> ts.Tree:
+        if self._tree:
+            return self._tree
         else:
-            self.tree = talon.parse_file(self.file_path)
-            return self.tree
+            self._tree = talon.parse_file(self.package_root / self.file_path)
+            return self._tree
 
     def required_tags(
         self, node: Optional[ts.Node] = None
-    ) -> Generator[TalonDeclName, None, None]:
+    ) -> Generator[TalonName, None, None]:
         if node is None:
-            node = self.get_tree().root_node
-        captures = self.talon_analyser.queries["match"].captures(node)
+            node = self.tree.root_node
+        captures = MATCH_QUERY.captures(node)
         if captures:
             for match_node, anchor in captures:
                 assert anchor == "match"
                 key_node = match_node.child_by_field_name("key")
                 if key_node.text == b"tag":
                     pattern_node = match_node.child_by_field_name("pattern")
-                    yield pattern_node.text.decode().strip()
+                    yield pattern_node.text.decode("utf-8").strip()
 
     def included_tags(
         self, node: Optional[ts.Node] = None
-    ) -> Generator[TalonDeclName, None, None]:
+    ) -> Generator[TalonName, None, None]:
         if node is None:
-            node = self.get_tree().root_node
-        captures = self.talon_analyser.queries["include_tags"].captures(node)
+            node = self.tree.root_node
+        captures = INCLUDE_TAGS_QUERY.captures(node)
         if captures:
             for include_tag_node, anchor in captures:
                 assert anchor == "include_tag"
                 tag_node = include_tag_node.child_by_field_name("tag")
                 if tag_node:
-                    yield tag_node.text.decode().strip()
+                    yield tag_node.text.decode("utf-8").strip()
 
     def referenced_settings(
         self, node: Optional[ts.Node] = None
-    ) -> Generator[TalonDeclName, None, None]:
+    ) -> Generator[TalonName, None, None]:
         if node is None:
-            node = self.get_tree().root_node
-        captures = self.talon_analyser.queries["setting_assignment"].captures(node)
+            node = self.tree.root_node
+        captures = SETTING_ASSIGNMENT_QUERY.captures(node)
         if captures:
             for assignment, anchor in captures:
                 assert anchor == "setting_assignment"
                 left = assignment.child_by_field_name("left")
                 if left:
-                    yield left.text.decode()
+                    yield left.text.decode("utf-8")
 
     def referenced_actions(
         self, node: Optional[ts.Node] = None
-    ) -> Generator[TalonDeclName, None, None]:
+    ) -> Generator[TalonName, None, None]:
         if node is None:
-            node = self.get_tree().root_node
-        captures = self.talon_analyser.queries["action"].captures(node)
+            node = self.tree.root_node
+        captures = ACTION_QUERY.captures(node)
         if captures:
             for action, anchor in captures:
                 assert anchor == "action"
                 action_name = action.child_by_field_name("action_name")
                 if action_name:
-                    yield action_name.text.decode()
+                    yield action_name.text.decode("utf-8")
 
     def referenced_captures(
         self, node: Optional[ts.Node] = None
-    ) -> Generator[TalonDeclName, None, None]:
+    ) -> Generator[TalonName, None, None]:
         if node is None:
-            node = self.get_tree().root_node
-        captures = self.talon_analyser.queries["capture"].captures(node)
+            node = self.tree.root_node
+        captures = CAPTURE_QUERY.captures(node)
         if captures:
             for capture, anchor in captures:
                 assert anchor == "capture"
                 capture_name = capture.child_by_field_name("capture_name")
                 if capture_name:
-                    yield capture_name.text.decode()
+                    yield capture_name.text.decode("utf-8")
 
     def referenced_lists(
         self, node: Optional[ts.Node] = None
-    ) -> Generator[TalonDeclName, None, None]:
+    ) -> Generator[TalonName, None, None]:
         if node is None:
-            node = self.get_tree().root_node
-        captures = self.talon_analyser.queries["list"].captures(node)
+            node = self.tree.root_node
+        captures = LIST_QUERY.captures(node)
         if captures:
             for list, anchor in captures:
                 assert anchor == "list"
                 list_name = list.child_by_field_name("list_name")
                 if list_name:
-                    yield list_name.text.decode()
+                    yield list_name.text.decode("utf-8")
 
     def commands(
         self, node: Optional[ts.Node] = None
     ) -> Generator[TalonCommand, None, None]:
         if node is None:
-            node = self.get_tree().root_node
-        captures = self.talon_analyser.queries["command"].captures(node)
+            node = self.tree.root_node
+        captures = COMMAND_QUERY.captures(node)
         if captures:
             for command, anchor in captures:
                 assert anchor == "command"
                 rule = command.child_by_field_name("rule")
                 script = command.child_by_field_name("script")
                 rule = TalonRule(
-                    text=rule.text.decode(), source=Source.from_tree_sitter(rule)
+                    rule=talon.types.from_tree_sitter(rule),
+                    source=Source.from_tree_sitter(self.file_path, rule),
                 )
-                desc = self.talon_analyser.talon_script_describer.transform(
-                    self.talon_analyser.tree_sitter_talon.types.from_tree_sitter(script)
-                ).compile()
+                desc = talon.types.from_tree_sitter(script)
+                desc = self.script_describer.transform(desc).compile()
                 script = TalonScript(
-                    text=script.text.decode(),
-                    source=Source.from_tree_sitter(script),
+                    source=Source.from_tree_sitter(self.file_path, script),
                     desc=desc,
                 )
                 yield TalonCommand(

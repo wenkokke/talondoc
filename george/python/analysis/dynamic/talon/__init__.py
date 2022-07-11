@@ -1,6 +1,5 @@
 import inspect
 from pathlib import Path
-from george.types import *
 import talon.ui as ui  # type: ignore
 import talon.speech_system as speech_system  # type: ignore
 import talon.cron as cron  # type: ignore
@@ -12,6 +11,7 @@ from dataclasses import dataclass, field
 from io import TextIOWrapper
 from typing import *
 
+from george.types import *
 import george.python.analysis.dynamic as dynamic
 import sys
 
@@ -25,9 +25,6 @@ class Actions:
         if action_path == "self":
             action_path = "user"
         try:
-            dynamic.PythonDynamicPackageAnalysis.get_file_info().add_use(
-                TalonSort.Action.name, action_path
-            )
             return self.registered_actions[action_path]
         except KeyError:
             return dynamic.Stub()
@@ -48,9 +45,17 @@ class Actions:
             return self.action(name)
 
 
-class Module(dynamic.Stub):
+class Module:
     def __init__(self, desc: Optional[str] = None):
         self.desc = desc
+
+    @property
+    def _package_info(self) -> PythonPackageInfo:
+        return dynamic.PythonDynamicPackageAnalysis.get_package_info()
+
+    @property
+    def _file_info(self) -> PythonFileInfo:
+        return dynamic.PythonDynamicPackageAnalysis.get_file_info()
 
     def action_class(self, cls: Type):
         global actions
@@ -60,9 +65,9 @@ class Module(dynamic.Stub):
             file_path = Path(func.__code__.co_filename)
             file_path = file_path.relative_to(self._package_info.package_root)
             self._file_info.add_declaration(
-                ActionDecl(
+                TalonActionDecl(
                     name=action_path,
-                    file_path=str(file_path),
+                    matches=TalonModule(),
                     impl=func,
                 )
             )
@@ -71,15 +76,24 @@ class Module(dynamic.Stub):
         global actions
         return actions.action(action_path)
 
+    @property
+    def apps(self):
+        return dynamic.Stub()
+
+    @apps.setter
+    def apps(self, value: Sequence[str]):
+        # TODO: save apps information
+        pass
+
     def capture(self, rule: str) -> Any:
         def __decorator(func: Callable):
             capture_path = f"user.{func.__code__.co_name}"
             file_path = Path(func.__code__.co_filename)
             file_path = file_path.relative_to(self._package_info.package_root)
             self._file_info.add_declaration(
-                CaptureDecl(
+                TalonCaptureDecl(
                     name=capture_path,
-                    file_path=str(file_path),
+                    matches=TalonModule(),
                     rule=TalonRule.parse(rule),
                     impl=func,
                 )
@@ -88,23 +102,36 @@ class Module(dynamic.Stub):
 
         return __decorator
 
-    # def scope(self, func: "ScopeFunc") -> "ScopeDecl":
-    #     return ScopeDecl(mod=self, func=func)
+    def scope(self, func: Callable) -> any:
+        # TODO: save scope information
+        return dynamic.Stub()
 
-    # def setting(
-    #     self,
-    #     name: str,
-    #     type: Type[Any],
-    #     default: Union[Any, "SettingDecl.NoValueType"] = None,
-    #     desc: str = None,
-    # ) -> "SettingDecl":
-    #     pass
+    def setting(
+        self,
+        name: str,
+        type: Type,
+        default: any = None,
+        desc: str = None,
+    ):
+        setting_path = f"user.{name}"
+        self._file_info.add_declaration(
+            TalonSettingDecl(
+                name=setting_path,
+                matches=TalonModule(),
+                source=Source(file_path=self._file_info.file_path),
+                desc=desc,
+                type=type,
+                default=default,
+            )
+        )
 
     def list(self, name: str, desc: str = None):
         list_path = f"user.{name}"
         self._file_info.add_declaration(
-            ListDecl(
+            TalonListDecl(
                 name=list_path,
+                matches=TalonModule(),
+                source=Source(file_path=self._file_info.file_path),
                 desc=desc,
             )
         )
@@ -112,8 +139,10 @@ class Module(dynamic.Stub):
     def mode(self, name: str, desc: str = None):
         mode_path = f"user.{name}"
         self._file_info.add_declaration(
-            ModeDecl(
+            TalonModeDecl(
                 name=mode_path,
+                matches=TalonModule(),
+                source=Source(file_path=self._file_info.file_path),
                 desc=desc,
             )
         )
@@ -121,37 +150,104 @@ class Module(dynamic.Stub):
     def tag(self, name: str, desc: str = None):
         tag_path = f"user.{name}"
         self._file_info.add_declaration(
-            TagDecl(
+            TalonTagDecl(
                 name=tag_path,
-                matches=False,
+                matches=TalonModule(),
+                source=Source(file_path=self._file_info.file_path),
                 desc=desc,
             )
         )
 
-    pass
 
+class Context:
+    class Lists(Mapping):
+        def __init__(self, context: "Context"):
+            self.context = context
 
-class Context(dynamic.Stub):
+        def _add_list_declaration(self, name: str, value: ListValue):
+            self.context._file_info.add_declaration(
+                TalonListDecl(
+                    name=name,
+                    matches=self.context._matches,
+                    source=Source(file_path=self.context._file_info.file_path),
+                    list=value,
+                )
+            )
+
+        def __setitem__(self, name: str, value: ListValue):
+            self._add_list_declaration(name, value)
+
+        def update(self, values: dict[str, ListValue]):
+            for name, value in values.items():
+                self._add_list_declaration(name, value)
+
+        def __getitem__(self):
+            raise NotImplementedError
+
+        def __iter__(self):
+            raise NotImplementedError
+
+        def __len__(self):
+            raise NotImplementedError
+
+    class Settings(Mapping):
+        def __init__(self, context: "Context"):
+            self.context = context
+
+        def _add_setting_declaration(self, name: str, value: SettingValue):
+            self.context._file_info.add_declaration(
+                TalonSettingDecl(
+                    name=name,
+                    matches=self.context._matches,
+                    source=Source(file_path=self.context._file_info.file_path),
+                    type=type(value),
+                    default=value,
+                )
+            )
+
+        def __setitem__(self, name: str, value: SettingValue):
+            self._add_setting_declaration(name, value)
+
+        def update(self, values: dict[str, SettingValue]):
+            for name, value in values.items():
+                self._add_setting_declaration(name, value)
+
+        def __getitem__(self):
+            raise NotImplementedError
+
+        def __iter__(self):
+            raise NotImplementedError
+
+        def __len__(self):
+            raise NotImplementedError
+
     def __init__(self):
-        self._matches = True
-        self._decls = []
-        pass
+        self._matches = TalonContext()
+        self._lists = Context.Lists(self)
+        self._settings = Context.Settings(self)
+
+    @property
+    def _package_info(self) -> PythonPackageInfo:
+        return dynamic.PythonDynamicPackageAnalysis.get_package_info()
+
+    @property
+    def _file_info(self) -> PythonFileInfo:
+        return dynamic.PythonDynamicPackageAnalysis.get_file_info()
 
     def action_class(self, path: str):
         def __decorator(cls: Type):
             global actions
             for name, func in inspect.getmembers(cls, inspect.isfunction):
-                action_path = f"user.{name}"
+                action_path = f"{path}.{name}"
                 file_path = Path(func.__code__.co_filename)
                 file_path = file_path.relative_to(self._package_info.package_root)
-                action_decl = ActionDecl(
-                    name=action_path,
-                    file_path=str(file_path),
-                    matches=self.matches,
-                    impl=func,
+                self._file_info.add_declaration(
+                    TalonActionDecl(
+                        name=action_path,
+                        matches=self._matches,
+                        impl=func,
+                    )
                 )
-                self._file_info.add_declaration(action_decl)
-                self._decls.append(action_decl)
 
         return __decorator
 
@@ -161,161 +257,79 @@ class Context(dynamic.Stub):
 
     def capture(self, path: str = None, rule: str = None) -> Any:
         def __decorator(func: Callable):
-            capture_path = f"user.{func.__code__.co_name}"
+            capture_path = f"{path}.{func.__code__.co_name}"
             file_path = Path(func.__code__.co_filename)
             file_path = file_path.relative_to(self._package_info.package_root)
-            capture_decl = CaptureDecl(
-                name=capture_path,
-                matches=self._matches,
-                file_path=str(file_path),
-                rule=TalonRule.parse(rule),
-                impl=func,
+            self._file_info.add_declaration(
+                TalonCaptureDecl(
+                    name=capture_path,
+                    matches=self._matches,
+                    rule=TalonRule.parse(rule),
+                    impl=func,
+                )
             )
-            self._file_info.add_declaration(capture_decl)
-            self._decls.append(capture_decl)
 
         return __decorator
 
     @property
-    def matches(self) -> Union[str, "Match"]:
+    def matches(self) -> TalonMatches:
         return self._matches
 
     @matches.setter
-    def matches(self, matches: Union[str, "Match"]):
-        self._matches = matches
-        # talon.types.from_tree_sitter(talon.parse(f"{matches}\n-\n").root_node)
-        for decl in self._decls:
-            decl.matches = matches
+    def matches(self, matches: str):
+        self._matches.matches = TalonContext.parse(matches)
 
-    # @property
-    # def apps(self):
-    #     pass
+    @property
+    def apps(self):
+        raise NotImplementedError
 
-    # @apps.setter
-    # def apps(self, value: Sequence[str]):
-    #     return []
+    @apps.setter
+    def apps(self, value: Sequence[str]):
+        raise NotImplementedError
 
-    # @property
-    # def lists(self) -> dict[str, Mapping[str, str]]:
-    #     return {}
+    @property
+    def lists(self) -> dict[str, ListValue]:
+        return self._lists
 
-    # @lists.setter
-    # def lists(self, lists: dict[str, Union[dict[str, str], Sequence[str]]]) -> None:
-    #     pass
+    @lists.setter
+    def lists(self, lists: dict[str, ListValue]) -> None:
+        self._lists.update(lists)
 
-    # @property
-    # def settings(self):
-    #     return {}
+    @property
+    def settings(self) -> dict[str, any]:
+        return self._settings
 
-    # @settings.setter
-    # def settings(self, value: dict[str, "SettingValue"]):
-    #     pass
+    @settings.setter
+    def settings(self, values: dict[str, any]):
+        self._settings.update(values)
 
-    # @property
-    # def tags(self):
-    #     pass
+    @property
+    def tags(self):
+        raise NotImplementedError
 
-    # @tags.setter
-    # def tags(self, value: Sequence[str]):
-    #     pass
-
-    # @property
-    # def commands(self) -> Mapping[str, CommandImpl]:
-    #     pass
-
-    # @property
-    # def hotkeys(self) -> Mapping[str, ScriptImpl]:
-    #     pass
-
-    # @property
-    # def noises(self):
-    #     pass
-    pass
-
-
-class SettingDecl(dynamic.Stub):
-    # class NoValueType:
-    #     pass
-
-    # NoValue: NoValueType = NoValueType()
-    # mod: "Module"
-    # path: str
-    # type: Type
-    # default: Union[Any, NoValueType]
-    # desc: Optional[str]
-    pass
+    @tags.setter
+    def tags(self, tag_names: Sequence[str]):
+        for tag_name in tag_names:
+            self._matches.tags.append(tag_name)
 
 
 class Settings(dynamic.Stub):
-    # def lookup(self, path: str) -> SettingDecl:
-    #     pass
-
-    # def __contains__(self, path: str) -> bool:
-    #     pass
-
-    # def __getitem__(self, path: str) -> SettingValue:
-    #     pass
-
-    # def get(
-    #     self,
-    #     path: str,
-    #     default: Union[SettingValue, SettingDecl.NoValueType, None] = None,
-    # ) -> Optional[SettingValue]:
-    #     pass
-
-    # def list(self) -> None:
-    #     pass
-    pass
-
-
-class ScopeDecl(dynamic.Stub):
-    # mod: Module
-    # func: ScopeFunc
-
-    # def update(self, *args) -> None:
-    #     pass
     pass
 
 
 class Scope(dynamic.Stub):
-    # app_decl: Any
-    # lock: Any
-    # registry: Any
-    # data: Any
-    # data_sources: Any
-    # raw_data: Any
-    # scopes: Any
-    # registered: Any
-
-    # def key(self, path: str) -> Tuple[str, Optional[str]]:
-    #     pass
-
-    # def get(self, path: str, default: Any = None) -> Any:
-    #     pass
-
-    # def __contains__(self, path: str) -> bool:
-    #     pass
-
-    # def __getitem__(self, path: str) -> Any:
-    #     pass
-
-    # def matches(self, cm: ContextMatch) -> bool:
-    #     pass
-
-    # def update(self, path: str) -> None:
-    #     pass
-
-    # def update_one(self, scope: ScopeDecl) -> None:
-    #     pass
-
-    # def update_decls(self, decls: Decls) -> None:
-    #     pass
     pass
 
 
 class Resource(dynamic.Stub):
     def open(self, file: str, mode: str) -> TextIOWrapper:
         return open(file, mode)
+
+    def read(self, file: str) -> str:
+        raise NotImplementedError
+
+    def write(self, file: str, contents: str) -> str:
+        raise NotImplementedError
 
 
 class App(dynamic.Stub):

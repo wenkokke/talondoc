@@ -43,14 +43,15 @@ class TreeSitterTalon:
             node_types = NodeType.schema().loads(fp.read(), many=True)
         self.types = TypeProvider("types", node_types)
 
-    def parse(self, contents: bytes) -> ts.Tree:
-        has_header = contents.startswith(b"-\n") or (b"\n-\n" in contents)
+    def parse(self, contents: bytes, has_header: Optional[bool] = None) -> ts.Tree:
+        if has_header is None:
+            has_header = contents.startswith(b"-\n") or (b"\n-\n" in contents)
         if not has_header:
             contents = b"-\n" + contents
         return self.parser.parse(contents)
 
-    def parse_file(self, path: Path) -> ts.Tree:
-        return self.parse(path.read_bytes())
+    def parse_file(self, path: Path, has_header: Optional[bool] = None) -> ts.Tree:
+        return self.parse(path.read_bytes(), has_header=has_header)
 
 
 talon_library_path = globals().get("talon_library_path", None)

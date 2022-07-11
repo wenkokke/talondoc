@@ -1,7 +1,7 @@
 from abc import ABC
 import importlib
 from types import ModuleType
-from george.types import PythonFileInfo, PythonPackageInfo, TalonDecl
+from george.types import PythonFileInfo, PythonPackageInfo
 from pathlib import Path
 from typing import *
 
@@ -38,7 +38,7 @@ class PythonDynamicPackageAnalysis:
         cls.current_file_analysis = file_analysis
 
     @classmethod
-    def get_file_info(cls) -> "PythonFileInfo":
+    def get_file_info(cls) -> PythonFileInfo:
         return cls.get_file_analysis().python_file_info
 
     @classmethod
@@ -58,10 +58,10 @@ class PythonDynamicPackageAnalysis:
         return cls.current_package_analysis
 
     @classmethod
-    def get_package_info(cls) -> "PythonPackageInfo":
+    def get_package_info(cls) -> PythonPackageInfo:
         return cls.get_package_analysis().python_package_info
 
-    def process(self):
+    def process(self) -> PythonPackageInfo:
         PythonDynamicPackageAnalysis.set_package_analysis(self)
 
         class PkgPathFinder(PathFinder):
@@ -100,12 +100,16 @@ class PythonDynamicPackageAnalysis:
 
         PythonDynamicPackageAnalysis.clear_package_analysis()
 
+        return self.python_package_info
+
 
 class PythonDynamicFileAnalysis:
     def __init__(self, file_path: Path, package_root: Path):
         self.file_path = file_path
         self.package_root = package_root
-        self.python_file_info = PythonFileInfo(file_path=str(file_path))
+        self.python_file_info = PythonFileInfo(
+            file_path=str(file_path), package_root=str(package_root)
+        )
         self.on_ready = []
 
     def register(self, topic: Union[int, str], cb: Callable) -> None:
@@ -260,7 +264,7 @@ class StubFinder(PathFinder):
     Makes the stubs available under 'talon' and 'talon_plugins'.
     """
 
-    TALON_PKG_PATH = os.path.dirname(__file__)
+    TALON_PACKAGE_PATH = os.path.dirname(__file__)
 
     class StubModule(ModuleType, Stub):
         def __init__(self, fullname: str):
@@ -279,7 +283,7 @@ class StubFinder(PathFinder):
     @classmethod
     def find_spec(cls, fullname, path=None, target=None):
         if _has_prefix(fullname, "talon", "talon_plugins"):
-            spec = super().find_spec(fullname, [cls.TALON_PKG_PATH])
+            spec = super().find_spec(fullname, [cls.TALON_PACKAGE_PATH])
             if spec:
                 return spec
             else:

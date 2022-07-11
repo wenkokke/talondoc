@@ -18,20 +18,21 @@ def VariableTalonName(path: Path, node: ast.AST):
 
 
 class PythonStaticPackageAnalysis:
-    @staticmethod
+    def __init__(self, package_root: Path):
+        self.package_root = package_root
+
     def process_file(file_path: Path, package_root: Path = Path(".")) -> PythonFileInfo:
         return PythonStaticFileAnalysis(file_path, package_root).process()
 
-    @staticmethod
-    def process_package(package_root: Path) -> PythonPackageInfo:
+    def process(self) -> PythonPackageInfo:
         file_infos = {}
-        for file_path in package_root.glob("**/*.py"):
-            file_path = file_path.relative_to(package_root)
-            file_info = PythonStaticPackageAnalysis.process_file(
-                file_path, package_root
-            )
+        for file_path in self.package_root.glob("**/*.py"):
+            file_path = file_path.relative_to(self.package_root)
+            file_info = PythonStaticFileAnalysis(file_path, self.package_root).process()
             file_infos[str(file_path)] = file_info
-        return PythonPackageInfo(package_root=str(package_root), file_infos=file_infos)
+        return PythonPackageInfo(
+            package_root=str(self.package_root), file_infos=file_infos
+        )
 
 
 @dataclass
@@ -52,7 +53,7 @@ class DecoratorInfo:
     decorator_name: str
     decorator: ast.ClassDef
     scope: str
-    matches: bool
+    matches: TalonMatches
 
     @staticmethod
     def from_ast(decorator_name: str, decorator: ast.expr) -> Optional["DecoratorInfo"]:
@@ -63,7 +64,7 @@ class DecoratorInfo:
                     decorator_name=decorator_name,
                     decorator=decorator,
                     scope="user",
-                    matches=False,
+                    matches=TalonModule(),
                 )
         except AttributeError:
             pass
@@ -77,7 +78,7 @@ class DecoratorInfo:
                     decorator_name=decorator_name,
                     decorator=decorator,
                     scope=decorator.args[0].value,
-                    matches=True,
+                    matches=TalonContext(),
                 )
         except AttributeError:
             pass
@@ -87,7 +88,7 @@ class DecoratorInfo:
 @dataclass
 class ActionClassInfo:
     scope: str
-    matches: bool
+    matches: TalonMatches
     class_def: ast.ClassDef = None
 
     @staticmethod
@@ -106,7 +107,9 @@ class ActionClassInfo:
 class PythonStaticFileAnalysis(ast.NodeVisitor):
     def __init__(self, file_path: Path, package_root: Path = Path(".")):
         self.package_root: Path = package_root
-        self.python_file_info = PythonFileInfo(file_path=str(file_path))
+        self.python_file_info = PythonFileInfo(
+            file_path=str(file_path), package_root=str(package_root)
+        )
         self.action_class: Optional[ActionClassInfo] = None
 
     @property
@@ -120,12 +123,6 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
         self.visit(tree)
         return self.python_file_info
 
-    # def add_use(self, sort_name: TalonSortName, name: TalonDeclName):
-    #     self.python_file_info.add_use(sort_name, name)
-
-    # def add_declaration(self, decl: TalonDecl):
-    #     self.python_file_info.add_declaration(decl)
-
     def visit_ClassDef(self, class_def: ast.ClassDef):
         self.action_class = ActionClassInfo.from_ast(class_def)
         self.generic_visit(class_def)
@@ -138,7 +135,7 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
             # Use Action
             if func_name[0] == "actions":
                 name = ".".join(func_name[1:])
-                self.python_file_info.add_use(TalonSort.Action.name, name)
+                self.python_file_info.add_use(TalonSort.Action, name)
 
             mod_var, list_func = func_name
 
@@ -150,13 +147,11 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
                 except (IndexError, AttributeError):
                     desc = None
                 self.python_file_info.add_declaration(
-                    TalonDecl(
+                    TalonListDecl(
                         name=name,
-                        sort_name=TalonSort.List.name,
-                        file_path=str(self.file_path),
-                        matches=False,
+                        matches=TalonModule(),
                         desc=desc,
-                        source=Source.from_ast(call),
+                        source=Source.from_ast(self.file_path, call),
                     )
                 )
 
@@ -168,13 +163,11 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
                 except (IndexError, AttributeError):
                     desc = None
                 self.python_file_info.add_declaration(
-                    TalonDecl(
+                    TalonTagDecl(
                         name=name,
-                        sort_name=TalonSort.Tag.name,
-                        file_path=str(self.file_path),
-                        matches=False,
+                        matches=TalonModule(),
                         desc=desc,
-                        source=Source.from_ast(call),
+                        source=Source.from_ast(self.file_path, call),
                     )
                 )
         except AttributeError:
@@ -191,12 +184,10 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
             if re.match("ctx", ctx_var) and list_func == "lists":
                 name = subscript.slice.value
                 self.python_file_info.add_declaration(
-                    TalonDecl(
+                    TalonListDecl(
                         name=name,
-                        sort_name=TalonSort.List.name,
-                        file_path=str(self.file_path),
-                        matches=True,
-                        source=Source.from_ast(subscript),
+                        matches=TalonContext(),
+                        source=Source.from_ast(self.file_path, subscript),
                     )
                 )
         except (QualifiedNameError, ValueError, AttributeError):
@@ -208,13 +199,11 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
             name = f"{self.action_class.scope}.{function_def.name}"
             desc = ast.get_docstring(function_def)
             self.python_file_info.add_declaration(
-                TalonDecl(
+                TalonActionDecl(
                     name=name,
-                    sort_name=TalonSort.Action.name,
-                    file_path=str(self.file_path),
                     matches=self.action_class.matches,
                     desc=desc,
-                    source=Source.from_ast(function_def),
+                    source=Source.from_ast(self.file_path, function_def),
                 )
             )
         else:
@@ -225,13 +214,11 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
                     name = f"{decorator_info.scope}.{function_def.name}"
                     desc = ast.get_docstring(function_def)
                     self.python_file_info.add_declaration(
-                        TalonDecl(
+                        TalonCaptureDecl(
                             name=name,
-                            sort_name=TalonSort.Capture.name,
-                            file_path=str(self.file_path),
                             matches=decorator_info.matches,
                             desc=desc,
-                            source=Source.from_ast(function_def),
+                            source=Source.from_ast(self.file_path, function_def),
                         )
                     )
                     break
