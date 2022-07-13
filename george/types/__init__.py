@@ -1,21 +1,31 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 import inspect
-from logging import warn
-import operator
 from pathlib import Path
 from types import CodeType
 import types
 from dataclasses_json import config, dataclass_json
 from dataclasses_json.core import Json
 from enum import Enum
-from typing import Callable, Generator, Optional, Sequence, Type, TypeVar, Union
-import george.talon.tree_sitter as talon
+from typing import (
+    Callable,
+    ForwardRef,
+    Generic,
+    Mapping,
+    Optional,
+    Sequence,
+    Type,
+    TypeVar,
+    Union,
+)
 import marshal
 import base64
 
 import ast
 import tree_sitter as ts
+import tree_sitter_talon as talon
+
+from george.python.analysis import dynamic
 
 TalonName = str
 TalonSortName = str
@@ -31,68 +41,65 @@ class TalonSort(Enum):
     Mode = 7
 
 
-# Merging Helpers
-
-
-def dict_merged_with(dict1: dict, dict2: dict, value_merged_with=operator.__or__):
-    return {
-        key: value_merged_with(dict1.get(key, None), dict2.get(key, None))
-        for key in dict1.keys() | dict2.keys()
-    }
-
-
-def list_merged(list1: Optional[list], list2: Optional[list]) -> list:
-    if list1 and list2:
-        return list1 + list2
-    elif list1:
-        return list1
-    else:
-        return list2
-
-
 # Encode/Decode Helpers
 
 
-class Encode:
-    @staticmethod
-    def function(func: Optional[Callable]) -> Optional[Json]:
-        if func:
-            name = func.__code__.co_name
-            code = base64.b64encode(marshal.dumps(func.__code__)).decode("utf-8")
+def _encode_function(func: Optional[Callable]) -> Optional[Json]:
+    if func:
+        name = func.__code__.co_name
+        code = base64.b64encode(marshal.dumps(func.__code__)).decode("utf-8")
+        return {
+            "name": name,
+            "code": code,
+        }
+
+
+def _decode_function(data: Optional[Json]) -> Optional[Callable]:
+    if data:
+        name = data["name"]
+        code = marshal.loads(base64.b64decode(bytes(data["code"], "utf-8")))
+        return types.FunctionType(code, globals(), name)
+
+
+def _encode_type(type: Optional[type]) -> Optional[Json]:
+    if type:
+        if inspect.isfunction(type):
+            return _encode_function(type)
+        if type in [str, int]:
+            return type.__name__
+        return None
+
+
+def _decode_type(data: Optional[Json]) -> Optional[type]:
+    if data:
+        if isinstance(data, dict) and "name" in data and "code" in data:
+            return _decode_function(data)
+        if isinstance(data, str):
             return {
-                "name": name,
-                "code": code,
-            }
-
-    @staticmethod
-    def type(type: Optional[type]) -> Optional[Json]:
-        if type:
-            if inspect.isfunction(type):
-                return Encode.function(type)
-            if type in [str, int]:
-                return type.__name__
-            return None
+                "str": str,
+                "int": int,
+            }[data]
+        return None
 
 
-class Decode:
-    @staticmethod
-    def function(data: Optional[Json]) -> Optional[Callable]:
-        if data:
-            name = data["name"]
-            code = marshal.loads(base64.b64decode(bytes(data["code"], "utf-8")))
-            return types.FunctionType(code, globals(), name)
+# Merging Helpers
 
-    @staticmethod
-    def type(data: Optional[Json]) -> Optional[type]:
-        if data:
-            if isinstance(data, dict) and "name" in data and "code" in data:
-                return Decode.function(data)
-            if isinstance(data, str):
-                return {
-                    "str": str,
-                    "int": int,
-                }[data]
-            return None
+T = TypeVar("T")
+
+
+def merged(first: T, second: T) -> T:
+    if isinstance(first, Sequence) and isinstance(second, Sequence):
+        return first + second
+    if isinstance(first, Mapping) and isinstance(second, Mapping):
+        return {
+            key: merged(first.get(key, None), second.get(key, None))
+            for key in first.keys() | second.keys()
+        }
+    if getattr(first, "merged_with", None) is not None:
+        return first.merged_with(second)
+    if getattr(second, "merged_with", None) is not None:
+        return second.merged_with(first)
+    return first or second
 
 
 # Source Information
@@ -104,6 +111,16 @@ class Position:
     line: int
     column: Optional[int] = None
 
+    def merged_with(self, other: Optional["Position"]) -> "Position":
+        if other is not None:
+            assert isinstance(other, Position)
+            assert self.line == other.line
+            return Position(
+                line=self.line,
+                column=merged(self.column, other.column),
+            )
+        return self
+
 
 @dataclass_json
 @dataclass
@@ -112,6 +129,22 @@ class Source:
     text: Optional[str] = None
     start: Optional[Position] = None
     end: Optional[Position] = None
+
+    def merged_with(self, other: Optional["Source"]) -> "Source":
+        if other is not None:
+            assert isinstance(other, Source)
+            assert (
+                self.file_path == other.file_path
+            ), f"Mismatched file paths:\n{self}\n\n{other}"
+            if self.text is not None and other.text is not None:
+                assert self.text == other.text
+            return Source(
+                file_path=self.file_path,
+                text=self.text or other.text,
+                start=merged(self.start, other.start),
+                end=merged(self.end, other.end),
+            )
+        return self
 
     @staticmethod
     def from_ast(file_path: Union[str, Path], node: ast.AST) -> "Source":
@@ -137,11 +170,16 @@ class Source:
     @staticmethod
     def from_code(node: CodeType) -> "Source":
         file_path = node.co_filename
+        package_info = dynamic.PythonDynamicPackageAnalysis.get_package_info()
+        if package_info:
+            file_path = str(Path(file_path).relative_to(package_info.package_root))
         start = Position(line=node.co_firstlineno)
         return Source(file_path, text=None, start=start)
 
 
 # Context Matches
+
+MatchesVar = TypeVar("MatchesVar", bound="TalonMatches")
 
 
 @dataclass_json
@@ -151,6 +189,12 @@ class TalonMatches(ABC):
     def is_override(self) -> bool:
         raise NotImplementedError
 
+    @abstractmethod
+    def merged_with(self, other: Optional[MatchesVar]) -> MatchesVar:
+        """
+        Merge two Talon match contexts.
+        """
+
 
 @dataclass_json
 @dataclass
@@ -158,6 +202,11 @@ class TalonModule(TalonMatches):
     @property
     def is_override(self) -> bool:
         return False
+
+    def merged_with(self, other: Optional[MatchesVar]) -> MatchesVar:
+        if other is not None:
+            assert isinstance(other, TalonModule)
+        return self
 
 
 TalonMatchDecl = Union[
@@ -185,6 +234,16 @@ class TalonContext(TalonMatches):
                 assert anchor == "context"
                 return talon.types.from_tree_sitter(context).children
         return None
+
+    def merged_with(self, other: Optional[MatchesVar]) -> MatchesVar:
+        if other is not None:
+            assert isinstance(other, TalonContext)
+            return TalonContext(
+                matches=merged(self.matches, other.matches),
+                tags=merged(self.tags, other.tags),
+            )
+        else:
+            return self
 
 
 # Commands
@@ -226,6 +285,8 @@ class TalonCommand:
 
 # Declarations
 
+DeclType = TypeVar("DeclType", bound=ForwardRef("TalonDecl"))
+
 
 @dataclass_json
 @dataclass
@@ -242,6 +303,12 @@ class TalonDecl(ABC):
         The sort of the declaration.
         """
 
+    @abstractmethod
+    def merged_with(self, other: Optional[DeclType]) -> DeclType:
+        """
+        Merge two Talon declarations.
+        """
+
 
 @dataclass_json
 @dataclass
@@ -249,7 +316,7 @@ class TalonActionDecl(TalonDecl):
     source: Source = None
     impl: Optional[Callable] = field(
         default=None,
-        metadata=config(encoder=Encode.function, decoder=Decode.function),
+        metadata=config(encoder=_encode_function, decoder=_decode_function),
     )
 
     def __post_init__(self, **kwargs):
@@ -262,6 +329,21 @@ class TalonActionDecl(TalonDecl):
     def sort(self):
         return TalonSort.Action
 
+    def merged_with(self, other: Optional["TalonActionDecl"]) -> "TalonActionDecl":
+        if other is not None:
+            assert isinstance(other, TalonActionDecl)
+            assert self.sort == other.sort
+            assert self.name == other.name
+            return TalonActionDecl(
+                name=self.name,
+                matches=merged(self.matches, other.matches),
+                source=merged(self.source, other.source),
+                desc=self.desc or other.desc,
+                impl=self.impl or other.impl,
+            )
+        else:
+            return self
+
 
 @dataclass_json
 @dataclass
@@ -270,7 +352,7 @@ class TalonCaptureDecl(TalonDecl):
     rule: Optional[TalonRule] = None
     impl: Optional[Callable] = field(
         default=None,
-        metadata=config(encoder=Encode.type, decoder=Decode.type),
+        metadata=config(encoder=_encode_type, decoder=_decode_type),
     )
 
     def __post_init__(self, **kwargs):
@@ -282,6 +364,22 @@ class TalonCaptureDecl(TalonDecl):
     @property
     def sort(self):
         return TalonSort.Capture
+
+    def merged_with(self, other: Optional["TalonCaptureDecl"]) -> "TalonCaptureDecl":
+        if other is not None:
+            assert isinstance(other, TalonCaptureDecl)
+            assert self.sort == other.sort
+            assert self.name == other.name
+            return TalonCaptureDecl(
+                name=self.name,
+                matches=merged(self.matches, other.matches),
+                source=merged(self.source, other.source),
+                desc=self.desc or other.desc,
+                rule=self.rule or other.rule,
+                impl=self.impl or other.impl,
+            )
+        else:
+            return self
 
 
 ListValue = Union[dict[str, str], Sequence[str]]
@@ -296,6 +394,25 @@ class TalonListDecl(TalonDecl):
     def sort(self):
         return TalonSort.List
 
+    def __post_init__(self, **kwargs):
+        if isinstance(self.list, Sequence):
+            self.list = {word: word for word in self.list}
+
+    def merged_with(self, other: Optional["TalonListDecl"]) -> "TalonListDecl":
+        if other is not None:
+            assert isinstance(other, TalonListDecl)
+            assert self.sort == other.sort
+            assert self.name == other.name
+            return TalonListDecl(
+                name=self.name,
+                matches=merged(self.matches, other.matches),
+                source=merged(self.source, other.source),
+                desc=self.desc or other.desc,
+                list=merged(self.list, other.list),
+            )
+        else:
+            return self
+
 
 @dataclass_json
 @dataclass
@@ -304,6 +421,20 @@ class TalonTagDecl(TalonDecl):
     def sort(self):
         return TalonSort.Tag
 
+    def merged_with(self, other: Optional["TalonTagDecl"]) -> "TalonTagDecl":
+        if other is not None:
+            assert isinstance(other, TalonTagDecl)
+            assert self.sort == other.sort
+            assert self.name == other.name
+            return TalonTagDecl(
+                name=self.name,
+                matches=merged(self.matches, other.matches),
+                source=merged(self.source, other.source),
+                desc=self.desc or other.desc,
+            )
+        else:
+            return self
+
 
 @dataclass_json
 @dataclass
@@ -311,6 +442,20 @@ class TalonModeDecl(TalonDecl):
     @property
     def sort(self):
         return TalonSort.Mode
+
+    def merged_with(self, other: Optional["TalonModeDecl"]) -> "TalonModeDecl":
+        if other is not None:
+            assert isinstance(other, TalonModeDecl)
+            assert self.sort == other.sort
+            assert self.name == other.name
+            return TalonModeDecl(
+                name=self.name,
+                matches=merged(self.matches, other.matches),
+                source=merged(self.source, other.source),
+                desc=self.desc or other.desc,
+            )
+        else:
+            return self
 
 
 SettingValue = any
@@ -321,7 +466,7 @@ SettingValue = any
 class TalonSettingDecl(TalonDecl):
     type: Optional[Type] = field(
         default=None,
-        metadata=config(encoder=Encode.type, decoder=Decode.type),
+        metadata=config(encoder=_encode_type, decoder=_decode_type),
     )
     default: Optional[any] = None
 
@@ -329,29 +474,41 @@ class TalonSettingDecl(TalonDecl):
     def sort(self):
         return TalonSort.Setting
 
-
-DeclType = TypeVar("DeclType", bound=TalonDecl)
+    def merged_with(self, other: Optional["TalonSettingDecl"]) -> "TalonSettingDecl":
+        if other is not None:
+            assert isinstance(other, TalonSettingDecl)
+            assert self.sort == other.sort
+            assert self.name == other.name
+            return TalonSettingDecl(
+                name=self.name,
+                matches=merged(self.matches, other.matches),
+                source=merged(self.source, other.source),
+                desc=self.desc or other.desc,
+                type=self.type or other.type,
+                default=self.default or other.default,
+            )
+        else:
+            return self
 
 
 @dataclass_json
 @dataclass
-class TalonDecls(tuple[DeclType, list[DeclType]]):
+class TalonDecls(Generic[DeclType]):
     sort: TalonSort
     declaration: DeclType = None
     overrides: list[DeclType] = field(default_factory=list)
 
-    def merged_with(self, other: "TalonDecls") -> "TalonDecls":
-        if other:
+    def merged_with(self, other: Optional["TalonDecls"]) -> "TalonDecls":
+        if other is not None:
+            assert isinstance(other, TalonDecls)
             assert self.sort == other.sort
-            return self
+            return TalonDecls(
+                sort=self.sort,
+                declaration=merged(self.declaration, other.declaration),
+                overrides=merged(self.overrides, other.overrides),
+            )
         else:
             return self
-
-    def __or__(self, other: "TalonDecls") -> "TalonDecls":
-        return self.merged_with(other)
-
-    def __ror__(self, other: "TalonDecls") -> "TalonDecls":
-        return self.merged_with(other)
 
 
 # Talon Files
@@ -420,30 +577,27 @@ class PythonFileInfo:
         self.uses[sort.name].append(name)
 
     def merged_with(self, other: Optional["PythonFileInfo"]) -> "PythonFileInfo":
-        if other:
-            assert self.file_path == other.file_path
-            assert self.package_root == other.package_root
+        if other is not None:
+            assert isinstance(other, PythonFileInfo)
+            assert (
+                self.file_path == other.file_path
+            ), f"Mismatched file paths:\n{self}\n\n{other}"
+            assert (
+                self.package_root == other.package_root
+            ), f"Mismatched packages:\n{self}\n\n{other}"
             return PythonFileInfo(
                 file_path=self.file_path,
                 package_root=self.package_root,
-                actions=dict_merged_with(self.actions, other.actions),
-                captures=dict_merged_with(self.captures, other.captures),
-                lists=dict_merged_with(self.lists, other.lists),
-                settings=dict_merged_with(self.settings, other.settings),
-                tags=dict_merged_with(self.tags, other.tags),
-                modes=dict_merged_with(self.modes, other.modes),
-                uses=dict_merged_with(
-                    self.uses, other.uses, value_merged_with=list_merged
-                ),
+                actions=merged(self.actions, other.actions),
+                captures=merged(self.captures, other.captures),
+                lists=merged(self.lists, other.lists),
+                settings=merged(self.settings, other.settings),
+                tags=merged(self.tags, other.tags),
+                modes=merged(self.modes, other.modes),
+                uses=merged(self.uses, other.uses),
             )
         else:
             return self
-
-    def __or__(self, other: Optional["PythonFileInfo"]) -> "PythonFileInfo":
-        return self.merged_with(other)
-
-    def __ror__(self, other: Optional["PythonFileInfo"]) -> "PythonFileInfo":
-        return self.merged_with(other)
 
 
 @dataclass_json
@@ -457,23 +611,18 @@ class PythonPackageInfo:
             try:
                 if name in file_info.actions:
                     return file_info.actions[name].declaration
-            except AttributeError:
-                print(type(file_info))
+            except AttributeError as e:
+                print(e)
                 exit()
         return None
 
     def merged_with(self, other: Optional["PythonPackageInfo"]) -> "PythonPackageInfo":
-        if other:
+        if other is not None:
+            assert isinstance(other, PythonPackageInfo)
             assert self.package_root == other.package_root
             return PythonPackageInfo(
                 package_root=self.package_root,
-                file_infos=dict_merged_with(self.file_infos, other.file_infos),
+                file_infos=merged(self.file_infos, other.file_infos),
             )
         else:
             return self
-
-    def __or__(self, other: Optional["PythonPackageInfo"]) -> "PythonPackageInfo":
-        return self.merged_with(other)
-
-    def __ror__(self, other: Optional["PythonPackageInfo"]) -> "PythonPackageInfo":
-        return self.merged_with(other)

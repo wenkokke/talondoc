@@ -1,10 +1,10 @@
 from pathlib import Path
 from typing import Generator, Optional
 from george.talon.analysis.script_describer import AbcTalonScriptDescriber
-import george.talon.tree_sitter as talon
 from george.types import *
 
 import tree_sitter as ts
+import tree_sitter_talon as talon
 
 
 MATCH_QUERY = talon.language.query("(match) @match")

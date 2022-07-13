@@ -1,0 +1,4 @@
+dataclasses_json
+docstring_parser
+tree_sitter
+tree_sitter_talon @ git+ssh://git@github.com/wenkokke/py-tree-sitter-talon.git@v1.0.0#egg=tree_sitter_talon

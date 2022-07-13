@@ -1,6 +1,3 @@
-[submodule "vendor/tree-sitter-talon"]
-	path = vendor/tree-sitter-talon
-	url = https://github.com/wenkokke/tree-sitter-talon.git
-[submodule "vendor/knausj_talon"]
-	path = vendor/knausj_talon
+[submodule "examples/knausj_talon"]
+	path = examples/knausj_talon
 	url = https://github.com/knausj85/knausj_talon.git
