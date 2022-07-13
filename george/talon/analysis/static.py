@@ -38,7 +38,6 @@ class TalonStaticPackageAnalysis:
                 file_path, self.package_root, self.script_describer
             ).process()
         return TalonPackageInfo(
-            package_root=str(self.package_root),
             file_infos=file_infos,
         )
 
@@ -58,7 +57,6 @@ class TalonStaticFileAnalysis:
     def process(self) -> TalonFileInfo:
         return TalonFileInfo(
             file_path=str(self.file_path),
-            package_root=str(self.package_root),
             commands=list(self.commands()),
             uses={
                 "Action": list(self.referenced_actions()),

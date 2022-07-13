@@ -168,11 +168,8 @@ class Source:
         return Source(file_path, text=text, start=start, end=end)
 
     @staticmethod
-    def from_code(node: CodeType) -> "Source":
-        file_path = node.co_filename
-        package_info = dynamic.PythonDynamicPackageAnalysis.get_package_info()
-        if package_info:
-            file_path = str(Path(file_path).relative_to(package_info.package_root))
+    def from_code(node: CodeType, package_root: Path) -> "Source":
+        file_path = str(Path(node.co_filename).relative_to(package_root))
         start = Position(line=node.co_firstlineno)
         return Source(file_path, text=None, start=start)
 
@@ -319,12 +316,6 @@ class TalonActionDecl(TalonDecl):
         metadata=config(encoder=_encode_function, decoder=_decode_function),
     )
 
-    def __post_init__(self, **kwargs):
-        if self.impl and not self.source:
-            self.source = Source.from_code(self.impl.__code__)
-        if self.impl and not self.desc:
-            self.desc = self.impl.__doc__
-
     @property
     def sort(self):
         return TalonSort.Action
@@ -354,12 +345,6 @@ class TalonCaptureDecl(TalonDecl):
         default=None,
         metadata=config(encoder=_encode_type, decoder=_decode_type),
     )
-
-    def __post_init__(self, **kwargs):
-        if self.impl and not self.source:
-            self.source = Source.from_code(self.impl.__code__)
-        if self.impl and not self.desc:
-            self.desc = self.impl.__doc__
 
     @property
     def sort(self):
@@ -518,7 +503,6 @@ class TalonDecls(Generic[DeclType]):
 @dataclass
 class TalonFileInfo:
     file_path: str
-    package_root: str
     commands: list[TalonCommand]
     uses: dict[TalonSortName, list[TalonName]]
 
@@ -526,7 +510,6 @@ class TalonFileInfo:
 @dataclass_json
 @dataclass
 class TalonPackageInfo:
-    package_root: str
     file_infos: dict[str, TalonFileInfo]
 
 
@@ -537,7 +520,6 @@ class TalonPackageInfo:
 @dataclass
 class PythonFileInfo:
     file_path: str
-    package_root: str
     actions: dict[TalonName, TalonDecls[TalonActionDecl]] = field(default_factory=dict)
     captures: dict[TalonName, TalonDecls[TalonCaptureDecl]] = field(
         default_factory=dict
@@ -582,12 +564,8 @@ class PythonFileInfo:
             assert (
                 self.file_path == other.file_path
             ), f"Mismatched file paths:\n{self}\n\n{other}"
-            assert (
-                self.package_root == other.package_root
-            ), f"Mismatched packages:\n{self}\n\n{other}"
             return PythonFileInfo(
                 file_path=self.file_path,
-                package_root=self.package_root,
                 actions=merged(self.actions, other.actions),
                 captures=merged(self.captures, other.captures),
                 lists=merged(self.lists, other.lists),
@@ -603,7 +581,6 @@ class PythonFileInfo:
 @dataclass_json
 @dataclass
 class PythonPackageInfo:
-    package_root: str
     file_infos: dict[str, PythonFileInfo] = field(default_factory=dict)
 
     def get_action_declaration(self, name: TalonName) -> Optional[TalonActionDecl]:
@@ -619,9 +596,7 @@ class PythonPackageInfo:
     def merged_with(self, other: Optional["PythonPackageInfo"]) -> "PythonPackageInfo":
         if other is not None:
             assert isinstance(other, PythonPackageInfo)
-            assert self.package_root == other.package_root
             return PythonPackageInfo(
-                package_root=self.package_root,
                 file_infos=merged(self.file_infos, other.file_infos),
             )
         else:

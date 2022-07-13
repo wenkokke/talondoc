@@ -50,6 +50,10 @@ class Module:
         self.desc = desc
 
     @property
+    def _package_root(self) -> Path:
+        return dynamic.PythonDynamicPackageAnalysis.get_package_analysis().package_root
+
+    @property
     def _package_info(self) -> PythonPackageInfo:
         return dynamic.PythonDynamicPackageAnalysis.get_package_info()
 
@@ -62,13 +66,13 @@ class Module:
         for name, func in inspect.getmembers(cls, inspect.isfunction):
             action_path = f"user.{name}"
             actions._register_action(action_path, func)
-            file_path = Path(func.__code__.co_filename)
-            file_path = file_path.relative_to(self._package_info.package_root)
             self._file_info.add_declaration(
                 TalonActionDecl(
                     name=action_path,
                     matches=TalonModule(),
                     impl=func,
+                    desc=func.__doc__,
+                    source=Source.from_code(func.__code__, self._package_root)
                 )
             )
 
@@ -88,14 +92,14 @@ class Module:
     def capture(self, rule: str) -> Any:
         def __decorator(func: Callable):
             capture_path = f"user.{func.__code__.co_name}"
-            file_path = Path(func.__code__.co_filename)
-            file_path = file_path.relative_to(self._package_info.package_root)
             self._file_info.add_declaration(
                 TalonCaptureDecl(
                     name=capture_path,
                     matches=TalonModule(),
                     rule=TalonRule.parse(rule),
                     impl=func,
+                    desc=func.__doc__,
+                    source=Source.from_code(func.__code__, self._package_root)
                 )
             )
             return func
@@ -227,6 +231,10 @@ class Context:
         self._settings = Context.Settings(self)
 
     @property
+    def _package_root(self) -> Path:
+        return dynamic.PythonDynamicPackageAnalysis.get_package_analysis().package_root
+
+    @property
     def _package_info(self) -> PythonPackageInfo:
         return dynamic.PythonDynamicPackageAnalysis.get_package_info()
 
@@ -239,13 +247,13 @@ class Context:
             global actions
             for name, func in inspect.getmembers(cls, inspect.isfunction):
                 action_path = f"{path}.{name}"
-                file_path = Path(func.__code__.co_filename)
-                file_path = file_path.relative_to(self._package_info.package_root)
                 self._file_info.add_declaration(
                     TalonActionDecl(
                         name=action_path,
                         matches=self._matches,
                         impl=func,
+                        desc=func.__doc__,
+                        source=Source.from_code(func.__code__, self._package_root)
                     )
                 )
 
@@ -258,14 +266,14 @@ class Context:
     def capture(self, path: str = None, rule: str = None) -> Any:
         def __decorator(func: Callable):
             capture_path = f"{path}.{func.__code__.co_name}"
-            file_path = Path(func.__code__.co_filename)
-            file_path = file_path.relative_to(self._package_info.package_root)
             self._file_info.add_declaration(
                 TalonCaptureDecl(
                     name=capture_path,
                     matches=self._matches,
                     rule=TalonRule.parse(rule),
                     impl=func,
+                    desc=func.__doc__,
+                    source=Source.from_code(func.__code__, self._package_root)
                 )
             )
 

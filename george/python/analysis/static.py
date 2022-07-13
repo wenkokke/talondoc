@@ -31,7 +31,7 @@ class PythonStaticPackageAnalysis:
             file_info = PythonStaticFileAnalysis(file_path, self.package_root).process()
             file_infos[str(file_path)] = file_info
         return PythonPackageInfo(
-            package_root=str(self.package_root), file_infos=file_infos
+            file_infos=file_infos
         )
 
 
@@ -108,7 +108,7 @@ class PythonStaticFileAnalysis(ast.NodeVisitor):
     def __init__(self, file_path: Path, package_root: Path = Path(".")):
         self.package_root: Path = package_root
         self.python_file_info = PythonFileInfo(
-            file_path=str(file_path), package_root=str(package_root)
+            file_path=str(file_path)
         )
         self.action_class: Optional[ActionClassInfo] = None
 

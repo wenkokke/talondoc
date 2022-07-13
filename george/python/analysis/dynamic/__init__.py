@@ -27,7 +27,7 @@ class PythonDynamicPackageAnalysis:
         self.package_root = package_root
         self.package_name = package_root.parts[-1]
         self.package_path = os.path.join(*package_root.parts[:-1])
-        self.python_package_info = PythonPackageInfo(package_root=str(package_root))
+        self.python_package_info = PythonPackageInfo()
 
     @classmethod
     def clear_file_analysis(cls):
@@ -108,7 +108,7 @@ class PythonDynamicFileAnalysis:
         self.file_path = file_path
         self.package_root = package_root
         self.python_file_info = PythonFileInfo(
-            file_path=str(file_path), package_root=str(package_root)
+            file_path=str(file_path)
         )
         self.on_ready = []
 
