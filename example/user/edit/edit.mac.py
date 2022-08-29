@@ -1,4 +1,4 @@
-from talon import Context, actions, clip # type: ignore
+from talon import Context, actions, clip  # type: ignore
 
 ctx = Context()
 ctx.matches = r"""

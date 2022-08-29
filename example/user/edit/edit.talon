@@ -1,145 +1,98 @@
 # Find
 
-scout this:
-  edit.find(edit.selected_text())
+scout this: edit.find(edit.selected_text())
 
-scout next:
-  edit.find_next()
+scout next: edit.find_next()
 
-scout previous:
-  edit.find_previous()
-
+scout previous: edit.find_previous()
 
 # Save
 
-file save:
-	edit.save()
+file save: edit.save()
 
-file save all:
-	edit.save_all()
-
+file save all: edit.save_all()
 
 # Undo/Redo
 
-nope:
-	edit.undo()
+nope: edit.undo()
 
-redo:
-	edit.redo()
+redo: edit.redo()
 
 # Navigation
 
-goal:
-  edit.left()
+goal: edit.left()
 
-gore:
-  edit.right()
+gore: edit.right()
 
-goop:
-  edit.up()
+goop: edit.up()
 
-gown:
-  edit.down()
+gown: edit.down()
 
-moon:
-  edit.word_left()
+moon: edit.word_left()
 
-step:
-  edit.word_right()
+step: edit.word_right()
 
-head:
-  edit.line_start()
+head: edit.line_start()
 
-tail:
-  edit.line_end()
+tail: edit.line_end()
 
-scroll up:
-  edit.page_up()
+scroll up: edit.page_up()
 
-scroll down:
-  edit.page_down()
+scroll down: edit.page_down()
 
-header:
-  edit.file_start()
+header: edit.file_start()
 
-tailor:
-  edit.file_end()
-
+tailor: edit.file_end()
 
 # Insert
 
-slurp:
-  edit.line_insert_up()
+slurp: edit.line_insert_up()
 
-slap:
-	edit.line_insert_down()
+slap: edit.line_insert_down()
 
-clone line:
-  edit.line_clone()
-
+clone line: edit.line_clone()
 
 # Intent
 
-(indent | [in] dent):
-  edit.indent_more()
+(indent | [in] dent): edit.indent_more()
 
-out dent:
-  edit.indent_less()
-
+out dent: edit.indent_less()
 
 # Swap
 
-drag down:
-  edit.line_swap_down()
+drag down: edit.line_swap_down()
 
-drag up:
-  edit.line_swap_up()
-
+drag up: edit.line_swap_up()
 
 # Select
 
-cork:
-  edit.select_none()
+cork: edit.select_none()
 
-grab up:
-  edit.extend_up()
+grab up: edit.extend_up()
 
-grab down:
-  edit.extend_down()
+grab down: edit.extend_down()
 
-grab left:
-  edit.extend_left()
+grab left: edit.extend_left()
 
-grab right:
-  edit.extend_right()
+grab right: edit.extend_right()
 
-(take|grab) word:
-  edit.select_word()
+(take | grab) word: edit.select_word()
 
-grab (moon|word left):
-  edit.extend_word_left()
+grab (moon | word left): edit.extend_word_left()
 
-grab (step|word right):
-  edit.extend_word_right()
+grab (step | word right): edit.extend_word_right()
 
-(take|grab) line:
-  edit.select_line()
+(take | grab) line: edit.select_line()
 
-grab head:
-  edit.extend_line_start()
+grab head: edit.extend_line_start()
 
-grab tail:
-  edit.extend_line_end()
+grab tail: edit.extend_line_end()
 
-(take|grab) file:
-  edit.select_all()
+(take | grab) file: edit.select_all()
 
-grab header:
-  edit.extend_file_start()
+grab header: edit.extend_file_start()
 
-grab tailor:
-  edit.extend_file_end()
-
+grab tailor: edit.extend_file_end()
 
 # Delete
 
@@ -148,8 +101,7 @@ gobble:
     edit.extend_word_left()
     insert(" ")
 
-wipe [goal]:
-	  edit.delete()
+wipe [goal]: edit.delete()
 
 wipe gore:
     edit.right()
@@ -159,11 +111,11 @@ clear word:
     edit.select_word()
     edit.delete()
 
-clear (moon|word left):
+clear (moon | word left):
     edit.extend_word_left()
     edit.delete()
 
-clear (step|word right):
+clear (step | word right):
     edit.extend_word_right()
     edit.delete()
 
@@ -191,21 +143,19 @@ clear tailor:
     edit.extend_file_end()
     edit.delete()
 
-
 # Copy
 
-copy (it | that):
-	edit.copy()
+copy (it | that): edit.copy()
 
 copy word:
     edit.select_word()
     edit.copy()
 
-copy (moon|word left):
+copy (moon | word left):
     edit.extend_word_left()
     edit.copy()
 
-copy (step|word right):
+copy (step | word right):
     edit.extend_word_right()
     edit.copy()
 
@@ -233,21 +183,19 @@ copy tailor:
     edit.extend_file_end()
     edit.copy()
 
-
 # Cut
 
-cut (it | that):
-	edit.cut()
+cut (it | that): edit.cut()
 
 cut word:
     edit.select_word()
     edit.cut()
 
-cut (moon|word left):
+cut (moon | word left):
     edit.extend_word_left()
     edit.cut()
 
-cut (step|word right):
+cut (step | word right):
     edit.extend_word_right()
     edit.cut()
 
@@ -275,11 +223,8 @@ cut tailor:
     edit.extend_file_end()
     edit.cut()
 
-
 # Paste
 
-paste (it | that):
-	edit.paste()
+paste (it | that): edit.paste()
 
-paste match:
-    edit.paste_match_style()
+paste match: edit.paste_match_style()

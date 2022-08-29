@@ -15,8 +15,10 @@ classifiers = [
   "Topic :: Software Development :: Compilers",
 ]
 dependencies = [
+  # "appdirs==1.4.4",
   "Sphinx==5.1.1",
   "tree_sitter_talon ==3.0.3",
+  "types-docutils==0.19.0"
 ]
 
 [project.urls]
@@ -47,9 +49,8 @@ push = true
   '^current_version = "{version}"$',
   '^version = "{version}"$',
 ]
-"source/conf.py" = [
-  '^release = "{version}"$',
-]
+"source/conf.py" = ['^release = "{version}"$']
+"talondoc/__init__.py" = ['^__version__: str = "{version}"$']
 
 [tool.tox]
 legacy_tox_ini = """

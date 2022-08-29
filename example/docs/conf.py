@@ -9,7 +9,6 @@
 import os
 import sys
 
-
 project = "example"
 copyright = "2022, Wen Kokke"
 author = "Wen Kokke"
@@ -20,9 +19,7 @@ release = "0.1.0"
 
 sys.path.append(os.path.abspath("../.."))
 
-extensions = ["talondoc.todo"]
-
-todo_include_todos = True
+extensions = ["talondoc.sphinx"]
 
 
 # -- Options for HTML output -------------------------------------------------

@@ -1,4 +1,4 @@
-from talon import Context, actions # type: ignore
+from talon import Context, actions  # type: ignore
 
 ctx = Context()
 ctx.matches = r"""

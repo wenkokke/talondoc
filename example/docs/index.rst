@@ -1,10 +1,4 @@
 Welcome to example's documentation!
 ===================================
 
-.. toctree::
-   pages/test.rst
-
-TODOs
-=====
-
-.. todolist::
+.. talon:package:: example/user
