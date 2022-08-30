@@ -1,7 +1,7 @@
 from typing import Any
 from sphinx.application import Sphinx
 from .. import __version__
-from .domains.talon import TalonDomain
+from .domains import TalonDomain
 
 
 def setup(app: Sphinx) -> dict[str, Any]:

@@ -1,0 +1,3 @@
+[submodule "example/knausj_talon"]
+	path = example/knausj_talon
+	url = git@github.com:knausj85/knausj_talon.git

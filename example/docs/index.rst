@@ -1,4 +1,6 @@
-Welcome to example's documentation!
-===================================
+Example documentation for knausj_talon
+======================================
 
-.. talon:package:: example/user
+.. talon:package:: example/knausj_talon
+  :name: user
+  :exclude: conftest.py, tests/**
