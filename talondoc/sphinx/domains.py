@@ -1,11 +1,18 @@
-from functools import singledispatchmethod
-from typing import Any, Optional
+from typing import Optional
 from sphinx.domains import Domain
 from sphinx.util import logging
 from .directives.package import TalonPackageDirective
 from .directives.user import TalonUserDirective
-from ..analyze.registry import NoActiveFile, Registry
-from ..types import *
+from ..analyze.registry import Registry
+from ..types import (
+    ActionEntry,
+    CommandEntry,
+    FileEntry,
+    ModuleEntry,
+    ObjectEntry,
+    PackageEntry,
+    resolve_name,
+)
 
 
 class TalonDomain(Domain, Registry):
@@ -19,73 +26,44 @@ class TalonDomain(Domain, Registry):
         "user": TalonUserDirective,
     }
 
-    initial_data: dict[str, Any] = {
-        "actions": {},
-        "commands": [],
-        "files": {},
-        "modules": {},
-        "packages": {},
-    }
-
     @property
     def logger(self) -> logging.SphinxLoggerAdapter:
         return logging.getLogger(__name__)
 
     @property
     def actions(self) -> dict[str, ActionEntry]:
-        return self.data.setdefault("actions", {})
+        return self.env.temp_data.setdefault(ActionEntry.sort, {})
 
     @property
     def commands(self) -> list[CommandEntry]:
-        return self.data.setdefault("commands", [])
+        return self.env.temp_data.setdefault(CommandEntry.sort, [])
 
     @property
     def files(self) -> dict[str, FileEntry]:
-        return self.data.setdefault("files", {})
+        return self.env.temp_data.setdefault(FileEntry.sort, {})
 
     @property
     def modules(self) -> dict[str, list[ModuleEntry]]:
-        return self.data.setdefault("modules", {})
+        return self.env.temp_data.setdefault(ModuleEntry.sort, {})
 
     @property
     def packages(self) -> dict[str, PackageEntry]:
-        return self.data.setdefault("packages", {})
+        return self.env.temp_data.setdefault(PackageEntry.sort, {})
 
     _latest_file: Optional[FileEntry] = None
 
     def get_latest_file(self) -> Optional[FileEntry]:
         return self._latest_file
 
-    @singledispatchmethod
     def register(self, entry: ObjectEntry):
-        raise TypeError(type(entry))
-
-    @register.register
-    def _(self, entry: PackageEntry):
+        if isinstance(entry, FileEntry):
+            self._latest_file = entry
         self.logger.info(f"Register: {entry.qualified_name}")
-        self.packages[entry.qualified_name] = entry
+        self.env.temp_data.setdefault(entry.sort, {})[entry.resolved_name] = entry
 
-    @register.register
-    def _(self, entry: FileEntry):
-        self._latest_file = entry
-        self.logger.info(f"Register: {entry.qualified_name}")
-        self.files[entry.qualified_name] = entry
-
-    @register.register
-    def _(self, entry: ModuleEntry):
-        self.logger.info(f"Register: {entry.qualified_name}")
-        self.modules.setdefault(entry.qualified_name, []).append(entry)
-
-    @register.register
-    def _(self, entry: ActionEntry):
-        self.logger.info(f"Register: {entry.qualified_name}")
-        self.actions[entry.qualified_name] = entry
-
-    @register.register
-    def _(self, entry: CommandEntry):
-        self.logger.info(f"Register: {entry.qualified_name}")
-        self.commands.append(entry)
-
-    @singledispatchmethod
-    def register_use(self, entry: ObjectEntry, entry_used: ObjectEntry):
-        pass
+    def lookup(
+        self, qualified_name: str, *, namespace: Optional[str] = None
+    ) -> Optional[ObjectEntry]:
+        sort, name = qualified_name.split(":", maxsplit=1)
+        resolved_name = resolve_name(name, namespace=namespace)
+        return self.env.temp_data.get(sort, {}).get(resolved_name, None)

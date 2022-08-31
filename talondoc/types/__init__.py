@@ -1,28 +1,68 @@
 import abc
-import collections.abc
+from collections.abc import Callable
 import pathlib
-import typing
 
 import dataclasses
+from typing import Any, ClassVar, Optional, Union
 import tree_sitter_talon
 
 
+def resolve_name(name: str, *, namespace: Optional[str] = None) -> str:
+    parts = name.split(".")
+    if parts and parts[0] == "self":
+        if namespace:
+            return ".".join([namespace, *parts[1:]])
+        else:
+            raise ValueError(f"Cannot resolve 'self' in {name}")
+    else:
+        return name
+
+
+ListValue = Union[list[str], dict[str, Any]]
+
+SettingValue = Any
+
+
 class ObjectEntry(abc.ABC):
-    sort: typing.ClassVar[str]
+    sort: ClassVar[str]
+
+    @property
+    def namespace(self) -> str:
+        if isinstance(self, PackageEntry):
+            return object.__getattribute__(self, "name")
+        elif hasattr(self, "package"):
+            package = object.__getattribute__(self, "package")
+            assert isinstance(package, PackageEntry)
+            return package.name
+        elif hasattr(self, "file"):
+            file = object.__getattribute__(self, "file")
+            assert isinstance(file, FileEntry)
+            return file.package.name
+        elif hasattr(self, "module"):
+            module = object.__getattribute__(self, "module")
+            assert isinstance(module, ModuleEntry)
+            return module.file.package.name
+        elif hasattr(self, "file_or_module"):
+            file_or_module = object.__getattribute__(self, "file_or_module")
+            assert isinstance(file_or_module, (FileEntry, ModuleEntry))
+            return file_or_module.namespace
+        else:
+            raise TypeError(type(self))
+
+    @property
+    def resolved_name(self) -> str:
+        name = object.__getattribute__(self, "name")
+        return resolve_name(name, namespace=self.namespace)
 
     @property
     def qualified_name(self) -> str:
-        return f"{self.__class__.sort}:{object.__getattribute__(self, 'name')}"
-
-
-@dataclasses.dataclass
-class NamedObjectEntry(ObjectEntry):
-    name: str
+        return f"{self.__class__.sort}:{self.resolved_name}"
 
 
 @dataclasses.dataclass(init=False)
-class PackageEntry(NamedObjectEntry):
-    sort: typing.ClassVar[str] = "package"
+class PackageEntry(ObjectEntry):
+    sort: ClassVar[str] = "package"
+    name: str
     path: pathlib.Path
     files: list["FileEntry"] = dataclasses.field(default_factory=list)
 
@@ -31,7 +71,7 @@ class PackageEntry(NamedObjectEntry):
         path: pathlib.Path,
         files: list["FileEntry"] = [],
         *,
-        name: typing.Optional[str] = None,
+        name: Optional[str] = None,
     ):
         self.path = path
         self.files = files
@@ -40,64 +80,53 @@ class PackageEntry(NamedObjectEntry):
 
 @dataclasses.dataclass
 class FileEntry(ObjectEntry):
-    sort: typing.ClassVar[str] = "file"
+    sort: ClassVar[str] = "file"
     package: PackageEntry
     path: pathlib.Path
-    modules: list["ModuleEntry"] = dataclasses.field(default_factory=list)
-    contexts: list["ContextEntry"] = dataclasses.field(default_factory=list)
 
     @property
     def name(self) -> str:
-        return ".".join(self.path.parts)
+        return ".".join((self.namespace, *self.path.parts))
 
 
 @dataclasses.dataclass
 class TalonFileEntry(FileEntry):
     commands: list["CommandEntry"] = dataclasses.field(default_factory=list)
-    matches: typing.Optional[tree_sitter_talon.TalonMatches] = None
-    settings: list["SettingEntry"] = dataclasses.field(default_factory=list)
-    tag_imports: list["TagEntry"] = dataclasses.field(default_factory=list)
-
-    @property
-    def name(self) -> str:
-        return ".".join(self.path.parts)
+    matches: Optional[tree_sitter_talon.TalonMatches] = None
+    settings: list["SettingValueEntry"] = dataclasses.field(default_factory=list)
+    tag_imports: list["TagImportEntry"] = dataclasses.field(default_factory=list)
 
 
 @dataclasses.dataclass
 class PythonFileEntry(FileEntry):
-    @property
-    def name(self) -> str:
-        return ".".join(self.path.parts)
-
-
-@dataclasses.dataclass
-class ContextEntry(ObjectEntry):
-    sort: typing.ClassVar[str] = "context"
-    file: PythonFileEntry
-    desc: typing.Optional[str]
-
-    @property
-    def name(self) -> str:
-        return ".".join((*self.file.path.parts, str(self.file.contexts.index(self))))
-
-    @property
-    def namespace(self) -> str:
-        return self.file.package.name
+    modules: list["ModuleEntry"] = dataclasses.field(default_factory=list)
 
 
 @dataclasses.dataclass
 class ModuleEntry(ObjectEntry):
-    sort: typing.ClassVar[str] = "module"
+    sort: ClassVar[str] = "module"
     file: PythonFileEntry
-    desc: typing.Optional[str]
+    desc: Optional[str]
+
+    def __post_init__(self, *args, **kwargs):
+        self._index = len(self.file.modules)
+        self.file.modules.append(self)
 
     @property
     def name(self) -> str:
-        return ".".join((*self.file.path.parts, str(self.file.modules.index(self))))
+        return ".".join(
+            [
+                self.namespace,
+                *self.file.path.parts,
+                str(self._index),
+            ]
+        )
 
-    @property
-    def namespace(self) -> str:
-        return self.file.package.name
+
+@dataclasses.dataclass
+class ContextEntry(ModuleEntry):
+    sort: ClassVar[str] = "context"
+    matches: Union[None, str, tree_sitter_talon.TalonMatches] = None
 
 
 @dataclasses.dataclass
@@ -106,8 +135,8 @@ class CallbackEntry(ObjectEntry):
     Used to register callbacks into imported Python modules.
     """
 
-    sort: typing.ClassVar[str] = "callback"
-    callback: collections.abc.Callable[[], None]
+    sort: ClassVar[str] = "callback"
+    callback: Callable[[], None]
 
     @property
     def name(self) -> str:
@@ -115,49 +144,136 @@ class CallbackEntry(ObjectEntry):
 
 
 @dataclasses.dataclass
-class ActionEntry(NamedObjectEntry):
-    sort: typing.ClassVar[str] = "action"
-    module: typing.Union[ModuleEntry, ContextEntry]
-    func: typing.Optional[collections.abc.Callable[..., typing.Any]] = None
+class ActionEntry(ObjectEntry):
+    sort: ClassVar[str] = "action"
+    name: str
+    module: ModuleEntry
+    func: Callable[..., Any]
 
-    def __reduce__(self) -> tuple[collections.abc.Callable, tuple]:
-        return (ActionEntry, (self.name, self.module, None))
+    def __post_init__(self, *args, **kwargs):
+        # TODO: add self to module
+        pass
+
+    @property
+    def desc(self) -> Optional[str]:
+        return self.func.__doc__
 
 
 @dataclasses.dataclass
-class CaptureEntry(NamedObjectEntry):
-    sort: typing.ClassVar[str] = "capture"
+class CaptureEntry(ObjectEntry):
+    sort: ClassVar[str] = "capture"
+    name: str
+    module: ModuleEntry
+    rule: Union[str, tree_sitter_talon.TalonRule]
+    func: Callable[..., Any]
+
+    def __post_init__(self, *args, **kwargs):
+        # TODO: add self to module
+        pass
+
+    @property
+    def desc(self) -> Optional[str]:
+        return self.func.__doc__
 
 
 @dataclasses.dataclass
 class CommandEntry(ObjectEntry):
-    sort: typing.ClassVar[str] = "command"
+    sort: ClassVar[str] = "command"
     file: "TalonFileEntry"
     ast: tree_sitter_talon.TalonCommandDeclaration
 
+    def __post_init__(self, *args, **kwargs):
+        assert self not in self.file.commands
+        self.file.commands.append(self)
+
     @property
     def name(self) -> str:
-        # index = self.ast.start_position.line
         index = self.file.commands.index(self)
         return f"{self.file.name}.{index}"
 
 
 @dataclasses.dataclass
-class ListEntry(NamedObjectEntry):
-    sort: typing.ClassVar[str] = "list"
+class ListEntry(ObjectEntry):
+    sort: ClassVar[str] = "list"
+    name: str
+    module: ModuleEntry
+    desc: Optional[str] = None
+    value: Optional[ListValue] = None
+
+    def __post_init__(self, *args, **kwargs):
+        # TODO: add self to module
+        pass
 
 
 @dataclasses.dataclass
-class ModeEntry(NamedObjectEntry):
-    sort: typing.ClassVar[str] = "mode"
+class ListValueEntry(ObjectEntry):
+    sort: ClassVar[str] = "list-value"
+    name: str
+    module: ModuleEntry
+    value: ListValue
+
+    def __post_init__(self, *args, **kwargs):
+        # TODO: add self to module
+        pass
 
 
 @dataclasses.dataclass
-class SettingEntry(NamedObjectEntry):
-    sort: typing.ClassVar[str] = "setting"
-    value: typing.Optional[tree_sitter_talon.TalonExpression] = None
+class ModeEntry(ObjectEntry):
+    sort: ClassVar[str] = "mode"
+    name: str
+    module: ModuleEntry
+    desc: Optional[str] = None
+
+    def __post_init__(self, *args, **kwargs):
+        # TODO: add self to module
+        pass
 
 
 @dataclasses.dataclass
-class TagEntry(NamedObjectEntry):
-    sort: typing.ClassVar[str] = "tag"
+class SettingEntry(ObjectEntry):
+    sort: ClassVar[str] = "setting"
+    name: str
+    module: ModuleEntry
+    type: Optional[type] = None
+    desc: Optional[str] = None
+    default: Optional[tree_sitter_talon.TalonExpression] = None
+
+    def __post_init__(self, *args, **kwargs):
+        # TODO: add self to module
+        pass
+
+
+@dataclasses.dataclass
+class SettingValueEntry(ObjectEntry):
+    sort: ClassVar[str] = "setting-value"
+    name: str
+    file_or_module: Union[TalonFileEntry, ModuleEntry]
+    value: tree_sitter_talon.TalonExpression
+
+    def __post_init__(self, *args, **kwargs):
+        if isinstance(self.file_or_module, TalonFileEntry):
+            assert self not in self.file_or_module.settings
+            self.file_or_module.settings.append(self)
+
+
+@dataclasses.dataclass
+class TagEntry(ObjectEntry):
+    sort: ClassVar[str] = "tag"
+    name: str
+    module: ModuleEntry
+    desc: Optional[str] = None
+
+    def __post_init__(self, *args, **kwargs):
+        # TODO: add self to module
+        pass
+
+
+@dataclasses.dataclass
+class TagImportEntry(ObjectEntry):
+    sort: ClassVar[str] = "tag-import"
+    name: str
+    file: TalonFileEntry
+
+    def __post_init__(self, *args, **kwargs):
+        assert self not in self.file.tag_imports
+        self.file.tag_imports.append(self)

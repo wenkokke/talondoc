@@ -1,3 +1,4 @@
+import collections.abc
 import contextlib
 import importlib
 import importlib.abc
@@ -11,7 +12,7 @@ from ..types import *
 @contextlib.contextmanager
 def python_package(
     package_entry: PackageEntry,
-) -> collections.abc.Generator[None, None, None]:
+) -> collections.abc.Iterator[None]:
     package_name: str = package_entry.name
     package_path: str = str(package_entry.path)
 

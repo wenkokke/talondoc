@@ -1,3 +1,4 @@
+import dataclasses
 from functools import singledispatchmethod
 from typing import ClassVar, Optional
 from ..types import FileEntry, ObjectEntry
@@ -46,14 +47,35 @@ class Registry:
     def activate(self: Optional["Registry"]):
         Registry._active_registry = self
 
-    @singledispatchmethod
     def register(self, entry: ObjectEntry):
         """
         Register an object entry.
         """
 
-    @singledispatchmethod
-    def register_use(self, entry: ObjectEntry, entry_used: ObjectEntry):
+    def lookup(self, qualified_name: str) -> Optional[ObjectEntry]:
         """
-        Register an object entry used by another object entry.
+        Look up an object entry by its qualifiedd name.
         """
+
+
+@dataclasses.dataclass
+class Join(Registry):
+    registries: list[Registry]
+
+    def get_latest_file(self) -> Optional[FileEntry]:
+        for registry in self.registries:
+            latest_file = registry.get_latest_file()
+            if latest_file:
+                return latest_file
+        return None
+
+    def register(self, entry: ObjectEntry):
+        for registry in self.registries:
+            registry.register(entry)
+
+    def lookup(self, qualified_name: str) -> Optional[ObjectEntry]:
+        for registry in self.registries:
+            entry = registry.lookup(qualified_name)
+            if entry:
+                return entry
+        return None

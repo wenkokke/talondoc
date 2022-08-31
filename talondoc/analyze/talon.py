@@ -1,4 +1,3 @@
-from typing import cast
 from tree_sitter_talon import (
     parse_file,
     TalonAssignmentStatement,
@@ -27,29 +26,27 @@ def analyse_talon_file(
     for declaration in ast.children:
         if isinstance(declaration, TalonMatches):
             # Register matches:
+            assert talon_file_entry.matches is None
             talon_file_entry.matches = declaration
         elif isinstance(declaration, TalonCommandDeclaration):
             # Register command:
             command_entry = CommandEntry(file=talon_file_entry, ast=declaration)
-            talon_file_entry.commands.append(command_entry)
             registry.register(command_entry)
-            registry.register_use(talon_file_entry, command_entry)
         elif isinstance(declaration, TalonSettingsDeclaration):
             # Register settings:
             for child in declaration.children:
                 if isinstance(child, TalonBlock):
                     for statement in child.children:
                         if isinstance(statement, TalonAssignmentStatement):
-                            setting_entry = SettingEntry(
+                            setting_use_entry = SettingValueEntry(
                                 name=statement.left.text,
+                                file_or_module=talon_file_entry,
                                 value=statement.right,
                             )
-                            talon_file_entry.settings.append(setting_entry)
-                            registry.register_use(talon_file_entry, setting_entry)
+                            registry.register(setting_use_entry)
         elif isinstance(declaration, TalonTagImportDeclaration):
             # Register tag import:
-            tag_entry = TagEntry(name=declaration.tag.text)
-            talon_file_entry.tag_imports.append(tag_entry)
-            registry.register_use(talon_file_entry, tag_entry)
+            tag_entry = TagImportEntry(name=declaration.tag.text, file=talon_file_entry)
+            registry.register(tag_entry)
 
     return talon_file_entry
