@@ -10,3 +10,4 @@ Documentation for knausj_talon
 
 .. command:: hunt this paste
   :script:
+
