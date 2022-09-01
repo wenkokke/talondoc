@@ -6,7 +6,6 @@ import types
 import typing
 
 from ..analyze.registry import Registry
-
 from .core import ModuleShim
 from .talon import TalonShim
 

@@ -1,5 +1,4 @@
 from tree_sitter_talon import (
-    parse_file,
     TalonAssignmentStatement,
     TalonBlock,
     TalonCommandDeclaration,
@@ -7,9 +6,11 @@ from tree_sitter_talon import (
     TalonSettingsDeclaration,
     TalonSourceFile,
     TalonTagImportDeclaration,
+    parse_file,
 )
-from . import Registry
+
 from ..types import *
+from . import Registry
 
 
 def analyse_talon_file(
@@ -46,7 +47,9 @@ def analyse_talon_file(
                             registry.register(setting_use_entry)
         elif isinstance(declaration, TalonTagImportDeclaration):
             # Register tag import:
-            tag_entry = TagImportEntry(name=declaration.tag.text, file=talon_file_entry)
+            tag_entry = TagImportEntry(
+                name=declaration.tag.text, file_or_module=talon_file_entry
+            )
             registry.register(tag_entry)
 
     return talon_file_entry

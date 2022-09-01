@@ -1,5 +1,7 @@
 from typing import Any
+
 from sphinx.application import Sphinx
+
 from .. import __version__
 from .domains import TalonDomain
 

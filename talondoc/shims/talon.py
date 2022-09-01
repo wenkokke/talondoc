@@ -1,9 +1,11 @@
 import inspect
 from collections.abc import Callable
-from typing import Any, Mapping, Optional, Union
+from typing import Any, Mapping, Optional, Sequence, Union
+
 from ..analyze.registry import Registry
 from ..types import (
     ActionEntry,
+    ActionGroupEntry,
     CaptureEntry,
     ContextEntry,
     ListEntry,
@@ -16,12 +18,14 @@ from ..types import (
     TagEntry,
 )
 from .core import (
-    TalonContextSettingsShim,
-    action,
-    TalonActionsShim,
-    ObjectShim,
     ModuleShim,
+    ObjectShim,
+    TalonActionsShim,
     TalonContextListsShim,
+    TalonContextSettingsShim,
+    TalonContextTagsShim,
+    TalonResourceShim,
+    action,
 )
 
 
@@ -33,9 +37,9 @@ class TalonShim(ModuleShim):
     def __init__(self):
         super().__init__("talon")
         self.actions = TalonActionsShim()
-        # TODO: actions
+        self.resource = TalonResourceShim()
         # TODO: app
-        # TODO: resource
+        # TODO: ui
 
     class Module(ObjectShim):
         def __init__(self, desc: Optional[str] = None):
@@ -50,7 +54,8 @@ class TalonShim(ModuleShim):
                 action_entry = ActionEntry(
                     module=self._module_entry, name=name, func=func
                 )
-                Registry.active().register(action_entry)
+                action_group_entry = ActionGroupEntry.group(action_entry)
+                Registry.active().register(action_group_entry)
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
             registry = Registry.active()
@@ -128,6 +133,9 @@ class TalonShim(ModuleShim):
             Registry.active().register(self._module_entry)
             self._lists = TalonContextListsShim(self)
             self._settings = TalonContextSettingsShim(self)
+            self._tags = TalonContextTagsShim(self)
+            # TODO: matches
+            # TODO: apps
 
         @property
         def lists(self) -> Mapping[str, ListValue]:
@@ -145,6 +153,14 @@ class TalonShim(ModuleShim):
         def settings(self, values: Mapping[str, SettingValue]):
             self._settings.update(values)
 
+        @property
+        def tags(self) -> Sequence[str]:
+            return self._tags
+
+        @tags.setter
+        def tags(self, values: Sequence[str]):
+            self._tags.update(values)
+
         def action_class(self, namespace: str) -> Callable[[type], type]:
             def __decorator(cls: type):
                 for name, func in inspect.getmembers(cls, inspect.isfunction):
@@ -152,7 +168,8 @@ class TalonShim(ModuleShim):
                     action_entry = ActionEntry(
                         module=self._module_entry, name=name, func=func
                     )
-                    Registry.active().register(action_entry)
+                    action_group_entry = ActionGroupEntry.group(action_entry)
+                    Registry.active().register(action_group_entry)
 
             return __decorator
 
@@ -180,7 +197,3 @@ class TalonShim(ModuleShim):
                 return func
 
             return __decorator
-
-        # TODO: matches
-        # TODO: apps
-        # TODO: tags

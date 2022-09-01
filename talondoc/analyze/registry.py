@@ -1,6 +1,7 @@
 import dataclasses
 from functools import singledispatchmethod
 from typing import ClassVar, Optional
+
 from ..types import FileEntry, ObjectEntry
 
 

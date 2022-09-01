@@ -1,9 +1,12 @@
 from pathlib import Path
-from typing import NoReturn, Optional, cast
+from typing import Optional, cast
+
+from docutils.nodes import Element
 from sphinx.directives import SphinxDirective
 from sphinx.util.typing import OptionSpec
-from ...analyze.registry import Registry
+
 from ...analyze import Registry, analyse_package
+from ...analyze.registry import Registry
 
 
 def optional_strlist(argument: Optional[str]) -> tuple[str, ...]:
@@ -32,7 +35,7 @@ class TalonPackageDirective(SphinxDirective):
     }
     final_argument_whitespace = False
 
-    def run(self) -> list[NoReturn]:
+    def run(self) -> list[Element]:
 
         # Always reread documents with Talon package directives.
         self.env.note_reread()

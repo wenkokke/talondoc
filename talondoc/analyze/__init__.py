@@ -1,11 +1,11 @@
 import pathlib
 import typing
 
-from ..types import FileEntry, PackageEntry
-from .registry import Registry
-from .python import analyse_python_file, python_package
-from .talon import analyse_talon_file
 from ..shims import talon_shims
+from ..types import FileEntry, PackageEntry
+from .python import analyse_python_file, python_package
+from .registry import Registry
+from .talon import analyse_talon_file
 
 
 def match(

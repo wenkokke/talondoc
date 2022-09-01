@@ -1,11 +1,12 @@
-from typing import Optional
+from typing import Optional, cast
+
 from sphinx.domains import Domain
 from sphinx.util import logging
-from .directives.package import TalonPackageDirective
-from .directives.user import TalonUserDirective
+
 from ..analyze.registry import Registry
 from ..types import (
     ActionEntry,
+    ActionGroupEntry,
     CommandEntry,
     FileEntry,
     ModuleEntry,
@@ -13,6 +14,8 @@ from ..types import (
     PackageEntry,
     resolve_name,
 )
+from .directives.package import TalonPackageDirective
+from .directives.user import TalonUserDirective
 
 
 class TalonDomain(Domain, Registry):
@@ -31,24 +34,39 @@ class TalonDomain(Domain, Registry):
         return logging.getLogger(__name__)
 
     @property
-    def actions(self) -> dict[str, ActionEntry]:
-        return self.env.temp_data.setdefault(ActionEntry.sort, {})
+    def action_groups(self) -> dict[str, ActionGroupEntry]:
+        return cast(
+            dict[str, ActionGroupEntry],
+            self.env.temp_data.setdefault(ActionGroupEntry.sort, {}),
+        )
 
     @property
     def commands(self) -> list[CommandEntry]:
-        return self.env.temp_data.setdefault(CommandEntry.sort, [])
+        return cast(
+            list[CommandEntry],
+            self.env.temp_data.setdefault(CommandEntry.sort, []),
+        )
 
     @property
     def files(self) -> dict[str, FileEntry]:
-        return self.env.temp_data.setdefault(FileEntry.sort, {})
+        return cast(
+            dict[str, FileEntry],
+            self.env.temp_data.setdefault(FileEntry.sort, {}),
+        )
 
     @property
     def modules(self) -> dict[str, list[ModuleEntry]]:
-        return self.env.temp_data.setdefault(ModuleEntry.sort, {})
+        return cast(
+            dict[str, list[ModuleEntry]],
+            self.env.temp_data.setdefault(ModuleEntry.sort, {}),
+        )
 
     @property
     def packages(self) -> dict[str, PackageEntry]:
-        return self.env.temp_data.setdefault(PackageEntry.sort, {})
+        return cast(
+            dict[str, PackageEntry],
+            self.env.temp_data.setdefault(PackageEntry.sort, {}),
+        )
 
     _latest_file: Optional[FileEntry] = None
 
@@ -66,4 +84,7 @@ class TalonDomain(Domain, Registry):
     ) -> Optional[ObjectEntry]:
         sort, name = qualified_name.split(":", maxsplit=1)
         resolved_name = resolve_name(name, namespace=namespace)
-        return self.env.temp_data.get(sort, {}).get(resolved_name, None)
+        return cast(
+            Optional[ObjectEntry],
+            self.env.temp_data.get(sort, {}).get(resolved_name, None),
+        )

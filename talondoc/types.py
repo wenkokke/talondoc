@@ -1,9 +1,9 @@
 import abc
-from collections.abc import Callable
-import pathlib
-
 import dataclasses
-from typing import Any, ClassVar, Optional, Union
+import pathlib
+from collections.abc import Callable
+from typing import Any, ClassVar, Optional, Union, cast
+
 import tree_sitter_talon
 
 
@@ -29,7 +29,7 @@ class ObjectEntry(abc.ABC):
     @property
     def namespace(self) -> str:
         if isinstance(self, PackageEntry):
-            return object.__getattribute__(self, "name")
+            return cast(str, object.__getattribute__(self, "name"))
         elif hasattr(self, "package"):
             package = object.__getattribute__(self, "package")
             assert isinstance(package, PackageEntry)
@@ -160,6 +160,37 @@ class ActionEntry(ObjectEntry):
 
 
 @dataclasses.dataclass
+class ActionGroupEntry(ObjectEntry):
+    sort: ClassVar[str] = "action-group"
+    name: str
+    default: Optional[ActionEntry] = None
+    overrides: list[ActionEntry] = dataclasses.field(default_factory=list)
+
+    @staticmethod
+    def group(action: ActionEntry):
+        if isinstance(action.module, ContextEntry):
+            return ActionGroupEntry(name=action.name, overrides=[action])
+        else:
+            return ActionGroupEntry(name=action.name, default=action)
+
+    def extend(self, other: "ActionGroupEntry") -> "ActionGroupEntry":
+        assert self.name == other.name
+        assert not (self.default is not None and other.default is not None)
+        self.default = self.default or other.default
+        self.overrides.extend(other.overrides)
+        return self
+
+    @property
+    def namespace(self) -> str:
+        if self.default:
+            return self.default.namespace
+        else:
+            for override in self.overrides:
+                return override.namespace
+        raise ValueError(self)
+
+
+@dataclasses.dataclass
 class CaptureEntry(ObjectEntry):
     sort: ClassVar[str] = "capture"
     name: str
@@ -272,8 +303,9 @@ class TagEntry(ObjectEntry):
 class TagImportEntry(ObjectEntry):
     sort: ClassVar[str] = "tag-import"
     name: str
-    file: TalonFileEntry
+    file_or_module: Union[TalonFileEntry, ModuleEntry]
 
     def __post_init__(self, *args, **kwargs):
-        assert self not in self.file.tag_imports
-        self.file.tag_imports.append(self)
+        if isinstance(self.file_or_module, TalonFileEntry):
+            assert self not in self.file_or_module.tag_imports
+            self.file_or_module.tag_imports.append(self)

@@ -4,6 +4,6 @@
 .pytest_cache
 .python-version
 .tox/
-__pycache__/
 /dist/
 /example/docs/_build/
+__pycache__/

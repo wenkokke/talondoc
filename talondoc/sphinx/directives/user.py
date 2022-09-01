@@ -1,9 +1,9 @@
 import os
 import os.path
 import platform
-import typing
 
-from docutils import nodes
+from docutils.nodes import Element
+
 from .package import TalonPackageDirective
 
 
@@ -22,7 +22,7 @@ class TalonUserDirective(TalonPackageDirective):
         else:
             return os.path.expanduser("~/.talon/user")
 
-    def run(self) -> list[nodes.Element]:
-        assert not hasattr(self, 'arguments') or not self.arguments
+    def run(self) -> list[Element]:
+        assert not hasattr(self, "arguments") or not self.arguments
         self.arguments: list[str] = [self.talon_user]
         return super().run()

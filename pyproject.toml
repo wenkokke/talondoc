@@ -16,6 +16,11 @@ classifiers = [
 ]
 dependencies = ["Sphinx==5.1.1", "tree_sitter_talon==3.0.5"]
 
+[project.optional-dependencies]
+mypy = [
+  "types-docutils"
+]
+
 [project.urls]
 repository = "https://github.com/wenkokke/talondoc"
 
@@ -24,6 +29,12 @@ talondoc = "talondoc:cli"
 
 [tool.setuptools.package-data]
 talondoc = ["py.typed"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+exclude = []
 
 [tool.pytest.ini_options]
 enable_assertion_pass_hook = true

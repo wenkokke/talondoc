@@ -1,15 +1,19 @@
-from collections.abc import Callable, Iterator
 import types
-from typing import Any, Mapping, Optional, TYPE_CHECKING
+from collections.abc import Callable, Iterator
+from io import TextIOWrapper
+from typing import TYPE_CHECKING, Any, Mapping, Optional, Sequence, cast
+
+from ..analyze.registry import Registry
 from ..types import (
     ActionEntry,
+    ActionGroupEntry,
     ListValue,
     ListValueEntry,
     SettingValue,
     SettingValueEntry,
+    TagImportEntry,
     resolve_name,
 )
-from ..analyze.registry import Registry
 
 
 class ObjectShim:
@@ -148,22 +152,21 @@ def action(
     registry: Registry, name: str, *, namespace: Optional[str] = None
 ) -> Optional[Callable[..., Any]]:
     resolved_name = resolve_name(name, namespace=namespace)
-    qualified_name = f"action:{resolved_name}"
-    action_entry = registry.lookup(qualified_name)
-    if isinstance(action_entry, ActionEntry):
-        return action_entry.func
-    else:
-
-        def __action_shim(*args, **kwargs):
-            return ObjectShim(*args, **kwargs)
-
-        return __action_shim
+    qualified_name = f"action-group:{resolved_name}"
+    action_group_entry = registry.lookup(qualified_name)
+    if isinstance(action_group_entry, ActionGroupEntry):
+        if action_group_entry.default:
+            return action_group_entry.default.func
+    return ObjectShim()
 
 
 class TalonActionsShim:
     def __getattr__(self, name: str) -> Optional[Callable[..., Any]]:
         try:
-            return object.__getattribute__(self, name)
+            return cast(
+                Optional[Callable[..., Any]],
+                object.__getattribute__(self, name),
+            )
         except AttributeError:
             registry = Registry.active()
             file = registry.get_latest_file()
@@ -236,4 +239,44 @@ class TalonContextSettingsShim(Mapping):
         raise NotImplementedError
 
     def __len__(self):
+        raise NotImplementedError
+
+
+class TalonContextTagsShim(Sequence):
+    def __init__(self, context: Context):
+        self._context = context
+
+    def _add_tag_import(self, name: str):
+        namespace = self._context._module_entry.namespace
+        tag_import_entry = TagImportEntry(
+            name=f"{namespace}.{name}",
+            file_or_module=self._context._module_entry,
+        )
+        Registry.active().register(tag_import_entry)
+
+    def __setitem__(self, name: str):
+        self._add_tag_import(name)
+
+    def update(self, values: Sequence[str]):
+        for name in values:
+            self._add_tag_import(name)
+
+    def __getitem__(self):
+        raise NotImplementedError
+
+    def __iter__(self):
+        raise NotImplementedError
+
+    def __len__(self):
+        raise NotImplementedError
+
+
+class TalonResourceShim(ObjectShim):
+    def open(self, file: str, mode: str) -> TextIOWrapper:
+        return cast(TextIOWrapper, open(file, mode))
+
+    def read(self, file: str) -> str:
+        raise NotImplementedError
+
+    def write(self, file: str, contents: str) -> str:
         raise NotImplementedError

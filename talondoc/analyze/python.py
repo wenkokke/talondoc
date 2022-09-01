@@ -5,8 +5,9 @@ import importlib.abc
 import importlib.machinery
 import sys
 import types
-from . import Registry
+
 from ..types import *
+from . import Registry
 
 
 @contextlib.contextmanager
