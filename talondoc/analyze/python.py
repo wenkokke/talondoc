@@ -7,7 +7,7 @@ import sys
 import types
 
 from ..types import *
-from . import Registry
+from .registry import Registry
 
 
 @contextlib.contextmanager

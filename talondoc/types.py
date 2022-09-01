@@ -214,13 +214,13 @@ class CommandEntry(ObjectEntry):
     ast: tree_sitter_talon.TalonCommandDeclaration
 
     def __post_init__(self, *args, **kwargs):
+        self._index = len(self.file.commands)
         assert self not in self.file.commands
         self.file.commands.append(self)
 
     @property
     def name(self) -> str:
-        index = self.file.commands.index(self)
-        return f"{self.file.name}.{index}"
+        return f"{self.file.name}.{self._index}"
 
 
 @dataclasses.dataclass
