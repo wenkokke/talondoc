@@ -49,7 +49,7 @@ def analyse_file(
 ) -> typing.Optional[FileEntry]:
     if file_path.match("*.py"):
         return analyse_python_file(registry, file_path, package_entry)
-    # elif file_path.match("*.talon"):
-    #     return analyse_talon_file(registry, file_path, package_entry)
+    elif file_path.match("*.talon"):
+        return analyse_talon_file(registry, file_path, package_entry)
     else:
         return None

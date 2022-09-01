@@ -5,7 +5,6 @@ from sphinx.util import logging
 
 from ..analyze.registry import Registry
 from ..types import (
-    ActionEntry,
     ActionGroupEntry,
     CommandEntry,
     FileEntry,
@@ -16,6 +15,7 @@ from ..types import (
 )
 from .directives.package import TalonPackageDirective
 from .directives.user import TalonUserDirective
+from .directives.command import TalonCommandDirective
 
 
 class TalonDomain(Domain, Registry):
@@ -25,6 +25,7 @@ class TalonDomain(Domain, Registry):
     label = "Talon"
 
     directives = {
+        "command": TalonCommandDirective,
         "package": TalonPackageDirective,
         "user": TalonUserDirective,
     }
@@ -68,16 +69,18 @@ class TalonDomain(Domain, Registry):
             self.env.temp_data.setdefault(PackageEntry.sort, {}),
         )
 
-    _latest_file: Optional[FileEntry] = None
+    _currentfile: Optional[FileEntry] = None
 
     def get_latest_file(self) -> Optional[FileEntry]:
-        return self._latest_file
+        return self._currentfile
 
     def register(self, entry: ObjectEntry):
         if isinstance(entry, FileEntry):
-            self._latest_file = entry
-        self.logger.info(f"Register: {entry.qualified_name}")
-        self.env.temp_data.setdefault(entry.sort, {})[entry.resolved_name] = entry
+            self._currentfile = entry
+        if isinstance(entry, CommandEntry):
+            self.commands.append(entry)
+        else:
+            self.env.temp_data.setdefault(entry.sort, {})[entry.resolved_name] = entry
 
     def lookup(
         self, qualified_name: str, *, namespace: Optional[str] = None
