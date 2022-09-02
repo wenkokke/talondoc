@@ -8,8 +8,8 @@ from sphinx.util.typing import OptionSpec
 from talonfmt.main import talonfmt
 from tree_sitter_talon.re import compile
 
-from ...entries import CommandEntry
-from ...util.typing import flag
+from ...types import CommandEntry
+from ...util.typing import flag, optional_str
 
 if TYPE_CHECKING:
     from talondoc.sphinx.domains import TalonDomain

@@ -129,6 +129,8 @@ class ContextEntry(ModuleEntry):
     matches: Union[None, str, tree_sitter_talon.TalonMatches] = None
 
 
+EventCode = Union[int, str]
+
 @dataclasses.dataclass
 class CallbackEntry(ObjectEntry):
     """
@@ -136,7 +138,9 @@ class CallbackEntry(ObjectEntry):
     """
 
     sort: ClassVar[str] = "callback"
-    callback: Callable[[], None]
+    module_name: str
+    event_code: EventCode
+    callback: Callable[..., None]
 
     @property
     def name(self) -> str:

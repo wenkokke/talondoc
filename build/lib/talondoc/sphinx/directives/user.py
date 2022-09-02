@@ -9,7 +9,10 @@ from .package import TalonPackageDirective
 
 class TalonUserDirective(TalonPackageDirective):
 
+    has_content = False
     required_arguments = 0
+    optional_arguments = 0
+    final_argument_whitespace = False
 
     @property
     def talon_user(self) -> str:

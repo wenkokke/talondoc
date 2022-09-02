@@ -1,9 +1,7 @@
-import sys
 import types
-import platform
 from collections.abc import Callable, Iterator
 from io import TextIOWrapper
-from typing import TYPE_CHECKING, Any, Mapping, Optional, Sequence, cast
+from typing import TYPE_CHECKING, Any, Mapping, Optional, Sequence, Union, cast
 
 from ..analyze.registry import Registry
 from ..entries import (
@@ -19,25 +17,10 @@ from ..entries import (
 )
 
 
-if TYPE_CHECKING:
-    from .talon import TalonShim
-
-    Context = TalonShim.Context
-else:
-    Context = Any
-
-
 class ObjectShim:
     """
     A simple shim which responds to any method.
     """
-
-    def register(self, event_code: EventCode, callback: Callable[..., Any]):
-        file = Registry.activefile()
-        callback_entry = CallbackEntry(
-            event_code=event_code, callback=callback, file=file
-        )
-        Registry.active().register(callback_entry)
 
     def __init__(self, *args, **kwargs):
         pass
@@ -157,7 +140,7 @@ class ObjectShim:
         return ().__iter__()
 
 
-class ModuleShim(types.ModuleType):
+class ModuleShim(types.ModuleType, ObjectShim):
     """
     A module shim which defines any value.
     """
@@ -165,11 +148,13 @@ class ModuleShim(types.ModuleType):
     def __init__(self, fullname: str):
         super().__init__(fullname)
 
-    def __getattr__(self, name: str) -> Any:
-        try:
-            return object.__getattribute__(self, name)
-        except AttributeError:
-            return ObjectShim()
+    def register(self, event_code: EventCode, callback: Callable[..., Any]):
+        callback_entry = CallbackEntry(
+            module_name=self.__module__,
+            event_code=event_code,
+            callback=self,
+        )
+        Registry.active().register(callback_entry)
 
 
 def action(
@@ -198,17 +183,12 @@ class TalonActionsShim:
             return action(registry, name, namespace=namespace)
 
 
-class TalonAppShim(ObjectShim):
-    @property
-    def platform(self) -> str:
-        system = platform.system()
-        if system == "Linux":
-            return "linux"
-        if system == "Darwin":
-            return "mac"
-        if system == "Windows":
-            return "windows"
-        raise ValueError(system)
+if TYPE_CHECKING:
+    from .talon import TalonShim
+
+    Context = TalonShim.Context
+else:
+    Context = Any
 
 
 class TalonContextListsShim(Mapping[str, ListValue]):

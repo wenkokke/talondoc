@@ -21,7 +21,6 @@ from .core import (
     ModuleShim,
     ObjectShim,
     TalonActionsShim,
-    TalonAppShim,
     TalonContextListsShim,
     TalonContextSettingsShim,
     TalonContextTagsShim,
@@ -38,7 +37,6 @@ class TalonShim(ModuleShim):
     def __init__(self):
         super().__init__("talon")
         self.actions = TalonActionsShim()
-        self.app = TalonAppShim()
         self.resource = TalonResourceShim()
         # TODO: app
         # TODO: ui

@@ -1,18 +1,13 @@
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, cast
+from typing import Optional, cast
 
 from docutils.nodes import Element
 from sphinx.directives import SphinxDirective
 from sphinx.util.typing import OptionSpec
 
-from ...analyze import analyse_package
+from ...analyze import Registry, analyse_package
 from ...analyze.registry import Registry
 from ...util.typing import optional_str, optional_strlist
-
-if TYPE_CHECKING:
-    from ..domains import TalonDomain
-else:
-    TalonDomain = Any
 
 
 class TalonPackageDirective(SphinxDirective):
@@ -28,23 +23,25 @@ class TalonPackageDirective(SphinxDirective):
     }
     final_argument_whitespace = False
 
-    @property
-    def talon(self) -> TalonDomain:
-        return cast(TalonDomain, self.env.get_domain("talon"))
-
     def run(self) -> list[Element]:
 
         # Always reread documents with Talon package directives.
         self.env.note_reread()
 
-        # Analyse the referenced Talon package:
+        # Analyse the referenced Talon package.
+        name: Optional[str] = self.options.get("name")
+        include: tuple[str, ...] = self.options.get("include", ())
+        exclude: tuple[str, ...] = self.options.get("exclude", ())
+        registry = cast(Registry, self.env.get_domain("talon"))
+
         analyse_package(
-            registry=self.talon,
+            registry=registry,
             package_root=Path(self.arguments[0].strip()),
-            name=self.options.get("name"),
-            include=tuple(self.options.get("include", ())),
-            exclude=tuple(self.options.get("exclude", ())),
-            trigger=tuple(self.options.get("trigger", ())),
-        )
+            name=name,
+            include=tuple(include),
+            exclude=tuple(exclude),
+        ),
+
+        # TODO: register & trigger callbacks
 
         return []
