@@ -1,12 +1,5 @@
-from typing import TYPE_CHECKING, Any
-
-from sphinx.directives import ObjectDescription
-
-if TYPE_CHECKING:
-    from talondoc.sphinx.domains import TalonDomain
-else:
-    TalonDomain = Any
+from .abc.talon import TalonObjectDescription
 
 
-class TalonListDirective(ObjectDescription):
+class TalonListDirective(TalonObjectDescription):
     pass

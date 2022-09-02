@@ -1,21 +1,14 @@
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, cast
 
 from docutils.nodes import Element
-from sphinx.directives import SphinxDirective
 from sphinx.util.typing import OptionSpec
 
 from ...analyze import analyse_package
-from ...analyze.registry import Registry
 from ...util.typing import optional_str, optional_strlist
-
-if TYPE_CHECKING:
-    from ..domains import TalonDomain
-else:
-    TalonDomain = Any
+from .abc.talon import TalonDirective
 
 
-class TalonPackageDirective(SphinxDirective):
+class TalonPackageDirective(TalonDirective):
 
     has_content = False
     required_arguments = 1
@@ -27,10 +20,6 @@ class TalonPackageDirective(SphinxDirective):
         "trigger": optional_strlist,
     }
     final_argument_whitespace = False
-
-    @property
-    def talon(self) -> TalonDomain:
-        return cast(TalonDomain, self.env.get_domain("talon"))
 
     def run(self) -> list[Element]:
 

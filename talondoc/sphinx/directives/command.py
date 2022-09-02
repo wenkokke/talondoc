@@ -1,23 +1,18 @@
 import sys
-from typing import TYPE_CHECKING, Any, Optional, cast
+import typing
 
 from docutils import nodes
 from sphinx import addnodes
-from sphinx.directives import ObjectDescription
 from sphinx.util.typing import OptionSpec
 from talonfmt.main import talonfmt
 from tree_sitter_talon.re import compile
 
 from ...entries import CommandEntry
 from ...util.typing import flag
-
-if TYPE_CHECKING:
-    from talondoc.sphinx.domains import TalonDomain
-else:
-    TalonDomain = Any
+from .abc.talon import TalonObjectDescription
 
 
-class TalonCommandDirective(ObjectDescription):
+class TalonCommandDirective(TalonObjectDescription):
 
     has_content = True
     required_arguments = 1
@@ -27,15 +22,11 @@ class TalonCommandDirective(ObjectDescription):
     }
     final_argument_whitespace = False
 
-    @property
-    def talon(self) -> TalonDomain:
-        return cast(TalonDomain, self.env.get_domain("talon"))
-
     def get_signatures(self):
         return [" ".join(self.arguments)]
 
     def find_command(self, sig: str) -> CommandEntry:
-        command: Optional[CommandEntry] = None
+        command: typing.Optional[CommandEntry] = None
         for candidate in self.talon.commands:
             pattern = compile(candidate.ast.rule, captures={}, lists={})
             if pattern.fullmatch(sig):

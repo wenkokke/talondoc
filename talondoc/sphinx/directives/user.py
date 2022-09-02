@@ -1,16 +1,10 @@
 import os
 import os.path
 import platform
-from typing import TYPE_CHECKING, Any
 
 from docutils.nodes import Element
 
 from .package import TalonPackageDirective
-
-if TYPE_CHECKING:
-    from talondoc.sphinx.domains import TalonDomain
-else:
-    TalonDomain = Any
 
 
 class TalonUserDirective(TalonPackageDirective):
