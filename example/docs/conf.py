@@ -19,7 +19,7 @@ release = "0.1.0"
 
 sys.path.append(os.path.abspath("../.."))
 
-extensions = ["talondoc.sphinx"]
+extensions = ["myst_parser", "talondoc.sphinx"]
 
 
 # -- Options for HTML output -------------------------------------------------

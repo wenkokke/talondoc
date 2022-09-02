@@ -219,7 +219,7 @@ class CaptureEntry(ObjectEntry):
 @dataclasses.dataclass
 class CommandEntry(ObjectEntry):
     sort: ClassVar[str] = "command"
-    file: "TalonFileEntry"
+    file: TalonFileEntry
     ast: tree_sitter_talon.TalonCommandDeclaration
 
     def __post_init__(self, *args, **kwargs):

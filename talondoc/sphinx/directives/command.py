@@ -5,11 +5,37 @@ from docutils import nodes
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
 from talonfmt.main import talonfmt
+from tree_sitter_talon import TalonComment
 from tree_sitter_talon.re import compile
 
 from ...entries import CommandEntry
 from ...util.typing import flag
 from .abc.talon import TalonObjectDescription
+
+
+def handle_rule(command: CommandEntry) -> nodes.Text:
+    return nodes.Text(talonfmt(command.ast.rule, safe=False))
+
+
+def handle_script(command: CommandEntry) -> nodes.literal_block:
+    script = nodes.literal_block()
+    script["classes"].append("code")
+    script += nodes.Text(talonfmt(command.ast.script, safe=False))
+    return script
+
+
+def handle_docstring(command: CommandEntry) -> typing.Optional[nodes.Text]:
+    comments = []
+    children = [*command.ast.children, *command.ast.script.children]
+    for child in children:
+        if isinstance(child, TalonComment):
+            comment = child.text.strip()
+            if comment.startswith("###"):
+                comments.append(comment.removeprefix("###").strip())
+    if comments:
+        return nodes.Text(" ".join(comments))
+    else:
+        return None
 
 
 class TalonCommandDirective(TalonObjectDescription):
@@ -40,17 +66,10 @@ class TalonCommandDirective(TalonObjectDescription):
         else:
             raise ValueError(f"Signature '{sig}' matched no commands.")
 
-    def handle_rule(self, command: CommandEntry, signode) -> None:
-        signode += addnodes.desc_name(text=talonfmt(command.ast.rule, safe=False))
-
-    def handle_script(self, command: CommandEntry, signode) -> None:
-        if self.options.get("script", False):
-            script = nodes.literal_block()
-            script += nodes.Text(talonfmt(command.ast.script, safe=False))
-            signode += script
-
-    def handle_signature(self, sig: str, signode):
+    def handle_signature(self, sig: str, signode: addnodes.desc_signature):
         command = self.find_command(sig)
-        self.handle_rule(command, signode)
-        self.handle_script(command, signode)
+        signode += addnodes.desc_name(handle_rule(command))
+        docstring = handle_docstring(command)
+        script = handle_script(command)
+        signode += addnodes.desc_content(docstring or script)
         return command.name

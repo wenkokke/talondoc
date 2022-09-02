@@ -16,7 +16,7 @@ def analyse_package(
     include: tuple[str, ...] = (),
     exclude: tuple[str, ...] = (),
     trigger: tuple[str, ...] = (),
-) -> None:
+) -> PackageEntry:
     def _include_file(
         file_path: pathlib.Path,
     ) -> bool:
@@ -46,13 +46,15 @@ def analyse_package(
                 for callback_entry in callback_entries:
                     callback_entry.callback()
 
+    return package_entry
+
 
 def analyse_file(
     registry: Registry, file_path: pathlib.Path, package_entry: PackageEntry
-) -> None:
+) -> typing.Optional[FileEntry]:
     if file_path.match("*.py"):
-        analyse_python_file(registry, file_path, package_entry)
+        return analyse_python_file(registry, file_path, package_entry)
     elif file_path.match("*.talon"):
-        analyse_talon_file(registry, file_path, package_entry)
+        return analyse_talon_file(registry, file_path, package_entry)
     else:
-        pass
+        return None

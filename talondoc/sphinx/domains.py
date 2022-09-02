@@ -2,6 +2,7 @@ from typing import Optional, cast
 
 from sphinx.domains import Domain
 from sphinx.util import logging
+from talondoc.sphinx.directives.file import TalonFileDirective
 
 from ..analyze.registry import Registry
 from ..entries import (
@@ -28,6 +29,7 @@ class TalonDomain(Domain, Registry):
 
     directives = {
         "command": TalonCommandDirective,
+        "file": TalonFileDirective,
         "package": TalonPackageDirective,
         "user": TalonUserDirective,
     }
@@ -78,6 +80,12 @@ class TalonDomain(Domain, Registry):
             self.env.temp_data.setdefault(PackageEntry.sort, {}),
         )
 
+    _currentpackage: Optional[PackageEntry] = None
+
+    @property
+    def currentpackage(self) -> Optional[PackageEntry]:
+        return self._currentpackage
+
     _currentfile: Optional[FileEntry] = None
 
     @property
@@ -85,6 +93,10 @@ class TalonDomain(Domain, Registry):
         return self._currentfile
 
     def register(self, entry: ObjectEntry):
+        # Track the current package:
+        if isinstance(entry, PackageEntry):
+            self._currentpackage = entry
+
         # Track the current file:
         if isinstance(entry, FileEntry):
             self._currentfile = entry
