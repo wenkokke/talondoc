@@ -28,7 +28,7 @@ class Desc:
         """
 
 
-DescLike = typing.Union[None, str, Desc, collections.abc.Iterable[DescLike]]  # type: ignore
+DescLike = typing.Union[None, str, Desc, collections.abc.Iterable["DescLike"]]  # type: ignore
 
 
 @dataclasses.dataclass(frozen=True)

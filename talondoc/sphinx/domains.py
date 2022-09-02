@@ -6,6 +6,7 @@ from talondoc.sphinx.directives.file import TalonFileDirective
 
 from ..analyze.registry import Registry
 from ..entries import (
+    ActionEntry,
     ActionGroupEntry,
     CallbackEntry,
     CommandEntry,
@@ -102,17 +103,25 @@ class TalonDomain(Domain, Registry):
             self._currentfile = entry
 
         # Store the entry:
-        # - callbacks are stored as lists under their event codes;
-        # - commands are stored as lists;
-        # - everything else is stored under their resolved name.
-        if isinstance(entry, CallbackEntry):
+        if isinstance(entry, ActionEntry):
+            # Actions are stored as action groups:
+            action_group_entry = self.action_groups.get(entry.name, None)
+            if action_group_entry is None:
+                action_group_entry = entry.group()
+            else:
+                action_group_entry = action_group_entry.extended_with(entry.group())
+            self.action_groups[action_group_entry.name] = action_group_entry
+        elif isinstance(entry, CallbackEntry):
+            # Callbacks are stored as lists under their event codes:
             self.logger.debug(
                 f"[talondoc] Register '{entry.name}' for event '{entry.event_code}': {entry.file.name}"
             )
             self.callbacks.setdefault(entry.event_code, []).append(entry)
         elif isinstance(entry, CommandEntry):
+            # Commands are stored as lists:
             self.commands.append(entry)
         else:
+            # Everything else is stored under their resolved name:
             self.env.temp_data.setdefault(entry.sort, {})[entry.resolved_name] = entry
 
     def lookup(

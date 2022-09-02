@@ -6,7 +6,7 @@ from .abc.talon import TalonObjectDescription
 from sphinx.addnodes import desc_signature
 from sphinx.util.typing import OptionSpec
 from ...util.typing import optional_str, optional_strlist
-from .command import handle_rule, handle_script
+from .command import describe_rule, describe_command
 
 
 class TalonFileDirective(TalonObjectDescription):
@@ -49,13 +49,13 @@ class TalonFileDirective(TalonObjectDescription):
         file_entry = self.find_file(sig)
         title = file_entry.name.removesuffix(".talon")
         table = nodes.table()
-        table['classes'].append('compact')
+        table["classes"].append("compact")
 
         # Table Header
         tgroup = nodes.tgroup()
-        tgroup['cols'] = 1
+        tgroup["cols"] = 1
         colspec = nodes.colspec()
-        colspec['colwidth'] = 1
+        colspec["colwidth"] = 1
         tgroup += colspec
         thead = nodes.thead()
         row = nodes.row()
@@ -70,18 +70,26 @@ class TalonFileDirective(TalonObjectDescription):
 
         # Table Body:
         tgroup = nodes.tgroup()
-        tgroup['cols'] = 1
-        colspec = nodes.colspec()
-        colspec['colwidth'] = 1
-        tgroup += colspec
+        tgroup["cols"] = 2
+        rule_colspec = nodes.colspec()
+        rule_colspec["colwidth"] = 1
+        tgroup += rule_colspec
+        desc_colspec = nodes.colspec()
+        desc_colspec["colwidth"] = 1
+        tgroup += desc_colspec
         tbody = nodes.tbody()
         for command in file_entry.commands:
             row = nodes.row()
-            entry = nodes.entry()
-            paragraph = nodes.paragraph()
-            paragraph += handle_rule(command)
-            entry += paragraph
-            row += entry
+            rule_entry = nodes.entry()
+            rule_paragraph = nodes.paragraph()
+            rule_paragraph += describe_rule(command)
+            rule_entry += rule_paragraph
+            row += rule_entry
+            desc_entry = nodes.entry()
+            desc_paragraph = nodes.paragraph()
+            desc_paragraph += describe_command(command, registry=self.talon)
+            desc_entry += desc_paragraph
+            row += desc_entry
             tbody += row
         tgroup += tbody
         table += tgroup

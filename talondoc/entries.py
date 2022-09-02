@@ -78,10 +78,10 @@ class PackageEntry(ObjectEntry):
         self.name = name or self.path.parts[-1]
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass()
 class FileEntry(ObjectEntry):
     sort: ClassVar[str] = "file"
-    package: PackageEntry
+    package: PackageEntry = dataclasses.field(repr=False)
     path: pathlib.Path
 
     def __post_init__(self, *args, **kwargs):
@@ -93,7 +93,7 @@ class FileEntry(ObjectEntry):
         return ".".join((self.namespace, *self.path.parts))
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass()
 class TalonFileEntry(FileEntry):
     commands: list["CommandEntry"] = dataclasses.field(default_factory=list)
     matches: Optional[tree_sitter_talon.TalonMatches] = None
@@ -101,7 +101,7 @@ class TalonFileEntry(FileEntry):
     tag_imports: list["TagImportEntry"] = dataclasses.field(default_factory=list)
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass()
 class PythonFileEntry(FileEntry):
     modules: list["ModuleEntry"] = dataclasses.field(default_factory=list)
 
@@ -109,7 +109,7 @@ class PythonFileEntry(FileEntry):
 @dataclasses.dataclass
 class ModuleEntry(ObjectEntry):
     sort: ClassVar[str] = "module"
-    file: PythonFileEntry
+    file: PythonFileEntry = dataclasses.field(repr=False)
     desc: Optional[str]
 
     def __post_init__(self, *args, **kwargs):
@@ -145,7 +145,7 @@ class CallbackEntry(ObjectEntry):
     sort: ClassVar[str] = "callback"
     event_code: EventCode
     callback: Callable[..., None]
-    file: FileEntry
+    file: FileEntry = dataclasses.field(repr=False)
 
     @property
     def name(self) -> str:
@@ -156,12 +156,18 @@ class CallbackEntry(ObjectEntry):
 class ActionEntry(ObjectEntry):
     sort: ClassVar[str] = "action"
     name: str
-    module: ModuleEntry
+    module: ModuleEntry = dataclasses.field(repr=False)
     func: Callable[..., Any]
 
     def __post_init__(self, *args, **kwargs):
         # TODO: add self to module
         pass
+
+    def group(self) -> "ActionGroupEntry":
+        if isinstance(self.module, ContextEntry):
+            return ActionGroupEntry(name=self.name, overrides=[self])
+        else:
+            return ActionGroupEntry(name=self.name, default=self)
 
     @property
     def desc(self) -> Optional[str]:
@@ -175,19 +181,14 @@ class ActionGroupEntry(ObjectEntry):
     default: Optional[ActionEntry] = None
     overrides: list[ActionEntry] = dataclasses.field(default_factory=list)
 
-    @staticmethod
-    def group(action: ActionEntry):
-        if isinstance(action.module, ContextEntry):
-            return ActionGroupEntry(name=action.name, overrides=[action])
-        else:
-            return ActionGroupEntry(name=action.name, default=action)
-
-    def extend(self, other: "ActionGroupEntry") -> "ActionGroupEntry":
+    def extended_with(self, other: "ActionGroupEntry") -> "ActionGroupEntry":
         assert self.name == other.name
-        assert not (self.default is not None and other.default is not None)
-        self.default = self.default or other.default
-        self.overrides.extend(other.overrides)
-        return self
+        assert not (self.default and other.default)
+        return ActionGroupEntry(
+            name=self.name,
+            default=self.default or other.default,
+            overrides=[*self.overrides, *other.overrides],
+        )
 
     @property
     def namespace(self) -> str:
@@ -203,7 +204,7 @@ class ActionGroupEntry(ObjectEntry):
 class CaptureEntry(ObjectEntry):
     sort: ClassVar[str] = "capture"
     name: str
-    module: ModuleEntry
+    module: ModuleEntry = dataclasses.field(repr=False)
     rule: Union[str, tree_sitter_talon.TalonRule]
     func: Callable[..., Any]
 
@@ -219,7 +220,7 @@ class CaptureEntry(ObjectEntry):
 @dataclasses.dataclass
 class CommandEntry(ObjectEntry):
     sort: ClassVar[str] = "command"
-    file: TalonFileEntry
+    file: TalonFileEntry = dataclasses.field(repr=False)
     ast: tree_sitter_talon.TalonCommandDeclaration
 
     def __post_init__(self, *args, **kwargs):
@@ -236,7 +237,7 @@ class CommandEntry(ObjectEntry):
 class ListEntry(ObjectEntry):
     sort: ClassVar[str] = "list"
     name: str
-    module: ModuleEntry
+    module: ModuleEntry = dataclasses.field(repr=False)
     desc: Optional[str] = None
     value: Optional[ListValue] = None
 
@@ -249,7 +250,7 @@ class ListEntry(ObjectEntry):
 class ListValueEntry(ObjectEntry):
     sort: ClassVar[str] = "list-value"
     name: str
-    module: ModuleEntry
+    module: ModuleEntry = dataclasses.field(repr=False)
     value: ListValue
 
     def __post_init__(self, *args, **kwargs):
@@ -261,7 +262,7 @@ class ListValueEntry(ObjectEntry):
 class ModeEntry(ObjectEntry):
     sort: ClassVar[str] = "mode"
     name: str
-    module: ModuleEntry
+    module: ModuleEntry = dataclasses.field(repr=False)
     desc: Optional[str] = None
 
     def __post_init__(self, *args, **kwargs):
@@ -273,7 +274,7 @@ class ModeEntry(ObjectEntry):
 class SettingEntry(ObjectEntry):
     sort: ClassVar[str] = "setting"
     name: str
-    module: ModuleEntry
+    module: ModuleEntry = dataclasses.field(repr=False)
     type: Optional[type] = None
     desc: Optional[str] = None
     default: Optional[tree_sitter_talon.TalonExpression] = None
@@ -287,7 +288,7 @@ class SettingEntry(ObjectEntry):
 class SettingValueEntry(ObjectEntry):
     sort: ClassVar[str] = "setting-value"
     name: str
-    file_or_module: Union[TalonFileEntry, ModuleEntry]
+    file_or_module: Union[TalonFileEntry, ModuleEntry] = dataclasses.field(repr=False)
     value: tree_sitter_talon.TalonExpression
 
     def __post_init__(self, *args, **kwargs):
@@ -300,7 +301,7 @@ class SettingValueEntry(ObjectEntry):
 class TagEntry(ObjectEntry):
     sort: ClassVar[str] = "tag"
     name: str
-    module: ModuleEntry
+    module: ModuleEntry = dataclasses.field(repr=False)
     desc: Optional[str] = None
 
     def __post_init__(self, *args, **kwargs):
@@ -312,7 +313,7 @@ class TagEntry(ObjectEntry):
 class TagImportEntry(ObjectEntry):
     sort: ClassVar[str] = "tag-import"
     name: str
-    file_or_module: Union[TalonFileEntry, ModuleEntry]
+    file_or_module: Union[TalonFileEntry, ModuleEntry] = dataclasses.field(repr=False)
 
     def __post_init__(self, *args, **kwargs):
         if isinstance(self.file_or_module, TalonFileEntry):

@@ -56,8 +56,7 @@ class TalonShim(ModuleShim):
                 action_entry = ActionEntry(
                     module=self._module_entry, name=name, func=func
                 )
-                action_group_entry = ActionGroupEntry.group(action_entry)
-                Registry.active().register(action_group_entry)
+                Registry.active().register(action_entry)
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
             registry = Registry.active()
@@ -170,8 +169,7 @@ class TalonShim(ModuleShim):
                     action_entry = ActionEntry(
                         module=self._module_entry, name=name, func=func
                     )
-                    action_group_entry = ActionGroupEntry.group(action_entry)
-                    Registry.active().register(action_group_entry)
+                    Registry.active().register(action_entry)
 
             return __decorator
 
