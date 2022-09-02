@@ -94,7 +94,7 @@ class TalonDomain(Domain, Registry):
         # - commands are stored as lists;
         # - everything else is stored under their resolved name.
         if isinstance(entry, CallbackEntry):
-            self.logger.info(
+            self.logger.debug(
                 f"[talondoc] Register '{entry.name}' for event '{entry.event_code}': {entry.file.name}"
             )
             self.callbacks.setdefault(entry.event_code, []).append(entry)
