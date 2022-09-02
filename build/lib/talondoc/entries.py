@@ -131,6 +131,7 @@ class ContextEntry(ModuleEntry):
 
 EventCode = Union[int, str]
 
+
 @dataclasses.dataclass
 class CallbackEntry(ObjectEntry):
     """

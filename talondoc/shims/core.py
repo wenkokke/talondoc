@@ -1,6 +1,6 @@
+import platform
 import sys
 import types
-import platform
 from collections.abc import Callable, Iterator
 from io import TextIOWrapper
 from typing import TYPE_CHECKING, Any, Mapping, Optional, Sequence, cast
@@ -17,7 +17,6 @@ from ..entries import (
     TagImportEntry,
     resolve_name,
 )
-
 
 if TYPE_CHECKING:
     from .talon import TalonShim
