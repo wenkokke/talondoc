@@ -4,16 +4,19 @@ import typing
 from docutils import nodes
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
-from ...util.desc import InvalidInterpolation
-from ...analyze.registry import Registry
-from ...util.describer import TalonScriptDescriber
 from talonfmt.main import talonfmt
 from tree_sitter_talon import TalonComment
 from tree_sitter_talon.re import compile
+
+from ...analyze.registry import Registry
 from ...entries import CommandEntry
+from ...util.desc import InvalidInterpolation
+from ...util.describer import TalonScriptDescriber
+from ...util.logging import getLogger
 from ...util.typing import flag
 from .abc.talon import TalonObjectDescription
-import logging
+
+_logger = getLogger(__name__)
 
 
 def describe_rule(command: CommandEntry) -> nodes.Text:
@@ -29,7 +32,7 @@ def try_describe_command_auto(
         if desc:
             return nodes.Text(desc.compile())
     except InvalidInterpolation as e:
-        logging.warn(e)
+        _logger.warn(e)
     return None
 
 
@@ -60,7 +63,7 @@ def describe_command(command: CommandEntry, *, registry: Registry) -> nodes.Elem
     desc = try_describe_command_via_docstring(command)
     desc = desc or try_describe_command_auto(command, registry=registry)
     if desc:
-        return addnodes.desc_content(desc)
+        return addnodes.desc_content(desc)  # type: ignore
     else:
         return describe_command_via_script(command)
 

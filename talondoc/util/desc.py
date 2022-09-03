@@ -2,11 +2,26 @@ import collections.abc
 import dataclasses
 import re
 import typing
+
 import docstring_parser.google as docstring_google
 
+from ..util.logging import getLogger
 
+_logger = getLogger(__name__)
+
+
+@dataclasses.dataclass
 class InvalidInterpolation(Exception):
-    """Exception raised when attempting to interpolate a multiline doc string"""
+    """Exception raised when attempting to interpolate a multiline doc string."""
+
+    argument: "Desc"
+    template: typing.Optional["StepTemplate"] = None
+
+    def __str__(self) -> str:
+        msg = f"Cannot interpolate '{repr(self.argument)}'"
+        if self.template:
+            msg += f" into template '{repr(self.template)}'"
+        return msg
 
 
 class Desc:
@@ -89,7 +104,11 @@ class StepTemplate(Desc):
     def __call__(self, values: tuple[Value, ...]):
         result = self.template
         for name, value in zip(self.names, values):
-            result = result.replace(f"<{name}>", str(value))
+            try:
+                result = result.replace(f"<{name}>", str(value))
+            except InvalidInterpolation as e:
+                e.template = self
+                raise e
         return Step(desc=result)
 
     def __str__(self):
@@ -117,38 +136,52 @@ def lift(desc: typing.Union[str, Desc]) -> Steps:
 def concat(*desclike: DescLike) -> typing.Optional[Desc]:
     accumulator: typing.Optional[Desc] = None
     for desc in desclike:
-        if isinstance(desc, Value):
+        if desc is None:
+            pass
+        elif isinstance(desc, Value):
             accumulator = accumulator + desc
-        elif isinstance(desc, collections.abc.Iterable):
+        elif isinstance(desc, (str, Step, StepTemplate, Steps)):
+            accumulator = accumulator + lift(desc)
+        else:
+            assert not isinstance(desc, Desc)
             accumulator = concat(accumulator, *desc)
-        elif desc is not None:
-            accumulator = concat(accumulator, lift(desc))
     return accumulator
 
 
 def from_docstring(docstring: str) -> typing.Optional[Desc]:
+    # Attempt to create a description:
+    desc: typing.Optional[Desc]
+
     # Handle docstrings of the form "Return XXX":
-    is_return = re.match("^[Rr]eturns? (.*)", docstring)
-    if is_return:
-        return Value(desc=is_return.group(0))
+    return_value_desc_en = re.match("^[Rr]eturns? (.*)", docstring)
+    if return_value_desc_en:
+        desc = Value(desc=return_value_desc_en.group(0))
+        return desc
 
     # Handle Google-style docstrings:
     try:
-        # Actions which document their parameters
-        # become description templates:
+        # Parse a Google-style docstring:
         doc = docstring_google.parse(docstring)
+
+        # Actions which document their parameters become
+        # step templates that can interpolate their arguments:
         if doc.short_description and doc.params:
-            return StepTemplate(
+            desc = StepTemplate(
                 template=doc.short_description,
                 names=tuple(param.arg_name for param in doc.params),
             )
-        # Actions which document their return values
-        # become descriptions that can be used inline:
-        if doc.returns and doc.returns.description:
-            return Value(desc=doc.returns.description)
+            return desc
 
-    except docstring_google.ParseError:
+        # Actions which document their return values become
+        # value descriptions that can be used inline:
+        if doc.returns and doc.returns.description:
+            desc = Value(desc=doc.returns.description)
+            return desc
+
+    except docstring_google.ParseError as e:
         pass
 
     # Treat the docstring as a series of steps:
-    return concat(*docstring.splitlines())
+    desc = concat(*docstring.splitlines())
+    print(desc)
+    return desc

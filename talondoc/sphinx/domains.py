@@ -1,7 +1,7 @@
 from typing import Optional, cast
 
 from sphinx.domains import Domain
-from sphinx.util import logging
+
 from talondoc.sphinx.directives.file import TalonFileDirective
 
 from ..analyze.registry import Registry
@@ -10,6 +10,7 @@ from ..entries import (
     ActionGroupEntry,
     CallbackEntry,
     CommandEntry,
+    DuplicateAction,
     EventCode,
     FileEntry,
     ModuleEntry,
@@ -17,9 +18,12 @@ from ..entries import (
     PackageEntry,
     resolve_name,
 )
+from ..util.logging import getLogger
 from .directives.command import TalonCommandDirective
 from .directives.package import TalonPackageDirective
 from .directives.user import TalonUserDirective
+
+_logger = getLogger(__name__)
 
 
 class TalonDomain(Domain, Registry):
@@ -34,10 +38,6 @@ class TalonDomain(Domain, Registry):
         "package": TalonPackageDirective,
         "user": TalonUserDirective,
     }
-
-    @property
-    def logger(self) -> logging.SphinxLoggerAdapter:
-        return logging.getLogger("talondoc")
 
     @property
     def action_groups(self) -> dict[str, ActionGroupEntry]:
@@ -107,13 +107,15 @@ class TalonDomain(Domain, Registry):
             # Actions are stored as action groups:
             action_group_entry = self.action_groups.get(entry.name, None)
             if action_group_entry is None:
-                action_group_entry = entry.group()
+                self.action_groups[entry.name] = entry.group()
             else:
-                action_group_entry = action_group_entry.extended_with(entry.group())
-            self.action_groups[action_group_entry.name] = action_group_entry
+                try:
+                    action_group_entry.append(entry)
+                except DuplicateAction as e:
+                    _logger.error(f"[talondoc] {e}")
         elif isinstance(entry, CallbackEntry):
             # Callbacks are stored as lists under their event codes:
-            self.logger.debug(
+            _logger.debug(
                 f"[talondoc] Register '{entry.name}' for event '{entry.event_code}': {entry.file.name}"
             )
             self.callbacks.setdefault(entry.event_code, []).append(entry)

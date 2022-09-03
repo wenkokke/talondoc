@@ -7,6 +7,25 @@ from typing import Any, ClassVar, Optional, Union, cast
 import tree_sitter_talon
 
 
+@dataclasses.dataclass(frozen=True)
+class DuplicateAction(Exception):
+    """
+    Raised when an action is defined in multiple modules.
+    """
+
+    action1: "ActionEntry"
+    action2: "ActionEntry"
+
+    def __str__(self) -> str:
+        return "\n".join(
+            [
+                f"Action '{self.action1.name}' is declared by multiple modules:",
+                f"-  {self.action1.module.file.path}",
+                f"-  {self.action2.module.file.path}",
+            ]
+        )
+
+
 def resolve_name(name: str, *, namespace: Optional[str] = None) -> str:
     parts = name.split(".")
     if parts and parts[0] == "self":
@@ -167,6 +186,7 @@ class ActionEntry(ObjectEntry):
         if isinstance(self.module, ContextEntry):
             return ActionGroupEntry(name=self.name, overrides=[self])
         else:
+            assert isinstance(self.module, ModuleEntry)
             return ActionGroupEntry(name=self.name, default=self)
 
     @property
@@ -181,14 +201,23 @@ class ActionGroupEntry(ObjectEntry):
     default: Optional[ActionEntry] = None
     overrides: list[ActionEntry] = dataclasses.field(default_factory=list)
 
-    def extended_with(self, other: "ActionGroupEntry") -> "ActionGroupEntry":
-        assert self.name == other.name
-        assert not (self.default and other.default)
-        return ActionGroupEntry(
-            name=self.name,
-            default=self.default or other.default,
-            overrides=[*self.overrides, *other.overrides],
+    def append(self, action_entry: "ActionEntry"):
+        assert self.name == action_entry.name, "\n".join(
+            [
+                f"Cannot append action with different name to an action group:",
+                f"- action group name: {self.name}",
+                f"- action name: {action_entry.name}",
+            ]
         )
+        if isinstance(action_entry.module, ContextEntry):
+            self.overrides.append(action_entry)
+        else:
+            assert isinstance(
+                action_entry.module, ModuleEntry
+            ), f"Action does not belong to any module: {action_entry.module}"
+            if self.default is not None:
+                raise DuplicateAction(self.default, action_entry)
+            self.default = action_entry
 
     @property
     def namespace(self) -> str:

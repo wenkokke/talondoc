@@ -34,6 +34,10 @@ talondoc = "talondoc:cli"
 [tool.setuptools.package-data]
 talondoc = ["py.typed"]
 
+[tool.isort]
+profile = "black"
+line_width = 88
+
 [tool.mypy]
 python_version = "3.9"
 warn_return_any = true

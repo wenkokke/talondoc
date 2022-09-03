@@ -57,31 +57,3 @@ class Registry:
         """
         Look up an object entry by its qualifiedd name.
         """
-
-
-@dataclasses.dataclass
-class Join(Registry):
-    registries: list[Registry]
-
-    @property
-    def currentfile(self) -> Optional[FileEntry]:
-        ret: Optional[FileEntry] = None
-        for registry in self.registries:
-            if registry.currentfile:
-                if __debug__ and ret:
-                    assert ret == registry.currentfile
-                ret = registry.currentfile
-                if not __debug__:
-                    break
-        return ret
-
-    def register(self, entry: ObjectEntry):
-        for registry in self.registries:
-            registry.register(entry)
-
-    def lookup(self, qualified_name: str) -> Optional[ObjectEntry]:
-        for registry in self.registries:
-            entry = registry.lookup(qualified_name)
-            if entry:
-                return entry
-        return None

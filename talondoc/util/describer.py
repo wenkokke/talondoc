@@ -1,38 +1,36 @@
 import dataclasses
-from functools import singledispatchmethod
 import typing
+from functools import singledispatchmethod
 
-from talondoc.entries import ActionGroupEntry
-from .desc import (
-    Desc,
-    StepTemplate,
-    Value,
-    Step,
-    concat,
-    from_docstring,
-)
-from ..analyze.registry import Registry
 from tree_sitter_talon import (
     Node,
     TalonAction,
-    TalonExpression,
+    TalonAssignmentStatement,
+    TalonBinaryOperator,
     TalonBlock,
     TalonCommandDeclaration,
-    TalonBinaryOperator,
-    TalonExpressionStatement,
-    TalonAssignmentStatement,
-    TalonVariable,
-    TalonKeyAction,
-    TalonSleepAction,
-    TalonParenthesizedExpression,
     TalonComment,
-    TalonInteger,
+    TalonExpression,
+    TalonExpressionStatement,
     TalonFloat,
     TalonImplicitString,
+    TalonInteger,
+    TalonKeyAction,
+    TalonParenthesizedExpression,
+    TalonSleepAction,
     TalonString,
     TalonStringContent,
     TalonStringEscapeSequence,
+    TalonVariable,
 )
+
+from talondoc.entries import ActionGroupEntry
+
+from ..analyze.registry import Registry
+from ..util.logging import getLogger
+from .desc import Desc, Step, StepTemplate, Value, concat, from_docstring
+
+_logger = getLogger(__name__)
 
 
 @dataclasses.dataclass
@@ -114,7 +112,6 @@ class TalonScriptDescriber:
             typing.Optional[ActionGroupEntry],
             self.registry.lookup(f"action-group:{ast.action_name.text}"),
         )
-        print(action_group_entry)
         if (
             action_group_entry
             and action_group_entry.default

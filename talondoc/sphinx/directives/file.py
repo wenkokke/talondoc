@@ -1,12 +1,16 @@
 import sys
 
-from ...entries import PackageEntry, TalonFileEntry
 from docutils import nodes
-from .abc.talon import TalonObjectDescription
 from sphinx.addnodes import desc_signature
 from sphinx.util.typing import OptionSpec
+
+from ...entries import PackageEntry, TalonFileEntry
+from ...util.logging import getLogger
 from ...util.typing import optional_str, optional_strlist
-from .command import describe_rule, describe_command
+from .abc.talon import TalonObjectDescription
+from .command import describe_command, describe_rule
+
+_logger = getLogger(__name__)
 
 
 class TalonFileDirective(TalonObjectDescription):

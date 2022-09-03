@@ -1,6 +1,6 @@
-import sphinx.directives
 import typing
 
+import sphinx.directives
 
 if typing.TYPE_CHECKING:
     from talondoc.sphinx.domains import TalonDomain
