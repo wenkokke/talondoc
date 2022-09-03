@@ -20,7 +20,6 @@ class TalonCommandTableDirective(TalonCommandListDirective):
         "caption": optional_str,
         "include": optional_strlist,
         "exclude": optional_strlist,
-        "columns": int,
     }
     final_argument_whitespace = False
 

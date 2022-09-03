@@ -17,12 +17,3 @@ Documentation for knausj_talon
 .. talon:command-table::
   :caption: A little custom hunting table.
   :include: hunt this, hunt this paste
-
-.. talon:command-hlist:: user.apps.discord.discord
-  :caption: Commands for Discord.
-  :exclude: pick emoji, pick gif
-  :include: pick jif
-
-.. talon:command-hlist::
-  :caption: A little custom hunting table.
-  :include: hunt this, hunt this paste
