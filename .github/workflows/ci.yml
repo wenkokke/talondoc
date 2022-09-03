@@ -40,6 +40,9 @@ jobs:
             - name: Build Documentation
               run: make html
 
+            - name: Touch .nojekyll
+              run: touch example/docs/_build/html/.nojekyll
+
             - name: Publish Documentation
               if: matrix.python-version == env.RECOMMENDED_PYTHON_VERSION && runner.os == env.RECOMMENDED_OS
               uses: JamesIves/github-pages-deploy-action@v4.4.0
