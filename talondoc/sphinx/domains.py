@@ -35,8 +35,8 @@ class TalonDomain(Domain, Registry):
 
     directives = {
         "command": TalonCommandDirective,
-        "command_hlist": TalonCommandHListDirective,
-        "command_table": TalonCommandTableDirective,
+        "command-hlist": TalonCommandHListDirective,
+        "command-table": TalonCommandTableDirective,
         "package": TalonPackageDirective,
         "user": TalonUserDirective,
     }

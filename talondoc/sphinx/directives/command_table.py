@@ -4,8 +4,7 @@ from sphinx.util.typing import OptionSpec
 from ...util.logging import getLogger
 from ...util.nodes import colspec, row, entry, table, tbody, tgroup, title
 from ...util.typing import optional_str, optional_strlist
-from .abc import TalonCommandListDirective
-from .command import describe_rule, describe_script
+from .abc import TalonCommandListDirective, describe_rule, describe_script
 
 _logger = getLogger(__name__)
 
@@ -18,6 +17,7 @@ class TalonCommandTableDirective(TalonCommandListDirective):
     option_spec: OptionSpec = {
         "package": optional_str,
         "caption": optional_str,
+        "default": optional_str,
         "include": optional_strlist,
         "exclude": optional_strlist,
     }
@@ -33,7 +33,7 @@ class TalonCommandTableDirective(TalonCommandListDirective):
                     tbody(
                         row(
                             entry(describe_rule(command)),
-                            entry(describe_script(command, registry=self.talon)),
+                            entry(*describe_script(command, registry=self.talon)),
                         )
                         for command in self.find_commands()
                     ),

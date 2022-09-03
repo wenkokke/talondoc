@@ -4,14 +4,9 @@ from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
 
 from ...util.logging import getLogger
-from ...util.nodes import (
-    bullet_list,
-)
+from ...util.nodes import bullet_list, title
 from ...util.typing import optional_str, optional_strlist
-from .abc import TalonCommandListDirective
-from .command import (
-    describe_command,
-)
+from .abc import TalonCommandListDirective, describe_command
 
 _logger = getLogger(__name__)
 
@@ -24,6 +19,7 @@ class TalonCommandHListDirective(TalonCommandListDirective):
     option_spec: OptionSpec = {
         "package": optional_str,
         "caption": optional_str,
+        "default": optional_str,
         "include": optional_strlist,
         "exclude": optional_strlist,
         "columns": int,

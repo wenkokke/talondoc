@@ -16,4 +16,12 @@ def optional_str(argument: Optional[str]) -> Optional[str]:
 
 
 def flag(argument: Optional[str]) -> bool:
-    return True
+    if argument:
+        normalized = argument.strip().lower()
+        if normalized == "true":
+            return True
+        if normalized == "false":
+            return False
+        raise ValueError(f"Not a boolean '{argument}'")
+    else:
+        return False

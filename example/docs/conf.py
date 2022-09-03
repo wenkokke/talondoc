@@ -19,11 +19,22 @@ release = "0.1.0"
 
 sys.path.append(os.path.abspath("../.."))
 
-extensions = ["myst_parser", "talondoc.sphinx"]
+extensions = ["talondoc.sphinx"]
 
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "alabaster"
-html_static_path: list[str] = []
+try:
+    import sphinx_bootstrap_theme
+
+    html_theme = "bootstrap"
+    html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
+    html_theme_options = {
+        "navbar_title": "TalonDoc",
+        "navbar_sidebarrel": False,
+        "navbar_pagenav": False,
+    }
+except ImportError:
+    html_theme = "alabaster"
+    html_static_path: list[str] = []
