@@ -23,8 +23,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-test = ["sphinx_bootstrap_theme==0.8.1"]
+dev = ["build >=0.8.0, <0.9", "twine >=4.0.1, <5"]
 mypy = ["types-docutils==0.19.0"]
+test = ["sphinx_bootstrap_theme==0.8.1"]
 
 [project.urls]
 repository = "https://github.com/wenkokke/talondoc"

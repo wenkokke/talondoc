@@ -32,8 +32,9 @@ jobs:
                   cache: "pip" # caching pip dependencies
                   cache-dependency-path: |
                       requirements.txt
+                      requirements-dev.txt
                       requirements-test.txt
-            - run: pip install .[test]
+            - run: pip install .[dev,test]
             ################################################################################
             # Build Documentation
             ################################################################################
@@ -49,3 +50,30 @@ jobs:
               with:
                   branch: docs
                   folder: example/docs/_build/html
+            ################################################################################
+            # Build
+            ################################################################################
+            - if: startsWith(github.ref, 'refs/tags')
+              run: python -m build
+
+            ################################################################################
+            # Publish to PyPi
+            ################################################################################
+            - if: startsWith(github.ref, 'refs/tags')
+              run: |
+                twine check dist/*
+                twine upload --skip-existing -r pypi dist/*
+              env:
+                TWINE_USERNAME: __token__
+                TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+
+            ################################################################################
+            # Publish to GitHub Release
+            ################################################################################
+            - if: startsWith(github.ref, 'refs/tags')
+              uses: softprops/action-gh-release@v1
+              with:
+                files: |
+                  dist/*.tar.gz
+                  dist/*.whl
+                fail_on_unmatched_files: true
