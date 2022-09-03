@@ -15,21 +15,18 @@ classifiers = [
   "Topic :: Software Development :: Compilers",
 ]
 dependencies = [
-  "doc_printer==0.13.1",
   "docstring_parser==0.14.1",
   "Sphinx==5.1.1",
   "talonfmt==1.7.2",
-  "tree_sitter_talon==3.1.0"
+  "tree_sitter_talon==3.1.0",
 ]
 
 [project.optional-dependencies]
+test = ["sphinx_bootstrap_theme==0.8.1"]
 mypy = ["types-docutils==0.19.0"]
 
 [project.urls]
 repository = "https://github.com/wenkokke/talondoc"
-
-[project.scripts]
-talondoc = "talondoc:cli"
 
 [tool.setuptools.package-data]
 talondoc = ["py.typed"]
@@ -65,13 +62,3 @@ push = true
 ]
 "source/conf.py" = ['^release = "{version}"$']
 "talondoc/__init__.py" = ['^__version__: str = "{version}"$']
-
-[tool.tox]
-legacy_tox_ini = """
-[tox]
-envlist = py39,py310
-isolated_build = True
-
-[testenv]
-deps =
-"""
