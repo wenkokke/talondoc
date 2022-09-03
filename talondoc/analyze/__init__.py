@@ -6,6 +6,11 @@ from ..shims import talon_shims
 from .python import analyse_python_file, python_package
 from .registry import Registry
 from .talon import analyse_talon_file
+from tree_sitter_talon import ParseError
+
+from ..util.logging import getLogger
+
+_logger = getLogger(__name__)
 
 
 def analyse_package(
@@ -32,7 +37,10 @@ def analyse_package(
             for file_path in package_entry.path.glob("**/*"):
                 file_path = file_path.relative_to(package_entry.path)
                 if _include_file(file_path):
-                    analyse_file(registry, file_path, package_entry)
+                    try:
+                        analyse_file(registry, file_path, package_entry)
+                    except ParseError as e:
+                        _logger.exception(e)
 
             # Register package:
             registry.register(package_entry)
