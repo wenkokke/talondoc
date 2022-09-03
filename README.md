@@ -1,3 +1,3 @@
 # Sphinx extension for documenting Talon packages
 
-See <wen.works/talondoc/>
+See <https://wen.works/talondoc/>
