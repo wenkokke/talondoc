@@ -1,0 +1,14 @@
+Documentation for knausj_talon
+==============================
+
+.. talon:package:: example/knausj_talon
+  :name: user
+  :exclude: conftest.py, tests/**
+  :trigger: ready
+
+
+.. talon:command:: hunt this paste
+
+.. talon:command-table:: user.apps.discord.discord
+  :exclude: pick emoji, pick gif
+  :include: pick jif

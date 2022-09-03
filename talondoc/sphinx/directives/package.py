@@ -5,10 +5,10 @@ from sphinx.util.typing import OptionSpec
 
 from ...analyze import analyse_package
 from ...util.typing import optional_str, optional_strlist
-from .abc.talon import TalonDirective
+from .abc import TalonDocDirective
 
 
-class TalonPackageDirective(TalonDirective):
+class TalonPackageDirective(TalonDocDirective):
 
     has_content = False
     required_arguments = 1

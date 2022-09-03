@@ -8,11 +8,11 @@ else:
     TalonDomain = typing.Any
 
 
-class TalonDirective(sphinx.directives.SphinxDirective):
+class TalonDocDirective(sphinx.directives.SphinxDirective):
     @property
     def talon(self) -> TalonDomain:
         return typing.cast(TalonDomain, self.env.get_domain("talon"))
 
 
-class TalonObjectDescription(sphinx.directives.ObjectDescription, TalonDirective):
+class TalonDocObjectDescription(sphinx.directives.ObjectDescription, TalonDocDirective):
     pass

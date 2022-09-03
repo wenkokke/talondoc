@@ -1,5 +1,5 @@
-from .abc.talon import TalonObjectDescription
+from .abc import TalonDocObjectDescription
 
 
-class TalonActionDirective(TalonObjectDescription):
+class TalonActionDirective(TalonDocObjectDescription):
     pass

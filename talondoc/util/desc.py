@@ -122,11 +122,11 @@ def lift(desc: typing.Union[str, Desc]) -> Steps:
     if isinstance(desc, str):
         return Steps((Step(desc),))
     elif isinstance(desc, Value):
-        return Steps((Step(desc),))
+        return Steps((Step(desc.compile()),))
     elif isinstance(desc, Step):
         return Steps((desc,))
     elif isinstance(desc, StepTemplate):
-        return Steps((Step(str(desc)),))
+        return Steps((Step(desc.compile()),))
     elif isinstance(desc, Steps):
         return desc
     else:
@@ -165,7 +165,7 @@ def from_docstring(docstring: str) -> typing.Optional[Desc]:
 
         # Actions which document their parameters become
         # step templates that can interpolate their arguments:
-        if doc.short_description and doc.params:
+        if doc.short_description and len(doc.params) > 0:
             desc = StepTemplate(
                 template=doc.short_description,
                 names=tuple(param.arg_name for param in doc.params),
@@ -183,5 +183,4 @@ def from_docstring(docstring: str) -> typing.Optional[Desc]:
 
     # Treat the docstring as a series of steps:
     desc = concat(*docstring.splitlines())
-    print(desc)
     return desc

@@ -2,7 +2,7 @@ from typing import Optional, cast
 
 from sphinx.domains import Domain
 
-from talondoc.sphinx.directives.file import TalonFileDirective
+from talondoc.sphinx.directives.command_table import TalonCommandTableDirective
 
 from ..analyze.registry import Registry
 from ..entries import (
@@ -34,7 +34,7 @@ class TalonDomain(Domain, Registry):
 
     directives = {
         "command": TalonCommandDirective,
-        "file": TalonFileDirective,
+        "command-table": TalonCommandTableDirective,
         "package": TalonPackageDirective,
         "user": TalonUserDirective,
     }
