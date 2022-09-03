@@ -1,3 +1,5 @@
+import pathlib
+
 from tree_sitter_talon import (
     TalonAssignmentStatement,
     TalonBlock,
@@ -9,7 +11,13 @@ from tree_sitter_talon import (
     parse_file,
 )
 
-from ..entries import *
+from ..entries import (
+    CommandEntry,
+    PackageEntry,
+    SettingValueEntry,
+    TagImportEntry,
+    TalonFileEntry,
+)
 from . import Registry
 
 

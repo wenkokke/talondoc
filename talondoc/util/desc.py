@@ -14,8 +14,8 @@ _logger = getLogger(__name__)
 class InvalidInterpolation(Exception):
     """Exception raised when attempting to interpolate a multiline doc string."""
 
-    argument: "Desc"
-    template: typing.Optional["StepTemplate"] = None
+    argument: typing.Optional["Desc"]
+    template: typing.Optional["StepsTemplate"] = None
 
     def __str__(self) -> str:
         msg = f"Cannot interpolate '{repr(self.argument)}'"
@@ -25,25 +25,13 @@ class InvalidInterpolation(Exception):
 
 
 class Desc:
-    def __add__(self, other: typing.Optional["Desc"]) -> "Desc":
+    def as_steps(self) -> "Steps":
         """
-        Combine two descriptions.
-        """
-        return self if other is None else lift(self) + lift(other)
-
-    def __radd__(self, other: typing.Optional["Desc"]) -> "Desc":
-        """
-        Combine two descriptions, reversed.
-        """
-        return self if other is None else lift(other) + lift(self)
-
-    def compile(self) -> str:
-        """
-        Compile a description to a string.
+        Lift a description to steps.
         """
 
 
-DescLike = typing.Union[None, str, Desc, collections.abc.Iterable["DescLike"]]  # type: ignore
+DescLike = typing.Union[None, str, Desc, collections.abc.Iterable[Desc]]
 
 
 @dataclasses.dataclass(frozen=True)
@@ -54,16 +42,11 @@ class Value(Desc):
 
     desc: str
 
-    def compile(self) -> str:
+    def __str__(self) -> str:
         return self.desc
 
-    def __add__(self, other: typing.Optional[Desc]) -> Desc:
-        if isinstance(other, Value):
-            return Value(f"{self.desc} {other.desc}")
-        return super().__add__(other)
-
-    def __str__(self) -> str:
-        return self.compile()
+    def as_steps(self) -> "Steps":
+        return Steps(steps=(Step(self),))
 
 
 @dataclasses.dataclass(frozen=True)
@@ -74,11 +57,11 @@ class Step(Desc):
 
     desc: typing.Union[str, Value]
 
-    def compile(self) -> str:
+    def __str__(self) -> str:
         return str(self.desc)
 
-    def __str__(self) -> str:
-        raise InvalidInterpolation(self)
+    def as_steps(self) -> "Steps":
+        return Steps(steps=(self,))
 
 
 @dataclasses.dataclass(frozen=True)
@@ -89,63 +72,59 @@ class Steps(Desc):
 
     steps: tuple[Step, ...] = dataclasses.field(default_factory=tuple)
 
-    def compile(self) -> str:
-        return "\n".join(step.compile() for step in self.steps)
-
     def __str__(self) -> str:
-        raise InvalidInterpolation(self)
+        return "\n".join(str(step) for step in self.steps)
+
+    def as_steps(self) -> "Steps":
+        return self
 
 
 @dataclasses.dataclass
-class StepTemplate(Desc):
+class StepsTemplate(Desc):
     template: str
     names: tuple[str, ...]
 
-    def __call__(self, values: tuple[Value, ...]):
-        result = self.template
+    def __call__(self, values: tuple[typing.Optional[Desc], ...]) -> Steps:
+        ret = self.template
         for name, value in zip(self.names, values):
-            try:
-                result = result.replace(f"<{name}>", str(value))
-            except InvalidInterpolation as e:
-                e.template = self
-                raise e
-        return Step(desc=result)
+            if isinstance(value, Value):
+                ret = ret.replace(f"<{name}>", value.desc)
+            else:
+                raise InvalidInterpolation(argument=value, template=self)
+        return Steps(steps=tuple(Step(desc=desc) for desc in ret.splitlines()))
 
     def __str__(self):
         return self.template
 
-    def compile(self) -> str:
-        return str(self)
+    def as_steps(self) -> "Steps":
+        return Steps(steps=(Step(desc=str(self)),))
 
 
-def lift(desc: typing.Union[str, Desc]) -> Steps:
-    if isinstance(desc, str):
-        return Steps((Step(desc),))
-    elif isinstance(desc, Value):
-        return Steps((Step(desc.compile()),))
-    elif isinstance(desc, Step):
-        return Steps((desc,))
-    elif isinstance(desc, StepTemplate):
-        return Steps((Step(desc.compile()),))
-    elif isinstance(desc, Steps):
-        return desc
+def and_then(
+    desc1: typing.Optional[Desc], desc2: typing.Optional[Desc]
+) -> typing.Optional[Desc]:
+    if desc1 is None:
+        return desc2
+    elif desc2 is None:
+        return desc1
+    elif isinstance(desc1, Value) and isinstance(desc2, Value):
+        return Value(f"{desc1} {desc2}")
     else:
-        raise TypeError(type(desc))
+        return Steps(steps=(*desc1.as_steps().steps, *desc2.as_steps().steps))
 
 
 def concat(*desclike: DescLike) -> typing.Optional[Desc]:
-    accumulator: typing.Optional[Desc] = None
+    ret: typing.Optional[Desc] = None
     for desc in desclike:
         if desc is None:
             pass
-        elif isinstance(desc, Value):
-            accumulator = accumulator + desc
-        elif isinstance(desc, (str, Step, StepTemplate, Steps)):
-            accumulator = accumulator + lift(desc)
+        elif isinstance(desc, str):
+            ret = and_then(ret, Step(desc))
+        elif isinstance(desc, Desc):
+            ret = and_then(ret, desc)
         else:
-            assert not isinstance(desc, Desc)
-            accumulator = concat(accumulator, *desc)
-    return accumulator
+            ret = and_then(ret, concat(*desc))
+    return ret
 
 
 def from_docstring(docstring: str) -> typing.Optional[Desc]:
@@ -166,7 +145,7 @@ def from_docstring(docstring: str) -> typing.Optional[Desc]:
         # Actions which document their parameters become
         # step templates that can interpolate their arguments:
         if doc.short_description and len(doc.params) > 0:
-            desc = StepTemplate(
+            desc = StepsTemplate(
                 template=doc.short_description,
                 names=tuple(param.arg_name for param in doc.params),
             )

@@ -77,7 +77,7 @@ def analyse_python_file(
     python_file_entry = PythonFileEntry(package=package_entry, path=python_file)
     registry.register(python_file_entry)
 
-    # Process file:
+    # Process file (passes control to talondoc.shims.*):
     module_name = ".".join([package_entry.name, *python_file.with_suffix("").parts])
     importlib.import_module(name=module_name, package=package_entry.name)
 

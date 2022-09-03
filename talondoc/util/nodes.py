@@ -39,12 +39,20 @@ def desc_content(
     )
 
 
+def bullet_list(*children: NodeLike, **attributes: AttributeValue) -> nodes.bullet_list:
+    return _with_children_and_attributes(nodes.bullet_list(), *children, **attributes)
+
+
 def colspec(*children: NodeLike, **attributes: AttributeValue) -> nodes.colspec:
     return _with_children_and_attributes(nodes.colspec(), *children, **attributes)
 
 
 def entry(*children: NodeLike, **attributes: AttributeValue) -> nodes.entry:
     return _with_children_and_attributes(nodes.entry(), *children, **attributes)
+
+
+def hlist(*children: NodeLike, **attributes: AttributeValue) -> addnodes.hlist:
+    return _with_children_and_attributes(addnodes.hlist(), *children, **attributes)
 
 
 def paragraph(*children: NodeLike, **attributes: AttributeValue) -> nodes.paragraph:

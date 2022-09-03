@@ -1,5 +1,5 @@
-from sphinx.directives import ObjectDescription
+from .abc import TalonDocObjectDescription
 
 
-class TalonSetting(ObjectDescription):
+class TalonSetting(TalonDocObjectDescription):
     pass

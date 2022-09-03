@@ -1,6 +1,7 @@
 from typing import Optional, cast
 
 from sphinx.domains import Domain
+from talondoc.sphinx.directives.command_hlist import TalonCommandHListDirective
 
 from talondoc.sphinx.directives.command_table import TalonCommandTableDirective
 
@@ -34,6 +35,7 @@ class TalonDomain(Domain, Registry):
 
     directives = {
         "command": TalonCommandDirective,
+        "command-hlist": TalonCommandHListDirective,
         "command-table": TalonCommandTableDirective,
         "package": TalonPackageDirective,
         "user": TalonUserDirective,

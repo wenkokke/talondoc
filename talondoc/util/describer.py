@@ -28,16 +28,9 @@ from talondoc.entries import ActionGroupEntry
 
 from ..analyze.registry import Registry
 from ..util.logging import getLogger
-from .desc import Desc, Step, StepTemplate, Value, concat, from_docstring
+from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
 
 _logger = getLogger(__name__)
-
-
-@dataclasses.dataclass
-class MissingDocumentation(Exception):
-    """Exception raised when a docstring cannot be found"""
-
-    name: str
 
 
 NodeVar = typing.TypeVar("NodeVar", bound=Node)
@@ -118,14 +111,12 @@ class TalonScriptDescriber:
             and action_group_entry.default.desc
         ):
             desc = from_docstring(action_group_entry.default.desc)
-            if isinstance(desc, StepTemplate):
-                args = tuple(
+            if isinstance(desc, StepsTemplate):
+                desc = desc(tuple(
                     self.describe(arg)
                     for arg in ast.arguments.children
                     if isinstance(arg, TalonExpression)
-                )
-                if all(isinstance(arg, Value) for arg in args):
-                    desc = desc(typing.cast(tuple[Value, ...], args))
+                ))
             return desc
         return None
 
@@ -151,7 +142,7 @@ class TalonScriptDescriber:
 
     @describe.register
     def _(self, ast: TalonString) -> typing.Optional[Desc]:
-        return concat(self.describe(child) for child in ast.children)
+        return concat(*(self.describe(child) for child in ast.children))
 
     @describe.register
     def _(self, ast: TalonStringContent) -> typing.Optional[Desc]:
