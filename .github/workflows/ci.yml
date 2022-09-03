@@ -45,4 +45,4 @@ jobs:
               uses: JamesIves/github-pages-deploy-action@v4.4.0
               with:
                   branch: docs
-                  folder: _build/html
+                  folder: example/docs/_build/html
