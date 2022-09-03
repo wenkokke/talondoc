@@ -3,32 +3,46 @@ name: CI
 on: [push]
 
 defaults:
-  run:
-    shell: bash
+    run:
+        shell: bash
 
 env:
-  RECOMMENDED_OS: "Linux"
-  RECOMMENDED_PYTHON_VERSION: "3.9"
+    RECOMMENDED_OS: "Linux"
+    RECOMMENDED_PYTHON_VERSION: "3.9"
 
 jobs:
-  build_and_test:
-    name: Build and Test
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.9", "3.10"]
-    runs-on: ${{ matrix.os }}
-    steps:
-      ################################################################################
-      # Setup
-      ################################################################################
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: "pip" # caching pip dependencies
-          cache-dependency-path: |
-            requirements.txt
-            requirements-test.txt
-      - run: pip install .[test]
-      - run: make html
+    build_and_test:
+        name: Build and Test
+        strategy:
+            matrix:
+                os: [ubuntu-latest, macos-latest, windows-latest]
+                python-version: ["3.9", "3.10"]
+        runs-on: ${{ matrix.os }}
+        steps:
+            ################################################################################
+            # Setup
+            ################################################################################
+            - uses: actions/checkout@v3
+              with:
+                  submodules: "true"
+
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: ${{ matrix.python-version }}
+                  cache: "pip" # caching pip dependencies
+                  cache-dependency-path: |
+                      requirements.txt
+                      requirements-test.txt
+            - run: pip install .[test]
+            ################################################################################
+            # Build Documentation
+            ################################################################################
+            - name: Build Documentation
+              run: make html
+
+            - name: Publish Documentation
+              if: matrix.python-version == env.RECOMMENDED_PYTHON_VERSION && runner.os == env.RECOMMENDED_OS
+              uses: JamesIves/github-pages-deploy-action@v4.4.0
+              with:
+                  branch: docs
+                  folder: _build/html
