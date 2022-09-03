@@ -62,5 +62,5 @@ push = true
   '^current_version = "{version}"$',
   '^version = "{version}"$',
 ]
-"source/conf.py" = ['^release = "{version}"$']
+"example/docs/conf.py" = ['^release = "{version}"$']
 "talondoc/__init__.py" = ['^__version__: str = "{version}"$']
