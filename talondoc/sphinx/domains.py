@@ -1,8 +1,8 @@
 from typing import Optional, cast
 
 from sphinx.domains import Domain
-from talondoc.sphinx.directives.command_hlist import TalonCommandHListDirective
 
+from talondoc.sphinx.directives.command_hlist import TalonCommandHListDirective
 from talondoc.sphinx.directives.command_table import TalonCommandTableDirective
 
 from ..analyze.registry import Registry

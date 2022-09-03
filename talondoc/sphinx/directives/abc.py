@@ -1,17 +1,19 @@
 import typing
 from collections.abc import Iterator
-from ...entries import CommandEntry, PackageEntry, TalonFileEntry
-from ...util.logging import getLogger
+
 import sphinx.directives
-from sphinx import addnodes
 from docutils import nodes
-from ...util.nodes import desc_name, desc_content, paragraph
-from ...analyze.registry import Registry
+from sphinx import addnodes
 from talonfmt.main import talonfmt
 from tree_sitter_talon import TalonComment
 from tree_sitter_talon.re import compile
+
+from ...analyze.registry import Registry
+from ...entries import CommandEntry, PackageEntry, TalonFileEntry
 from ...util.desc import InvalidInterpolation
 from ...util.describer import TalonScriptDescriber
+from ...util.logging import getLogger
+from ...util.nodes import desc_content, desc_name, paragraph
 
 _logger = getLogger(__name__)
 

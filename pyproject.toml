@@ -36,7 +36,7 @@ talondoc = ["py.typed"]
 
 [tool.isort]
 profile = "black"
-line_width = 88
+line_length = 88
 
 [tool.mypy]
 python_version = "3.9"

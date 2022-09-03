@@ -1,7 +1,8 @@
+from collections.abc import Iterable
 from typing import Any, Sequence, TypeVar, Union
+
 from docutils import nodes
 from sphinx import addnodes
-from collections.abc import Iterable
 
 NodeVar = TypeVar("NodeVar", bound=nodes.Node)
 

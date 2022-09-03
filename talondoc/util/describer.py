@@ -112,11 +112,13 @@ class TalonScriptDescriber:
         ):
             desc = from_docstring(action_group_entry.default.desc)
             if isinstance(desc, StepsTemplate):
-                desc = desc(tuple(
-                    self.describe(arg)
-                    for arg in ast.arguments.children
-                    if isinstance(arg, TalonExpression)
-                ))
+                desc = desc(
+                    tuple(
+                        self.describe(arg)
+                        for arg in ast.arguments.children
+                        if isinstance(arg, TalonExpression)
+                    )
+                )
             return desc
         return None
 

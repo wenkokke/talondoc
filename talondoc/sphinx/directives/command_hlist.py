@@ -1,4 +1,5 @@
 import sys
+
 from docutils import nodes
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec

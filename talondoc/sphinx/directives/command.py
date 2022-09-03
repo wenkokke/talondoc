@@ -3,6 +3,7 @@ import typing
 
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
+
 from ...entries import CommandEntry
 from ...util.logging import getLogger
 from ...util.typing import flag
