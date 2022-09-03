@@ -12,7 +12,7 @@ import sys
 project = "example"
 copyright = "2022, Wen Kokke"
 author = "Wen Kokke"
-release = "0.1.0"
+release = "0.1.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
