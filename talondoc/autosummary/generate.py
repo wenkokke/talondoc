@@ -73,7 +73,7 @@ def generate(
     env.filters["underline"] = _underline
 
     # Analyse the package
-    sys.stderr.write(f"reading sources... [...%] {package_name}:{package_dir}\n")
+    sys.stderr.write(f"reading sources... [   %] {package_name}:{package_dir}\n")
     registry = StandaloneRegistry()
     package_entry = analyse_package(
         registry=registry,
@@ -111,7 +111,7 @@ def generate(
             assert isinstance(file_entry, PythonFileEntry)
             output_relpath = file_entry.path.with_suffix("") / "api.rst"
             toc.append(output_relpath)
-            sys.stderr.write(f"\rwrite output... [{pct:.0f}%] {output_relpath}")
+            sys.stderr.write(f"\rwrite output... [{pct:3.0f}%] {output_relpath}")
             sys.stderr.flush()
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -120,7 +120,7 @@ def generate(
     # Create index.rst
     template_index = env.get_template("index.rst")
     output_path = output_dir / "index.rst"
-    sys.stderr.write(f"\rwrite output... [99%] index.rst")
+    sys.stderr.write(f"\rwrite output... [ 99%] index.rst")
     sys.stderr.flush()
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
@@ -138,7 +138,7 @@ def generate(
     # Create conf.py
     template_confpy = env.get_template("conf.py")
     output_path = output_dir / "conf.py"
-    sys.stderr.write(f"\rwrite output... [100] conf.py\n")
+    sys.stderr.write(f"\rwrite output... [100%] conf.py\n")
     sys.stderr.flush()
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
