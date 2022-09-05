@@ -35,9 +35,9 @@ try:
         "navbar_sidebarrel": False,
         "navbar_pagenav": True,
         "navbar_links": [
-            ("knausj_talon", "/knausj_talon/index.html"),
+            ("knausj_talon", "/knausj_talon/index"),
         ],
-        "bootswatch_theme": "darkly",
+        "bootswatch_theme": "flatly",
     }
 except ImportError:
     html_theme = "alabaster"
