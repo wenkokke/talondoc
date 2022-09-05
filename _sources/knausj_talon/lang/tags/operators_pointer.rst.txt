@@ -1,9 +1,0 @@
-user.lang.tags.operators_pointer
-================================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: lang/tags/operators_pointer.talon
-  :exclude: **
-
-.. talon:command-table:: user.lang.tags.operators_pointer

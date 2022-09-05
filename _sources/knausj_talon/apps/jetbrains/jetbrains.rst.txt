@@ -1,9 +1,0 @@
-user.apps.jetbrains.jetbrains
-=============================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: apps/jetbrains/jetbrains.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.jetbrains.jetbrains

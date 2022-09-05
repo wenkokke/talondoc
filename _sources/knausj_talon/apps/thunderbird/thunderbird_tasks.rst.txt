@@ -1,9 +1,0 @@
-user.apps.thunderbird.thunderbird_tasks
-=======================================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: apps/thunderbird/thunderbird_tasks.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.thunderbird.thunderbird_tasks

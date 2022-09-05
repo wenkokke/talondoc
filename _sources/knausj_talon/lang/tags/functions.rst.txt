@@ -1,9 +1,0 @@
-user.lang.tags.functions
-========================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: lang/tags/functions.talon
-  :exclude: **
-
-.. talon:command-table:: user.lang.tags.functions

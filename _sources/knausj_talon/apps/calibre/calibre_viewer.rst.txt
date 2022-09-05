@@ -1,9 +1,0 @@
-user.apps.calibre.calibre_viewer
-================================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: apps/calibre/calibre_viewer.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.calibre.calibre_viewer

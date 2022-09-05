@@ -1,9 +1,0 @@
-user.apps.windbg.windbg
-=======================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: apps/windbg/windbg.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.windbg.windbg

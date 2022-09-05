@@ -1,9 +1,0 @@
-user.misc.help_scope_open
-=========================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: misc/help_scope_open.talon
-  :exclude: **
-
-.. talon:command-table:: user.misc.help_scope_open

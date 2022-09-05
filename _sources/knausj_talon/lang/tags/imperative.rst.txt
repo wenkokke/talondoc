@@ -1,9 +1,0 @@
-user.lang.tags.imperative
-=========================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: lang/tags/imperative.talon
-  :exclude: **
-
-.. talon:command-table:: user.lang.tags.imperative

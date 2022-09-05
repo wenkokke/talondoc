@@ -1,9 +1,0 @@
-user.apps.okular.okular
-=======================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: apps/okular/okular.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.okular.okular

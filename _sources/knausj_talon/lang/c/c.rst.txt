@@ -1,9 +1,0 @@
-user.lang.c.c
-=============
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: lang/c/c.talon
-  :exclude: **
-
-.. talon:command-table:: user.lang.c.c

@@ -1,9 +1,0 @@
-user.lang.terraform.terraform
-=============================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: lang/terraform/terraform.talon
-  :exclude: **
-
-.. talon:command-table:: user.lang.terraform.terraform

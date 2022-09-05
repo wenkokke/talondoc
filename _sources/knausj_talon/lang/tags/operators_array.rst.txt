@@ -1,9 +1,0 @@
-user.lang.tags.operators_array
-==============================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: lang/tags/operators_array.talon
-  :exclude: **
-
-.. talon:command-table:: user.lang.tags.operators_array

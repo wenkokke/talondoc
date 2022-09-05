@@ -1,9 +1,0 @@
-user.apps.generic_debugger
-==========================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: apps/generic_debugger.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.generic_debugger

@@ -1,9 +1,0 @@
-user.lang.tags.libraries
-========================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: lang/tags/libraries.talon
-  :exclude: **
-
-.. talon:command-table:: user.lang.tags.libraries

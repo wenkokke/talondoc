@@ -1,9 +1,0 @@
-user.lang.javascript.javascript
-===============================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: lang/javascript/javascript.talon
-  :exclude: **
-
-.. talon:command-table:: user.lang.javascript.javascript
