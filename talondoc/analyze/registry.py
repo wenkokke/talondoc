@@ -250,3 +250,13 @@ class Registry(abc.ABC):
             Optional[ObjectEntry],
             self.registry.get(sort, {}).get(resolved_name, None),
         )
+
+
+class StandaloneRegistry(Registry):
+    def __init__(self):
+        super()
+        self._registry: dict[str, Any] = {}
+
+    @property
+    def registry(self) -> dict[str, Any]:
+        return self._registry
