@@ -35,7 +35,7 @@ try:
         "navbar_sidebarrel": False,
         "navbar_pagenav": True,
         "navbar_links": [
-            ("knausj_talon", "/knausj_talon"),
+            ("knausj_talon", "/knausj_talon/index.html"),
         ],
         "bootswatch_theme": "darkly",
     }
