@@ -1,24 +1,6 @@
-from typing import Any, Optional
-
 from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
 
-from ..analyze.entries import (
-    ActionGroupEntry,
-    CallbackEntry,
-    CaptureEntry,
-    CommandEntry,
-    ContextEntry,
-    EventCode,
-    FileEntry,
-    ListEntry,
-    ModeEntry,
-    ModuleEntry,
-    ObjectEntry,
-    PackageEntry,
-    SettingEntry,
-    TagEntry,
-)
 from ..analyze.registry import Registry, StandaloneRegistry
 from ..sphinx.directives.command_hlist import TalonCommandHListDirective
 from ..sphinx.directives.command_table import TalonCommandTableDirective
@@ -47,5 +29,6 @@ class TalonDomain(Domain):
     def __init__(self, env: BuildEnvironment):
         super().__init__(env)
         self.registry: Registry = StandaloneRegistry(
-            data=self.data, temp_data=self.env.temp_data
+            data=self.data,
+            temp_data=self.env.temp_data,
         )

@@ -13,15 +13,15 @@ class DuplicateEntry(Exception):
     Raised when an entry is defined in multiple modules.
     """
 
-    entry1: "ModuleObjectEntry"
-    entry2: "ModuleObjectEntry"
+    entry1: "ObjectEntry"
+    entry2: "ObjectEntry"
 
     def __str__(self) -> str:
         return "\n".join(
             [
-                f"Action '{self.entry1.name}' is declared by multiple modules:",
-                f"-  {self.entry1.module.file.path}",
-                f"-  {self.entry2.module.file.path}",
+                f"Action '{self.entry1.get_name()}' is declared by multiple modules:",
+                f"-  {self.entry1.get_path()}",
+                f"-  {self.entry2.get_path()}",
             ]
         )
 
@@ -47,49 +47,51 @@ class ObjectEntry(abc.ABC):
 
     @property
     def namespace(self) -> str:
-        if isinstance(self, PackageEntry):
-            return cast(str, object.__getattribute__(self, "name"))
-        elif hasattr(self, "package"):
-            package = object.__getattribute__(self, "package")
-            assert isinstance(package, PackageEntry)
-            return package.name
-        elif hasattr(self, "file"):
-            file = object.__getattribute__(self, "file")
-            assert isinstance(file, FileEntry)
-            return file.package.name
-        elif hasattr(self, "module"):
-            module = object.__getattribute__(self, "module")
-            assert isinstance(module, ModuleEntry)
-            return module.file.package.name
-        elif hasattr(self, "file_or_module"):
-            file_or_module = object.__getattribute__(self, "file_or_module")
-            assert isinstance(file_or_module, (FileEntry, ModuleEntry))
-            return file_or_module.namespace
-        else:
-            raise TypeError(type(self))
+        return self.get_package().name
+
+    def get_name(self) -> str:
+        return cast(str, object.__getattribute__(self, "name"))
 
     @property
     def resolved_name(self) -> str:
-        name = object.__getattribute__(self, "name")
-        return resolve_name(name, namespace=self.namespace)
+        return resolve_name(self.get_name(), namespace=self.namespace)
 
     @property
     def qualified_name(self) -> str:
         return f"{self.__class__.sort}:{self.resolved_name}"
 
+    def get_path(self) -> pathlib.Path:
+        return self.get_file_or_package().path
 
-@dataclasses.dataclass
-class FunctionEntry(ObjectEntry):
-    sort: ClassVar[str] = "function"
-    func: Callable[..., Any]
+    def get_package(self) -> "PackageEntry":
+        file_or_package = self.get_file_or_package()
+        if isinstance(file_or_package, PackageEntry):
+            return file_or_package
+        else:
+            return file_or_package.package
 
-    @property
-    def name(self) -> str:
-        return self.func.__qualname__
-
-    @property
-    def resolved_name(self) -> str:
-        return self.name
+    def get_file_or_package(self) -> Union["PackageEntry", "FileEntry"]:
+        if isinstance(self, PackageEntry):
+            return self
+        elif isinstance(self, FileEntry):
+            return self
+        elif hasattr(self, "file"):
+            file = object.__getattribute__(self, "file")
+            assert isinstance(file, FileEntry)
+            return file
+        elif hasattr(self, "module"):
+            module = object.__getattribute__(self, "module")
+            assert isinstance(module, ModuleEntry)
+            return module.file
+        elif hasattr(self, "file_or_module"):
+            file_or_module = object.__getattribute__(self, "file_or_module")
+            assert isinstance(file_or_module, (FileEntry, ModuleEntry))
+            if isinstance(file_or_module, FileEntry):
+                return file_or_module
+            else:
+                return file_or_module.file
+        else:
+            raise TypeError(type(self))
 
 
 @dataclasses.dataclass(init=False)
@@ -137,6 +139,21 @@ class TalonFileEntry(FileEntry):
 @dataclasses.dataclass()
 class PythonFileEntry(FileEntry):
     modules: list["ModuleEntry"] = dataclasses.field(default_factory=list)
+
+
+@dataclasses.dataclass
+class FunctionEntry(ObjectEntry):
+    sort: ClassVar[str] = "function"
+    file: PythonFileEntry
+    func: Callable[..., Any]
+
+    @property
+    def name(self) -> str:
+        return self.func.__qualname__
+
+    @property
+    def resolved_name(self) -> str:
+        return f"{self.file.name.removesuffix('.py')}.{self.name}"
 
 
 @dataclasses.dataclass
@@ -236,7 +253,13 @@ class ActionEntry(ModuleObjectEntry):
 
     def __post_init__(self, *args, **kwargs):
         # TODO: add self to module
-        pass
+        # NOTE: fail fast if func is a <function>
+        assert self.func is None or isinstance(self.func, str), "\n".join(
+            [
+                "Do not store Python function on ActionEntry",
+                "Register a FunctionEntry and use function_entry.name",
+            ]
+        )
 
     def group(self) -> "ActionGroupEntry":
         if isinstance(self.module, ContextEntry):
@@ -262,7 +285,13 @@ class CaptureEntry(ObjectEntry):
 
     def __post_init__(self, *args, **kwargs):
         # TODO: add self to module
-        pass
+        # NOTE: fail fast if func is a <function>
+        assert self.func is None or isinstance(self.func, str), "\n".join(
+            [
+                "Do not store Python function on CaptureEntry",
+                "Register a FunctionEntry and use function_entry.name",
+            ]
+        )
 
 
 @dataclasses.dataclass
@@ -323,7 +352,7 @@ class SettingEntry(ObjectEntry):
     sort: ClassVar[str] = "setting"
     name: str
     module: ModuleEntry = dataclasses.field(repr=False)
-    type: Optional[type] = None
+    type: Optional[str] = None
     desc: Optional[str] = None
     default: Optional[tree_sitter_talon.TalonExpression] = None
 

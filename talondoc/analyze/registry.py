@@ -299,7 +299,22 @@ class StandaloneRegistry(Registry):
             self._latest_file = entry
 
         # Store the entry:
-        if isinstance(entry, ActionEntry):
+        if isinstance(entry, FunctionEntry):
+            # Functions are TEMPORARY DATA, and are stored under their qualified names:
+            if entry.resolved_name in self.functions:
+                _logger.exception(
+                    DuplicateEntry(entry, self.functions[entry.resolved_name])
+                )
+            else:
+                self.functions[entry.resolved_name] = entry
+
+        elif isinstance(entry, CallbackEntry):
+            # Callbacks are TEMPORARY DATA, and are stored as lists under their event codes:
+            _logger.debug(
+                f"[talondoc] Register '{entry.name}' for event '{entry.event_code}': {entry.file.name}"
+            )
+            self.callbacks.setdefault(entry.event_code, []).append(entry)
+        elif isinstance(entry, ActionEntry):
             # Actions are stored as action groups:
             action_group_entry = self.action_groups.get(entry.name, None)
             if action_group_entry is None:
@@ -308,13 +323,7 @@ class StandaloneRegistry(Registry):
                 try:
                     action_group_entry.append(entry)
                 except DuplicateEntry as e:
-                    _logger.error(f"[talondoc] {e}")
-        elif isinstance(entry, CallbackEntry):
-            # Callbacks are stored as lists under their event codes:
-            _logger.debug(
-                f"[talondoc] Register '{entry.name}' for event '{entry.event_code}': {entry.file.name}"
-            )
-            self.callbacks.setdefault(entry.event_code, []).append(entry)
+                    _logger.exception(e)
         elif isinstance(entry, CommandEntry):
             # Commands are stored as lists:
             self.commands.append(entry)

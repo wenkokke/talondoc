@@ -337,16 +337,18 @@ class TalonShim(ModuleShim):
 
         def action_class(self, cls: type):
             for name, func in inspect.getmembers(cls, inspect.isfunction):
-                name = f"{self._module_entry.namespace}.{name}"
-                function_entry = FunctionEntry(func)
+                registry = Registry.get_active_global_registry()
+                function_entry = FunctionEntry(
+                    func=func,
+                    file=self._module_entry.file,
+                )
+                registry.register(function_entry)
                 action_entry = ActionEntry(
                     module=self._module_entry,
-                    name=name,
+                    name=f"{self._module_entry.namespace}.{name}",
                     desc=func.__doc__,
                     func=function_entry.name,
                 )
-                registry = Registry.get_active_global_registry()
-                registry.register(function_entry)
                 registry.register(action_entry)
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
@@ -359,7 +361,12 @@ class TalonShim(ModuleShim):
         ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
                 namespace = self._module_entry.namespace
-                function_entry = FunctionEntry(func)
+                registry = Registry.get_active_global_registry()
+                function_entry = FunctionEntry(
+                    func=func,
+                    file=self._module_entry.file,
+                )
+                registry.register(function_entry)
                 capture_entry = CaptureEntry(
                     name=f"{namespace}.{func.__name__}",
                     module=self._module_entry,
@@ -367,8 +374,6 @@ class TalonShim(ModuleShim):
                     desc=func.__doc__,
                     func=function_entry.name,
                 )
-                registry = Registry.get_active_global_registry()
-                registry.register(function_entry)
                 registry.register(capture_entry)
                 return func
 
@@ -385,7 +390,7 @@ class TalonShim(ModuleShim):
             setting_entry = SettingEntry(
                 name=f"{namespace}.{name}",
                 module=self._module_entry,
-                type=type,
+                type=type.__name__,
                 desc=desc,
                 default=default,
             )
@@ -460,14 +465,20 @@ class TalonShim(ModuleShim):
         def action_class(self, namespace: str) -> Callable[[type], type]:
             def __decorator(cls: type):
                 for name, func in inspect.getmembers(cls, inspect.isfunction):
+                    registry = Registry.get_active_global_registry()
+                    function_entry = FunctionEntry(
+                        func=func,
+                        file=self._module_entry.file,
+                    )
+                    registry.register(function_entry)
                     name = f"{namespace}.{name}"
                     action_entry = ActionEntry(
                         module=self._module_entry,
                         name=name,
                         desc=func.__doc__,
-                        func=func,
+                        func=function_entry.name,
                     )
-                    Registry.get_active_global_registry().register(action_entry)
+                    registry.register(action_entry)
 
             return __decorator
 
@@ -485,7 +496,10 @@ class TalonShim(ModuleShim):
                 if rule is None:
                     raise ValueError("Missing rule")
 
-                function_entry = FunctionEntry(func)
+                function_entry = FunctionEntry(
+                    func=func,
+                    file=self._module_entry.file,
+                )
                 capture_entry = CaptureEntry(
                     name=f"{namespace}.{func.__name__}",
                     module=self._module_entry,
