@@ -6,6 +6,6 @@
 .tox/
 /build/
 /dist/
-/example/autogen/
 /example/docs/_build/
+/example/docs/knausj_talon/
 __pycache__/

@@ -101,6 +101,7 @@ def generate(
             output_relpath = file_entry.path.with_suffix(".rst")
             toc.append(output_relpath)
             sys.stderr.write(f"\rwrite output... [{pct:3.0f}%] {output_relpath}")
+            sys.stderr.flush()
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(template_talon_file_entry.render(entry=file_entry))
@@ -111,6 +112,7 @@ def generate(
             output_relpath = file_entry.path.with_suffix("") / "api.rst"
             toc.append(output_relpath)
             sys.stderr.write(f"\rwrite output... [{pct:.0f}%] {output_relpath}")
+            sys.stderr.flush()
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(template_python_file_entry.render(entry=file_entry))
@@ -119,6 +121,7 @@ def generate(
     template_index = env.get_template("index.rst")
     output_path = output_dir / "index.rst"
     sys.stderr.write(f"\rwrite output... [99%] index.rst")
+    sys.stderr.flush()
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
         template_index.render(
@@ -136,6 +139,7 @@ def generate(
     template_confpy = env.get_template("conf.py")
     output_path = output_dir / "conf.py"
     sys.stderr.write(f"\rwrite output... [100] conf.py\n")
+    sys.stderr.flush()
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
         template_confpy.render(

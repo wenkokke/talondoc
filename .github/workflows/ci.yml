@@ -39,7 +39,18 @@ jobs:
             ################################################################################
             # Build Documentation
             ################################################################################
-            - name: Build Documentation
+            - name: Scaffold documentation for knausj_talon
+              run: |
+                talondoc autogen \
+                  --output-dir example/docs/knausj_talon \
+                  --project "knausj_talon" \
+                  --package-name user \
+                  --exclude '**/*.py' \
+                  --exclude 'modes/wake_up_wav2letter.talon' \
+                  example/knausj_talon/
+                rm example/docs/knausj_talon/conf.py
+
+            - name: Build documentation
               run: make html
 
             - name: Touch .nojekyll

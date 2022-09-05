@@ -73,7 +73,10 @@ class TalonScriptDescriber:
 
     @describe.register
     def _(self, ast: TalonExpressionStatement) -> typing.Optional[Desc]:
-        return self.describe(ast.expression)
+        desc = self.describe(ast.expression)
+        if isinstance(ast.expression, TalonString):
+            return Step(desc=f'Insert "{desc}"')
+        return desc
 
     @describe.register
     def _(self, ast: TalonAssignmentStatement) -> typing.Optional[Desc]:
