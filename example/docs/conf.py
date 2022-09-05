@@ -33,7 +33,11 @@ try:
     html_theme_options = {
         "navbar_title": "TalonDoc",
         "navbar_sidebarrel": False,
-        "navbar_pagenav": False,
+        "navbar_pagenav": True,
+        "navbar_links": [
+            ("knausj_talon", "/knausj_talon"),
+        ],
+        "bootswatch_theme": "darkly",
     }
 except ImportError:
     html_theme = "alabaster"
