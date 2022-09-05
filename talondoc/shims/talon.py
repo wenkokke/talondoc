@@ -45,10 +45,10 @@ class TalonShim(ModuleShim):
 
     class Module(ObjectShim):
         def __init__(self, desc: Optional[str] = None):
-            file = Registry.activefile()
+            file = Registry.get_active_file()
             assert isinstance(file, PythonFileEntry)
             self._module_entry = ModuleEntry(file=file, desc=desc)
-            Registry.active().register(self._module_entry)
+            Registry.get_active_global_registry().register(self._module_entry)
 
         def action_class(self, cls: type):
             for name, func in inspect.getmembers(cls, inspect.isfunction):
@@ -56,10 +56,10 @@ class TalonShim(ModuleShim):
                 action_entry = ActionEntry(
                     module=self._module_entry, name=name, func=func
                 )
-                Registry.active().register(action_entry)
+                Registry.get_active_global_registry().register(action_entry)
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
-            registry = Registry.active()
+            registry = Registry.get_active_global_registry()
             namespace = self._module_entry.namespace
             return action(registry, name, namespace=namespace)
 
@@ -74,7 +74,7 @@ class TalonShim(ModuleShim):
                     rule=rule,
                     func=func,
                 )
-                Registry.active().register(capture_entry)
+                Registry.get_active_global_registry().register(capture_entry)
                 return func
 
             return __decorator
@@ -94,7 +94,7 @@ class TalonShim(ModuleShim):
                 desc=desc,
                 default=default,
             )
-            Registry.active().register(setting_entry)
+            Registry.get_active_global_registry().register(setting_entry)
 
         def list(self, name: str, desc: str = None):
             namespace = self._module_entry.namespace
@@ -103,7 +103,7 @@ class TalonShim(ModuleShim):
                 module=self._module_entry,
                 desc=desc,
             )
-            Registry.active().register(list_entry)
+            Registry.get_active_global_registry().register(list_entry)
 
         def mode(self, name: str, desc: str = None):
             namespace = self._module_entry.namespace
@@ -112,7 +112,7 @@ class TalonShim(ModuleShim):
                 module=self._module_entry,
                 desc=desc,
             )
-            Registry.active().register(mode_entry)
+            Registry.get_active_global_registry().register(mode_entry)
 
         def tag(self, name: str, desc: str = None):
             namespace = self._module_entry.namespace
@@ -121,17 +121,17 @@ class TalonShim(ModuleShim):
                 module=self._module_entry,
                 desc=desc,
             )
-            Registry.active().register(tag_entry)
+            Registry.get_active_global_registry().register(tag_entry)
 
         # TODO: apps
         # TODO: scope
 
     class Context(ObjectShim):
         def __init__(self, desc: Optional[str] = None):
-            file = Registry.activefile()
+            file = Registry.get_active_file()
             assert isinstance(file, PythonFileEntry)
             self._module_entry = ContextEntry(file=file, desc=desc)
-            Registry.active().register(self._module_entry)
+            Registry.get_active_global_registry().register(self._module_entry)
             self._lists = TalonContextListsShim(self)
             self._settings = TalonContextSettingsShim(self)
             self._tags = TalonContextTagsShim(self)
@@ -169,12 +169,12 @@ class TalonShim(ModuleShim):
                     action_entry = ActionEntry(
                         module=self._module_entry, name=name, func=func
                     )
-                    Registry.active().register(action_entry)
+                    Registry.get_active_global_registry().register(action_entry)
 
             return __decorator
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
-            registry = Registry.active()
+            registry = Registry.get_active_global_registry()
             namespace = self._module_entry.namespace
             return action(registry, name, namespace=namespace)
 
@@ -193,7 +193,7 @@ class TalonShim(ModuleShim):
                     rule=rule,
                     func=func,
                 )
-                Registry.active().register(capture_entry)
+                Registry.get_active_global_registry().register(capture_entry)
                 return func
 
             return __decorator

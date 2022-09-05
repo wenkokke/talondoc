@@ -15,8 +15,9 @@ classifiers = [
   "Topic :: Software Development :: Compilers",
 ]
 dependencies = [
-  "docstring_parser==0.14.1",
-  "Sphinx==5.1.1",
+  "docstring_parser>=0.14.1, <0.15",
+  "Jinja2>=3.1.2, <4",
+  "Sphinx>=5.1.1, <6",
   "talonfmt==1.7.2",
   "tree_sitter_talon==3.1.0",
   'pywin32; sys_platform == "win32"',
@@ -30,8 +31,15 @@ test = ["sphinx_bootstrap_theme==0.8.1"]
 [project.urls]
 repository = "https://github.com/wenkokke/talondoc"
 
+[project.scripts]
+talondoc = "talondoc:cli"
+
 [tool.setuptools.package-data]
-talondoc = ["py.typed"]
+talondoc = [
+  "py.typed",
+  "autosummary/template/base.rst",
+  "autosummary/template/index.rst",
+]
 
 [tool.isort]
 profile = "black"

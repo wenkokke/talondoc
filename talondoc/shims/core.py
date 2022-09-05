@@ -32,11 +32,11 @@ class ObjectShim:
     """
 
     def register(self, event_code: EventCode, callback: Callable[..., Any]):
-        file = Registry.activefile()
+        file = Registry.get_active_file()
         callback_entry = CallbackEntry(
             event_code=event_code, callback=callback, file=file
         )
-        Registry.active().register(callback_entry)
+        Registry.get_active_global_registry().register(callback_entry)
 
     def __init__(self, *args, **kwargs):
         pass
@@ -191,8 +191,8 @@ class TalonActionsShim:
                 object.__getattribute__(self, name),
             )
         except AttributeError:
-            registry = Registry.active()
-            file = registry.currentfile
+            registry = Registry.get_active_global_registry()
+            file = registry.latest_file()
             namespace = file.namespace if file else None
             return action(registry, name, namespace=namespace)
 
@@ -221,7 +221,7 @@ class TalonContextListsShim(Mapping[str, ListValue]):
             module=self._context._module_entry,
             value=value,
         )
-        Registry.active().register(list_entry)
+        Registry.get_active_global_registry().register(list_entry)
 
     def __setitem__(self, name: str, value: ListValue):
         self._add_list_value(name, value)
@@ -251,7 +251,7 @@ class TalonContextSettingsShim(Mapping):
             file_or_module=self._context._module_entry,
             value=value,
         )
-        Registry.active().register(setting_entry)
+        Registry.get_active_global_registry().register(setting_entry)
 
     def __setitem__(self, name: str, value: SettingValue):
         self._add_setting_value(name, value)
@@ -280,7 +280,7 @@ class TalonContextTagsShim(Sequence):
             name=f"{namespace}.{name}",
             file_or_module=self._context._module_entry,
         )
-        Registry.active().register(tag_import_entry)
+        Registry.get_active_global_registry().register(tag_import_entry)
 
     def __setitem__(self, name: str):
         self._add_tag_import(name)
