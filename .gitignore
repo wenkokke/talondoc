@@ -8,3 +8,4 @@
 /dist/
 /example/docs/_build/
 __pycache__/
+/example/autogen/

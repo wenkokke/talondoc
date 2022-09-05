@@ -31,29 +31,47 @@ def cli():
     type=click.Path(),
 )
 @click.option(
-    "--template-index",
+    "-t",
+    "--template-dir",
     type=click.Path(),
     default=None,
 )
 @click.option(
-    "--template-talon",
+    "--include",
     type=click.Path(),
-    default=None,
+    multiple=True,
+    default=[],
+)
+@click.option(
+    "--exclude",
+    type=click.Path(),
+    multiple=True,
+    default=[],
+)
+@click.option(
+    "--trigger",
+    type=str,
+    multiple=True,
+    default=["ready"],
 )
 def autogen(
     package_dir: str,
     *,
-    package_name: Optional[str],
     output_dir: str,
-    template_index: Optional[str],
-    template_talon: Optional[str],
+    template_dir: Optional[str],
+    package_name: Optional[str],
+    include: list[str],
+    exclude: list[str],
+    trigger: list[str],
 ):
     generate(
         package_dir,
-        package_name=package_name,
         output_dir=output_dir,
-        template_index=template_index,
-        template_talon=template_talon,
+        template_dir=template_dir,
+        package_name=package_name,
+        include=tuple(include),
+        exclude=tuple(exclude),
+        trigger=tuple(trigger),
     )
 
 

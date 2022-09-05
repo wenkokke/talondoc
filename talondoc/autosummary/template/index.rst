@@ -1,19 +1,18 @@
-{{ fullname | escape | underline }}
+{{ name | escape | title | underline }}
 
-.. talon:package:: {{ relpath }}
-  :name: {{ fullname }}
-  {% if default %}
-  :default: {{ default }}
-  {% endif %}
+.. talon:package:: {{ path }}
+  :name: {{ name }}
   {% if include %}
-  :include: {{ include | join(,) }}
+  :include: {{ include | join(",") }}
   {% endif %}
   {% if exclude %}
-  :exclude: {{ exclude | join(,) }}
+  :exclude: {{ exclude | join(",") }}
   {% endif %}
-  :trigger: ready
+  {% if trigger %}
+  :trigger: {{ trigger | join(",") }}
+  {% endif %}
 
 .. toctree::
-{% for file in files %}
+{% for file in toc %}
   {{ file }}
 {% endfor %}
