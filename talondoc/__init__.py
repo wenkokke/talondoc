@@ -1,5 +1,7 @@
 from typing import Optional
+
 import click
+
 from .autosummary.generate import generate
 
 __version__: str = "0.1.1"
@@ -54,6 +56,16 @@ def cli():
     multiple=True,
     default=["ready"],
 )
+@click.option(
+    "--author",
+    type=str,
+    default=None,
+)
+@click.option(
+    "--release",
+    type=str,
+    default=None,
+)
 def autogen(
     package_dir: str,
     *,
@@ -63,6 +75,8 @@ def autogen(
     include: list[str],
     exclude: list[str],
     trigger: list[str],
+    author: Optional[str],
+    release: Optional[str],
 ):
     generate(
         package_dir,
@@ -72,6 +86,8 @@ def autogen(
         include=tuple(include),
         exclude=tuple(exclude),
         trigger=tuple(trigger),
+        author=author,
+        release=release,
     )
 
 

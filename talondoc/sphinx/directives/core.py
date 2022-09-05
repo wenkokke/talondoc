@@ -1,14 +1,14 @@
-from typing import Any, cast, Optional, Union, TYPE_CHECKING
 from collections.abc import Callable, Iterator
+from typing import TYPE_CHECKING, Any, Optional, Union, cast
 
 import sphinx.directives
 from docutils import nodes
 from sphinx import addnodes
 from talonfmt.main import talonfmt
 from tree_sitter_talon import (
-    TalonComment,
     TalonCapture,
     TalonChoice,
+    TalonComment,
     TalonEndAnchor,
     TalonList,
     TalonOptional,
@@ -21,8 +21,8 @@ from tree_sitter_talon import (
     TalonWord,
 )
 
-from ...analyze.registry import Registry
 from ...analyze.entries import CommandEntry, PackageEntry, TalonFileEntry
+from ...analyze.registry import Registry
 from ...util.desc import InvalidInterpolation
 from ...util.describer import TalonScriptDescriber
 from ...util.logging import getLogger
@@ -198,10 +198,10 @@ def describe_command(
 class TalonCommandListDirective(TalonDocDirective):
     def find_package(self) -> PackageEntry:
         namespace = self.options.get("package")
-        candidate = self.talon.latest_package
+        candidate = self.talon.registry.latest_package
         if candidate and (not namespace or candidate.namespace == namespace):
             return candidate
-        candidate = self.talon.packages.get(namespace, None)
+        candidate = self.talon.registry.packages.get(namespace, None)
         if candidate:
             return candidate
         raise ValueError(f"Could not find package '{namespace}'")
@@ -246,7 +246,7 @@ class TalonCommandListDirective(TalonDocDirective):
             # If no file arguments were given, return all commands in the package
             # which have been explicitly included:
             default = self.options.get("default", "exclude")
-            for command in self.talon.commands:
+            for command in self.talon.registry.commands:
                 if include_command(
                     command, default=default, exclude=exclude, include=include
                 ):

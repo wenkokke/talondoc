@@ -2,9 +2,8 @@ import importlib
 import pathlib
 import typing
 
-from .shims import talon, talon_package
-from .registry import Registry
 from tree_sitter_talon import (
+    ParseError,
     TalonAssignmentStatement,
     TalonBlock,
     TalonCommandDeclaration,
@@ -13,22 +12,21 @@ from tree_sitter_talon import (
     TalonSourceFile,
     TalonTagImportDeclaration,
     parse_file,
-    ParseError,
-)
-
-from .entries import (
-    CommandEntry,
-    PackageEntry,
-    SettingValueEntry,
-    TagImportEntry,
-    TalonFileEntry,
-    CallbackEntry,
-    FileEntry,
-    PythonFileEntry,
-    TalonFileEntry,
 )
 
 from ..util.logging import getLogger
+from .entries import (
+    CallbackEntry,
+    CommandEntry,
+    FileEntry,
+    PackageEntry,
+    PythonFileEntry,
+    SettingValueEntry,
+    TagImportEntry,
+    TalonFileEntry,
+)
+from .registry import Registry
+from .shims import talon, talon_package
 
 _logger = getLogger(__name__)
 

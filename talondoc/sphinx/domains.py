@@ -1,11 +1,27 @@
-from typing import Any
+from typing import Any, Optional
 
 from sphinx.domains import Domain
+from sphinx.environment import BuildEnvironment
 
-from talondoc.sphinx.directives.command_hlist import TalonCommandHListDirective
-from talondoc.sphinx.directives.command_table import TalonCommandTableDirective
-
-from ..analyze.registry import Registry
+from ..analyze.entries import (
+    ActionGroupEntry,
+    CallbackEntry,
+    CaptureEntry,
+    CommandEntry,
+    ContextEntry,
+    EventCode,
+    FileEntry,
+    ListEntry,
+    ModeEntry,
+    ModuleEntry,
+    ObjectEntry,
+    PackageEntry,
+    SettingEntry,
+    TagEntry,
+)
+from ..analyze.registry import Registry, StandaloneRegistry
+from ..sphinx.directives.command_hlist import TalonCommandHListDirective
+from ..sphinx.directives.command_table import TalonCommandTableDirective
 from ..util.logging import getLogger
 from .directives.command import TalonCommandDirective
 from .directives.package import TalonPackageDirective
@@ -14,7 +30,7 @@ from .directives.user import TalonUserDirective
 _logger = getLogger(__name__)
 
 
-class TalonDomain(Domain, Registry):
+class TalonDomain(Domain):
     """Talon language domain."""
 
     name = "talon"
@@ -28,6 +44,6 @@ class TalonDomain(Domain, Registry):
         "user": TalonUserDirective,
     }
 
-    @property
-    def registry(self) -> dict[str, Any]:
-        return self.env.temp_data
+    def __init__(self, env: BuildEnvironment):
+        super().__init__(env)
+        self.registry = StandaloneRegistry()

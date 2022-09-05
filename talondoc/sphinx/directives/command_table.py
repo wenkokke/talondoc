@@ -35,7 +35,9 @@ class TalonCommandTableDirective(TalonCommandListDirective):
                     tbody(
                         row(
                             entry(describe_rule(command)),
-                            entry(*describe_script(command, registry=self.talon)),
+                            entry(
+                                *describe_script(command, registry=self.talon.registry)
+                            ),
                         )
                         for command in self.find_commands()
                     ),

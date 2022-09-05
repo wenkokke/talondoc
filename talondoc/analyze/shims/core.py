@@ -1,39 +1,31 @@
 import inspect
 import platform
-
 from collections.abc import Callable, Iterator
 from io import TextIOWrapper
 from types import ModuleType
 from typing import Any, Mapping, Optional, Sequence, cast
 
-from ..registry import Registry
 from ..entries import (
     ActionEntry,
+    ActionGroupEntry,
+    CallbackEntry,
     CaptureEntry,
     ContextEntry,
+    EventCode,
     ListEntry,
     ListValue,
+    ListValueEntry,
     ModeEntry,
     ModuleEntry,
     PythonFileEntry,
     SettingEntry,
     SettingValue,
-    TagEntry,
-)
-
-
-from ..registry import Registry
-from ..entries import (
-    ActionGroupEntry,
-    CallbackEntry,
-    EventCode,
-    ListValue,
-    ListValueEntry,
-    SettingValue,
     SettingValueEntry,
+    TagEntry,
     TagImportEntry,
     resolve_name,
 )
+from ..registry import Registry
 
 
 class ObjectShim:

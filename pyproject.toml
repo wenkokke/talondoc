@@ -37,6 +37,7 @@ talondoc = "talondoc:cli"
 [tool.setuptools.package-data]
 talondoc = [
   "py.typed",
+  "autosummary/template/conf.py",
   "autosummary/template/index.rst",
   "autosummary/template/python_file_entry.rst",
   "autosummary/template/talon_file_entry.rst",

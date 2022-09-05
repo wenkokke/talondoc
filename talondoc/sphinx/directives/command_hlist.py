@@ -30,7 +30,7 @@ class TalonCommandHListDirective(TalonCommandListDirective):
     def run(self) -> list[nodes.Node]:
         ncolumns = self.options.get("columns", 2)
         fulllist = [
-            describe_command(command, registry=self.talon)
+            describe_command(command, registry=self.talon.registry)
             for command in self.find_commands()
         ]
         # create a hlist node where the items are distributed

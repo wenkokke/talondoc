@@ -2,12 +2,12 @@ from pathlib import Path
 
 from docutils.nodes import Element
 from sphinx.util.typing import OptionSpec
-from ...analyze.registry import NoActiveFile, NoActivePackage, NoActiveRegistry
 
 from ...analyze import analyse_package
+from ...analyze.registry import NoActiveFile, NoActivePackage, NoActiveRegistry
+from ...util.logging import getLogger
 from ...util.typing import optional_str, optional_strlist
 from .core import TalonDocDirective
-from ...util.logging import getLogger
 
 _logger = getLogger(__name__)
 
@@ -33,7 +33,7 @@ class TalonPackageDirective(TalonDocDirective):
         # Analyse the referenced Talon package:
         try:
             analyse_package(
-                registry=self.talon,
+                registry=self.talon.registry,
                 package_dir=Path(self.arguments[0].strip()),
                 package_name=self.options.get("name", "user"),
                 include=tuple(self.options.get("include", ())),

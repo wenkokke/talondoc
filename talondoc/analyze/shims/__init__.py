@@ -1,9 +1,8 @@
 import sys
-
 from collections.abc import Iterator
 from contextlib import contextmanager
 from importlib.abc import Loader, MetaPathFinder
-from importlib.machinery import PathFinder, ModuleSpec
+from importlib.machinery import ModuleSpec, PathFinder
 from pathlib import Path
 from types import ModuleType
 from typing import ClassVar, Optional, Union

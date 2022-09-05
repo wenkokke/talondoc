@@ -25,7 +25,7 @@ class TalonCommandDirective(TalonDocObjectDescription):
 
     def find_command(self, sig: str) -> CommandEntry:
         command: typing.Optional[CommandEntry] = None
-        for candidate in self.talon.commands:
+        for candidate in self.talon.registry.commands:
             if include_command(candidate, sig, fullmatch=True):
                 if __debug__ and command:
                     raise ValueError(f"Signature '{sig}' matched multiple commands.")
@@ -39,11 +39,10 @@ class TalonCommandDirective(TalonDocObjectDescription):
 
     def handle_signature(self, sig: str, signode: addnodes.desc_signature):
         command = self.find_command(sig)
-        include_script = self.options.get("script", False)
         handle_command(
             command,
             signode,
-            registry=self.talon,
+            registry=self.talon.registry,
             include_script=self.options.get("script", False),
         )
         return command.name
