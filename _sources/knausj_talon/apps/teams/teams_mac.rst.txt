@@ -1,0 +1,9 @@
+user.apps.teams.teams_mac
+=========================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/teams/teams_mac.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.teams.teams_mac

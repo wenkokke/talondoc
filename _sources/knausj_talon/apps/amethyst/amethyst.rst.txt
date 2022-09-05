@@ -1,0 +1,9 @@
+user.apps.amethyst.amethyst
+===========================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/amethyst/amethyst.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.amethyst.amethyst

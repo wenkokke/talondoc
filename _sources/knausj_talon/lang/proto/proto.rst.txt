@@ -1,0 +1,9 @@
+user.lang.proto.proto
+=====================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: lang/proto/proto.talon
+  :exclude: **
+
+.. talon:command-table:: user.lang.proto.proto

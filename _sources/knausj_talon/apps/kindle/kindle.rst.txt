@@ -1,0 +1,9 @@
+user.apps.kindle.kindle
+=======================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/kindle/kindle.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.kindle.kindle

@@ -1,0 +1,9 @@
+user.misc.screenshot
+====================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: misc/screenshot.talon
+  :exclude: **
+
+.. talon:command-table:: user.misc.screenshot

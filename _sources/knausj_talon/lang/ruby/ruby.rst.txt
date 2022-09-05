@@ -1,0 +1,9 @@
+user.lang.ruby.ruby
+===================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: lang/ruby/ruby.talon
+  :exclude: **
+
+.. talon:command-table:: user.lang.ruby.ruby

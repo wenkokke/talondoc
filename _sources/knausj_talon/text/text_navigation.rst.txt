@@ -1,0 +1,9 @@
+user.text.text_navigation
+=========================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: text/text_navigation.talon
+  :exclude: **
+
+.. talon:command-table:: user.text.text_navigation

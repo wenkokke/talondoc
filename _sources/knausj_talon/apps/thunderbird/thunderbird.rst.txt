@@ -1,0 +1,9 @@
+user.apps.thunderbird.thunderbird
+=================================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/thunderbird/thunderbird.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.thunderbird.thunderbird

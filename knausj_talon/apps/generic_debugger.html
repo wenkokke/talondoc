@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>user.apps.generic_debugger &#8212; example 0.1.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bootstrap-sphinx.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          TalonDoc</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../../_sources/knausj_talon/apps/generic_debugger.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <section id="user-apps-generic-debugger">
+<h1>user.apps.generic_debugger<a class="headerlink" href="#user-apps-generic-debugger" title="Permalink to this heading">¶</a></h1>
+<table class="compact docutils align-default" id="id1">
+<caption><span class="caption-text">user.apps.generic_debugger</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<tbody>
+<tr class="row-odd"><td>step into</td>
+<td><p>Step into an instruction in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>step over</td>
+<td><p>Step over an instruction in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>step line</td>
+<td><p>Step into a source line in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>step over line</td>
+<td><p>Step over a source line in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>step out</td>
+<td><p>Step until function exit in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>continue</td>
+<td><p>Continue execution in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>debug start</td>
+<td><p>Start debugging</p></td>
+</tr>
+<tr class="row-even"><td>debug stop</td>
+<td><p>Stop the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>debug exit</td>
+<td><p>Exit the debugger</p></td>
+</tr>
+<tr class="row-even"><td>debug detach</td>
+<td><p>Detach the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>debug restart</td>
+<td><p>Restart execution in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>show registers</td>
+<td><p>Print the current registers in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>get register</td>
+<td><p>Print specific register in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>set register</td>
+<td><p>Set specific register in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>break now</td>
+<td><p>Break into the debugger</p></td>
+</tr>
+<tr class="row-even"><td>break here</td>
+<td><p>Set a break on the current line</p></td>
+</tr>
+<tr class="row-odd"><td>(list | show) (breaks | break points)</td>
+<td><p>Print the current breakpoints in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>(set | add) (break | break point)</td>
+<td><p>Add one software breakpoint in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>(set | add) hardware (break | break point)</td>
+<td><p>Add one hardware breakpoint in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>clear all (breaks | break points)</td>
+<td><p>Clear all breakpoints in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>clear (break | break point)</td>
+<td><p>Clear one breakpoint in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>clear (break | break point) &lt;number_small&gt;</td>
+<td><p>Clear one breakpoint id in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>disable all (breaks | break points)</td>
+<td><p>Disable all breakpoints in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>disable (break | break point)</td>
+<td><p>Disable one breakpoint in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>disable (break | break point) &lt;number_small&gt;</td>
+<td><p>Disable one breakpoint id in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>enable all (breaks | break points)</td>
+<td><p>Enable all breakpoints in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>enable (break | break point)</td>
+<td><p>Enable one breakpoint in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>enable (break | break point) &lt;number_small&gt;</td>
+<td><p>Enable one breakpoint id in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>(stack | back) trace</td>
+<td><p>Print a back trace in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>disassemble</td>
+<td><p>Preps the disassemble command in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>disassemble here</td>
+<td><p>Disassembles instructions at the current instruction pointer</p></td>
+</tr>
+<tr class="row-even"><td>disassemble clipboard</td>
+<td><p>Disassemble instructions at an address in the clipboard</p></td>
+</tr>
+<tr class="row-odd"><td>jump to address</td>
+<td><p>Jump to a specific address in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>jump to clipboard</td>
+<td><p>Jump to a specific address stored in the clipboard</p></td>
+</tr>
+<tr class="row-odd"><td>jump to highlighted</td>
+<td><p>Jump to a specific highlighted address in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>dump string</td>
+<td><p>Display as specific address as an ascii string in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>dump unicode [string]</td>
+<td><p>Display as specific address as an unicode string in the debugger</p></td>
+</tr>
+<tr class="row-even"><td>dump pointers</td>
+<td><p>Display as specific address as a list of pointers in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>list modules</td>
+<td><p>List the loaded modules in the debuggee memory space</p></td>
+</tr>
+<tr class="row-even"><td>inspect type</td>
+<td><p>Inspect a specific data type in the debugger</p></td>
+</tr>
+<tr class="row-odd"><td>clear line</td>
+<td><p>Clear unwanted data from the command line</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2022, Wen Kokke.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+user.apps.slack.slack_win
+=========================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/slack/slack_win.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.slack.slack_win

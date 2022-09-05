@@ -1,0 +1,9 @@
+user.apps.vscode.vscode
+=======================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/vscode/vscode.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.vscode.vscode
