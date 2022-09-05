@@ -40,7 +40,11 @@ class TalonPackageDirective(TalonDocDirective):
                 exclude=tuple(self.options.get("exclude", ())),
                 trigger=tuple(self.options.get("trigger", ())),
             )
-        except (NoActiveRegistry, NoActivePackage, NoActiveFile) as e:
+        except NoActiveRegistry as e:
+            _logger.exception(e)
+        except NoActivePackage as e:
+            _logger.exception(e)
+        except NoActiveFile as e:
             _logger.exception(e)
 
         return []

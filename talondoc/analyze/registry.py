@@ -33,6 +33,9 @@ class NoActiveRegistry(Exception):
     outside of the 'talon_shims' context manager.
     """
 
+    def __str__(self) -> str:
+        return "No active registry"
+
 
 class NoActivePackage(Exception):
     """
@@ -40,12 +43,18 @@ class NoActivePackage(Exception):
     when no package has been processed.
     """
 
+    def __str__(self) -> str:
+        return "No active package"
+
 
 class NoActiveFile(Exception):
     """
     Exception raised when the user attempts to get the active file
     when no file has been processed.
     """
+
+    def __str__(self) -> str:
+        return "No active file"
 
 
 class Registry(abc.ABC):
@@ -302,17 +311,13 @@ class StandaloneRegistry(Registry):
         if isinstance(entry, FunctionEntry):
             # Functions are TEMPORARY DATA, and are stored under their qualified names:
             if entry.resolved_name in self.functions:
-                _logger.exception(
-                    DuplicateEntry(entry, self.functions[entry.resolved_name])
-                )
+                e = DuplicateEntry(entry, self.functions[entry.resolved_name])
+                _logger.exception(e)
             else:
                 self.functions[entry.resolved_name] = entry
 
         elif isinstance(entry, CallbackEntry):
             # Callbacks are TEMPORARY DATA, and are stored as lists under their event codes:
-            _logger.debug(
-                f"[talondoc] Register '{entry.name}' for event '{entry.event_code}': {entry.file.name}"
-            )
             self.callbacks.setdefault(entry.event_code, []).append(entry)
         elif isinstance(entry, ActionEntry):
             # Actions are stored as action groups:

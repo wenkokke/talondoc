@@ -2,7 +2,17 @@ import abc
 import dataclasses
 import pathlib
 from collections.abc import Callable
-from typing import Any, ClassVar, Generic, Optional, TypeVar, Union, cast
+from typing import (
+    Any,
+    ClassVar,
+    Generic,
+    Mapping,
+    Optional,
+    Iterable,
+    TypeVar,
+    Union,
+    cast,
+)
 
 import tree_sitter_talon
 
@@ -37,7 +47,17 @@ def resolve_name(name: str, *, namespace: Optional[str] = None) -> str:
         return name
 
 
-ListValue = Union[list[str], dict[str, Any]]
+ListValue = Union[Mapping[str, Any], Iterable[str]]
+
+
+def _coerce_list_value(list_value: ListValue) -> ListValue:
+    if isinstance(list_value, Iterable):
+        return list(list_value)
+    elif isinstance(list_value, Mapping):
+        return dict(list_value)
+    elif list_value is not None:
+        raise AssertionError(f"List value is not a list or dict: {list_value}")
+
 
 SettingValue = Any
 
@@ -161,9 +181,10 @@ class ModuleEntry(ObjectEntry):
     sort: ClassVar[str] = "module"
     file: PythonFileEntry = dataclasses.field(repr=False)
     desc: Optional[str]
+    index: int = dataclasses.field(init=False)
 
     def __post_init__(self, *args, **kwargs):
-        self._index = len(self.file.modules)
+        self.index = len(self.file.modules)
         self.file.modules.append(self)
 
     @property
@@ -172,7 +193,7 @@ class ModuleEntry(ObjectEntry):
             [
                 self.namespace,
                 *self.file.path.parts,
-                str(self._index),
+                str(self.index),
             ]
         )
 
@@ -203,21 +224,21 @@ class CallbackEntry(ObjectEntry):
 
 
 @dataclasses.dataclass
-class ModuleObjectEntry(ObjectEntry):
+class CanOverrideEntry(ObjectEntry):
     name: str
     module: ModuleEntry = dataclasses.field(repr=False)
 
 
-ModuleObjectEntryVar = TypeVar("ModuleObjectEntryVar", bound=ModuleObjectEntry)
+CanOverride = TypeVar("CanOverride", bound=CanOverrideEntry)
 
 
 @dataclasses.dataclass
-class ModuleObjectGroupEntry(ObjectEntry, Generic[ModuleObjectEntryVar]):
+class ObjectGroupEntry(ObjectEntry, Generic[CanOverride]):
     name: str
-    default: Optional[ModuleObjectEntryVar] = None
-    overrides: list[ModuleObjectEntryVar] = dataclasses.field(default_factory=list)
+    default: Optional[CanOverride] = None
+    overrides: list[CanOverride] = dataclasses.field(default_factory=list)
 
-    def append(self, entry: "ModuleObjectEntryVar"):
+    def append(self, entry: "CanOverride"):
         assert self.resolved_name == entry.resolved_name, "\n".join(
             [
                 f"Cannot append entry with different name to a group:",
@@ -246,7 +267,7 @@ class ModuleObjectGroupEntry(ObjectEntry, Generic[ModuleObjectEntryVar]):
 
 
 @dataclasses.dataclass
-class ActionEntry(ModuleObjectEntry):
+class ActionEntry(CanOverrideEntry):
     sort: ClassVar[str] = "action"
     desc: Optional[str]
     func: Optional[str]
@@ -270,7 +291,7 @@ class ActionEntry(ModuleObjectEntry):
 
 
 @dataclasses.dataclass
-class ActionGroupEntry(ModuleObjectGroupEntry[ActionEntry]):
+class ActionGroupEntry(ObjectGroupEntry[ActionEntry]):
     sort: ClassVar[str] = "action-group"
 
 
@@ -320,7 +341,7 @@ class ListEntry(ObjectEntry):
 
     def __post_init__(self, *args, **kwargs):
         # TODO: add self to module
-        pass
+        self.value = _coerce_list_value(self.value)
 
 
 @dataclasses.dataclass
@@ -332,7 +353,7 @@ class ListValueEntry(ObjectEntry):
 
     def __post_init__(self, *args, **kwargs):
         # TODO: add self to module
-        pass
+        self.value = _coerce_list_value(self.value)
 
 
 @dataclasses.dataclass

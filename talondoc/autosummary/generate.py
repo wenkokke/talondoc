@@ -2,6 +2,7 @@ import datetime
 import os
 import subprocess
 from pathlib import Path
+import sys
 from typing import Optional, Union
 
 import jinja2
@@ -72,7 +73,7 @@ def generate(
     env.filters["underline"] = _underline
 
     # Analyse the package
-    print(f"Analyse '{package_name}:{package_dir}'")
+    sys.stderr.write(f"reading sources... [...%] {package_name}:{package_dir}\n")
     registry = StandaloneRegistry()
     package_entry = analyse_package(
         registry=registry,
@@ -90,14 +91,16 @@ def generate(
     template_talon_file_entry = env.get_template("talon_file_entry.rst")
     template_python_file_entry = env.get_template("python_file_entry.rst")
     toc: list[Path] = []
-    for file_entry in package_entry.files:
+    total: int = len(package_entry.files)
+    for n, file_entry in enumerate(package_entry.files):
+        pct: float = (n / total) * 100.0
 
         # Create path/to/talon/file.rst:
         if file_entry.path.suffix == ".talon":
             assert isinstance(file_entry, TalonFileEntry)
             output_relpath = file_entry.path.with_suffix(".rst")
             toc.append(output_relpath)
-            print(f"Write {output_relpath}")
+            sys.stderr.write(f"\rwrite output... [{pct:3.0f}%] {output_relpath}")
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(template_talon_file_entry.render(entry=file_entry))
@@ -107,7 +110,7 @@ def generate(
             assert isinstance(file_entry, PythonFileEntry)
             output_relpath = file_entry.path.with_suffix("") / "api.rst"
             toc.append(output_relpath)
-            print(f"Write {output_relpath}")
+            sys.stderr.write(f"\rwrite output... [{pct:.0f}%] {output_relpath}")
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(template_python_file_entry.render(entry=file_entry))
@@ -115,7 +118,7 @@ def generate(
     # Create index.rst
     template_index = env.get_template("index.rst")
     output_path = output_dir / "index.rst"
-    print(f"Write index.rst")
+    sys.stderr.write(f"\rwrite output... [99%] index.rst")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
         template_index.render(
@@ -132,7 +135,7 @@ def generate(
     # Create conf.py
     template_confpy = env.get_template("conf.py")
     output_path = output_dir / "conf.py"
-    print(f"Write conf.py")
+    sys.stderr.write(f"\rwrite output... [100] conf.py\n")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
         template_confpy.render(
