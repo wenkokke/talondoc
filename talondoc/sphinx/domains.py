@@ -46,4 +46,6 @@ class TalonDomain(Domain):
 
     def __init__(self, env: BuildEnvironment):
         super().__init__(env)
-        self.registry = StandaloneRegistry()
+        self.registry: Registry = StandaloneRegistry(
+            data=self.data, temp_data=self.env.temp_data
+        )

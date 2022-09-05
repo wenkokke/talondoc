@@ -57,6 +57,11 @@ def cli():
     default=["ready"],
 )
 @click.option(
+    "--project",
+    type=str,
+    default=None,
+)
+@click.option(
     "--author",
     type=str,
     default=None,
@@ -75,6 +80,7 @@ def autogen(
     include: list[str],
     exclude: list[str],
     trigger: list[str],
+    project: Optional[str],
     author: Optional[str],
     release: Optional[str],
 ):
@@ -86,6 +92,7 @@ def autogen(
         include=tuple(include),
         exclude=tuple(exclude),
         trigger=tuple(trigger),
+        project=project,
         author=author,
         release=release,
     )

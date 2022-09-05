@@ -42,6 +42,7 @@ def generate(
     include: tuple[str, ...] = (),
     exclude: tuple[str, ...] = (),
     trigger: tuple[str, ...] = (),
+    project: Optional[str] = None,
     author: Optional[str] = None,
     release: Optional[str] = None,
 ):
@@ -52,6 +53,7 @@ def generate(
         output_dir = Path.cwd()
     elif isinstance(output_dir, str):
         output_dir = Path(output_dir)
+    project = project or package_name
     author = _default_author(author)
     release = release or "0.1.0"
 
@@ -65,6 +67,7 @@ def generate(
     env = jinja2.sandbox.SandboxedEnvironment(
         loader=jinja2.ChoiceLoader(loaders),
         autoescape=False,
+        keep_trailing_newline=False,
     )
     env.filters["underline"] = _underline
 
@@ -80,13 +83,16 @@ def generate(
         trigger=trigger,
     )
 
-    template_index = env.get_template("index.rst")
-    template_confpy = env.get_template("conf.py")
+    # Make package path relative to output_dir:
+    package_entry.path = Path(os.path.relpath(package_entry.path, start=output_dir))
+
+    # Render talon and python file entries:
     template_talon_file_entry = env.get_template("talon_file_entry.rst")
     template_python_file_entry = env.get_template("python_file_entry.rst")
     toc: list[Path] = []
     for file_entry in package_entry.files:
-        # Create path/to/talon/file/api.rst
+
+        # Create path/to/talon/file.rst:
         if file_entry.path.suffix == ".talon":
             assert isinstance(file_entry, TalonFileEntry)
             output_relpath = file_entry.path.with_suffix(".rst")
@@ -96,7 +102,7 @@ def generate(
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(template_talon_file_entry.render(entry=file_entry))
 
-        # Create path/to/python/file/api.rst
+        # Create path/to/python/file/api.rst:
         if file_entry.path.suffix == ".py":
             assert isinstance(file_entry, PythonFileEntry)
             output_relpath = file_entry.path.with_suffix("") / "api.rst"
@@ -107,13 +113,15 @@ def generate(
             output_path.write_text(template_python_file_entry.render(entry=file_entry))
 
     # Create index.rst
+    template_index = env.get_template("index.rst")
     output_path = output_dir / "index.rst"
     print(f"Write index.rst")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
         template_index.render(
+            project=project,
             name=package_entry.name,
-            path=str(package_entry.path),
+            path=package_entry.path,
             toc=toc,
             include=include,
             exclude=exclude,
@@ -122,12 +130,13 @@ def generate(
     )
 
     # Create conf.py
+    template_confpy = env.get_template("conf.py")
     output_path = output_dir / "conf.py"
     print(f"Write conf.py")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
         template_confpy.render(
-            project=package_entry.name,
+            project=project,
             author=author,
             year=str(datetime.date.today().year),
             release=release,

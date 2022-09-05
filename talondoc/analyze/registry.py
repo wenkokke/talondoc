@@ -10,9 +10,10 @@ from .entries import (
     CaptureEntry,
     CommandEntry,
     ContextEntry,
-    DuplicateAction,
+    DuplicateEntry,
     EventCode,
     FileEntry,
+    FunctionEntry,
     ListEntry,
     ModeEntry,
     ModuleEntry,
@@ -89,6 +90,10 @@ class Registry(abc.ABC):
         Set this registry as the current active registry.
         """
         Registry._active_global_registry = self
+
+    ##################################################
+    # The API for any particular registry
+    ##################################################
 
     @abc.abstractproperty
     def latest_package(self) -> Optional[PackageEntry]:
@@ -168,15 +173,13 @@ class Registry(abc.ABC):
 @dataclass
 class StandaloneRegistry(Registry):
 
-    ##################################################
-    # Implementations of registry and lookup
-    ##################################################
+    data: dict[str, Any] = field(default_factory=dict)
+
+    temp_data: dict[str, Any] = field(default_factory=dict)
 
     _latest_package: Optional[PackageEntry] = field(default=None, init=False)
 
     _latest_file: Optional[FileEntry] = field(default=None, init=False)
-
-    _registry: dict[str, Any] = field(default_factory=dict, init=False)
 
     @property
     def latest_package(self) -> Optional[PackageEntry]:
@@ -196,84 +199,91 @@ class StandaloneRegistry(Registry):
     def action_groups(self) -> dict[str, ActionGroupEntry]:
         return cast(
             dict[str, ActionGroupEntry],
-            self._registry.setdefault(ActionGroupEntry.sort, {}),
+            self.data.setdefault(ActionGroupEntry.sort, {}),
         )
 
     @property
     def callbacks(self) -> dict[EventCode, list[CallbackEntry]]:
         return cast(
             dict[EventCode, list[CallbackEntry]],
-            self._registry.setdefault(CallbackEntry.sort, {}),
+            self.temp_data.setdefault(CallbackEntry.sort, {}),
         )
 
     @property
     def captures(self) -> dict[str, CaptureEntry]:
         return cast(
             dict[str, CaptureEntry],
-            self._registry.setdefault(CaptureEntry.sort, {}),
+            self.data.setdefault(CaptureEntry.sort, {}),
         )
 
     @property
     def commands(self) -> list[CommandEntry]:
         return cast(
             list[CommandEntry],
-            self._registry.setdefault(CommandEntry.sort, []),
+            self.data.setdefault(CommandEntry.sort, []),
         )
 
     @property
     def contexts(self) -> dict[str, list[ContextEntry]]:
         return cast(
             dict[str, list[ContextEntry]],
-            self._registry.setdefault(ContextEntry.sort, {}),
+            self.data.setdefault(ContextEntry.sort, {}),
         )
 
     @property
     def files(self) -> dict[str, FileEntry]:
         return cast(
             dict[str, FileEntry],
-            self._registry.setdefault(FileEntry.sort, {}),
+            self.data.setdefault(FileEntry.sort, {}),
+        )
+
+    @property
+    def functions(self) -> dict[str, FunctionEntry]:
+        return cast(
+            dict[str, FunctionEntry],
+            self.temp_data.setdefault(FunctionEntry.sort, {}),
         )
 
     @property
     def modes(self) -> dict[str, ModeEntry]:
         return cast(
             dict[str, ModeEntry],
-            self._registry.setdefault(ModeEntry.sort, {}),
+            self.data.setdefault(ModeEntry.sort, {}),
         )
 
     @property
     def modules(self) -> dict[str, list[ModuleEntry]]:
         return cast(
             dict[str, list[ModuleEntry]],
-            self._registry.setdefault(ModuleEntry.sort, {}),
+            self.data.setdefault(ModuleEntry.sort, {}),
         )
 
     @property
     def lists(self) -> dict[str, ListEntry]:
         return cast(
             dict[str, ListEntry],
-            self._registry.setdefault(ListEntry.sort, {}),
+            self.data.setdefault(ListEntry.sort, {}),
         )
 
     @property
     def packages(self) -> dict[str, PackageEntry]:
         return cast(
             dict[str, PackageEntry],
-            self._registry.setdefault(PackageEntry.sort, {}),
+            self.data.setdefault(PackageEntry.sort, {}),
         )
 
     @property
     def settings(self) -> dict[str, SettingEntry]:
         return cast(
             dict[str, SettingEntry],
-            self._registry.setdefault(SettingEntry.sort, {}),
+            self.data.setdefault(SettingEntry.sort, {}),
         )
 
     @property
     def tags(self) -> dict[str, TagEntry]:
         return cast(
             dict[str, TagEntry],
-            self._registry.setdefault(TagEntry.sort, {}),
+            self.data.setdefault(TagEntry.sort, {}),
         )
 
     def register(self, entry: ObjectEntry):
@@ -297,7 +307,7 @@ class StandaloneRegistry(Registry):
             else:
                 try:
                     action_group_entry.append(entry)
-                except DuplicateAction as e:
+                except DuplicateEntry as e:
                     _logger.error(f"[talondoc] {e}")
         elif isinstance(entry, CallbackEntry):
             # Callbacks are stored as lists under their event codes:
@@ -310,7 +320,7 @@ class StandaloneRegistry(Registry):
             self.commands.append(entry)
         else:
             # Everything else is stored under its resolved name:
-            self._registry.setdefault(entry.sort, {})[entry.resolved_name] = entry
+            self.data.setdefault(entry.sort, {})[entry.resolved_name] = entry
 
     def lookup(
         self, qualified_name: str, *, namespace: Optional[str] = None
@@ -322,5 +332,5 @@ class StandaloneRegistry(Registry):
         resolved_name = resolve_name(name, namespace=namespace)
         return cast(
             Optional[ObjectEntry],
-            self._registry.get(sort, {}).get(resolved_name, None),
+            self.data.get(sort, {}).get(resolved_name, None),
         )

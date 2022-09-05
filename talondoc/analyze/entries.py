@@ -2,26 +2,26 @@ import abc
 import dataclasses
 import pathlib
 from collections.abc import Callable
-from typing import Any, ClassVar, Optional, Union, cast
+from typing import Any, ClassVar, Generic, Optional, TypeVar, Union, cast
 
 import tree_sitter_talon
 
 
 @dataclasses.dataclass(frozen=True)
-class DuplicateAction(Exception):
+class DuplicateEntry(Exception):
     """
-    Raised when an action is defined in multiple modules.
+    Raised when an entry is defined in multiple modules.
     """
 
-    action1: "ActionEntry"
-    action2: "ActionEntry"
+    entry1: "ModuleObjectEntry"
+    entry2: "ModuleObjectEntry"
 
     def __str__(self) -> str:
         return "\n".join(
             [
-                f"Action '{self.action1.name}' is declared by multiple modules:",
-                f"-  {self.action1.module.file.path}",
-                f"-  {self.action2.module.file.path}",
+                f"Action '{self.entry1.name}' is declared by multiple modules:",
+                f"-  {self.entry1.module.file.path}",
+                f"-  {self.entry2.module.file.path}",
             ]
         )
 
@@ -76,6 +76,20 @@ class ObjectEntry(abc.ABC):
     @property
     def qualified_name(self) -> str:
         return f"{self.__class__.sort}:{self.resolved_name}"
+
+
+@dataclasses.dataclass
+class FunctionEntry(ObjectEntry):
+    sort: ClassVar[str] = "function"
+    func: Callable[..., Any]
+
+    @property
+    def name(self) -> str:
+        return self.func.__qualname__
+
+    @property
+    def resolved_name(self) -> str:
+        return self.name
 
 
 @dataclasses.dataclass(init=False)
@@ -172,52 +186,37 @@ class CallbackEntry(ObjectEntry):
 
 
 @dataclasses.dataclass
-class ActionEntry(ObjectEntry):
-    sort: ClassVar[str] = "action"
+class ModuleObjectEntry(ObjectEntry):
     name: str
     module: ModuleEntry = dataclasses.field(repr=False)
-    func: Callable[..., Any]
 
-    def __post_init__(self, *args, **kwargs):
-        # TODO: add self to module
-        pass
 
-    def group(self) -> "ActionGroupEntry":
-        if isinstance(self.module, ContextEntry):
-            return ActionGroupEntry(name=self.name, overrides=[self])
-        else:
-            assert isinstance(self.module, ModuleEntry)
-            return ActionGroupEntry(name=self.name, default=self)
-
-    @property
-    def desc(self) -> Optional[str]:
-        return self.func.__doc__
+ModuleObjectEntryVar = TypeVar("ModuleObjectEntryVar", bound=ModuleObjectEntry)
 
 
 @dataclasses.dataclass
-class ActionGroupEntry(ObjectEntry):
-    sort: ClassVar[str] = "action-group"
+class ModuleObjectGroupEntry(ObjectEntry, Generic[ModuleObjectEntryVar]):
     name: str
-    default: Optional[ActionEntry] = None
-    overrides: list[ActionEntry] = dataclasses.field(default_factory=list)
+    default: Optional[ModuleObjectEntryVar] = None
+    overrides: list[ModuleObjectEntryVar] = dataclasses.field(default_factory=list)
 
-    def append(self, action_entry: "ActionEntry"):
-        assert self.name == action_entry.name, "\n".join(
+    def append(self, entry: "ModuleObjectEntryVar"):
+        assert self.resolved_name == entry.resolved_name, "\n".join(
             [
-                f"Cannot append action with different name to an action group:",
-                f"- action group name: {self.name}",
-                f"- action name: {action_entry.name}",
+                f"Cannot append entry with different name to a group:",
+                f"- group name: {self.resolved_name}",
+                f"- entry name: {entry.resolved_name}",
             ]
         )
-        if isinstance(action_entry.module, ContextEntry):
-            self.overrides.append(action_entry)
+        if isinstance(entry.module, ContextEntry):
+            self.overrides.append(entry)
         else:
             assert isinstance(
-                action_entry.module, ModuleEntry
-            ), f"Action does not belong to any module: {action_entry.module}"
+                entry.module, ModuleEntry
+            ), f"Entry does not belong to any module: {entry.module}"
             if self.default is not None:
-                raise DuplicateAction(self.default, action_entry)
-            self.default = action_entry
+                raise DuplicateEntry(self.default, entry)
+            self.default = entry
 
     @property
     def namespace(self) -> str:
@@ -230,20 +229,40 @@ class ActionGroupEntry(ObjectEntry):
 
 
 @dataclasses.dataclass
-class CaptureEntry(ObjectEntry):
-    sort: ClassVar[str] = "capture"
-    name: str
-    module: ModuleEntry = dataclasses.field(repr=False)
-    rule: Union[str, tree_sitter_talon.TalonRule]
-    func: Callable[..., Any]
+class ActionEntry(ModuleObjectEntry):
+    sort: ClassVar[str] = "action"
+    desc: Optional[str]
+    func: Optional[str]
 
     def __post_init__(self, *args, **kwargs):
         # TODO: add self to module
         pass
 
-    @property
-    def desc(self) -> Optional[str]:
-        return self.func.__doc__
+    def group(self) -> "ActionGroupEntry":
+        if isinstance(self.module, ContextEntry):
+            return ActionGroupEntry(name=self.name, overrides=[self])
+        else:
+            assert isinstance(self.module, ModuleEntry)
+            return ActionGroupEntry(name=self.name, default=self)
+
+
+@dataclasses.dataclass
+class ActionGroupEntry(ModuleObjectGroupEntry[ActionEntry]):
+    sort: ClassVar[str] = "action-group"
+
+
+@dataclasses.dataclass
+class CaptureEntry(ObjectEntry):
+    sort: ClassVar[str] = "capture"
+    name: str
+    module: ModuleEntry = dataclasses.field(repr=False)
+    rule: Union[str, tree_sitter_talon.TalonRule]
+    desc: Optional[str]
+    func: Optional[str]
+
+    def __post_init__(self, *args, **kwargs):
+        # TODO: add self to module
+        pass
 
 
 @dataclasses.dataclass

@@ -7,7 +7,7 @@ from ...analyze import analyse_package
 from ...analyze.registry import NoActiveFile, NoActivePackage, NoActiveRegistry
 from ...util.logging import getLogger
 from ...util.typing import optional_str, optional_strlist
-from .core import TalonDocDirective
+from . import TalonDocDirective
 
 _logger = getLogger(__name__)
 

@@ -7,7 +7,7 @@ from sphinx.util.typing import OptionSpec
 from ...util.logging import getLogger
 from ...util.nodes import bullet_list, title
 from ...util.typing import optional_str, optional_strlist
-from .core import TalonCommandListDirective, describe_command
+from . import TalonCommandListDirective, describe_command
 
 _logger = getLogger(__name__)
 

@@ -12,6 +12,7 @@ from ..entries import (
     CaptureEntry,
     ContextEntry,
     EventCode,
+    FunctionEntry,
     ListEntry,
     ListValue,
     ListValueEntry,
@@ -180,9 +181,11 @@ def _action(
     qualified_name = f"action-group:{resolved_name}"
     action_group_entry = registry.lookup(qualified_name)
     if isinstance(action_group_entry, ActionGroupEntry) and action_group_entry.default:
-        return action_group_entry.default.func
-    else:
-        return ObjectShim()  # type: ignore
+        function_name = action_group_entry.default.func
+        function_entry = registry.lookup(f"function:{function_name}")
+        if isinstance(function_entry, FunctionEntry):
+            return function_entry.func
+    return ObjectShim()  # type: ignore
 
 
 class TalonActionsShim:
@@ -335,10 +338,16 @@ class TalonShim(ModuleShim):
         def action_class(self, cls: type):
             for name, func in inspect.getmembers(cls, inspect.isfunction):
                 name = f"{self._module_entry.namespace}.{name}"
+                function_entry = FunctionEntry(func)
                 action_entry = ActionEntry(
-                    module=self._module_entry, name=name, func=func
+                    module=self._module_entry,
+                    name=name,
+                    desc=func.__doc__,
+                    func=function_entry.name,
                 )
-                Registry.get_active_global_registry().register(action_entry)
+                registry = Registry.get_active_global_registry()
+                registry.register(function_entry)
+                registry.register(action_entry)
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
             registry = Registry.get_active_global_registry()
@@ -350,13 +359,17 @@ class TalonShim(ModuleShim):
         ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
                 namespace = self._module_entry.namespace
+                function_entry = FunctionEntry(func)
                 capture_entry = CaptureEntry(
                     name=f"{namespace}.{func.__name__}",
                     module=self._module_entry,
                     rule=rule,
-                    func=func,
+                    desc=func.__doc__,
+                    func=function_entry.name,
                 )
-                Registry.get_active_global_registry().register(capture_entry)
+                registry = Registry.get_active_global_registry()
+                registry.register(function_entry)
+                registry.register(capture_entry)
                 return func
 
             return __decorator
@@ -449,7 +462,10 @@ class TalonShim(ModuleShim):
                 for name, func in inspect.getmembers(cls, inspect.isfunction):
                     name = f"{namespace}.{name}"
                     action_entry = ActionEntry(
-                        module=self._module_entry, name=name, func=func
+                        module=self._module_entry,
+                        name=name,
+                        desc=func.__doc__,
+                        func=func,
                     )
                     Registry.get_active_global_registry().register(action_entry)
 
@@ -469,13 +485,17 @@ class TalonShim(ModuleShim):
                 if rule is None:
                     raise ValueError("Missing rule")
 
+                function_entry = FunctionEntry(func)
                 capture_entry = CaptureEntry(
                     name=f"{namespace}.{func.__name__}",
                     module=self._module_entry,
                     rule=rule,
-                    func=func,
+                    desc=func.__doc__,
+                    func=function_entry.name,
                 )
-                Registry.get_active_global_registry().register(capture_entry)
+                registry = Registry.get_active_global_registry()
+                registry.register(function_entry)
+                registry.register(capture_entry)
                 return func
 
             return __decorator

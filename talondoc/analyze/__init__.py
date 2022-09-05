@@ -26,9 +26,22 @@ from .entries import (
     TalonFileEntry,
 )
 from .registry import Registry
-from .shims import talon, talon_package
+from .shims import talon
 
 _logger = getLogger(__name__)
+
+
+def include_file(
+    file_path: pathlib.Path,
+    *,
+    include: tuple[str, ...] = (),
+    exclude: tuple[str, ...] = (),
+) -> bool:
+    return (
+        not exclude
+        or not any(file_path.match(exclude_pattern) for exclude_pattern in exclude)
+        or any(file_path.match(include_pattern) for include_pattern in include)
+    )
 
 
 def analyse_package(
@@ -40,14 +53,6 @@ def analyse_package(
     exclude: tuple[str, ...] = (),
     trigger: tuple[str, ...] = (),
 ) -> PackageEntry:
-    def _include_file(
-        file_path: pathlib.Path,
-    ) -> bool:
-        return (
-            not exclude
-            or not any(file_path.match(exclude_pattern) for exclude_pattern in exclude)
-            or any(file_path.match(include_pattern) for include_pattern in include)
-        )
 
     # Register package:
     package_entry = PackageEntry(name=package_name, path=package_dir.absolute())
@@ -56,7 +61,7 @@ def analyse_package(
     with talon(registry, package=package_entry):
         for file_path in package_entry.path.glob("**/*"):
             file_path = file_path.relative_to(package_entry.path)
-            if _include_file(file_path):
+            if include_file(file_path, include=include, exclude=exclude):
                 try:
                     analyse_file(registry, file_path, package_entry)
                 except ParseError as e:
@@ -64,12 +69,12 @@ def analyse_package(
 
         # Trigger callbacks:
         for event_code in trigger:
-            callback_entries = typing.cast(
-                list[CallbackEntry],
-                registry.lookup(f"callback:{event_code}"),
-            )
-            for callback_entry in callback_entries:
-                callback_entry.callback()
+            callback_entries = registry.lookup(f"callback:{event_code}")
+            if callback_entries is not None:
+                assert isinstance(callback_entries, list)
+                for callback_entry in callback_entries:
+                    assert isinstance(callback_entry, CallbackEntry)
+                    callback_entry.callback()
 
     return package_entry
 

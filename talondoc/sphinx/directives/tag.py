@@ -1,4 +1,4 @@
-from .core import TalonDocObjectDescription
+from . import TalonDocObjectDescription
 
 
 class TalonTagDirective(TalonDocObjectDescription):
