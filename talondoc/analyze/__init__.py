@@ -35,9 +35,9 @@ _logger = getLogger(__name__)
 
 def analyse_package(
     registry: Registry,
-    package_root: pathlib.Path,
+    package_dir: pathlib.Path,
     *,
-    name: typing.Optional[str] = None,
+    package_name: typing.Optional[str] = None,
     include: tuple[str, ...] = (),
     exclude: tuple[str, ...] = (),
     trigger: tuple[str, ...] = (),
@@ -52,7 +52,7 @@ def analyse_package(
         )
 
     # Register package:
-    package_entry = PackageEntry(name=name, path=package_root.absolute())
+    package_entry = PackageEntry(name=package_name, path=package_dir.absolute())
     registry.register(package_entry)
 
     with talon(registry, package=package_entry):

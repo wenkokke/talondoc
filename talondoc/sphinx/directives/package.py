@@ -34,8 +34,8 @@ class TalonPackageDirective(TalonDocDirective):
         try:
             analyse_package(
                 registry=self.talon,
-                package_root=Path(self.arguments[0].strip()),
-                name=self.options.get("name", "user"),
+                package_dir=Path(self.arguments[0].strip()),
+                package_name=self.options.get("name", "user"),
                 include=tuple(self.options.get("include", ())),
                 exclude=tuple(self.options.get("exclude", ())),
                 trigger=tuple(self.options.get("trigger", ())),

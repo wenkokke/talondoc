@@ -1,7 +1,10 @@
+import jinja2
+import pkg_resources # type: ignore
+
 from pathlib import Path
 from typing import Optional, Union
-import jinja2
-import pkg_resources  # type: ignore
+from ..analyze.registry import StandaloneRegistry
+from ..analyze import analyse_package
 
 # Taken from:
 # https://github.com/sphinx-doc/sphinx/blob/5.x/sphinx/ext/autosummary/generate.py
@@ -43,6 +46,9 @@ def generate(
     output_dir: Union[str, Path],
     template_index: Union[None, str, Path],
     template_talon: Union[None, str, Path],
+    include: tuple[str, ...] = (),
+    exclude: tuple[str, ...] = (),
+    trigger: tuple[str, ...] = (),
 ):
     # Set defaults for arguments
     package_dir = Path(package_dir) if isinstance(package_dir, str) else package_dir
@@ -55,13 +61,13 @@ def generate(
     env = jinja2.Environment()
     env.filters["underline"] = _underline
 
-    print(
-        package_dir,
-        package_name,
-        output_dir,
-        template_index,
-        template_talon,
-    )
-
     # Analyse the package
-    pass
+    registry = StandaloneRegistry()
+    analyse_package(
+        registry=registry,
+        package_dir=package_dir,
+        package_name=package_name,
+        include=include,
+        exclude=exclude,
+        trigger=trigger,
+    )
