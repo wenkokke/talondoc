@@ -6,7 +6,7 @@ from sphinx.util.typing import OptionSpec
 from ...util.logging import getLogger
 from ...util.nodes import colspec, entry, row, table, tbody, tgroup, title
 from ...util.typing import optional_str, optional_strlist
-from .abc import TalonCommandListDirective, describe_rule, describe_script
+from .core import TalonCommandListDirective, describe_rule, describe_script
 
 _logger = getLogger(__name__)
 

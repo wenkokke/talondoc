@@ -1,7 +1,8 @@
+import abc
 from dataclasses import dataclass
 from typing import Any, ClassVar, Optional, cast
 
-from ..entries import (
+from .entries import (
     ActionEntry,
     ActionGroupEntry,
     CallbackEntry,
@@ -46,8 +47,7 @@ class NoActiveFile(Exception):
     """
 
 
-@dataclass
-class Registry:
+class Registry(abc.ABC):
 
     ##################################################
     # The active GLOBAL registry
@@ -94,7 +94,9 @@ class Registry:
     # Implementations of registry and lookup
     ##################################################
 
-    _latest_package: Optional[PackageEntry] = None
+    def __init__(self):
+        self._latest_package: Optional[PackageEntry] = None
+        self._latest_file: Optional[FileEntry] = None
 
     @property
     def latest_package(self) -> Optional[PackageEntry]:
@@ -103,8 +105,6 @@ class Registry:
         """
         return self._latest_package
 
-    _latest_file: Optional[FileEntry] = None
-
     @property
     def latest_file(self) -> Optional[FileEntry]:
         """
@@ -112,7 +112,7 @@ class Registry:
         """
         return self._latest_file
 
-    @property
+    @abc.abstractproperty
     def registry(self) -> dict[str, Any]:
         """
         Get the entire registry.
@@ -208,11 +208,11 @@ class Registry:
         """
         # Track the current package:
         if isinstance(entry, PackageEntry):
-            self._currentpackage = entry
+            self._latest_package = entry
 
         # Track the current file:
         if isinstance(entry, FileEntry):
-            self._currentfile = entry
+            self._latest_file = entry
 
         # Store the entry:
         if isinstance(entry, ActionEntry):

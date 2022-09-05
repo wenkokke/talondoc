@@ -2,10 +2,14 @@ from pathlib import Path
 
 from docutils.nodes import Element
 from sphinx.util.typing import OptionSpec
+from ...analyze.registry import NoActiveFile, NoActivePackage, NoActiveRegistry
 
 from ...analyze import analyse_package
 from ...util.typing import optional_str, optional_strlist
-from .abc import TalonDocDirective
+from .core import TalonDocDirective
+from ...util.logging import getLogger
+
+_logger = getLogger(__name__)
 
 
 class TalonPackageDirective(TalonDocDirective):
@@ -27,13 +31,16 @@ class TalonPackageDirective(TalonDocDirective):
         self.env.note_reread()
 
         # Analyse the referenced Talon package:
-        analyse_package(
-            registry=self.talon,
-            package_root=Path(self.arguments[0].strip()),
-            name=self.options.get("name", "user"),
-            include=tuple(self.options.get("include", ())),
-            exclude=tuple(self.options.get("exclude", ())),
-            trigger=tuple(self.options.get("trigger", ())),
-        )
+        try:
+            analyse_package(
+                registry=self.talon,
+                package_root=Path(self.arguments[0].strip()),
+                name=self.options.get("name", "user"),
+                include=tuple(self.options.get("include", ())),
+                exclude=tuple(self.options.get("exclude", ())),
+                trigger=tuple(self.options.get("trigger", ())),
+            )
+        except (NoActiveRegistry, NoActivePackage, NoActiveFile) as e:
+            _logger.exception(e)
 
         return []

@@ -4,10 +4,10 @@ import typing
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
 
-from ...entries import CommandEntry
+from ...analyze.entries import CommandEntry
 from ...util.logging import getLogger
 from ...util.typing import flag
-from .abc import TalonDocObjectDescription, handle_command, include_command
+from .core import TalonDocObjectDescription, handle_command, include_command
 
 _logger = getLogger(__name__)
 

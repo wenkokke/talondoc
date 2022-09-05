@@ -1,15 +1,28 @@
-import typing
-from collections.abc import Iterator
+from typing import Any, cast, Optional, Union, TYPE_CHECKING
+from collections.abc import Callable, Iterator
 
 import sphinx.directives
 from docutils import nodes
 from sphinx import addnodes
 from talonfmt.main import talonfmt
-from tree_sitter_talon import TalonComment
-from tree_sitter_talon.re import compile
+from tree_sitter_talon import (
+    TalonComment,
+    TalonCapture,
+    TalonChoice,
+    TalonEndAnchor,
+    TalonList,
+    TalonOptional,
+    TalonParenthesizedRule,
+    TalonRepeat,
+    TalonRepeat1,
+    TalonRule,
+    TalonSeq,
+    TalonStartAnchor,
+    TalonWord,
+)
 
 from ...analyze.registry import Registry
-from ...entries import CommandEntry, PackageEntry, TalonFileEntry
+from ...analyze.entries import CommandEntry, PackageEntry, TalonFileEntry
 from ...util.desc import InvalidInterpolation
 from ...util.describer import TalonScriptDescriber
 from ...util.logging import getLogger
@@ -17,16 +30,16 @@ from ...util.nodes import desc_content, desc_name, paragraph
 
 _logger = getLogger(__name__)
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from talondoc.sphinx.domains import TalonDomain
 else:
-    TalonDomain = typing.Any
+    TalonDomain = Any
 
 
 class TalonDocDirective(sphinx.directives.SphinxDirective):
     @property
     def talon(self) -> TalonDomain:
-        return typing.cast(TalonDomain, self.env.get_domain("talon"))
+        return cast(TalonDomain, self.env.get_domain("talon"))
 
 
 class TalonDocObjectDescription(sphinx.directives.ObjectDescription, TalonDocDirective):
@@ -35,17 +48,37 @@ class TalonDocObjectDescription(sphinx.directives.ObjectDescription, TalonDocDir
 
 def include_command(
     candidate: CommandEntry,
-    sig: typing.Optional[str] = None,
+    sig: Optional[str] = None,
     *,
     fullmatch: bool = True,
     default: str = "include",
     include: tuple[str, ...] = (),
     exclude: tuple[str, ...] = (),
-    captures: dict[str, str] = {},
-    lists: dict[str, str] = {},
+    captures: Optional[
+        Callable[
+            [str],
+            Optional[
+                Union[
+                    TalonCapture,
+                    TalonChoice,
+                    TalonEndAnchor,
+                    TalonList,
+                    TalonOptional,
+                    TalonParenthesizedRule,
+                    TalonRepeat,
+                    TalonRepeat1,
+                    TalonRule,
+                    TalonSeq,
+                    TalonStartAnchor,
+                    TalonWord,
+                ]
+            ],
+        ]
+    ] = None,
+    lists: Optional[Callable[[str], Optional[list[str]]]] = None,
 ):
     assert default in ["include", "exclude"]
-    pattern = compile(candidate.ast.rule, captures=captures, lists=lists)
+    pattern = candidate.ast.rule.to_pattern(captures=captures, lists=lists)
 
     def match(sig: str) -> bool:
         return bool(pattern.fullmatch(sig) if fullmatch else pattern.match(sig))
@@ -74,7 +107,7 @@ def describe_rule(command: CommandEntry) -> nodes.Text:
 
 def try_describe_script_via_action_docstrings(
     command: CommandEntry, *, registry: Registry
-) -> typing.Optional[nodes.Text]:
+) -> Optional[nodes.Text]:
     """
     Describe the script using the docstrings on the actions used by the script.
     """
@@ -90,7 +123,7 @@ def try_describe_script_via_action_docstrings(
 
 def try_describe_script_via_script_docstrings(
     command: CommandEntry,
-) -> typing.Optional[nodes.Text]:
+) -> Optional[nodes.Text]:
     """
     Describe the script using the docstrings present in the script itself.
     """
@@ -165,7 +198,7 @@ def describe_command(
 class TalonCommandListDirective(TalonDocDirective):
     def find_package(self) -> PackageEntry:
         namespace = self.options.get("package")
-        candidate = self.talon.currentpackage
+        candidate = self.talon.latest_package
         if candidate and (not namespace or candidate.namespace == namespace):
             return candidate
         candidate = self.talon.packages.get(namespace, None)
@@ -174,7 +207,7 @@ class TalonCommandListDirective(TalonDocDirective):
         raise ValueError(f"Could not find package '{namespace}'")
 
     def find_file(
-        self, sig: str, *, package_entry: typing.Optional[PackageEntry] = None
+        self, sig: str, *, package_entry: Optional[PackageEntry] = None
     ) -> TalonFileEntry:
         # Find the package:
         if package_entry is None:

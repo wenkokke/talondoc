@@ -24,7 +24,7 @@ from tree_sitter_talon import (
     TalonVariable,
 )
 
-from talondoc.entries import ActionGroupEntry
+from talondoc.analyze.entries import ActionGroupEntry
 
 from ..analyze.registry import Registry
 from ..util.logging import getLogger

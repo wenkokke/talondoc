@@ -1,4 +1,4 @@
-from .abc import TalonDocObjectDescription
+from .core import TalonDocObjectDescription
 
 
 class TalonSetting(TalonDocObjectDescription):
