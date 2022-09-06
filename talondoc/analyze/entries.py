@@ -16,6 +16,10 @@ from typing import (
 
 import tree_sitter_talon
 
+from ..util.logging import getLogger
+
+_logger = getLogger(__name__)
+
 
 @dataclasses.dataclass(frozen=True)
 class DuplicateEntry(Exception):
@@ -56,7 +60,7 @@ def _coerce_list_value(list_value: ListValue) -> ListValue:
     elif isinstance(list_value, Mapping):
         return dict(list_value)
     elif list_value is not None:
-        raise AssertionError(f"List value is not a list or dict: {list_value}")
+        raise AssertionError(f"Value is not a list or dict: {list_value}")
 
 
 SettingValue = Any
@@ -140,8 +144,19 @@ class FileEntry(ObjectEntry):
     path: pathlib.Path
 
     def __post_init__(self, *args, **kwargs):
-        assert self not in self.package.files
-        self.package.files.append(self)
+        try:
+            index = self.package.files.index(self)
+            _logger.info(
+                "\n".join(
+                    [
+                        f"[talondoc] file already analyzed:",
+                        f" - {str(self.path)}",
+                        f" - {str(self.package.files[index].path)}",
+                    ]
+                )
+            )
+        except ValueError:
+            self.package.files.append(self)
 
     @property
     def name(self) -> str:
