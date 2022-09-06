@@ -1,7 +1,7 @@
 {{ ("Documentation for " + project) | escape | underline }}
 
-.. talon:package:: {{ path }}
-  :name: {{ name }}
+.. talon:package:: {{ package_path }}
+  :name: {{ package_name }}
   {%- if include %}
   :include: {{ include | join(", ") }}
   {%- endif %}

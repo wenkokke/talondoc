@@ -133,8 +133,8 @@ def generate(
     output_path.write_text(
         template_index.render(
             project=project,
-            name=package_entry.name,
-            path=package_entry.path,
+            package_name=package_entry.name,
+            package_path=package_entry.path,
             toc=toc,
             include=include,
             exclude=exclude,
