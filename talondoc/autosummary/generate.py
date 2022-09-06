@@ -85,6 +85,18 @@ def generate(
         trigger=trigger,
         show_progress=True,
     )
+    ctx = {
+        "project": project,
+        "author": author,
+        "year": str(datetime.date.today().year),
+        "release": release,
+        "package_name": package_entry.name,
+        "package_path": package_entry.path,
+        "toc": toc,
+        "include": include,
+        "exclude": exclude,
+        "trigger": trigger,
+    }
 
     # Make package path relative to output_dir:
     package_entry.path = Path(os.path.relpath(package_entry.path, start=output_dir))
@@ -109,7 +121,7 @@ def generate(
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_text(template_talon_file_entry.render(entry=file_entry))
+            output_path.write_text(template_talon_file_entry.render(entry=file_entry, **ctx))
 
         # Create path/to/python/file/api.rst:
         elif file_entry.path.suffix == ".py":
@@ -119,7 +131,7 @@ def generate(
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_text(template_python_file_entry.render(entry=file_entry))
+            output_path.write_text(template_python_file_entry.render(entry=file_entry, **ctx))
 
         # Skip file entry:
         else:
@@ -130,17 +142,7 @@ def generate(
     output_path = output_dir / "index.rst"
     bar.iter(" index.rst")
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(
-        template_index.render(
-            project=project,
-            package_name=package_entry.name,
-            package_path=package_entry.path,
-            toc=toc,
-            include=include,
-            exclude=exclude,
-            trigger=trigger,
-        )
-    )
+    output_path.write_text(template_index.render(**ctx))
 
     # Create conf.py
     template_confpy = env.get_template("conf.py")
@@ -148,10 +150,4 @@ def generate(
     bar.iter(" conf.py")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        template_confpy.render(
-            project=project,
-            author=author,
-            year=str(datetime.date.today().year),
-            release=release,
-        )
-    )
+        template_confpy.render(**ctx))
