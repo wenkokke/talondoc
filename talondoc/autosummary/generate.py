@@ -74,7 +74,6 @@ def generate(
     env.filters["underline"] = _underline
 
     # Analyse the package
-    sys.stderr.write(f"reading sources... [   %] {package_name}:{package_dir}\n")
     registry = StandaloneRegistry()
     package_entry = analyse_package(
         registry=registry,
