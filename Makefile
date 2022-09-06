@@ -17,7 +17,7 @@ autogen:
 		--output-dir example/docs/knausj_talon \
 		--project "knausj_talon" \
 		--package-name user \
-		--exclude '**/*.py' \
+		--exclude '*.py' \
 		--exclude 'modes/wake_up_wav2letter.talon' \
 		example/knausj_talon/
 	@rm example/docs/knausj_talon/conf.py
