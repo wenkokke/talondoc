@@ -1,9 +1,6 @@
 import importlib
 import pathlib
 import typing
-
-from awesome_progress_bar import ProgressBar
-
 from tree_sitter_talon import (
     ParseError,
     TalonAssignmentStatement,
@@ -17,6 +14,7 @@ from tree_sitter_talon import (
 )
 
 from ..util.logging import getLogger
+from ..util.progress_bar import ProgressBar
 from .entries import (
     CallbackEntry,
     CommandEntry,
@@ -73,29 +71,19 @@ def analyse_package(
 
     with talon(registry, package=package_entry):
         files = list(package_entry.path.glob("**/*"))
-        if show_progress:
-            bar = ProgressBar(
-                prefix="",
-                total=len(files),
-                bar_length=30,
-                use_thread=False,
-                use_spinner=False,
-            )
+        bar = ProgressBar(total=len(files), show=show_progress)
         for file_path in files:
             file_path = file_path.relative_to(package_entry.path)
             if include_file(file_path, include=include, exclude=exclude):
                 try:
                     if file_path.match("*.py"):
-                        if show_progress:
-                            bar.iter(f" {file_path}")
+                        bar.step(f" {file_path}")
                         analyse_python_file(registry, file_path, package_entry)
                     elif file_path.match("*.talon"):
-                        if show_progress:
-                            bar.iter(f" {file_path}")
+                        bar.step(f" {file_path}")
                         analyse_talon_file(registry, file_path, package_entry)
                     else:
-                        if show_progress:
-                            bar.iter()
+                        bar.step()
                 except ParseError as e:
                     _logger.exception(e)
 

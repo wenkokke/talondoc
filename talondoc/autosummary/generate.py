@@ -1,9 +1,7 @@
-from awesome_progress_bar import ProgressBar
 import datetime
 import os
 import subprocess
 from pathlib import Path
-import sys
 from typing import Optional, Union
 
 import jinja2
@@ -12,6 +10,7 @@ import jinja2.sandbox
 from ..analyze import analyse_package
 from ..analyze.entries import PythonFileEntry, TalonFileEntry
 from ..analyze.registry import StandaloneRegistry
+from ..util.progress_bar import ProgressBar
 
 
 # Taken from:
@@ -103,18 +102,12 @@ def generate(
     template_talon_file_entry = env.get_template("talon_file_entry.rst")
     template_python_file_entry = env.get_template("python_file_entry.rst")
     toc: list[Path] = []
-    bar = ProgressBar(
-        prefix="",
-        total=len(package_entry.files) + 2,
-        bar_length=30,
-        use_thread=False,
-        use_spinner=False,
-    )
+    bar = ProgressBar(total=len(package_entry.files))
     for file_entry in package_entry.files:
         # Create path/to/talon/file.rst:
         if file_entry.path.suffix == ".talon":
             assert isinstance(file_entry, TalonFileEntry)
-            bar.iter(f" {str(file_entry.path)}")
+            bar.step(f" {str(file_entry.path)}")
             output_relpath = file_entry.path.with_suffix(".rst")
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
@@ -124,7 +117,7 @@ def generate(
         # Create path/to/python/file/api.rst:
         elif file_entry.path.suffix == ".py":
             assert isinstance(file_entry, PythonFileEntry)
-            bar.iter(f" {str(file_entry.path)}")
+            bar.step(f" {str(file_entry.path)}")
             output_relpath = file_entry.path.with_suffix("") / "api.rst"
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
@@ -133,19 +126,19 @@ def generate(
 
         # Skip file entry:
         else:
-            bar.iter()
+            bar.step()
 
     # Create index.rst
     template_index = env.get_template("index.rst")
     output_path = output_dir / "index.rst"
-    bar.iter(" index.rst")
+    bar.step(" index.rst")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(template_index.render(toc=toc, **ctx))
 
     # Create conf.py
     template_confpy = env.get_template("conf.py")
     output_path = output_dir / "conf.py"
-    bar.iter(" conf.py")
+    bar.step(" conf.py")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
         template_confpy.render(**ctx))
