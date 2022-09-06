@@ -57,14 +57,30 @@ def analyse_package(
     show_progress: bool = False,
 ) -> PackageEntry:
 
-    # Register package:
-    package_entry = PackageEntry(name=package_name, path=package_dir.absolute())
-    registry.register(package_entry)
+    # Retrieve or create package entry:
+    def _get_package_entry() -> PackageEntry:
+        new_package_entry = PackageEntry(name=package_name, path=package_dir.absolute())
+        for old_package_entry in registry.packages.values():
+            if (
+                old_package_entry.name == new_package_entry.name
+                and old_package_entry.path == new_package_entry.path
+            ):
+                return old_package_entry
+        registry.register(new_package_entry)
+        return new_package_entry
+
+    package_entry = _get_package_entry()
 
     with talon(registry, package=package_entry):
         files = list(package_entry.path.glob("**/*"))
         if show_progress:
-            bar = ProgressBar(prefix="", total=len(files), bar_length=30, use_thread=False, use_spinner=False,)
+            bar = ProgressBar(
+                prefix="",
+                total=len(files),
+                bar_length=30,
+                use_thread=False,
+                use_spinner=False,
+            )
         for file_path in files:
             file_path = file_path.relative_to(package_entry.path)
             if include_file(file_path, include=include, exclude=exclude):
@@ -82,7 +98,6 @@ def analyse_package(
                             bar.iter()
                 except ParseError as e:
                     _logger.exception(e)
-
 
         # Trigger callbacks:
         for event_code in trigger:
