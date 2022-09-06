@@ -2,6 +2,8 @@ import importlib
 import pathlib
 import typing
 
+from awesome_progress_bar import ProgressBar
+
 from tree_sitter_talon import (
     ParseError,
     TalonAssignmentStatement,
@@ -52,6 +54,7 @@ def analyse_package(
     include: tuple[str, ...] = (),
     exclude: tuple[str, ...] = (),
     trigger: tuple[str, ...] = (),
+    show_progress: bool = False,
 ) -> PackageEntry:
 
     # Register package:
@@ -59,13 +62,27 @@ def analyse_package(
     registry.register(package_entry)
 
     with talon(registry, package=package_entry):
-        for file_path in package_entry.path.glob("**/*"):
+        files = list(package_entry.path.glob("**/*"))
+        if show_progress:
+            bar = ProgressBar(prefix="", total=len(files), bar_length=30, use_thread=False, use_spinner=False,)
+        for file_path in files:
             file_path = file_path.relative_to(package_entry.path)
             if include_file(file_path, include=include, exclude=exclude):
                 try:
-                    analyse_file(registry, file_path, package_entry)
+                    if file_path.match("*.py"):
+                        if show_progress:
+                            bar.iter(f" {file_path}")
+                        analyse_python_file(registry, file_path, package_entry)
+                    elif file_path.match("*.talon"):
+                        if show_progress:
+                            bar.iter(f" {file_path}")
+                        analyse_talon_file(registry, file_path, package_entry)
+                    else:
+                        if show_progress:
+                            bar.iter()
                 except ParseError as e:
                     _logger.exception(e)
+
 
         # Trigger callbacks:
         for event_code in trigger:
@@ -77,17 +94,6 @@ def analyse_package(
                     callback_entry.callback()
 
     return package_entry
-
-
-def analyse_file(
-    registry: Registry, file_path: pathlib.Path, package_entry: PackageEntry
-) -> typing.Optional[FileEntry]:
-    if file_path.match("*.py"):
-        return analyse_python_file(registry, file_path, package_entry)
-    elif file_path.match("*.talon"):
-        return analyse_talon_file(registry, file_path, package_entry)
-    else:
-        return None
 
 
 def analyse_talon_file(
