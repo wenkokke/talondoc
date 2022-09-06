@@ -92,7 +92,6 @@ def generate(
         "release": release,
         "package_name": package_entry.name,
         "package_path": package_entry.path,
-        "toc": toc,
         "include": include,
         "exclude": exclude,
         "trigger": trigger,
@@ -142,7 +141,7 @@ def generate(
     output_path = output_dir / "index.rst"
     bar.iter(" index.rst")
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(template_index.render(**ctx))
+    output_path.write_text(template_index.render(toc=toc, **ctx))
 
     # Create conf.py
     template_confpy = env.get_template("conf.py")
