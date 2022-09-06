@@ -38,8 +38,8 @@ jobs:
                   cache-dependency-path: |
                       requirements.txt
                       requirements-dev.txt
-                      requirements-test.txt
-            - run: pip install .[dev,test]
+                      requirements-docs.txt
+            - run: pip install .[dev,docs]
             ################################################################################
             # Build Documentation
             ################################################################################
