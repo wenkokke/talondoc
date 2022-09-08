@@ -112,7 +112,9 @@ def generate(
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_text(template_talon_file_entry.render(entry=file_entry, **ctx))
+            output_path.write_text(
+                template_talon_file_entry.render(entry=file_entry, **ctx)
+            )
 
         # Create path/to/python/file/api.rst:
         elif file_entry.path.suffix == ".py":
@@ -122,7 +124,9 @@ def generate(
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_text(template_python_file_entry.render(entry=file_entry, **ctx))
+            output_path.write_text(
+                template_python_file_entry.render(entry=file_entry, **ctx)
+            )
 
         # Skip file entry:
         else:
@@ -140,5 +144,4 @@ def generate(
     output_path = output_dir / "conf.py"
     bar.step(" conf.py")
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(
-        template_confpy.render(**ctx))
+    output_path.write_text(template_confpy.render(**ctx))

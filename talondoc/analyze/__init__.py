@@ -1,6 +1,7 @@
 import importlib
 import pathlib
 import typing
+
 from tree_sitter_talon import (
     ParseError,
     TalonAssignmentStatement,

@@ -49,6 +49,7 @@ repos:
       rev: "v0.971"
       hooks:
           - id: mypy
+            args: ["--config-file", "pyproject.toml"]
             additional_dependencies: [types-docutils==0.19.0]
     - repo: https://github.com/wenkokke/talonfmt
       rev: 1.7.0

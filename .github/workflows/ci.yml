@@ -19,9 +19,9 @@ jobs:
                 os: [ubuntu-latest, macos-latest, windows-latest]
                 python-version: ["3.9"]
                 include:
-                  - experimental: false
-                  - os: windows-latest
-                    experimental: true
+                    - experimental: false
+                    - os: windows-latest
+                      experimental: true
         runs-on: ${{ matrix.os }}
         steps:
             ################################################################################
