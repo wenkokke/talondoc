@@ -58,6 +58,9 @@ jobs:
               with:
                   branch: docs
                   folder: example/docs/_build/html
+                  clean-exclude: |
+                    example/docs/knausj_talon/**
+                    example/docs/_build/html/**
             ################################################################################
             # Build
             ################################################################################
