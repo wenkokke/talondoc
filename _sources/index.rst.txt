@@ -1,6 +1,9 @@
 TalonDoc
 ========
 
+.. treetoc::
+  knausj_talon/index
+
 Loading a Talon package
 -----------------------
 
