@@ -35,6 +35,7 @@ tox = { version = "^3.25.1", optional = true }
 [tool.poetry.extras]
 dev = ["bumpver"]
 mypy = ["types-docutils"]
+test = []
 docs = ["sphinx_bootstrap_theme"]
 
 [tool.poetry.scripts]
