@@ -100,5 +100,4 @@ extras =
   test
 commands =
   bumpver update --patch --dry --no-fetch
-  sphinx-build -M "html" "example/docs" "example/docs/_build"
 """
