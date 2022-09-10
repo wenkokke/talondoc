@@ -11,7 +11,7 @@ build-doc:
 		--exclude '*.py' \
 		--exclude 'modes/wake_up_wav2letter.talon' \
 		example/knausj_talon/
-	poetry run sphinx-build -M "html" "docs" "docs/_build"
+	poetry run sphinx-build -M "html" "example/docs" "example/docs/_build"
 
 serve:
 	@(cd docs/_build/html && npx browser-sync -ss)
