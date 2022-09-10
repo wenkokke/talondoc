@@ -1,8 +1,8 @@
 TalonDoc
 ========
 
-.. treetoc::
-  knausj_talon/index
+.. toctree::
+  knausj_talon/index.rst
 
 Loading a Talon package
 -----------------------

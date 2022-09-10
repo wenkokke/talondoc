@@ -1,0 +1,9 @@
+user.apps.terraform.terraform
+=============================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/terraform/terraform.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.terraform.terraform

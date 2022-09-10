@@ -1,0 +1,9 @@
+user.apps.thunderbird.thunderbird_contacts
+==========================================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/thunderbird/thunderbird_contacts.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.thunderbird.thunderbird_contacts

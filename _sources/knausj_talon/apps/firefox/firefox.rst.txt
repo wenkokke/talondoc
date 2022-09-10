@@ -1,0 +1,9 @@
+user.apps.firefox.firefox
+=========================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/firefox/firefox.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.firefox.firefox

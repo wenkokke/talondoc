@@ -1,0 +1,9 @@
+user.apps.platforms.mac.terminal.apple_terminal
+===============================================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/platforms/mac/terminal/apple_terminal.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.platforms.mac.terminal.apple_terminal

@@ -1,0 +1,9 @@
+user.lang.python.python
+=======================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: lang/python/python.talon
+  :exclude: **
+
+.. talon:command-table:: user.lang.python.python

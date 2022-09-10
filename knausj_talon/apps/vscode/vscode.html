@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>user.apps.vscode.vscode &#8212; example 0.1.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="user.apps.i3wm.i3wm" href="../i3wm/i3wm.html" />
+    <link rel="prev" title="user.apps.firefox.firefox" href="../firefox/firefox.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js"></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js"></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../../index.html">
+          TalonDoc</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="../../.././knausj_talon/index.html">knausj_talon</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Documentation for knausj_talon</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">user.apps.vscode.vscode</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../../../_sources/knausj_talon/apps/vscode/vscode.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <section id="user-apps-vscode-vscode">
+<h1>user.apps.vscode.vscode<a class="headerlink" href="#user-apps-vscode-vscode" title="Permalink to this heading">¶</a></h1>
+<table class="compact docutils align-default" id="id1">
+<caption><span class="caption-text">user.apps.vscode.vscode</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<tbody>
+<tr class="row-odd"><td>window reload</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>window close</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>please [&lt;user.text&gt;]</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>bar explore</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>bar extensions</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>bar outline</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>bar run</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>bar search</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>bar source</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>bar test</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>bar switch</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>symbol hunt [&lt;user.text&gt;]</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>panel control</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>panel output</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>panel problems</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>panel switch</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>panel terminal</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>focus editor</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>show settings</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>show settings json</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>show settings folder</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>show settings folder json</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>show settings workspace</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>show settings workspace json</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>show shortcuts</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>show snippets</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>centered switch</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>fullscreen switch</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>theme switch</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>wrap switch</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>zen switch</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>file hunt [&lt;user.text&gt;]</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>file hunt (pace | paste)</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>file copy name</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>file copy path</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>file copy local [path]</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>file create sibling</td>
+<td><p>Execute command via vscode command server, if available, and wait
+        for command to finish.  If command server not available, uses command
+        palette and doesn’t guarantee that it will wait for command to
+        finish.</p></td>
+</tr>
+<tr class="row-even"><td>file create</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>file create relative</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>file create root</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>file rename</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>file move</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>file clone</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>file delete</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>file open folder</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>file reveal</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>save ugly</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>suggest show</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>hint show</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>definition show</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>definition peek</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>definition side</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>references show</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>references find</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>format that</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>format selection</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>imports fix</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>problem next</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>problem last</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>problem fix</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>rename that</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>refactor that</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>whitespace trim</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>language switch</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>refactor rename</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>refactor this</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>(go declaration | follow)</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>go back</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>go forward</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>go implementation</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>go type</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>go usage</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>go recent [&lt;user.text&gt;]</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>go edit</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>go marks</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>toggle mark</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>go next mark</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>go last mark</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>close other tabs</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>close all tabs</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>close tabs way right</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>close tabs way left</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>fold that</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>unfold that</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>fold those</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>unfold those</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>fold all</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>unfold all</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>fold comments</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>fold one</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>fold two</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>fold three</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>fold four</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>fold five</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>fold six</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>fold seven</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>git branch</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git branch this</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>git checkout [&lt;user.text&gt;]</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git commit [&lt;user.text&gt;]</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.
+Inserts a phrase formatted according to formatters. Formatters is a comma separated list of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)</p></td>
+</tr>
+<tr class="row-odd"><td>git commit undo</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git commit amend</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>git diff</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git fetch</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>git fetch all</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git ignore</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>git merge</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git output</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>git pull</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git push</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>git push focus</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git rebase abort</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>git reveal</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git revert</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>git stash</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git stash pop</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>git status</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git stage</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>git stage all</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git sync</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>git unstage</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>git unstage all</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>pull request</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>change next</td>
+<td><p>Press alt-f5.</p></td>
+</tr>
+<tr class="row-odd"><td>change last</td>
+<td><p>Press shift-alt-f5.</p></td>
+</tr>
+<tr class="row-even"><td>break point</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>step over</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>debug step into</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>debug step out [of]</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>debug start</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>debug pause</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>debug stopper</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>debug continue</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>debug restart</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>debug console</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>debug clean</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>terminal external</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>terminal new</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>terminal next</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>terminal last</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>terminal split</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>terminal zoom</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>terminal trash</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>terminal toggle</td>
+<td><p>Execute command via vscode command server, if available, and wait
+        for command to finish.  If command server not available, uses command
+        palette and doesn’t guarantee that it will wait for command to
+        finish.</p></td>
+</tr>
+<tr class="row-odd"><td>terminal scroll up</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>terminal scroll down</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>terminal &lt;number_small&gt;</td>
+<td><p>Activate a terminal by number</p></td>
+</tr>
+<tr class="row-even"><td>copy line down</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>copy line up</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>select less</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>select (more | this)</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>minimap</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>maximize</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>restore</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>select breadcrumb</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>replace here</td>
+<td><p>Search and replace for text in the active editor
+Press cmd-alt-l.</p></td>
+</tr>
+<tr class="row-odd"><td>hover show</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>join lines</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>full screen</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>curse undo</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>select word</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>skip word</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>cell next</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>cell last</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>cell run above</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>cell run</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-odd"><td>install local</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+<tr class="row-even"><td>preview markdown</td>
+<td><p>Execute command via vscode command server, if available, or fallback
+        to command palette.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2022, Wen Kokke.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

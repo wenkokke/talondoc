@@ -1,0 +1,9 @@
+user.misc.extensions
+====================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: misc/extensions.talon
+  :exclude: **
+
+.. talon:command-table:: user.misc.extensions

@@ -1,0 +1,9 @@
+user.misc.mouse_cursor
+======================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: misc/mouse_cursor.talon
+  :exclude: **
+
+.. talon:command-table:: user.misc.mouse_cursor

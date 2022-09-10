@@ -1,0 +1,9 @@
+user.mouse_grid.mouse_grid
+==========================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: mouse_grid/mouse_grid.talon
+  :exclude: **
+
+.. talon:command-table:: user.mouse_grid.mouse_grid

@@ -1,0 +1,9 @@
+user.lang.rust.rust
+===================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: lang/rust/rust.talon
+  :exclude: **
+
+.. talon:command-table:: user.lang.rust.rust

@@ -1,0 +1,9 @@
+user.lang.tags.operators_bitwise
+================================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: lang/tags/operators_bitwise.talon
+  :exclude: **
+
+.. talon:command-table:: user.lang.tags.operators_bitwise

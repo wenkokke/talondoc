@@ -1,0 +1,9 @@
+user.lang.css.css
+=================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: lang/css/css.talon
+  :exclude: **
+
+.. talon:command-table:: user.lang.css.css

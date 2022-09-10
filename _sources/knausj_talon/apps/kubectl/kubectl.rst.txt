@@ -1,0 +1,9 @@
+user.apps.kubectl.kubectl
+=========================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/kubectl/kubectl.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.kubectl.kubectl

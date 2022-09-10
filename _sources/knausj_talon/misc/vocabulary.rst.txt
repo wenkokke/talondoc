@@ -1,0 +1,9 @@
+user.misc.vocabulary
+====================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: misc/vocabulary.talon
+  :exclude: **
+
+.. talon:command-table:: user.misc.vocabulary

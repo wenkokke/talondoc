@@ -1,0 +1,9 @@
+user.text.line_commands
+=======================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: text/line_commands.talon
+  :exclude: **
+
+.. talon:command-table:: user.text.line_commands

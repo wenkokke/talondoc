@@ -1,0 +1,9 @@
+user.apps.evernote.mac
+======================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/evernote/mac.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.evernote.mac

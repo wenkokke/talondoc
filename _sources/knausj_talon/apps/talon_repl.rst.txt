@@ -1,0 +1,9 @@
+user.apps.talon_repl
+====================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/talon_repl.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.talon_repl

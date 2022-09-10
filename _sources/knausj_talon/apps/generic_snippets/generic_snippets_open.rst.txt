@@ -1,0 +1,9 @@
+user.apps.generic_snippets.generic_snippets_open
+================================================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/generic_snippets/generic_snippets_open.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.generic_snippets.generic_snippets_open

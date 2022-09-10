@@ -1,0 +1,9 @@
+user.text.homophones
+====================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: text/homophones.talon
+  :exclude: **
+
+.. talon:command-table:: user.text.homophones

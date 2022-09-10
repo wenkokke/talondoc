@@ -1,0 +1,9 @@
+user.misc.standard
+==================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: misc/standard.talon
+  :exclude: **
+
+.. talon:command-table:: user.misc.standard

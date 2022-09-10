@@ -1,0 +1,9 @@
+user.lang.tags.comment_line
+===========================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: lang/tags/comment_line.talon
+  :exclude: **
+
+.. talon:command-table:: user.lang.tags.comment_line
