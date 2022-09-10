@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, Optional, Union, cast
 import sphinx.directives
 from docutils import nodes
 from sphinx import addnodes
-from talonfmt.main import talonfmt
+from talonfmt import talonfmt
 from tree_sitter_talon import (
     TalonCapture,
     TalonChoice,
