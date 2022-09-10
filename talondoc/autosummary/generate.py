@@ -46,6 +46,8 @@ def generate(
     project: Optional[str] = None,
     author: Optional[str] = None,
     release: Optional[str] = None,
+    generate_conf: bool = True,
+    generate_index: bool = True,
 ):
     # Set defaults for arguments
     package_dir = Path(package_dir) if isinstance(package_dir, str) else package_dir
@@ -133,15 +135,17 @@ def generate(
             bar.step()
 
     # Create index.rst
-    template_index = env.get_template("index.rst")
-    output_path = output_dir / "index.rst"
-    bar.step(" index.rst")
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(template_index.render(toc=toc, **ctx))
+    if generate_index:
+        template_index = env.get_template("index.rst")
+        output_path = output_dir / "index.rst"
+        bar.step(" index.rst")
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(template_index.render(toc=toc, **ctx))
 
     # Create conf.py
-    template_confpy = env.get_template("conf.py")
-    output_path = output_dir / "conf.py"
-    bar.step(" conf.py")
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(template_confpy.render(**ctx))
+    if generate_conf:
+        template_confpy = env.get_template("conf.py")
+        output_path = output_dir / "conf.py"
+        bar.step(" conf.py")
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(template_confpy.render(**ctx))
