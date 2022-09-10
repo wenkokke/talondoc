@@ -672,11 +672,12 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 dev = ["bumpver"]
 docs = ["sphinx-bootstrap-theme"]
 mypy = ["types-docutils"]
+test = []
 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "56d342294f62564fb91b9550b64be37cc44d98fa058b20b8ababb654c4892f11"
+content-hash = "82e305908f3ee0595797e8b77d90e7ba51f2509d12b4361359e15a37024fd43b"
 
 [metadata.files]
 alabaster = [
