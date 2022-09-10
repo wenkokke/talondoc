@@ -104,7 +104,12 @@ def generate(
     template_talon_file_entry = env.get_template("talon_file_entry.rst")
     template_python_file_entry = env.get_template("python_file_entry.rst")
     toc: list[Path] = []
-    bar = ProgressBar(total=len(package_entry.files))
+    total: int = len(package_entry.files)
+    if generate_conf:
+        total += 1
+    if generate_index:
+        total += 1
+    bar = ProgressBar(total=total)
     for file_entry in package_entry.files:
         # Create path/to/talon/file.rst:
         if file_entry.path.suffix == ".talon":
