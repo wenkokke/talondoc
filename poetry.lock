@@ -366,7 +366,7 @@ name = "setuptools"
 version = "65.3.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
 category = "main"
-optional = true
+optional = false
 python-versions = ">=3.7"
 
 [package.extras]
@@ -676,7 +676,7 @@ mypy = ["types-docutils"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "4f82b2b05e1e411d5192167b2a6a528dedceffd3341e4fe33605bc35c1cd1abe"
+content-hash = "56d342294f62564fb91b9550b64be37cc44d98fa058b20b8ababb654c4892f11"
 
 [metadata.files]
 alabaster = [
