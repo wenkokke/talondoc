@@ -71,6 +71,14 @@ def cli():
     type=str,
     default=None,
 )
+@click.option(
+    "--generate-conf/--no-generate-conf",
+    default=True,
+)
+@click.option(
+    "--generate-index/--no-generate-index",
+    default=True,
+)
 def autogen(
     package_dir: str,
     *,
@@ -83,6 +91,8 @@ def autogen(
     project: Optional[str],
     author: Optional[str],
     release: Optional[str],
+    generate_conf: bool,
+    generate_index: bool,
 ):
     generate(
         package_dir,
@@ -95,6 +105,8 @@ def autogen(
         project=project,
         author=author,
         release=release,
+        generate_conf=generate_conf,
+        generate_index=generate_index,
     )
 
 

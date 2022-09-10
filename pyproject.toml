@@ -1,48 +1,51 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
 
-[project]
+[tool.poetry]
 name = "talondoc"
 version = "0.1.1"
 description = "A Sphinx extension for Talon user directories."
+license = "MIT"
+authors = ["Wen Kokke <wenkokke@users.noreply.github.com>"]
 readme = "README.md"
-requires-python = ">=3.9"
-keywords = ["talondoc"]
-authors = [{ name = "Wen Kokke" }]
+documentation = "https://wenkokke.github.io/talondoc/"
+repository = "https://github.com/wenkokke/talondoc"
+keywords = ["talon", "sphinx"]
 classifiers = [
   "License :: OSI Approved :: MIT License",
   "Topic :: Software Development :: Compilers",
 ]
-dependencies = [
-  "awesome-progress-bar>=1.7.2, <2",
-  "docstring_parser>=0.14.1, <0.15",
-  "Jinja2>=3.1.2, <4",
-  "Sphinx>=5.1.1, <6",
-  "talonfmt==1.7.2",
-  "tree_sitter_talon==3.1.1",
-  'pywin32; sys_platform == "win32"',
-]
 
-[project.optional-dependencies]
-dev = ["build >=0.8.0, <0.9", "twine >=4.0.1, <5"]
-mypy = ["types-docutils==0.19.0"]
-docs = ["sphinx_bootstrap_theme==0.8.1"]
+[tool.poetry.dependencies]
+python = "^3.9"
+awesome-progress-bar = "^1.7.2"
+docstring_parser = "^0.14.1"
+Jinja2 = "^3.1.2"
+bumpver = { version = "*", optional = true }
+Sphinx = "^5.1.1"
+sphinx-bootstrap-theme = { version = "^0.8.1", optional = true }
+talonfmt = "^1.7.3"
+setuptools = "*"
+tree_sitter_talon = "^1000.2.0.0"
+pywin32 = { version = "*", markers = "sys_platform == 'win32'" }
+types-docutils = { version = "^0.19.0", optional = true }
 
-[project.urls]
-repository = "https://github.com/wenkokke/talondoc"
+[tool.poetry.extras]
+mypy = ["types-docutils"]
+test = ["bumpver"]
+docs = ["sphinx_bootstrap_theme"]
 
-[project.scripts]
+[tool.poetry.group.dev.dependencies]
+mypy = "^0.971"
+tox = "^3.25.1"
+black = "^22.8.0"
+isort = "^5.10.1"
+flake8 = "^5.0.4"
+bumpver = "*"
+
+[tool.poetry.scripts]
 talondoc = "talondoc:cli"
-
-[tool.setuptools.package-data]
-talondoc = [
-  "py.typed",
-  "autosummary/template/conf.py",
-  "autosummary/template/index.rst",
-  "autosummary/template/python_file_entry.rst",
-  "autosummary/template/talon_file_entry.rst",
-]
 
 [tool.isort]
 profile = "black"
@@ -78,3 +81,23 @@ push = true
 ]
 "example/docs/conf.py" = ['^release = "{version}"$']
 "talondoc/__init__.py" = ['^__version__: str = "{version}"$']
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+requires =
+  tox-poetry
+envlist = py39,py310
+isolated_build = True
+
+[gh-actions]
+python =
+  3.9: py39
+  3.10: py310
+
+[testenv]
+extras =
+  test
+commands =
+  bumpver update --patch --dry --no-fetch
+"""

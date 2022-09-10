@@ -1,37 +1,37 @@
-# Minimal makefile for Sphinx documentation
-SHELL := bash
+build:
+	poetry build
 
-# You can set these variables from the command line, and also
-# from the environment for the first two.
-SPHINXOPTS    ?=
-SPHINXBUILD   ?= sphinx-build
-SOURCEDIR     = example/docs
-BUILDDIR      = example/docs/_build
-
-# Put it first so that "make" without argument is like "make help".
-help:
-	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-
-autogen:
-	@talondoc autogen \
+build-doc:
+	poetry install -E docs
+	@# NOTE:
+	@#   Some entries store AST nodes, which do not currently support
+	@#   unpickling. They pickle via __reduce__, and don't automatically
+	@#   unpickle. Once that is fixed, we no longer need to discard the
+	@#   cache on every run.
+	poetry run sphinx-build -M "clean" "example/docs" "example/docs/_build"
+	poetry run talondoc autogen \
 		--output-dir example/docs/knausj_talon \
-		--project "knausj_talon" \
+		--project 'knausj_talon' \
 		--package-name user \
+		--no-generate-conf \
 		--exclude '*.py' \
 		--exclude 'modes/wake_up_wav2letter.talon' \
 		example/knausj_talon/
-	@rm example/docs/knausj_talon/conf.py
+	poetry run sphinx-build -M "html" "example/docs" "example/docs/_build"
 
 serve:
-	@(cd $(BUILDDIR)/html && npx browser-sync -ss)
+	@(cd docs/_build/html && npx browser-sync -ss)
 
 clean:
 	@git clean -dfqX
-	@$(SPHINXBUILD) -M clean "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-# Catch-all target: route all unknown targets to Sphinx using the new
-# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile
-	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+bump-patch:
+	@poetry run bumpver update --patch
 
-.PHONY: autogen help Makefile serve
+bump-minor:
+	@poetry run bumpver update --minor
+
+bump-major:
+	@poetry run bumpver update --major
+
+.PHONY: build build-doc serve clean test bump-patch bump-minor bump-major

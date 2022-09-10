@@ -1,0 +1,33 @@
+name: Build Doc
+
+on:
+  workflow_call:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-doc:
+    name: Build Doc
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Setup Python
+        uses: ./.github/actions/setup-python
+        with:
+          python-version: "3.9"
+
+      - name: Build Doc
+        run: |
+          make build-doc
+          touch example/docs/_build/html/.nojekyll
+
+      - name: Deploy Doc
+        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        with:
+          branch: docs
+          folder: example/docs/_build/html

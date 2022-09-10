@@ -46,6 +46,8 @@ def generate(
     project: Optional[str] = None,
     author: Optional[str] = None,
     release: Optional[str] = None,
+    generate_conf: bool = True,
+    generate_index: bool = True,
 ):
     # Set defaults for arguments
     package_dir = Path(package_dir) if isinstance(package_dir, str) else package_dir
@@ -102,7 +104,12 @@ def generate(
     template_talon_file_entry = env.get_template("talon_file_entry.rst")
     template_python_file_entry = env.get_template("python_file_entry.rst")
     toc: list[Path] = []
-    bar = ProgressBar(total=len(package_entry.files))
+    total: int = len(package_entry.files)
+    if generate_conf:
+        total += 1
+    if generate_index:
+        total += 1
+    bar = ProgressBar(total=total)
     for file_entry in package_entry.files:
         # Create path/to/talon/file.rst:
         if file_entry.path.suffix == ".talon":
@@ -133,15 +140,17 @@ def generate(
             bar.step()
 
     # Create index.rst
-    template_index = env.get_template("index.rst")
-    output_path = output_dir / "index.rst"
-    bar.step(" index.rst")
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(template_index.render(toc=toc, **ctx))
+    if generate_index:
+        template_index = env.get_template("index.rst")
+        output_path = output_dir / "index.rst"
+        bar.step(" index.rst")
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(template_index.render(toc=toc, **ctx))
 
     # Create conf.py
-    template_confpy = env.get_template("conf.py")
-    output_path = output_dir / "conf.py"
-    bar.step(" conf.py")
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(template_confpy.render(**ctx))
+    if generate_conf:
+        template_confpy = env.get_template("conf.py")
+        output_path = output_dir / "conf.py"
+        bar.step(" conf.py")
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(template_confpy.render(**ctx))
