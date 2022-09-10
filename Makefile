@@ -8,7 +8,8 @@ build-doc:
 	@#   unpickling. They pickle via __reduce__, and don't automatically
 	@#   unpickle. Once that is fixed, we no longer need to discard the
 	@#   cache on every run.
-	poetry run sphinx-build -M "clean" "example/docs" "example/docs/_build"
+	@git clean -dfqX
+	@poetry run sphinx-build -M "clean" "example/docs" "example/docs/_build"
 	poetry run talondoc autogen \
 		--output-dir example/docs/knausj_talon \
 		--project 'knausj_talon' \
