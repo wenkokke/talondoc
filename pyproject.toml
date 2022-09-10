@@ -26,6 +26,7 @@ bumpver = { version = "*", optional = true }
 Sphinx = "^5.1.1"
 sphinx-bootstrap-theme = { version = "^0.8.1", optional = true }
 talonfmt = "^1.7.2"
+setuptools = "*"
 tree_sitter_talon = "^3.1.1"
 pywin32 = { version = "*", markers = "sys_platform == 'win32'" }
 types-docutils = { version = "^0.19.0", optional = true }
