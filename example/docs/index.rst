@@ -2,6 +2,8 @@ TalonDoc
 ========
 
 .. toctree::
+  :maxdepth: 1
+  
   knausj_talon/index.rst
 
 Loading a Talon package
