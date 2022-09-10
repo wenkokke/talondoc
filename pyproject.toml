@@ -32,13 +32,9 @@ pywin32 = { version = "*", markers = "sys_platform == 'win32'" }
 types-docutils = { version = "^0.19.0", optional = true }
 
 [tool.poetry.extras]
-dev = ["bumpver"]
 mypy = ["types-docutils"]
-test = []
+test = ["bumpver"]
 docs = ["sphinx_bootstrap_theme"]
-
-[tool.poetry.scripts]
-talondoc = "talondoc:cli"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^0.971"
@@ -47,6 +43,9 @@ black = "^22.8.0"
 isort = "^5.10.1"
 flake8 = "^5.0.4"
 bumpver = "*"
+
+[tool.poetry.scripts]
+talondoc = "talondoc:cli"
 
 [tool.isort]
 profile = "black"
