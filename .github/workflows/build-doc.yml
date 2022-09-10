@@ -1,0 +1,42 @@
+name: Build Doc
+
+on:
+  workflow_call:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-doc:
+    name: Build Doc
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Setup Python
+        uses: ./.github/actions/setup-python
+        with:
+          python-version: "3.9"
+
+      - name: Build Doc
+        run: |
+          poetry install -E docs
+          poetry run talondoc autogen \
+            --output-dir example/docs/knausj_talon \
+            --project 'knausj_talon' \
+            --package-name user \
+            --no-generate-conf \
+            --exclude '*.py' \
+            --exclude 'modes/wake_up_wav2letter.talon' \
+            example/knausj_talon/
+          poetry run sphinx-build -M 'html' 'example/docs' 'example/docs/_build'
+          touch example/docs/_build/html/.nojekyll
+
+      - name: Deploy Doc
+        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        with:
+          branch: docs
+          folder: example/docs/_build/html
