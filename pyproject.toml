@@ -27,7 +27,7 @@ Sphinx = "^5.1.1"
 sphinx-bootstrap-theme = { version = "^0.8.1", optional = true }
 talonfmt = "^1.7.3"
 setuptools = "*"
-tree_sitter_talon = "^1000.2.0.0"
+tree_sitter_talon = "^1001.2.0.0"
 pywin32 = { version = "*", markers = "sys_platform == 'win32'" }
 
 [tool.poetry.extras]
