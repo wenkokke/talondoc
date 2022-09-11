@@ -69,7 +69,7 @@ SettingValue = Any
 class ObjectEntry(abc.ABC):
     sort: ClassVar[str]
 
-    def get_desc(self) -> Optional[str]:
+    def get_docstring(self) -> Optional[str]:
         if hasattr(self, "desc"):
             return cast(Optional[str], object.__getattribute__(self, "desc"))
         return None
@@ -276,6 +276,15 @@ class ObjectGroupEntry(ObjectEntry, Generic[CanOverride]):
             if self.default is not None:
                 raise DuplicateEntry(self.default, entry)
             self.default = entry
+
+    def get_docstring(self) -> Optional[str]:
+        if self.default:
+            return self.default.get_docstring()
+        for override in self.overrides:
+            desc = override.get_docstring()
+            if desc:
+                return desc
+        return None
 
     @property
     def namespace(self) -> str:

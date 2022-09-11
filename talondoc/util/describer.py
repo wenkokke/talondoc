@@ -55,22 +55,22 @@ class TalonScriptDescriber:
         self,
         registry: Registry,
         *,
-        custom_description_hook: Optional[Callable[[str], Optional[str]]],
+        custom_docstring_hook: Optional[Callable[[str], Optional[str]]],
     ) -> None:
         self.registry = registry
-        self.custom_description_hook = custom_description_hook
+        self.custom_docstring_hook = custom_docstring_hook
 
-    def get_desc(
+    def get_docstring(
         self, qualified_name: str, *, namespace: Optional[str] = None
     ) -> Optional[str]:
         desc: Optional[str]
-        if self.custom_description_hook:
-            desc = self.custom_description_hook(qualified_name)
+        if self.custom_docstring_hook:
+            desc = self.custom_docstring_hook(qualified_name)
             if desc:
                 return desc
         obj = self.registry.lookup(qualified_name, namespace=namespace)
         if obj:
-            return obj.get_desc()
+            return obj.get_docstring()
         return None
 
     @singledispatchmethod
@@ -121,16 +121,9 @@ class TalonScriptDescriber:
     @describe.register
     def _(self, ast: TalonAction) -> Optional[Desc]:
         # TODO: resolve self.*
-        action_group_entry = cast(
-            Optional[ActionGroupEntry],
-            self.registry.lookup(f"action-group:{ast.action_name.text}"),
-        )
-        if (
-            action_group_entry
-            and action_group_entry.default
-            and action_group_entry.default.desc
-        ):
-            desc = from_docstring(action_group_entry.default.desc)
+        docstring = self.get_docstring(f"action-group:{ast.action_name.text}")
+        if docstring:
+            desc = from_docstring(docstring)
             if isinstance(desc, StepsTemplate):
                 desc = desc(
                     tuple(
