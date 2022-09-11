@@ -41,6 +41,12 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
     def talon(self) -> TalonDomain:
         return cast(TalonDomain, self.env.get_domain("talon"))
 
+    @property
+    def docstring_hook(self) -> Callable[[str], Optional[str]]:
+        return cast(
+            Callable[[str], Optional[str]], self.env.config["talondoc_docstring_hook"]
+        )
+
 
 class TalonDocObjectDescription(sphinx.directives.ObjectDescription, TalonDocDirective):
     pass
@@ -115,9 +121,7 @@ def try_describe_script_via_action_docstrings(
     Describe the script using the docstrings on the actions used by the script.
     """
     try:
-        describer = TalonScriptDescriber(
-            registry, docstring_hook=docstring_hook
-        )
+        describer = TalonScriptDescriber(registry, docstring_hook=docstring_hook)
         desc = describer.describe(command.ast)
         if desc:
             return nodes.Text(str(desc))
