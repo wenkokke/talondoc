@@ -700,10 +700,10 @@ test = ["pytest (>=7.1.2,<8.0.0)", "pytest-golden (>=0.2.2,<0.3.0)"]
 
 [[package]]
 name = "types-docutils"
-version = "0.19.0"
+version = "0.19.1"
 description = "Typing stubs for docutils"
-category = "main"
-optional = true
+category = "dev"
+optional = false
 python-versions = "*"
 
 [[package]]
@@ -770,13 +770,12 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 
 [extras]
 docs = ["sphinx-bootstrap-theme"]
-mypy = ["types-docutils"]
 test = ["bumpver"]
 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "e26d32fb553680650b316c0ad3dd1e7bad477c57ca2c38ec692f831812d9ded7"
+content-hash = "6e097695d198f00d0c54f6587b97fff8d7d99cb2fc18dc3946fcf81f930d93d2"
 
 [metadata.files]
 alabaster = [
@@ -1117,8 +1116,8 @@ tree-sitter-type-provider = [
     {file = "tree_sitter_type_provider-2.1.12.tar.gz", hash = "sha256:e23e681e2b1001f7b7bf147eaee8e83abf4e50039c8a69b13930d2b3c097622f"},
 ]
 types-docutils = [
-    {file = "types-docutils-0.19.0.tar.gz", hash = "sha256:94936b1961aacda61ec6bb0acf1169cd7830b5230b645855c1d4789baf19685e"},
-    {file = "types_docutils-0.19.0-py3-none-any.whl", hash = "sha256:198ed1c0ef6c1a79411da9e1745514eda433d37770e24f26b0e13a302904cc97"},
+    {file = "types-docutils-0.19.1.tar.gz", hash = "sha256:7df133b87105af410fc6a992030a70ee9f5a2c2636c5afe7e0de285eb9fdb015"},
+    {file = "types_docutils-0.19.1-py3-none-any.whl", hash = "sha256:6b110b17ba4bfbde765b69acca6a6da373094d99a5a3bce1d5a8c9d29b293d89"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.3.0-py3-none-any.whl", hash = "sha256:25642c956049920a5aa49edcdd6ab1e06d7e5d467fc00e0506c44ac86fbfca02"},
