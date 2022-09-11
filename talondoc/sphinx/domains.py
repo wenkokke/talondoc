@@ -9,7 +9,7 @@ from .directives.command import TalonCommandDirective
 from .directives.package import TalonPackageDirective
 from .directives.user import TalonUserDirective
 
-_logger = getLogger(__name__)
+_LOGGER = getLogger(__name__)
 
 
 class TalonDomain(Domain):

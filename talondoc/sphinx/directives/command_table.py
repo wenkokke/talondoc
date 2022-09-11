@@ -8,7 +8,7 @@ from ...util.nodes import colspec, entry, row, table, tbody, tgroup, title
 from ...util.typing import optional_str, optional_strlist
 from . import TalonCommandListDirective
 
-_logger = getLogger(__name__)
+_LOGGER = getLogger(__name__)
 
 
 class TalonCommandTableDirective(TalonCommandListDirective):

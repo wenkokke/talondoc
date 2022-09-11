@@ -7,7 +7,7 @@ import docstring_parser.google as docstring_google
 
 from ..util.logging import getLogger
 
-_logger = getLogger(__name__)
+_LOGGER = getLogger(__name__)
 
 
 @dataclasses.dataclass

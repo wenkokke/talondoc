@@ -24,7 +24,7 @@ from .entries import (
     resolve_name,
 )
 
-_logger = getLogger(__name__)
+_LOGGER = getLogger(__name__)
 
 
 class NoActiveRegistry(Exception):
@@ -312,7 +312,7 @@ class StandaloneRegistry(Registry):
             # Functions are TEMPORARY DATA, and are stored under their qualified names:
             if entry.resolved_name in self.functions:
                 e = DuplicateEntry(entry, self.functions[entry.resolved_name])
-                _logger.exception(e)
+                _LOGGER.exception(e)
             else:
                 self.functions[entry.resolved_name] = entry
 
@@ -328,7 +328,7 @@ class StandaloneRegistry(Registry):
                 try:
                     action_group_entry.append(entry)
                 except DuplicateEntry as e:
-                    _logger.exception(e)
+                    _LOGGER.exception(e)
         elif isinstance(entry, CommandEntry):
             # Commands are stored as lists:
             self.commands.append(entry)

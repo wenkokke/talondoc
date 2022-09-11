@@ -30,7 +30,7 @@ from ..analyze.registry import Registry
 from ..util.logging import getLogger
 from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
 
-_logger = getLogger(__name__)
+_LOGGER = getLogger(__name__)
 
 
 NodeVar = TypeVar("NodeVar", bound=Node)

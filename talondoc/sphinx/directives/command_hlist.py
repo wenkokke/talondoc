@@ -9,7 +9,7 @@ from ...util.nodes import bullet_list
 from ...util.typing import optional_str, optional_strlist
 from . import TalonCommandListDirective
 
-_logger = getLogger(__name__)
+_LOGGER = getLogger(__name__)
 
 
 class TalonCommandHListDirective(TalonCommandListDirective):

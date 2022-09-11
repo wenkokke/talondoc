@@ -9,7 +9,7 @@ from ...util.logging import getLogger
 from ...util.typing import optional_str, optional_strlist
 from . import TalonDocDirective
 
-_logger = getLogger(__name__)
+_LOGGER = getLogger(__name__)
 
 
 class TalonPackageDirective(TalonDocDirective):
@@ -41,10 +41,10 @@ class TalonPackageDirective(TalonDocDirective):
                 trigger=tuple(self.options.get("trigger", ())),
             )
         except NoActiveRegistry as e:
-            _logger.exception(e)
+            _LOGGER.exception(e)
         except NoActivePackage as e:
-            _logger.exception(e)
+            _LOGGER.exception(e)
         except NoActiveFile as e:
-            _logger.exception(e)
+            _LOGGER.exception(e)
 
         return []

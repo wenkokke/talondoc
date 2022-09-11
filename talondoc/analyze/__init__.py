@@ -29,7 +29,7 @@ from .entries import (
 from .registry import Registry
 from .shims import talon
 
-_logger = getLogger(__name__)
+_LOGGER = getLogger(__name__)
 
 
 def include_file(
@@ -86,7 +86,7 @@ def analyse_package(
                     else:
                         bar.step()
                 except ParseError as e:
-                    _logger.exception(e)
+                    _LOGGER.exception(e)
 
         # Trigger callbacks:
         for event_code in trigger:

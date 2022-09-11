@@ -9,7 +9,7 @@ from ...util.logging import getLogger
 from ...util.typing import flag
 from . import TalonDocObjectDescription, include_command
 
-_logger = getLogger(__name__)
+_LOGGER = getLogger(__name__)
 
 
 class TalonCommandDirective(TalonDocObjectDescription):

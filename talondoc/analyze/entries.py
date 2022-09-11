@@ -18,7 +18,7 @@ import tree_sitter_talon
 
 from ..util.logging import getLogger
 
-_logger = getLogger(__name__)
+_LOGGER = getLogger(__name__)
 
 
 @dataclasses.dataclass(frozen=True)
@@ -151,7 +151,7 @@ class FileEntry(ObjectEntry):
     def __post_init__(self, *args, **kwargs):
         try:
             index = self.package.files.index(self)
-            _logger.info(
+            _LOGGER.info(
                 "\n".join(
                     [
                         f"[talondoc] file already analyzed:",

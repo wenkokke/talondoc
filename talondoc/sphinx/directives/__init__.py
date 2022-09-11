@@ -28,7 +28,7 @@ from ...util.describer import TalonScriptDescriber
 from ...util.logging import getLogger
 from ...util.nodes import desc_content, desc_name, paragraph
 
-_logger = getLogger(__name__)
+_LOGGER = getLogger(__name__)
 
 if TYPE_CHECKING:
     from talondoc.sphinx.domains import TalonDomain
@@ -122,7 +122,7 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
             if desc:
                 return nodes.Text(str(desc))
         except InvalidInterpolation as e:
-            _logger.exception(e)
+            _LOGGER.exception(e)
         return None
 
     def try_describe_script_via_script_docstrings(
