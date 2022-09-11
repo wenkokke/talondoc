@@ -7,7 +7,7 @@ from sphinx.util.typing import OptionSpec
 from ...analyze.entries import CommandEntry
 from ...util.logging import getLogger
 from ...util.typing import flag
-from . import TalonDocObjectDescription, handle_command, include_command
+from . import TalonDocObjectDescription, include_command
 
 _logger = getLogger(__name__)
 
@@ -39,11 +39,10 @@ class TalonCommandDirective(TalonDocObjectDescription):
 
     def handle_signature(self, sig: str, signode: addnodes.desc_signature):
         command = self.find_command(sig)
-        handle_command(
+        self.handle_command(
             command,
             signode,
             registry=self.talon.registry,
-            docstring_hook=self.docstring_hook,
             include_script=self.options.get("script", False),
         )
         return command.name
