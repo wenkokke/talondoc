@@ -68,18 +68,21 @@ SettingValue = Any
 
 class ObjectEntry(abc.ABC):
     sort: ClassVar[str]
+    mtime: float = dataclasses.field(init=False)
 
-    def get_docstring(self) -> Optional[str]:
-        if hasattr(self, "desc"):
-            return cast(Optional[str], object.__getattribute__(self, "desc"))
-        return None
+    def __post_init__(self, *args, **kwargs):
+        # set mtime
+        package = self.get_package()
+        file = self.get_file_or_package()
+        if isinstance(file, FileEntry):
+            path = package.path / file.path
+        else:
+            path = package.path
+        self.mtime = path.lstat().st_mtime
 
     @property
     def namespace(self) -> str:
         return self.get_package().name
-
-    def get_name(self) -> str:
-        return cast(str, object.__getattribute__(self, "name"))
 
     @property
     def resolved_name(self) -> str:
@@ -88,6 +91,14 @@ class ObjectEntry(abc.ABC):
     @property
     def qualified_name(self) -> str:
         return f"{self.__class__.sort}:{self.resolved_name}"
+
+    def get_docstring(self) -> Optional[str]:
+        if hasattr(self, "desc"):
+            return cast(Optional[str], object.__getattribute__(self, "desc"))
+        return None
+
+    def get_name(self) -> str:
+        return cast(str, object.__getattribute__(self, "name"))
 
     def get_path(self) -> pathlib.Path:
         return self.get_file_or_package().path
@@ -104,21 +115,25 @@ class ObjectEntry(abc.ABC):
             return self
         elif isinstance(self, FileEntry):
             return self
-        elif hasattr(self, "file"):
-            file = object.__getattribute__(self, "file")
-            assert isinstance(file, FileEntry)
-            return file
-        elif hasattr(self, "module"):
-            module = object.__getattribute__(self, "module")
-            assert isinstance(module, ModuleEntry)
-            return module.file
-        elif hasattr(self, "file_or_module"):
-            file_or_module = object.__getattribute__(self, "file_or_module")
-            assert isinstance(file_or_module, (FileEntry, ModuleEntry))
-            if isinstance(file_or_module, FileEntry):
-                return file_or_module
+        elif isinstance(
+            self, (CommandEntry, FunctionEntry, CallbackEntry, ModuleEntry)
+        ):
+            return self.file
+        elif isinstance(self, (CanOverrideEntry, TagEntry)):
+            return self.module.file
+        elif isinstance(self, ObjectGroupEntry):
+            if self.default:
+                assert isinstance(self.default, CanOverrideEntry)
+                return self.default.module.file
             else:
-                return file_or_module.file
+                for override in self.overrides:
+                    assert isinstance(override, CanOverrideEntry)
+                    return override.module.file
+            raise ValueError(self)
+        elif isinstance(self, ListValueEntry):
+            return self.module.file
+        elif isinstance(self, (SettingValueEntry, TagImportEntry)):
+            return self.file_or_module.get_file_or_package()
         else:
             raise TypeError(type(self))
 
@@ -197,6 +212,25 @@ class FunctionEntry(ObjectEntry):
         return f"{self.file.name.removesuffix('.py')}.{self.name}"
 
 
+EventCode = Union[int, str]
+
+
+@dataclasses.dataclass
+class CallbackEntry(ObjectEntry):
+    """
+    Used to register callbacks into imported Python modules.
+    """
+
+    sort: ClassVar[str] = "callback"
+    event_code: EventCode
+    callback: Callable[..., None]
+    file: FileEntry = dataclasses.field(repr=False)
+
+    @property
+    def name(self) -> str:
+        return str(self.event_code)
+
+
 @dataclasses.dataclass
 class ModuleEntry(ObjectEntry):
     sort: ClassVar[str] = "module"
@@ -223,25 +257,6 @@ class ModuleEntry(ObjectEntry):
 class ContextEntry(ModuleEntry):
     sort: ClassVar[str] = "context"
     matches: Union[None, str, tree_sitter_talon.TalonMatches] = None
-
-
-EventCode = Union[int, str]
-
-
-@dataclasses.dataclass
-class CallbackEntry(ObjectEntry):
-    """
-    Used to register callbacks into imported Python modules.
-    """
-
-    sort: ClassVar[str] = "callback"
-    event_code: EventCode
-    callback: Callable[..., None]
-    file: FileEntry = dataclasses.field(repr=False)
-
-    @property
-    def name(self) -> str:
-        return str(self.event_code)
 
 
 @dataclasses.dataclass
@@ -326,10 +341,9 @@ class ActionGroupEntry(ObjectGroupEntry[ActionEntry]):
 
 
 @dataclasses.dataclass
-class CaptureEntry(ObjectEntry):
+class CaptureEntry(CanOverrideEntry):
     sort: ClassVar[str] = "capture"
     name: str
-    module: ModuleEntry = dataclasses.field(repr=False)
     rule: Union[str, tree_sitter_talon.TalonRule]
     desc: Optional[str]
     func: Optional[str]
@@ -362,7 +376,7 @@ class CommandEntry(ObjectEntry):
 
 
 @dataclasses.dataclass
-class ListEntry(ObjectEntry):
+class ListEntry(CanOverrideEntry):
     sort: ClassVar[str] = "list"
     name: str
     module: ModuleEntry = dataclasses.field(repr=False)
@@ -387,7 +401,7 @@ class ListValueEntry(ObjectEntry):
 
 
 @dataclasses.dataclass
-class ModeEntry(ObjectEntry):
+class ModeEntry(CanOverrideEntry):
     sort: ClassVar[str] = "mode"
     name: str
     module: ModuleEntry = dataclasses.field(repr=False)
@@ -399,10 +413,9 @@ class ModeEntry(ObjectEntry):
 
 
 @dataclasses.dataclass
-class SettingEntry(ObjectEntry):
+class SettingEntry(CanOverrideEntry):
     sort: ClassVar[str] = "setting"
     name: str
-    module: ModuleEntry = dataclasses.field(repr=False)
     type: Optional[str] = None
     desc: Optional[str] = None
     default: Optional[tree_sitter_talon.TalonExpression] = None
