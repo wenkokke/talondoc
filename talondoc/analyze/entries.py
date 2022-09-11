@@ -1,5 +1,6 @@
 import abc
 import dataclasses
+import itertools
 import pathlib
 from collections.abc import Callable
 from typing import (
@@ -68,17 +69,10 @@ SettingValue = Any
 
 class ObjectEntry(abc.ABC):
     sort: ClassVar[str]
-    mtime: float = dataclasses.field(init=False)
+    mtime: Optional[float] = None
 
     def __post_init__(self, *args, **kwargs):
-        # set mtime
-        package = self.get_package()
-        file = self.get_file_or_package()
-        if isinstance(file, FileEntry):
-            path = package.path / file.path
-        else:
-            path = package.path
-        self.mtime = path.lstat().st_mtime
+        self.mtime = self.get_mtime()
 
     @property
     def namespace(self) -> str:
@@ -110,6 +104,22 @@ class ObjectEntry(abc.ABC):
         else:
             return file_or_package.package
 
+    def get_mtime(self) -> float:
+        try:
+            file_or_package = self.get_file_or_package()
+            if isinstance(file_or_package, PackageEntry):
+                path = file_or_package.path
+            else:
+                file = file_or_package
+                package = file.package
+                path = package.path / file.path
+            return path.stat().st_mtime
+        except ValueError:
+            assert isinstance(self, ObjectGroupEntry)
+            entries: list[Optional[CanOverrideEntry]] = [self.default, *self.overrides]
+            return max(entry.get_mtime() for entry in entries if entry)
+
+
     def get_file_or_package(self) -> Union["PackageEntry", "FileEntry"]:
         if isinstance(self, PackageEntry):
             return self
@@ -122,13 +132,6 @@ class ObjectEntry(abc.ABC):
         elif isinstance(self, (CanOverrideEntry, TagEntry)):
             return self.module.file
         elif isinstance(self, ObjectGroupEntry):
-            if self.default:
-                assert isinstance(self.default, CanOverrideEntry)
-                return self.default.module.file
-            else:
-                for override in self.overrides:
-                    assert isinstance(override, CanOverrideEntry)
-                    return override.module.file
             raise ValueError(self)
         elif isinstance(self, ListValueEntry):
             return self.module.file
