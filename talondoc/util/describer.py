@@ -55,7 +55,7 @@ class TalonScriptDescriber:
         self,
         registry: Registry,
         *,
-        custom_docstring_hook: Optional[Callable[[str], Optional[str]]],
+        custom_docstring_hook: Optional[Callable[[str], Optional[str]]] = None,
     ) -> None:
         self.registry = registry
         self.custom_docstring_hook = custom_docstring_hook
