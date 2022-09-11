@@ -69,6 +69,11 @@ SettingValue = Any
 class ObjectEntry(abc.ABC):
     sort: ClassVar[str]
 
+    def get_desc(self) -> Optional[str]:
+        if hasattr(self, "desc"):
+            return cast(Optional[str], object.__getattribute__(self, "desc"))
+        return None
+
     @property
     def namespace(self) -> str:
         return self.get_package().name
@@ -165,6 +170,7 @@ class FileEntry(ObjectEntry):
 
 @dataclasses.dataclass()
 class TalonFileEntry(FileEntry):
+    # TODO: extract docstring as desc
     commands: list["CommandEntry"] = dataclasses.field(default_factory=list)
     matches: Optional[tree_sitter_talon.TalonMatches] = None
     settings: list["SettingValueEntry"] = dataclasses.field(default_factory=list)

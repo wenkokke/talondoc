@@ -1,5 +1,5 @@
-import dataclasses
-import typing
+from collections.abc import Callable
+from typing import Optional, Sequence, Union, TypeVar, cast
 from functools import singledispatchmethod
 
 from tree_sitter_talon import (
@@ -33,13 +33,11 @@ from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
 _logger = getLogger(__name__)
 
 
-NodeVar = typing.TypeVar("NodeVar", bound=Node)
+NodeVar = TypeVar("NodeVar", bound=Node)
 
 
-def _only_child(
-    children: typing.Sequence[typing.Union[NodeVar, TalonComment]]
-) -> NodeVar:
-    ret: typing.Optional[NodeVar] = None
+def _only_child(children: Sequence[Union[NodeVar, TalonComment]]) -> NodeVar:
+    ret: Optional[NodeVar] = None
     for child in children:
         if not isinstance(child, TalonComment):
             if __debug__ and ret:
@@ -53,59 +51,78 @@ def _only_child(
 
 
 class TalonScriptDescriber:
-    def __init__(self, registry: Registry) -> None:
+    def __init__(
+        self,
+        registry: Registry,
+        *,
+        custom_description_hook: Optional[Callable[[str], Optional[str]]],
+    ) -> None:
         self.registry = registry
+        self.custom_description_hook = custom_description_hook
+
+    def get_desc(
+        self, qualified_name: str, *, namespace: Optional[str] = None
+    ) -> Optional[str]:
+        desc: Optional[str]
+        if self.custom_description_hook:
+            desc = self.custom_description_hook(qualified_name)
+            if desc:
+                return desc
+        obj = self.registry.lookup(qualified_name, namespace=namespace)
+        if obj:
+            return obj.get_desc()
+        return None
 
     @singledispatchmethod
-    def describe(self, ast: Node) -> typing.Optional[Desc]:
+    def describe(self, ast: Node) -> Optional[Desc]:
         raise TypeError(type(ast))
 
     @describe.register
-    def _(self, ast: TalonCommandDeclaration) -> typing.Optional[Desc]:
+    def _(self, ast: TalonCommandDeclaration) -> Optional[Desc]:
         return self.describe(ast.script)
 
     @describe.register
-    def _(self, ast: TalonBlock) -> typing.Optional[Desc]:
+    def _(self, ast: TalonBlock) -> Optional[Desc]:
         buffer = []
         for child in ast.children:
             buffer.append(self.describe(child))
         return concat(*buffer)
 
     @describe.register
-    def _(self, ast: TalonExpressionStatement) -> typing.Optional[Desc]:
+    def _(self, ast: TalonExpressionStatement) -> Optional[Desc]:
         desc = self.describe(ast.expression)
         if isinstance(ast.expression, TalonString):
             return Step(desc=f'Insert "{desc}"')
         return desc
 
     @describe.register
-    def _(self, ast: TalonAssignmentStatement) -> typing.Optional[Desc]:
+    def _(self, ast: TalonAssignmentStatement) -> Optional[Desc]:
         right = self.describe(ast.right)
         return Step(f"Let <{ast.left.text}> be {right}")
 
     @describe.register
-    def _(self, ast: TalonBinaryOperator) -> typing.Optional[Desc]:
+    def _(self, ast: TalonBinaryOperator) -> Optional[Desc]:
         left = self.describe(ast.left)
         right = self.describe(ast.right)
         return Value(f"{left} {ast.operator.text} {right}")
 
     @describe.register
-    def _(self, ast: TalonVariable) -> typing.Optional[Desc]:
+    def _(self, ast: TalonVariable) -> Optional[Desc]:
         return Value(f"<{ast.text}>")
 
     @describe.register
-    def _(self, ast: TalonKeyAction) -> typing.Optional[Desc]:
+    def _(self, ast: TalonKeyAction) -> Optional[Desc]:
         return Step(f"Press {ast.arguments.text.strip()}.")
 
     @describe.register
-    def _(self, ast: TalonSleepAction, **kwargs) -> typing.Optional[Desc]:
+    def _(self, ast: TalonSleepAction, **kwargs) -> Optional[Desc]:
         return None
 
     @describe.register
-    def _(self, ast: TalonAction) -> typing.Optional[Desc]:
+    def _(self, ast: TalonAction) -> Optional[Desc]:
         # TODO: resolve self.*
-        action_group_entry = typing.cast(
-            typing.Optional[ActionGroupEntry],
+        action_group_entry = cast(
+            Optional[ActionGroupEntry],
             self.registry.lookup(f"action-group:{ast.action_name.text}"),
         )
         if (
@@ -126,33 +143,33 @@ class TalonScriptDescriber:
         return None
 
     @describe.register
-    def _(self, ast: TalonParenthesizedExpression) -> typing.Optional[Desc]:
+    def _(self, ast: TalonParenthesizedExpression) -> Optional[Desc]:
         return self.describe(_only_child(ast.children))
 
     @describe.register
-    def _(self, ast: TalonComment) -> typing.Optional[Desc]:
+    def _(self, ast: TalonComment) -> Optional[Desc]:
         return None
 
     @describe.register
-    def _(self, ast: TalonInteger) -> typing.Optional[Desc]:
+    def _(self, ast: TalonInteger) -> Optional[Desc]:
         return Value(ast.text)
 
     @describe.register
-    def _(self, ast: TalonFloat) -> typing.Optional[Desc]:
+    def _(self, ast: TalonFloat) -> Optional[Desc]:
         return Value(ast.text)
 
     @describe.register
-    def _(self, ast: TalonImplicitString) -> typing.Optional[Desc]:
+    def _(self, ast: TalonImplicitString) -> Optional[Desc]:
         return Value(ast.text)
 
     @describe.register
-    def _(self, ast: TalonString) -> typing.Optional[Desc]:
+    def _(self, ast: TalonString) -> Optional[Desc]:
         return concat(*(self.describe(child) for child in ast.children))
 
     @describe.register
-    def _(self, ast: TalonStringContent) -> typing.Optional[Desc]:
+    def _(self, ast: TalonStringContent) -> Optional[Desc]:
         return Value(ast.text)
 
     @describe.register
-    def _(self, ast: TalonStringEscapeSequence) -> typing.Optional[Desc]:
+    def _(self, ast: TalonStringEscapeSequence) -> Optional[Desc]:
         return Value(ast.text)
