@@ -8,7 +8,7 @@ from .domains import TalonDomain
 
 def setup(app: Sphinx) -> dict[str, Any]:
     app.add_domain(TalonDomain)
-    app.add_config_value(name="custom_docstring_hook", default=None, rebuild="env")
+    app.add_config_value(name="talondoc_docstring_hook", default=None, rebuild="env")
     return {
         "version": __version__,
         "parallel_read_safe": False,

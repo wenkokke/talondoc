@@ -26,7 +26,7 @@ class TalonCommandTableDirective(TalonCommandListDirective):
     final_argument_whitespace = False
 
     def run(self) -> list[nodes.Node]:
-        custom_docstring_hook = self.env.config["custom_docstring_hook"]
+        docstring_hook = self.env.config["docstring_hook"]
         return [
             table(
                 *[title(nodes.Text(caption)) for caption in self.caption()],
@@ -40,7 +40,7 @@ class TalonCommandTableDirective(TalonCommandListDirective):
                                 *describe_script(
                                     command,
                                     registry=self.talon.registry,
-                                    custom_docstring_hook=custom_docstring_hook,
+                                    docstring_hook=docstring_hook,
                                     include_script=False,
                                 )
                             ),

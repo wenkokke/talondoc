@@ -39,12 +39,12 @@ class TalonCommandDirective(TalonDocObjectDescription):
 
     def handle_signature(self, sig: str, signode: addnodes.desc_signature):
         command = self.find_command(sig)
-        custom_docstring_hook = self.env.config["custom_docstring_hook"]
+        docstring_hook = self.env.config["docstring_hook"]
         handle_command(
             command,
             signode,
             registry=self.talon.registry,
-            custom_docstring_hook=custom_docstring_hook,
+            docstring_hook=docstring_hook,
             include_script=self.options.get("script", False),
         )
         return command.name

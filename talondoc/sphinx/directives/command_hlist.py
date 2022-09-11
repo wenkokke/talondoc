@@ -28,13 +28,13 @@ class TalonCommandHListDirective(TalonCommandListDirective):
     final_argument_whitespace = False
 
     def run(self) -> list[nodes.Node]:
-        custom_docstring_hook = self.env.config["custom_docstring_hook"]
+        docstring_hook = self.env.config["docstring_hook"]
         ncolumns = self.options.get("columns", 2)
         fulllist = [
             describe_command(
                 command,
                 registry=self.talon.registry,
-                custom_docstring_hook=custom_docstring_hook,
+                docstring_hook=docstring_hook,
                 include_script=False,
             )
             for command in self.find_commands()

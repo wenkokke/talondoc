@@ -55,17 +55,17 @@ class TalonScriptDescriber:
         self,
         registry: Registry,
         *,
-        custom_docstring_hook: Optional[Callable[[str], Optional[str]]] = None,
+        docstring_hook: Optional[Callable[[str], Optional[str]]] = None,
     ) -> None:
         self.registry = registry
-        self.custom_docstring_hook = custom_docstring_hook
+        self.docstring_hook = docstring_hook
 
     def get_docstring(
         self, qualified_name: str, *, namespace: Optional[str] = None
     ) -> Optional[str]:
         desc: Optional[str]
-        if self.custom_docstring_hook:
-            desc = self.custom_docstring_hook(qualified_name)
+        if self.docstring_hook:
+            desc = self.docstring_hook(qualified_name)
             if desc:
                 return desc
         obj = self.registry.lookup(qualified_name, namespace=namespace)

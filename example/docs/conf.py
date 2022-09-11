@@ -25,7 +25,7 @@ extensions = ["talondoc.sphinx"]
 
 # -- Options for TalonDoc ----------------------------------------------------
 
-def custom_docstring_hook(qualified_name: str) -> Optional[str]:
+def talondoc_docstring_hook(qualified_name: str) -> Optional[str]:
     return None
 
 
