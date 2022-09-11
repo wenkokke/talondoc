@@ -106,13 +106,18 @@ def describe_rule(command: CommandEntry) -> nodes.Text:
 
 
 def try_describe_script_via_action_docstrings(
-    command: CommandEntry, *, registry: Registry
+    command: CommandEntry,
+    *,
+    registry: Registry,
+    custom_docstring_hook: Optional[Callable[[str], Optional[str]]],
 ) -> Optional[nodes.Text]:
     """
     Describe the script using the docstrings on the actions used by the script.
     """
     try:
-        describer = TalonScriptDescriber(registry)
+        describer = TalonScriptDescriber(
+            registry, custom_docstring_hook=custom_docstring_hook
+        )
         desc = describer.describe(command.ast)
         if desc:
             return nodes.Text(str(desc))
@@ -154,14 +159,17 @@ def describe_script(
     command: CommandEntry,
     *,
     registry: Registry,
-    include_script: bool = False,
+    custom_docstring_hook: Optional[Callable[[str], Optional[str]]],
+    include_script: bool,
 ) -> list[nodes.Element]:
     """
     Describe the script using the docstrings on the script, the docstrings on
     the actions, or finally by including it as a code block.
     """
     desc = try_describe_script_via_script_docstrings(command)
-    desc = desc or try_describe_script_via_action_docstrings(command, registry=registry)
+    desc = desc or try_describe_script_via_action_docstrings(
+        command, registry=registry, custom_docstring_hook=custom_docstring_hook
+    )
     buffer = []
     if desc:
         buffer.append(paragraph(nodes.Text(desc)))
@@ -175,22 +183,33 @@ def handle_command(
     signode: addnodes.desc_signature,
     *,
     registry: Registry,
-    include_script: bool = False,
+    custom_docstring_hook: Optional[Callable[[str], Optional[str]]],
+    include_script: bool,
 ) -> addnodes.desc_signature:
     signode += desc_name(describe_rule(command))
     signode += desc_content(
-        *describe_script(command, registry=registry, include_script=include_script)
+        *describe_script(
+            command,
+            registry=registry,
+            custom_docstring_hook=custom_docstring_hook,
+            include_script=include_script,
+        )
     )
     return signode
 
 
 def describe_command(
-    command: CommandEntry, *, registry: Registry, include_script: bool = False
+    command: CommandEntry,
+    *,
+    registry: Registry,
+    custom_docstring_hook: Optional[Callable[[str], Optional[str]]],
+    include_script: bool,
 ) -> addnodes.desc_signature:
     return handle_command(
         command,
         addnodes.desc_signature(),
         registry=registry,
+        custom_docstring_hook=custom_docstring_hook,
         include_script=include_script,
     )
 

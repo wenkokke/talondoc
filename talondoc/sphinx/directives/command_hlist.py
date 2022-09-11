@@ -28,9 +28,15 @@ class TalonCommandHListDirective(TalonCommandListDirective):
     final_argument_whitespace = False
 
     def run(self) -> list[nodes.Node]:
+        custom_docstring_hook = self.env.config["custom_docstring_hook"]
         ncolumns = self.options.get("columns", 2)
         fulllist = [
-            describe_command(command, registry=self.talon.registry)
+            describe_command(
+                command,
+                registry=self.talon.registry,
+                custom_docstring_hook=custom_docstring_hook,
+                include_script=False,
+            )
             for command in self.find_commands()
         ]
         # create a hlist node where the items are distributed

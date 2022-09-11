@@ -29,14 +29,13 @@ talonfmt = "^1.7.3"
 setuptools = "*"
 tree_sitter_talon = "^1000.2.0.0"
 pywin32 = { version = "*", markers = "sys_platform == 'win32'" }
-types-docutils = { version = "^0.19.0", optional = true }
 
 [tool.poetry.extras]
-mypy = ["types-docutils"]
 test = ["bumpver"]
 docs = ["sphinx_bootstrap_theme"]
 
 [tool.poetry.group.dev.dependencies]
+types-docutils = "^0.19.0"
 mypy = "^0.971"
 tox = "^3.25.1"
 black = "^22.8.0"
