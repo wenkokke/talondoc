@@ -118,7 +118,6 @@ class ObjectEntry(abc.ABC):
             entries: list[Optional[CanOverrideEntry]] = [self.default, *self.overrides]
             return max(entry.get_mtime() for entry in entries if entry)
 
-
     def get_file_or_package(self) -> Union["PackageEntry", "FileEntry"]:
         if isinstance(self, PackageEntry):
             return self

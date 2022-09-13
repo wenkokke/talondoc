@@ -1,6 +1,6 @@
-from collections.abc import Iterable
 import dataclasses
 import re
+from collections.abc import Iterable
 from typing import Optional, Union
 
 import docstring_parser
