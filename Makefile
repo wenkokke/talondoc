@@ -2,7 +2,6 @@ build:
 	poetry build
 
 build-doc:
-	poetry install -E docs
 	@# NOTE: Always clean the environment, because 'analyze_package' does
 	@#       not use mtime to check if it should reanalyze a file, and throws
 	@#       duplicate object entry errors if it finds duplicates, even if they
