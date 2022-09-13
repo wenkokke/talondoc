@@ -3,11 +3,10 @@ build:
 
 build-doc:
 	poetry install -E docs
-	@# NOTE:
-	@#   Some entries store AST nodes, which do not currently support
-	@#   unpickling. They pickle via __reduce__, and don't automatically
-	@#   unpickle. Once that is fixed, we no longer need to discard the
-	@#   cache on every run.
+	@# NOTE: Always clean the environment, because 'analyze_package' does
+	@#       not use mtime to check if it should reanalyze a file, and throws
+	@#       duplicate object entry errors if it finds duplicates, even if they
+	@#       are defined in the same place in the same file.
 	poetry run sphinx-build -M "clean" "example/docs" "example/docs/_build"
 	poetry run talondoc autogen \
 		--output-dir example/docs/knausj_talon \
