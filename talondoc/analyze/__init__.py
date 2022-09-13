@@ -19,7 +19,6 @@ from ..util.progress_bar import ProgressBar
 from .entries import (
     CallbackEntry,
     CommandEntry,
-    FileEntry,
     PackageEntry,
     PythonFileEntry,
     SettingValueEntry,
@@ -104,54 +103,78 @@ def analyse_talon_file(
     registry: Registry, talon_file_path: pathlib.Path, package_entry: PackageEntry
 ) -> TalonFileEntry:
 
-    # Register file:
-    talon_file_entry = TalonFileEntry(package=package_entry, path=talon_file_path)
-    registry.register(talon_file_entry)
+    # Retrieve or create file entry:
+    def _get_file_entry() -> TalonFileEntry:
+        new_file_entry = TalonFileEntry(package=package_entry, path=talon_file_path)
+        old_file_entry = registry.files.get(new_file_entry.name, None)
+        if old_file_entry:
+            assert isinstance(old_file_entry, TalonFileEntry)
+            return old_file_entry
+        else:
+            registry.register(new_file_entry)
+            return new_file_entry
+
+    talon_file_entry = _get_file_entry()
 
     # Process file:
-    ast = parse_file(package_entry.path / talon_file_path, raise_parse_error=True)
-    assert isinstance(ast, TalonSourceFile)
-    for declaration in ast.children:
-        if isinstance(declaration, TalonMatches):
-            # Register matches:
-            assert talon_file_entry.matches is None
-            talon_file_entry.matches = declaration
-        elif isinstance(declaration, TalonCommandDeclaration):
-            # Register command:
-            command_entry = CommandEntry(file=talon_file_entry, ast=declaration)
-            registry.register(command_entry)
-        elif isinstance(declaration, TalonSettingsDeclaration):
-            # Register settings:
-            for child in declaration.children:
-                if isinstance(child, TalonBlock):
-                    for statement in child.children:
-                        if isinstance(statement, TalonAssignmentStatement):
-                            setting_use_entry = SettingValueEntry(
-                                name=statement.left.text,
-                                file_or_module=talon_file_entry,
-                                value=statement.right,
-                            )
-                            registry.register(setting_use_entry)
-        elif isinstance(declaration, TalonTagImportDeclaration):
-            # Register tag import:
-            tag_entry = TagImportEntry(
-                name=declaration.tag.text, file_or_module=talon_file_entry
-            )
-            registry.register(tag_entry)
+    if (
+        talon_file_entry.mtime is not None
+        and talon_file_path.stat().st_mtime > talon_file_entry.mtime
+    ):
+        ast = parse_file(package_entry.path / talon_file_path, raise_parse_error=True)
+        assert isinstance(ast, TalonSourceFile)
+        for declaration in ast.children:
+            if isinstance(declaration, TalonMatches):
+                # Register matches:
+                assert talon_file_entry.matches is None
+                talon_file_entry.matches = declaration
+            elif isinstance(declaration, TalonCommandDeclaration):
+                # Register command:
+                command_entry = CommandEntry(file=talon_file_entry, ast=declaration)
+                registry.register(command_entry)
+            elif isinstance(declaration, TalonSettingsDeclaration):
+                # Register settings:
+                for child in declaration.children:
+                    if isinstance(child, TalonBlock):
+                        for statement in child.children:
+                            if isinstance(statement, TalonAssignmentStatement):
+                                setting_use_entry = SettingValueEntry(
+                                    name=statement.left.text,
+                                    file_or_module=talon_file_entry,
+                                    value=statement.right,
+                                )
+                                registry.register(setting_use_entry)
+            elif isinstance(declaration, TalonTagImportDeclaration):
+                # Register tag import:
+                tag_entry = TagImportEntry(
+                    name=declaration.tag.text, file_or_module=talon_file_entry
+                )
+                registry.register(tag_entry)
 
     return talon_file_entry
 
 
 def analyse_python_file(
-    registry: Registry, python_file: pathlib.Path, package_entry: PackageEntry
+    registry: Registry, python_file_path: pathlib.Path, package_entry: PackageEntry
 ) -> PythonFileEntry:
 
-    # Register file:
-    python_file_entry = PythonFileEntry(package=package_entry, path=python_file)
-    registry.register(python_file_entry)
+    # Retrieve or create file entry:
+    def _get_file_entry() -> PythonFileEntry:
+        new_file_entry = PythonFileEntry(package=package_entry, path=python_file_path)
+        old_file_entry = registry.files.get(new_file_entry.name, None)
+        if old_file_entry:
+            assert isinstance(old_file_entry, PythonFileEntry)
+            return old_file_entry
+        else:
+            registry.register(new_file_entry)
+            return new_file_entry
+
+    python_file_entry = _get_file_entry()
 
     # Process file (passes control to talondoc.shims.*):
-    module_name = ".".join([package_entry.name, *python_file.with_suffix("").parts])
+    module_name = ".".join(
+        [package_entry.name, *python_file_path.with_suffix("").parts]
+    )
     importlib.import_module(name=module_name, package=package_entry.name)
 
     return python_file_entry

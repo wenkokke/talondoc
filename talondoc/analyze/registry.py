@@ -315,7 +315,6 @@ class StandaloneRegistry(Registry):
                 _LOGGER.exception(e)
             else:
                 self.functions[entry.resolved_name] = entry
-
         elif isinstance(entry, CallbackEntry):
             # Callbacks are TEMPORARY DATA, and are stored as lists under their event codes:
             self.callbacks.setdefault(entry.event_code, []).append(entry)
