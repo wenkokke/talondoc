@@ -1,6 +1,6 @@
 import importlib
 import pathlib
-import typing
+from typing import Optional
 
 from tree_sitter_talon import (
     ParseError,
@@ -49,7 +49,7 @@ def analyse_package(
     registry: Registry,
     package_dir: pathlib.Path,
     *,
-    package_name: typing.Optional[str] = None,
+    package_name: Optional[str] = None,
     include: tuple[str, ...] = (),
     exclude: tuple[str, ...] = (),
     trigger: tuple[str, ...] = (),

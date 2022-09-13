@@ -1,9 +1,9 @@
-import collections.abc
+from collections.abc import Iterable
 import dataclasses
 import re
-import typing
+from typing import Optional, Union
 
-import docstring_parser.google as docstring_google
+import docstring_parser
 
 from ..util.logging import getLogger
 
@@ -14,8 +14,8 @@ _LOGGER = getLogger(__name__)
 class InvalidInterpolation(Exception):
     """Exception raised when attempting to interpolate a multiline doc string."""
 
-    argument: typing.Optional["Desc"]
-    template: typing.Optional["StepsTemplate"] = None
+    argument: Optional["Desc"]
+    template: Optional["StepsTemplate"] = None
 
     def __str__(self) -> str:
         msg = f"Cannot interpolate '{repr(self.argument)}'"
@@ -31,7 +31,7 @@ class Desc:
         """
 
 
-DescLike = typing.Union[None, str, Desc, collections.abc.Iterable[Desc]]
+DescLike = Union[None, str, Desc, Iterable[Desc]]
 
 
 @dataclasses.dataclass(frozen=True)
@@ -55,7 +55,7 @@ class Step(Desc):
     The description of one step in a series of steps.
     """
 
-    desc: typing.Union[str, Value]
+    desc: Union[str, Value]
 
     def __str__(self) -> str:
         return str(self.desc)
@@ -84,7 +84,7 @@ class StepsTemplate(Desc):
     template: str
     names: tuple[str, ...]
 
-    def __call__(self, values: tuple[typing.Optional[Desc], ...]) -> Steps:
+    def __call__(self, values: tuple[Optional[Desc], ...]) -> Steps:
         ret = self.template
         for name, value in zip(self.names, values):
             if isinstance(value, Value):
@@ -100,9 +100,7 @@ class StepsTemplate(Desc):
         return Steps(steps=(Step(desc=str(self)),))
 
 
-def and_then(
-    desc1: typing.Optional[Desc], desc2: typing.Optional[Desc]
-) -> typing.Optional[Desc]:
+def and_then(desc1: Optional[Desc], desc2: Optional[Desc]) -> Optional[Desc]:
     if desc1 is None:
         return desc2
     elif desc2 is None:
@@ -113,8 +111,8 @@ def and_then(
         return Steps(steps=(*desc1.as_steps().steps, *desc2.as_steps().steps))
 
 
-def concat(*desclike: DescLike) -> typing.Optional[Desc]:
-    ret: typing.Optional[Desc] = None
+def concat(*desclike: DescLike) -> Optional[Desc]:
+    ret: Optional[Desc] = None
     for desc in desclike:
         if desc is None:
             pass
@@ -127,9 +125,9 @@ def concat(*desclike: DescLike) -> typing.Optional[Desc]:
     return ret
 
 
-def from_docstring(docstring: str) -> typing.Optional[Desc]:
+def from_docstring(docstring: str) -> Optional[Desc]:
     # Attempt to create a description:
-    desc: typing.Optional[Desc]
+    desc: Optional[Desc]
 
     # Handle docstrings of the form "Return XXX":
     return_value_desc_en = re.match("^[Rr]eturns? (.*)", docstring)
@@ -140,7 +138,7 @@ def from_docstring(docstring: str) -> typing.Optional[Desc]:
     # Handle Google-style docstrings:
     try:
         # Parse a Google-style docstring:
-        doc = docstring_google.parse(docstring)
+        doc = docstring_parser.parse(docstring)
 
         # Actions which document their parameters become
         # step templates that can interpolate their arguments:
@@ -157,7 +155,7 @@ def from_docstring(docstring: str) -> typing.Optional[Desc]:
             desc = Value(desc=doc.returns.description)
             return desc
 
-    except docstring_google.ParseError as e:
+    except docstring_parser.ParseError as e:
         pass
 
     # Treat the docstring as a series of steps:

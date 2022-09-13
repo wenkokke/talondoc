@@ -1,6 +1,5 @@
 import abc
 import dataclasses
-import itertools
 import pathlib
 from collections.abc import Callable
 from typing import (
