@@ -34,11 +34,10 @@ class ObjectShim:
     A simple shim which responds to any method.
     """
 
-    def register(self, event_code: EventCode, callback: Callable[..., Any]):
+    def register(self, event_code: EventCode, func: Callable[..., Any]):
         file = Registry.get_active_file()
-        callback_entry = CallbackEntry(
-            event_code=event_code, callback=callback, file=file
-        )
+        assert isinstance(file, PythonFileEntry)
+        callback_entry = CallbackEntry(file=file, func=func, event_code=event_code)
         Registry.get_active_global_registry().register(callback_entry)
 
     def __init__(self, *args, **kwargs):

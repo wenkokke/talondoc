@@ -202,7 +202,7 @@ class PythonFileEntry(FileEntry):
 class FunctionEntry(ObjectEntry):
     sort: ClassVar[str] = "function"
     file: PythonFileEntry
-    func: Callable[..., Any]
+    func: Callable[..., Any] = dataclasses.field(repr=False)
 
     @property
     def name(self) -> str:
@@ -217,19 +217,14 @@ EventCode = Union[int, str]
 
 
 @dataclasses.dataclass
-class CallbackEntry(ObjectEntry):
+class CallbackEntry(FunctionEntry):
     """
     Used to register callbacks into imported Python modules.
     """
 
     sort: ClassVar[str] = "callback"
+    func: Callable[..., None]
     event_code: EventCode
-    callback: Callable[..., None]
-    file: FileEntry = dataclasses.field(repr=False)
-
-    @property
-    def name(self) -> str:
-        return str(self.event_code)
 
 
 @dataclasses.dataclass
