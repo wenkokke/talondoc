@@ -184,8 +184,10 @@ class ObjectEntry(abc.ABC):
             file = self.get_file()
             assert file is not None
             if absolute:
+                # NOTE: relative to sphinx root
                 return (file.parent.path / file.path).resolve()
             else:
+                # NOTE: relative to package root
                 return file.path
 
 

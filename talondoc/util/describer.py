@@ -24,11 +24,16 @@ from tree_sitter_talon import (
     TalonVariable,
 )
 
-from talondoc.analyze.entries import ActionEntry, GroupEntry
-
+from ..analyze.entries import (
+    ActionEntry,
+    CanOverride,
+    GroupEntry,
+    ObjectEntry,
+    TagEntry,
+)
 from ..analyze.registry import Registry
-from ..util.logging import getLogger
 from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
+from .logging import getLogger
 
 _LOGGER = getLogger(__name__)
 
@@ -55,7 +60,7 @@ class TalonScriptDescriber:
         self,
         registry: Registry,
         *,
-        docstring_hook: Optional[Callable[[str], Optional[str]]] = None,
+        docstring_hook: Optional[Callable[[str, str], Optional[str]]] = None,
     ) -> None:
         self.registry = registry
         self.docstring_hook = docstring_hook
@@ -105,23 +110,34 @@ class TalonScriptDescriber:
     def _(self, ast: TalonSleepAction, **kwargs) -> Optional[Desc]:
         return None
 
+    def get_docstring(
+        self, sort: Union[type[TagEntry], type[CanOverride]], name: str
+    ) -> Optional[str]:
+        if self.docstring_hook:
+            docstring = self.docstring_hook(sort.sort, name)
+            if docstring:
+                return docstring
+        entry = self.registry.lookup(sort, name)
+        if entry:
+            return entry.get_docstring()
+        return None
+
     @describe.register
     def _(self, ast: TalonAction) -> Optional[Desc]:
         # TODO: resolve self.*
-        action_group_entry = self.registry.lookup(ActionEntry, ast.action_name.text)
-        if action_group_entry:
-            docstring = action_group_entry.get_docstring()
-            if docstring:
-                desc = from_docstring(docstring)
-                if isinstance(desc, StepsTemplate):
-                    desc = desc(
-                        tuple(
-                            self.describe(arg)
-                            for arg in ast.arguments.children
-                            if isinstance(arg, TalonExpression)
-                        )
+        name = ast.action_name.text
+        docstring = self.get_docstring(ActionEntry, name)
+        if docstring:
+            desc = from_docstring(docstring)
+            if isinstance(desc, StepsTemplate):
+                desc = desc(
+                    tuple(
+                        self.describe(arg)
+                        for arg in ast.arguments.children
+                        if isinstance(arg, TalonExpression)
                     )
-                return desc
+                )
+            return desc
         return None
 
     @describe.register

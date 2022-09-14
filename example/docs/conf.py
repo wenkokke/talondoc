@@ -25,9 +25,11 @@ extensions = ["talondoc.sphinx"]
 
 # -- Options for TalonDoc ----------------------------------------------------
 
-def talondoc_docstring_hook(qualified_name: str) -> Optional[str]:
-    return None
-
+# NOTE: 'talondoc_docstring_hook' can be a function or a dictionary
+#
+# def talondoc_docstring_hook(sort: str, name: str) -> Optional[str]:
+#     return None
+#
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
