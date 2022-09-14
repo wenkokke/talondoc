@@ -2,6 +2,7 @@ import abc
 import itertools
 from collections.abc import Iterator, Sequence
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, ClassVar, Optional, Union, cast, overload
 
 from ..util.logging import getLogger
@@ -26,8 +27,10 @@ from .entries import (
     ModuleEntry,
     ObjectEntry,
     PackageEntry,
+    PythonFileEntry,
     SettingEntry,
     TagEntry,
+    TalonFileEntry,
     resolve_name,
 )
 
@@ -74,6 +77,22 @@ class Registry:
     _active_package_entry: Optional[PackageEntry] = field(default=None, init=False)
 
     _active_file_entry: Optional[FileEntry] = field(default=None, init=False)
+
+    def file_entry(
+        self, cls: type[AnyFileEntry], package: PackageEntry, path: Path
+    ) -> AnyFileEntry:
+        """
+        Retrieve a file entry if it exists, or register a new file entry.
+        """
+        name = FileEntry.make_name(package, path)
+        file_entry = self.lookup(cls, name)
+        if file_entry:
+            self.active_file_entry = file_entry
+            return file_entry
+        else:
+            file_entry = cls(parent=package, path=path)  # type: ignore
+            self.register(file_entry)
+            return file_entry
 
     @property
     def active_package_entry(self) -> Optional[PackageEntry]:

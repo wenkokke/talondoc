@@ -102,31 +102,18 @@ def analyse_package(
 
 
 def analyse_talon_file(
-    registry: Registry, talon_file_path: Path, package_entry: PackageEntry
+    registry: Registry, path: Path, package: PackageEntry
 ) -> TalonFileEntry:
 
     # Retrieve or create file entry:
-    def _get_file_entry() -> TalonFileEntry:
-        file_entry_name = FileEntry.make_name(package_entry, talon_file_path)
-        old_file_entry = registry.lookup(TalonFileEntry, file_entry_name)
-        if old_file_entry:
-            _LOGGER.debug(f"[talondoc] skip file '{talon_file_path}'")
-            assert isinstance(old_file_entry, TalonFileEntry)
-            registry.active_file_entry = old_file_entry
-            return old_file_entry
-        else:
-            new_file_entry = TalonFileEntry(parent=package_entry, path=talon_file_path)
-            registry.register(new_file_entry)
-            return new_file_entry
-
-    talon_file_entry = _get_file_entry()
+    talon_file_entry = registry.file_entry(TalonFileEntry, package, path)
 
     # Process file:
     if (
         talon_file_entry.mtime is not None
-        and talon_file_path.stat().st_mtime > talon_file_entry.mtime
+        and path.stat().st_mtime > talon_file_entry.mtime
     ):
-        ast = parse_file(package_entry.path / talon_file_path, raise_parse_error=True)
+        ast = parse_file(package.path / path, raise_parse_error=True)
         assert isinstance(ast, TalonSourceFile)
         for declaration in ast.children:
             if isinstance(declaration, TalonMatches):
@@ -158,30 +145,14 @@ def analyse_talon_file(
 
 
 def analyse_python_file(
-    registry: Registry, python_file_path: Path, package_entry: PackageEntry
+    registry: Registry, path: Path, package: PackageEntry
 ) -> PythonFileEntry:
 
     # Retrieve or create file entry:
-    def _get_file_entry() -> PythonFileEntry:
-        file_entry_name = FileEntry.make_name(package_entry, python_file_path)
-        old_file_entry = registry.lookup(PythonFileEntry, file_entry_name)
-        if old_file_entry:
-            assert isinstance(old_file_entry, PythonFileEntry)
-            registry.active_file_entry = old_file_entry
-            return old_file_entry
-        else:
-            new_file_entry = PythonFileEntry(
-                parent=package_entry, path=python_file_path
-            )
-            registry.register(new_file_entry)
-            return new_file_entry
-
-    python_file_entry = _get_file_entry()
+    python_file_entry = registry.file_entry(PythonFileEntry, package, path)
 
     # Process file (passes control to talondoc.shims.*):
-    module_name = ".".join(
-        [package_entry.name, *python_file_path.with_suffix("").parts]
-    )
-    importlib.import_module(name=module_name, package=package_entry.name)
+    module_name = ".".join([package.name, *path.with_suffix("").parts])
+    importlib.import_module(name=module_name, package=package.name)
 
     return python_file_entry
