@@ -23,6 +23,7 @@ jobs:
 
             - name: Build Doc
               run: |
+                  poetry install --all-extras
                   make build-doc
                   touch example/docs/_build/html/.nojekyll
 
