@@ -108,7 +108,7 @@ def analyse_talon_file(
     # Retrieve or create file entry:
     talon_file_entry = registry.file_entry(TalonFileEntry, package, path)
 
-    # Process file:
+    # Process file, if newer:
     if (
         talon_file_entry.mtime is not None
         and path.stat().st_mtime > talon_file_entry.mtime
