@@ -217,7 +217,7 @@ class TalonDocObjectDescription(sphinx.directives.ObjectDescription, TalonDocDir
 class TalonCommandListDirective(TalonDocDirective):
     def find_package(self) -> PackageEntry:
         namespace = self.options.get("package")
-        candidate = self.talon.registry.latest_package
+        candidate = self.talon.registry.active_package_entry
         if candidate and (not namespace or candidate.namespace == namespace):
             return candidate
         candidate = self.talon.registry.packages.get(namespace, None)

@@ -9,7 +9,7 @@ import jinja2.sandbox
 
 from ..analyze import analyse_package
 from ..analyze.entries import PythonFileEntry, TalonFileEntry
-from ..analyze.registry import StandaloneRegistry
+from ..analyze.registry import Registry
 from ..util.progress_bar import ProgressBar
 
 
@@ -75,7 +75,7 @@ def generate(
     env.filters["underline"] = _underline
 
     # Analyse the package
-    registry = StandaloneRegistry()
+    registry = Registry()
     package_entry = analyse_package(
         registry=registry,
         package_dir=package_dir,

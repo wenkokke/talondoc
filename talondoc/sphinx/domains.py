@@ -1,7 +1,7 @@
 from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
 
-from ..analyze.registry import Registry, StandaloneRegistry
+from ..analyze.registry import Registry
 from ..sphinx.directives.command_hlist import TalonCommandHListDirective
 from ..sphinx.directives.command_table import TalonCommandTableDirective
 from ..util.logging import getLogger
@@ -28,7 +28,7 @@ class TalonDomain(Domain):
 
     def __init__(self, env: BuildEnvironment):
         super().__init__(env)
-        self.registry: Registry = StandaloneRegistry(
+        self.registry = Registry(
             data=self.data,
             temp_data=self.env.temp_data,
         )

@@ -1,6 +1,7 @@
 import importlib
-import pathlib
-from typing import Optional
+from collections.abc import Sequence
+from pathlib import Path
+from typing import Optional, cast
 
 from tree_sitter_talon import (
     ParseError,
@@ -19,10 +20,10 @@ from ..util.progress_bar import ProgressBar
 from .entries import (
     CallbackEntry,
     CommandEntry,
+    FileEntry,
     PackageEntry,
     PythonFileEntry,
-    SettingValueEntry,
-    TagImportEntry,
+    SettingEntry,
     TalonFileEntry,
 )
 from .registry import Registry
@@ -32,7 +33,7 @@ _LOGGER = getLogger(__name__)
 
 
 def include_file(
-    file_path: pathlib.Path,
+    file_path: Path,
     *,
     include: tuple[str, ...] = (),
     exclude: tuple[str, ...] = (),
@@ -46,7 +47,7 @@ def include_file(
 
 def analyse_package(
     registry: Registry,
-    package_dir: pathlib.Path,
+    package_dir: Path,
     *,
     package_name: Optional[str] = None,
     include: tuple[str, ...] = (),
@@ -57,13 +58,16 @@ def analyse_package(
 
     # Retrieve or create package entry:
     def _get_package_entry() -> PackageEntry:
-        new_package_entry = PackageEntry(name=package_name, path=package_dir.absolute())
+        patckage_path = package_dir.absolute()
         for old_package_entry in registry.packages.values():
             if (
-                old_package_entry.name == new_package_entry.name
-                and old_package_entry.path == new_package_entry.path
+                old_package_entry.name == package_name
+                and old_package_entry.path == patckage_path
             ):
+                _LOGGER.debug(f"[talondoc] skip package '{package_dir}'")
+                registry.active_package_entry = old_package_entry
                 return old_package_entry
+        new_package_entry = PackageEntry(name=package_name, path=patckage_path)
         registry.register(new_package_entry)
         return new_package_entry
 
@@ -89,28 +93,29 @@ def analyse_package(
 
         # Trigger callbacks:
         for event_code in trigger:
-            callback_entries = registry.lookup(f"callback:{event_code}")
-            if callback_entries is not None:
-                assert isinstance(callback_entries, list)
+            callback_entries = registry.lookup(CallbackEntry, event_code)
+            if callback_entries:
                 for callback_entry in callback_entries:
-                    assert isinstance(callback_entry, CallbackEntry)
-                    callback_entry.callback()
+                    callback_entry.func()
 
     return package_entry
 
 
 def analyse_talon_file(
-    registry: Registry, talon_file_path: pathlib.Path, package_entry: PackageEntry
+    registry: Registry, talon_file_path: Path, package_entry: PackageEntry
 ) -> TalonFileEntry:
 
     # Retrieve or create file entry:
     def _get_file_entry() -> TalonFileEntry:
-        new_file_entry = TalonFileEntry(package=package_entry, path=talon_file_path)
-        old_file_entry = registry.files.get(new_file_entry.name, None)
+        file_entry_name = FileEntry.make_name(package_entry, talon_file_path)
+        old_file_entry = registry.lookup(TalonFileEntry, file_entry_name)
         if old_file_entry:
+            _LOGGER.debug(f"[talondoc] skip file '{talon_file_path}'")
             assert isinstance(old_file_entry, TalonFileEntry)
+            registry.active_file_entry = old_file_entry
             return old_file_entry
         else:
+            new_file_entry = TalonFileEntry(parent=package_entry, path=talon_file_path)
             registry.register(new_file_entry)
             return new_file_entry
 
@@ -130,7 +135,7 @@ def analyse_talon_file(
                 talon_file_entry.matches = declaration
             elif isinstance(declaration, TalonCommandDeclaration):
                 # Register command:
-                command_entry = CommandEntry(file=talon_file_entry, ast=declaration)
+                command_entry = CommandEntry(parent=talon_file_entry, ast=declaration)
                 registry.register(command_entry)
             elif isinstance(declaration, TalonSettingsDeclaration):
                 # Register settings:
@@ -138,34 +143,36 @@ def analyse_talon_file(
                     if isinstance(child, TalonBlock):
                         for statement in child.children:
                             if isinstance(statement, TalonAssignmentStatement):
-                                setting_use_entry = SettingValueEntry(
+                                setting_use_entry = SettingEntry(
                                     name=statement.left.text,
-                                    file_or_module=talon_file_entry,
+                                    parent=talon_file_entry,
                                     value=statement.right,
                                 )
                                 registry.register(setting_use_entry)
             elif isinstance(declaration, TalonTagImportDeclaration):
                 # Register tag import:
-                tag_entry = TagImportEntry(
-                    name=declaration.tag.text, file_or_module=talon_file_entry
-                )
-                registry.register(tag_entry)
+                # TODO: add use entries
+                pass
 
     return talon_file_entry
 
 
 def analyse_python_file(
-    registry: Registry, python_file_path: pathlib.Path, package_entry: PackageEntry
+    registry: Registry, python_file_path: Path, package_entry: PackageEntry
 ) -> PythonFileEntry:
 
     # Retrieve or create file entry:
     def _get_file_entry() -> PythonFileEntry:
-        new_file_entry = PythonFileEntry(package=package_entry, path=python_file_path)
-        old_file_entry = registry.files.get(new_file_entry.name, None)
+        file_entry_name = FileEntry.make_name(package_entry, python_file_path)
+        old_file_entry = registry.lookup(PythonFileEntry, file_entry_name)
         if old_file_entry:
             assert isinstance(old_file_entry, PythonFileEntry)
+            registry.active_file_entry = old_file_entry
             return old_file_entry
         else:
+            new_file_entry = PythonFileEntry(
+                parent=package_entry, path=python_file_path
+            )
             registry.register(new_file_entry)
             return new_file_entry
 

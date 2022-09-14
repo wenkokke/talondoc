@@ -24,7 +24,7 @@ from tree_sitter_talon import (
     TalonVariable,
 )
 
-from talondoc.analyze.entries import ActionGroupEntry
+from talondoc.analyze.entries import ActionEntry, GroupEntry
 
 from ..analyze.registry import Registry
 from ..util.logging import getLogger
@@ -59,19 +59,6 @@ class TalonScriptDescriber:
     ) -> None:
         self.registry = registry
         self.docstring_hook = docstring_hook
-
-    def get_docstring(
-        self, qualified_name: str, *, namespace: Optional[str] = None
-    ) -> Optional[str]:
-        desc: Optional[str]
-        if self.docstring_hook:
-            desc = self.docstring_hook(qualified_name)
-            if desc:
-                return desc
-        obj = self.registry.lookup(qualified_name, namespace=namespace)
-        if obj:
-            return obj.get_docstring()
-        return None
 
     @singledispatchmethod
     def describe(self, ast: Node) -> Optional[Desc]:
@@ -121,18 +108,20 @@ class TalonScriptDescriber:
     @describe.register
     def _(self, ast: TalonAction) -> Optional[Desc]:
         # TODO: resolve self.*
-        docstring = self.get_docstring(f"action-group:{ast.action_name.text}")
-        if docstring:
-            desc = from_docstring(docstring)
-            if isinstance(desc, StepsTemplate):
-                desc = desc(
-                    tuple(
-                        self.describe(arg)
-                        for arg in ast.arguments.children
-                        if isinstance(arg, TalonExpression)
+        action_group_entry = self.registry.lookup(ActionEntry, ast.action_name.text)
+        if action_group_entry:
+            docstring = action_group_entry.get_docstring()
+            if docstring:
+                desc = from_docstring(docstring)
+                if isinstance(desc, StepsTemplate):
+                    desc = desc(
+                        tuple(
+                            self.describe(arg)
+                            for arg in ast.arguments.children
+                            if isinstance(arg, TalonExpression)
+                        )
                     )
-                )
-            return desc
+                return desc
         return None
 
     @describe.register
