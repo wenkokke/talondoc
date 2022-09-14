@@ -38,6 +38,7 @@ def generate(
     package_dir: Union[str, Path],
     *,
     package_name: Optional[str] = None,
+    sphinx_root: Union[None, str, Path] = None,
     output_dir: Union[None, str, Path] = None,
     template_dir: Union[None, str, Path] = None,
     include: tuple[str, ...] = (),
@@ -50,12 +51,17 @@ def generate(
     generate_index: bool = True,
 ):
     # Set defaults for arguments
-    package_dir = Path(package_dir) if isinstance(package_dir, str) else package_dir
+    if isinstance(package_dir, str):
+        package_dir = Path(package_dir)
     package_name = _default_package_name(package_name, package_dir)
-    if output_dir is None:
-        output_dir = Path.cwd()
-    elif isinstance(output_dir, str):
+    if isinstance(sphinx_root, str):
+        sphinx_root = Path(sphinx_root)
+    if isinstance(output_dir, str):
         output_dir = Path(output_dir)
+    if sphinx_root is None:
+        sphinx_root = output_dir if output_dir else Path.cwd()
+    if output_dir is None:
+        output_dir = sphinx_root
     project = project or package_name
     author = _default_author(author)
     release = release or "0.1.0"
@@ -98,7 +104,7 @@ def generate(
     }
 
     # Make package path relative to output_dir:
-    package_entry.path = Path(os.path.relpath(package_entry.path, start=output_dir))
+    package_entry.path = Path(os.path.relpath(package_entry.path, start=sphinx_root))
 
     # Render talon and python file entries:
     template_talon_file_entry = env.get_template("talon_file_entry.rst")

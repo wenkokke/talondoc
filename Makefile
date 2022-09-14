@@ -2,13 +2,9 @@ build:
 	poetry build
 
 build-doc:
-	@# NOTE: Always clean the environment, because 'analyze_package' does
-	@#       not use mtime to check if it should reanalyze a file, and throws
-	@#       duplicate object entry errors if it finds duplicates, even if they
-	@#       are defined in the same place in the same file.
-	poetry run sphinx-build -M "clean" "example/docs" "example/docs/_build"
 	poetry run talondoc autogen \
 		--output-dir example/docs/knausj_talon \
+		--sphinx-root example/docs \
 		--project 'knausj_talon' \
 		--package-name user \
 		--no-generate-conf \

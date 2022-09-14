@@ -1,6 +1,6 @@
 import abc
 import dataclasses
-from collections.abc import Callable, Iterator, Sequence
+from collections.abc import Callable, Iterator
 from pathlib import Path
 from typing import (
     Any,
@@ -102,6 +102,30 @@ class ObjectEntry(abc.ABC):
     def qualified_name(self) -> str:
         return f"{self.__class__.sort}:{self.resolved_name}"
 
+    def same_as(self, other: "ObjectEntry") -> bool:
+        if type(self) == type(other):
+            if isinstance(self, PackageEntry):
+                assert isinstance(other, PackageEntry)
+                return self.name == other.name and self.path == other.path
+            if isinstance(self, FileEntry):
+                assert isinstance(other, FileEntry)
+                return self.path == other.path
+            else:
+                return (
+                    self.resolved_name == other.resolved_name
+                    and self.get_parent().same_as(other.get_parent())
+                )
+        else:
+            return False
+
+    def newer_than(self, other: Union[float, "ObjectEntry"]) -> bool:
+        assert self.mtime is not None, f"missing mtime on {self.__class__.sort}"
+        if isinstance(other, float):
+            return self.mtime >= other
+        else:
+            assert other.mtime is not None, f"missing mtime on {other.__class__.sort}"
+            return self.mtime >= other.mtime
+
     def get_docstring(self) -> Optional[str]:
         if hasattr(self, "desc"):
             return cast(Optional[str], object.__getattribute__(self, "desc"))
@@ -115,7 +139,7 @@ class ObjectEntry(abc.ABC):
     def get_file(self) -> Optional["FileEntry"]:
         if isinstance(self, PackageEntry):
             return None
-        if isinstance(self, FileEntry):
+        elif isinstance(self, FileEntry):
             return self
         else:
             return self.get_parent().get_file()
@@ -128,10 +152,15 @@ class ObjectEntry(abc.ABC):
             raise ValueError(self, e)
 
     def get_mtime(self) -> float:
-        if isinstance(self, GroupEntry):
-            return max(entry.get_mtime() for entry in self.entries() if entry)
-        else:
-            return self.get_path().stat().st_mtime
+        try:
+            if isinstance(self, GroupEntry):
+                return max(entry.get_mtime() for entry in self.entries() if entry)
+            else:
+                return self.get_path(absolute=True).stat().st_mtime
+        except FileNotFoundError as e:
+            raise AssertionError(
+                f"Could not stat '{self.__class__.sort}': {self.get_path(absolute=True)}"
+            )
 
     def get_package(self) -> "PackageEntry":
         if isinstance(self, PackageEntry):
@@ -148,13 +177,16 @@ class ObjectEntry(abc.ABC):
         except AttributeError as e:
             raise ValueError(self, e)
 
-    def get_path(self) -> Path:
+    def get_path(self, absolute: bool = False) -> Path:
         if isinstance(self, PackageEntry):
             return self.path
         else:
             file = self.get_file()
             assert file is not None
-            return file.parent.path / file.path
+            if absolute:
+                return (file.parent.path / file.path).resolve()
+            else:
+                return file.path
 
 
 CanOverride = TypeVar("CanOverride", bound="CanOverrideEntry")
@@ -192,10 +224,28 @@ class GroupEntry(ObjectEntry, Generic[CanOverride]):
                 f"- entry name: {entry.resolved_name}",
             ]
         )
-        if isinstance(entry.parent, ContextEntry):
-            self.overrides.append(entry)
-        elif isinstance(entry.parent, TalonFileEntry):
-            self.overrides.append(entry)
+        if isinstance(entry.parent, (ContextEntry, TalonFileEntry)):
+            buffer: list[CanOverride] = []
+            replaced_older: bool = False
+            for override in self.overrides:
+                if entry.same_as(override):
+                    if entry.newer_than(override):
+                        replaced_older = True
+                        buffer.append(entry)
+                    else:
+                        replaced_older = True
+                        assert entry == override, "\n".join(
+                            [
+                                f"Found duplicate {entry.__class__.sort}:",
+                                f"- {repr(entry)}",
+                                f"- {repr(override)}",
+                            ]
+                        )
+                else:
+                    buffer.append(override)
+            if not replaced_older:
+                buffer.append(entry)
+            self.overrides = buffer
         else:
             if self.default is not None:
                 e = DuplicateEntry(self.default, entry)
@@ -262,6 +312,7 @@ class PackageEntry(ObjectEntry):
         self.path = path
         self.files = files
         self.name = PackageEntry.make_name(name, path)
+        super().__post_init__(path, files, name=name)
 
     @staticmethod
     def make_name(name: Optional[str], path: Path) -> str:
@@ -278,6 +329,7 @@ class FileEntry(ObjectEntry):
     path: Path
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         try:
             index = self.parent.files.index(self)
             _LOGGER.info(
@@ -329,6 +381,7 @@ class ModuleEntry(ObjectEntry):
     index: int = dataclasses.field(init=False)
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         self.index = len(self.parent.modules)
         self.parent.modules.append(self)
 
@@ -341,12 +394,6 @@ class ModuleEntry(ObjectEntry):
                 str(self.index),
             ]
         )
-
-    def __eq__(self, other):
-        if type(self) == type(other):
-            assert isinstance(other, ModuleEntry)
-            return self.get_path() == other.get_path()
-        return False
 
 
 @dataclasses.dataclass
@@ -367,6 +414,7 @@ class CommandEntry(ObjectEntry):
     ast: tree_sitter_talon.TalonCommandDeclaration
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         self._index = len(self.parent.commands)
         assert self not in self.parent.commands
         self.parent.commands.append(self)
@@ -374,14 +422,6 @@ class CommandEntry(ObjectEntry):
     @property
     def name(self) -> str:
         return f"{self.parent.name}.{self._index}"
-
-    def __eq__(self, other):
-        if isinstance(other, CommandEntry):
-            return (
-                self.get_path() == other.get_path()
-                and self.ast.start_position == other.ast.start_position
-            )
-        return False
 
 
 ###############################################################################
@@ -402,6 +442,7 @@ class ActionEntry(CanOverrideEntry):
     func: Optional[str]
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         # NOTE: fail fast if func is a <function>
         assert self.func is None or isinstance(self.func, str), "\n".join(
@@ -421,6 +462,7 @@ class CaptureEntry(CanOverrideEntry):
     func: Optional[str]
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         # NOTE: fail fast if func is a <function>
         assert self.func is None or isinstance(self.func, str), "\n".join(
@@ -439,6 +481,7 @@ class ListEntry(CanOverrideEntry):
     value: Optional[ListValue] = None
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         self.value = normalize_list_value(self.value)
 
@@ -451,6 +494,7 @@ class ModeEntry(ObjectEntry):
     desc: Optional[str] = None
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         pass
 
@@ -464,6 +508,7 @@ class SettingEntry(CanOverrideEntry):
     value: Optional[Union[SettingValue, tree_sitter_talon.TalonExpression]] = None
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         pass
 
@@ -476,6 +521,7 @@ class TagEntry(ObjectEntry):
     desc: Optional[str] = None
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         pass
 

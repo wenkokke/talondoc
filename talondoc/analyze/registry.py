@@ -1,6 +1,7 @@
 import abc
 import itertools
 from collections.abc import Iterator, Sequence
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, ClassVar, Optional, Union, cast, overload
@@ -78,45 +79,68 @@ class Registry:
 
     _active_file_entry: Optional[FileEntry] = field(default=None, init=False)
 
+    @contextmanager
     def package_entry(
         self,
         name: Optional[str],
         path: Path,
-    ) -> tuple[bool, PackageEntry]:
+    ) -> Iterator[tuple[bool, PackageEntry]]:
         """
         Retrieve a package entry if it exists, or register a new package entry.
         """
-        assert path.is_absolute()
-        name = PackageEntry.make_name(name, path)
-        for package_entry_name in list(self.packages.keys()):
-            package_entry = self.packages[package_entry_name]
-            if package_entry.name == name and package_entry.path == path:
-                if package_entry.mtime and path.stat().st_mtime <= package_entry.mtime:
-                    self.active_package_entry = package_entry
-                    return (True, package_entry)
-                else:
-                    del self.packages[package_entry_name]
-        package_entry = PackageEntry(name=name, path=path)
-        self.register(package_entry)
-        return (False, package_entry)
+        try:
+            assert path.is_absolute()
+            name = PackageEntry.make_name(name, path)
+            found_package_entry: bool = False
+            for package_entry_name in list(self.packages.keys()):
+                package_entry = self.packages[package_entry_name]
+                if package_entry.name == name and package_entry.path == path:
+                    if (
+                        package_entry.mtime
+                        and path.stat().st_mtime <= package_entry.mtime
+                    ):
+                        self.active_package_entry = package_entry
+                        found_package_entry = True
+                        yield (True, package_entry)
+                    else:
+                        del self.packages[package_entry_name]
+            if not found_package_entry:
+                package_entry = PackageEntry(name=name, path=path)
+                self.register(package_entry)
+                self.active_package_entry = package_entry
+                found_package_entry = True
+                yield (False, package_entry)
+        finally:
+            # NOTE: a package remains active until the next package is opened
+            pass
 
+    @contextmanager
     def file_entry(
         self, cls: type[AnyFileEntry], package: PackageEntry, path: Path
-    ) -> tuple[bool, AnyFileEntry]:
+    ) -> Iterator[tuple[bool, AnyFileEntry]]:
         """
         Retrieve a file entry if it exists, or register a new file entry.
         """
-        name = FileEntry.make_name(package, path)
-        file_entry = self.lookup(cls, name)
-        if file_entry:
-            if file_entry.mtime and path.stat().st_mtime <= file_entry.mtime:
+        try:
+            name = FileEntry.make_name(package, path)
+            resolved_path = (package.path / path).resolve()
+            file_entry = self.lookup(cls, name)
+            found_file_entry: bool = False
+            if file_entry:
+                if file_entry.newer_than(resolved_path.stat().st_mtime):
+                    self.active_file_entry = file_entry
+                    found_file_entry = True
+                    yield (True, file_entry)
+                else:
+                    del self.files[name]
+            if not found_file_entry:
+                file_entry = cls(parent=package, path=path)  # type: ignore
+                self.register(file_entry)
                 self.active_file_entry = file_entry
-                return (True, file_entry)
-            else:
-                del self.files[name]
-        file_entry = cls(parent=package, path=path)  # type: ignore
-        self.register(file_entry)
-        return (False, file_entry)
+                found_file_entry = True
+                yield (False, file_entry)
+        finally:
+            self.active_file_entry = None
 
     @property
     def active_package_entry(self) -> Optional[PackageEntry]:
@@ -236,14 +260,6 @@ class Registry:
         """
         Register an object entry.
         """
-        # Track the current package:
-        if isinstance(entry, PackageEntry):
-            self._active_package_entry = entry
-
-        # Track the current file:
-        if isinstance(entry, FileEntry):
-            self._active_file_entry = entry
-
         # Store the entry:
         if isinstance(entry, FunctionEntry):
             # Functions are TEMPORARY DATA, and are stored under their qualified names:

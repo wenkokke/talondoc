@@ -30,11 +30,14 @@ class TalonPackageDirective(TalonDocDirective):
         # Always reread documents with Talon package directives.
         self.env.note_reread()
 
+        srcdir = Path(self.env.srcdir)
+        package_dir = srcdir / self.arguments[0].strip()
+
         # Analyse the referenced Talon package:
         try:
             analyse_package(
                 registry=self.talon.registry,
-                package_dir=Path(self.arguments[0].strip()),
+                package_dir=package_dir,
                 package_name=self.options.get("name", "user"),
                 include=tuple(self.options.get("include", ())),
                 exclude=tuple(self.options.get("exclude", ())),

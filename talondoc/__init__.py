@@ -33,6 +33,10 @@ def cli():
     type=click.Path(),
 )
 @click.option(
+    "--sphinx-root",
+    type=click.Path(),
+)
+@click.option(
     "-t",
     "--template-dir",
     type=click.Path(),
@@ -83,6 +87,7 @@ def autogen(
     package_dir: str,
     *,
     output_dir: str,
+    sphinx_root: str,
     template_dir: Optional[str],
     package_name: Optional[str],
     include: list[str],
@@ -97,6 +102,7 @@ def autogen(
     generate(
         package_dir,
         output_dir=output_dir,
+        sphinx_root=sphinx_root,
         template_dir=template_dir,
         package_name=package_name,
         include=tuple(include),
