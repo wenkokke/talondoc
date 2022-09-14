@@ -1,7 +1,7 @@
 user.text.text_navigation
 =========================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: text/text_navigation.talon
   :exclude: **

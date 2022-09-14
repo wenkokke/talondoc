@@ -1,7 +1,7 @@
 user.apps.platforms.win.sumatrapdf.sumatrapdf
 =============================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/platforms/win/sumatrapdf/sumatrapdf.talon
   :exclude: **

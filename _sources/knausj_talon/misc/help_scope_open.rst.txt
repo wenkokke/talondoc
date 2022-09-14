@@ -1,7 +1,7 @@
 user.misc.help_scope_open
 =========================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: misc/help_scope_open.talon
   :exclude: **

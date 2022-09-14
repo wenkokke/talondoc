@@ -1,7 +1,7 @@
 user.emoji.emoji
 ================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: emoji/emoji.talon
   :exclude: **

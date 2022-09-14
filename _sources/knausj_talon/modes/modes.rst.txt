@@ -1,7 +1,7 @@
 user.modes.modes
 ================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: modes/modes.talon
   :exclude: **

@@ -1,7 +1,7 @@
 user.misc.abbreviate
 ====================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: misc/abbreviate.talon
   :exclude: **

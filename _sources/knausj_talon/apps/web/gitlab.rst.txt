@@ -1,7 +1,7 @@
 user.apps.web.gitlab
 ====================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/web/gitlab.talon
   :exclude: **

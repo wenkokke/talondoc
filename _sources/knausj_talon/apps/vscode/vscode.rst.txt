@@ -1,7 +1,7 @@
 user.apps.vscode.vscode
 =======================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/vscode/vscode.talon
   :exclude: **

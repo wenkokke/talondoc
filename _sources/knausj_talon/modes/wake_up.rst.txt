@@ -1,7 +1,7 @@
 user.modes.wake_up
 ==================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: modes/wake_up.talon
   :exclude: **

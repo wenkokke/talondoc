@@ -1,7 +1,7 @@
 user.apps.platforms.mac.iterm.iterm
 ===================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/platforms/mac/iterm/iterm.talon
   :exclude: **

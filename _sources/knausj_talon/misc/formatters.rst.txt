@@ -1,7 +1,7 @@
 user.misc.formatters
 ====================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: misc/formatters.talon
   :exclude: **

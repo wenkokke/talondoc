@@ -1,7 +1,7 @@
 user.misc.git_add_patch
 =======================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: misc/git_add_patch.talon
   :exclude: **

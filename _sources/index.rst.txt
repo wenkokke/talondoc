@@ -15,12 +15,12 @@ Python files in our example package, ``examples/knausj_talon``, we use the
 
 .. code-block:: rst
 
-  .. talon:package:: example/knausj_talon
+  .. talon:package:: ../knausj_talon
     :name: user
     :exclude: conftest.py, tests/**
     :trigger: ready
 
-.. talon:package:: example/knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :exclude: conftest.py, tests/**
   :trigger: ready

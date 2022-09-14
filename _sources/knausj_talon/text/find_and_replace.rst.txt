@@ -1,7 +1,7 @@
 user.text.find_and_replace
 ==========================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: text/find_and_replace.talon
   :exclude: **

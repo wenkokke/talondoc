@@ -1,7 +1,7 @@
 user.apps.discord.discord
 =========================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/discord/discord.talon
   :exclude: **

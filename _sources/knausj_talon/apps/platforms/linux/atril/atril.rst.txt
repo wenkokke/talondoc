@@ -1,7 +1,7 @@
 user.apps.platforms.linux.atril.atril
 =====================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/platforms/linux/atril/atril.talon
   :exclude: **

@@ -1,7 +1,7 @@
 user.lang.tags.imperative
 =========================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: lang/tags/imperative.talon
   :exclude: **

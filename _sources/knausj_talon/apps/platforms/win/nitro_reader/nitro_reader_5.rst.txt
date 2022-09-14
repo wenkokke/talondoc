@@ -1,7 +1,7 @@
 user.apps.platforms.win.nitro_reader.nitro_reader_5
 ===================================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/platforms/win/nitro_reader/nitro_reader_5.talon
   :exclude: **

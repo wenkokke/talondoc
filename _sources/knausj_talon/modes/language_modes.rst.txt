@@ -1,7 +1,7 @@
 user.modes.language_modes
 =========================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: modes/language_modes.talon
   :exclude: **

@@ -1,7 +1,7 @@
 user.apps.talon_repl
 ====================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/talon_repl.talon
   :exclude: **

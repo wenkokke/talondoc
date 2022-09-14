@@ -1,7 +1,7 @@
 user.apps.platforms.linux.taskwarrior
 =====================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/platforms/linux/taskwarrior.talon
   :exclude: **

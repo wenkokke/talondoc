@@ -1,7 +1,7 @@
 user.text.line_commands
 =======================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: text/line_commands.talon
   :exclude: **

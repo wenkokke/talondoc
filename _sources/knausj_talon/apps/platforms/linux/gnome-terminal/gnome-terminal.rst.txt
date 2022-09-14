@@ -1,7 +1,7 @@
 user.apps.platforms.linux.gnome-terminal.gnome-terminal
 =======================================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/platforms/linux/gnome-terminal/gnome-terminal.talon
   :exclude: **

@@ -1,7 +1,7 @@
 user.apps.web.twitter
 =====================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/web/twitter.talon
   :exclude: **

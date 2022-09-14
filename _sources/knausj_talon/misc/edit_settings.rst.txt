@@ -1,7 +1,7 @@
 user.misc.edit_settings
 =======================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: misc/edit_settings.talon
   :exclude: **

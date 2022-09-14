@@ -1,7 +1,7 @@
 user.apps.platforms.win.explorer.explorer
 =========================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/platforms/win/explorer/explorer.talon
   :exclude: **

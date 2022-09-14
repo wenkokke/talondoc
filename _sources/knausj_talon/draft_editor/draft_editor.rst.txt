@@ -1,7 +1,7 @@
 user.draft_editor.draft_editor
 ==============================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: draft_editor/draft_editor.talon
   :exclude: **

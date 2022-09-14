@@ -1,7 +1,7 @@
 user.misc.cancel
 ================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: misc/cancel.talon
   :exclude: **

@@ -1,7 +1,7 @@
 user.misc.multiple_cursors
 ==========================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: misc/multiple_cursors.talon
   :exclude: **

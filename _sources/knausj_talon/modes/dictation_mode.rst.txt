@@ -1,7 +1,7 @@
 user.modes.dictation_mode
 =========================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: modes/dictation_mode.talon
   :exclude: **

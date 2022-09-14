@@ -1,7 +1,7 @@
 user.apps.generic_snippets.generic_snippets
 ===========================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/generic_snippets/generic_snippets.talon
   :exclude: **

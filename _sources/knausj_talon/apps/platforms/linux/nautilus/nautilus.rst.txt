@@ -1,7 +1,7 @@
 user.apps.platforms.linux.nautilus.nautilus
 ===========================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/platforms/linux/nautilus/nautilus.talon
   :exclude: **

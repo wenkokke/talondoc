@@ -1,7 +1,7 @@
 user.misc.git
 =============
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: misc/git.talon
   :exclude: **

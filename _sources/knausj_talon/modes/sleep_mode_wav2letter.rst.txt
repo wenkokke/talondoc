@@ -1,7 +1,7 @@
 user.modes.sleep_mode_wav2letter
 ================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: modes/sleep_mode_wav2letter.talon
   :exclude: **

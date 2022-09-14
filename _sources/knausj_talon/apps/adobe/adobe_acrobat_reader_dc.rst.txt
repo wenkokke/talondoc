@@ -1,7 +1,7 @@
 user.apps.adobe.adobe_acrobat_reader_dc
 =======================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: apps/adobe/adobe_acrobat_reader_dc.talon
   :exclude: **

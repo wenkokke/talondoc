@@ -1,7 +1,7 @@
 user.misc.websites_and_search_engines
 =====================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: misc/websites_and_search_engines.talon
   :exclude: **
