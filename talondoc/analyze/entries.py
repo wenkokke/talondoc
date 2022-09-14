@@ -160,7 +160,7 @@ class ObjectEntry(abc.ABC):
 CanOverride = TypeVar("CanOverride", bound="CanOverrideEntry")
 
 
-@dataclasses.dataclass(eq=False)
+@dataclasses.dataclass
 class CanOverrideEntry(ObjectEntry):
     name: str
     parent: Union["FileEntry", "ModuleEntry"] = dataclasses.field(repr=False)
@@ -172,7 +172,7 @@ class CanOverrideEntry(ObjectEntry):
             return GroupEntry(self.name, default=self, overrides=[])
 
 
-@dataclasses.dataclass(eq=False)
+@dataclasses.dataclass
 class GroupEntry(ObjectEntry, Generic[CanOverride]):
     sort: ClassVar[str] = "group"
     name: str
@@ -196,11 +196,10 @@ class GroupEntry(ObjectEntry, Generic[CanOverride]):
             self.overrides.append(entry)
         elif isinstance(entry.parent, TalonFileEntry):
             self.overrides.append(entry)
-            if not isinstance(entry, SettingEntry):
-                _LOGGER.error(f"Talon file cannot override a {entry.__class__.sort}")
         else:
             if self.default is not None:
-                _LOGGER.error(str(DuplicateEntry(self.default, entry)))
+                e = DuplicateEntry(self.default, entry)
+                _LOGGER.error(str(e))
             self.default = entry
 
 
@@ -209,7 +208,7 @@ class GroupEntry(ObjectEntry, Generic[CanOverride]):
 ###############################################################################
 
 
-@dataclasses.dataclass(eq=False)
+@dataclasses.dataclass
 class FunctionEntry(ObjectEntry):
     sort: ClassVar[str] = "function"
     parent: "PythonFileEntry"
@@ -227,7 +226,7 @@ class FunctionEntry(ObjectEntry):
 EventCode = Union[int, str]
 
 
-@dataclasses.dataclass(eq=False)
+@dataclasses.dataclass
 class CallbackEntry(ObjectEntry):
     """
     Used to register callbacks into imported Python modules.
@@ -244,7 +243,9 @@ class CallbackEntry(ObjectEntry):
 ###############################################################################
 
 
-@dataclasses.dataclass(init=False, eq=False)
+@dataclasses.dataclass(
+    init=False,
+)
 class PackageEntry(ObjectEntry):
     sort: ClassVar[str] = "package"
     name: str
@@ -270,7 +271,7 @@ class PackageEntry(ObjectEntry):
 AnyFileEntry = TypeVar("AnyFileEntry", bound="FileEntry")
 
 
-@dataclasses.dataclass(eq=False)
+@dataclasses.dataclass
 class FileEntry(ObjectEntry):
     sort: ClassVar[str] = "file"
     parent: PackageEntry = dataclasses.field(repr=False)
@@ -300,7 +301,7 @@ class FileEntry(ObjectEntry):
         return FileEntry.make_name(self.parent, self.path)
 
 
-@dataclasses.dataclass(eq=False)
+@dataclasses.dataclass
 class TalonFileEntry(FileEntry):
     # TODO: extract docstring as desc
     commands: list["CommandEntry"] = dataclasses.field(default_factory=list)
@@ -308,7 +309,7 @@ class TalonFileEntry(FileEntry):
     settings: list["SettingEntry"] = dataclasses.field(default_factory=list)
 
 
-@dataclasses.dataclass(eq=False)
+@dataclasses.dataclass
 class PythonFileEntry(FileEntry):
     modules: list["ModuleEntry"] = dataclasses.field(default_factory=list)
 
@@ -320,7 +321,7 @@ class PythonFileEntry(FileEntry):
 AnyModuleEntry = TypeVar("AnyModuleEntry", bound="ModuleEntry")
 
 
-@dataclasses.dataclass(eq=False)
+@dataclasses.dataclass
 class ModuleEntry(ObjectEntry):
     sort: ClassVar[str] = "module"
     parent: PythonFileEntry = dataclasses.field(repr=False)
@@ -348,7 +349,7 @@ class ModuleEntry(ObjectEntry):
         return False
 
 
-@dataclasses.dataclass(eq=False)
+@dataclasses.dataclass
 class ContextEntry(ModuleEntry):
     sort: ClassVar[str] = "context"
     matches: Union[None, str, tree_sitter_talon.TalonMatches] = None
@@ -359,7 +360,7 @@ class ContextEntry(ModuleEntry):
 ###############################################################################
 
 
-@dataclasses.dataclass(eq=False)
+@dataclasses.dataclass
 class CommandEntry(ObjectEntry):
     sort: ClassVar[str] = "command"
     parent: TalonFileEntry = dataclasses.field(repr=False)
