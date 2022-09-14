@@ -57,32 +57,33 @@ def analyse_package(
 ) -> PackageEntry:
 
     # Retrieve or create package entry:
-    package_entry = registry.package_entry(package_name, package_dir.absolute())
+    cached, package_entry = registry.package_entry(package_name, package_dir.absolute())
 
-    with talon(registry, package=package_entry):
-        files = list(package_entry.path.glob("**/*"))
-        bar = ProgressBar(total=len(files), show=show_progress)
-        for file_path in files:
-            file_path = file_path.relative_to(package_entry.path)
-            if include_file(file_path, include=include, exclude=exclude):
-                try:
-                    if file_path.match("*.py"):
-                        bar.step(f" {file_path}")
-                        analyse_python_file(registry, file_path, package_entry)
-                    elif file_path.match("*.talon"):
-                        bar.step(f" {file_path}")
-                        analyse_talon_file(registry, file_path, package_entry)
-                    else:
-                        bar.step()
-                except ParseError as e:
-                    _LOGGER.exception(e)
+    if not cached:
+        with talon(registry, package=package_entry):
+            files = list(package_entry.path.glob("**/*"))
+            bar = ProgressBar(total=len(files), show=show_progress)
+            for file_path in files:
+                file_path = file_path.relative_to(package_entry.path)
+                if include_file(file_path, include=include, exclude=exclude):
+                    try:
+                        if file_path.match("*.py"):
+                            bar.step(f" {file_path}")
+                            analyse_python_file(registry, file_path, package_entry)
+                        elif file_path.match("*.talon"):
+                            bar.step(f" {file_path}")
+                            analyse_talon_file(registry, file_path, package_entry)
+                        else:
+                            bar.step()
+                    except ParseError as e:
+                        _LOGGER.error(str(e))
 
-        # Trigger callbacks:
-        for event_code in trigger:
-            callback_entries = registry.lookup(CallbackEntry, event_code)
-            if callback_entries:
-                for callback_entry in callback_entries:
-                    callback_entry.func()
+            # Trigger callbacks:
+            for event_code in trigger:
+                callback_entries = registry.lookup(CallbackEntry, event_code)
+                if callback_entries:
+                    for callback_entry in callback_entries:
+                        callback_entry.func()
 
     return package_entry
 
@@ -92,10 +93,10 @@ def analyse_talon_file(
 ) -> TalonFileEntry:
 
     # Retrieve or create file entry:
-    file_entry = registry.file_entry(TalonFileEntry, package, path)
+    cached, file_entry = registry.file_entry(TalonFileEntry, package, path)
 
-    # Process file, if newer:
-    if file_entry.mtime is not None and path.stat().st_mtime > file_entry.mtime:
+    # Process file:
+    if not cached:
         ast = parse_file(package.path / path, raise_parse_error=True)
         assert isinstance(ast, TalonSourceFile)
         for declaration in ast.children:
@@ -132,7 +133,7 @@ def analyse_python_file(
 ) -> PythonFileEntry:
 
     # Retrieve or create file entry:
-    file_entry = registry.file_entry(PythonFileEntry, package, path)
+    cached, file_entry = registry.file_entry(PythonFileEntry, package, path)
 
     # Process file (passes control to talondoc.shims.*):
     module_name = ".".join([package.name, *path.with_suffix("").parts])

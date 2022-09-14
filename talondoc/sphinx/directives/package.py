@@ -41,10 +41,10 @@ class TalonPackageDirective(TalonDocDirective):
                 trigger=tuple(self.options.get("trigger", ())),
             )
         except NoActiveRegistry as e:
-            _LOGGER.exception(e)
+            _LOGGER.error(str(e))
         except NoActivePackage as e:
-            _LOGGER.exception(e)
+            _LOGGER.error(str(e))
         except NoActiveFile as e:
-            _LOGGER.exception(e)
+            _LOGGER.error(str(e))
 
         return []

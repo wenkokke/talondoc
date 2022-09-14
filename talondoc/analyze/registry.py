@@ -82,35 +82,41 @@ class Registry:
         self,
         name: Optional[str],
         path: Path,
-    ) -> PackageEntry:
+    ) -> tuple[bool, PackageEntry]:
         """
         Retrieve a package entry if it exists, or register a new package entry.
         """
         assert path.is_absolute()
         name = PackageEntry.make_name(name, path)
-        for package_entry in self.packages.values():
+        for package_entry_name in list(self.packages.keys()):
+            package_entry = self.packages[package_entry_name]
             if package_entry.name == name and package_entry.path == path:
-                self.active_package_entry = package_entry
-                return package_entry
+                if package_entry.mtime and path.stat().st_mtime <= package_entry.mtime:
+                    self.active_package_entry = package_entry
+                    return (True, package_entry)
+                else:
+                    del self.packages[package_entry_name]
         package_entry = PackageEntry(name=name, path=path)
         self.register(package_entry)
-        return package_entry
+        return (False, package_entry)
 
     def file_entry(
         self, cls: type[AnyFileEntry], package: PackageEntry, path: Path
-    ) -> AnyFileEntry:
+    ) -> tuple[bool, AnyFileEntry]:
         """
         Retrieve a file entry if it exists, or register a new file entry.
         """
         name = FileEntry.make_name(package, path)
         file_entry = self.lookup(cls, name)
         if file_entry:
-            self.active_file_entry = file_entry
-            return file_entry
-        else:
-            file_entry = cls(parent=package, path=path)  # type: ignore
-            self.register(file_entry)
-            return file_entry
+            if file_entry.mtime and path.stat().st_mtime <= file_entry.mtime:
+                self.active_file_entry = file_entry
+                return (True, file_entry)
+            else:
+                del self.files[name]
+        file_entry = cls(parent=package, path=path)  # type: ignore
+        self.register(file_entry)
+        return (False, file_entry)
 
     @property
     def active_package_entry(self) -> Optional[PackageEntry]:
@@ -243,7 +249,7 @@ class Registry:
             # Functions are TEMPORARY DATA, and are stored under their qualified names:
             if entry.resolved_name in self.functions:
                 e = DuplicateEntry(entry, self.functions[entry.resolved_name])
-                _LOGGER.exception(e)
+                _LOGGER.error(str(e))
             else:
                 self.functions[entry.resolved_name] = entry
         elif isinstance(entry, CallbackEntry):
@@ -257,7 +263,7 @@ class Registry:
                 try:
                     object_group.append(entry)
                 except DuplicateEntry as e:
-                    _LOGGER.exception(e)
+                    _LOGGER.error(str(e))
             else:
                 object_groups[entry.resolved_name] = entry.group()
         elif isinstance(entry, CommandEntry):

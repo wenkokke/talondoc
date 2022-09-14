@@ -36,13 +36,27 @@ class DuplicateEntry(Exception):
     entry2: "ObjectEntry"
 
     def __str__(self) -> str:
-        return "\n".join(
-            [
-                f"Action '{self.entry1.get_name()}' is declared by multiple modules:",
-                f"-  {self.entry1.get_path()}",
-                f"-  {self.entry2.get_path()}",
-            ]
-        )
+        sort = self.entry1.__class__.sort.capitalize()
+        name = self.entry1.get_name()
+        parent1 = self.entry1.get_parent().sort
+        parent2 = self.entry1.get_parent().sort
+        path1 = self.entry1.get_path()
+        path2 = self.entry2.get_path()
+        if parent1 == parent2 and path1 == path2:
+            return "\n".join(
+                [
+                    f"{sort} '{name}' is declared twice in the same {parent1}:",
+                    f"- {parent1}: {path1}",
+                ]
+            )
+        else:
+            return "\n".join(
+                [
+                    f"{sort} '{name}' is declared twice:",
+                    f"- {parent1}: {path1}",
+                    f"- {parent2}: {path2}",
+                ]
+            )
 
 
 ###############################################################################
@@ -146,7 +160,7 @@ class ObjectEntry(abc.ABC):
 CanOverride = TypeVar("CanOverride", bound="CanOverrideEntry")
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(eq=False)
 class CanOverrideEntry(ObjectEntry):
     name: str
     parent: Union["FileEntry", "ModuleEntry"] = dataclasses.field(repr=False)
@@ -158,7 +172,7 @@ class CanOverrideEntry(ObjectEntry):
             return GroupEntry(self.name, default=self, overrides=[])
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(eq=False)
 class GroupEntry(ObjectEntry, Generic[CanOverride]):
     sort: ClassVar[str] = "group"
     name: str
@@ -180,12 +194,13 @@ class GroupEntry(ObjectEntry, Generic[CanOverride]):
         )
         if isinstance(entry.parent, ContextEntry):
             self.overrides.append(entry)
+        elif isinstance(entry.parent, TalonFileEntry):
+            self.overrides.append(entry)
+            if not isinstance(entry, SettingEntry):
+                _LOGGER.error(f"Talon file cannot override a {entry.__class__.sort}")
         else:
-            assert isinstance(
-                entry.parent, ModuleEntry
-            ), f"Entry does not belong to any module: {entry.parent}"
             if self.default is not None:
-                raise DuplicateEntry(self.default, entry)
+                _LOGGER.error(str(DuplicateEntry(self.default, entry)))
             self.default = entry
 
 
@@ -194,7 +209,7 @@ class GroupEntry(ObjectEntry, Generic[CanOverride]):
 ###############################################################################
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(eq=False)
 class FunctionEntry(ObjectEntry):
     sort: ClassVar[str] = "function"
     parent: "PythonFileEntry"
@@ -212,7 +227,7 @@ class FunctionEntry(ObjectEntry):
 EventCode = Union[int, str]
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(eq=False)
 class CallbackEntry(ObjectEntry):
     """
     Used to register callbacks into imported Python modules.
@@ -229,7 +244,7 @@ class CallbackEntry(ObjectEntry):
 ###############################################################################
 
 
-@dataclasses.dataclass(init=False)
+@dataclasses.dataclass(init=False, eq=False)
 class PackageEntry(ObjectEntry):
     sort: ClassVar[str] = "package"
     name: str
@@ -255,7 +270,7 @@ class PackageEntry(ObjectEntry):
 AnyFileEntry = TypeVar("AnyFileEntry", bound="FileEntry")
 
 
-@dataclasses.dataclass()
+@dataclasses.dataclass(eq=False)
 class FileEntry(ObjectEntry):
     sort: ClassVar[str] = "file"
     parent: PackageEntry = dataclasses.field(repr=False)
@@ -285,7 +300,7 @@ class FileEntry(ObjectEntry):
         return FileEntry.make_name(self.parent, self.path)
 
 
-@dataclasses.dataclass()
+@dataclasses.dataclass(eq=False)
 class TalonFileEntry(FileEntry):
     # TODO: extract docstring as desc
     commands: list["CommandEntry"] = dataclasses.field(default_factory=list)
@@ -293,7 +308,7 @@ class TalonFileEntry(FileEntry):
     settings: list["SettingEntry"] = dataclasses.field(default_factory=list)
 
 
-@dataclasses.dataclass()
+@dataclasses.dataclass(eq=False)
 class PythonFileEntry(FileEntry):
     modules: list["ModuleEntry"] = dataclasses.field(default_factory=list)
 
@@ -305,7 +320,7 @@ class PythonFileEntry(FileEntry):
 AnyModuleEntry = TypeVar("AnyModuleEntry", bound="ModuleEntry")
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(eq=False)
 class ModuleEntry(ObjectEntry):
     sort: ClassVar[str] = "module"
     parent: PythonFileEntry = dataclasses.field(repr=False)
@@ -326,8 +341,14 @@ class ModuleEntry(ObjectEntry):
             ]
         )
 
+    def __eq__(self, other):
+        if type(self) == type(other):
+            assert isinstance(other, ModuleEntry)
+            return self.get_path() == other.get_path()
+        return False
 
-@dataclasses.dataclass
+
+@dataclasses.dataclass(eq=False)
 class ContextEntry(ModuleEntry):
     sort: ClassVar[str] = "context"
     matches: Union[None, str, tree_sitter_talon.TalonMatches] = None
@@ -338,7 +359,7 @@ class ContextEntry(ModuleEntry):
 ###############################################################################
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(eq=False)
 class CommandEntry(ObjectEntry):
     sort: ClassVar[str] = "command"
     parent: TalonFileEntry = dataclasses.field(repr=False)
@@ -352,6 +373,14 @@ class CommandEntry(ObjectEntry):
     @property
     def name(self) -> str:
         return f"{self.parent.name}.{self._index}"
+
+    def __eq__(self, other):
+        if isinstance(other, CommandEntry):
+            return (
+                self.get_path() == other.get_path()
+                and self.ast.start_position == other.ast.start_position
+            )
+        return False
 
 
 ###############################################################################
