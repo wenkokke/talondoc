@@ -78,6 +78,24 @@ class Registry:
 
     _active_file_entry: Optional[FileEntry] = field(default=None, init=False)
 
+    def package_entry(
+        self,
+        name: Optional[str],
+        path: Path,
+    ) -> PackageEntry:
+        """
+        Retrieve a package entry if it exists, or register a new package entry.
+        """
+        assert path.is_absolute()
+        name = PackageEntry.make_name(name, path)
+        for package_entry in self.packages.values():
+            if package_entry.name == name and package_entry.path == path:
+                self.active_package_entry = package_entry
+                return package_entry
+        package_entry = PackageEntry(name=name, path=path)
+        self.register(package_entry)
+        return package_entry
+
     def file_entry(
         self, cls: type[AnyFileEntry], package: PackageEntry, path: Path
     ) -> AnyFileEntry:

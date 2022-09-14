@@ -57,21 +57,7 @@ def analyse_package(
 ) -> PackageEntry:
 
     # Retrieve or create package entry:
-    def _get_package_entry() -> PackageEntry:
-        patckage_path = package_dir.absolute()
-        for old_package_entry in registry.packages.values():
-            if (
-                old_package_entry.name == package_name
-                and old_package_entry.path == patckage_path
-            ):
-                _LOGGER.debug(f"[talondoc] skip package '{package_dir}'")
-                registry.active_package_entry = old_package_entry
-                return old_package_entry
-        new_package_entry = PackageEntry(name=package_name, path=patckage_path)
-        registry.register(new_package_entry)
-        return new_package_entry
-
-    package_entry = _get_package_entry()
+    package_entry = registry.package_entry(package_name, package_dir.absolute())
 
     with talon(registry, package=package_entry):
         files = list(package_entry.path.glob("**/*"))

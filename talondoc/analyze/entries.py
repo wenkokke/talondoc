@@ -245,7 +245,11 @@ class PackageEntry(ObjectEntry):
     ):
         self.path = path
         self.files = files
-        self.name = name or self.path.parts[-1]
+        self.name = PackageEntry.make_name(name, path)
+
+    @staticmethod
+    def make_name(name: Optional[str], path: Path) -> str:
+        return name or path.parts[-1]
 
 
 AnyFileEntry = TypeVar("AnyFileEntry", bound="FileEntry")
