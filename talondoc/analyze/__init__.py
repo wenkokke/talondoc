@@ -106,23 +106,20 @@ def analyse_talon_file(
 ) -> TalonFileEntry:
 
     # Retrieve or create file entry:
-    talon_file_entry = registry.file_entry(TalonFileEntry, package, path)
+    file_entry = registry.file_entry(TalonFileEntry, package, path)
 
     # Process file, if newer:
-    if (
-        talon_file_entry.mtime is not None
-        and path.stat().st_mtime > talon_file_entry.mtime
-    ):
+    if file_entry.mtime is not None and path.stat().st_mtime > file_entry.mtime:
         ast = parse_file(package.path / path, raise_parse_error=True)
         assert isinstance(ast, TalonSourceFile)
         for declaration in ast.children:
             if isinstance(declaration, TalonMatches):
                 # Register matches:
-                assert talon_file_entry.matches is None
-                talon_file_entry.matches = declaration
+                assert file_entry.matches is None
+                file_entry.matches = declaration
             elif isinstance(declaration, TalonCommandDeclaration):
                 # Register command:
-                command_entry = CommandEntry(parent=talon_file_entry, ast=declaration)
+                command_entry = CommandEntry(parent=file_entry, ast=declaration)
                 registry.register(command_entry)
             elif isinstance(declaration, TalonSettingsDeclaration):
                 # Register settings:
@@ -132,7 +129,7 @@ def analyse_talon_file(
                             if isinstance(statement, TalonAssignmentStatement):
                                 setting_use_entry = SettingEntry(
                                     name=statement.left.text,
-                                    parent=talon_file_entry,
+                                    parent=file_entry,
                                     value=statement.right,
                                 )
                                 registry.register(setting_use_entry)
@@ -141,7 +138,7 @@ def analyse_talon_file(
                 # TODO: add use entries
                 pass
 
-    return talon_file_entry
+    return file_entry
 
 
 def analyse_python_file(
@@ -149,10 +146,10 @@ def analyse_python_file(
 ) -> PythonFileEntry:
 
     # Retrieve or create file entry:
-    python_file_entry = registry.file_entry(PythonFileEntry, package, path)
+    file_entry = registry.file_entry(PythonFileEntry, package, path)
 
     # Process file (passes control to talondoc.shims.*):
     module_name = ".".join([package.name, *path.with_suffix("").parts])
     importlib.import_module(name=module_name, package=package.name)
 
-    return python_file_entry
+    return file_entry
