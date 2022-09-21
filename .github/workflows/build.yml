@@ -43,8 +43,13 @@ jobs:
               run: poetry build -vvv --format=${{ matrix.build-format }}
 
             - name: Build & Test
-              run: tox --skip-missing-interpreters
+              run: tox --skip-missing
 
+            - name: Build Doc
+              run: |
+                  poetry install --all-extras
+                  make build-doc
+                  
             - name: Upload wheel
               if: ${{ matrix.build-format }} == 'wheel'
               uses: actions/upload-artifact@v3
