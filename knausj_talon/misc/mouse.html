@@ -125,38 +125,56 @@
 <td><p>Start calibration</p></td>
 </tr>
 <tr class="row-odd"><td>touch</td>
-<td><p>Close the active grid
-Releases any held mouse buttons</p></td>
+<td><p>Releases any held mouse buttons</p></td>
 </tr>
 <tr class="row-even"><td>righty</td>
-<td><p>Close the active grid</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mouse_click</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># close the mouse grid if open</span>
+<span class="n">user</span><span class="o">.</span><span class="n">grid_close</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>mid click</td>
-<td><p>Close the active grid</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mouse_click</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># close the mouse grid</span>
+<span class="n">user</span><span class="o">.</span><span class="n">grid_close</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>&lt;user.modifiers&gt; touch</td>
 <td><p>Press “{modifiers}:down”.
-Press “{modifiers}:up”.
-Close the active grid</p></td>
+Press “{modifiers}:up”.</p></td>
 </tr>
 <tr class="row-odd"><td>&lt;user.modifiers&gt; righty</td>
 <td><p>Press “{modifiers}:down”.
-Press “{modifiers}:up”.
-Close the active grid</p></td>
+Press “{modifiers}:up”.</p></td>
 </tr>
 <tr class="row-even"><td>(dub click | duke)</td>
-<td><p>Close the active grid</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mouse_click</span><span class="p">()</span>
+<span class="n">mouse_click</span><span class="p">()</span>
+<span class="c1"># close the mouse grid</span>
+<span class="n">user</span><span class="o">.</span><span class="n">grid_close</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>(trip click | trip lick)</td>
-<td><p>Close the active grid</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mouse_click</span><span class="p">()</span>
+<span class="n">mouse_click</span><span class="p">()</span>
+<span class="n">mouse_click</span><span class="p">()</span>
+<span class="c1"># close the mouse grid</span>
+<span class="n">user</span><span class="o">.</span><span class="n">grid_close</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>left drag | drag</td>
-<td><p>Press and hold/release a specific mouse button for dragging
-Close the active grid</p></td>
+<td><p>Press and hold/release a specific mouse button for dragging</p></td>
 </tr>
 <tr class="row-odd"><td>right drag | righty drag</td>
-<td><p>Press and hold/release a specific mouse button for dragging
-Close the active grid</p></td>
+<td><p>Press and hold/release a specific mouse button for dragging</p></td>
 </tr>
 <tr class="row-even"><td>end drag | drag end</td>
 <td><p>Releases any held mouse buttons</p></td>

@@ -113,10 +113,16 @@
 <caption><span class="caption-text">user.modes.language_modes</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
 <tr class="row-odd"><td>^force {user.language_mode}$</td>
-<td><p>Sets the active language mode, and disables extension matching</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_set_language_mode</span><span class="p">(</span><span class="n">language_mode</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>^clear language modes$</td>
-<td><p>Clears the active language mode, and re-enables code.language: extension matching</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_clear_language_mode</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>[enable] debug mode</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mode</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="s2">&quot;user.gdb&quot;</span><span class="p">)</span>

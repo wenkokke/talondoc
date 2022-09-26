@@ -113,20 +113,32 @@
 <caption><span class="caption-text">user.mouse_grid.mouse_grid_always</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
 <tr class="row-odd"><td>mouse grid</td>
-<td><p>Brings up mouse grid
-Show mouse grid</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">grid_select_screen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">grid_activate</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>grid win</td>
-<td><p>Places the grid on the currently active window
-Show mouse grid</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">grid_place_window</span><span class="p">()</span>
+<span class="n">user</span><span class="o">.</span><span class="n">grid_activate</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>grid &lt;user.number_key&gt;+</td>
-<td><p>Show mouse grid
-Choose fields multiple times in a row</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">grid_activate</span><span class="p">()</span>
+<span class="n">user</span><span class="o">.</span><span class="n">grid_narrow_list</span><span class="p">(</span><span class="n">number_key_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>grid screen [&lt;number&gt;]</td>
-<td><p>Brings up mouse grid
-Show mouse grid</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">grid_select_screen</span><span class="p">(</span><span class="n">number</span> <span class="ow">or</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">grid_activate</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 </tbody>
 </table>
