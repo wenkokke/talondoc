@@ -30,8 +30,7 @@ class TalonShimFinder(MetaPathFinder):
             pass
 
         def load_module(cls, fullname: str):
-            # NOTE: Windows uses "talon.module" for "talon"
-            if fullname in ("talon", "talon.module"):
+            if fullname == "talon":
                 return TalonShim()
             else:
                 return ModuleShim(fullname)
