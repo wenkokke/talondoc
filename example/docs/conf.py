@@ -26,10 +26,10 @@ extensions = ["talondoc.sphinx"]
 
 # -- Options for TalonDoc ----------------------------------------------------
 
-TalonDocDocstringHook = Union[
-    Callable[[str, str], Optional[str]],
-    dict[str, dict[str, str]],
-]
+# TalonDocDocstringHook = Union[
+#     Callable[[str, str], Optional[str]],
+#     dict[str, dict[str, str]],
+# ]
 
 # def talondoc_docstring_hook(sort: str, name: str) -> Optional[str]:
 #     return None
