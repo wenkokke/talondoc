@@ -2,7 +2,7 @@
 
 IF NOT EXIST ".\env" (
   echo "Install virtualenv"
-  %AppData%\talon\.venv\Scripts\python.exe -m pip install --user virtualenv
+  %AppData%\talon\.venv\Scripts\python.exe -m pip install virtualenv
 
   echo "Create virtualenv for TalonDoc"
   %AppData%\talon\.venv\Scripts\python.exe -m venv env
