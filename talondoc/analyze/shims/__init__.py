@@ -7,9 +7,12 @@ from pathlib import Path
 from types import ModuleType
 from typing import ClassVar, Optional, Union
 
+from ...util.logging import getLogger
 from ..entries import PackageEntry
 from ..registry import Registry
 from .core import ModuleShim, TalonShim
+
+_LOGGER = getLogger(__name__)
 
 
 class TalonShimFinder(MetaPathFinder):
@@ -27,7 +30,8 @@ class TalonShimFinder(MetaPathFinder):
             pass
 
         def load_module(cls, fullname: str):
-            if fullname == "talon":
+            # NOTE: Windows uses "talon.module" for "talon"
+            if fullname in ("talon", "talon.module"):
                 return TalonShim()
             else:
                 return ModuleShim(fullname)
