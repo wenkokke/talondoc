@@ -4,6 +4,8 @@ import click
 
 from .autosummary.generate import generate
 
+from .preprocessing.builtin_extractor import extract_builtin
+
 __version__: str = "0.1.1"
 
 
@@ -108,6 +110,15 @@ def autogen(
         generate_conf=generate_conf,
         generate_index=generate_index,
     )
+
+
+@cli.command(name="preprocess")
+@click.argument(
+    "output_dir",
+    type=click.Path(),
+)
+def preprocess(output_dir: str):
+    extract_builtin(output_dir=output_dir)
 
 
 if __name__ == "__main__":
