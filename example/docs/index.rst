@@ -17,12 +17,12 @@ Python files in our example package, ``examples/knausj_talon``, we use the
 
   .. talon:package:: ../knausj_talon
     :name: user
-    :exclude: conftest.py, tests/**
+    :exclude: conftest.py, test/**
     :trigger: ready
 
 .. talon:package:: ../knausj_talon
   :name: user
-  :exclude: conftest.py, tests/**
+  :exclude: conftest.py, test/**
   :trigger: ready
 
 The ``talon:package`` directive takes a single argument, which is the path to
