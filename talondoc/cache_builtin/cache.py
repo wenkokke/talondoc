@@ -41,7 +41,7 @@ def send_to_repl(stdin: bytes) -> list[str]:
     return lines
 
 
-def extract_builtin(output_dir: Path = Path.cwd()):
+def cache_builtin(output_dir: Path = Path.cwd()):
     talon_version = send_to_repl(b"talon.app.version\n")[0].replace("'", "")
     lines = send_to_repl(b"actions.list()\n")
 
@@ -101,7 +101,7 @@ def extract_builtin(output_dir: Path = Path.cwd()):
             current_action = item.strip()
             current_description = []
 
-    output_path = Path.cwd() / ("talon_actions_dict" + talon_version + ".json")
+    output_path: Path = output_dir / ("talon_actions_dict" + talon_version + ".json")
     print(f"Writing built actions to {output_path}")
     with open(output_path, "w") as outfile:
         outfile.write(
