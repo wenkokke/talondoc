@@ -48,7 +48,7 @@ jobs:
             - name: Build Doc
               run: |
                   poetry install --all-extras
-                  make build-doc
+                  sh ./scripts/build-doc
                   
             - name: Upload wheel
               if: ${{ matrix.build-format }} == 'wheel'
