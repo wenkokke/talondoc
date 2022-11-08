@@ -8,8 +8,7 @@ build-doc:
 		--project 'knausj_talon' \
 		--package-name user \
 		--no-generate-conf \
-		--exclude '*.py' \
-		--exclude 'modes/wake_up_wav2letter.talon' \
+		--exclude '**/*.py' \
 		example/knausj_talon/
 	poetry run sphinx-build -M "html" "example/docs" "example/docs/_build"
 
