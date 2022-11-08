@@ -1,9 +1,0 @@
-user.apps.git.git
-=================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/git/git.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.git.git

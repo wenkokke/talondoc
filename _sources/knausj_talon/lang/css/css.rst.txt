@@ -1,7 +1,7 @@
 user.lang.css.css
 =================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: lang/css/css.talon
   :exclude: **

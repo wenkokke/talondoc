@@ -1,7 +1,7 @@
 user.apps.visualstudio.visual_studio
 ====================================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: apps/visualstudio/visual_studio.talon
   :exclude: **

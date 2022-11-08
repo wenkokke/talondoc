@@ -1,9 +1,0 @@
-user.apps.taskwarrior.taskwarrior_linux
-=======================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/taskwarrior/taskwarrior_linux.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.taskwarrior.taskwarrior_linux

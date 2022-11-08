@@ -1,9 +1,0 @@
-user.apps.termite.termite
-=========================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/termite/termite.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.termite.termite

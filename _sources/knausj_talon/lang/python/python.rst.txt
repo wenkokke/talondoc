@@ -1,7 +1,7 @@
 user.lang.python.python
 =======================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: lang/python/python.talon
   :exclude: **

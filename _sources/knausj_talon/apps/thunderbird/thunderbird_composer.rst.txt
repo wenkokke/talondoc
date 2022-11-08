@@ -1,7 +1,7 @@
 user.apps.thunderbird.thunderbird_composer
 ==========================================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: apps/thunderbird/thunderbird_composer.talon
   :exclude: **

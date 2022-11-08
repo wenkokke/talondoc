@@ -1,7 +1,7 @@
 user.lang.ruby.ruby
 ===================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: lang/ruby/ruby.talon
   :exclude: **

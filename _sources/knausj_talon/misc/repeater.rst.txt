@@ -1,0 +1,9 @@
+user.misc.repeater
+==================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: misc/repeater.talon
+  :exclude: **
+
+.. talon:command-table:: user.misc.repeater

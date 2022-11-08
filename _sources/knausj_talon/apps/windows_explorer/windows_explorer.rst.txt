@@ -1,9 +1,0 @@
-user.apps.windows_explorer.windows_explorer
-===========================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/windows_explorer/windows_explorer.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.windows_explorer.windows_explorer

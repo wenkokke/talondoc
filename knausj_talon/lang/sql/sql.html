@@ -13,7 +13,6 @@
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="user.lang.terraform.terraform" href="../terraform/terraform.html" />
@@ -147,28 +146,16 @@
 <td><p>Insert “.id”</p></td>
 </tr>
 <tr class="row-even"><td>inner join</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;INNER JOIN &quot;</span><span class="p">,</span> <span class="s2">&quot; ON &quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 <tr class="row-odd"><td>inner join using</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;INNER JOIN &quot;</span><span class="p">,</span> <span class="s2">&quot; USING &quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 <tr class="row-even"><td>left outer join</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;LEFT OUTER JOIN &quot;</span><span class="p">,</span> <span class="s2">&quot; ON &quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 <tr class="row-odd"><td>right outer join</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;RIGHT OUTER JOIN &quot;</span><span class="p">,</span> <span class="s2">&quot; ON &quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 <tr class="row-even"><td>with</td>
 <td><p>Press enter up.
@@ -184,16 +171,10 @@ Press delete up:2 right:3.</p></td>
 Insert “, “</p></td>
 </tr>
 <tr class="row-even"><td>count</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_insert_function</span><span class="p">(</span><span class="s2">&quot;Count&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Inserts a function and positions the cursor appropriately</p></td>
 </tr>
 <tr class="row-odd"><td>date</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;DATE &#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 </tbody>
 </table>
@@ -212,7 +193,7 @@ Insert “, “</p></td>
     </p>
     <p>
         &copy; Copyright 2022, Wen Kokke.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
     </p>
   </div>
 </footer>

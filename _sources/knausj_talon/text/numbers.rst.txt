@@ -1,0 +1,9 @@
+user.text.numbers
+=================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: text/numbers.talon
+  :exclude: **
+
+.. talon:command-table:: user.text.numbers

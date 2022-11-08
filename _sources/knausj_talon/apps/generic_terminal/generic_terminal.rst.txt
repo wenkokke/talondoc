@@ -1,0 +1,9 @@
+user.apps.generic_terminal.generic_terminal
+===========================================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/generic_terminal/generic_terminal.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.generic_terminal.generic_terminal

@@ -1,9 +1,0 @@
-user.plugin.text_navigation.text_navigation
-===========================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: plugin/text_navigation/text_navigation.talon
-  :exclude: **
-
-.. talon:command-table:: user.plugin.text_navigation.text_navigation

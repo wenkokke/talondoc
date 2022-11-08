@@ -1,9 +1,0 @@
-user.apps.sumatrapdf.sumatrapdf
-===============================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/sumatrapdf/sumatrapdf.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.sumatrapdf.sumatrapdf

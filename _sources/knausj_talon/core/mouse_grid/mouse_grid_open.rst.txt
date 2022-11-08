@@ -1,9 +1,0 @@
-user.core.mouse_grid.mouse_grid_open
-====================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: core/mouse_grid/mouse_grid_open.talon
-  :exclude: **
-
-.. talon:command-table:: user.core.mouse_grid.mouse_grid_open

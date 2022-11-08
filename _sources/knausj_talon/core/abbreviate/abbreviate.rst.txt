@@ -1,9 +1,0 @@
-user.core.abbreviate.abbreviate
-===============================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: core/abbreviate/abbreviate.talon
-  :exclude: **
-
-.. talon:command-table:: user.core.abbreviate.abbreviate

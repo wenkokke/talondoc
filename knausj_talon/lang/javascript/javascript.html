@@ -13,7 +13,6 @@
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="user.lang.javascript.javascriptreact" href="javascriptreact.html" />
@@ -141,10 +140,7 @@
 <td><p>Insert “await “</p></td>
 </tr>
 <tr class="row-even"><td>dot {user.code_common_member_function}</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;.</span><span class="si">{code_common_member_function}</span><span class="s2">(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 <tr class="row-odd"><td>state map</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">app</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="s1">&#39;ERROR: Command deprecated; please use &quot;dot map&quot;&#39;</span><span class="p">)</span>
@@ -168,10 +164,7 @@
 <td><p>Insert “…”</p></td>
 </tr>
 <tr class="row-odd"><td>from import</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s1">&#39; from  &quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 </tbody>
 </table>
@@ -190,7 +183,7 @@
     </p>
     <p>
         &copy; Copyright 2022, Wen Kokke.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
     </p>
   </div>
 </footer>

@@ -1,9 +1,0 @@
-user.plugin.desktops.desktops
-=============================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: plugin/desktops/desktops.talon
-  :exclude: **
-
-.. talon:command-table:: user.plugin.desktops.desktops

@@ -1,9 +1,0 @@
-user.core.windows_and_tabs.tabs
-===============================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: core/windows_and_tabs/tabs.talon
-  :exclude: **
-
-.. talon:command-table:: user.core.windows_and_tabs.tabs

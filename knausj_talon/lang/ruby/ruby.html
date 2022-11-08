@@ -13,7 +13,6 @@
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="user.lang.python.python" href="../python/python.html" />
@@ -114,16 +113,10 @@
 <caption><span class="caption-text">user.lang.ruby.ruby</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
 <tr class="row-odd"><td>args pipe</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="s2">&quot;|&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 <tr class="row-even"><td>dock string</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_comment_documentation</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
+<td><p>Inserts a document comment and positions the cursor appropriately</p></td>
 </tr>
 <tr class="row-odd"><td>state end</td>
 <td><p>Insert “end”</p></td>
@@ -138,11 +131,7 @@
 <td><p>Insert “module “</p></td>
 </tr>
 <tr class="row-odd"><td>^instance &lt;user.text&gt;$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;@&quot;</span><span class="p">)</span>
-<span class="n">user</span><span class="o">.</span><span class="n">code_public_variable_formatter</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>inserts properly formatted private function name</p></td>
 </tr>
 </tbody>
 </table>
@@ -161,7 +150,7 @@
     </p>
     <p>
         &copy; Copyright 2022, Wen Kokke.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
     </p>
   </div>
 </footer>

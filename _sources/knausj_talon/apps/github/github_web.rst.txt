@@ -1,9 +1,0 @@
-user.apps.github.github_web
-===========================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/github/github_web.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.github.github_web

@@ -1,7 +1,7 @@
 user.apps.i3wm.i3wm
 ===================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: apps/i3wm/i3wm.talon
   :exclude: **

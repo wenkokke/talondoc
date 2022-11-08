@@ -1,9 +1,0 @@
-user.plugin.draft_editor.draft_editor
-=====================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: plugin/draft_editor/draft_editor.talon
-  :exclude: **
-
-.. talon:command-table:: user.plugin.draft_editor.draft_editor

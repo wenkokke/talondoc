@@ -1,9 +1,0 @@
-user.tags.emoji.emoji
-=====================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: tags/emoji/emoji.talon
-  :exclude: **
-
-.. talon:command-table:: user.tags.emoji.emoji

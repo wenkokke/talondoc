@@ -1,9 +1,0 @@
-user.plugin.symbols.symbols
-===========================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: plugin/symbols/symbols.talon
-  :exclude: **
-
-.. talon:command-table:: user.plugin.symbols.symbols

@@ -1,9 +1,0 @@
-user.core.numbers.numbers
-=========================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: core/numbers/numbers.talon
-  :exclude: **
-
-.. talon:command-table:: user.core.numbers.numbers

@@ -13,7 +13,6 @@
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="user.lang.r.r" href="../r/r.html" />
@@ -114,19 +113,19 @@
 <caption><span class="caption-text">user.lang.css.css</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
 <tr class="row-odd"><td>block</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_block</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
+<td><p>Inserts equivalent of {
+} for the active language, and places the cursor appropriately</p></td>
 </tr>
 <tr class="row-even"><td>attribute [&lt;user.text&gt;]</td>
-<td><p>Let &lt;name&gt; be None</p></td>
+<td><p>Let &lt;name&gt; be Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)
+Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 <tr class="row-odd"><td>prop &lt;user.text&gt;</td>
-<td><p>Let &lt;name&gt; be None</p></td>
+<td><p>Let &lt;name&gt; be Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)
+Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 <tr class="row-even"><td>rule &lt;user.text&gt;</td>
-<td><p>Let &lt;name&gt; be None</p></td>
+<td><p>Let &lt;name&gt; be Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)</p></td>
 </tr>
 <tr class="row-odd"><td>value &lt;user.number_string&gt; [{user.css_unit}]</td>
 <td><p>Insert “{ number_string } { css_unit or ‘’ }”</p></td>
@@ -138,19 +137,13 @@
 <td><p>Insert “{ css_global_value }”</p></td>
 </tr>
 <tr class="row-even"><td>value &lt;user.text&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_formatted</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;DASH_SEPARATED&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Inserts a phrase formatted according to formatters. Formatters is a comma separated list of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)</p></td>
 </tr>
 <tr class="row-odd"><td>variable &lt;user.text&gt;</td>
-<td><p>Let &lt;name&gt; be None</p></td>
+<td><p>Let &lt;name&gt; be Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)</p></td>
 </tr>
 <tr class="row-even"><td>op var</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;var(--&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 <tr class="row-odd"><td>at {user.css_at_rule}</td>
 <td><p>Insert “&#64; { css_at_rule }  “</p></td>
@@ -184,7 +177,7 @@
     </p>
     <p>
         &copy; Copyright 2022, Wen Kokke.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
     </p>
   </div>
 </footer>

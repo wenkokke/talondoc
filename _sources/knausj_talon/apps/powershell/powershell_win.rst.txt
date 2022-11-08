@@ -1,9 +1,0 @@
-user.apps.powershell.powershell_win
-===================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/powershell/powershell_win.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.powershell.powershell_win

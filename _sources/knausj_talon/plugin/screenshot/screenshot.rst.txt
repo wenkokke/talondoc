@@ -1,9 +1,0 @@
-user.plugin.screenshot.screenshot
-=================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: plugin/screenshot/screenshot.talon
-  :exclude: **
-
-.. talon:command-table:: user.plugin.screenshot.screenshot

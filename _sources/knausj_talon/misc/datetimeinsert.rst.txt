@@ -1,0 +1,9 @@
+user.misc.datetimeinsert
+========================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: misc/datetimeinsert.talon
+  :exclude: **
+
+.. talon:command-table:: user.misc.datetimeinsert

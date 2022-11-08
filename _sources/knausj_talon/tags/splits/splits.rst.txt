@@ -1,9 +1,0 @@
-user.tags.splits.splits
-=======================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: tags/splits/splits.talon
-  :exclude: **
-
-.. talon:command-table:: user.tags.splits.splits

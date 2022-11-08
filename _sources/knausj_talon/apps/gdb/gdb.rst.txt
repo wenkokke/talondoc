@@ -1,7 +1,7 @@
 user.apps.gdb.gdb
 =================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: apps/gdb/gdb.talon
   :exclude: **

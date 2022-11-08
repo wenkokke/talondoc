@@ -1,9 +1,0 @@
-user.apps.evince.evince
-=======================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/evince/evince.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.evince.evince

@@ -1,7 +1,7 @@
 user.lang.scala.scala
 =====================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: lang/scala/scala.talon
   :exclude: **

@@ -1,7 +1,7 @@
 user.apps.teams.teams_mac
 =========================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: apps/teams/teams_mac.talon
   :exclude: **

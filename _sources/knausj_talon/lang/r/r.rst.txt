@@ -1,7 +1,7 @@
 user.lang.r.r
 =============
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: lang/r/r.talon
   :exclude: **

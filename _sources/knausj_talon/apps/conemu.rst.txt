@@ -1,0 +1,9 @@
+user.apps.conemu
+================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: apps/conemu.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.conemu

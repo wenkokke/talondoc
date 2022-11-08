@@ -1,7 +1,7 @@
 user.lang.terraform.terraform
 =============================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: lang/terraform/terraform.talon
   :exclude: **

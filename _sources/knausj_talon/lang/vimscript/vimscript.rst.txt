@@ -1,7 +1,7 @@
 user.lang.vimscript.vimscript
 =============================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: lang/vimscript/vimscript.talon
   :exclude: **

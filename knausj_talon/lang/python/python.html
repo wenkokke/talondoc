@@ -13,7 +13,6 @@
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="user.lang.tags.comment_line" href="../tags/comment_line.html" />
@@ -138,19 +137,13 @@
 <td><p>Insert “pass”</p></td>
 </tr>
 <tr class="row-odd"><td>raise {user.python_exception}</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;raise </span><span class="si">{python_exception}</span><span class="s2">(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 <tr class="row-even"><td>except {user.python_exception}</td>
 <td><p>Insert “except  { python_exception } :”</p></td>
 </tr>
 <tr class="row-odd"><td>dock string</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_comment_documentation</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
+<td><p>Inserts a document comment and positions the cursor appropriately</p></td>
 </tr>
 <tr class="row-even"><td>dock {user.python_docstring_fields}</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{python_docstring_fields}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -160,31 +153,20 @@
 </td>
 </tr>
 <tr class="row-odd"><td>dock type {user.code_type}</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;:type &quot;</span><span class="p">,</span> <span class="s2">&quot;: </span><span class="si">{code_type}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 <tr class="row-even"><td>dock returns type {user.code_type}</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;:rtype &quot;</span><span class="p">,</span> <span class="s2">&quot;: </span><span class="si">{code_type}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 <tr class="row-odd"><td>toggle imports</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_toggle_libraries</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
+<td><p>GUI: List libraries for active language</p></td>
 </tr>
 <tr class="row-even"><td>import &lt;user.code_libraries&gt;</td>
-<td><p>Press end enter.</p></td>
+<td><p>Inserts a library and positions the cursor appropriately
+Press end enter.</p></td>
 </tr>
 <tr class="row-odd"><td>from import</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;from &quot;</span><span class="p">,</span> <span class="s2">&quot; import &quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
 </tr>
 </tbody>
 </table>
@@ -203,7 +185,7 @@
     </p>
     <p>
         &copy; Copyright 2022, Wen Kokke.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
     </p>
   </div>
 </footer>

@@ -1,7 +1,7 @@
 user.lang.batch.batch
 =====================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: lang/batch/batch.talon
   :exclude: **

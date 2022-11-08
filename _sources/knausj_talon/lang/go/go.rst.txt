@@ -1,7 +1,7 @@
 user.lang.go.go
 ===============
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: lang/go/go.talon
   :exclude: **

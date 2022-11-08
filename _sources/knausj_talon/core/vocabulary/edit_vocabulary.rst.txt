@@ -1,9 +1,0 @@
-user.core.vocabulary.edit_vocabulary
-====================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: core/vocabulary/edit_vocabulary.talon
-  :exclude: **
-
-.. talon:command-table:: user.core.vocabulary.edit_vocabulary

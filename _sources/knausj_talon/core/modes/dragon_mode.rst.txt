@@ -1,9 +1,0 @@
-user.core.modes.dragon_mode
-===========================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: core/modes/dragon_mode.talon
-  :exclude: **
-
-.. talon:command-table:: user.core.modes.dragon_mode

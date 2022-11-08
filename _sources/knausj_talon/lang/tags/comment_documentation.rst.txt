@@ -1,7 +1,7 @@
 user.lang.tags.comment_documentation
 ====================================
 
-.. talon:package:: ../knausj_talon
+.. talon:package:: ../../knausj_talon
   :name: user
   :include: lang/tags/comment_documentation.talon
   :exclude: **

@@ -1,9 +1,0 @@
-user.apps.twitter.twitter
-=========================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/twitter/twitter.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.twitter.twitter

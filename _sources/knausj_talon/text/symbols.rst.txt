@@ -1,0 +1,9 @@
+user.text.symbols
+=================
+
+.. talon:package:: ../../knausj_talon
+  :name: user
+  :include: text/symbols.talon
+  :exclude: **
+
+.. talon:command-table:: user.text.symbols
