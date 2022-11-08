@@ -4,6 +4,8 @@ import click
 
 from .autosummary.generate import generate
 
+from .cache_builtin.cache import cache_builtin
+
 __version__: str = "0.1.1"
 
 
@@ -114,6 +116,15 @@ def autogen(
         generate_conf=generate_conf,
         generate_index=generate_index,
     )
+
+
+@cli.command(name="cache_builtin")
+@click.argument(
+    "output_dir",
+    type=click.Path(),
+)
+def preprocess(output_dir: str):
+    cache_builtin(output_dir=output_dir)
 
 
 if __name__ == "__main__":
