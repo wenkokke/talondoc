@@ -49,7 +49,7 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "bumpver"
-version = "2022.1118"
+version = "2022.1119"
 description = "Bump version numbers in project files."
 category = "main"
 optional = false
@@ -815,8 +815,8 @@ black = [
     {file = "black-22.8.0.tar.gz", hash = "sha256:792f7eb540ba9a17e8656538701d3eb1afcb134e3b45b71f20b25c77a8db7e6e"},
 ]
 bumpver = [
-    {file = "bumpver-2022.1118-py2.py3-none-any.whl", hash = "sha256:a1c5e1956ec4fccb4d8e59aa87b194c99d07585085ba3221ee470acd401c107e"},
-    {file = "bumpver-2022.1118.tar.gz", hash = "sha256:865c324780b0c3a2bdf5dfa615a310d5b5d8e0c2c56d80af58c07213137a27d6"},
+    {file = "bumpver-2022.1119-py2.py3-none-any.whl", hash = "sha256:c4cc84a881bf945510a4831200fd082c3520665c61e73ff7732e26249a6a86c9"},
+    {file = "bumpver-2022.1119.tar.gz", hash = "sha256:afed711d286403ed848daabba6006318ed2fb8d4c1f192466ac20756afc31a61"},
 ]
 certifi = [
     {file = "certifi-2022.6.15.1-py3-none-any.whl", hash = "sha256:43dadad18a7f168740e66944e4fa82c6611848ff9056ad910f8f7a3e46ab89e0"},
