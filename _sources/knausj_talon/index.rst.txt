@@ -3,12 +3,11 @@ Documentation for knausj_talon
 
 .. talon:package:: /home/runner/work/talondoc/talondoc/example/knausj_talon
   :name: user
-  :exclude: **/*.py
+  :exclude: conftest.py, test/**, **/*.py
   :trigger: ready
 
 .. toctree::
   settings.rst
-  conftest/api.rst
   plugin/cancel/cancel.rst
   plugin/mouse/mouse.rst
   plugin/mouse/mouse_cursor.rst
