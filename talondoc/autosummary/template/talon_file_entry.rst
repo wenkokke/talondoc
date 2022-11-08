@@ -1,7 +1,7 @@
 {{ entry.name.removesuffix(".talon") | escape | underline }}
 
-.. talon:package:: {{ entry.package.path }}
-  :name: {{ entry.package.name }}
+.. talon:package:: {{ entry.parent.path }}
+  :name: {{ entry.parent.name }}
   :include: {{ entry.path }}
   :exclude: **
 

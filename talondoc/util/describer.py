@@ -1,6 +1,6 @@
 from collections.abc import Callable
-from typing import Optional, Sequence, Union, TypeVar, cast
 from functools import singledispatchmethod
+from typing import Optional, Sequence, TypeVar, Union, cast
 
 from tree_sitter_talon import (
     Node,
@@ -24,11 +24,16 @@ from tree_sitter_talon import (
     TalonVariable,
 )
 
-from talondoc.analyze.entries import ActionGroupEntry
-
+from ..analyze.entries import (
+    ActionEntry,
+    CanOverride,
+    GroupEntry,
+    ObjectEntry,
+    TagEntry,
+)
 from ..analyze.registry import Registry
-from ..util.logging import getLogger
 from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
+from .logging import getLogger
 
 _LOGGER = getLogger(__name__)
 
@@ -55,23 +60,10 @@ class TalonScriptDescriber:
         self,
         registry: Registry,
         *,
-        docstring_hook: Optional[Callable[[str], Optional[str]]] = None,
+        docstring_hook: Optional[Callable[[str, str], Optional[str]]] = None,
     ) -> None:
         self.registry = registry
         self.docstring_hook = docstring_hook
-
-    def get_docstring(
-        self, qualified_name: str, *, namespace: Optional[str] = None
-    ) -> Optional[str]:
-        desc: Optional[str]
-        if self.docstring_hook:
-            desc = self.docstring_hook(qualified_name)
-            if desc:
-                return desc
-        obj = self.registry.lookup(qualified_name, namespace=namespace)
-        if obj:
-            return obj.get_docstring()
-        return None
 
     @singledispatchmethod
     def describe(self, ast: Node) -> Optional[Desc]:
@@ -118,10 +110,23 @@ class TalonScriptDescriber:
     def _(self, ast: TalonSleepAction, **kwargs) -> Optional[Desc]:
         return None
 
+    def get_docstring(
+        self, sort: Union[type[TagEntry], type[CanOverride]], name: str
+    ) -> Optional[str]:
+        if self.docstring_hook:
+            docstring = self.docstring_hook(sort.sort, name)
+            if docstring:
+                return docstring
+        entry = self.registry.lookup(sort, name)
+        if entry:
+            return entry.get_docstring()
+        return None
+
     @describe.register
     def _(self, ast: TalonAction) -> Optional[Desc]:
         # TODO: resolve self.*
-        docstring = self.get_docstring(f"action-group:{ast.action_name.text}")
+        name = ast.action_name.text
+        docstring = self.get_docstring(ActionEntry, name)
         if docstring:
             desc = from_docstring(docstring)
             if isinstance(desc, StepsTemplate):

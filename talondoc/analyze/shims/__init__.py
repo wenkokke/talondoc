@@ -7,9 +7,12 @@ from pathlib import Path
 from types import ModuleType
 from typing import ClassVar, Optional, Union
 
+from ...util.logging import getLogger
 from ..entries import PackageEntry
 from ..registry import Registry
 from .core import ModuleShim, TalonShim
+
+_LOGGER = getLogger(__name__)
 
 
 class TalonShimFinder(MetaPathFinder):
@@ -108,7 +111,7 @@ def talon_package(package: TalonPackage) -> Iterator[None]:
                 # Allow normal sys.path stuff to handle everything else
                 return None
 
-    sys.meta_path.append(PackagePathFinder)  # type: ignore
+    sys.meta_path.insert(0, PackagePathFinder)  # type: ignore
     try:
         yield None
     finally:
@@ -118,7 +121,7 @@ def talon_package(package: TalonPackage) -> Iterator[None]:
 @contextmanager
 def talon(registry: Registry, *, package: Optional[TalonPackage] = None):
     registry.activate()
-    sys.meta_path.append(TalonShimFinder)  # type: ignore
+    sys.meta_path.insert(0, TalonShimFinder)  # type: ignore
     try:
         if package:
             with talon_package(package):

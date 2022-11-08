@@ -7,23 +7,20 @@ from typing import Any, Mapping, Optional, Sequence, cast
 
 from ..entries import (
     ActionEntry,
-    ActionGroupEntry,
     CallbackEntry,
     CaptureEntry,
     ContextEntry,
     EventCode,
     FunctionEntry,
+    GroupEntry,
     ListEntry,
     ListValue,
-    ListValueEntry,
     ModeEntry,
     ModuleEntry,
     PythonFileEntry,
     SettingEntry,
     SettingValue,
-    SettingValueEntry,
     TagEntry,
-    TagImportEntry,
     resolve_name,
 )
 from ..registry import Registry
@@ -34,10 +31,13 @@ class ObjectShim:
     A simple shim which responds to any method.
     """
 
-    def register(self, event_code: EventCode, callback: Callable[..., Any]):
+    def register(self, event_code: EventCode, func: Callable[..., Any]):
         file = Registry.get_active_file()
+        assert isinstance(file, PythonFileEntry)
         callback_entry = CallbackEntry(
-            event_code=event_code, callback=callback, file=file
+            parent=file,
+            func=func,
+            event_code=event_code,
         )
         Registry.get_active_global_registry().register(callback_entry)
 
@@ -178,13 +178,13 @@ def _action(
     registry: Registry, name: str, *, namespace: Optional[str] = None
 ) -> Optional[Callable[..., Any]]:
     resolved_name = resolve_name(name, namespace=namespace)
-    qualified_name = f"action-group:{resolved_name}"
-    action_group_entry = registry.lookup(qualified_name)
-    if isinstance(action_group_entry, ActionGroupEntry) and action_group_entry.default:
+    action_group_entry = registry.lookup(ActionEntry, resolved_name)
+    if action_group_entry and action_group_entry.default:
         function_name = action_group_entry.default.func
-        function_entry = registry.lookup(f"function:{function_name}")
-        if isinstance(function_entry, FunctionEntry):
-            return function_entry.func
+        if function_name:
+            function_entry = registry.lookup(FunctionEntry, function_name)
+            if function_entry:
+                return function_entry.func
     return ObjectShim()  # type: ignore
 
 
@@ -197,7 +197,7 @@ class TalonActionsShim:
             )
         except AttributeError:
             registry = Registry.get_active_global_registry()
-            package = registry.latest_package
+            package = registry.active_package_entry
             namespace = package.namespace if package else None
             return _action(registry, name, namespace=namespace)
 
@@ -221,9 +221,9 @@ class TalonContextListsShim(Mapping[str, ListValue]):
 
     def _add_list_value(self, name: str, value: ListValue):
         namespace = self._context._module_entry.namespace
-        list_entry = ListValueEntry(
+        list_entry = ListEntry(
             name=f"{namespace}.{name}",
-            module=self._context._module_entry,
+            parent=self._context._module_entry,
             value=value,
         )
         Registry.get_active_global_registry().register(list_entry)
@@ -251,9 +251,9 @@ class TalonContextSettingsShim(Mapping):
 
     def _add_setting_value(self, name: str, value: SettingValue):
         namespace = self._context._module_entry.namespace
-        setting_entry = SettingValueEntry(
+        setting_entry = SettingEntry(
             name=f"{namespace}.{name}",
-            file_or_module=self._context._module_entry,
+            parent=self._context._module_entry,
             value=value,
         )
         Registry.get_active_global_registry().register(setting_entry)
@@ -280,12 +280,8 @@ class TalonContextTagsShim(Sequence):
         self._context = context
 
     def _add_tag_import(self, name: str):
-        namespace = self._context._module_entry.namespace
-        tag_import_entry = TagImportEntry(
-            name=f"{namespace}.{name}",
-            file_or_module=self._context._module_entry,
-        )
-        Registry.get_active_global_registry().register(tag_import_entry)
+        # TODO: add use entries
+        pass
 
     def __setitem__(self, name: str):
         self._add_tag_import(name)
@@ -332,7 +328,7 @@ class TalonShim(ModuleShim):
         def __init__(self, desc: Optional[str] = None):
             file = Registry.get_active_file()
             assert isinstance(file, PythonFileEntry)
-            self._module_entry = ModuleEntry(file=file, desc=desc)
+            self._module_entry = ModuleEntry(parent=file, desc=desc)
             Registry.get_active_global_registry().register(self._module_entry)
 
         def action_class(self, cls: type):
@@ -340,11 +336,11 @@ class TalonShim(ModuleShim):
                 registry = Registry.get_active_global_registry()
                 function_entry = FunctionEntry(
                     func=func,
-                    file=self._module_entry.file,
+                    parent=self._module_entry.parent,
                 )
                 registry.register(function_entry)
                 action_entry = ActionEntry(
-                    module=self._module_entry,
+                    parent=self._module_entry,
                     name=f"{self._module_entry.namespace}.{name}",
                     desc=func.__doc__,
                     func=function_entry.name,
@@ -364,12 +360,12 @@ class TalonShim(ModuleShim):
                 registry = Registry.get_active_global_registry()
                 function_entry = FunctionEntry(
                     func=func,
-                    file=self._module_entry.file,
+                    parent=self._module_entry.parent,
                 )
                 registry.register(function_entry)
                 capture_entry = CaptureEntry(
                     name=f"{namespace}.{func.__name__}",
-                    module=self._module_entry,
+                    parent=self._module_entry,
                     rule=rule,
                     desc=func.__doc__,
                     func=function_entry.name,
@@ -383,16 +379,16 @@ class TalonShim(ModuleShim):
             self,
             name: str,
             type: type,
-            default: Any = None,
+            default: SettingValue = None,
             desc: str = None,
         ):
             namespace = self._module_entry.namespace
             setting_entry = SettingEntry(
                 name=f"{namespace}.{name}",
-                module=self._module_entry,
+                parent=self._module_entry,
                 type=type.__name__,
                 desc=desc,
-                default=default,
+                value=default,
             )
             Registry.get_active_global_registry().register(setting_entry)
 
@@ -400,7 +396,7 @@ class TalonShim(ModuleShim):
             namespace = self._module_entry.namespace
             list_entry = ListEntry(
                 name=f"{namespace}.{name}",
-                module=self._module_entry,
+                parent=self._module_entry,
                 desc=desc,
             )
             Registry.get_active_global_registry().register(list_entry)
@@ -409,7 +405,7 @@ class TalonShim(ModuleShim):
             namespace = self._module_entry.namespace
             mode_entry = ModeEntry(
                 name=f"{namespace}.{name}",
-                module=self._module_entry,
+                parent=self._module_entry,
                 desc=desc,
             )
             Registry.get_active_global_registry().register(mode_entry)
@@ -418,7 +414,7 @@ class TalonShim(ModuleShim):
             namespace = self._module_entry.namespace
             tag_entry = TagEntry(
                 name=f"{namespace}.{name}",
-                module=self._module_entry,
+                parent=self._module_entry,
                 desc=desc,
             )
             Registry.get_active_global_registry().register(tag_entry)
@@ -430,7 +426,7 @@ class TalonShim(ModuleShim):
         def __init__(self, desc: Optional[str] = None):
             file = Registry.get_active_file()
             assert isinstance(file, PythonFileEntry)
-            self._module_entry = ContextEntry(file=file, desc=desc)
+            self._module_entry = ContextEntry(parent=file, desc=desc)
             Registry.get_active_global_registry().register(self._module_entry)
             self._lists = TalonContextListsShim(self)
             self._settings = TalonContextSettingsShim(self)
@@ -468,12 +464,12 @@ class TalonShim(ModuleShim):
                     registry = Registry.get_active_global_registry()
                     function_entry = FunctionEntry(
                         func=func,
-                        file=self._module_entry.file,
+                        parent=self._module_entry.parent,
                     )
                     registry.register(function_entry)
                     name = f"{namespace}.{name}"
                     action_entry = ActionEntry(
-                        module=self._module_entry,
+                        parent=self._module_entry,
                         name=name,
                         desc=func.__doc__,
                         func=function_entry.name,
@@ -498,11 +494,11 @@ class TalonShim(ModuleShim):
 
                 function_entry = FunctionEntry(
                     func=func,
-                    file=self._module_entry.file,
+                    parent=self._module_entry.parent,
                 )
                 capture_entry = CaptureEntry(
                     name=f"{namespace}.{func.__name__}",
-                    module=self._module_entry,
+                    parent=self._module_entry,
                     rule=rule,
                     desc=func.__doc__,
                     func=function_entry.name,

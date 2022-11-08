@@ -97,10 +97,30 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
         return cast(TalonDomain, self.env.get_domain("talon"))
 
     @property
-    def docstring_hook(self) -> Callable[[str], Optional[str]]:
-        return cast(
-            Callable[[str], Optional[str]], self.env.config["talondoc_docstring_hook"]
-        )
+    def docstring_hook(self) -> Callable[[str, str], Optional[str]]:
+        docstring_hook = self.env.config["talondoc_docstring_hook"]
+        if docstring_hook is None:
+
+            def __docstring_hook(sort: str, name: str) -> Optional[str]:
+                return None
+
+            return __docstring_hook
+        elif isinstance(docstring_hook, dict):
+
+            def __docstring_hook(sort: str, name: str) -> Optional[str]:
+                value = docstring_hook.get(sort, {}).get(name, None)
+                assert value is None or isinstance(value, str)
+                return value
+
+            return __docstring_hook
+        else:
+
+            def __docstring_hook(sort: str, name: str) -> Optional[str]:
+                value = docstring_hook(sort, name)  # type: ignore
+                assert value is None or isinstance(value, str)
+                return value
+
+            return __docstring_hook
 
     def describe_rule(self, command: CommandEntry) -> nodes.Text:
         return nodes.Text(talonfmt(command.ast.rule, safe=False))
@@ -217,7 +237,7 @@ class TalonDocObjectDescription(sphinx.directives.ObjectDescription, TalonDocDir
 class TalonCommandListDirective(TalonDocDirective):
     def find_package(self) -> PackageEntry:
         namespace = self.options.get("package")
-        candidate = self.talon.registry.latest_package
+        candidate = self.talon.registry.active_package_entry
         if candidate and (not namespace or candidate.namespace == namespace):
             return candidate
         candidate = self.talon.registry.packages.get(namespace, None)
@@ -228,7 +248,17 @@ class TalonCommandListDirective(TalonDocDirective):
     def find_file(
         self, sig: str, *, package_entry: Optional[PackageEntry] = None
     ) -> TalonFileEntry:
-        # Find the package:
+        # Try lookup with 'sig' as name:
+        result = self.talon.registry.lookup(TalonFileEntry, sig)
+        if result:
+            return result
+
+        # Try lookup with 'sig.talon' as name:
+        result = self.talon.registry.lookup(TalonFileEntry, f"{sig}.talon")
+        if result:
+            return result
+
+        # Try searching in the active package:
         if package_entry is None:
             try:
                 package_entry = self.find_package()
@@ -238,12 +268,11 @@ class TalonCommandListDirective(TalonDocDirective):
         # Find the file:
         for file in package_entry.files:
             if isinstance(file, TalonFileEntry):
-                if (
-                    sig == file.name
-                    or sig == str(file.path)
-                    or f"{sig}.talon" == file.name
-                    or f"{sig}.talon" == str(file.path)
-                ):
+                # Try comparison with 'sig' as path:
+                if sig == str(file.path):
+                    return file
+                # Try comparison with 'sig.talon' as path:
+                if f"{sig}.talon" == str(file.path):
                     return file
         raise ValueError(f"Could not find file '{sig}'.")
 

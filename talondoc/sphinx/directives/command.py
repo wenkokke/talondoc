@@ -1,5 +1,5 @@
 import sys
-import typing
+from typing import Optional
 
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
@@ -24,7 +24,7 @@ class TalonCommandDirective(TalonDocObjectDescription):
         return [" ".join(self.arguments)]
 
     def find_command(self, sig: str) -> CommandEntry:
-        command: typing.Optional[CommandEntry] = None
+        command: Optional[CommandEntry] = None
         for candidate in self.talon.registry.commands:
             if include_command(candidate, sig, fullmatch=True):
                 if __debug__ and command:

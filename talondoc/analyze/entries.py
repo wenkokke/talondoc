@@ -1,8 +1,7 @@
 import abc
 import dataclasses
-import itertools
-import pathlib
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
+from pathlib import Path
 from typing import (
     Any,
     ClassVar,
@@ -22,6 +21,11 @@ from ..util.logging import getLogger
 _LOGGER = getLogger(__name__)
 
 
+###############################################################################
+# Exceptions
+###############################################################################
+
+
 @dataclasses.dataclass(frozen=True)
 class DuplicateEntry(Exception):
     """
@@ -32,39 +36,46 @@ class DuplicateEntry(Exception):
     entry2: "ObjectEntry"
 
     def __str__(self) -> str:
-        return "\n".join(
-            [
-                f"Action '{self.entry1.get_name()}' is declared by multiple modules:",
-                f"-  {self.entry1.get_path()}",
-                f"-  {self.entry2.get_path()}",
-            ]
-        )
-
-
-def resolve_name(name: str, *, namespace: Optional[str] = None) -> str:
-    parts = name.split(".")
-    if parts and parts[0] == "self":
-        if namespace:
-            return ".".join([namespace, *parts[1:]])
+        sort = self.entry1.__class__.sort.capitalize()
+        name = self.entry1.get_name()
+        parent1 = self.entry1.get_parent().sort
+        parent2 = self.entry1.get_parent().sort
+        path1 = self.entry1.get_path()
+        path2 = self.entry2.get_path()
+        if parent1 == parent2 and path1 == path2:
+            return "\n".join(
+                [
+                    f"{sort} '{name}' is declared twice in the same {parent1}:",
+                    f"- {parent1}: {path1}",
+                ]
+            )
         else:
-            raise ValueError(f"Cannot resolve 'self' in {name}")
-    else:
-        return name
+            return "\n".join(
+                [
+                    f"{sort} '{name}' is declared twice:",
+                    f"- {parent1}: {path1}",
+                    f"- {parent2}: {path2}",
+                ]
+            )
+
+
+###############################################################################
+# Basic Value Types
+###############################################################################
 
 
 ListValue = Union[Mapping[str, Any], Iterable[str]]
 
 
-def _coerce_list_value(list_value: ListValue) -> ListValue:
-    if isinstance(list_value, Iterable):
-        return list(list_value)
-    elif isinstance(list_value, Mapping):
-        return dict(list_value)
-    elif list_value is not None:
-        raise AssertionError(f"Value is not a list or dict: {list_value}")
-
-
 SettingValue = Any
+
+
+###############################################################################
+# Abstract Object Entries
+###############################################################################
+
+
+Entry = TypeVar("Entry", bound="ObjectEntry")
 
 
 class ObjectEntry(abc.ABC):
@@ -76,7 +87,12 @@ class ObjectEntry(abc.ABC):
 
     @property
     def namespace(self) -> str:
-        return self.get_package().name
+        if isinstance(self, GroupEntry):
+            for entry in self.entries():
+                return entry.namespace
+            raise ValueError("Empty group entry", self)
+        else:
+            return self.get_package().name
 
     @property
     def resolved_name(self) -> str:
@@ -86,125 +102,169 @@ class ObjectEntry(abc.ABC):
     def qualified_name(self) -> str:
         return f"{self.__class__.sort}:{self.resolved_name}"
 
+    def same_as(self, other: "ObjectEntry") -> bool:
+        if type(self) == type(other):
+            if isinstance(self, PackageEntry):
+                assert isinstance(other, PackageEntry)
+                return self.name == other.name and self.path == other.path
+            if isinstance(self, FileEntry):
+                assert isinstance(other, FileEntry)
+                return self.path == other.path
+            else:
+                return (
+                    self.resolved_name == other.resolved_name
+                    and self.get_parent().same_as(other.get_parent())
+                )
+        else:
+            return False
+
+    def newer_than(self, other: Union[float, "ObjectEntry"]) -> bool:
+        assert self.mtime is not None, f"missing mtime on {self.__class__.sort}"
+        if isinstance(other, float):
+            return self.mtime >= other
+        else:
+            assert other.mtime is not None, f"missing mtime on {other.__class__.sort}"
+            return self.mtime >= other.mtime
+
     def get_docstring(self) -> Optional[str]:
         if hasattr(self, "desc"):
             return cast(Optional[str], object.__getattribute__(self, "desc"))
+        elif isinstance(self, GroupEntry):
+            for entry in self.entries():
+                desc = entry.get_docstring()
+                if desc:
+                    return desc
         return None
 
-    def get_name(self) -> str:
-        return cast(str, object.__getattribute__(self, "name"))
-
-    def get_path(self) -> pathlib.Path:
-        return self.get_file_or_package().path
-
-    def get_package(self) -> "PackageEntry":
-        file_or_package = self.get_file_or_package()
-        if isinstance(file_or_package, PackageEntry):
-            return file_or_package
+    def get_file(self) -> Optional["FileEntry"]:
+        if isinstance(self, PackageEntry):
+            return None
+        elif isinstance(self, FileEntry):
+            return self
         else:
-            return file_or_package.package
+            return self.get_parent().get_file()
+
+    def get_name(self) -> str:
+        # NOTE: cannot use abstract properties with dataclasses
+        try:
+            return cast(str, object.__getattribute__(self, "name"))
+        except AttributeError as e:
+            raise ValueError(self, e)
 
     def get_mtime(self) -> float:
         try:
-            file_or_package = self.get_file_or_package()
-            if isinstance(file_or_package, PackageEntry):
-                path = file_or_package.path
+            if isinstance(self, GroupEntry):
+                return max(entry.get_mtime() for entry in self.entries() if entry)
             else:
-                file = file_or_package
-                package = file.package
-                path = package.path / file.path
-            return path.stat().st_mtime
-        except ValueError:
-            assert isinstance(self, ObjectGroupEntry)
-            entries: list[Optional[CanOverrideEntry]] = [self.default, *self.overrides]
-            return max(entry.get_mtime() for entry in entries if entry)
+                return self.get_path(absolute=True).stat().st_mtime
+        except FileNotFoundError as e:
+            raise AssertionError(
+                f"Could not stat '{self.__class__.sort}': {self.get_path(absolute=True)}"
+            )
 
-
-    def get_file_or_package(self) -> Union["PackageEntry", "FileEntry"]:
+    def get_package(self) -> "PackageEntry":
         if isinstance(self, PackageEntry):
             return self
-        elif isinstance(self, FileEntry):
-            return self
-        elif isinstance(
-            self, (CommandEntry, FunctionEntry, CallbackEntry, ModuleEntry)
-        ):
-            return self.file
-        elif isinstance(self, (CanOverrideEntry, TagEntry)):
-            return self.module.file
-        elif isinstance(self, ObjectGroupEntry):
-            raise ValueError(self)
-        elif isinstance(self, ListValueEntry):
-            return self.module.file
-        elif isinstance(self, (SettingValueEntry, TagImportEntry)):
-            return self.file_or_module.get_file_or_package()
         else:
-            raise TypeError(type(self))
+            file = self.get_file()
+            assert file is not None
+            return file.parent
 
-
-@dataclasses.dataclass(init=False)
-class PackageEntry(ObjectEntry):
-    sort: ClassVar[str] = "package"
-    name: str
-    path: pathlib.Path
-    files: list["FileEntry"] = dataclasses.field(default_factory=list)
-
-    def __init__(
-        self,
-        path: pathlib.Path,
-        files: list["FileEntry"] = [],
-        *,
-        name: Optional[str] = None,
-    ):
-        self.path = path
-        self.files = files
-        self.name = name or self.path.parts[-1]
-
-
-@dataclasses.dataclass()
-class FileEntry(ObjectEntry):
-    sort: ClassVar[str] = "file"
-    package: PackageEntry = dataclasses.field(repr=False)
-    path: pathlib.Path
-
-    def __post_init__(self, *args, **kwargs):
+    def get_parent(self) -> "ObjectEntry":
+        # NOTE: cannot use abstract properties with dataclasses
         try:
-            index = self.package.files.index(self)
-            _LOGGER.info(
-                "\n".join(
-                    [
-                        f"[talondoc] file already analyzed:",
-                        f" - {str(self.path)}",
-                        f" - {str(self.package.files[index].path)}",
-                    ]
-                )
-            )
-        except ValueError:
-            self.package.files.append(self)
+            return cast(ObjectEntry, object.__getattribute__(self, "parent"))
+        except AttributeError as e:
+            raise ValueError(self, e)
 
-    @property
-    def name(self) -> str:
-        return ".".join((self.namespace, *self.path.parts))
-
-
-@dataclasses.dataclass()
-class TalonFileEntry(FileEntry):
-    # TODO: extract docstring as desc
-    commands: list["CommandEntry"] = dataclasses.field(default_factory=list)
-    matches: Optional[tree_sitter_talon.TalonMatches] = None
-    settings: list["SettingValueEntry"] = dataclasses.field(default_factory=list)
-    tag_imports: list["TagImportEntry"] = dataclasses.field(default_factory=list)
+    def get_path(self, absolute: bool = False) -> Path:
+        if isinstance(self, PackageEntry):
+            return self.path
+        else:
+            file = self.get_file()
+            assert file is not None
+            if absolute:
+                # NOTE: relative to sphinx root
+                return (file.parent.path / file.path).resolve()
+            else:
+                # NOTE: relative to package root
+                return file.path
 
 
-@dataclasses.dataclass()
-class PythonFileEntry(FileEntry):
-    modules: list["ModuleEntry"] = dataclasses.field(default_factory=list)
+CanOverride = TypeVar("CanOverride", bound="CanOverrideEntry")
+
+
+@dataclasses.dataclass
+class CanOverrideEntry(ObjectEntry):
+    name: str
+    parent: Union["FileEntry", "ModuleEntry"] = dataclasses.field(repr=False)
+
+    def group(self: "CanOverride") -> "GroupEntry":  # ["CanOverride"]:
+        if isinstance(self.parent, (TalonFileEntry, ContextEntry)):
+            return GroupEntry(self.name, default=None, overrides=[self])
+        else:
+            return GroupEntry(self.name, default=self, overrides=[])
+
+
+@dataclasses.dataclass
+class GroupEntry(ObjectEntry, Generic[CanOverride]):
+    sort: ClassVar[str] = "group"
+    name: str
+    default: Optional[CanOverride] = None
+    overrides: list[CanOverride] = dataclasses.field(default_factory=list)
+
+    def entries(self) -> Iterator[CanOverrideEntry]:
+        if self.default:
+            yield self.default
+        yield from self.overrides
+
+    def append(self, entry: "CanOverride"):
+        assert self.resolved_name == entry.resolved_name, "\n".join(
+            [
+                f"Cannot append entry with different name to a group:",
+                f"- group name: {self.resolved_name}",
+                f"- entry name: {entry.resolved_name}",
+            ]
+        )
+        if isinstance(entry.parent, (ContextEntry, TalonFileEntry)):
+            buffer: list[CanOverride] = []
+            replaced_older: bool = False
+            for override in self.overrides:
+                if entry.same_as(override):
+                    if entry.newer_than(override):
+                        replaced_older = True
+                        buffer.append(entry)
+                    else:
+                        replaced_older = True
+                        assert entry == override, "\n".join(
+                            [
+                                f"Found duplicate {entry.__class__.sort}:",
+                                f"- {repr(entry)}",
+                                f"- {repr(override)}",
+                            ]
+                        )
+                else:
+                    buffer.append(override)
+            if not replaced_older:
+                buffer.append(entry)
+            self.overrides = buffer
+        else:
+            if self.default is not None:
+                e = DuplicateEntry(self.default, entry)
+                _LOGGER.error(str(e))
+            self.default = entry
+
+
+###############################################################################
+# Callable Entries
+###############################################################################
 
 
 @dataclasses.dataclass
 class FunctionEntry(ObjectEntry):
     sort: ClassVar[str] = "function"
-    file: PythonFileEntry
-    func: Callable[..., Any]
+    parent: "PythonFileEntry"
+    func: Callable[..., Any] = dataclasses.field(repr=False)
 
     @property
     def name(self) -> str:
@@ -212,7 +272,7 @@ class FunctionEntry(ObjectEntry):
 
     @property
     def resolved_name(self) -> str:
-        return f"{self.file.name.removesuffix('.py')}.{self.name}"
+        return f"{self.parent.name.removesuffix('.py')}.{self.name}"
 
 
 EventCode = Union[int, str]
@@ -225,32 +285,114 @@ class CallbackEntry(ObjectEntry):
     """
 
     sort: ClassVar[str] = "callback"
+    parent: "PythonFileEntry"
+    func: Callable[..., None] = dataclasses.field(repr=False)
     event_code: EventCode
-    callback: Callable[..., None]
-    file: FileEntry = dataclasses.field(repr=False)
+
+
+###############################################################################
+# Package and File Entries
+###############################################################################
+
+
+@dataclasses.dataclass(
+    init=False,
+)
+class PackageEntry(ObjectEntry):
+    sort: ClassVar[str] = "package"
+    name: str
+    path: Path
+    files: list["FileEntry"] = dataclasses.field(default_factory=list)
+
+    def __init__(
+        self,
+        path: Path,
+        files: list["FileEntry"] = [],
+        *,
+        name: Optional[str] = None,
+    ):
+        self.path = path
+        self.files = files
+        self.name = PackageEntry.make_name(name, path)
+        super().__post_init__(path, files, name=name)
+
+    @staticmethod
+    def make_name(name: Optional[str], path: Path) -> str:
+        return name or path.parts[-1]
+
+
+AnyFileEntry = TypeVar("AnyFileEntry", bound="FileEntry")
+
+
+@dataclasses.dataclass
+class FileEntry(ObjectEntry):
+    sort: ClassVar[str] = "file"
+    parent: PackageEntry = dataclasses.field(repr=False)
+    path: Path
+
+    def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
+        try:
+            index = self.parent.files.index(self)
+            _LOGGER.info(
+                "\n".join(
+                    [
+                        f"[talondoc] file already analyzed:",
+                        f" - {str(self.path)}",
+                        f" - {str(self.parent.files[index].path)}",
+                    ]
+                )
+            )
+        except ValueError:
+            self.parent.files.append(self)
+
+    @staticmethod
+    def make_name(package: PackageEntry, path: Path) -> str:
+        return ".".join((package.namespace, *path.parts))
 
     @property
     def name(self) -> str:
-        return str(self.event_code)
+        return FileEntry.make_name(self.parent, self.path)
+
+
+@dataclasses.dataclass
+class TalonFileEntry(FileEntry):
+    # TODO: extract docstring as desc
+    commands: list["CommandEntry"] = dataclasses.field(default_factory=list)
+    matches: Optional[tree_sitter_talon.TalonMatches] = None
+    settings: list["SettingEntry"] = dataclasses.field(default_factory=list)
+
+
+@dataclasses.dataclass
+class PythonFileEntry(FileEntry):
+    modules: list["ModuleEntry"] = dataclasses.field(default_factory=list)
+
+
+###############################################################################
+# Module and Context Entries
+###############################################################################
+
+AnyModuleEntry = TypeVar("AnyModuleEntry", bound="ModuleEntry")
 
 
 @dataclasses.dataclass
 class ModuleEntry(ObjectEntry):
     sort: ClassVar[str] = "module"
-    file: PythonFileEntry = dataclasses.field(repr=False)
+    parent: PythonFileEntry = dataclasses.field(repr=False)
     desc: Optional[str]
     index: int = dataclasses.field(init=False)
 
     def __post_init__(self, *args, **kwargs):
-        self.index = len(self.file.modules)
-        self.file.modules.append(self)
+        super().__post_init__(*args, **kwargs)
+        self.index = len(self.parent.modules)
+        self.parent.modules.append(self)
 
     @property
     def name(self) -> str:
         return ".".join(
             [
                 self.namespace,
-                *self.file.path.parts,
+                *self.parent.path.parts,
                 str(self.index),
             ]
         )
@@ -262,56 +404,37 @@ class ContextEntry(ModuleEntry):
     matches: Union[None, str, tree_sitter_talon.TalonMatches] = None
 
 
-@dataclasses.dataclass
-class CanOverrideEntry(ObjectEntry):
-    name: str
-    module: ModuleEntry = dataclasses.field(repr=False)
-
-
-CanOverride = TypeVar("CanOverride", bound=CanOverrideEntry)
+###############################################################################
+# Command Entries
+###############################################################################
 
 
 @dataclasses.dataclass
-class ObjectGroupEntry(ObjectEntry, Generic[CanOverride]):
-    name: str
-    default: Optional[CanOverride] = None
-    overrides: list[CanOverride] = dataclasses.field(default_factory=list)
+class CommandEntry(ObjectEntry):
+    sort: ClassVar[str] = "command"
+    parent: TalonFileEntry = dataclasses.field(repr=False)
+    ast: tree_sitter_talon.TalonCommandDeclaration
 
-    def append(self, entry: "CanOverride"):
-        assert self.resolved_name == entry.resolved_name, "\n".join(
-            [
-                f"Cannot append entry with different name to a group:",
-                f"- group name: {self.resolved_name}",
-                f"- entry name: {entry.resolved_name}",
-            ]
-        )
-        if isinstance(entry.module, ContextEntry):
-            self.overrides.append(entry)
-        else:
-            assert isinstance(
-                entry.module, ModuleEntry
-            ), f"Entry does not belong to any module: {entry.module}"
-            if self.default is not None:
-                raise DuplicateEntry(self.default, entry)
-            self.default = entry
-
-    def get_docstring(self) -> Optional[str]:
-        if self.default:
-            return self.default.get_docstring()
-        for override in self.overrides:
-            desc = override.get_docstring()
-            if desc:
-                return desc
-        return None
+    def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
+        self._index = len(self.parent.commands)
+        assert self not in self.parent.commands
+        self.parent.commands.append(self)
 
     @property
-    def namespace(self) -> str:
-        if self.default:
-            return self.default.namespace
-        else:
-            for override in self.overrides:
-                return override.namespace
-        raise ValueError(self)
+    def name(self) -> str:
+        return f"{self.parent.name}.{self._index}"
+
+
+###############################################################################
+# Concrete Object Entries
+# - Actions
+# - Captures
+# - Modes
+# - Lists
+# - Settings
+# - Tags
+###############################################################################
 
 
 @dataclasses.dataclass
@@ -321,6 +444,7 @@ class ActionEntry(CanOverrideEntry):
     func: Optional[str]
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         # NOTE: fail fast if func is a <function>
         assert self.func is None or isinstance(self.func, str), "\n".join(
@@ -329,18 +453,6 @@ class ActionEntry(CanOverrideEntry):
                 "Register a FunctionEntry and use function_entry.name",
             ]
         )
-
-    def group(self) -> "ActionGroupEntry":
-        if isinstance(self.module, ContextEntry):
-            return ActionGroupEntry(name=self.name, overrides=[self])
-        else:
-            assert isinstance(self.module, ModuleEntry)
-            return ActionGroupEntry(name=self.name, default=self)
-
-
-@dataclasses.dataclass
-class ActionGroupEntry(ObjectGroupEntry[ActionEntry]):
-    sort: ClassVar[str] = "action-group"
 
 
 @dataclasses.dataclass
@@ -352,6 +464,7 @@ class CaptureEntry(CanOverrideEntry):
     func: Optional[str]
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         # NOTE: fail fast if func is a <function>
         assert self.func is None or isinstance(self.func, str), "\n".join(
@@ -363,54 +476,27 @@ class CaptureEntry(CanOverrideEntry):
 
 
 @dataclasses.dataclass
-class CommandEntry(ObjectEntry):
-    sort: ClassVar[str] = "command"
-    file: TalonFileEntry = dataclasses.field(repr=False)
-    ast: tree_sitter_talon.TalonCommandDeclaration
-
-    def __post_init__(self, *args, **kwargs):
-        self._index = len(self.file.commands)
-        assert self not in self.file.commands
-        self.file.commands.append(self)
-
-    @property
-    def name(self) -> str:
-        return f"{self.file.name}.{self._index}"
-
-
-@dataclasses.dataclass
 class ListEntry(CanOverrideEntry):
     sort: ClassVar[str] = "list"
     name: str
-    module: ModuleEntry = dataclasses.field(repr=False)
     desc: Optional[str] = None
     value: Optional[ListValue] = None
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         # TODO: add self to module
-        self.value = _coerce_list_value(self.value)
+        self.value = normalize_list_value(self.value)
 
 
 @dataclasses.dataclass
-class ListValueEntry(ObjectEntry):
-    sort: ClassVar[str] = "list-value"
-    name: str
-    module: ModuleEntry = dataclasses.field(repr=False)
-    value: ListValue
-
-    def __post_init__(self, *args, **kwargs):
-        # TODO: add self to module
-        self.value = _coerce_list_value(self.value)
-
-
-@dataclasses.dataclass
-class ModeEntry(CanOverrideEntry):
+class ModeEntry(ObjectEntry):
     sort: ClassVar[str] = "mode"
     name: str
-    module: ModuleEntry = dataclasses.field(repr=False)
+    parent: ModuleEntry = dataclasses.field(repr=False)
     desc: Optional[str] = None
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         pass
 
@@ -421,45 +507,47 @@ class SettingEntry(CanOverrideEntry):
     name: str
     type: Optional[str] = None
     desc: Optional[str] = None
-    default: Optional[tree_sitter_talon.TalonExpression] = None
+    value: Optional[Union[SettingValue, tree_sitter_talon.TalonExpression]] = None
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         pass
-
-
-@dataclasses.dataclass
-class SettingValueEntry(ObjectEntry):
-    sort: ClassVar[str] = "setting-value"
-    name: str
-    file_or_module: Union[TalonFileEntry, ModuleEntry] = dataclasses.field(repr=False)
-    value: tree_sitter_talon.TalonExpression
-
-    def __post_init__(self, *args, **kwargs):
-        if isinstance(self.file_or_module, TalonFileEntry):
-            assert self not in self.file_or_module.settings
-            self.file_or_module.settings.append(self)
 
 
 @dataclasses.dataclass
 class TagEntry(ObjectEntry):
     sort: ClassVar[str] = "tag"
     name: str
-    module: ModuleEntry = dataclasses.field(repr=False)
+    parent: ModuleEntry = dataclasses.field(repr=False)
     desc: Optional[str] = None
 
     def __post_init__(self, *args, **kwargs):
+        super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         pass
 
 
-@dataclasses.dataclass
-class TagImportEntry(ObjectEntry):
-    sort: ClassVar[str] = "tag-import"
-    name: str
-    file_or_module: Union[TalonFileEntry, ModuleEntry] = dataclasses.field(repr=False)
+###############################################################################
+# Helper Functions
+###############################################################################
 
-    def __post_init__(self, *args, **kwargs):
-        if isinstance(self.file_or_module, TalonFileEntry):
-            assert self not in self.file_or_module.tag_imports
-            self.file_or_module.tag_imports.append(self)
+
+def normalize_list_value(list_value: ListValue) -> ListValue:
+    if isinstance(list_value, Iterable):
+        return list(list_value)
+    elif isinstance(list_value, Mapping):
+        return dict(list_value)
+    elif list_value is not None:
+        raise AssertionError(f"Value is not a list or dict: {list_value}")
+
+
+def resolve_name(name: str, *, namespace: Optional[str] = None) -> str:
+    parts = name.split(".")
+    if parts and parts[0] == "self":
+        if namespace:
+            return ".".join([namespace, *parts[1:]])
+        else:
+            raise ValueError(f"Cannot resolve 'self' in {name}")
+    else:
+        return name

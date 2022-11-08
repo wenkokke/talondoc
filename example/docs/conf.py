@@ -8,7 +8,8 @@
 
 import os
 import sys
-from typing import Optional
+from typing import Optional, Union
+from collections.abc import Callable
 
 project = "example"
 copyright = "2022, Wen Kokke"
@@ -25,9 +26,14 @@ extensions = ["talondoc.sphinx"]
 
 # -- Options for TalonDoc ----------------------------------------------------
 
-def talondoc_docstring_hook(qualified_name: str) -> Optional[str]:
-    return None
+# TalonDocDocstringHook = Union[
+#     Callable[[str, str], Optional[str]],
+#     dict[str, dict[str, str]],
+# ]
 
+# def talondoc_docstring_hook(sort: str, name: str) -> Optional[str]:
+#     return None
+#
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
