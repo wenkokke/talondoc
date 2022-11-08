@@ -5,4 +5,4 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/wenkokke/talondoc/CI)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/wenkokke/talonfmt/dev.svg)](https://results.pre-commit.ci/latest/github/wenkokke/talonfmt/dev)
 
-See <https://wen.works/talondoc/>
+See [https://wen.works/talondoc/](the docs).
