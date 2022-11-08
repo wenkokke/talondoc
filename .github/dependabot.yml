@@ -4,10 +4,16 @@ updates:
     - package-ecosystem: "github-actions"
       directory: "/"
       schedule:
-          interval: "daily"
+          interval: "weekly"
 
     # Maintain dependencies for Python packages
     - package-ecosystem: "pip"
       directory: "/"
       schedule:
-          interval: "daily"
+          interval: "weekly"
+          
+    # Maintain dependencies for Git submodules
+    - package-ecosystem: "gitsubmodule"
+      directory: "/"
+      schedule:
+          interval: "weekly"
