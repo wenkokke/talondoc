@@ -1,7 +1,7 @@
 user.lang.tags.library_gui_open
 ===============================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: lang/tags/library_gui_open.talon
   :exclude: **

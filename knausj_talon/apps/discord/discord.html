@@ -13,10 +13,11 @@
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="user.apps.jetbrains.jetbrains" href="../jetbrains/jetbrains.html" />
-    <link rel="prev" title="user.apps.generic_snippets.generic_snippets" href="../generic_snippets/generic_snippets.html" />
+    <link rel="prev" title="user.apps.nautilus.nautilus" href="../nautilus/nautilus.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -113,43 +114,113 @@
 <caption><span class="caption-text">user.apps.discord.discord</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
 <tr class="row-odd"><td>[channel] mentions last</td>
-<td><p>Go up to channel with unread mentions</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_mentions_last</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>[channel] mentions next</td>
-<td><p>Go down to channel with unread mentions</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_mentions_next</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>oldest unread</td>
-<td><p>Go to oldest unread message</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_oldest_unread</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>{user.discord_destination} [&lt;user.text&gt;]</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_quick_switcher</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">discord_destination</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>switcher</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_quick_switcher</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>current call</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_go_current_call</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>toggle (dee ems | dims)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_toggle_dms</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle pins</td>
-<td><p>Toggle pins popout</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_toggle_pins</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle inbox</td>
-<td><p>Toggle inbox popout</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_toggle_inbox</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle (members | member list)</td>
-<td><p>Toggle channel member list</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_toggle_members</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>pick emoji</td>
-<td><p>Toggle emoji picker</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_emoji_picker</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>pick (jif | gif | gift)</td>
-<td><p>Toggle gif picker</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_gif_picker</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>mark inbox channel read</td>
-<td><p>Mark top inbox channel read</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_mark_inbox_read</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>[toggle] (mute | unmute)</td>
-<td><p>Toggle mute</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_mute</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>[toggle] (deafen | undeafen)</td>
-<td><p>Toggle deafen</p></td>
+<tr class="row-odd"><td>(mute | unmute) and sleep</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_mute</span><span class="p">()</span>
+<span class="n">speech</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>answer call</td>
-<td><p>Answer incoming call</p></td>
+<tr class="row-even"><td>[toggle] (deafen | undeafen)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_deafen</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>decline call</td>
-<td><p>Decline incoming call</p></td>
+<tr class="row-odd"><td>answer call</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_answer_call</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>decline call</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">discord_decline_call</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -168,7 +239,7 @@
     </p>
     <p>
         &copy; Copyright 2022, Wen Kokke.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br/>
     </p>
   </div>
 </footer>

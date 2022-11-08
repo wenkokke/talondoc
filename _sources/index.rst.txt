@@ -15,14 +15,14 @@ Python files in our example package, ``examples/knausj_talon``, we use the
 
 .. code-block:: rst
 
-  .. talon:package:: example/knausj_talon
+  .. talon:package:: ../knausj_talon
     :name: user
-    :exclude: conftest.py, tests/**
+    :exclude: conftest.py, test/**, **/*.py
     :trigger: ready
 
-.. talon:package:: example/knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
-  :exclude: conftest.py, tests/**
+  :exclude: conftest.py, test/**, **/*.py
   :trigger: ready
 
 The ``talon:package`` directive takes a single argument, which is the path to

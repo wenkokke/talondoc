@@ -1,9 +1,0 @@
-user.misc.git_add_patch
-=======================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: misc/git_add_patch.talon
-  :exclude: **
-
-.. talon:command-table:: user.misc.git_add_patch

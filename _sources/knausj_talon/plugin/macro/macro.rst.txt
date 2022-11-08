@@ -1,0 +1,9 @@
+user.plugin.macro.macro
+=======================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: plugin/macro/macro.talon
+  :exclude: **
+
+.. talon:command-table:: user.plugin.macro.macro

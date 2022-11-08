@@ -1,0 +1,9 @@
+user.plugin.cancel.cancel
+=========================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: plugin/cancel/cancel.talon
+  :exclude: **
+
+.. talon:command-table:: user.plugin.cancel.cancel

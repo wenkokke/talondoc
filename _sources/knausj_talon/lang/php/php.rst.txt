@@ -1,7 +1,7 @@
 user.lang.php.php
 =================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: lang/php/php.talon
   :exclude: **

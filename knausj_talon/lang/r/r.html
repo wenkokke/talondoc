@@ -13,6 +13,7 @@
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="user.lang.scala.scala" href="../scala/scala.html" />
@@ -116,11 +117,13 @@
 <td><p>Insert “ %in% “</p></td>
 </tr>
 <tr class="row-even"><td>toggle library</td>
-<td><p>GUI: List libraries for active language</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_toggle_libraries</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>library &lt;user.code_libraries&gt;</td>
-<td><p>Inserts a library and positions the cursor appropriately
-Press end enter.</p></td>
+<td><p>Press end enter.</p></td>
 </tr>
 <tr class="row-even"><td>(chain | pipe that)</td>
 <td><p>Press end.
@@ -134,10 +137,16 @@ Press enter.</p></td>
 </td>
 </tr>
 <tr class="row-even"><td>^function define &lt;user.text&gt;$</td>
-<td><p>Inserts private function declaration</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_private_function</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>named arg {user.code_parameter_name}</td>
-<td><p>Inserts a named argument</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_insert_named_argument</span><span class="p">(</span><span class="n">code_parameter_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -156,7 +165,7 @@ Press enter.</p></td>
     </p>
     <p>
         &copy; Copyright 2022, Wen Kokke.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br/>
     </p>
   </div>
 </footer>

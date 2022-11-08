@@ -1,0 +1,9 @@
+user.core.modes.wake_and_sleep
+==============================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/modes/wake_and_sleep.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.modes.wake_and_sleep

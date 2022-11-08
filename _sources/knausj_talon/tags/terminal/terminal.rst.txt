@@ -1,0 +1,9 @@
+user.tags.terminal.terminal
+===========================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: tags/terminal/terminal.talon
+  :exclude: **
+
+.. talon:command-table:: user.tags.terminal.terminal

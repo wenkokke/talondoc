@@ -1,0 +1,9 @@
+user.apps.atril.atril
+=====================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: apps/atril/atril.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.atril.atril

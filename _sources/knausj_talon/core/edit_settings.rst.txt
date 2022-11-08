@@ -1,0 +1,9 @@
+user.core.edit_settings
+=======================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/edit_settings.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.edit_settings

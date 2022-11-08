@@ -1,7 +1,7 @@
 user.lang.sql.sql
 =================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: lang/sql/sql.talon
   :exclude: **

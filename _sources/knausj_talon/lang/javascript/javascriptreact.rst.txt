@@ -1,7 +1,7 @@
 user.lang.javascript.javascriptreact
 ====================================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: lang/javascript/javascriptreact.talon
   :exclude: **

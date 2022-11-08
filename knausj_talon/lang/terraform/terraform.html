@@ -13,6 +13,7 @@
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="user.lang.go.go" href="../go/go.html" />
@@ -113,16 +114,29 @@
 <caption><span class="caption-text">user.lang.terraform.terraform</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
 <tr class="row-odd"><td>state {user.terraform_module_block}</td>
-<td><p>Inserts a new module-related block of a given type (e.g. variable, output, provider…)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_terraform_module_block</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">terraform_module_block</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>resource &lt;user.text&gt;</td>
-<td><p>Inserts a new resource block with given name</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_terraform_resource</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>data [source] &lt;user.text&gt;</td>
-<td><p>Inserts a new data block with given name</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_terraform_data_source</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>[state] prop {user.terraform_common_property}</td>
-<td><p>code_operator_assignment</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">terraform_common_property</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">code_operator_assignment</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>type {user.code_type}</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{code_type}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -147,7 +161,7 @@
     </p>
     <p>
         &copy; Copyright 2022, Wen Kokke.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br/>
     </p>
   </div>
 </footer>

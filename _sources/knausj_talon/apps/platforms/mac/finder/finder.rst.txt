@@ -1,9 +1,0 @@
-user.apps.platforms.mac.finder.finder
-=====================================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: apps/platforms/mac/finder/finder.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.platforms.mac.finder.finder

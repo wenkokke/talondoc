@@ -1,0 +1,9 @@
+user.plugin.repeater.repeater
+=============================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: plugin/repeater/repeater.talon
+  :exclude: **
+
+.. talon:command-table:: user.plugin.repeater.repeater

@@ -1,0 +1,9 @@
+user.tags.debugger.debugger
+===========================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: tags/debugger/debugger.talon
+  :exclude: **
+
+.. talon:command-table:: user.tags.debugger.debugger

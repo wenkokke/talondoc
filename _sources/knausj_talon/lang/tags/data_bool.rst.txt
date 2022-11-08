@@ -1,7 +1,7 @@
 user.lang.tags.data_bool
 ========================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: lang/tags/data_bool.talon
   :exclude: **

@@ -1,9 +1,0 @@
-user.apps.file_manager
-======================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: apps/file_manager.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.file_manager

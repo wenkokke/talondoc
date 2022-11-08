@@ -1,9 +1,0 @@
-user.apps.platforms.mac.iterm.iterm
-===================================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: apps/platforms/mac/iterm/iterm.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.platforms.mac.iterm.iterm

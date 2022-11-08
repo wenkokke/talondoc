@@ -1,0 +1,9 @@
+user.core.modes.sleep_mode_wav2letter
+=====================================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/modes/sleep_mode_wav2letter.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.modes.sleep_mode_wav2letter

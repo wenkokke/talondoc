@@ -13,6 +13,7 @@
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="user.lang.javascript.javascript" href="../javascript/javascript.html" />
@@ -119,7 +120,10 @@
 </td>
 </tr>
 <tr class="row-even"><td>action block</td>
-<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;action(&quot;</span><span class="p">,</span> <span class="s2">&quot;):&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>setting block</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;settings():</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -128,7 +132,10 @@
 </td>
 </tr>
 <tr class="row-even"><td>setting {user.talon_settings}</td>
-<td><p>Pastes text and preserves clipboard</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{talon_settings}</span><span class="s2"> = &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>win require</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;os: windows</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -155,20 +162,16 @@
 </td>
 </tr>
 <tr class="row-odd"><td>application [require] [{user.talon_apps}]</td>
-<td><p>Let &lt;app&gt; be &lt;talon_apps&gt; or None
-Pastes text and preserves clipboard</p></td>
+<td><p>Let &lt;app&gt; be &lt;talon_apps&gt; or None</p></td>
 </tr>
 <tr class="row-even"><td>mode require [{user.talon_modes}]</td>
-<td><p>Let &lt;mode&gt; be &lt;talon_modes&gt; or None
-Pastes text and preserves clipboard</p></td>
+<td><p>Let &lt;mode&gt; be &lt;talon_modes&gt; or None</p></td>
 </tr>
 <tr class="row-odd"><td>tag require [{user.talon_tags}]</td>
-<td><p>Let &lt;tag&gt; be &lt;talon_tags&gt; or None
-Pastes text and preserves clipboard</p></td>
+<td><p>Let &lt;tag&gt; be &lt;talon_tags&gt; or None</p></td>
 </tr>
 <tr class="row-even"><td>tag set [{user.talon_tags}]</td>
-<td><p>Let &lt;tag&gt; be &lt;talon_tags&gt; or None
-Pastes text and preserves clipboard</p></td>
+<td><p>Let &lt;tag&gt; be &lt;talon_tags&gt; or None</p></td>
 </tr>
 <tr class="row-odd"><td>list {user.talon_lists}</td>
 <td><p>Insert “{{ { talon_lists }} }”</p></td>
@@ -183,16 +186,28 @@ Pastes text and preserves clipboard</p></td>
 <td><p>Insert “{ modifiers }”</p></td>
 </tr>
 <tr class="row-odd"><td>funk {user.talon_actions}</td>
-<td><p>Inserts a function and positions the cursor appropriately</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_insert_function</span><span class="p">(</span><span class="n">talon_actions</span><span class="p">,</span> <span class="n">edit</span><span class="o">.</span><span class="n">selected_text</span><span class="p">())</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>funk cell &lt;number&gt;</td>
-<td><p>Inserts the selected function when the imgui is open</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_select_function</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>funk wrap &lt;user.code_common_function&gt;</td>
-<td><p>Inserts a function and positions the cursor appropriately</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_insert_function</span><span class="p">(</span><span class="n">code_common_function</span><span class="p">,</span> <span class="n">edit</span><span class="o">.</span><span class="n">selected_text</span><span class="p">())</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>funk wrap &lt;number&gt;</td>
-<td><p>Inserts the selected function when the imgui is open</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_select_function</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">edit</span><span class="o">.</span><span class="n">selected_text</span><span class="p">())</span>
+</pre></div>
+</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -211,7 +226,7 @@ Pastes text and preserves clipboard</p></td>
     </p>
     <p>
         &copy; Copyright 2022, Wen Kokke.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br/>
     </p>
   </div>
 </footer>

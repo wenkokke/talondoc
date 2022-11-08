@@ -1,0 +1,9 @@
+user.core.homophones.homophones_open
+====================================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/homophones/homophones_open.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.homophones.homophones_open

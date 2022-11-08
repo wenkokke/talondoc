@@ -1,0 +1,9 @@
+user.plugin.talon_helpers.talon_helpers
+=======================================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: plugin/talon_helpers/talon_helpers.talon
+  :exclude: **
+
+.. talon:command-table:: user.plugin.talon_helpers.talon_helpers

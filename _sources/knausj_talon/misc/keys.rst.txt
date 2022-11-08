@@ -1,9 +1,0 @@
-user.misc.keys
-==============
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: misc/keys.talon
-  :exclude: **
-
-.. talon:command-table:: user.misc.keys

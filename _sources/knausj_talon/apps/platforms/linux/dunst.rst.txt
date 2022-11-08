@@ -1,9 +1,0 @@
-user.apps.platforms.linux.dunst
-===============================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: apps/platforms/linux/dunst.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.platforms.linux.dunst

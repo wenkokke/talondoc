@@ -1,7 +1,7 @@
 user.lang.java.java
 ===================
 
-.. talon:package:: ../../knausj_talon
+.. talon:package:: ../knausj_talon
   :name: user
   :include: lang/java/java.talon
   :exclude: **

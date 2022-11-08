@@ -3,29 +3,51 @@ Documentation for knausj_talon
 
 .. talon:package:: /home/runner/work/talondoc/talondoc/example/knausj_talon
   :name: user
-  :exclude: *.py, modes/wake_up_wav2letter.talon
+  :exclude: conftest.py, test/**, **/*.py
   :trigger: ready
 
 .. toctree::
   settings.rst
-  apps/file_manager.rst
-  apps/generic_debugger.rst
-  apps/talon_repl.rst
-  apps/generic_browser.rst
-  apps/conemu.rst
-  apps/generic_snippets/generic_snippets_open.rst
-  apps/generic_snippets/generic_snippets.rst
+  plugin/cancel/cancel.rst
+  plugin/mouse/mouse.rst
+  plugin/mouse/mouse_cursor.rst
+  plugin/desktops/desktops.rst
+  plugin/symbols/symbols.rst
+  plugin/talon_draft_window/draft_window_open.rst
+  plugin/talon_draft_window/draft_window.rst
+  plugin/talon_draft_window/draft_global.rst
+  plugin/screenshot/screenshot.rst
+  plugin/command_history/command_history.rst
+  plugin/draft_editor/draft_editor_open.rst
+  plugin/draft_editor/draft_editor.rst
+  plugin/talon_helpers/talon_helpers.rst
+  plugin/text_navigation/text_navigation.rst
+  plugin/microphone_selection/microphone_selection.rst
+  plugin/repeater/repeater.rst
+  plugin/datetimeinsert/datetimeinsert.rst
+  plugin/media/media.rst
+  plugin/macro/macro.rst
+  apps/nitro_reader/nitro_reader_5.rst
+  apps/sumatrapdf/sumatrapdf.rst
+  apps/nautilus/nautilus.rst
   apps/discord/discord.rst
   apps/jetbrains/jetbrains.rst
+  apps/twitter/twitter.rst
   apps/okular/okular.rst
+  apps/chrome/chrome.rst
+  apps/tmux/tmux_linux.rst
+  apps/keepassx/keepassx_linux.rst
+  apps/gitlab/gitlab.rst
   apps/i3wm/i3wm.rst
   apps/calibre/calibre_viewer.rst
+  apps/outlook/outlook_win.rst
+  apps/outlook/outlook_web.rst
+  apps/rstudio/rstudio_mac.rst
   apps/terraform/terraform.rst
-  apps/web/github.rst
-  apps/web/twitter.rst
-  apps/web/protonmail.rst
-  apps/web/gitlab.rst
-  apps/web/outlook.rst
+  apps/apple_terminal/apple_terminal.rst
+  apps/wsl/wsl.rst
+  apps/dunst/dunst.rst
+  apps/powershell/powershell_win.rst
   apps/thunderbird/thunderbird_contacts.rst
   apps/thunderbird/thunderbird_tasks.rst
   apps/thunderbird/thunderbird_inbox.rst
@@ -33,71 +55,70 @@ Documentation for knausj_talon
   apps/thunderbird/thunderbird_calendar.rst
   apps/thunderbird/thunderbird_composer.rst
   apps/firefox/firefox.rst
+  apps/talon_repl/talon_repl.rst
   apps/eclipse/eclipse.rst
+  apps/taskwarrior/taskwarrior_linux.rst
   apps/visualstudio/visual_studio.rst
+  apps/git/git_add_patch.rst
+  apps/git/git.rst
+  apps/kde_konsole/kde_konsole.rst
+  apps/termite/termite.rst
   apps/kubectl/kubectl.rst
+  apps/windows_explorer/windows_explorer.rst
   apps/amethyst/amethyst.rst
   apps/windbg/windbg.rst
   apps/adobe/adobe_acrobat_reader_dc.rst
+  apps/github/github_web.rst
   apps/gdb/gdb.rst
+  apps/protonmail/protonmail.rst
   apps/vscode/vscode.rst
+  apps/evince/evince.rst
   apps/kindle/kindle.rst
   apps/slack/slack_win.rst
   apps/slack/slack_mac.rst
-  apps/generic_terminal/generic_terminal.rst
+  apps/apple_notes/apple_notes.rst
+  apps/signal/signal_linux.rst
+  apps/conemu/conemu.rst
   apps/anaconda/anaconda.rst
-  apps/platforms/win/nitro_reader/nitro_reader_5.rst
-  apps/platforms/win/sumatrapdf/sumatrapdf.rst
-  apps/platforms/win/outlook/outlook.rst
-  apps/platforms/win/wsl/wsl.rst
-  apps/platforms/win/powershell/power_shell.rst
-  apps/platforms/win/explorer/explorer.rst
-  apps/platforms/win/windows_terminal/windows_terminal.rst
-  apps/platforms/mac/rstudio.rst
-  apps/platforms/mac/notes/notes.rst
-  apps/platforms/mac/terminal/apple_terminal.rst
-  apps/platforms/mac/finder/finder.rst
-  apps/platforms/mac/iterm/iterm.rst
-  apps/platforms/linux/keepassx.rst
-  apps/platforms/linux/taskwarrior.rst
-  apps/platforms/linux/termite.rst
-  apps/platforms/linux/dunst.rst
-  apps/platforms/linux/signal.rst
-  apps/platforms/linux/tmux.rst
-  apps/platforms/linux/nautilus/nautilus.rst
-  apps/platforms/linux/gnome-terminal/gnome-terminal.rst
-  apps/platforms/linux/kde-konsole/kde-konsole.rst
-  apps/platforms/linux/evince/evince.rst
-  apps/platforms/linux/atril/atril.rst
+  apps/finder/finder.rst
+  apps/iterm/iterm.rst
   apps/teams/teams_mac.rst
   apps/teams/teams.rst
+  apps/gnome_terminal/gnome_terminal.rst
+  apps/atril/atril.rst
   apps/evernote/mac.rst
   apps/1password/1password_global.rst
   apps/1password/1password.rst
-  talon_draft_window/draft_window_open.rst
-  talon_draft_window/draft_window.rst
-  talon_draft_window/draft_global.rst
-  draft_editor/draft_editor_open.rst
-  draft_editor/draft_editor.rst
-  text/line_commands.rst
-  text/text_navigation.rst
-  text/symbols.rst
-  text/homophones_open.rst
-  text/homophones.rst
-  text/numbers.rst
-  text/find_and_replace.rst
-  text/generic_editor.rst
-  modes/language_modes.rst
-  modes/sleep_mode.rst
-  modes/dictation_mode.rst
-  modes/sleep_mode_wav2letter.rst
-  modes/modes.rst
-  modes/wake_up.rst
-  modes/dragon_modes.rst
-  mouse_grid/mouse_grid.rst
-  mouse_grid/mouse_grid_open.rst
-  mouse_grid/mouse_grid_always.rst
-  emoji/emoji.rst
+  apps/windows_terminal/windows_terminal.rst
+  core/edit_settings.rst
+  core/homophones/homophones_open.rst
+  core/homophones/homophones.rst
+  core/vocabulary/edit_vocabulary.rst
+  core/screens/screens.rst
+  core/abbreviate/abbreviate.rst
+  core/keys/keys.rst
+  core/text/text.rst
+  core/websites_and_search_engines/websites_and_search_engines.rst
+  core/help/help_scope_open.rst
+  core/help/help.rst
+  core/help/help_open.rst
+  core/modes/language_modes.rst
+  core/modes/wake_and_sleep.rst
+  core/modes/sleep_mode.rst
+  core/modes/dictation_mode.rst
+  core/modes/sleep_mode_wav2letter.rst
+  core/modes/wake_and_sleep_wav2letter.rst
+  core/modes/modes.rst
+  core/modes/dragon_mode.rst
+  core/mouse_grid/mouse_grid.rst
+  core/mouse_grid/mouse_grid_open.rst
+  core/mouse_grid/mouse_grid_always.rst
+  core/file_extension/file_extension.rst
+  core/edit/standard.rst
+  core/edit/edit.rst
+  core/windows_and_tabs/tabs.rst
+  core/windows_and_tabs/window_management.rst
+  core/numbers/numbers.rst
   lang/rust/rust.rst
   lang/batch/batch.rst
   lang/java/java.rst
@@ -141,36 +162,17 @@ Documentation for knausj_talon
   lang/tags/functions.rst
   lang/tags/comment_documentation.rst
   lang/markdown/markdown.rst
-  misc/tabs.rst
-  misc/mouse.rst
-  misc/keys.rst
-  misc/splits.rst
-  misc/standard.rst
-  misc/messaging.rst
-  misc/screens.rst
-  misc/help_scope_open.rst
-  misc/window_management.rst
-  misc/extensions.rst
-  misc/git_add_patch.rst
-  misc/microphone_selection.rst
-  misc/help.rst
-  misc/cancel.rst
-  misc/desktops.rst
-  misc/abbreviate.rst
-  misc/edit_settings.rst
-  misc/chapters.rst
-  misc/talon_helpers.rst
-  misc/git.rst
-  misc/websites_and_search_engines.rst
-  misc/help_open.rst
-  misc/formatters.rst
-  misc/history.rst
-  misc/multiple_cursors.rst
-  misc/datetimeinsert.rst
-  misc/vocabulary.rst
-  misc/screenshot.rst
-  misc/repeater.rst
-  misc/mouse_cursor.rst
-  misc/macro.rst
-  misc/media.rst
-  misc/pages.rst
+  tags/snippets/snippets.rst
+  tags/snippets/snippets_open.rst
+  tags/find_and_replace/find_and_replace.rst
+  tags/terminal/terminal.rst
+  tags/messaging/messaging.rst
+  tags/chapters/chapters.rst
+  tags/splits/splits.rst
+  tags/pages/pages.rst
+  tags/line_commands/line_commands.rst
+  tags/debugger/debugger.rst
+  tags/file_manager/file_manager.rst
+  tags/browser/browser.rst
+  tags/multiple_cursors/multiple_cursors.rst
+  tags/emoji/emoji.rst

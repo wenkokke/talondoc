@@ -1,0 +1,9 @@
+user.tags.pages.pages
+=====================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: tags/pages/pages.talon
+  :exclude: **
+
+.. talon:command-table:: user.tags.pages.pages

@@ -1,9 +1,0 @@
-user.misc.edit_settings
-=======================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: misc/edit_settings.talon
-  :exclude: **
-
-.. talon:command-table:: user.misc.edit_settings

@@ -1,0 +1,9 @@
+user.core.help.help
+===================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/help/help.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.help.help

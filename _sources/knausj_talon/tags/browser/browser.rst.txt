@@ -1,0 +1,9 @@
+user.tags.browser.browser
+=========================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: tags/browser/browser.talon
+  :exclude: **
+
+.. talon:command-table:: user.tags.browser.browser

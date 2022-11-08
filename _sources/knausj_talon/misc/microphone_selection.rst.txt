@@ -1,9 +1,0 @@
-user.misc.microphone_selection
-==============================
-
-.. talon:package:: ../../knausj_talon
-  :name: user
-  :include: misc/microphone_selection.talon
-  :exclude: **
-
-.. talon:command-table:: user.misc.microphone_selection

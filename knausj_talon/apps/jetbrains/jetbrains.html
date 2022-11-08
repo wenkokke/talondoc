@@ -13,9 +13,10 @@
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.apps.okular.okular" href="../okular/okular.html" />
+    <link rel="next" title="user.apps.twitter.twitter" href="../twitter/twitter.html" />
     <link rel="prev" title="user.apps.discord.discord" href="../discord/discord.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -113,113 +114,221 @@
 <caption><span class="caption-text">user.apps.jetbrains.jetbrains</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
 <tr class="row-odd"><td>complete</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action CodeCompletion&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>perfect</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action CodeCompletion,action CodeCompletion&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>smart</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action SmartTypeCompletion&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>(done | finish)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action EditorCompleteStatement&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>grab &lt;number&gt;</td>
-<td><p>Copies specified number of words to the left</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea_grab</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>(action | please)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoAction&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>(action | please) &lt;user.text&gt;</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoAction&quot;</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>refactor</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Refactorings.QuickListPopupAction&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>refactor &lt;user.text&gt;</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Refactorings.QuickListPopupAction&quot;</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>extract variable</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action IntroduceVariable&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>extract field</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action IntroduceField&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>extract constant</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action IntroduceConstant&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>extract parameter</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action IntroduceParameter&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>extract interface</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ExtractInterface&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>extract method</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ExtractMethod&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>refactor in line</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Inline&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>refactor move</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Move&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>refactor rename</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action RenameElement&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>rename file</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action RenameFile&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>fix (format | formatting)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ReformatCode&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>fix imports</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action OptimizeImports&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>(go declaration | follow)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoDeclaration&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go implementation</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoImplementation&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go usage</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action FindUsages&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go type</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoTypeDeclaration&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go test</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoTest&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go back</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Back&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go forward</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Forward&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>find (everywhere | all)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action SearchEverywhere&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>find (everywhere | all) &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action SearchEverywhere&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">500</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>(search | find) class</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoClass&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>(search | find) file</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoFile&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>(search | find) path</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action FindInPath&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>(search | find) symbol</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoSymbol&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>(search | find) symbol &lt;user.text&gt;$</td>
-<td><p>Send a command to Jetbrains product
-Press “enter”.</p></td>
+<td><p>Press “enter”.</p></td>
 </tr>
 <tr class="row-even"><td>recent</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action RecentFiles&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>surround [this] with &lt;user.text&gt; [over]</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action SurroundWith&quot;</span><span class="p">)</span>
@@ -230,7 +339,12 @@ Press “enter”.</p></td>
 </td>
 </tr>
 <tr class="row-even"><td>insert generated &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Generate&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">500</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>insert template &lt;user.text&gt; [over]</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action InsertLiveTemplate&quot;</span><span class="p">)</span>
@@ -241,16 +355,28 @@ Press “enter”.</p></td>
 </td>
 </tr>
 <tr class="row-even"><td>create (template | snippet)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action SaveAsTemplate&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle recording</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action StartStopMacroRecording&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>change (recording | recordings)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action EditMacros&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>play recording</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action PlaybackLastMacro&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>play recording &lt;user.text&gt; [over]</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action PlaySavedMacrosAction&quot;</span><span class="p">)</span>
@@ -262,214 +388,428 @@ Press “enter”.</p></td>
 </td>
 </tr>
 <tr class="row-odd"><td>go mark</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ShowBookmarks&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle mark</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ToggleBookmark&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go next mark</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoNextBookmark&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go last mark</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoPreviousBookmark&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle mark &lt;number&gt;</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ToggleBookmark</span><span class="si">{number}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go mark &lt;number&gt;</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoBookmark</span><span class="si">{number}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>expand deep</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ExpandRegionRecursively&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>expand all</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ExpandAllRegions&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>collapse deep</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action CollapseRegionRecursively&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>collapse all</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action CollapseAllRegions&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go next (method | function)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action MethodDown&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go last (method | function)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action MethodUp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>clippings</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action PasteMultiple&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>copy path</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action CopyPaths&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>copy reference</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action CopyReference&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>copy pretty</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action CopyAsRichText&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>create sibling</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action NewElementSamePlace&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>create sibling &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action NewElementSamePlace&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">500</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>create file</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action NewElement&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>create file &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action NewElement&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">500</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go task</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action tasks.goto&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go browser task</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action tasks.open.in.browser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>switch task</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action tasks.switch&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>clear task</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action tasks.close&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>configure servers</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action tasks.configure.servers&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git pull</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Vcs.UpdateProject&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git commit</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action CheckinProject&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git push</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action CheckinProject&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git log</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Vcs.ShowTabbedFileHistory&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git browse</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Github.Open.In.Browser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git (gets | gist)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Github.Create.Gist&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git (pull request | request)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Github.Create.Pull.Request&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git (view | show | list) (requests | request)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Github.View.Pull.Request&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git (annotate | blame)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Annotate&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git menu</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Vcs.QuickListPopupAction&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle project</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateProjectToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle find</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateFindToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle run</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateRunToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle debug</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateDebugToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle events</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateEventLogToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle terminal</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateTerminalToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle git</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateVersionControlToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle structure</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateStructureToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle database</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateDatabaseToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle database changes</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateDatabaseChangesToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle make</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivatemakeToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle to do</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateTODOToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle docker</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateDockerToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle favorites</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ActivateFavoritesToolWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle last</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action JumpToLastWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle pinned</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action TogglePinnedMode&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle docked</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ToggleDockMode&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle floating</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ToggleFloatingMode&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle windowed</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ToggleWindowedMode&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle split</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ToggleSideMode&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle tool buttons</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ViewToolButtons&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle toolbar</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ViewToolBar&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle status [bar]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ViewStatusBar&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle navigation [bar]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ViewNavigationBar&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle power save</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action TogglePowerSave&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle whitespace</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action EditorToggleShowWhitespaces&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle indents</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action EditorToggleShowIndentLines&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle line numbers</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action EditorToggleShowLineNumbers&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle (bread crumbs | breadcrumbs)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action EditorToggleShowBreadcrumbs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle gutter icons</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action EditorToggleShowGutterIcons&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle wrap</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action EditorToggleUseSoftWraps&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle parameters</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ToggleInlineHintsAction&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle fullscreen</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ToggleFullScreen&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle distraction [free mode]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ToggleDistractionFreeMode&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle presentation [mode]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action TogglePresentationMode&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle comment</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">code</span><span class="o">.</span><span class="n">toggle_comment</span><span class="p">()</span>
@@ -478,163 +818,316 @@ Press “enter”.</p></td>
 </td>
 </tr>
 <tr class="row-even"><td>change scheme</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action QuickChangeScheme&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>(toggle | pop) (doc | documentation)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action QuickJavaDoc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>(pop deaf | toggle definition)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action QuickImplementations&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>pop type</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ExpressionTypeInfo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>pop parameters</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ParameterInfo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go breakpoints</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ViewBreakpoints&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle [line] breakpoint</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ToggleLineBreakpoint&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>toggle method breakpoint</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ToggleMethodBreakpoint&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>run menu</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ChooseRunConfiguration&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>run test</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action RunClass&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>run test again</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Rerun&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>debug test</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action DebugClass&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>step over</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action StepOver&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>step into</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action StepInto&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>step smart</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action SmartStepInto&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>step to line</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action RunToCursor&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>continue</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Resume&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>(grow | shrink) window right</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ResizeToolWindowRight&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>(grow | shrink) window left</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ResizeToolWindowLeft&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>(grow | shrink) window up</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ResizeToolWindowUp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>(grow | shrink) window down</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ResizeToolWindowDown&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go next (error | air)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoNextError&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go last (error | air)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoPreviousError&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>fix next (error | air)</td>
-<td><p>Send a command to Jetbrains product
-Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoNextError&quot;</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ShowIntentionActions&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>fix last (error | air)</td>
-<td><p>Send a command to Jetbrains product
-Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action GotoPreviousError&quot;</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ShowIntentionActions&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>select less</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action EditorUnSelectWord&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>select (more | this)</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action EditorSelectWord&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>expand &lt;number&gt; until &lt;number&gt;</td>
-<td><p>Selects lines from line_start to line line_end
-Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">select_range</span><span class="p">(</span><span class="n">number_1</span><span class="p">,</span> <span class="n">number_2</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action ExpandRegion&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>collapse &lt;number&gt; until &lt;number&gt;</td>
-<td><p>Selects lines from line_start to line line_end
-Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">select_range</span><span class="p">(</span><span class="n">number_1</span><span class="p">,</span> <span class="n">number_2</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action CollapseRegion&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>paste &lt;number&gt; until &lt;number&gt;</td>
-<td><p>Selects lines from line_start to line line_end
-Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">select_range</span><span class="p">(</span><span class="n">number_1</span><span class="p">,</span> <span class="n">number_2</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action EditorPaste&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>refactor &lt;number&gt; until &lt;number&gt;</td>
-<td><p>Selects lines from line_start to line line_end
-Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">select_range</span><span class="p">(</span><span class="n">number_1</span><span class="p">,</span> <span class="n">number_2</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action Refactorings.QuickListPopupAction&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>clone &lt;number&gt;</td>
-<td><p>Clones specified line at current position</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">line_clone</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>clear last &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find prev </span><span class="si">{text}</span><span class="s2">, action EditorBackSpace&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>clear next &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find next </span><span class="si">{text}</span><span class="s2">, action EditorBackSpace&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>comment last &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find prev </span><span class="si">{text}</span><span class="s2">, action CommentByLineComment&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>comment next &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find next </span><span class="si">{text}</span><span class="s2">, action CommentByLineComment&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go last &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find prev </span><span class="si">{text}</span><span class="s2">, action EditorRight&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go next &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find next </span><span class="si">{text}</span><span class="s2">, action EditorRight&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>paste last &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find prev </span><span class="si">{text}</span><span class="s2">, action EditorRight, action EditorPaste&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>paste next &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find next </span><span class="si">{text}</span><span class="s2">, action EditorRight, action EditorPaste&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>refactor last &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find prev </span><span class="si">{text}</span><span class="s2">, action Refactorings.QuickListPopupAction&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>refactor next &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find next </span><span class="si">{text}</span><span class="s2">, action Refactorings.QuickListPopupAction&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>replace last &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find prev </span><span class="si">{text}</span><span class="s2">, action EditorPaste&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>replace next &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find next </span><span class="si">{text}</span><span class="s2">, action EditorPaste&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>select last &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find prev </span><span class="si">{text}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>select next &lt;user.text&gt; [over]</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;find next </span><span class="si">{text}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>select camel left</td>
-<td><p>Extends the selection by camel/subword to the left</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">extend_camel_left</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>select camel right</td>
-<td><p>Extends the selection by camel/subword to the right</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">extend_camel_right</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go camel left</td>
-<td><p>Moves cursor to the left by camel case/subword</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">camel_left</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go camel right</td>
-<td><p>Move cursor to the right by camel case/subword</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">camel_right</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>blacken</td>
-<td><p>Send a command to Jetbrains product</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">idea</span><span class="p">(</span><span class="s2">&quot;action BLACKReformatCode&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -653,7 +1146,7 @@ Send a command to Jetbrains product</p></td>
     </p>
     <p>
         &copy; Copyright 2022, Wen Kokke.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.1.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.2.3.<br/>
     </p>
   </div>
 </footer>

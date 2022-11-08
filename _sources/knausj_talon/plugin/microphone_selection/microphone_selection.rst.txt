@@ -1,0 +1,9 @@
+user.plugin.microphone_selection.microphone_selection
+=====================================================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: plugin/microphone_selection/microphone_selection.talon
+  :exclude: **
+
+.. talon:command-table:: user.plugin.microphone_selection.microphone_selection

@@ -1,0 +1,9 @@
+user.core.edit.standard
+=======================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/edit/standard.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.edit.standard
