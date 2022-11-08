@@ -1,0 +1,9 @@
+user.apps.signal.signal_linux
+=============================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: apps/signal/signal_linux.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.signal.signal_linux

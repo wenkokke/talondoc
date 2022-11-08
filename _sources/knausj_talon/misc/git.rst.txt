@@ -1,9 +1,0 @@
-user.misc.git
-=============
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: misc/git.talon
-  :exclude: **
-
-.. talon:command-table:: user.misc.git

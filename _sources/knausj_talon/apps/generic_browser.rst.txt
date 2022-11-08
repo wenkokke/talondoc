@@ -1,9 +1,0 @@
-user.apps.generic_browser
-=========================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/generic_browser.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.generic_browser

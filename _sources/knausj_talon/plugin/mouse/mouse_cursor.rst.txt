@@ -1,0 +1,9 @@
+user.plugin.mouse.mouse_cursor
+==============================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: plugin/mouse/mouse_cursor.talon
+  :exclude: **
+
+.. talon:command-table:: user.plugin.mouse.mouse_cursor

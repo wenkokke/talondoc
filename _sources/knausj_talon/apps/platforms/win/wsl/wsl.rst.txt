@@ -1,9 +1,0 @@
-user.apps.platforms.win.wsl.wsl
-===============================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/platforms/win/wsl/wsl.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.platforms.win.wsl.wsl

@@ -1,0 +1,9 @@
+user.core.windows_and_tabs.window_management
+============================================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/windows_and_tabs/window_management.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.windows_and_tabs.window_management

@@ -1,9 +1,0 @@
-user.apps.platforms.mac.rstudio
-===============================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/platforms/mac/rstudio.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.platforms.mac.rstudio

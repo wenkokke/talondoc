@@ -1,0 +1,9 @@
+user.core.screens.screens
+=========================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/screens/screens.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.screens.screens

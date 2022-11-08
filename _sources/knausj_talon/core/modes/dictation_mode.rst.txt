@@ -1,0 +1,9 @@
+user.core.modes.dictation_mode
+==============================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/modes/dictation_mode.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.modes.dictation_mode

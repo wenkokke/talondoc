@@ -1,9 +1,0 @@
-user.apps.platforms.linux.keepassx
-==================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/platforms/linux/keepassx.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.platforms.linux.keepassx

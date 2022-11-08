@@ -1,9 +1,0 @@
-user.apps.platforms.linux.termite
-=================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/platforms/linux/termite.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.platforms.linux.termite

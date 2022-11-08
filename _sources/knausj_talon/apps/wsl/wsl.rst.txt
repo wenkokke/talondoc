@@ -1,0 +1,9 @@
+user.apps.wsl.wsl
+=================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: apps/wsl/wsl.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.wsl.wsl

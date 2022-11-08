@@ -1,9 +1,0 @@
-user.apps.web.gitlab
-====================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/web/gitlab.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.web.gitlab

@@ -1,0 +1,9 @@
+user.apps.finder.finder
+=======================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: apps/finder/finder.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.finder.finder

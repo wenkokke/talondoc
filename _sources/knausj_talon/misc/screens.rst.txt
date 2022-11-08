@@ -1,9 +1,0 @@
-user.misc.screens
-=================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: misc/screens.talon
-  :exclude: **
-
-.. talon:command-table:: user.misc.screens

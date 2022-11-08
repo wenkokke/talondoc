@@ -1,0 +1,9 @@
+user.core.keys.keys
+===================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/keys/keys.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.keys.keys

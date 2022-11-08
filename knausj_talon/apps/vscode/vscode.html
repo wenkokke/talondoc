@@ -16,8 +16,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.apps.i3wm.i3wm" href="../i3wm/i3wm.html" />
-    <link rel="prev" title="user.apps.slack.slack_win" href="../slack/slack_win.html" />
+    <link rel="next" title="user.apps.evince.evince" href="../evince/evince.html" />
+    <link rel="prev" title="user.apps.protonmail.protonmail" href="../protonmail/protonmail.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -114,499 +114,774 @@
 <caption><span class="caption-text">user.apps.vscode.vscode</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
 <tr class="row-odd"><td>window reload</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.reloadWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>window close</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.closeWindow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>please [&lt;user.text&gt;]</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.showCommands&quot;</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>bar explore</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.view.explorer&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>bar extensions</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.view.extensions&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>bar outline</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;outline.focus&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>bar run</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.view.debug&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>bar search</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.view.search&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>bar source</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.view.scm&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>bar test</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.view.testing.focus&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>bar switch</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.toggleSidebarVisibility&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>symbol hunt [&lt;user.text&gt;]</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.gotoSymbol&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">text</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>panel control</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>symbol hunt all [&lt;user.text&gt;]</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.showAllSymbols&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">text</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>panel output</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>panel control</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.panel.repl.view.focus&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>panel problems</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>panel output</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.panel.output.focus&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>panel switch</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>panel problems</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.panel.markers.view.focus&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>panel terminal</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>panel switch</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.togglePanel&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>focus editor</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>panel terminal</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.terminal.focus&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>show settings</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>focus editor</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.focusActiveEditorGroup&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>show settings json</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>show settings</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.openGlobalSettings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>show settings folder</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>show settings json</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.openSettingsJson&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>show settings folder json</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>show settings folder</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.openFolderSettings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>show settings workspace</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>show settings folder json</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.openFolderSettingsFile&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>show settings workspace json</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>show settings workspace</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.openWorkspaceSettings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>show shortcuts</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>show settings workspace json</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.openWorkspaceSettingsFile&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>show snippets</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>show shortcuts</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.openGlobalKeybindings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>centered switch</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>show snippets</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.openSnippets&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>fullscreen switch</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>centered switch</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.toggleCenteredLayout&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>theme switch</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>fullscreen switch</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.toggleFullScreen&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>wrap switch</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>theme switch</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.selectTheme&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>zen switch</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>wrap switch</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.toggleWordWrap&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>file hunt [&lt;user.text&gt;]</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>zen switch</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.toggleZenMode&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>file hunt (pace | paste)</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>file hunt [&lt;user.text&gt;]</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.quickOpen&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">text</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>file copy name</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>file hunt (pace | paste)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.quickOpen&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">paste</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>file copy path</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>file copy name</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;fileutils.copyFileName&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>file copy local [path]</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>file copy path</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;copyFilePath&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>file create sibling</td>
-<td><p>Execute command via vscode command server, if available, and wait
-        for command to finish.  If command server not available, uses command
-        palette and doesn’t guarantee that it will wait for command to
-        finish.</p></td>
+<tr class="row-odd"><td>file copy local [path]</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;copyRelativeFilePath&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>file create</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>file create sibling</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode_and_wait</span><span class="p">(</span><span class="s2">&quot;explorer.newFile&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>file create relative</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>file create</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.files.newUntitledFile&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>file create root</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>file create relative</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;fileutils.newFile&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>file rename</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>file create root</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;fileutils.newFileAtRoot&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>file move</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>file rename</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;fileutils.renameFile&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">150</span><span class="n">ms</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>file clone</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>file move</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;fileutils.moveFile&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">150</span><span class="n">ms</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>file delete</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>file clone</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;fileutils.duplicateFile&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">150</span><span class="n">ms</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>file open folder</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>file delete</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;fileutils.removeFile&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">150</span><span class="n">ms</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>file reveal</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>file open folder</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;revealFileInOS&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>save ugly</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>file reveal</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.files.action.showActiveFileInExplorer&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>suggest show</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>save ugly</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.files.saveWithoutFormatting&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>hint show</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>suggest show</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.triggerSuggest&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>definition show</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>hint show</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.triggerParameterHints&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>definition peek</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>definition show</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.revealDefinition&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>definition side</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>definition peek</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.peekDefinition&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>references show</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>definition side</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.revealDefinitionAside&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>references show</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.goToReferences&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>hierarchy peek</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.showCallHierarchy&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>references find</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;references-view.find&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>format that</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.formatDocument&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>format selection</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.formatSelection&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>imports fix</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.organizeImports&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>problem next</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.marker.nextInFiles&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>problem last</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.marker.prevInFiles&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>problem fix</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;problems.action.showQuickFixes&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>rename that</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.rename&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>refactor that</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.refactor&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>whitespace trim</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.trimTrailingWhitespace&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>language switch</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.editor.changeLanguageMode&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>refactor rename</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.rename&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>refactor this</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.refactor&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>(go declaration | follow)</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.revealDefinition&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go back</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.navigateBack&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go forward</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.navigateForward&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go implementation</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.goToImplementation&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go type</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.goToTypeDefinition&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go usage</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;references-view.find&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go recent [&lt;user.text&gt;]</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.openRecent&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">text</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">250</span><span class="n">ms</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go edit</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.navigateToLastEditLocation&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go marks</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.view.extension.bookmarks&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>toggle mark</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;bookmarks.toggle&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>go next mark</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;bookmarks.jumpToNext&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>go last mark</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;bookmarks.jumpToPrevious&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>close other tabs</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.closeOtherEditors&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>close all tabs</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.closeAllEditors&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>close tabs way right</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.closeEditorsToTheRight&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>close tabs way left</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.closeEditorsToTheLeft&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>fold that</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.fold&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>unfold that</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.unfold&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>fold those</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.foldAllMarkerRegions&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>unfold those</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.unfoldRecursively&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>fold all</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.foldAll&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>unfold all</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.unfoldAll&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>fold comments</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.foldAllBlockComments&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>fold one</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.foldLevel1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>fold two</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.foldLevel2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>fold three</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.foldLevel3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>fold four</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.foldLevel4&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>fold five</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.foldLevel5&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>fold six</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.foldLevel6&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>fold seven</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.foldLevel7&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git branch</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.branchFrom&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git branch this</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.branch&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git checkout [&lt;user.text&gt;]</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.checkout&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">text</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git commit [&lt;user.text&gt;]</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.
-Inserts a phrase formatted according to formatters. Formatters is a comma separated list of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.commitStaged&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">100</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">user</span><span class="o">.</span><span class="n">insert_formatted</span><span class="p">(</span><span class="n">text</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;CAPITALIZE_FIRST_WORD&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git commit undo</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.undoCommit&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git commit amend</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.commitStagedAmend&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git diff</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.openChange&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git fetch</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.fetch&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git fetch all</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.fetchAll&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git ignore</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.ignore&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git merge</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.merge&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git output</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.showOutput&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git pull</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.pullRebase&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git push</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.push&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git push focus</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.pushForce&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git rebase abort</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.rebaseAbort&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git reveal</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.revealInExplorer&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git revert</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.revertChange&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git stash</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.stash&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git stash pop</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.stashPop&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git status</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.scm.focus&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git stage</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.stage&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git stage all</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.stageAll&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git sync</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.sync&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>git unstage</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.unstage&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>git unstage all</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;git.unstageAll&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>pull request</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;pr.create&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>change next</td>
 <td><p>Press alt-f5.</p></td>
@@ -614,178 +889,326 @@ Inserts a phrase formatted according to formatters. Formatters is a comma separa
 <tr class="row-odd"><td>change last</td>
 <td><p>Press shift-alt-f5.</p></td>
 </tr>
-<tr class="row-even"><td>break point</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>test run</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;testing.runAtCursor&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>step over</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>test run file</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;testing.runCurrentFile&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>debug step into</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>test run all</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;testing.runAll&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>debug step out [of]</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>test run failed</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;testing.reRunFailTests&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>debug start</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>test run last</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;testing.reRunLastRun&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>debug pause</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>test debug</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;testing.debugAtCursor&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>debug stopper</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>test debug file</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;testing.debugCurrentFile&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>debug continue</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>test debug all</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;testing.debugAll&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>debug restart</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>test debug failed</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;testing.debugFailTests&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>debug console</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>test debug last</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;testing.debugLastRun&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>debug clean</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>test cancel</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;testing.cancelRun&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>terminal external</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>break point</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.debug.action.toggleBreakpoint&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>terminal new</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>step over</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.debug.stepOver&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>terminal next</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>debug step into</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.debug.stepInto&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>terminal last</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>debug step out [of]</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.debug.stepOut&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>terminal split</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>debug start</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.debug.start&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>terminal zoom</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>debug pause</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.debug.pause&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>terminal trash</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>debug stopper</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.debug.stop&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>terminal toggle</td>
-<td><p>Execute command via vscode command server, if available, and wait
-        for command to finish.  If command server not available, uses command
-        palette and doesn’t guarantee that it will wait for command to
-        finish.</p></td>
+<tr class="row-even"><td>debug continue</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.debug.continue&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>terminal scroll up</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>debug restart</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.debug.restart&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>terminal scroll down</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>debug console</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.debug.action.toggleRepl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>terminal &lt;number_small&gt;</td>
-<td><p>Activate a terminal by number</p></td>
+<tr class="row-odd"><td>debug clean</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.debug.panel.action.clearReplAction&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>copy line down</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>terminal external</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.terminal.openNativeConsole&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>copy line up</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>terminal new</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.terminal.new&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>select less</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>terminal next</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.terminal.focusNext&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>select (more | this)</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>terminal last</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.terminal.focusPrevious&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>minimap</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>terminal split</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.terminal.split&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>maximize</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>terminal zoom</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.toggleMaximizedPanel&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>restore</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>terminal trash</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.terminal.kill&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>select breadcrumb</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>terminal toggle</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode_and_wait</span><span class="p">(</span><span class="s2">&quot;workbench.action.terminal.toggleTerminal&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>replace here</td>
-<td><p>Search and replace for text in the active editor
-Press cmd-alt-l.</p></td>
+<tr class="row-even"><td>terminal scroll up</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.terminal.scrollUp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>hover show</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>terminal scroll down</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.terminal.scrollDown&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>join lines</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>terminal &lt;number_small&gt;</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode_terminal</span><span class="p">(</span><span class="n">number_small</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>full screen</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>copy line down</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.copyLinesDownAction&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>curse undo</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>copy line up</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.copyLinesUpAction&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>select word</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>select less</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.smartSelect.shrink&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>skip word</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>select (more | this)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.smartSelect.expand&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>cell next</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>minimap</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.toggleMinimap&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>cell last</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>maximize</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.minimizeOtherEditors&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>cell run above</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>restore</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.evenEditorWidths&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-even"><td>cell run</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>select breadcrumb</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;breadcrumbs.focusAndSelect&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
-<tr class="row-odd"><td>install local</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-odd"><td>replace here</td>
+<td><p>Press cmd-alt-l.</p></td>
 </tr>
-<tr class="row-even"><td>preview markdown</td>
-<td><p>Execute command via vscode command server, if available, or fallback
-        to command palette.</p></td>
+<tr class="row-even"><td>hover show</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.showHover&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>join lines</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.joinLines&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>full screen</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.action.toggleFullScreen&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>curse undo</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;cursorUndo&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>select word</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.addSelectionToNextFindMatch&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>skip word</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;editor.action.moveSelectionToNextFindMatch&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>cell next</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;notebook.focusNextEditor&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>cell last</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;notebook.focusPreviousEditor&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>cell run above</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;notebook.cell.executeCellsAbove&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>cell run</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;notebook.cell.execute&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>install local</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;workbench.extensions.action.installVSIX&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>preview markdown</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">vscode</span><span class="p">(</span><span class="s2">&quot;markdown.showPreview&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 </tbody>
 </table>

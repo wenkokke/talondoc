@@ -1,9 +1,0 @@
-user.misc.splits
-================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: misc/splits.talon
-  :exclude: **
-
-.. talon:command-table:: user.misc.splits

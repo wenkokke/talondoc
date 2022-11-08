@@ -1,9 +1,0 @@
-user.text.find_and_replace
-==========================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: text/find_and_replace.talon
-  :exclude: **
-
-.. talon:command-table:: user.text.find_and_replace

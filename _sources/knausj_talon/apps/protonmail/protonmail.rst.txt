@@ -1,0 +1,9 @@
+user.apps.protonmail.protonmail
+===============================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: apps/protonmail/protonmail.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.protonmail.protonmail

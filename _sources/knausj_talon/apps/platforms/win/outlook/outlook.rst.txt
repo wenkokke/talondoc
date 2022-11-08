@@ -1,9 +1,0 @@
-user.apps.platforms.win.outlook.outlook
-=======================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/platforms/win/outlook/outlook.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.platforms.win.outlook.outlook

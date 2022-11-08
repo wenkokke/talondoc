@@ -1,9 +1,0 @@
-user.misc.pages
-===============
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: misc/pages.talon
-  :exclude: **
-
-.. talon:command-table:: user.misc.pages

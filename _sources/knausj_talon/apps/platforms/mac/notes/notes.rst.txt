@@ -1,9 +1,0 @@
-user.apps.platforms.mac.notes.notes
-===================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/platforms/mac/notes/notes.talon
-  :exclude: **
-
-.. talon:command-table:: user.apps.platforms.mac.notes.notes

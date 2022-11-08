@@ -1,9 +1,0 @@
-user.modes.language_modes
-=========================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: modes/language_modes.talon
-  :exclude: **
-
-.. talon:command-table:: user.modes.language_modes

@@ -16,7 +16,7 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.lang.talon.talon" href="../talon/talon.html" />
+    <link rel="next" title="user.lang.vimscript.vimscript" href="../vimscript/vimscript.html" />
     <link rel="prev" title="user.lang.terraform.terraform" href="../terraform/terraform.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -338,10 +338,20 @@
 <td><p>Insert “ int64 “</p></td>
 </tr>
 <tr class="row-even"><td>state tag</td>
-<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot; `&quot;</span><span class="p">,</span> <span class="s2">&quot;`&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-odd"><td>field tag &lt;user.text&gt; [over]</td>
-<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot; `&quot;</span><span class="p">,</span> <span class="s2">&quot;`&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">100</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">formatted_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;snake&quot;</span><span class="p">))</span>
+<span class="n">insert</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">100</span><span class="n">ms</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
 </tr>
 <tr class="row-even"><td>state return</td>
 <td><p>Insert “ return “</p></td>

@@ -1,0 +1,9 @@
+user.core.file_extension.file_extension
+=======================================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/file_extension/file_extension.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.file_extension.file_extension

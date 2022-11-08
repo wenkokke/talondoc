@@ -1,9 +1,0 @@
-user.misc.messaging
-===================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: misc/messaging.talon
-  :exclude: **
-
-.. talon:command-table:: user.misc.messaging

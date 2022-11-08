@@ -1,0 +1,9 @@
+user.core.modes.modes
+=====================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/modes/modes.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.modes.modes

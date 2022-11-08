@@ -1,0 +1,9 @@
+user.core.websites_and_search_engines.websites_and_search_engines
+=================================================================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: core/websites_and_search_engines/websites_and_search_engines.talon
+  :exclude: **
+
+.. talon:command-table:: user.core.websites_and_search_engines.websites_and_search_engines

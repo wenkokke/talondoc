@@ -1,9 +1,0 @@
-user.talon_draft_window.draft_window
-====================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: talon_draft_window/draft_window.talon
-  :exclude: **
-
-.. talon:command-table:: user.talon_draft_window.draft_window
