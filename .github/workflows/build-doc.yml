@@ -24,7 +24,7 @@ jobs:
             - name: Build Doc
               run: |
                   poetry install --all-extras
-                  make build-doc
+                  sh ./scripts/build-doc
                   touch example/docs/_build/html/.nojekyll
 
             - name: Deploy Doc
