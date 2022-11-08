@@ -8,6 +8,8 @@ build-doc:
 		--project 'knausj_talon' \
 		--package-name user \
 		--no-generate-conf \
+		--exclude 'conftest.py' \
+		--exclude 'test/**' \
 		--exclude '**/*.py' \
 		example/knausj_talon/
 	poetry run sphinx-build -M "html" "example/docs" "example/docs/_build"
