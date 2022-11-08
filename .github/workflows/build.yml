@@ -46,7 +46,6 @@ jobs:
               run: tox --skip-missing
 
             - name: Build Doc
-              if: runner.os != 'Windows'
               run: |
                   poetry install --all-extras
                   make build-doc
