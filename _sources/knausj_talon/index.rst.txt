@@ -166,7 +166,6 @@ Documentation for knausj_talon
   tags/snippets/snippets_open.rst
   tags/find_and_replace/find_and_replace.rst
   tags/terminal/terminal.rst
-  tags/terminal/unix_utilities.rst
   tags/messaging/messaging.rst
   tags/chapters/chapters.rst
   tags/splits/splits.rst

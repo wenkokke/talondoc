@@ -1,9 +1,0 @@
-user.tags.terminal.unix_utilities
-=================================
-
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: tags/terminal/unix_utilities.talon
-  :exclude: **
-
-.. talon:command-table:: user.tags.terminal.unix_utilities
