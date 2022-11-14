@@ -1,12 +1,11 @@
 import ast
-from dataclasses import asdict, dataclass
-from dataclasses_json import dataclass_json
 import json
 import subprocess
+from dataclasses import asdict, dataclass
 from pathlib import Path
-
 from platform import system
 
+from dataclasses_json import dataclass_json
 
 if system() == "Windows":
     talon_repl_path: Path = (

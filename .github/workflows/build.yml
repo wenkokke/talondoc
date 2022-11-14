@@ -49,7 +49,7 @@ jobs:
               run: |
                   poetry install --all-extras
                   sh ./scripts/build-doc
-                  
+
             - name: Upload wheel
               if: ${{ matrix.build-format }} == 'wheel'
               uses: actions/upload-artifact@v3
