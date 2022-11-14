@@ -3,7 +3,6 @@ from typing import Optional
 import click
 
 from .autosummary.generate import generate
-
 from .cache_builtin.cache import cache_builtin
 
 __version__: str = "0.1.1"
