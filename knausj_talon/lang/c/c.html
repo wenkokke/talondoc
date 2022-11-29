@@ -143,90 +143,81 @@
 <tr class="row-even"><td>state define</td>
 <td><p>Insert “#define “</p></td>
 </tr>
-<tr class="row-odd"><td>state (undefine | undeaf)</td>
+<tr class="row-odd"><td>state undefine</td>
 <td><p>Insert “#undef “</p></td>
 </tr>
-<tr class="row-even"><td>state if (define | deaf)</td>
+<tr class="row-even"><td>state if define</td>
 <td><p>Insert “#ifdef “</p></td>
 </tr>
-<tr class="row-odd"><td>[state] define &lt;user.text&gt;$</td>
-<td><p>Insert “#define  { user.formatted_text(text, ‘ALL_CAPS,SNAKE_CASE’) }”</p></td>
-</tr>
-<tr class="row-even"><td>[state] (undefine | undeaf) &lt;user.text&gt;$</td>
-<td><p>Insert “#undef  { user.formatted_text(text, ‘ALL_CAPS,SNAKE_CASE’) }”</p></td>
-</tr>
-<tr class="row-odd"><td>[state] if (define | deaf) &lt;user.text&gt;$</td>
-<td><p>Insert “#ifdef  { user.formatted_text(text, ‘ALL_CAPS,SNAKE_CASE’) }”</p></td>
-</tr>
-<tr class="row-even"><td>state pre if</td>
+<tr class="row-odd"><td>state pre if</td>
 <td><p>Insert “#if “</p></td>
 </tr>
-<tr class="row-odd"><td>state error</td>
+<tr class="row-even"><td>state error</td>
 <td><p>Insert “#error “</p></td>
 </tr>
-<tr class="row-even"><td>state pre else if</td>
+<tr class="row-odd"><td>state pre else if</td>
 <td><p>Insert “#elif “</p></td>
 </tr>
-<tr class="row-odd"><td>state pre end</td>
+<tr class="row-even"><td>state pre end</td>
 <td><p>Insert “#endif “</p></td>
 </tr>
-<tr class="row-even"><td>state pragma</td>
+<tr class="row-odd"><td>state pragma</td>
 <td><p>Insert “#pragma “</p></td>
 </tr>
-<tr class="row-odd"><td>state default</td>
+<tr class="row-even"><td>state default</td>
 <td><p>Insert “default: \n break;”</p></td>
 </tr>
-<tr class="row-even"><td>push brackets</td>
+<tr class="row-odd"><td>push brackets</td>
 <td><p>Press enter.
 Press enter.</p></td>
 </tr>
-<tr class="row-odd"><td>&lt;user.c_variable&gt; &lt;phrase&gt;</td>
+<tr class="row-even"><td>&lt;user.c_variable&gt; &lt;phrase&gt;</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{c_variable}</span><span class="s2"> &quot;</span><span class="p">)</span>
 <span class="n">insert</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">formatted_text</span><span class="p">(</span><span class="n">phrase</span><span class="p">,</span> <span class="s2">&quot;PRIVATE_CAMEL_CASE,NO_SPACES&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td>&lt;user.c_variable&gt; &lt;user.letter&gt;</td>
+<tr class="row-odd"><td>&lt;user.c_variable&gt; &lt;user.letter&gt;</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{c_variable}</span><span class="s2"> </span><span class="si">{letter}</span><span class="s2"> &quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>cast to &lt;user.c_cast&gt;</td>
+<tr class="row-even"><td>cast to &lt;user.c_cast&gt;</td>
 <td><p>Insert “{ c_cast }”</p></td>
 </tr>
-<tr class="row-even"><td>standard cast to &lt;user.stdint_cast&gt;</td>
+<tr class="row-odd"><td>standard cast to &lt;user.stdint_cast&gt;</td>
 <td><p>Insert “{ stdint_cast }”</p></td>
 </tr>
-<tr class="row-odd"><td>&lt;user.c_types&gt;</td>
+<tr class="row-even"><td>&lt;user.c_types&gt;</td>
 <td><p>Insert “{ c_types }”</p></td>
 </tr>
-<tr class="row-even"><td>&lt;user.c_pointers&gt;</td>
+<tr class="row-odd"><td>&lt;user.c_pointers&gt;</td>
 <td><p>Insert “{ c_pointers }”</p></td>
 </tr>
-<tr class="row-odd"><td>&lt;user.c_keywords&gt;</td>
+<tr class="row-even"><td>&lt;user.c_keywords&gt;</td>
 <td><p>Insert “{ c_keywords }”</p></td>
 </tr>
-<tr class="row-even"><td>&lt;user.c_signed&gt;</td>
+<tr class="row-odd"><td>&lt;user.c_signed&gt;</td>
 <td><p>Insert “{ c_signed }”</p></td>
 </tr>
-<tr class="row-odd"><td>standard &lt;user.stdint_types&gt;</td>
+<tr class="row-even"><td>standard &lt;user.stdint_types&gt;</td>
 <td><p>Insert “{ stdint_types }”</p></td>
 </tr>
-<tr class="row-even"><td>int main</td>
+<tr class="row-odd"><td>int main</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;int main(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>toggle includes</td>
+<tr class="row-even"><td>toggle includes</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_toggle_libraries</span><span class="p">()</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td>include &lt;user.code_libraries&gt;</td>
+<tr class="row-odd"><td>include &lt;user.code_libraries&gt;</td>
 <td><p>Press end enter.</p></td>
 </tr>
 </tbody>

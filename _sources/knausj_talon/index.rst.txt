@@ -67,7 +67,6 @@ Documentation for knausj_talon
   tags/snippets/snippets_open.rst
   tags/snippets/snippets.rst
   tags/terminal/terminal.rst
-  tags/terminal/unix_utilities.rst
   tags/pages/pages.rst
   tags/file_manager/file_manager.rst
   tags/find_and_replace/find_and_replace.rst
@@ -170,7 +169,6 @@ Documentation for knausj_talon
   apps/iterm/iterm.rst
   apps/nautilus/nautilus.rst
   apps/anaconda/anaconda.rst
-  apps/chrome/chrome.rst
   apps/keepassx/keepassx_linux.rst
   apps/1password/1password_global.rst
   apps/1password/1password.rst

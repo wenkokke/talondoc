@@ -113,32 +113,272 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.apps.git.git</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
-<tr class="row-odd"><td>git {user.git_command} [&lt;user.git_arguments&gt;]</td>
-<td><p>Let &lt;args&gt; be &lt;git_arguments&gt; or None
-Insert “git  { git_command } { args }  “</p></td>
+<tr class="row-odd"><td>git add patch</td>
+<td><p>Insert “git add . -p \n”</p></td>
 </tr>
-<tr class="row-even"><td>git commit [&lt;user.git_arguments&gt;] message [&lt;user.prose&gt;]</td>
-<td><p>Let &lt;args&gt; be &lt;git_arguments&gt; or None
-Let &lt;message&gt; be &lt;prose&gt; or None</p></td>
+<tr class="row-even"><td>git add</td>
+<td><p>Insert “git add “</p></td>
 </tr>
-<tr class="row-odd"><td>git stash [push] [&lt;user.git_arguments&gt;] message [&lt;user.prose&gt;]</td>
-<td><p>Let &lt;args&gt; be &lt;git_arguments&gt; or None
-Let &lt;message&gt; be &lt;prose&gt; or None</p></td>
+<tr class="row-odd"><td>git add everything</td>
+<td><p>Insert “git add -u \n”</p></td>
 </tr>
-<tr class="row-even"><td>git status$</td>
+<tr class="row-even"><td>git bisect</td>
+<td><p>Insert “git bisect “</p></td>
+</tr>
+<tr class="row-odd"><td>git blame</td>
+<td><p>Insert “git blame “</p></td>
+</tr>
+<tr class="row-even"><td>git branch</td>
+<td><p>Insert “git branch “</p></td>
+</tr>
+<tr class="row-odd"><td>git branch list</td>
+<td><p>Insert “git branch -vv \n”</p></td>
+</tr>
+<tr class="row-even"><td>git remote branches</td>
+<td><p>Insert “git branch –remote \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git branch &lt;user.text&gt;</td>
+<td><p>Insert “git branch  { text }”</p></td>
+</tr>
+<tr class="row-even"><td>git checkout</td>
+<td><p>Insert “git checkout “</p></td>
+</tr>
+<tr class="row-odd"><td>git checkout master</td>
+<td><p>Insert “git checkout master \n”</p></td>
+</tr>
+<tr class="row-even"><td>git checkout main</td>
+<td><p>Insert “git checkout main \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git checkout &lt;user.text&gt;</td>
+<td><p>Insert “git checkout  { text }”</p></td>
+</tr>
+<tr class="row-even"><td>git cherry pick</td>
+<td><p>Insert “git cherry-pick “</p></td>
+</tr>
+<tr class="row-odd"><td>git cherry pick continue</td>
+<td><p>Insert “git cherry-pick –continue “</p></td>
+</tr>
+<tr class="row-even"><td>git cherry pick abort</td>
+<td><p>Insert “git cherry-pick –abort “</p></td>
+</tr>
+<tr class="row-odd"><td>git cherry pick skip</td>
+<td><p>Insert “git cherry-pick –skip “</p></td>
+</tr>
+<tr class="row-even"><td>git clone</td>
+<td><p>Insert “git clone “</p></td>
+</tr>
+<tr class="row-odd"><td>git clean everything</td>
+<td><p>Insert “git clean -dfx”</p></td>
+</tr>
+<tr class="row-even"><td>git commit message &lt;user.text&gt;</td>
+<td><p>Insert “git commit -m ‘ { text } ‘”</p></td>
+</tr>
+<tr class="row-odd"><td>git commit</td>
+<td><p>Insert “git commit \n”</p></td>
+</tr>
+<tr class="row-even"><td>git commit amend</td>
+<td><p>Insert “git commit –amend \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git commit no verify</td>
+<td><p>Insert “git commit -n”</p></td>
+</tr>
+<tr class="row-even"><td>git commit existing</td>
+<td><p>Insert “git commit -a \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git diff (colour | color) words</td>
+<td><p>Insert “git diff –color-words “</p></td>
+</tr>
+<tr class="row-even"><td>git diff</td>
+<td><p>Insert “git diff “</p></td>
+</tr>
+<tr class="row-odd"><td>git diff cached</td>
+<td><p>Insert “git diff –cached \n”</p></td>
+</tr>
+<tr class="row-even"><td>git diff tool</td>
+<td><p>Insert “git difftool -d \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git diff tool cached</td>
+<td><p>Insert “git difftool –cached -d \n”</p></td>
+</tr>
+<tr class="row-even"><td>git fetch</td>
+<td><p>Insert “git fetch \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git fetch all</td>
+<td><p>Insert “git fetch –all \n”</p></td>
+</tr>
+<tr class="row-even"><td>git fetch &lt;user.text&gt;</td>
+<td><p>Insert “git fetch  { text }”</p></td>
+</tr>
+<tr class="row-odd"><td>git fetch prune</td>
+<td><p>Insert “git fetch –prune \n”</p></td>
+</tr>
+<tr class="row-even"><td>git in it</td>
+<td><p>Insert “git init \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git log all</td>
+<td><p>Insert “git log \n”</p></td>
+</tr>
+<tr class="row-even"><td>git log all changes</td>
+<td><p>Insert “git log -c \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git log</td>
+<td><p>Insert “git log “</p></td>
+</tr>
+<tr class="row-even"><td>git log changes</td>
+<td><p>Insert “git log -c “</p></td>
+</tr>
+<tr class="row-odd"><td>git merge</td>
+<td><p>Insert “git merge “</p></td>
+</tr>
+<tr class="row-even"><td>git merge &lt;user.text&gt;</td>
+<td><p>Insert “git merge  { text }”</p></td>
+</tr>
+<tr class="row-odd"><td>git merge tool</td>
+<td><p>Insert “git mergetool \n”</p></td>
+</tr>
+<tr class="row-even"><td>git move</td>
+<td><p>Insert “git mv “</p></td>
+</tr>
+<tr class="row-odd"><td>git pull</td>
+<td><p>Insert “git pull \n”</p></td>
+</tr>
+<tr class="row-even"><td>git pull origin</td>
+<td><p>Insert “git pull origin “</p></td>
+</tr>
+<tr class="row-odd"><td>git pull rebase</td>
+<td><p>Insert “git pull –rebase \n”</p></td>
+</tr>
+<tr class="row-even"><td>git pull fast forward</td>
+<td><p>Insert “git pull –ff-only \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git pull &lt;user.text&gt;</td>
+<td><p>Insert “git pull  { text }  “</p></td>
+</tr>
+<tr class="row-even"><td>git push</td>
+<td><p>Insert “git push \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git push origin</td>
+<td><p>Insert “git push origin “</p></td>
+</tr>
+<tr class="row-even"><td>git push up stream origin</td>
+<td><p>Insert “git push -u origin”</p></td>
+</tr>
+<tr class="row-odd"><td>git push &lt;user.text&gt;</td>
+<td><p>Insert “git push  { text }  “</p></td>
+</tr>
+<tr class="row-even"><td>git push tags</td>
+<td><p>Insert “git push –tags \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git rebase</td>
+<td><p>Insert “git rebase “</p></td>
+</tr>
+<tr class="row-even"><td>git rebase continue</td>
+<td><p>Insert “git rebase –continue”</p></td>
+</tr>
+<tr class="row-odd"><td>git rebase skip</td>
+<td><p>Insert “git rebase –skip”</p></td>
+</tr>
+<tr class="row-even"><td>git remove</td>
+<td><p>Insert “git rm “</p></td>
+</tr>
+<tr class="row-odd"><td>git (remove | delete) branch</td>
+<td><p>Insert “git branch -d “</p></td>
+</tr>
+<tr class="row-even"><td>git (remove | delete) remote branch</td>
+<td><p>Insert “git push –delete origin “</p></td>
+</tr>
+<tr class="row-odd"><td>git reset</td>
+<td><p>Insert “git reset “</p></td>
+</tr>
+<tr class="row-even"><td>git reset soft</td>
+<td><p>Insert “git reset –soft “</p></td>
+</tr>
+<tr class="row-odd"><td>git reset hard</td>
+<td><p>Insert “git reset –hard “</p></td>
+</tr>
+<tr class="row-even"><td>git restore</td>
+<td><p>Insert “git restore “</p></td>
+</tr>
+<tr class="row-odd"><td>git restore staged</td>
+<td><p>Insert “git restore –staged “</p></td>
+</tr>
+<tr class="row-even"><td>git restore source</td>
+<td><p>Insert “git restore –source=”</p></td>
+</tr>
+<tr class="row-odd"><td>git remote</td>
+<td><p>Insert “git remote “</p></td>
+</tr>
+<tr class="row-even"><td>git remote add</td>
+<td><p>Insert “git remote add “</p></td>
+</tr>
+<tr class="row-odd"><td>git remote list</td>
+<td><p>Insert “git remote -v \n”</p></td>
+</tr>
+<tr class="row-even"><td>git remote set url</td>
+<td><p>Insert “git remote set-url “</p></td>
+</tr>
+<tr class="row-odd"><td>git remote add upstream</td>
+<td><p>Insert “git remote add upstream “</p></td>
+</tr>
+<tr class="row-even"><td>git remote remove</td>
+<td><p>Insert “git remote remove “</p></td>
+</tr>
+<tr class="row-odd"><td>git remote show origin</td>
+<td><p>Insert “git remote show origin \n”</p></td>
+</tr>
+<tr class="row-even"><td>git show</td>
+<td><p>Insert “git show “</p></td>
+</tr>
+<tr class="row-odd"><td>git stash pop</td>
+<td><p>Insert “git stash pop \n”</p></td>
+</tr>
+<tr class="row-even"><td>git stash</td>
+<td><p>Insert “git stash \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git stash push</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;git stash push -m &#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>git stash apply</td>
+<td><p>Insert “git stash apply \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git stash list</td>
+<td><p>Insert “git stash list \n”</p></td>
+</tr>
+<tr class="row-even"><td>git stash show</td>
+<td><p>Insert “git stash show”</p></td>
+</tr>
+<tr class="row-odd"><td>git status</td>
 <td><p>Insert “git status \n”</p></td>
 </tr>
-<tr class="row-odd"><td>git add patch$</td>
-<td><p>Insert “git add –patch \n”</p></td>
+<tr class="row-even"><td>git switch [&lt;user.text&gt;]</td>
+<td><p>Insert “git switch  { user.formatted_text(text or ‘’, ‘DASH_SEPARATED’) }”</p></td>
 </tr>
-<tr class="row-even"><td>git show head$</td>
-<td><p>Insert “git show HEAD \n”</p></td>
+<tr class="row-odd"><td>git switch master</td>
+<td><p>Insert “git switch master “</p></td>
 </tr>
-<tr class="row-odd"><td>git diff</td>
-<td><p>Insert “git diff \n”</p></td>
+<tr class="row-even"><td>git switch main</td>
+<td><p>Insert “git switch main “</p></td>
 </tr>
-<tr class="row-even"><td>git diff (cached | cashed)$</td>
-<td><p>Insert “git diff –cached \n”</p></td>
+<tr class="row-odd"><td>git switch detached</td>
+<td><p>Insert “git switch –detach “</p></td>
+</tr>
+<tr class="row-even"><td>git (switch create | new branch) [&lt;user.text&gt;]</td>
+<td><p>Insert “git switch -c  { user.formatted_text(text or ‘’, ‘DASH_SEPARATED’) }”</p></td>
+</tr>
+<tr class="row-odd"><td>git switch orphan</td>
+<td><p>Insert “git switch –orphan “</p></td>
+</tr>
+<tr class="row-even"><td>git submodule add</td>
+<td><p>Insert “git submodule add “</p></td>
+</tr>
+<tr class="row-odd"><td>git tag</td>
+<td><p>Insert “git tag “</p></td>
+</tr>
+<tr class="row-even"><td>git edit config</td>
+<td><p>Insert “git config –local -e \n”</p></td>
 </tr>
 <tr class="row-odd"><td>git clone clipboard</td>
 <td><p>Press enter.</p></td>
