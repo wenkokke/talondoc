@@ -5,6 +5,7 @@
 .python-version
 .tox/
 /build/
+/data/talon_actions_dict*.json
 /dist/
 /example/docs/_build/
 /example/docs/knausj_talon/
