@@ -29,6 +29,7 @@ class Desc:
         """
         Lift a description to steps.
         """
+        return Steps(())
 
 
 DescLike = Union[None, str, Desc, Iterable[Desc]]
