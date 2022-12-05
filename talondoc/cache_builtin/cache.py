@@ -74,7 +74,7 @@ def cache_builtin(output_dir: Union[str, Path]):
 
                     function_def: ast.FunctionDef = cast(
                         ast.FunctionDef,
-                        ast.parse("def " + action_base + ": ...").body[0],
+                        ast.parse(f"def {action_base}: ...").body[0],
                     )
                     if function_def.args.args:
                         for arg in function_def.args.args:
@@ -99,9 +99,7 @@ def cache_builtin(output_dir: Union[str, Path]):
             current_action = item.strip()
             current_description = []
 
-    output_path: Path = Path(output_dir) / (
-        "talon_actions_dict" + talon_version + ".json"
-    )
+    output_path: Path = Path(output_dir) / f"talon_actions_dict-{talon_version}.json"
     print(f"Writing built actions to {output_path}")
     with open(output_path, "w") as outfile:
         outfile.write(
