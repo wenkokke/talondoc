@@ -2,7 +2,7 @@ minimum_pre_commit_version: "2.9.0"
 exclude: "^(build|example)"
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.3.0
+      rev: v4.4.0
       hooks:
           - id: check-added-large-files
           - id: check-byte-order-marker
@@ -33,7 +33,7 @@ repos:
           - id: prettier
             exclude: "^tests/data/golden"
     - repo: https://github.com/ikamensh/flynt/
-      rev: "0.76"
+      rev: "0.77"
       hooks:
           - id: flynt
     - repo: https://github.com/pycqa/isort
