@@ -1,18 +1,13 @@
 import ast
 import json
+import os
+import platform
 import subprocess
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from platform import system
+from typing import Dict, List, Union, cast
 
 from dataclasses_json import dataclass_json
-
-if system() == "Windows":
-    talon_repl_path: Path = (
-        Path.home() / "AppData\Roaming\\talon\.venv\Scripts\\repl.bat"
-    )
-else:
-    talon_repl_path: Path = Path.home() / ".talon\.venv\Scripts\\repl.bat"
 
 
 @dataclass_json
@@ -21,33 +16,36 @@ class Action:
     name: str
     description: str
     returns: str
-    args: dict[str, str]
+    args: Dict[str, str]
 
 
-def send_to_repl(stdin: bytes) -> list[str]:
-    proc = subprocess.Popen(
-        [talon_repl_path],
-        stdout=subprocess.PIPE,
-        stdin=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+def talon_repl_path() -> str:
+    if platform.system() == "Windows":
+        return os.path.expandvars(r"%APPDATA%\talon\.venv\Scripts\repl.bat")
+    else:
+        return os.path.expandvars(r"$HOME/.talon/.venv/bin/repl")
+
+
+def send_to_repl(stdin: bytes) -> List[str]:
+    talon_repl_proc = subprocess.Popen(
+        [talon_repl_path()], stdin=subprocess.PIPE, stdout=subprocess.PIPE
     )
-    proc.stdout.readline()
+    assert talon_repl_proc.stdin is not None
+    assert talon_repl_proc.stdout is not None
+    talon_repl_proc.stdout.readline()
+    talon_repl_proc.stdin.write(stdin)
+    talon_repl_proc.stdin.flush()
+    return talon_repl_proc.communicate()[0].decode().splitlines()
 
-    proc.stdin.write(stdin)
-    proc.stdin.flush()
-    lines: list[str] = proc.communicate()[0].decode().splitlines()
 
-    return lines
-
-
-def cache_builtin(output_dir: Path = Path.cwd()):
+def cache_builtin(output_dir: Union[str, Path]):
     talon_version = send_to_repl(b"talon.app.version\n")[0].replace("'", "")
     lines = send_to_repl(b"actions.list()\n")
 
     action_dict = {}
 
     current_action: str = ""
-    current_description: list[str] = []
+    current_description: List[str] = []
 
     for item in lines:
         if item == "":
@@ -74,9 +72,10 @@ def cache_builtin(output_dir: Path = Path.cwd()):
                 if action_prefix != "user":
                     args = {}
 
-                    function_def: ast.FunctionDef = ast.parse(
-                        "def " + action_base + ": ..."
-                    ).body[0]
+                    function_def: ast.FunctionDef = cast(
+                        ast.FunctionDef,
+                        ast.parse("def " + action_base + ": ...").body[0],
+                    )
                     if function_def.args.args:
                         for arg in function_def.args.args:
                             if isinstance(arg.annotation, ast.Attribute):
@@ -100,7 +99,9 @@ def cache_builtin(output_dir: Path = Path.cwd()):
             current_action = item.strip()
             current_description = []
 
-    output_path: Path = output_dir / ("talon_actions_dict" + talon_version + ".json")
+    output_path: Path = Path(output_dir) / (
+        "talon_actions_dict" + talon_version + ".json"
+    )
     print(f"Writing built actions to {output_path}")
     with open(output_path, "w") as outfile:
         outfile.write(

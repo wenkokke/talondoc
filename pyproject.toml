@@ -55,6 +55,7 @@ python_version = 3.9
 namespace_packages = true
 explicit_package_bases = true
 ignore_missing_imports = true
+no_implicit_optional = false
 warn_redundant_casts = true
 warn_return_any = true
 warn_unused_configs = true
