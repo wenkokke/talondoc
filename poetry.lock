@@ -121,7 +121,7 @@ dev = ["flake8", "hypothesis", "ipython", "mypy (>=0.710)", "portray", "pytest (
 name = "distlib"
 version = "0.3.6"
 description = "Distribution utilities"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -159,7 +159,7 @@ python-versions = ">=3.7"
 name = "filelock"
 version = "3.8.0"
 description = "A platform independent file lock."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -338,6 +338,14 @@ python-versions = ">=3.6"
 pyparsing = ">=2.0.2,<3.0.5 || >3.0.5"
 
 [[package]]
+name = "parsec"
+version = "3.15"
+description = "parser combinator."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "pathlib2"
 version = "2.3.7.post1"
 description = "Object-oriented filesystem paths"
@@ -360,7 +368,7 @@ python-versions = ">=3.7"
 name = "platformdirs"
 version = "2.5.2"
 description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -372,7 +380,7 @@ test = ["appdirs (==1.4.4)", "pytest (>=6)", "pytest-cov (>=2.7)", "pytest-mock 
 name = "pluggy"
 version = "1.0.0"
 description = "plugin and hook calling mechanisms for python"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -384,7 +392,7 @@ testing = ["pytest", "pytest-benchmark"]
 name = "py"
 version = "1.11.0"
 description = "library with cross-python path, ini-parsing, io, code, log facilities"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
@@ -628,7 +636,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 
@@ -636,7 +644,7 @@ python-versions = ">=3.7"
 name = "tox"
 version = "3.26.0"
 description = "tox is a generic virtualenv management and test command line tool"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 
@@ -664,7 +672,7 @@ python-versions = ">=3.3"
 
 [[package]]
 name = "tree-sitter-talon"
-version = "1001.2.0.0"
+version = "1003.3.1.0"
 description = "Parser for Talon files in Python."
 category = "main"
 optional = false
@@ -672,8 +680,8 @@ python-versions = ">=3.9,<4.0"
 
 [package.dependencies]
 dataclasses-json = ">=0.5.7,<0.6.0"
+parsec = ">=3.14,<4.0"
 setuptools = "*"
-tox = ">=3.25.1,<4.0.0"
 tree-sitter = ">=0.20.0,<0.21.0"
 tree-sitter-type-provider = ">=2.1.7,<3.0.0"
 
@@ -742,7 +750,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 name = "virtualenv"
 version = "20.16.5"
 description = "Virtual Python Environment builder"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 
@@ -774,7 +782,7 @@ test = ["bumpver"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "ed2793fcb120fcbfb462b2e6a3fab8418adf806ebab9ef2b0b44ed1846dccd03"
+content-hash = "606736141c973fe91193fb5c5a18237fa76688457bec70fd4c855ad0b675a722"
 
 [metadata.files]
 alabaster = [
@@ -977,6 +985,9 @@ packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},
     {file = "packaging-21.3.tar.gz", hash = "sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb"},
 ]
+parsec = [
+    {file = "parsec-3.15.tar.gz", hash = "sha256:f3fe44674d2064eb69146de8fa70f134f16e771ff19a462d78f0eb1778dd96db"},
+]
 pathlib2 = [
     {file = "pathlib2-2.3.7.post1-py2.py3-none-any.whl", hash = "sha256:5266a0fd000452f1b3467d782f079a4343c63aaa119221fbdc4e39577489ca5b"},
     {file = "pathlib2-2.3.7.post1.tar.gz", hash = "sha256:9fe0edad898b83c0c3e199c842b27ed216645d2e177757b2dd67384d4113c641"},
@@ -1102,13 +1113,25 @@ tree-sitter = [
     {file = "tree_sitter-0.20.1.tar.gz", hash = "sha256:e93f082c545d6649bcfb5d681ed255eb004a6ce22988971a128f40692feec60d"},
 ]
 tree-sitter-talon = [
-    {file = "tree_sitter_talon-1001.2.0.0-cp310-cp310-macosx_10_16_x86_64.whl", hash = "sha256:51d45cfb4b44354dc445b4a1c8b2bcf31f1e45c278d11130d12d2b9f605e2d92"},
-    {file = "tree_sitter_talon-1001.2.0.0-cp310-cp310-manylinux_2_31_x86_64.whl", hash = "sha256:31559ed7d4dc4e5fa04cf893cb2cb6c74a98f903fc8240d55c37689ea15df53b"},
-    {file = "tree_sitter_talon-1001.2.0.0-cp310-cp310-win_amd64.whl", hash = "sha256:b0488feb0b440d79874391f3d6a525ea33e6a92e2bfd04a194bcf287782687e6"},
-    {file = "tree_sitter_talon-1001.2.0.0-cp39-cp39-macosx_10_16_x86_64.whl", hash = "sha256:e3347cb9ea814729fa85128ab093a5c66312b292bb5f9b50264a988168fdb3e9"},
-    {file = "tree_sitter_talon-1001.2.0.0-cp39-cp39-manylinux_2_31_x86_64.whl", hash = "sha256:4a22e9e10da8843d159d9a0a2671d9e15b8e60dab9ce19b84b49ae705920fbac"},
-    {file = "tree_sitter_talon-1001.2.0.0-cp39-cp39-win_amd64.whl", hash = "sha256:8a88fd17da346a2a612ac004d65c6b62adea8b4f98d1dc5cbcfe94baef0e1f3d"},
-    {file = "tree_sitter_talon-1001.2.0.0.tar.gz", hash = "sha256:839ef96d0cfe9ff551f8fe387d569af7354fa4a867c419f5642dfad9024fca98"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp310-cp310-macosx_11_0_x86_64.whl", hash = "sha256:b7e4a40668b16245755181074a1bcad619aa28ac4f2f8e8a2b3d617d484f36ca"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp310-cp310-macosx_12_0_x86_64.whl", hash = "sha256:e82f08daa070ff9a44c5ce521d30d2e2310f8dad7719aa3a6677f4d61035d4bc"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp310-cp310-manylinux_2_24_i686.whl", hash = "sha256:3ddf3830590817763f0edd255f8e5d4b1a27d252fdb55a2b35ae7b5ca6d7df69"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp310-cp310-manylinux_2_24_x86_64.whl", hash = "sha256:1f9deb3e314030e138c0bd7b222d70d0af0d0cfe19bea9b48fcc105acc805345"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp310-cp310-win32.whl", hash = "sha256:64c560eb0d395178ed9602ccaefe6bfaabf83d261774eaf9e4ec3c61e46d1fb9"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp310-cp310-win_amd64.whl", hash = "sha256:739149f0e816ecc707c1d176f87233bd21b2bf971093b56608ca8795a447c5d9"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp311-cp311-macosx_11_0_x86_64.whl", hash = "sha256:6e50437947d425c6c90def74c366a99b953496d2c1f3f304552c0f5c7379dc0e"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp311-cp311-macosx_12_0_x86_64.whl", hash = "sha256:9bfa1524867539fab74c97f9c956ed2becae1784e68b289174ee6f6db5b7b2b8"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp311-cp311-manylinux_2_24_i686.whl", hash = "sha256:b75026cff38a70cd9ae86b4c9b62dc2a9d4e9b698ce42918d88974ebe0d3b208"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp311-cp311-manylinux_2_24_x86_64.whl", hash = "sha256:2b8f8929631e2a4e0aa59054cf711fe5bec99000862ba4fa050cfb67809c94ec"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp311-cp311-win32.whl", hash = "sha256:e042eaf95131cb321c289eda9aea3dfd49becc9788b75fca5372cf3fff650674"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp311-cp311-win_amd64.whl", hash = "sha256:3769ee7a8ea2cc69927bf069fa2503150f974175bfbe0ae927867edc7ed954d0"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp39-cp39-macosx_11_0_x86_64.whl", hash = "sha256:8c1e2536d6d58141f8cd9878cfdd9e322451a2aa860f8caac5f29035b3da3057"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp39-cp39-macosx_12_0_x86_64.whl", hash = "sha256:6342752fb9fbda78aba6861961cf9a8179cb64a460381a72e6ff68c98d5d0154"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp39-cp39-manylinux_2_24_i686.whl", hash = "sha256:0deb063a00ba4bf5aa6c525b4ed45ccc83d55ee5cdda380bc0167d9c49c141f8"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp39-cp39-manylinux_2_24_x86_64.whl", hash = "sha256:cbbb25c00e4f2c1a51dddde39f87bdb769ec1179f90758d4dd8eaeac9a51d1e7"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp39-cp39-win32.whl", hash = "sha256:5a191dd43421e56a8a0c2fbac9cbfd6ebea1fc1b1d7470cc415c6647b08882e0"},
+    {file = "tree_sitter_talon-1003.3.1.0-cp39-cp39-win_amd64.whl", hash = "sha256:29f2caaa1d47fee7030a44a204e27a30ede641c8417631161a17d35ad330d06f"},
+    {file = "tree_sitter_talon-1003.3.1.0.tar.gz", hash = "sha256:59a426d554f4a833dd3e8e81fee3d7bcdd593e5b3f6162e9ec7a5a9cfd14a750"},
 ]
 tree-sitter-type-provider = [
     {file = "tree_sitter_type_provider-2.1.12-py3-none-any.whl", hash = "sha256:aa94725120f41aee2b9f0e90bc46913e58ffb97b55200fc686464053656a02e4"},
