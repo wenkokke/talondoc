@@ -16,8 +16,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.tags.terminal.unix_utilities" href="unix_utilities.html" />
-    <link rel="prev" title="user.tags.snippets.snippets" href="../snippets/snippets.html" />
+    <link rel="next" title="user.tags.messaging.messaging" href="../messaging/messaging.html" />
+    <link rel="prev" title="user.tags.terminal.unix_utilities" href="unix_utilities.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -137,43 +137,49 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>go &lt;user.system_path&gt;</td>
+<tr class="row-odd"><td>katie (up | back)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">terminal_change_directory</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go &lt;user.system_path&gt;</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;cd &quot;</span><span class="si">{system_path}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td>clear screen</td>
+<tr class="row-odd"><td>clear screen</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">terminal_clear_screen</span><span class="p">()</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>run last</td>
+<tr class="row-even"><td>run last</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">terminal_run_last</span><span class="p">()</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td>rerun [&lt;user.text&gt;]</td>
+<tr class="row-odd"><td>rerun [&lt;user.text&gt;]</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">terminal_rerun_search</span><span class="p">(</span><span class="n">text</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>rerun search</td>
+<tr class="row-even"><td>rerun search</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">terminal_rerun_search</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td>kill all</td>
+<tr class="row-odd"><td>kill all</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">terminal_kill_all</span><span class="p">()</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>copy paste</td>
+<tr class="row-even"><td>copy paste</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="n">ms</span><span class="p">)</span>
 <span class="n">edit</span><span class="o">.</span><span class="n">paste</span><span class="p">()</span>
