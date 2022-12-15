@@ -42,9 +42,6 @@ jobs:
             - name: Build
               run: poetry build -vvv --format=${{ matrix.build-format }}
 
-            - name: Build & Test
-              run: tox --skip-missing
-
             - name: Build Doc
               run: |
                   poetry install --all-extras
