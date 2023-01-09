@@ -23,7 +23,7 @@ awesome-progress-bar = "^1.7.2"
 docstring_parser = ">=0.14.1,<0.16.0"
 Jinja2 = "^3.1.2"
 bumpver = { version = "*", optional = true }
-Sphinx = "^5.1.1"
+Sphinx = ">=5.1.1,<7.0.0"
 sphinx-bootstrap-theme = { version = "^0.8.1", optional = true }
 talonfmt = "^1.7.4"
 setuptools = "*"
