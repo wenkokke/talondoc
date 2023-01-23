@@ -146,37 +146,43 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>clear screen</td>
+<tr class="row-odd"><td>path &lt;user.system_path&gt;</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="si">{system_path}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>clear screen</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">terminal_clear_screen</span><span class="p">()</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td>run last</td>
+<tr class="row-odd"><td>run last</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">terminal_run_last</span><span class="p">()</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>rerun [&lt;user.text&gt;]</td>
+<tr class="row-even"><td>rerun [&lt;user.text&gt;]</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">terminal_rerun_search</span><span class="p">(</span><span class="n">text</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td>rerun search</td>
+<tr class="row-odd"><td>rerun search</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">terminal_rerun_search</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>kill all</td>
+<tr class="row-even"><td>kill all</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">terminal_kill_all</span><span class="p">()</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td>copy paste</td>
+<tr class="row-odd"><td>copy paste</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="n">ms</span><span class="p">)</span>
 <span class="n">edit</span><span class="o">.</span><span class="n">paste</span><span class="p">()</span>
