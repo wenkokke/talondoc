@@ -170,37 +170,40 @@
 <tr class="row-even"><td>tag set [{user.talon_tags}]</td>
 <td><p>Let &lt;tag&gt; be &lt;talon_tags&gt; or None</p></td>
 </tr>
-<tr class="row-odd"><td>list {user.talon_lists}</td>
+<tr class="row-odd"><td>host require</td>
+<td><p>Let &lt;hostname&gt; be None</p></td>
+</tr>
+<tr class="row-even"><td>list {user.talon_lists}</td>
 <td><p>Insert “{{ { talon_lists }} }”</p></td>
 </tr>
-<tr class="row-even"><td>capture {user.talon_captures}</td>
+<tr class="row-odd"><td>capture {user.talon_captures}</td>
 <td><p>Insert “&lt; { talon_captures } &gt;”</p></td>
 </tr>
-<tr class="row-odd"><td>key &lt;user.keys&gt; over</td>
+<tr class="row-even"><td>key &lt;user.keys&gt; over</td>
 <td><p>Insert “{ keys }”</p></td>
 </tr>
-<tr class="row-even"><td>key &lt;user.modifiers&gt; over</td>
+<tr class="row-odd"><td>key &lt;user.modifiers&gt; over</td>
 <td><p>Insert “{ modifiers }”</p></td>
 </tr>
-<tr class="row-odd"><td>funk {user.talon_actions}</td>
+<tr class="row-even"><td>funk {user.talon_actions}</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_insert_function</span><span class="p">(</span><span class="n">talon_actions</span><span class="p">,</span> <span class="n">edit</span><span class="o">.</span><span class="n">selected_text</span><span class="p">())</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td>funk cell &lt;number&gt;</td>
+<tr class="row-odd"><td>funk cell &lt;number&gt;</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_select_function</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td>funk wrap &lt;user.code_common_function&gt;</td>
+<tr class="row-even"><td>funk wrap &lt;user.code_common_function&gt;</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_insert_function</span><span class="p">(</span><span class="n">code_common_function</span><span class="p">,</span> <span class="n">edit</span><span class="o">.</span><span class="n">selected_text</span><span class="p">())</span>
 </pre></div>
 </div>
 </td>
 </tr>
-<tr class="row-even"><td>funk wrap &lt;number&gt;</td>
+<tr class="row-odd"><td>funk wrap &lt;number&gt;</td>
 <td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_select_function</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">edit</span><span class="o">.</span><span class="n">selected_text</span><span class="p">())</span>
 </pre></div>
 </div>
