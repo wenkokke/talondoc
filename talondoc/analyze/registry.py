@@ -70,7 +70,6 @@ class NoActiveFile(Exception):
 
 @dataclass
 class Registry:
-
     data: dict[str, Any] = field(default_factory=dict)
 
     temp_data: dict[str, Any] = field(default_factory=dict)

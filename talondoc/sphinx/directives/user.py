@@ -8,7 +8,6 @@ from .package import TalonPackageDirective
 
 
 class TalonUserDirective(TalonPackageDirective):
-
     required_arguments = 0
 
     @property

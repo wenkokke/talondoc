@@ -13,7 +13,6 @@ _LOGGER = getLogger(__name__)
 
 
 class TalonCommandDirective(TalonDocObjectDescription):
-
     has_content = True
     required_arguments = 1
     optional_arguments = sys.maxsize
