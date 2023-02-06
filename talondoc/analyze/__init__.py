@@ -92,10 +92,8 @@ def analyse_package(
 def analyse_talon_file(
     registry: Registry, path: Path, package: PackageEntry
 ) -> TalonFileEntry:
-
     # Retrieve or create file entry:
     with registry.file_entry(TalonFileEntry, package, path) as (cached, file_entry):
-
         # Process file:
         if not cached:
             ast = parse_file(package.path / path, raise_parse_error=True)
@@ -132,10 +130,8 @@ def analyse_talon_file(
 def analyse_python_file(
     registry: Registry, path: Path, package: PackageEntry
 ) -> PythonFileEntry:
-
     # Retrieve or create file entry:
     with registry.file_entry(PythonFileEntry, package, path) as (cached, file_entry):
-
         # Process file (passes control to talondoc.shims.*):
         module_name = ".".join([package.name, *path.with_suffix("").parts])
         importlib.import_module(name=module_name, package=package.name)

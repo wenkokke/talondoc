@@ -13,7 +13,6 @@ _LOGGER = getLogger(__name__)
 
 
 class TalonPackageDirective(TalonDocDirective):
-
     has_content = False
     required_arguments = 1
     optional_arguments = 0
@@ -26,7 +25,6 @@ class TalonPackageDirective(TalonDocDirective):
     final_argument_whitespace = False
 
     def run(self) -> list[Element]:
-
         # Always reread documents with Talon package directives.
         self.env.note_reread()
 

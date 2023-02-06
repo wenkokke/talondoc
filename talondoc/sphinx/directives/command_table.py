@@ -12,7 +12,6 @@ _LOGGER = getLogger(__name__)
 
 
 class TalonCommandTableDirective(TalonCommandListDirective):
-
     has_content = False
     required_arguments = 0
     optional_arguments = sys.maxsize
