@@ -42,7 +42,7 @@ repos:
           - id: isort
             args: ["--profile=black", "--filter-files", "--line-width=88"]
     - repo: https://github.com/psf/black
-      rev: "22.12.0"
+      rev: "23.1.0"
       hooks:
           - id: black
     - repo: https://github.com/pre-commit/mirrors-mypy
