@@ -1,0 +1,4 @@
+[installer]
+# Set installer.modern-installation to false as a workaround for the following
+# issue with Poetry 1.4.0: https://github.com/python-poetry/poetry/issues/7611
+modern-installation = false
