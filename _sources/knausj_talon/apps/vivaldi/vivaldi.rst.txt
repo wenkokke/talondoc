@@ -1,0 +1,9 @@
+user.apps.vivaldi.vivaldi
+=========================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: apps/vivaldi/vivaldi.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.vivaldi.vivaldi

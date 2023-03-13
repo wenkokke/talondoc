@@ -1,0 +1,9 @@
+user.apps.edge.edge
+===================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: apps/edge/edge.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.edge.edge

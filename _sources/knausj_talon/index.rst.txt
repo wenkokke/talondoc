@@ -87,6 +87,7 @@ Documentation for knausj_talon
   apps/slack/slack_mac.rst
   apps/tmux/tmux_linux.rst
   apps/tmux/tmux.rst
+  apps/edge/edge.rst
   apps/kubectl/kubectl.rst
   apps/anaconda/anaconda.rst
   apps/gdb/gdb.rst
@@ -101,6 +102,7 @@ Documentation for knausj_talon
   apps/thunderbird/thunderbird_tasks.rst
   apps/thunderbird/thunderbird_inbox.rst
   apps/terraform/terraform.rst
+  apps/opera/opera.rst
   apps/kindle/kindle.rst
   apps/taskwarrior/taskwarrior_linux.rst
   apps/windows_terminal/windows_terminal.rst
@@ -113,6 +115,7 @@ Documentation for knausj_talon
   apps/conemu/conemu.rst
   apps/signal/signal_linux.rst
   apps/twitter/twitter.rst
+  apps/vivaldi/vivaldi.rst
   apps/evernote/mac.rst
   apps/adobe/adobe_acrobat_reader_dc.rst
   apps/vscode/vscode.rst
@@ -121,9 +124,11 @@ Documentation for knausj_talon
   apps/gnome_terminal/gnome_terminal.rst
   apps/atril/atril.rst
   apps/windows_explorer/windows_explorer.rst
+  apps/brave/brave.rst
   apps/nitro_reader/nitro_reader_5.rst
   apps/calibre/calibre_viewer.rst
   apps/iterm/iterm.rst
+  apps/safari/safari.rst
   apps/github/github_web.rst
   apps/dunst/dunst.rst
   apps/git/git.rst

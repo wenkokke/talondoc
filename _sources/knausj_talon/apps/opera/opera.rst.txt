@@ -1,0 +1,9 @@
+user.apps.opera.opera
+=====================
+
+.. talon:package:: ../knausj_talon
+  :name: user
+  :include: apps/opera/opera.talon
+  :exclude: **
+
+.. talon:command-table:: user.apps.opera.opera
