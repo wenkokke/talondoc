@@ -1,46 +1,46 @@
 name: Release
 
 on:
-    workflow_call:
+  workflow_call:
 
 defaults:
-    run:
-        shell: bash
+  run:
+    shell: bash
 
 jobs:
-    publish:
-        name: Release
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-              with:
-                  submodules: true
+  publish:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
 
-            - name: Setup Python
-              uses: ./.github/actions/setup-python
-              with:
-                  python-version: "3.9"
+      - name: Setup Python
+        uses: ./.github/actions/setup-python
+        with:
+          python-version: "3.9"
 
-            - name: Build sdist
-              run: poetry build --format=sdist
+      - name: Build sdist
+        run: poetry build --format=sdist
 
-            - name: Download wheels
-              uses: actions/download-artifact@v3
-              with:
-                  name: wheelhouse
-                  path: dist
+      - name: Download wheels
+        uses: actions/download-artifact@v3
+        with:
+          name: wheelhouse
+          path: dist
 
-            # - name: Publish to PyPi
-            #   uses: pypa/gh-action-pypi-publish@release/v1
-            #   with:
-            #     user: __token__
-            #     password: ${{ secrets.PYPI_API_TOKEN }}
-            #     skip_existing: true
+      # - name: Publish to PyPi
+      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   with:
+      #     user: __token__
+      #     password: ${{ secrets.PYPI_API_TOKEN }}
+      #     skip_existing: true
 
-            - name: Publish to GitHub Releases
-              uses: softprops/action-gh-release@v1
-              with:
-                  files: |
-                      dist/**.tar.gz
-                      dist/**.whl
-                  fail_on_unmatched_files: true
+      - name: Publish to GitHub Releases
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/**.tar.gz
+            dist/**.whl
+          fail_on_unmatched_files: true

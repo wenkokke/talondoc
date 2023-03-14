@@ -1,58 +1,58 @@
 minimum_pre_commit_version: "2.9.0"
 exclude: "^(build|example)"
 repos:
-    - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.4.0
-      hooks:
-          - id: check-added-large-files
-          - id: check-byte-order-marker
-          - id: check-case-conflict
-          - id: check-executables-have-shebangs
-          - id: check-json
-          - id: check-merge-conflict
-          - id: check-shebang-scripts-are-executable
-          - id: check-symlinks
-          - id: check-toml
-          - id: check-vcs-permalinks
-          - id: check-xml
-          - id: check-yaml
-          - id: pretty-format-json
-          - id: destroyed-symlinks
-          - id: detect-private-key
-          - id: fix-byte-order-marker
-          - id: file-contents-sorter
-            args: [--unique]
-            files: '\.gitignore'
-          - id: requirements-txt-fixer
-          - id: end-of-file-fixer
-          - id: mixed-line-ending
-          - id: trailing-whitespace
-    - repo: https://github.com/pre-commit/mirrors-prettier
-      rev: "v3.0.0-alpha.4"
-      hooks:
-          - id: prettier
-            exclude: "^tests/data/golden"
-    - repo: https://github.com/ikamensh/flynt/
-      rev: "0.77"
-      hooks:
-          - id: flynt
-    - repo: https://github.com/pycqa/isort
-      rev: "5.12.0"
-      hooks:
-          - id: isort
-            args: ["--profile=black", "--filter-files", "--line-width=88"]
-    - repo: https://github.com/psf/black
-      rev: "23.1.0"
-      hooks:
-          - id: black
-    - repo: https://github.com/pre-commit/mirrors-mypy
-      rev: "v1.0.1"
-      hooks:
-          - id: mypy
-            args: ["--config-file", "pyproject.toml"]
-            additional_dependencies: [types-docutils==0.19.0]
-    - repo: https://github.com/wenkokke/talonfmt
-      rev: 1.9.0
-      hooks:
-          - id: talonfmt
-            args: ["--in-place", "--max-line-width=88"]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-byte-order-marker
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-vcs-permalinks
+      - id: check-xml
+      - id: check-yaml
+      - id: pretty-format-json
+      - id: destroyed-symlinks
+      - id: detect-private-key
+      - id: fix-byte-order-marker
+      - id: file-contents-sorter
+        args: [--unique]
+        files: '\.gitignore'
+      - id: requirements-txt-fixer
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: "v3.0.0-alpha.4"
+    hooks:
+      - id: prettier
+        exclude: "^tests/data/golden"
+  - repo: https://github.com/ikamensh/flynt/
+    rev: "0.77"
+    hooks:
+      - id: flynt
+  - repo: https://github.com/pycqa/isort
+    rev: "5.12.0"
+    hooks:
+      - id: isort
+        args: ["--profile=black", "--filter-files", "--line-width=88"]
+  - repo: https://github.com/psf/black
+    rev: "23.1.0"
+    hooks:
+      - id: black
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: "v1.0.1"
+    hooks:
+      - id: mypy
+        args: ["--config-file", "pyproject.toml"]
+        additional_dependencies: [types-docutils==0.19.0]
+  - repo: https://github.com/wenkokke/talonfmt
+    rev: 1.9.0
+    hooks:
+      - id: talonfmt
+        args: ["--in-place", "--max-line-width=88"]

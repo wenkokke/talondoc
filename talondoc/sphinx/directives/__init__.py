@@ -6,6 +6,7 @@ from docutils import nodes
 from sphinx import addnodes
 from talonfmt import talonfmt
 from tree_sitter_talon import (
+    AnyTalonRule,
     TalonCapture,
     TalonChoice,
     TalonComment,
@@ -68,10 +69,13 @@ def include_command(
     lists: Optional[Callable[[str], Optional[list[str]]]] = None,
 ):
     assert default in ["include", "exclude"]
-    pattern = candidate.ast.rule.to_pattern(captures=captures, lists=lists)
 
     def match(sig: str) -> bool:
-        return bool(pattern.fullmatch(sig) if fullmatch else pattern.match(sig))
+        return bool(
+            candidate.ast.rule.match(
+                sig, fullmatch=fullmatch, get_capture=captures, get_list=lists
+            )
+        )
 
     def excluded() -> bool:
         return (
@@ -153,8 +157,7 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
         Describe the script using the docstrings present in the script itself.
         """
         comments = []
-        children = [*command.ast.children, *command.ast.script.children]
-        for child in children:
+        for child in command.ast.right.children:
             if isinstance(child, TalonComment):
                 comment = child.text.strip()
                 if comment.startswith("###"):
