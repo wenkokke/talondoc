@@ -21,7 +21,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version:
+        python:
           - { version: "3.9", env: "py39" }
           - { version: "3.10", env: "py310" }
           - { version: "3.11", env: "py311" }
@@ -52,31 +52,6 @@ jobs:
         run: |
           pipx run --spec tox==4.4.6 \
             tox run -e ${{ matrix.python.env }}
-
-      - name: Build
-        run: |
-          pipx run --spec poetry==1.4.0 \
-            poetry build --format=sdist
-
-      - name: Build docs
-        run: |
-          pipx run --spec poetry==1.4.0 \
-            poetry install --all-extras
-          pipx run --spec poetry==1.4.0 \
-            poetry run sh ./scripts/build-doc
-
-      - name: Upload wheel
-        if: ${{ matrix.build-format }} == 'wheel'
-        uses: actions/upload-artifact@v3
-        with:
-          name: wheelhouse
-          path: dist/**.whl
-
-  build-doc:
-    name: Build Doc
-    needs: [build]
-    if: github.event_name == 'push'
-    uses: ./.github/workflows/build-doc.yml
 
   release:
     name: Release
