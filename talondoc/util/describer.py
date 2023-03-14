@@ -28,8 +28,8 @@ from ..analyze.entries import (
     ActionEntry,
     CanOverride,
     GroupEntry,
-    ObjectEntry,
     TagEntry,
+    UserObjectEntry,
 )
 from ..analyze.registry import Registry
 from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring

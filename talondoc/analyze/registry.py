@@ -26,12 +26,12 @@ from .entries import (
     ListEntry,
     ModeEntry,
     ModuleEntry,
-    ObjectEntry,
     PackageEntry,
     PythonFileEntry,
     SettingEntry,
     TagEntry,
     TalonFileEntry,
+    UserObjectEntry,
     resolve_name,
 )
 
@@ -255,7 +255,7 @@ class Registry:
             self.data.setdefault(TagEntry.sort, {}),
         )
 
-    def register(self, entry: ObjectEntry):
+    def register(self, entry: UserObjectEntry):
         """
         Register an object entry.
         """

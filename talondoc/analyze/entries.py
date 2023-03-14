@@ -15,6 +15,7 @@ from typing import (
 )
 
 import tree_sitter_talon
+from typing_extensions import override
 
 from ..util.logging import getLogger
 
@@ -32,8 +33,8 @@ class DuplicateEntry(Exception):
     Raised when an entry is defined in multiple modules.
     """
 
-    entry1: "ObjectEntry"
-    entry2: "ObjectEntry"
+    entry1: "UserObjectEntry"
+    entry2: "UserObjectEntry"
 
     def __str__(self) -> str:
         sort = self.entry1.__class__.sort.capitalize()
@@ -80,13 +81,57 @@ Entry = TypeVar("Entry", bound="ObjectEntry")
 
 class ObjectEntry(abc.ABC):
     sort: ClassVar[str]
+
+    @property
+    def namespace(self) -> str:
+        """The top-level namespace for this object, e.g., 'path' for 'path.talon_home'."""
+        return self.get_namespace()
+
+    @abc.abstractmethod
+    def get_namespace(self) -> str:
+        """The top-level namespace for this object, e.g., 'path' for 'path.talon_home'."""
+
+    @property
+    def resolved_name(self) -> str:
+        """The resolved name for this object, including the top-level namespace."""
+        return resolve_name(self.get_name(), namespace=self.namespace)
+
+    @abc.abstractmethod
+    def get_name(self) -> str:
+        """The name for this object, e.g., 'path.talon_home'."""
+
+    @property
+    def qualified_name(self) -> str:
+        """The resolved name for this object prefixed by the sort of the object."""
+        return f"{self.__class__.sort}:{self.resolved_name}"
+
+    @abc.abstractmethod
+    def get_docstring(self) -> Optional[str]:
+        """The docstring for the object."""
+
+    @property
+    def docstring(self) -> Optional[str]:
+        """The docstring for the object."""
+        return self.get_docstring()
+
+    @abc.abstractmethod
+    def same_as(self, other: "ObjectEntry") -> bool:
+        """Test whether or not this object sis the same as the other object."""
+
+    @abc.abstractmethod
+    def newer_than(self, other: Union[float, "ObjectEntry"]) -> bool:
+        """Test whether or not this object is newer than the other object."""
+
+
+class UserObjectEntry(ObjectEntry):
+    sort: ClassVar[str]
     mtime: Optional[float] = None
 
     def __post_init__(self, *args, **kwargs):
         self.mtime = self.get_mtime()
 
-    @property
-    def namespace(self) -> str:
+    @override
+    def get_namespace(self) -> str:
         if isinstance(self, GroupEntry):
             for entry in self.entries():
                 return entry.namespace
@@ -94,38 +139,7 @@ class ObjectEntry(abc.ABC):
         else:
             return self.get_package().name
 
-    @property
-    def resolved_name(self) -> str:
-        return resolve_name(self.get_name(), namespace=self.namespace)
-
-    @property
-    def qualified_name(self) -> str:
-        return f"{self.__class__.sort}:{self.resolved_name}"
-
-    def same_as(self, other: "ObjectEntry") -> bool:
-        if type(self) == type(other):
-            if isinstance(self, PackageEntry):
-                assert isinstance(other, PackageEntry)
-                return self.name == other.name and self.path == other.path
-            if isinstance(self, FileEntry):
-                assert isinstance(other, FileEntry)
-                return self.path == other.path
-            else:
-                return (
-                    self.resolved_name == other.resolved_name
-                    and self.get_parent().same_as(other.get_parent())
-                )
-        else:
-            return False
-
-    def newer_than(self, other: Union[float, "ObjectEntry"]) -> bool:
-        assert self.mtime is not None, f"missing mtime on {self.__class__.sort}"
-        if isinstance(other, float):
-            return self.mtime >= other
-        else:
-            assert other.mtime is not None, f"missing mtime on {other.__class__.sort}"
-            return self.mtime >= other.mtime
-
+    @override
     def get_docstring(self) -> Optional[str]:
         if hasattr(self, "desc"):
             return cast(Optional[str], object.__getattribute__(self, "desc"))
@@ -136,6 +150,34 @@ class ObjectEntry(abc.ABC):
                     return desc
         return None
 
+    @override
+    def same_as(self, other: "ObjectEntry") -> bool:
+        if type(self) == type(other):
+            if isinstance(self, PackageEntry):
+                assert isinstance(other, PackageEntry)
+                return self.name == other.name and self.path == other.path
+            if isinstance(self, FileEntry):
+                assert isinstance(other, FileEntry)
+                return self.path == other.path
+            if isinstance(other, UserObjectEntry):
+                return (
+                    self.resolved_name == other.resolved_name
+                    and self.get_parent().same_as(other.get_parent())
+                )
+        return False
+
+    @override
+    def newer_than(self, other: Union[float, "ObjectEntry"]) -> bool:
+        assert self.mtime is not None, f"missing mtime on {self.__class__.sort}"
+        if isinstance(other, float):
+            return self.mtime >= other
+        if isinstance(other, UserObjectEntry):
+            assert other.mtime is not None, f"missing mtime on {other.__class__.sort}"
+            return self.mtime >= other.mtime
+        else:
+            # NOTE: assumes that the other object must be a BuiltinObjectEntry
+            return True
+
     def get_file(self) -> Optional["FileEntry"]:
         if isinstance(self, PackageEntry):
             return None
@@ -143,13 +185,6 @@ class ObjectEntry(abc.ABC):
             return self
         else:
             return self.get_parent().get_file()
-
-    def get_name(self) -> str:
-        # NOTE: cannot use abstract properties with dataclasses
-        try:
-            return cast(str, object.__getattribute__(self, "name"))
-        except AttributeError as e:
-            raise ValueError(self, e)
 
     def get_mtime(self) -> float:
         try:
@@ -170,10 +205,10 @@ class ObjectEntry(abc.ABC):
             assert file is not None
             return file.parent
 
-    def get_parent(self) -> "ObjectEntry":
+    def get_parent(self) -> "UserObjectEntry":
         # NOTE: cannot use abstract properties with dataclasses
         try:
-            return cast(ObjectEntry, object.__getattribute__(self, "parent"))
+            return cast(UserObjectEntry, object.__getattribute__(self, "parent"))
         except AttributeError as e:
             raise ValueError(self, e)
 
@@ -195,11 +230,15 @@ CanOverride = TypeVar("CanOverride", bound="CanOverrideEntry")
 
 
 @dataclasses.dataclass
-class CanOverrideEntry(ObjectEntry):
+class CanOverrideEntry(UserObjectEntry):
     name: str
     parent: Union["FileEntry", "ModuleEntry"] = dataclasses.field(repr=False)
 
-    def group(self: "CanOverride") -> "GroupEntry":  # ["CanOverride"]:
+    @override
+    def get_name(self) -> str:
+        return self.name
+
+    def group(self: "CanOverride") -> "GroupEntry":
         if isinstance(self.parent, (TalonFileEntry, ContextEntry)):
             return GroupEntry(self.name, default=None, overrides=[self])
         else:
@@ -207,11 +246,15 @@ class CanOverrideEntry(ObjectEntry):
 
 
 @dataclasses.dataclass
-class GroupEntry(ObjectEntry, Generic[CanOverride]):
+class GroupEntry(UserObjectEntry, Generic[CanOverride]):
     sort: ClassVar[str] = "group"
     name: str
     default: Optional[CanOverride] = None
     overrides: list[CanOverride] = dataclasses.field(default_factory=list)
+
+    @override
+    def get_name(self) -> str:
+        return self.name
 
     def entries(self) -> Iterator[CanOverrideEntry]:
         if self.default:
@@ -261,13 +304,17 @@ class GroupEntry(ObjectEntry, Generic[CanOverride]):
 
 
 @dataclasses.dataclass
-class FunctionEntry(ObjectEntry):
+class FunctionEntry(UserObjectEntry):
     sort: ClassVar[str] = "function"
     parent: "PythonFileEntry"
     func: Callable[..., Any] = dataclasses.field(repr=False)
 
     @property
     def name(self) -> str:
+        return self.get_name()
+
+    @override
+    def get_name(self) -> str:
         return self.func.__qualname__
 
     @property
@@ -279,7 +326,7 @@ EventCode = Union[int, str]
 
 
 @dataclasses.dataclass
-class CallbackEntry(ObjectEntry):
+class CallbackEntry(UserObjectEntry):
     """
     Used to register callbacks into imported Python modules.
     """
@@ -288,6 +335,10 @@ class CallbackEntry(ObjectEntry):
     parent: "PythonFileEntry"
     func: Callable[..., None] = dataclasses.field(repr=False)
     event_code: EventCode
+
+    @override
+    def get_name(self) -> str:
+        return self.func.__qualname__
 
 
 ###############################################################################
@@ -298,7 +349,7 @@ class CallbackEntry(ObjectEntry):
 @dataclasses.dataclass(
     init=False,
 )
-class PackageEntry(ObjectEntry):
+class PackageEntry(UserObjectEntry):
     sort: ClassVar[str] = "package"
     name: str
     path: Path
@@ -320,12 +371,16 @@ class PackageEntry(ObjectEntry):
     def make_name(name: Optional[str], path: Path) -> str:
         return name or path.parts[-1]
 
+    @override
+    def get_name(self) -> str:
+        return self.name
+
 
 AnyFileEntry = TypeVar("AnyFileEntry", bound="FileEntry")
 
 
 @dataclasses.dataclass
-class FileEntry(ObjectEntry):
+class FileEntry(UserObjectEntry):
     sort: ClassVar[str] = "file"
     parent: PackageEntry = dataclasses.field(repr=False)
     path: Path
@@ -352,6 +407,10 @@ class FileEntry(ObjectEntry):
 
     @property
     def name(self) -> str:
+        return self.get_name()
+
+    @override
+    def get_name(self) -> str:
         return FileEntry.make_name(self.parent, self.path)
 
 
@@ -376,7 +435,7 @@ AnyModuleEntry = TypeVar("AnyModuleEntry", bound="ModuleEntry")
 
 
 @dataclasses.dataclass
-class ModuleEntry(ObjectEntry):
+class ModuleEntry(UserObjectEntry):
     sort: ClassVar[str] = "module"
     parent: PythonFileEntry = dataclasses.field(repr=False)
     desc: Optional[str]
@@ -389,6 +448,10 @@ class ModuleEntry(ObjectEntry):
 
     @property
     def name(self) -> str:
+        return self.get_name()
+
+    @override
+    def get_name(self) -> str:
         return ".".join(
             [
                 self.namespace,
@@ -410,7 +473,7 @@ class ContextEntry(ModuleEntry):
 
 
 @dataclasses.dataclass
-class CommandEntry(ObjectEntry):
+class CommandEntry(UserObjectEntry):
     sort: ClassVar[str] = "command"
     parent: TalonFileEntry = dataclasses.field(repr=False)
     ast: tree_sitter_talon.TalonCommandDeclaration
@@ -423,6 +486,10 @@ class CommandEntry(ObjectEntry):
 
     @property
     def name(self) -> str:
+        return self.get_name()
+
+    @override
+    def get_name(self) -> str:
         return f"{self.parent.name}.{self._index}"
 
 
@@ -489,7 +556,7 @@ class ListEntry(CanOverrideEntry):
 
 
 @dataclasses.dataclass
-class ModeEntry(ObjectEntry):
+class ModeEntry(UserObjectEntry):
     sort: ClassVar[str] = "mode"
     name: str
     parent: ModuleEntry = dataclasses.field(repr=False)
@@ -499,6 +566,10 @@ class ModeEntry(ObjectEntry):
         super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         pass
+
+    @override
+    def get_name(self) -> str:
+        return self.name
 
 
 @dataclasses.dataclass
@@ -516,7 +587,7 @@ class SettingEntry(CanOverrideEntry):
 
 
 @dataclasses.dataclass
-class TagEntry(ObjectEntry):
+class TagEntry(UserObjectEntry):
     sort: ClassVar[str] = "tag"
     name: str
     parent: ModuleEntry = dataclasses.field(repr=False)
@@ -526,6 +597,10 @@ class TagEntry(ObjectEntry):
         super().__post_init__(*args, **kwargs)
         # TODO: add self to module
         pass
+
+    @override
+    def get_name(self) -> str:
+        return self.name
 
 
 ###############################################################################
