@@ -114,7 +114,7 @@ class TalonScriptDescriber:
                 return docstring
         entry = self.registry.lookup(sort, name)
         if entry is not None:
-            return entry.get_docstring()
+            return entry.docstring
         return None
 
     @describe.register

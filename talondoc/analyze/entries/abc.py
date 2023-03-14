@@ -38,8 +38,9 @@ class DuplicateEntry(Exception):
 
 ListValue = Union[Mapping[str, Any], Iterable[str]]
 
-
 SettingValue = Any
+
+EventCode = Union[int, str]
 
 
 ###############################################################################
@@ -129,7 +130,9 @@ class GroupEntry(Generic[GroupableObject]):
             return entry.resolved_name
         raise ValueError("Empty group")
 
-    def get_docstring(self) -> Optional[str]:
+    @property
+    def docstring(self) -> Optional[str]:
+        """The docstring for the object."""
         for entry in self.entries():
             docstring = entry.get_docstring()
             if docstring is not None:

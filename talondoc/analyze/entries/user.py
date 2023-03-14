@@ -7,7 +7,14 @@ import tree_sitter_talon
 from typing_extensions import override
 
 from ...util.logging import getLogger
-from .abc import GroupableObjectEntry, GroupEntry, ListValue, ObjectEntry, SettingValue
+from .abc import (
+    EventCode,
+    GroupableObjectEntry,
+    GroupEntry,
+    ListValue,
+    ObjectEntry,
+    SettingValue,
+)
 
 _LOGGER = getLogger(__name__)
 
@@ -45,7 +52,7 @@ class UserObjectEntry(ObjectEntry):
                 assert isinstance(
                     entry, ObjectEntry
                 ), f"Unexpected value of type {type(entry)} in group"
-                docstring = entry.get_docstring()
+                docstring = entry.docstring
                 if docstring is not None:
                     return docstring
         return None
@@ -179,9 +186,6 @@ class FunctionEntry(UserObjectEntry):
         return f"{self.parent.name.removesuffix('.py')}.{self.name}"
 
 
-EventCode = Union[int, str]
-
-
 @dataclasses.dataclass
 class CallbackEntry(UserObjectEntry):
     """Used to register callbacks into imported Python modules."""
@@ -199,6 +203,7 @@ class CallbackEntry(UserObjectEntry):
 ###############################################################################
 # Package and File Entries
 ###############################################################################
+1
 
 
 @dataclasses.dataclass(
