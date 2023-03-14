@@ -6,22 +6,22 @@ from types import ModuleType
 from typing import Any, Mapping, Optional, Sequence, cast
 
 from ..entries import (
-    ActionEntry,
     CallbackEntry,
-    CaptureEntry,
     ContextEntry,
     EventCode,
     FunctionEntry,
     GroupEntry,
-    ListEntry,
     ListValue,
-    ModeEntry,
     ModuleEntry,
     PythonFileEntry,
-    SettingEntry,
     SettingValue,
-    TagEntry,
-    resolve_name,
+    UserActionEntry,
+    UserCaptureEntry,
+    UserListEntry,
+    UserModeEntry,
+    UserSettingEntry,
+    UserTagEntry,
+    _resolve_name,
 )
 from ..registry import Registry
 
@@ -177,8 +177,8 @@ class ModuleShim(ModuleType):
 def _action(
     registry: Registry, name: str, *, namespace: Optional[str] = None
 ) -> Optional[Callable[..., Any]]:
-    resolved_name = resolve_name(name, namespace=namespace)
-    action_group_entry = registry.lookup(ActionEntry, resolved_name)
+    resolved_name = _resolve_name(name, namespace=namespace)
+    action_group_entry = registry.lookup(UserActionEntry, resolved_name)
     if action_group_entry and action_group_entry.default:
         function_name = action_group_entry.default.func
         if function_name:
@@ -221,7 +221,7 @@ class TalonContextListsShim(Mapping[str, ListValue]):
 
     def _add_list_value(self, name: str, value: ListValue):
         namespace = self._context._module_entry.namespace
-        list_entry = ListEntry(
+        list_entry = UserListEntry(
             name=f"{namespace}.{name}",
             parent=self._context._module_entry,
             value=value,
@@ -251,7 +251,7 @@ class TalonContextSettingsShim(Mapping):
 
     def _add_setting_value(self, name: str, value: SettingValue):
         namespace = self._context._module_entry.namespace
-        setting_entry = SettingEntry(
+        setting_entry = UserSettingEntry(
             name=f"{namespace}.{name}",
             parent=self._context._module_entry,
             value=value,
@@ -339,7 +339,7 @@ class TalonShim(ModuleShim):
                     parent=self._module_entry.parent,
                 )
                 registry.register(function_entry)
-                action_entry = ActionEntry(
+                action_entry = UserActionEntry(
                     parent=self._module_entry,
                     name=f"{self._module_entry.namespace}.{name}",
                     desc=func.__doc__,
@@ -363,7 +363,7 @@ class TalonShim(ModuleShim):
                     parent=self._module_entry.parent,
                 )
                 registry.register(function_entry)
-                capture_entry = CaptureEntry(
+                capture_entry = UserCaptureEntry(
                     name=f"{namespace}.{func.__name__}",
                     parent=self._module_entry,
                     rule=rule,
@@ -383,7 +383,7 @@ class TalonShim(ModuleShim):
             desc: str = None,
         ):
             namespace = self._module_entry.namespace
-            setting_entry = SettingEntry(
+            setting_entry = UserSettingEntry(
                 name=f"{namespace}.{name}",
                 parent=self._module_entry,
                 type=type.__name__,
@@ -394,7 +394,7 @@ class TalonShim(ModuleShim):
 
         def list(self, name: str, desc: str = None):
             namespace = self._module_entry.namespace
-            list_entry = ListEntry(
+            list_entry = UserListEntry(
                 name=f"{namespace}.{name}",
                 parent=self._module_entry,
                 desc=desc,
@@ -403,7 +403,7 @@ class TalonShim(ModuleShim):
 
         def mode(self, name: str, desc: str = None):
             namespace = self._module_entry.namespace
-            mode_entry = ModeEntry(
+            mode_entry = UserModeEntry(
                 name=f"{namespace}.{name}",
                 parent=self._module_entry,
                 desc=desc,
@@ -412,7 +412,7 @@ class TalonShim(ModuleShim):
 
         def tag(self, name: str, desc: str = None):
             namespace = self._module_entry.namespace
-            tag_entry = TagEntry(
+            tag_entry = UserTagEntry(
                 name=f"{namespace}.{name}",
                 parent=self._module_entry,
                 desc=desc,
@@ -468,7 +468,7 @@ class TalonShim(ModuleShim):
                     )
                     registry.register(function_entry)
                     name = f"{namespace}.{name}"
-                    action_entry = ActionEntry(
+                    action_entry = UserActionEntry(
                         parent=self._module_entry,
                         name=name,
                         desc=func.__doc__,
@@ -496,7 +496,7 @@ class TalonShim(ModuleShim):
                     func=func,
                     parent=self._module_entry.parent,
                 )
-                capture_entry = CaptureEntry(
+                capture_entry = UserCaptureEntry(
                     name=f"{namespace}.{func.__name__}",
                     parent=self._module_entry,
                     rule=rule,

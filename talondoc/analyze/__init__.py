@@ -23,8 +23,8 @@ from .entries import (
     FileEntry,
     PackageEntry,
     PythonFileEntry,
-    SettingEntry,
     TalonFileEntry,
+    UserSettingEntry,
 )
 from .registry import Registry
 from .shims import talon
@@ -109,16 +109,14 @@ def analyse_talon_file(
                     registry.register(command_entry)
                 elif isinstance(declaration, TalonSettingsDeclaration):
                     # Register settings:
-                    for child in declaration.children:
-                        if isinstance(child, TalonBlock):
-                            for statement in child.children:
-                                if isinstance(statement, TalonAssignmentStatement):
-                                    setting_use_entry = SettingEntry(
-                                        name=statement.left.text,
-                                        parent=file_entry,
-                                        value=statement.right,
-                                    )
-                                    registry.register(setting_use_entry)
+                    for statement in declaration.right.children:
+                        if isinstance(statement, TalonAssignmentStatement):
+                            setting_use_entry = UserSettingEntry(
+                                name=statement.left.text,
+                                parent=file_entry,
+                                value=statement.right,
+                            )
+                            registry.register(setting_use_entry)
                 elif isinstance(declaration, TalonTagImportDeclaration):
                     # Register tag import:
                     # TODO: add use entries

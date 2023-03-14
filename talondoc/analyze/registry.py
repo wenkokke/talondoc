@@ -1,5 +1,3 @@
-import abc
-import itertools
 from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass, field
@@ -8,13 +6,9 @@ from typing import Any, ClassVar, Optional, Union, cast, overload
 
 from ..util.logging import getLogger
 from .entries import (
-    ActionEntry,
     AnyFileEntry,
     AnyModuleEntry,
     CallbackEntry,
-    CanOverride,
-    CanOverrideEntry,
-    CaptureEntry,
     CommandEntry,
     ContextEntry,
     DuplicateEntry,
@@ -22,17 +16,18 @@ from .entries import (
     EventCode,
     FileEntry,
     FunctionEntry,
+    GroupableObject,
+    GroupableObjectEntry,
     GroupEntry,
-    ListEntry,
-    ModeEntry,
     ModuleEntry,
     PackageEntry,
-    PythonFileEntry,
-    SettingEntry,
-    TagEntry,
-    TalonFileEntry,
+    UserActionEntry,
+    UserCaptureEntry,
+    UserListEntry,
+    UserModeEntry,
     UserObjectEntry,
-    resolve_name,
+    UserSettingEntry,
+    UserTagEntry,
 )
 
 _LOGGER = getLogger(__name__)
@@ -165,31 +160,31 @@ class Registry:
         )
 
     @property
-    def action_groups(self) -> dict[str, GroupEntry[ActionEntry]]:
+    def action_groups(self) -> dict[str, GroupEntry[UserActionEntry]]:
         return cast(
-            dict[str, GroupEntry[ActionEntry]],
-            self.groups.setdefault(ActionEntry.sort, {}),
+            dict[str, GroupEntry[UserActionEntry]],
+            self.groups.setdefault(UserActionEntry.sort, {}),
         )
 
     @property
-    def capture_groups(self) -> dict[str, GroupEntry[CaptureEntry]]:
+    def capture_groups(self) -> dict[str, GroupEntry[UserCaptureEntry]]:
         return cast(
-            dict[str, GroupEntry[CaptureEntry]],
-            self.groups.setdefault(CaptureEntry.sort, {}),
+            dict[str, GroupEntry[UserCaptureEntry]],
+            self.groups.setdefault(UserCaptureEntry.sort, {}),
         )
 
     @property
-    def list_groups(self) -> dict[str, GroupEntry[ListEntry]]:
+    def list_groups(self) -> dict[str, GroupEntry[UserListEntry]]:
         return cast(
-            dict[str, GroupEntry[ListEntry]],
-            self.groups.setdefault(ListEntry.sort, {}),
+            dict[str, GroupEntry[UserListEntry]],
+            self.groups.setdefault(UserListEntry.sort, {}),
         )
 
     @property
-    def setting_groups(self) -> dict[str, GroupEntry[SettingEntry]]:
+    def setting_groups(self) -> dict[str, GroupEntry[UserSettingEntry]]:
         return cast(
-            dict[str, GroupEntry[SettingEntry]],
-            self.groups.setdefault(SettingEntry.sort, {}),
+            dict[str, GroupEntry[UserSettingEntry]],
+            self.groups.setdefault(UserSettingEntry.sort, {}),
         )
 
     @property
@@ -228,10 +223,10 @@ class Registry:
         )
 
     @property
-    def modes(self) -> dict[str, ModeEntry]:
+    def modes(self) -> dict[str, UserModeEntry]:
         return cast(
-            dict[str, ModeEntry],
-            self.data.setdefault(ModeEntry.sort, {}),
+            dict[str, UserModeEntry],
+            self.data.setdefault(UserModeEntry.sort, {}),
         )
 
     @property
@@ -249,10 +244,10 @@ class Registry:
         )
 
     @property
-    def tags(self) -> dict[str, TagEntry]:
+    def tags(self) -> dict[str, UserTagEntry]:
         return cast(
-            dict[str, TagEntry],
-            self.data.setdefault(TagEntry.sort, {}),
+            dict[str, UserTagEntry],
+            self.data.setdefault(UserTagEntry.sort, {}),
         )
 
     def register(self, entry: UserObjectEntry):
@@ -270,7 +265,7 @@ class Registry:
         elif isinstance(entry, CallbackEntry):
             # Callbacks are TEMPORARY DATA, and are stored as lists under their event codes:
             self.callbacks.setdefault(entry.event_code, []).append(entry)
-        elif isinstance(entry, CanOverrideEntry):
+        elif isinstance(entry, GroupableObjectEntry):
             # Objects that can be overwritten are stored as groups:
             object_groups = self.groups.setdefault(entry.__class__.sort, {})
             object_group = object_groups.get(entry.resolved_name, None)
@@ -326,20 +321,20 @@ class Registry:
 
     @overload
     def lookup(
-        self, sort: type[CanOverride], name: str, *, namespace: Optional[str] = None
-    ) -> Optional[GroupEntry[CanOverride]]:
+        self, sort: type[GroupableObject], name: str, *, namespace: Optional[str] = None
+    ) -> Optional[GroupEntry[GroupableObject]]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[ModeEntry], name: str, *, namespace: Optional[str] = None
-    ) -> Optional[ModeEntry]:
+        self, sort: type[UserModeEntry], name: str, *, namespace: Optional[str] = None
+    ) -> Optional[UserModeEntry]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[TagEntry], name: str, *, namespace: Optional[str] = None
-    ) -> Optional[TagEntry]:
+        self, sort: type[UserTagEntry], name: str, *, namespace: Optional[str] = None
+    ) -> Optional[UserTagEntry]:
         ...
 
     def lookup(
@@ -348,7 +343,7 @@ class Registry:
         """
         Look up an object entry by its name.
         """
-        if issubclass(sort, CanOverrideEntry):
+        if issubclass(sort, GroupableObjectEntry):
             return cast(
                 Optional[GroupEntry[Entry]],  # type: ignore
                 self.groups.get(sort.sort, {}).get(name, None),

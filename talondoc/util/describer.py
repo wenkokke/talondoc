@@ -24,13 +24,7 @@ from tree_sitter_talon import (
     TalonVariable,
 )
 
-from ..analyze.entries import (
-    ActionEntry,
-    CanOverride,
-    GroupEntry,
-    TagEntry,
-    UserObjectEntry,
-)
+from ..analyze.entries import GroupableObject, UserActionEntry, UserTagEntry
 from ..analyze.registry import Registry
 from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
 from .logging import getLogger
@@ -111,14 +105,14 @@ class TalonScriptDescriber:
         return None
 
     def get_docstring(
-        self, sort: Union[type[TagEntry], type[CanOverride]], name: str
+        self, sort: Union[type[UserTagEntry], type[GroupableObject]], name: str
     ) -> Optional[str]:
         if self.docstring_hook:
             docstring = self.docstring_hook(sort.sort, name)
             if docstring:
                 return docstring
         entry = self.registry.lookup(sort, name)
-        if entry:
+        if entry is not None:
             return entry.get_docstring()
         return None
 
@@ -126,7 +120,7 @@ class TalonScriptDescriber:
     def _(self, ast: TalonAction) -> Optional[Desc]:
         # TODO: resolve self.*
         name = ast.action_name.text
-        docstring = self.get_docstring(ActionEntry, name)
+        docstring = self.get_docstring(UserActionEntry, name)
         if docstring:
             desc = from_docstring(docstring)
             if isinstance(desc, StepsTemplate):
