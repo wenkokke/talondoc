@@ -8,7 +8,7 @@ import jinja2
 import jinja2.sandbox
 
 from ..analyze import analyse_package
-from ..analyze.entries.user import PythonFileEntry, TalonFileEntry
+from ..analyze.entries.user import UserPythonFileEntry, UserTalonFileEntry
 from ..analyze.registry import Registry
 from ..util.progress_bar import ProgressBar
 
@@ -119,7 +119,7 @@ def generate(
     for file_entry in package_entry.files:
         # Create path/to/talon/file.rst:
         if file_entry.path.suffix == ".talon":
-            assert isinstance(file_entry, TalonFileEntry)
+            assert isinstance(file_entry, UserTalonFileEntry)
             bar.step(f" {str(file_entry.path)}")
             output_relpath = file_entry.path.with_suffix(".rst")
             toc.append(output_relpath)
@@ -131,7 +131,7 @@ def generate(
 
         # Create path/to/python/file/api.rst:
         elif file_entry.path.suffix == ".py":
-            assert isinstance(file_entry, PythonFileEntry)
+            assert isinstance(file_entry, UserPythonFileEntry)
             bar.step(f" {str(file_entry.path)}")
             output_relpath = file_entry.path.with_suffix("") / "api.rst"
             toc.append(output_relpath)

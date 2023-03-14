@@ -24,7 +24,7 @@ from tree_sitter_talon import (
     TalonVariable,
 )
 
-from ..analyze.entries.abc import GroupableObject
+from ..analyze.entries.abc import AnyGroupableObject
 from ..analyze.entries.user import UserActionEntry, UserTagEntry
 from ..analyze.registry import Registry
 from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
@@ -106,7 +106,7 @@ class TalonScriptDescriber:
         return None
 
     def get_docstring(
-        self, sort: Union[type[UserTagEntry], type[GroupableObject]], name: str
+        self, sort: Union[type[UserTagEntry], type[AnyGroupableObject]], name: str
     ) -> Optional[str]:
         if self.docstring_hook:
             docstring = self.docstring_hook(sort.sort, name)
@@ -114,7 +114,7 @@ class TalonScriptDescriber:
                 return docstring
         entry = self.registry.lookup(sort, name)
         if entry is not None:
-            return entry.docstring
+            return entry.get_docstring()
         return None
 
     @describe.register

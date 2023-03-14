@@ -4,7 +4,7 @@ from typing import Optional
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
 
-from ...analyze.entries.user import CommandEntry
+from ...analyze.entries.user import UserCommandEntry
 from ...util.logging import getLogger
 from ...util.typing import flag
 from . import TalonDocObjectDescription, include_command
@@ -22,8 +22,8 @@ class TalonCommandDirective(TalonDocObjectDescription):
     def get_signatures(self):
         return [" ".join(self.arguments)]
 
-    def find_command(self, sig: str) -> CommandEntry:
-        command: Optional[CommandEntry] = None
+    def find_command(self, sig: str) -> UserCommandEntry:
+        command: Optional[UserCommandEntry] = None
         for candidate in self.talon.registry.commands:
             if include_command(candidate, sig, fullmatch=True):
                 if __debug__ and command:
@@ -44,4 +44,4 @@ class TalonCommandDirective(TalonDocObjectDescription):
             registry=self.talon.registry,
             include_script=self.options.get("script", False),
         )
-        return command.name
+        return command.get_name()

@@ -6,29 +6,29 @@ from typing import Any, ClassVar, Optional, Union, cast, overload
 
 from ..util.logging import getLogger
 from .entries.abc import (
+    AnyGroupableObject,
     DuplicateEntry,
-    GroupableObject,
     GroupableObjectEntry,
     GroupEntry,
     ObjectEntry,
     resolve_name,
 )
 from .entries.user import (
-    AnyFileEntry,
-    AnyModuleEntry,
-    CallbackEntry,
-    CommandEntry,
-    ContextEntry,
+    AnyUserFileEntry,
+    AnyUserModuleEntry,
     EventCode,
-    FileEntry,
-    FunctionEntry,
-    ModuleEntry,
-    PackageEntry,
     UserActionEntry,
+    UserCallbackEntry,
     UserCaptureEntry,
+    UserCommandEntry,
+    UserContextEntry,
+    UserFileEntry,
+    UserFunctionEntry,
     UserListEntry,
     UserModeEntry,
+    UserModuleEntry,
     UserObjectEntry,
+    UserPackageEntry,
     UserSettingEntry,
     UserTagEntry,
 )
@@ -72,22 +72,22 @@ class Registry:
 
     temp_data: dict[str, Any] = field(default_factory=dict)
 
-    _active_package_entry: Optional[PackageEntry] = field(default=None, init=False)
+    _active_package_entry: Optional[UserPackageEntry] = field(default=None, init=False)
 
-    _active_file_entry: Optional[FileEntry] = field(default=None, init=False)
+    _active_file_entry: Optional[UserFileEntry] = field(default=None, init=False)
 
     @contextmanager
     def package_entry(
         self,
         name: Optional[str],
         path: Path,
-    ) -> Iterator[tuple[bool, PackageEntry]]:
+    ) -> Iterator[tuple[bool, UserPackageEntry]]:
         """
         Retrieve a package entry if it exists, or register a new package entry.
         """
         try:
             assert path.is_absolute()
-            name = PackageEntry.make_name(name, path)
+            name = UserPackageEntry.make_name(name, path)
             found_package_entry: bool = False
             for package_entry_name in list(self.packages.keys()):
                 package_entry = self.packages[package_entry_name]
@@ -102,7 +102,7 @@ class Registry:
                     else:
                         del self.packages[package_entry_name]
             if not found_package_entry:
-                package_entry = PackageEntry(name=name, path=path)
+                package_entry = UserPackageEntry(name=name, path=path)
                 self.register(package_entry)
                 self.active_package_entry = package_entry
                 found_package_entry = True
@@ -113,13 +113,13 @@ class Registry:
 
     @contextmanager
     def file_entry(
-        self, cls: type[AnyFileEntry], package: PackageEntry, path: Path
-    ) -> Iterator[tuple[bool, AnyFileEntry]]:
+        self, cls: type[AnyUserFileEntry], package: UserPackageEntry, path: Path
+    ) -> Iterator[tuple[bool, AnyUserFileEntry]]:
         """
         Retrieve a file entry if it exists, or register a new file entry.
         """
         try:
-            name = FileEntry.make_name(package, path)
+            name = UserFileEntry.make_name(package, path)
             resolved_path = (package.path / path).resolve()
             file_entry = self.lookup(cls, name)
             found_file_entry: bool = False
@@ -140,19 +140,19 @@ class Registry:
             self.active_file_entry = None
 
     @property
-    def active_package_entry(self) -> Optional[PackageEntry]:
+    def active_package_entry(self) -> Optional[UserPackageEntry]:
         return self._active_package_entry
 
     @active_package_entry.setter
-    def active_package_entry(self, package_entry: PackageEntry) -> None:
+    def active_package_entry(self, package_entry: UserPackageEntry) -> None:
         self._active_package_entry = package_entry
 
     @property
-    def active_file_entry(self) -> Optional[FileEntry]:
+    def active_file_entry(self) -> Optional[UserFileEntry]:
         return self._active_file_entry
 
     @active_file_entry.setter
-    def active_file_entry(self, file_entry: FileEntry) -> None:
+    def active_file_entry(self, file_entry: UserFileEntry) -> None:
         self._active_file_entry = file_entry
 
     @property
@@ -191,38 +191,38 @@ class Registry:
         )
 
     @property
-    def callbacks(self) -> dict[EventCode, list[CallbackEntry]]:
+    def callbacks(self) -> dict[EventCode, list[UserCallbackEntry]]:
         return cast(
-            dict[EventCode, list[CallbackEntry]],
-            self.temp_data.setdefault(CallbackEntry.sort, {}),
+            dict[EventCode, list[UserCallbackEntry]],
+            self.temp_data.setdefault(UserCallbackEntry.sort, {}),
         )
 
     @property
-    def commands(self) -> list[CommandEntry]:
+    def commands(self) -> list[UserCommandEntry]:
         return cast(
-            list[CommandEntry],
-            self.data.setdefault(CommandEntry.sort, []),
+            list[UserCommandEntry],
+            self.data.setdefault(UserCommandEntry.sort, []),
         )
 
     @property
-    def contexts(self) -> dict[str, list[ContextEntry]]:
+    def contexts(self) -> dict[str, list[UserContextEntry]]:
         return cast(
-            dict[str, list[ContextEntry]],
-            self.data.setdefault(ContextEntry.sort, {}),
+            dict[str, list[UserContextEntry]],
+            self.data.setdefault(UserContextEntry.sort, {}),
         )
 
     @property
-    def files(self) -> dict[str, FileEntry]:
+    def files(self) -> dict[str, UserFileEntry]:
         return cast(
-            dict[str, FileEntry],
-            self.data.setdefault(FileEntry.sort, {}),
+            dict[str, UserFileEntry],
+            self.data.setdefault(UserFileEntry.sort, {}),
         )
 
     @property
-    def functions(self) -> dict[str, FunctionEntry]:
+    def functions(self) -> dict[str, UserFunctionEntry]:
         return cast(
-            dict[str, FunctionEntry],
-            self.temp_data.setdefault(FunctionEntry.sort, {}),
+            dict[str, UserFunctionEntry],
+            self.temp_data.setdefault(UserFunctionEntry.sort, {}),
         )
 
     @property
@@ -233,17 +233,17 @@ class Registry:
         )
 
     @property
-    def modules(self) -> dict[str, list[ModuleEntry]]:
+    def modules(self) -> dict[str, list[UserModuleEntry]]:
         return cast(
-            dict[str, list[ModuleEntry]],
-            self.data.setdefault(ModuleEntry.sort, {}),
+            dict[str, list[UserModuleEntry]],
+            self.data.setdefault(UserModuleEntry.sort, {}),
         )
 
     @property
-    def packages(self) -> dict[str, PackageEntry]:
+    def packages(self) -> dict[str, UserPackageEntry]:
         return cast(
-            dict[str, PackageEntry],
-            self.data.setdefault(PackageEntry.sort, {}),
+            dict[str, UserPackageEntry],
+            self.data.setdefault(UserPackageEntry.sort, {}),
         )
 
     @property
@@ -258,74 +258,102 @@ class Registry:
         Register an object entry.
         """
         # Store the entry:
-        if isinstance(entry, FunctionEntry):
+        if isinstance(entry, UserFunctionEntry):
             # Functions are TEMPORARY DATA, and are stored under their qualified names:
-            if entry.resolved_name in self.functions:
-                e = DuplicateEntry(entry, self.functions[entry.resolved_name])
+            if entry.get_resolved_name() in self.functions:
+                e = DuplicateEntry(entry, self.functions[entry.get_resolved_name()])
                 _LOGGER.error(str(e))
             else:
-                self.functions[entry.resolved_name] = entry
-        elif isinstance(entry, CallbackEntry):
+                self.functions[entry.get_resolved_name()] = entry
+        elif isinstance(entry, UserCallbackEntry):
             # Callbacks are TEMPORARY DATA, and are stored as lists under their event codes:
             self.callbacks.setdefault(entry.event_code, []).append(entry)
         elif isinstance(entry, GroupableObjectEntry):
             # Objects that can be overwritten are stored as groups:
             object_groups = self.groups.setdefault(entry.__class__.sort, {})
-            object_group = object_groups.get(entry.resolved_name, None)
+            object_group = object_groups.get(entry.get_resolved_name(), None)
             if object_group:
                 try:
                     object_group.append(entry)
                 except DuplicateEntry as e:
                     _LOGGER.error(str(e))
             else:
-                object_groups[entry.resolved_name] = entry.group()
-        elif isinstance(entry, CommandEntry):
+                object_groups[entry.get_resolved_name()] = entry.group()
+        elif isinstance(entry, UserCommandEntry):
             # Commands are stored as lists:
             self.commands.append(entry)
         else:
             # Everything else is stored under its resolved name:
-            self.data.setdefault(entry.sort, {})[entry.resolved_name] = entry
+            self.data.setdefault(entry.sort, {})[entry.get_resolved_name()] = entry
 
     @overload
     def lookup(
-        self, sort: type[PackageEntry], name: str, *, namespace: Optional[str] = None
-    ) -> Optional[PackageEntry]:
+        self,
+        sort: type[UserPackageEntry],
+        name: str,
+        *,
+        namespace: Optional[str] = None
+    ) -> Optional[UserPackageEntry]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[FunctionEntry], name: str, *, namespace: Optional[str] = None
-    ) -> Optional[FunctionEntry]:
+        self,
+        sort: type[UserFunctionEntry],
+        name: str,
+        *,
+        namespace: Optional[str] = None
+    ) -> Optional[UserFunctionEntry]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[CallbackEntry], name: str, *, namespace: Optional[str] = None
-    ) -> Optional[Sequence[CallbackEntry]]:
+        self,
+        sort: type[UserCallbackEntry],
+        name: str,
+        *,
+        namespace: Optional[str] = None
+    ) -> Optional[Sequence[UserCallbackEntry]]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[AnyFileEntry], name: str, *, namespace: Optional[str] = None
-    ) -> Optional[AnyFileEntry]:
+        self,
+        sort: type[AnyUserFileEntry],
+        name: str,
+        *,
+        namespace: Optional[str] = None
+    ) -> Optional[AnyUserFileEntry]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[CommandEntry], name: str, *, namespace: Optional[str] = None
-    ) -> Optional[Sequence[CommandEntry]]:
+        self,
+        sort: type[UserCommandEntry],
+        name: str,
+        *,
+        namespace: Optional[str] = None
+    ) -> Optional[Sequence[UserCommandEntry]]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[AnyModuleEntry], name: str, *, namespace: Optional[str] = None
-    ) -> Optional[AnyModuleEntry]:
+        self,
+        sort: type[AnyUserModuleEntry],
+        name: str,
+        *,
+        namespace: Optional[str] = None
+    ) -> Optional[AnyUserModuleEntry]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[GroupableObject], name: str, *, namespace: Optional[str] = None
-    ) -> Optional[GroupEntry[GroupableObject]]:
+        self,
+        sort: type[AnyGroupableObject],
+        name: str,
+        *,
+        namespace: Optional[str] = None
+    ) -> Optional[GroupEntry[AnyGroupableObject]]:
         ...
 
     @overload
@@ -372,7 +400,7 @@ class Registry:
             raise NoActiveRegistry()
 
     @staticmethod
-    def get_active_package() -> PackageEntry:
+    def get_active_package() -> UserPackageEntry:
         """
         Retrieve the active package.
         """
@@ -383,7 +411,7 @@ class Registry:
             raise NoActivePackage()
 
     @staticmethod
-    def set_active_package(package_entry: PackageEntry) -> None:
+    def set_active_package(package_entry: UserPackageEntry) -> None:
         """
         Set the active package.
         """
@@ -391,7 +419,7 @@ class Registry:
         registry.active_package_entry = package_entry
 
     @staticmethod
-    def get_active_file() -> FileEntry:
+    def get_active_file() -> UserFileEntry:
         """
         Retrieve the active file.
         """
@@ -402,7 +430,7 @@ class Registry:
             raise NoActiveFile()
 
     @staticmethod
-    def set_active_file(file_entry: FileEntry) -> None:
+    def set_active_file(file_entry: UserFileEntry) -> None:
         """
         Set the active file.
         """

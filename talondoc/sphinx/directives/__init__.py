@@ -22,7 +22,11 @@ from tree_sitter_talon import (
     TalonWord,
 )
 
-from ...analyze.entries.user import CommandEntry, PackageEntry, TalonFileEntry
+from ...analyze.entries.user import (
+    UserCommandEntry,
+    UserPackageEntry,
+    UserTalonFileEntry,
+)
 from ...analyze.registry import Registry
 from ...util.desc import InvalidInterpolation
 from ...util.describer import TalonScriptDescriber
@@ -38,7 +42,7 @@ else:
 
 
 def include_command(
-    candidate: CommandEntry,
+    candidate: UserCommandEntry,
     sig: Optional[str] = None,
     *,
     fullmatch: bool = True,
@@ -126,12 +130,12 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
 
             return __docstring_hook
 
-    def describe_rule(self, command: CommandEntry) -> nodes.Text:
+    def describe_rule(self, command: UserCommandEntry) -> nodes.Text:
         return nodes.Text(talonfmt(command.ast.rule, safe=False))
 
     def try_describe_script_via_action_docstrings(
         self,
-        command: CommandEntry,
+        command: UserCommandEntry,
         *,
         registry: Registry,
     ) -> Optional[nodes.Text]:
@@ -151,7 +155,7 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
 
     def try_describe_script_via_script_docstrings(
         self,
-        command: CommandEntry,
+        command: UserCommandEntry,
     ) -> Optional[nodes.Text]:
         """
         Describe the script using the docstrings present in the script itself.
@@ -168,7 +172,7 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
             return None
 
     def describe_script_via_code_block(
-        self, command: CommandEntry
+        self, command: UserCommandEntry
     ) -> addnodes.highlightlang:
         """
         Describe the script by including it as a code block.
@@ -180,7 +184,7 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
 
     def describe_script(
         self,
-        command: CommandEntry,
+        command: UserCommandEntry,
         *,
         registry: Registry,
         include_script: bool,
@@ -202,7 +206,7 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
 
     def handle_command(
         self,
-        command: CommandEntry,
+        command: UserCommandEntry,
         signode: addnodes.desc_signature,
         *,
         registry: Registry,
@@ -220,7 +224,7 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
 
     def describe_command(
         self,
-        command: CommandEntry,
+        command: UserCommandEntry,
         *,
         registry: Registry,
         include_script: bool,
@@ -238,10 +242,10 @@ class TalonDocObjectDescription(sphinx.directives.ObjectDescription, TalonDocDir
 
 
 class TalonCommandListDirective(TalonDocDirective):
-    def find_package(self) -> PackageEntry:
+    def find_package(self) -> UserPackageEntry:
         namespace = self.options.get("package")
         candidate = self.talon.registry.active_package_entry
-        if candidate and (not namespace or candidate.namespace == namespace):
+        if candidate and (not namespace or candidate.get_namespace() == namespace):
             return candidate
         candidate = self.talon.registry.packages.get(namespace, None)
         if candidate:
@@ -249,15 +253,15 @@ class TalonCommandListDirective(TalonDocDirective):
         raise ValueError(f"Could not find package '{namespace}'")
 
     def find_file(
-        self, sig: str, *, package_entry: Optional[PackageEntry] = None
-    ) -> TalonFileEntry:
+        self, sig: str, *, package_entry: Optional[UserPackageEntry] = None
+    ) -> UserTalonFileEntry:
         # Try lookup with 'sig' as name:
-        result = self.talon.registry.lookup(TalonFileEntry, sig)
+        result = self.talon.registry.lookup(UserTalonFileEntry, sig)
         if result:
             return result
 
         # Try lookup with 'sig.talon' as name:
-        result = self.talon.registry.lookup(TalonFileEntry, f"{sig}.talon")
+        result = self.talon.registry.lookup(UserTalonFileEntry, f"{sig}.talon")
         if result:
             return result
 
@@ -270,7 +274,7 @@ class TalonCommandListDirective(TalonDocDirective):
 
         # Find the file:
         for file in package_entry.files:
-            if isinstance(file, TalonFileEntry):
+            if isinstance(file, UserTalonFileEntry):
                 # Try comparison with 'sig' as path:
                 if sig == str(file.path):
                     return file
@@ -279,7 +283,7 @@ class TalonCommandListDirective(TalonDocDirective):
                     return file
         raise ValueError(f"Could not find file '{sig}'.")
 
-    def find_commands(self) -> Iterator[CommandEntry]:
+    def find_commands(self) -> Iterator[UserCommandEntry]:
         exclude = self.options.get("exclude", ())
         include = self.options.get("include", ())
 
@@ -312,5 +316,5 @@ class TalonCommandListDirective(TalonDocDirective):
         # Get caption from file name
         if len(self.arguments) == 1:
             file = self.find_file(self.arguments[0])
-            yield file.name.removesuffix(".talon")
+            yield file.get_name().removesuffix(".talon")
             return

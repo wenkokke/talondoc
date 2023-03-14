@@ -3,6 +3,8 @@ import dataclasses
 from collections.abc import Iterable, Iterator
 from typing import Any, ClassVar, Generic, Mapping, Optional, TypeVar, Union
 
+from typing_extensions import override
+
 from ...util.logging import getLogger
 
 _LOGGER = getLogger(__name__)
@@ -44,48 +46,40 @@ EventCode = Union[int, str]
 
 
 ###############################################################################
-# Abstract Object Entries
+# Abstract Entries
 ###############################################################################
 
+AnyEntry = TypeVar("AnyEntry", bound="Entry")
 
-Entry = TypeVar("Entry", bound="ObjectEntry")
 
-
-class ObjectEntry(abc.ABC):
+class Entry(abc.ABC):
     sort: ClassVar[str]
-
-    @property
-    def namespace(self) -> str:
-        """The top-level namespace for this object, e.g., 'path' for 'path.talon_home'."""
-        return self.get_namespace()
 
     @abc.abstractmethod
     def get_namespace(self) -> str:
         """The top-level namespace for this object, e.g., 'path' for 'path.talon_home'."""
 
-    @property
-    def resolved_name(self) -> str:
+    def get_resolved_name(self) -> str:
         """The resolved name for this object, including the top-level namespace."""
-        return resolve_name(self.get_name(), namespace=self.namespace)
+        return resolve_name(self.get_name(), namespace=self.get_namespace())
 
     @abc.abstractmethod
     def get_name(self) -> str:
         """The name for this object, e.g., 'path.talon_home'."""
 
-    @property
-    def qualified_name(self) -> str:
+    def get_qualified_name(self) -> str:
         """The resolved name for this object prefixed by the sort of the object."""
-        return f"{self.__class__.sort}:{self.resolved_name}"
+        return f"{self.__class__.sort}:{self.get_resolved_name()}"
 
     @abc.abstractmethod
     def get_docstring(self) -> Optional[str]:
         """The docstring for the object."""
 
-    @property
-    def docstring(self) -> Optional[str]:
-        """The docstring for the object."""
-        return self.get_docstring()
 
+AnyObject = TypeVar("AnyObject", bound="ObjectEntry")
+
+
+class ObjectEntry(Entry):
     @abc.abstractmethod
     def same_as(self, other: "ObjectEntry") -> bool:
         """Test whether or not this object sis the same as the other object."""
@@ -99,61 +93,66 @@ class ObjectEntry(abc.ABC):
         """A string describing the location for this object."""
 
 
-GroupableObject = TypeVar("GroupableObject", bound="GroupableObjectEntry")
+AnyGroupableObject = TypeVar("AnyGroupableObject", bound="GroupableObjectEntry")
 
 
 class GroupableObjectEntry(ObjectEntry):
     @abc.abstractmethod
-    def group(self: "GroupableObject") -> "GroupEntry":
+    def group(self: "AnyGroupableObject") -> "GroupEntry":
         """The group to which this object belongs."""
 
     @abc.abstractmethod
-    def is_override(self: "GroupableObject") -> bool:
+    def is_override(self: "AnyGroupableObject") -> bool:
         """Test whether or not this object is an override."""
 
 
 @dataclasses.dataclass
-class GroupEntry(Generic[GroupableObject]):
+class GroupEntry(Generic[AnyGroupableObject], Entry):
     sort: ClassVar[str] = "group"
-    default: Optional[GroupableObject] = None
-    overrides: list[GroupableObject] = dataclasses.field(default_factory=list)
+    default: Optional[AnyGroupableObject] = None
+    overrides: list[AnyGroupableObject] = dataclasses.field(default_factory=list)
 
-    @property
-    def namespace(self) -> str:
+    @override
+    def get_namespace(self) -> str:
         for entry in self.entries():
-            return entry.namespace
+            return entry.get_namespace()
         raise ValueError("Empty group")
 
-    @property
-    def resolved_name(self) -> str:
+    @override
+    def get_name(self) -> str:
         for entry in self.entries():
-            return entry.resolved_name
+            return entry.get_name()
         raise ValueError("Empty group")
 
-    @property
-    def docstring(self) -> Optional[str]:
-        """The docstring for the object."""
+    @override
+    def get_resolved_name(self) -> str:
+        for entry in self.entries():
+            return entry.get_resolved_name()
+        raise ValueError("Empty group")
+
+    @override
+    def get_docstring(self) -> Optional[str]:
         for entry in self.entries():
             docstring = entry.get_docstring()
             if docstring is not None:
                 return docstring
         return None
 
-    def entries(self) -> Iterator[GroupableObject]:
+    def entries(self) -> Iterator[AnyGroupableObject]:
         if self.default is not None:
             yield self.default
         yield from self.overrides
 
-    def append(self, entry: "GroupableObject"):
-        assert self.resolved_name == entry.resolved_name, "\n".join(
+    def append(self, entry: "AnyGroupableObject"):
+        assert self.get_resolved_name() == entry.get_resolved_name(), "\n".join(
             [
                 f"Cannot append entry with different name to a group:",
-                f"- group name: {self.resolved_name}",
-                f"- entry name: {entry.resolved_name}",
+                f"- group name: {self.get_resolved_name()}",
+                f"- entry name: {entry.get_resolved_name()}",
             ]
         )
         if entry.is_override():
-            buffer: list[GroupableObject] = []
+            buffer: list[AnyGroupableObject] = []
             replaced_older: bool = False
             for override in self.overrides:
                 if entry.same_as(override):

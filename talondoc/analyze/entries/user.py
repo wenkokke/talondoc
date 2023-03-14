@@ -38,7 +38,7 @@ class UserObjectEntry(ObjectEntry):
                 assert isinstance(
                     entry, ObjectEntry
                 ), f"Unexpected value of type {type(entry)} in group"
-                return entry.namespace
+                return entry.get_namespace()
             raise ValueError("Empty group", self)
         else:
             return self.get_package().name
@@ -52,7 +52,7 @@ class UserObjectEntry(ObjectEntry):
                 assert isinstance(
                     entry, ObjectEntry
                 ), f"Unexpected value of type {type(entry)} in group"
-                docstring = entry.docstring
+                docstring = entry.get_docstring()
                 if docstring is not None:
                     return docstring
         return None
@@ -64,15 +64,15 @@ class UserObjectEntry(ObjectEntry):
     @override
     def same_as(self, other: "ObjectEntry") -> bool:
         if type(self) == type(other):
-            if isinstance(self, PackageEntry):
-                assert isinstance(other, PackageEntry)
+            if isinstance(self, UserPackageEntry):
+                assert isinstance(other, UserPackageEntry)
                 return self.name == other.name and self.path == other.path
-            if isinstance(self, FileEntry):
-                assert isinstance(other, FileEntry)
+            if isinstance(self, UserFileEntry):
+                assert isinstance(other, UserFileEntry)
                 return self.path == other.path
             if isinstance(other, UserObjectEntry):
                 return (
-                    self.resolved_name == other.resolved_name
+                    self.get_resolved_name() == other.get_resolved_name()
                     and self.get_parent().same_as(other.get_parent())
                 )
         return False
@@ -89,10 +89,10 @@ class UserObjectEntry(ObjectEntry):
             # NOTE: assumes that the other object must be a BuiltinObjectEntry
             return True
 
-    def get_file(self) -> Optional["FileEntry"]:
-        if isinstance(self, PackageEntry):
+    def get_file(self) -> Optional["UserFileEntry"]:
+        if isinstance(self, UserPackageEntry):
             return None
-        elif isinstance(self, FileEntry):
+        elif isinstance(self, UserFileEntry):
             return self
         else:
             return self.get_parent().get_file()
@@ -112,8 +112,8 @@ class UserObjectEntry(ObjectEntry):
                 f"Could not stat '{self.__class__.sort}': {self.get_path(absolute=True)}"
             )
 
-    def get_package(self) -> "PackageEntry":
-        if isinstance(self, PackageEntry):
+    def get_package(self) -> "UserPackageEntry":
+        if isinstance(self, UserPackageEntry):
             return self
         else:
             file = self.get_file()
@@ -128,7 +128,7 @@ class UserObjectEntry(ObjectEntry):
             raise ValueError(self, e)
 
     def get_path(self, absolute: bool = False) -> pathlib.Path:
-        if isinstance(self, PackageEntry):
+        if isinstance(self, UserPackageEntry):
             return self.path
         else:
             file = self.get_file()
@@ -144,7 +144,7 @@ class UserObjectEntry(ObjectEntry):
 @dataclasses.dataclass
 class UserGroupableObjectEntry(UserObjectEntry, GroupableObjectEntry):
     name: str
-    parent: Union["FileEntry", "ModuleEntry"] = dataclasses.field(repr=False)
+    parent: Union["UserFileEntry", "UserModuleEntry"] = dataclasses.field(repr=False)
 
     @override
     def get_name(self) -> str:
@@ -152,14 +152,14 @@ class UserGroupableObjectEntry(UserObjectEntry, GroupableObjectEntry):
 
     @override
     def group(self: "UserGroupableObjectEntry") -> "GroupEntry":
-        if isinstance(self.parent, (TalonFileEntry, ContextEntry)):
+        if isinstance(self.parent, (UserTalonFileEntry, UserContextEntry)):
             return GroupEntry(default=None, overrides=[self])
         else:
             return GroupEntry(default=self, overrides=[])
 
     @override
     def is_override(self: "UserGroupableObjectEntry") -> bool:
-        return isinstance(self.parent, (ContextEntry, TalonFileEntry))
+        return isinstance(self.parent, (UserContextEntry, UserTalonFileEntry))
 
 
 ###############################################################################
@@ -168,30 +168,26 @@ class UserGroupableObjectEntry(UserObjectEntry, GroupableObjectEntry):
 
 
 @dataclasses.dataclass
-class FunctionEntry(UserObjectEntry):
+class UserFunctionEntry(UserObjectEntry):
     sort: ClassVar[str] = "function"
-    parent: "PythonFileEntry"
+    parent: "UserPythonFileEntry"
     func: Callable[..., Any] = dataclasses.field(repr=False)
-
-    @property
-    def name(self) -> str:
-        return self.get_name()
 
     @override
     def get_name(self) -> str:
         return self.func.__qualname__
 
-    @property
-    def resolved_name(self) -> str:
-        return f"{self.parent.name.removesuffix('.py')}.{self.name}"
+    @override
+    def get_resolved_name(self) -> str:
+        return f"{self.parent.get_name().removesuffix('.py')}.{self.get_name()}"
 
 
 @dataclasses.dataclass
-class CallbackEntry(UserObjectEntry):
+class UserCallbackEntry(UserObjectEntry):
     """Used to register callbacks into imported Python modules."""
 
     sort: ClassVar[str] = "callback"
-    parent: "PythonFileEntry"
+    parent: "UserPythonFileEntry"
     func: Callable[..., None] = dataclasses.field(repr=False)
     event_code: EventCode
 
@@ -209,22 +205,22 @@ class CallbackEntry(UserObjectEntry):
 @dataclasses.dataclass(
     init=False,
 )
-class PackageEntry(UserObjectEntry):
+class UserPackageEntry(UserObjectEntry):
     sort: ClassVar[str] = "package"
     name: str
     path: pathlib.Path
-    files: list["FileEntry"] = dataclasses.field(default_factory=list)
+    files: list["UserFileEntry"] = dataclasses.field(default_factory=list)
 
     def __init__(
         self,
         path: pathlib.Path,
-        files: list["FileEntry"] = [],
+        files: list["UserFileEntry"] = [],
         *,
         name: Optional[str] = None,
     ):
         self.path = path
         self.files = files
-        self.name = PackageEntry.make_name(name, path)
+        self.name = UserPackageEntry.make_name(name, path)
         super().__post_init__(path, files, name=name)
 
     @staticmethod
@@ -236,13 +232,13 @@ class PackageEntry(UserObjectEntry):
         return self.name
 
 
-AnyFileEntry = TypeVar("AnyFileEntry", bound="FileEntry")
+AnyUserFileEntry = TypeVar("AnyUserFileEntry", bound="UserFileEntry")
 
 
 @dataclasses.dataclass
-class FileEntry(UserObjectEntry):
+class UserFileEntry(UserObjectEntry):
     sort: ClassVar[str] = "file"
-    parent: PackageEntry = dataclasses.field(repr=False)
+    parent: UserPackageEntry = dataclasses.field(repr=False)
     path: pathlib.Path
 
     def __post_init__(self, *args, **kwargs):
@@ -262,42 +258,38 @@ class FileEntry(UserObjectEntry):
             self.parent.files.append(self)
 
     @staticmethod
-    def make_name(package: PackageEntry, path: pathlib.Path) -> str:
-        return ".".join((package.namespace, *path.parts))
-
-    @property
-    def name(self) -> str:
-        return self.get_name()
+    def make_name(package: UserPackageEntry, path: pathlib.Path) -> str:
+        return ".".join((package.get_namespace(), *path.parts))
 
     @override
     def get_name(self) -> str:
-        return FileEntry.make_name(self.parent, self.path)
+        return UserFileEntry.make_name(self.parent, self.path)
 
 
 @dataclasses.dataclass
-class TalonFileEntry(FileEntry):
+class UserTalonFileEntry(UserFileEntry):
     # TODO: extract docstring as desc
-    commands: list["CommandEntry"] = dataclasses.field(default_factory=list)
+    commands: list["UserCommandEntry"] = dataclasses.field(default_factory=list)
     matches: Optional[tree_sitter_talon.TalonMatches] = None
     settings: list["UserSettingEntry"] = dataclasses.field(default_factory=list)
 
 
 @dataclasses.dataclass
-class PythonFileEntry(FileEntry):
-    modules: list["ModuleEntry"] = dataclasses.field(default_factory=list)
+class UserPythonFileEntry(UserFileEntry):
+    modules: list["UserModuleEntry"] = dataclasses.field(default_factory=list)
 
 
 ###############################################################################
 # Module and Context Entries
 ###############################################################################
 
-AnyModuleEntry = TypeVar("AnyModuleEntry", bound="ModuleEntry")
+AnyUserModuleEntry = TypeVar("AnyUserModuleEntry", bound="UserModuleEntry")
 
 
 @dataclasses.dataclass
-class ModuleEntry(UserObjectEntry):
+class UserModuleEntry(UserObjectEntry):
     sort: ClassVar[str] = "module"
-    parent: PythonFileEntry = dataclasses.field(repr=False)
+    parent: UserPythonFileEntry = dataclasses.field(repr=False)
     desc: Optional[str]
     index: int = dataclasses.field(init=False)
 
@@ -306,15 +298,11 @@ class ModuleEntry(UserObjectEntry):
         self.index = len(self.parent.modules)
         self.parent.modules.append(self)
 
-    @property
-    def name(self) -> str:
-        return self.get_name()
-
     @override
     def get_name(self) -> str:
         return ".".join(
             [
-                self.namespace,
+                self.get_namespace(),
                 *self.parent.path.parts,
                 str(self.index),
             ]
@@ -322,7 +310,7 @@ class ModuleEntry(UserObjectEntry):
 
 
 @dataclasses.dataclass
-class ContextEntry(ModuleEntry):
+class UserContextEntry(UserModuleEntry):
     sort: ClassVar[str] = "context"
     matches: Union[None, str, tree_sitter_talon.TalonMatches] = None
 
@@ -333,9 +321,9 @@ class ContextEntry(ModuleEntry):
 
 
 @dataclasses.dataclass
-class CommandEntry(UserObjectEntry):
+class UserCommandEntry(UserObjectEntry):
     sort: ClassVar[str] = "command"
-    parent: TalonFileEntry = dataclasses.field(repr=False)
+    parent: UserTalonFileEntry = dataclasses.field(repr=False)
     ast: tree_sitter_talon.TalonCommandDeclaration
 
     def __post_init__(self, *args, **kwargs):
@@ -344,13 +332,9 @@ class CommandEntry(UserObjectEntry):
         assert self not in self.parent.commands
         self.parent.commands.append(self)
 
-    @property
-    def name(self) -> str:
-        return self.get_name()
-
     @override
     def get_name(self) -> str:
-        return f"{self.parent.name}.{self._index}"
+        return f"{self.parent.get_name()}.{self._index}"
 
 
 ###############################################################################
@@ -376,8 +360,8 @@ class UserActionEntry(UserGroupableObjectEntry):
         # NOTE: fail fast if func is a <function>
         assert self.func is None or isinstance(self.func, str), "\n".join(
             [
-                "Do not store Python function on ActionEntry",
-                "Register a FunctionEntry and use function_entry.name",
+                "Do not store Python function on UserActionEntry",
+                "Register a UserFunctionEntry and use function_entry.name",
             ]
         )
 
@@ -419,7 +403,7 @@ class UserListEntry(UserGroupableObjectEntry):
 class UserModeEntry(UserObjectEntry):
     sort: ClassVar[str] = "mode"
     name: str
-    parent: ModuleEntry = dataclasses.field(repr=False)
+    parent: UserModuleEntry = dataclasses.field(repr=False)
     desc: Optional[str] = None
 
     def __post_init__(self, *args, **kwargs):
@@ -450,7 +434,7 @@ class UserSettingEntry(UserGroupableObjectEntry):
 class UserTagEntry(UserObjectEntry):
     sort: ClassVar[str] = "tag"
     name: str
-    parent: ModuleEntry = dataclasses.field(repr=False)
+    parent: UserModuleEntry = dataclasses.field(repr=False)
     desc: Optional[str] = None
 
     def __post_init__(self, *args, **kwargs):

@@ -18,13 +18,13 @@ from tree_sitter_talon import (
 from ..util.logging import getLogger
 from ..util.progress_bar import ProgressBar
 from .entries.user import (
-    CallbackEntry,
-    CommandEntry,
-    FileEntry,
-    PackageEntry,
-    PythonFileEntry,
-    TalonFileEntry,
+    UserCallbackEntry,
+    UserCommandEntry,
+    UserFileEntry,
+    UserPackageEntry,
+    UserPythonFileEntry,
     UserSettingEntry,
+    UserTalonFileEntry,
 )
 from .registry import Registry
 from .shims import talon
@@ -54,7 +54,7 @@ def analyse_package(
     exclude: tuple[str, ...] = (),
     trigger: tuple[str, ...] = (),
     show_progress: bool = False,
-) -> PackageEntry:
+) -> UserPackageEntry:
     # Retrieve or create package entry:
     with registry.package_entry(package_name, package_dir.absolute()) as (
         cached,
@@ -81,7 +81,7 @@ def analyse_package(
 
                 # Trigger callbacks:
                 for event_code in trigger:
-                    callback_entries = registry.lookup(CallbackEntry, event_code)
+                    callback_entries = registry.lookup(UserCallbackEntry, event_code)
                     if callback_entries:
                         for callback_entry in callback_entries:
                             callback_entry.func()
@@ -90,10 +90,10 @@ def analyse_package(
 
 
 def analyse_talon_file(
-    registry: Registry, path: Path, package: PackageEntry
-) -> TalonFileEntry:
+    registry: Registry, path: Path, package: UserPackageEntry
+) -> UserTalonFileEntry:
     # Retrieve or create file entry:
-    with registry.file_entry(TalonFileEntry, package, path) as (cached, file_entry):
+    with registry.file_entry(UserTalonFileEntry, package, path) as (cached, file_entry):
         # Process file:
         if not cached:
             ast = parse_file(package.path / path, raise_parse_error=True)
@@ -105,7 +105,7 @@ def analyse_talon_file(
                     file_entry.matches = declaration
                 elif isinstance(declaration, TalonCommandDeclaration):
                     # Register command:
-                    command_entry = CommandEntry(parent=file_entry, ast=declaration)
+                    command_entry = UserCommandEntry(parent=file_entry, ast=declaration)
                     registry.register(command_entry)
                 elif isinstance(declaration, TalonSettingsDeclaration):
                     # Register settings:
@@ -126,10 +126,13 @@ def analyse_talon_file(
 
 
 def analyse_python_file(
-    registry: Registry, path: Path, package: PackageEntry
-) -> PythonFileEntry:
+    registry: Registry, path: Path, package: UserPackageEntry
+) -> UserPythonFileEntry:
     # Retrieve or create file entry:
-    with registry.file_entry(PythonFileEntry, package, path) as (cached, file_entry):
+    with registry.file_entry(UserPythonFileEntry, package, path) as (
+        cached,
+        file_entry,
+    ):
         # Process file (passes control to talondoc.shims.*):
         module_name = ".".join([package.name, *path.with_suffix("").parts])
         importlib.import_module(name=module_name, package=package.name)
