@@ -28,7 +28,7 @@ repos:
       - id: mixed-line-ending
       - id: trailing-whitespace
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v3.0.0-alpha.4"
+    rev: "v3.0.0-alpha.6"
     hooks:
       - id: prettier
         exclude: "^tests/data/golden"
@@ -46,13 +46,13 @@ repos:
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.0.1"
+    rev: "v1.1.1"
     hooks:
       - id: mypy
         args: ["--config-file", "pyproject.toml"]
         additional_dependencies: [types-docutils==0.19.0]
   - repo: https://github.com/wenkokke/talonfmt
-    rev: 1.9.0
+    rev: 1.9.5
     hooks:
       - id: talonfmt
         args: ["--in-place", "--max-line-width=88"]
