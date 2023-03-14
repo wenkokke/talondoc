@@ -26,7 +26,8 @@ jobs:
       - name: Build docs
         run: |
           pipx run --spec poetry==1.4.0 \
-            poetry install -E docs && \
+            poetry install -E docs
+          pipx run --spec poetry==1.4.0 \
             poetry run sh example/build.sh
           touch example/docs/_build/html/.nojekyll
 
@@ -36,10 +37,10 @@ jobs:
           branch: docs
           folder: example/docs/_build/html
 
-      - name: Build sdist
+      - name: Build dist
         run: |
           pipx run --spec poetry==1.4.0 \
-            poetry build --format=sdist
+            poetry build
 
       # - name: Publish to PyPi
       #   uses: pypa/gh-action-pypi-publish@release/v1
@@ -51,5 +52,7 @@ jobs:
       - name: Publish to GitHub Releases
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/**.tar.gz
+          files: |
+            dist/**.tar.gz
+            dist/**.whl
           fail_on_unmatched_files: true
