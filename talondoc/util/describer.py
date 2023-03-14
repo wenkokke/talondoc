@@ -24,7 +24,8 @@ from tree_sitter_talon import (
     TalonVariable,
 )
 
-from ..analyze.entries import GroupableObject, UserActionEntry, UserTagEntry
+from ..analyze.entries.abc import GroupableObject
+from ..analyze.entries.user import UserActionEntry, UserTagEntry
 from ..analyze.registry import Registry
 from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
 from .logging import getLogger

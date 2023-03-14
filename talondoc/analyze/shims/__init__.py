@@ -8,7 +8,7 @@ from types import ModuleType
 from typing import ClassVar, Optional, Union
 
 from ...util.logging import getLogger
-from ..entries import PackageEntry
+from ..entries.user import PackageEntry
 from ..registry import Registry
 from .core import ModuleShim, TalonShim
 

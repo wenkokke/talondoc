@@ -5,12 +5,11 @@ from io import TextIOWrapper
 from types import ModuleType
 from typing import Any, Mapping, Optional, Sequence, cast
 
-from ..entries import (
+from ..entries.user import (
     CallbackEntry,
     ContextEntry,
     EventCode,
     FunctionEntry,
-    GroupEntry,
     ListValue,
     ModuleEntry,
     PythonFileEntry,
@@ -21,7 +20,6 @@ from ..entries import (
     UserModeEntry,
     UserSettingEntry,
     UserTagEntry,
-    _resolve_name,
 )
 from ..registry import Registry
 
@@ -177,8 +175,7 @@ class ModuleShim(ModuleType):
 def _action(
     registry: Registry, name: str, *, namespace: Optional[str] = None
 ) -> Optional[Callable[..., Any]]:
-    resolved_name = _resolve_name(name, namespace=namespace)
-    action_group_entry = registry.lookup(UserActionEntry, resolved_name)
+    action_group_entry = registry.lookup(UserActionEntry, name, namespace=namespace)
     if action_group_entry and action_group_entry.default:
         function_name = action_group_entry.default.func
         if function_name:

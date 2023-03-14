@@ -5,20 +5,23 @@ from pathlib import Path
 from typing import Any, ClassVar, Optional, Union, cast, overload
 
 from ..util.logging import getLogger
-from .entries import (
+from .entries.abc import (
+    DuplicateEntry,
+    GroupableObject,
+    GroupableObjectEntry,
+    GroupEntry,
+    ObjectEntry,
+    resolve_name,
+)
+from .entries.user import (
     AnyFileEntry,
     AnyModuleEntry,
     CallbackEntry,
     CommandEntry,
     ContextEntry,
-    DuplicateEntry,
-    Entry,
     EventCode,
     FileEntry,
     FunctionEntry,
-    GroupableObject,
-    GroupableObjectEntry,
-    GroupEntry,
     ModuleEntry,
     PackageEntry,
     UserActionEntry,
@@ -338,20 +341,21 @@ class Registry:
         ...
 
     def lookup(
-        self, sort: type[Entry], name: str, *, namespace: Optional[str] = None
-    ) -> Union[None, Entry, GroupEntry, Sequence[Entry]]:
+        self, sort: type[ObjectEntry], name: str, *, namespace: Optional[str] = None
+    ) -> Union[None, ObjectEntry, GroupEntry, Sequence[ObjectEntry]]:
         """
         Look up an object entry by its name.
         """
+        resolved_name = resolve_name(name, namespace=namespace)
         if issubclass(sort, GroupableObjectEntry):
             return cast(
-                Optional[GroupEntry[Entry]],  # type: ignore
-                self.groups.get(sort.sort, {}).get(name, None),
+                Optional[GroupEntry[ObjectEntry]],  # type: ignore
+                self.groups.get(sort.sort, {}).get(resolved_name, None),
             )
         else:
             return cast(
-                Optional[Union[Entry, Sequence[Entry]]],
-                self.data.get(sort.sort, {}).get(name, None),
+                Optional[Union[ObjectEntry, Sequence[ObjectEntry]]],
+                self.data.get(sort.sort, {}).get(resolved_name, None),
             )
 
     ##################################################

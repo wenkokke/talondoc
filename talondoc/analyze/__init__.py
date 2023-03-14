@@ -17,7 +17,7 @@ from tree_sitter_talon import (
 
 from ..util.logging import getLogger
 from ..util.progress_bar import ProgressBar
-from .entries import (
+from .entries.user import (
     CallbackEntry,
     CommandEntry,
     FileEntry,

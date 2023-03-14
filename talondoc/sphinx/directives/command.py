@@ -4,7 +4,7 @@ from typing import Optional
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
 
-from ...analyze.entries import CommandEntry
+from ...analyze.entries.user import CommandEntry
 from ...util.logging import getLogger
 from ...util.typing import flag
 from . import TalonDocObjectDescription, include_command

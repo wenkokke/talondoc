@@ -22,7 +22,7 @@ from tree_sitter_talon import (
     TalonWord,
 )
 
-from ...analyze.entries import CommandEntry, PackageEntry, TalonFileEntry
+from ...analyze.entries.user import CommandEntry, PackageEntry, TalonFileEntry
 from ...analyze.registry import Registry
 from ...util.desc import InvalidInterpolation
 from ...util.describer import TalonScriptDescriber
