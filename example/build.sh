@@ -1,8 +1,7 @@
 #!/bin/sh
 
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-output_dir="${1-$script_dir/docs}"
-output_dir="$(realpath $output_dir)"
+output_dir="$script_dir/docs"
 
 talondoc autogen \
 		--output-dir "$output_dir/knausj_talon" \
