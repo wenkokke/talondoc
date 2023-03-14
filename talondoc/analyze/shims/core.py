@@ -1,5 +1,6 @@
 import inspect
 import platform
+import types
 from collections.abc import Callable, Iterator
 from io import TextIOWrapper
 from types import ModuleType
@@ -330,11 +331,13 @@ class TalonShim(ModuleShim):
 
         def action_class(self, cls: type):
             for name, func in inspect.getmembers(cls, inspect.isfunction):
+                assert inspect.isfunction(func)
                 registry = Registry.get_active_global_registry()
                 function_entry = UserFunctionEntry(
                     func=func,
                     parent=self._module_entry.parent,
                 )
+                function_entry.set_location(func.__code__.co_firstlineno)
                 registry.register(function_entry)
                 action_entry = UserActionEntry(
                     parent=self._module_entry,
@@ -342,6 +345,7 @@ class TalonShim(ModuleShim):
                     desc=func.__doc__,
                     func=function_entry.get_name(),
                 )
+                action_entry.set_location(func.__code__.co_firstlineno)
                 registry.register(action_entry)
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
@@ -359,6 +363,7 @@ class TalonShim(ModuleShim):
                     func=func,
                     parent=self._module_entry.parent,
                 )
+                function_entry.set_location(func.__code__.co_firstlineno)
                 registry.register(function_entry)
                 capture_entry = UserCaptureEntry(
                     name=f"{namespace}.{func.__name__}",
@@ -367,6 +372,7 @@ class TalonShim(ModuleShim):
                     desc=func.__doc__,
                     func=function_entry.get_name(),
                 )
+                capture_entry.set_location(func.__code__.co_firstlineno)
                 registry.register(capture_entry)
                 return func
 
@@ -463,6 +469,7 @@ class TalonShim(ModuleShim):
                         func=func,
                         parent=self._module_entry.parent,
                     )
+                    function_entry.set_location(func.__code__.co_firstlineno)
                     registry.register(function_entry)
                     name = f"{namespace}.{name}"
                     action_entry = UserActionEntry(
@@ -471,6 +478,7 @@ class TalonShim(ModuleShim):
                         desc=func.__doc__,
                         func=function_entry.get_name(),
                     )
+                    action_entry.set_location(func.__code__.co_firstlineno)
                     registry.register(action_entry)
 
             return __decorator
@@ -493,6 +501,7 @@ class TalonShim(ModuleShim):
                     func=func,
                     parent=self._module_entry.parent,
                 )
+                function_entry.set_location(func.__code__.co_firstlineno)
                 capture_entry = UserCaptureEntry(
                     name=f"{namespace}.{func.__name__}",
                     parent=self._module_entry,
@@ -500,6 +509,7 @@ class TalonShim(ModuleShim):
                     desc=func.__doc__,
                     func=function_entry.get_name(),
                 )
+                capture_entry.set_location(func.__code__.co_firstlineno)
                 registry = Registry.get_active_global_registry()
                 registry.register(function_entry)
                 registry.register(capture_entry)

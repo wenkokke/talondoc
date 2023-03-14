@@ -86,17 +86,17 @@ extras =
   docs
   test
 commands_pre =
-  ln '{tox_root}/example/build.sh' '{env_tmp_dir}/build.sh'
-  ln -s '{tox_root}/example/knausj_talon' '{env_tmp_dir}/knausj_talon'
+  ln -F '{tox_root}/example/build.sh' '{env_tmp_dir}/build.sh'
+  ln -sF '{tox_root}/example/knausj_talon' '{env_tmp_dir}/knausj_talon'
   mkdir -p '{env_tmp_dir}/docs'
-  ln '{tox_root}/example/docs/conf.py' '{env_tmp_dir}/docs/conf.py'
-  ln '{tox_root}/example/docs/index.rst' '{env_tmp_dir}/docs/index.rst'
+  ln -F '{tox_root}/example/docs/conf.py' '{env_tmp_dir}/docs/conf.py'
+  ln -F '{tox_root}/example/docs/index.rst' '{env_tmp_dir}/docs/index.rst'
 commands =
   sh '{env_tmp_dir}/build.sh'
   {envpython} -m bumpver update --patch --dry --no-fetch
 commands_post =
-  rm '{env_tmp_dir}/build.sh'
-  rm '{env_tmp_dir}/knausj_talon'
-  rm '{env_tmp_dir}/docs/conf.py'
-  rm '{env_tmp_dir}/docs/index.rst'
+  rm -f '{env_tmp_dir}/build.sh'
+  rm -f '{env_tmp_dir}/knausj_talon'
+  rm -f '{env_tmp_dir}/docs/conf.py'
+  rm -f '{env_tmp_dir}/docs/index.rst'
 """

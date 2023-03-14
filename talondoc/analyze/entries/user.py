@@ -27,9 +27,11 @@ _LOGGER = getLogger(__name__)
 class UserObjectEntry(ObjectEntry):
     sort: ClassVar[str]
     mtime: Optional[float] = None
+    location: Union[int, tuple[int, int], None] = None
 
     def __post_init__(self, *args, **kwargs):
         self.mtime = self.get_mtime()
+        self.location = None
 
     @override
     def get_namespace(self) -> str:
@@ -59,7 +61,16 @@ class UserObjectEntry(ObjectEntry):
 
     @override
     def get_location(self) -> str:
-        return str(self.get_path())
+        if isinstance(self.location, int):
+            line = self.location
+            return f"{self.get_path()}: line {line}"
+        if isinstance(self.location, tuple):
+            line, column = self.location
+            return f"{self.get_path()}: line {line}, column {column}"
+        return f"{self.get_path()}"
+
+    def set_location(self, location: Union[int, tuple[int, int], None]):
+        self.location = location
 
     @override
     def same_as(self, other: "ObjectEntry") -> bool:
