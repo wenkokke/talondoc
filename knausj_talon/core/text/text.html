@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.core.text.text &#8212; example 0.1.1 documentation</title>
+    <title>user.core.text.text &#8212; example 0.1.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -110,102 +110,6 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.core.text.text</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
-<tr class="row-odd"><td>phrase &lt;user.text&gt;$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">add_phrase_to_history</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<span class="n">insert</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>phrase &lt;user.text&gt; over</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">add_phrase_to_history</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<span class="n">insert</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>{user.prose_formatter} &lt;user.prose&gt;$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_formatted</span><span class="p">(</span><span class="n">prose</span><span class="p">,</span> <span class="n">prose_formatter</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>{user.prose_formatter} &lt;user.prose&gt; over</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_formatted</span><span class="p">(</span><span class="n">prose</span><span class="p">,</span> <span class="n">prose_formatter</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>&lt;user.format_text&gt;+$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_many</span><span class="p">(</span><span class="n">format_text_list</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>&lt;user.format_text&gt;+ over</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_many</span><span class="p">(</span><span class="n">format_text_list</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>&lt;user.formatters&gt; that</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">formatters_reformat_selection</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">formatters</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>word &lt;user.word&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">add_phrase_to_history</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-<span class="n">insert</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>recent list</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">toggle_phrase_history</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>recent close</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">phrase_history_hide</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>recent repeat &lt;number_small&gt;</td>
-<td><p>Let &lt;recent_phrase&gt; be None</p></td>
-</tr>
-<tr class="row-even"><td>recent copy &lt;number_small&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">clip</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">get_recent_phrase</span><span class="p">(</span><span class="n">number_small</span><span class="p">))</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>select that</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">select_last_phrase</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>before that</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">before_last_phrase</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>nope that | scratch that</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">clear_last_phrase</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>nope that was &lt;user.formatters&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">formatters_reformat_last</span><span class="p">(</span><span class="n">formatters</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
 </tbody>
 </table>
 </section>

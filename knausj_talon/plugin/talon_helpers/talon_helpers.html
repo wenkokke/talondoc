@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.plugin.talon_helpers.talon_helpers &#8212; example 0.1.1 documentation</title>
+    <title>user.plugin.talon_helpers.talon_helpers &#8212; example 0.1.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -110,135 +110,6 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.plugin.talon_helpers.talon_helpers</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
-<tr class="row-odd"><td>talon check updates</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">menu</span><span class="o">.</span><span class="n">check_for_updates</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>talon open log</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">menu</span><span class="o">.</span><span class="n">open_log</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>talon open rebel</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">menu</span><span class="o">.</span><span class="n">open_repl</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>talon home</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">menu</span><span class="o">.</span><span class="n">open_talon_home</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>talon copy context pie</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">talon_add_context_clipboard_python</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>talon copy context</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">talon_add_context_clipboard</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>talon copy name</td>
-<td><p>Let &lt;name&gt; be None</p></td>
-</tr>
-<tr class="row-even"><td>talon copy executable</td>
-<td><p>Let &lt;executable&gt; be None</p></td>
-</tr>
-<tr class="row-odd"><td>talon copy bundle</td>
-<td><p>Let &lt;bundle&gt; be None</p></td>
-</tr>
-<tr class="row-even"><td>talon copy title</td>
-<td><p>Let &lt;title&gt; be None</p></td>
-</tr>
-<tr class="row-odd"><td>talon dump version</td>
-<td><p>Let &lt;result&gt; be None</p></td>
-</tr>
-<tr class="row-even"><td>talon insert version</td>
-<td><p>Let &lt;result&gt; be None</p></td>
-</tr>
-<tr class="row-odd"><td>talon dump context</td>
-<td><p>Let &lt;result&gt; be None</p></td>
-</tr>
-<tr class="row-even"><td>^talon test last$</td>
-<td><p>Let &lt;phrase&gt; be None</p></td>
-</tr>
-<tr class="row-odd"><td>^talon test numb &lt;number_small&gt;$</td>
-<td><p>Let &lt;phrase&gt; be None</p></td>
-</tr>
-<tr class="row-even"><td>^talon test &lt;phrase&gt;$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">talon_sim_phrase</span><span class="p">(</span><span class="n">phrase</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>^talon debug action {user.talon_actions}$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">talon_action_find</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{user.talon_actions}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>^talon debug list {user.talon_lists}$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">talon_debug_list</span><span class="p">(</span><span class="n">talon_lists</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>^talon copy list {user.talon_lists}$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">talon_copy_list</span><span class="p">(</span><span class="n">talon_lists</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>^talon debug tags$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">talon_debug_tags</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>^talon debug modes$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">talon_debug_modes</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>^talon debug scope {user.talon_scopes}$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">talon_debug_scope</span><span class="p">(</span><span class="n">talon_scopes</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>^talon debug setting {user.talon_settings}$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">talon_debug_setting</span><span class="p">(</span><span class="n">talon_settings</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>^talon debug all settings$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">talon_debug_all_settings</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>^talon debug active app$</td>
-<td><p>Let &lt;result&gt; be None</p></td>
-</tr>
-<tr class="row-even"><td>^talon copy active app$</td>
-<td><p>Let &lt;result&gt; be None</p></td>
-</tr>
-<tr class="row-odd"><td>talon (bug report | report bug)</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">open_url</span><span class="p">(</span><span class="s2">&quot;https://github.com/knausj85/knausj_talon/issues&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
 </tbody>
 </table>
 </section>

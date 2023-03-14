@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.tags.file_manager.file_manager &#8212; example 0.1.1 documentation</title>
+    <title>user.tags.file_manager.file_manager &#8212; example 0.1.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -110,132 +110,6 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.tags.file_manager.file_manager</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
-<tr class="row-odd"><td>title force</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_refresh_title</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>manager show</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_toggle_pickers</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>manager close</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_hide_pickers</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>manager refresh</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_update_lists</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>go &lt;user.system_path&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_open_directory</span><span class="p">(</span><span class="n">system_path</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>go back</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_go_back</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>go forward</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_go_forward</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>(go parent | daddy)</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_open_parent</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>^follow numb &lt;number_small&gt;$</td>
-<td><p>Let &lt;directory&gt; be None</p></td>
-</tr>
-<tr class="row-even"><td>^follow {user.file_manager_directories}$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_open_directory</span><span class="p">(</span><span class="n">file_manager_directories</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>^(select | cell) folder {user.file_manager_directories}$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_select_directory</span><span class="p">(</span><span class="n">file_manager_directories</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>^open &lt;number_small&gt;$</td>
-<td><p>Let &lt;file&gt; be None</p></td>
-</tr>
-<tr class="row-odd"><td>^folder numb &lt;number_small&gt;$</td>
-<td><p>Let &lt;directory&gt; be None</p></td>
-</tr>
-<tr class="row-even"><td>^file numb &lt;number_small&gt;$</td>
-<td><p>Let &lt;file&gt; be None</p></td>
-</tr>
-<tr class="row-odd"><td>^file {user.file_manager_files}$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_select_file</span><span class="p">(</span><span class="n">file_manager_files</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>^(select | cell) file {user.file_manager_files}$</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_select_file</span><span class="p">(</span><span class="n">file_manager_files</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>folder new &lt;user.text&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_new_folder</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>properties show</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_show_properties</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>terminal here</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_terminal_here</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>folder next</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_next_folder_page</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>folder last</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_previous_folder_page</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>file next</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_next_file_page</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>file last</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">file_manager_previous_file_page</span><span class="p">()</span>
-</pre></div>
-</div>
-</td>
-</tr>
 </tbody>
 </table>
 </section>

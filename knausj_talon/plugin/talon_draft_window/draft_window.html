@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.plugin.talon_draft_window.draft_window &#8212; example 0.1.1 documentation</title>
+    <title>user.plugin.talon_draft_window.draft_window &#8212; example 0.1.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -110,53 +110,6 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.plugin.talon_draft_window.draft_window</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
-<tr class="row-odd"><td>replace &lt;user.draft_anchor&gt; with &lt;user.text&gt;</td>
-<td><p>Let &lt;result&gt; be None</p></td>
-</tr>
-<tr class="row-even"><td>(pre | cursor | cursor before) &lt;user.draft_anchor&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">draft_position_caret</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{draft_anchor}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>(post | cursor after) &lt;user.draft_anchor&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">draft_position_caret</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{draft_anchor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>(take | select) &lt;user.draft_anchor&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">draft_select</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{draft_anchor}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>(take | select) &lt;user.draft_anchor&gt; (through | past) &lt;user.draft_anchor&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">draft_select</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{draft_anchor_1}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{draft_anchor_2}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>(change | chuck | clear) &lt;user.draft_anchor&gt;</td>
-<td><p>Press backspace.</p></td>
-</tr>
-<tr class="row-odd"><td>(change | chuck | clear) &lt;user.draft_anchor&gt; (through | past) &lt;user.draft_anchor&gt;</td>
-<td><p>Press backspace.</p></td>
-</tr>
-<tr class="row-even"><td>&lt;user.formatters&gt; word &lt;user.draft_anchor&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">draft_select</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{draft_anchor}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">user</span><span class="o">.</span><span class="n">formatters_reformat_selection</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">formatters</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>&lt;user.formatters&gt; &lt;user.draft_anchor&gt; (through | past) &lt;user.draft_anchor&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">draft_select</span><span class="p">(</span><span class="n">draft_anchor_1</span><span class="p">,</span> <span class="n">draft_anchor_2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">user</span><span class="o">.</span><span class="n">formatters_reformat_selection</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">formatters</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
 </tbody>
 </table>
 </section>

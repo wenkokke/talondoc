@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.lang.talon.talon &#8212; example 0.1.1 documentation</title>
+    <title>user.lang.talon.talon &#8212; example 0.1.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -110,105 +110,6 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.lang.talon.talon</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
-<tr class="row-odd"><td>dot talon</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;.talon&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>action block</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;action(&quot;</span><span class="p">,</span> <span class="s2">&quot;):&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>setting block</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;settings():</span><span class="se">\n\t</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>setting {user.talon_settings}</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{talon_settings}</span><span class="s2"> = &quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>win require</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;os: windows</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>mac require</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;os: mac</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>linux require</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;os: linux</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>title require</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;win.title: &quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>application [require] [{user.talon_apps}]</td>
-<td><p>Let &lt;app&gt; be &lt;talon_apps&gt; or None</p></td>
-</tr>
-<tr class="row-even"><td>mode require [{user.talon_modes}]</td>
-<td><p>Let &lt;mode&gt; be &lt;talon_modes&gt; or None</p></td>
-</tr>
-<tr class="row-odd"><td>tag require [{user.talon_tags}]</td>
-<td><p>Let &lt;tag&gt; be &lt;talon_tags&gt; or None</p></td>
-</tr>
-<tr class="row-even"><td>tag set [{user.talon_tags}]</td>
-<td><p>Let &lt;tag&gt; be &lt;talon_tags&gt; or None</p></td>
-</tr>
-<tr class="row-odd"><td>host require</td>
-<td><p>Let &lt;hostname&gt; be None</p></td>
-</tr>
-<tr class="row-even"><td>list {user.talon_lists}</td>
-<td><p>Insert “{{ { talon_lists }} }”</p></td>
-</tr>
-<tr class="row-odd"><td>capture {user.talon_captures}</td>
-<td><p>Insert “&lt; { talon_captures } &gt;”</p></td>
-</tr>
-<tr class="row-even"><td>key &lt;user.keys&gt; over</td>
-<td><p>Insert “{ keys }”</p></td>
-</tr>
-<tr class="row-odd"><td>key &lt;user.modifiers&gt; over</td>
-<td><p>Insert “{ modifiers }”</p></td>
-</tr>
-<tr class="row-even"><td>funk {user.talon_actions}</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_insert_function</span><span class="p">(</span><span class="n">talon_actions</span><span class="p">,</span> <span class="n">edit</span><span class="o">.</span><span class="n">selected_text</span><span class="p">())</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>funk cell &lt;number&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_select_function</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-even"><td>funk wrap &lt;user.code_common_function&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_insert_function</span><span class="p">(</span><span class="n">code_common_function</span><span class="p">,</span> <span class="n">edit</span><span class="o">.</span><span class="n">selected_text</span><span class="p">())</span>
-</pre></div>
-</div>
-</td>
-</tr>
-<tr class="row-odd"><td>funk wrap &lt;number&gt;</td>
-<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_select_function</span><span class="p">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">edit</span><span class="o">.</span><span class="n">selected_text</span><span class="p">())</span>
-</pre></div>
-</div>
-</td>
-</tr>
 </tbody>
 </table>
 </section>
