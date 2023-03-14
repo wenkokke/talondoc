@@ -3,7 +3,7 @@ from typing import Optional
 import click
 
 from .autosummary.generate import generate
-from .cache_builtin.cache import cache_builtin
+from .cache_builtin import cache_builtin
 
 __version__: str = "0.1.3"
 
@@ -124,6 +124,16 @@ def autogen(
 )
 def preprocess(output_dir: str):
     cache_builtin(output_dir=output_dir)
+
+
+@cli.command(name="print_builtin")
+def print_builtin():
+    import importlib.resources
+
+    for path in (importlib.resources.files("talondoc") / "data").iterdir():
+        if path.name.startswith("talon_actions_dict"):
+            name, version, build, commit = path.name.removesuffix(".json").split("-")
+            print([name, version, build, commit])
 
 
 if __name__ == "__main__":
