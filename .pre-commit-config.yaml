@@ -16,7 +16,6 @@ repos:
       - id: check-vcs-permalinks
       - id: check-xml
       - id: check-yaml
-      - id: pretty-format-json
       - id: destroyed-symlinks
       - id: detect-private-key
       - id: fix-byte-order-marker
@@ -31,7 +30,7 @@ repos:
     rev: "v3.0.0-alpha.6"
     hooks:
       - id: prettier
-        exclude: "^tests/data/golden"
+        exclude: "^(tests/data/golden|talondoc/data)s"
   - repo: https://github.com/ikamensh/flynt/
     rev: "0.77"
     hooks:

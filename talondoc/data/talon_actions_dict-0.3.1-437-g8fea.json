@@ -1,0 +1,1470 @@
+{
+  "app.bundle": {
+    "name": "app.bundle",
+    "description": "Get active app's bundle identifier",
+    "returns": "str",
+    "args": {}
+  },
+  "app.executable": {
+    "name": "app.executable",
+    "description": "Get active app's executable name",
+    "returns": "str",
+    "args": {}
+  },
+  "app.name": {
+    "name": "app.name",
+    "description": "Get active app's name",
+    "returns": "str",
+    "args": {}
+  },
+  "app.notify": {
+    "name": "app.notify",
+    "description": "Show a desktop notification",
+    "returns": "",
+    "args": {
+      "body": "str",
+      "title": "str",
+      "subtitle": "str",
+      "sound": "bool"
+    }
+  },
+  "app.path": {
+    "name": "app.path",
+    "description": "Get active app's file path",
+    "returns": "str",
+    "args": {}
+  },
+  "app.preferences": {
+    "name": "app.preferences",
+    "description": "Open app preferences",
+    "returns": "",
+    "args": {}
+  },
+  "app.tab_close": {
+    "name": "app.tab_close",
+    "description": "Close the current tab",
+    "returns": "",
+    "args": {}
+  },
+  "app.tab_detach": {
+    "name": "app.tab_detach",
+    "description": "Move the current tab to a new window",
+    "returns": "",
+    "args": {}
+  },
+  "app.tab_next": {
+    "name": "app.tab_next",
+    "description": "Switch to next tab for this window",
+    "returns": "",
+    "args": {}
+  },
+  "app.tab_open": {
+    "name": "app.tab_open",
+    "description": "Open a new tab",
+    "returns": "",
+    "args": {}
+  },
+  "app.tab_previous": {
+    "name": "app.tab_previous",
+    "description": "Switch to previous tab for this window",
+    "returns": "",
+    "args": {}
+  },
+  "app.tab_reopen": {
+    "name": "app.tab_reopen",
+    "description": "Re-open the last-closed tab",
+    "returns": "",
+    "args": {}
+  },
+  "app.window_close": {
+    "name": "app.window_close",
+    "description": "Close the current window",
+    "returns": "",
+    "args": {}
+  },
+  "app.window_hide": {
+    "name": "app.window_hide",
+    "description": "Hide the current window",
+    "returns": "",
+    "args": {}
+  },
+  "app.window_hide_others": {
+    "name": "app.window_hide_others",
+    "description": "Hide all other windows",
+    "returns": "",
+    "args": {}
+  },
+  "app.window_next": {
+    "name": "app.window_next",
+    "description": "Switch to next window for this app",
+    "returns": "",
+    "args": {}
+  },
+  "app.window_open": {
+    "name": "app.window_open",
+    "description": "Open a new window",
+    "returns": "",
+    "args": {}
+  },
+  "app.window_previous": {
+    "name": "app.window_previous",
+    "description": "Switch to previous window for this app",
+    "returns": "",
+    "args": {}
+  },
+  "browser.address": {
+    "name": "browser.address",
+    "description": "Get page URL",
+    "returns": "str",
+    "args": {}
+  },
+  "browser.bookmark": {
+    "name": "browser.bookmark",
+    "description": "Bookmark the current page",
+    "returns": "",
+    "args": {}
+  },
+  "browser.bookmark_tabs": {
+    "name": "browser.bookmark_tabs",
+    "description": "Bookmark all open tabs",
+    "returns": "",
+    "args": {}
+  },
+  "browser.bookmarks": {
+    "name": "browser.bookmarks",
+    "description": "Open the Bookmarks editor",
+    "returns": "",
+    "args": {}
+  },
+  "browser.bookmarks_bar": {
+    "name": "browser.bookmarks_bar",
+    "description": "Toggle the bookmarks bar",
+    "returns": "",
+    "args": {}
+  },
+  "browser.focus_address": {
+    "name": "browser.focus_address",
+    "description": "Focus address bar",
+    "returns": "",
+    "args": {}
+  },
+  "browser.focus_page": {
+    "name": "browser.focus_page",
+    "description": "Focus the page body",
+    "returns": "",
+    "args": {}
+  },
+  "browser.focus_search": {
+    "name": "browser.focus_search",
+    "description": "Focus the search box",
+    "returns": "",
+    "args": {}
+  },
+  "browser.go": {
+    "name": "browser.go",
+    "description": "Go to a new URL",
+    "returns": "",
+    "args": {
+      "url": "str"
+    }
+  },
+  "browser.go_back": {
+    "name": "browser.go_back",
+    "description": "Go back in the history",
+    "returns": "",
+    "args": {}
+  },
+  "browser.go_blank": {
+    "name": "browser.go_blank",
+    "description": "Go to a blank page",
+    "returns": "",
+    "args": {}
+  },
+  "browser.go_forward": {
+    "name": "browser.go_forward",
+    "description": "Go forward in the history",
+    "returns": "",
+    "args": {}
+  },
+  "browser.go_home": {
+    "name": "browser.go_home",
+    "description": "Go to home page",
+    "returns": "",
+    "args": {}
+  },
+  "browser.open_private_window": {
+    "name": "browser.open_private_window",
+    "description": "Open a private browsing window",
+    "returns": "",
+    "args": {}
+  },
+  "browser.reload": {
+    "name": "browser.reload",
+    "description": "Reload current page",
+    "returns": "",
+    "args": {}
+  },
+  "browser.reload_hard": {
+    "name": "browser.reload_hard",
+    "description": "Reload current page (harder)",
+    "returns": "",
+    "args": {}
+  },
+  "browser.reload_hardest": {
+    "name": "browser.reload_hardest",
+    "description": "Reload current page (hardest)",
+    "returns": "",
+    "args": {}
+  },
+  "browser.show_clear_cache": {
+    "name": "browser.show_clear_cache",
+    "description": "Show 'Clear Cache' dialog",
+    "returns": "",
+    "args": {}
+  },
+  "browser.show_downloads": {
+    "name": "browser.show_downloads",
+    "description": "Show download list",
+    "returns": "",
+    "args": {}
+  },
+  "browser.show_extensions": {
+    "name": "browser.show_extensions",
+    "description": "Show installed extensions",
+    "returns": "",
+    "args": {}
+  },
+  "browser.show_history": {
+    "name": "browser.show_history",
+    "description": "Show recently visited pages",
+    "returns": "",
+    "args": {}
+  },
+  "browser.submit_form": {
+    "name": "browser.submit_form",
+    "description": "Submit the current form",
+    "returns": "",
+    "args": {}
+  },
+  "browser.title": {
+    "name": "browser.title",
+    "description": "Get page title",
+    "returns": "str",
+    "args": {}
+  },
+  "browser.toggle_dev_tools": {
+    "name": "browser.toggle_dev_tools",
+    "description": "Open or close the developer tools",
+    "returns": "",
+    "args": {}
+  },
+  "clip.capture_text": {
+    "name": "clip.capture_text",
+    "description": "Send key sequence and return resulting clipboard text",
+    "returns": "",
+    "args": {
+      "key": "str"
+    }
+  },
+  "clip.clear": {
+    "name": "clip.clear",
+    "description": "Clear clipboard contents",
+    "returns": "",
+    "args": {}
+  },
+  "clip.image": {
+    "name": "clip.image",
+    "description": "Get clipboard image",
+    "returns": "",
+    "args": {}
+  },
+  "clip.set_image": {
+    "name": "clip.set_image",
+    "description": "Set clipboard image",
+    "returns": "",
+    "args": {
+      "image": "talon.skia.image.Image"
+    }
+  },
+  "clip.set_text": {
+    "name": "clip.set_text",
+    "description": "Set clipboard text",
+    "returns": "",
+    "args": {
+      "text": "str"
+    }
+  },
+  "clip.text": {
+    "name": "clip.text",
+    "description": "Get clipboard text",
+    "returns": "str",
+    "args": {}
+  },
+  "code.complete": {
+    "name": "code.complete",
+    "description": "Trigger code autocomplete",
+    "returns": "",
+    "args": {}
+  },
+  "code.extend_scope_end": {
+    "name": "code.extend_scope_end",
+    "description": "Extend selection to end of current scope",
+    "returns": "",
+    "args": {}
+  },
+  "code.extend_scope_in": {
+    "name": "code.extend_scope_in",
+    "description": "Extend selection to start of first inner scope",
+    "returns": "",
+    "args": {}
+  },
+  "code.extend_scope_next": {
+    "name": "code.extend_scope_next",
+    "description": "Extend selection to start of next sibling scope",
+    "returns": "",
+    "args": {}
+  },
+  "code.extend_scope_out": {
+    "name": "code.extend_scope_out",
+    "description": "Extend selection to start of outer scope",
+    "returns": "",
+    "args": {}
+  },
+  "code.extend_scope_previous": {
+    "name": "code.extend_scope_previous",
+    "description": "Extend selection to start of previous sibling scope",
+    "returns": "",
+    "args": {}
+  },
+  "code.extend_scope_start": {
+    "name": "code.extend_scope_start",
+    "description": "Extend selection to start of current scope",
+    "returns": "",
+    "args": {}
+  },
+  "code.language": {
+    "name": "code.language",
+    "description": "Return the active programming language",
+    "returns": "str",
+    "args": {}
+  },
+  "code.rename": {
+    "name": "code.rename",
+    "description": "Rename selection to <name>",
+    "returns": "",
+    "args": {
+      "name": "str"
+    }
+  },
+  "code.scope_end": {
+    "name": "code.scope_end",
+    "description": "Move cursor to end of current scope",
+    "returns": "",
+    "args": {}
+  },
+  "code.scope_in": {
+    "name": "code.scope_in",
+    "description": "Move cursor to start of first inner scope",
+    "returns": "",
+    "args": {}
+  },
+  "code.scope_next": {
+    "name": "code.scope_next",
+    "description": "Move cursor to start of next sibling scope",
+    "returns": "",
+    "args": {}
+  },
+  "code.scope_out": {
+    "name": "code.scope_out",
+    "description": "Move cursor to start of outer scope",
+    "returns": "",
+    "args": {}
+  },
+  "code.scope_previous": {
+    "name": "code.scope_previous",
+    "description": "Move cursor to start of previous sibling scope",
+    "returns": "",
+    "args": {}
+  },
+  "code.scope_start": {
+    "name": "code.scope_start",
+    "description": "Move cursor to start of current scope",
+    "returns": "",
+    "args": {}
+  },
+  "code.select_scope": {
+    "name": "code.select_scope",
+    "description": "Select scope under cursor",
+    "returns": "",
+    "args": {}
+  },
+  "code.toggle_comment": {
+    "name": "code.toggle_comment",
+    "description": "Toggle comments on the current line(s)",
+    "returns": "",
+    "args": {}
+  },
+  "core.cancel_phrase__unstable": {
+    "name": "core.cancel_phrase__unstable",
+    "description": "Cancel the currently running phrase",
+    "returns": "",
+    "args": {}
+  },
+  "core.current_command__unstable": {
+    "name": "core.current_command__unstable",
+    "description": "Return the currently executing command",
+    "returns": "",
+    "args": {}
+  },
+  "core.last_command": {
+    "name": "core.last_command",
+    "description": "Return the last executed command",
+    "returns": "",
+    "args": {}
+  },
+  "core.last_phrase": {
+    "name": "core.last_phrase",
+    "description": "Return the last-spoken phrase",
+    "returns": "",
+    "args": {}
+  },
+  "core.recent_commands": {
+    "name": "core.recent_commands",
+    "description": "Return recently executed commands (grouped by phrase)",
+    "returns": "",
+    "args": {}
+  },
+  "core.recent_phrases": {
+    "name": "core.recent_phrases",
+    "description": "Return recently-spoken phrases",
+    "returns": "",
+    "args": {}
+  },
+  "core.repeat_command": {
+    "name": "core.repeat_command",
+    "description": "Repeat the last command N times",
+    "returns": "",
+    "args": {
+      "times": "int"
+    }
+  },
+  "core.repeat_partial_phrase": {
+    "name": "core.repeat_partial_phrase",
+    "description": "Repeat the previous phrase or current partial phrase N times",
+    "returns": "",
+    "args": {
+      "times": "int"
+    }
+  },
+  "core.repeat_phrase": {
+    "name": "core.repeat_phrase",
+    "description": "Repeat the last phrase N times",
+    "returns": "",
+    "args": {
+      "times": "int"
+    }
+  },
+  "core.replace_command": {
+    "name": "core.replace_command",
+    "description": "Replace the current command in history with one or more commands",
+    "returns": "",
+    "args": {}
+  },
+  "core.run_command": {
+    "name": "core.run_command",
+    "description": "Run a single command for a recognized phrase",
+    "returns": "",
+    "args": {
+      "cmd": "talon.scripting.types.CommandImpl",
+      "m": "talon.grammar.vm.Capture"
+    }
+  },
+  "core.run_hotkey": {
+    "name": "core.run_hotkey",
+    "description": "Run all commands for a hotkey",
+    "returns": "",
+    "args": {
+      "hotkey": "talon.scripting.types.ScriptImpl"
+    }
+  },
+  "core.run_phrase": {
+    "name": "core.run_phrase",
+    "description": "Run all commands for a recognized phrase",
+    "returns": "",
+    "args": {
+      "phrase": "talon.grammar.vm.Capture"
+    }
+  },
+  "core.run_talon_script": {
+    "name": "core.run_talon_script",
+    "description": "Run a single TalonScript for a recognized phrase",
+    "returns": "",
+    "args": {
+      "ctx": "talon.scripting.rctx.ResourceContext",
+      "script": "talon.scripting.talon_script.TalonScript",
+      "m": "talon.grammar.vm.Capture"
+    }
+  },
+  "dictate.join_words": {
+    "name": "dictate.join_words",
+    "description": "Join a list of words into a single string for insertion",
+    "returns": "str",
+    "args": {
+      "separator": "str"
+    }
+  },
+  "dictate.lower": {
+    "name": "dictate.lower",
+    "description": "Insert lowercase text with auto_insert()",
+    "returns": "",
+    "args": {
+      "p": "talon.grammar.vm.Phrase"
+    }
+  },
+  "dictate.natural": {
+    "name": "dictate.natural",
+    "description": "Insert naturally-capitalized text with auto_insert()",
+    "returns": "",
+    "args": {
+      "p": "talon.grammar.vm.Phrase"
+    }
+  },
+  "dictate.parse_words": {
+    "name": "dictate.parse_words",
+    "description": "Extract words from a spoken Capture",
+    "returns": "",
+    "args": {
+      "p": "talon.grammar.vm.Phrase"
+    }
+  },
+  "dictate.replace_words": {
+    "name": "dictate.replace_words",
+    "description": "Replace words according to the dictate.word_map dictionary setting",
+    "returns": "",
+    "args": {}
+  },
+  "edit.copy": {
+    "name": "edit.copy",
+    "description": "Copy selection to clipboard",
+    "returns": "",
+    "args": {}
+  },
+  "edit.cut": {
+    "name": "edit.cut",
+    "description": "Cut selection to clipboard",
+    "returns": "",
+    "args": {}
+  },
+  "edit.delete": {
+    "name": "edit.delete",
+    "description": "Delete selection",
+    "returns": "",
+    "args": {}
+  },
+  "edit.delete_line": {
+    "name": "edit.delete_line",
+    "description": "Delete line under cursor",
+    "returns": "",
+    "args": {}
+  },
+  "edit.delete_paragraph": {
+    "name": "edit.delete_paragraph",
+    "description": "Delete paragraph under cursor",
+    "returns": "",
+    "args": {}
+  },
+  "edit.delete_sentence": {
+    "name": "edit.delete_sentence",
+    "description": "Delete sentence under cursor",
+    "returns": "",
+    "args": {}
+  },
+  "edit.delete_word": {
+    "name": "edit.delete_word",
+    "description": "Delete word under cursor",
+    "returns": "",
+    "args": {}
+  },
+  "edit.down": {
+    "name": "edit.down",
+    "description": "Move cursor down one row",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_again": {
+    "name": "edit.extend_again",
+    "description": "Extend selection again in the same way",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_column": {
+    "name": "edit.extend_column",
+    "description": "Extend selection to column <n>",
+    "returns": "",
+    "args": {
+      "n": "int"
+    }
+  },
+  "edit.extend_down": {
+    "name": "edit.extend_down",
+    "description": "Extend selection down one row",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_file_end": {
+    "name": "edit.extend_file_end",
+    "description": "Extend selection to end of file",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_file_start": {
+    "name": "edit.extend_file_start",
+    "description": "Extend selection to start of file",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_left": {
+    "name": "edit.extend_left",
+    "description": "Extend selection left one column",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_line": {
+    "name": "edit.extend_line",
+    "description": "Extend selection to include line <n>",
+    "returns": "",
+    "args": {
+      "n": "int"
+    }
+  },
+  "edit.extend_line_down": {
+    "name": "edit.extend_line_down",
+    "description": "Extend selection down one full line",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_line_end": {
+    "name": "edit.extend_line_end",
+    "description": "Extend selection to end of line",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_line_start": {
+    "name": "edit.extend_line_start",
+    "description": "Extend selection to start of line",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_line_up": {
+    "name": "edit.extend_line_up",
+    "description": "Extend selection up one full line",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_page_down": {
+    "name": "edit.extend_page_down",
+    "description": "Extend selection down one page",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_page_up": {
+    "name": "edit.extend_page_up",
+    "description": "Extend selection up one page",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_paragraph_end": {
+    "name": "edit.extend_paragraph_end",
+    "description": "Extend selection to the end of the current paragraph",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_paragraph_next": {
+    "name": "edit.extend_paragraph_next",
+    "description": "Extend selection to the start of the next paragraph",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_paragraph_previous": {
+    "name": "edit.extend_paragraph_previous",
+    "description": "Extend selection to the start of the previous paragraph",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_paragraph_start": {
+    "name": "edit.extend_paragraph_start",
+    "description": "Extend selection to the start of the current paragraph",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_right": {
+    "name": "edit.extend_right",
+    "description": "Extend selection right one column",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_sentence_end": {
+    "name": "edit.extend_sentence_end",
+    "description": "Extend selection to the end of the current sentence",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_sentence_next": {
+    "name": "edit.extend_sentence_next",
+    "description": "Extend selection to the start of the next sentence",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_sentence_previous": {
+    "name": "edit.extend_sentence_previous",
+    "description": "Extend selection to the start of the previous sentence",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_sentence_start": {
+    "name": "edit.extend_sentence_start",
+    "description": "Extend selection to the start of the current sentence",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_up": {
+    "name": "edit.extend_up",
+    "description": "Extend selection up one row",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_word_left": {
+    "name": "edit.extend_word_left",
+    "description": "Extend selection left one word",
+    "returns": "",
+    "args": {}
+  },
+  "edit.extend_word_right": {
+    "name": "edit.extend_word_right",
+    "description": "Extend selection right one word",
+    "returns": "",
+    "args": {}
+  },
+  "edit.file_end": {
+    "name": "edit.file_end",
+    "description": "Move cursor to end of file (start of line)",
+    "returns": "",
+    "args": {}
+  },
+  "edit.file_start": {
+    "name": "edit.file_start",
+    "description": "Move cursor to start of file",
+    "returns": "",
+    "args": {}
+  },
+  "edit.find": {
+    "name": "edit.find",
+    "description": "Open Find dialog, optionally searching for text",
+    "returns": "",
+    "args": {
+      "text": "str"
+    }
+  },
+  "edit.find_next": {
+    "name": "edit.find_next",
+    "description": "Select next Find result",
+    "returns": "",
+    "args": {}
+  },
+  "edit.find_previous": {
+    "name": "edit.find_previous",
+    "description": "Select previous Find result",
+    "returns": "",
+    "args": {}
+  },
+  "edit.indent_less": {
+    "name": "edit.indent_less",
+    "description": "Remove a tab stop of indentation",
+    "returns": "",
+    "args": {}
+  },
+  "edit.indent_more": {
+    "name": "edit.indent_more",
+    "description": "Add a tab stop of indentation",
+    "returns": "",
+    "args": {}
+  },
+  "edit.jump_column": {
+    "name": "edit.jump_column",
+    "description": "Move cursor to column <n>",
+    "returns": "",
+    "args": {
+      "n": "int"
+    }
+  },
+  "edit.jump_line": {
+    "name": "edit.jump_line",
+    "description": "Move cursor to line <n>",
+    "returns": "",
+    "args": {
+      "n": "int"
+    }
+  },
+  "edit.left": {
+    "name": "edit.left",
+    "description": "Move cursor left one column",
+    "returns": "",
+    "args": {}
+  },
+  "edit.line_clone": {
+    "name": "edit.line_clone",
+    "description": "Create a new line identical to the current line",
+    "returns": "",
+    "args": {}
+  },
+  "edit.line_down": {
+    "name": "edit.line_down",
+    "description": "Move cursor to start of line below",
+    "returns": "",
+    "args": {}
+  },
+  "edit.line_end": {
+    "name": "edit.line_end",
+    "description": "Move cursor to end of line",
+    "returns": "",
+    "args": {}
+  },
+  "edit.line_insert_down": {
+    "name": "edit.line_insert_down",
+    "description": "Insert line below cursor",
+    "returns": "",
+    "args": {}
+  },
+  "edit.line_insert_up": {
+    "name": "edit.line_insert_up",
+    "description": "Insert line above cursor",
+    "returns": "",
+    "args": {}
+  },
+  "edit.line_start": {
+    "name": "edit.line_start",
+    "description": "Move cursor to start of line",
+    "returns": "",
+    "args": {}
+  },
+  "edit.line_swap_down": {
+    "name": "edit.line_swap_down",
+    "description": "Swap the current line with the line below",
+    "returns": "",
+    "args": {}
+  },
+  "edit.line_swap_up": {
+    "name": "edit.line_swap_up",
+    "description": "Swap the current line with the line above",
+    "returns": "",
+    "args": {}
+  },
+  "edit.line_up": {
+    "name": "edit.line_up",
+    "description": "Move cursor to start of line above",
+    "returns": "",
+    "args": {}
+  },
+  "edit.move_again": {
+    "name": "edit.move_again",
+    "description": "Move cursor again in the same way",
+    "returns": "",
+    "args": {}
+  },
+  "edit.page_down": {
+    "name": "edit.page_down",
+    "description": "Move cursor down one page",
+    "returns": "",
+    "args": {}
+  },
+  "edit.page_up": {
+    "name": "edit.page_up",
+    "description": "Move cursor up one page",
+    "returns": "",
+    "args": {}
+  },
+  "edit.paragraph_end": {
+    "name": "edit.paragraph_end",
+    "description": "Move cursor to the end of the current paragraph",
+    "returns": "",
+    "args": {}
+  },
+  "edit.paragraph_next": {
+    "name": "edit.paragraph_next",
+    "description": "Move cursor to the start of the next paragraph",
+    "returns": "",
+    "args": {}
+  },
+  "edit.paragraph_previous": {
+    "name": "edit.paragraph_previous",
+    "description": "Move cursor to the start of the previous paragraph",
+    "returns": "",
+    "args": {}
+  },
+  "edit.paragraph_start": {
+    "name": "edit.paragraph_start",
+    "description": "Move cursor to the start of the current paragraph",
+    "returns": "",
+    "args": {}
+  },
+  "edit.paste": {
+    "name": "edit.paste",
+    "description": "Paste clipboard at cursor",
+    "returns": "",
+    "args": {}
+  },
+  "edit.paste_match_style": {
+    "name": "edit.paste_match_style",
+    "description": "Paste clipboard without style information",
+    "returns": "",
+    "args": {}
+  },
+  "edit.print": {
+    "name": "edit.print",
+    "description": "Open print dialog",
+    "returns": "",
+    "args": {}
+  },
+  "edit.redo": {
+    "name": "edit.redo",
+    "description": "Redo",
+    "returns": "",
+    "args": {}
+  },
+  "edit.right": {
+    "name": "edit.right",
+    "description": "Move cursor right one column",
+    "returns": "",
+    "args": {}
+  },
+  "edit.save": {
+    "name": "edit.save",
+    "description": "Save current document",
+    "returns": "",
+    "args": {}
+  },
+  "edit.save_all": {
+    "name": "edit.save_all",
+    "description": "Save all open documents",
+    "returns": "",
+    "args": {}
+  },
+  "edit.select_all": {
+    "name": "edit.select_all",
+    "description": "Select all text in the current document",
+    "returns": "",
+    "args": {}
+  },
+  "edit.select_line": {
+    "name": "edit.select_line",
+    "description": "Select entire line <n>, or current line",
+    "returns": "",
+    "args": {
+      "n": "int"
+    }
+  },
+  "edit.select_lines": {
+    "name": "edit.select_lines",
+    "description": "Select entire lines from <a> to <b>",
+    "returns": "",
+    "args": {
+      "a": "int",
+      "b": "int"
+    }
+  },
+  "edit.select_none": {
+    "name": "edit.select_none",
+    "description": "Clear current selection",
+    "returns": "",
+    "args": {}
+  },
+  "edit.select_paragraph": {
+    "name": "edit.select_paragraph",
+    "description": "Select the entire nearest paragraph",
+    "returns": "",
+    "args": {}
+  },
+  "edit.select_sentence": {
+    "name": "edit.select_sentence",
+    "description": "Select the entire nearest sentence",
+    "returns": "",
+    "args": {}
+  },
+  "edit.select_word": {
+    "name": "edit.select_word",
+    "description": "Select word under cursor",
+    "returns": "",
+    "args": {}
+  },
+  "edit.selected_text": {
+    "name": "edit.selected_text",
+    "description": "Get currently selected text",
+    "returns": "str",
+    "args": {}
+  },
+  "edit.selection_clone": {
+    "name": "edit.selection_clone",
+    "description": "Insert a copy of the current selection",
+    "returns": "",
+    "args": {}
+  },
+  "edit.sentence_end": {
+    "name": "edit.sentence_end",
+    "description": "Move cursor to the end of the current sentence",
+    "returns": "",
+    "args": {}
+  },
+  "edit.sentence_next": {
+    "name": "edit.sentence_next",
+    "description": "Move cursor to the start of the next sentence",
+    "returns": "",
+    "args": {}
+  },
+  "edit.sentence_previous": {
+    "name": "edit.sentence_previous",
+    "description": "Move cursor to the start of the previous sentence",
+    "returns": "",
+    "args": {}
+  },
+  "edit.sentence_start": {
+    "name": "edit.sentence_start",
+    "description": "Move cursor to the start of the current sentence",
+    "returns": "",
+    "args": {}
+  },
+  "edit.undo": {
+    "name": "edit.undo",
+    "description": "Undo",
+    "returns": "",
+    "args": {}
+  },
+  "edit.up": {
+    "name": "edit.up",
+    "description": "Move cursor up one row",
+    "returns": "",
+    "args": {}
+  },
+  "edit.word_left": {
+    "name": "edit.word_left",
+    "description": "Move cursor left one word",
+    "returns": "",
+    "args": {}
+  },
+  "edit.word_right": {
+    "name": "edit.word_right",
+    "description": "Move cursor right one word",
+    "returns": "",
+    "args": {}
+  },
+  "edit.zoom_in": {
+    "name": "edit.zoom_in",
+    "description": "Zoom in",
+    "returns": "",
+    "args": {}
+  },
+  "edit.zoom_out": {
+    "name": "edit.zoom_out",
+    "description": "Zoom out",
+    "returns": "",
+    "args": {}
+  },
+  "edit.zoom_reset": {
+    "name": "edit.zoom_reset",
+    "description": "Zoom to original size",
+    "returns": "",
+    "args": {}
+  },
+  "auto_format": {
+    "name": "auto_format",
+    "description": "Apply text formatting, such as auto spacing, for the native language",
+    "returns": "str",
+    "args": {
+      "text": "str"
+    }
+  },
+  "auto_insert": {
+    "name": "auto_insert",
+    "description": "Insert text at the current cursor position, automatically formatting it using the actions.auto_format(text)",
+    "returns": "",
+    "args": {
+      "text": "str"
+    }
+  },
+  "insert": {
+    "name": "insert",
+    "description": "Insert text at the current cursor position",
+    "returns": "",
+    "args": {
+      "text": "str"
+    }
+  },
+  "key": {
+    "name": "key",
+    "description": "Press one or more keys by name, space-separated",
+    "returns": "",
+    "args": {
+      "key": "str"
+    }
+  },
+  "mimic": {
+    "name": "mimic",
+    "description": "Simulate speaking {text}",
+    "returns": "",
+    "args": {
+      "text": "str"
+    }
+  },
+  "mouse_click": {
+    "name": "mouse_click",
+    "description": "Press and release a mouse button",
+    "returns": "",
+    "args": {
+      "button": "int"
+    }
+  },
+  "mouse_drag": {
+    "name": "mouse_drag",
+    "description": "Hold down a mouse button",
+    "returns": "",
+    "args": {
+      "button": "int"
+    }
+  },
+  "mouse_move": {
+    "name": "mouse_move",
+    "description": "Move mouse to (x, y) coordinate",
+    "returns": "",
+    "args": {
+      "x": "float",
+      "y": "float"
+    }
+  },
+  "mouse_release": {
+    "name": "mouse_release",
+    "description": "Release a mouse button",
+    "returns": "",
+    "args": {
+      "button": "int"
+    }
+  },
+  "mouse_scroll": {
+    "name": "mouse_scroll",
+    "description": "Scroll the mouse wheel",
+    "returns": "",
+    "args": {
+      "y": "float",
+      "x": "float",
+      "by_lines": "bool"
+    }
+  },
+  "mouse_x": {
+    "name": "mouse_x",
+    "description": "Mouse X position",
+    "returns": "float",
+    "args": {}
+  },
+  "mouse_y": {
+    "name": "mouse_y",
+    "description": "Mouse Y position",
+    "returns": "float",
+    "args": {}
+  },
+  "print": {
+    "name": "print",
+    "description": "Display an object in the log",
+    "returns": "",
+    "args": {
+      "obj": "Any"
+    }
+  },
+  "skip": {
+    "name": "skip",
+    "description": "Do nothing",
+    "returns": "",
+    "args": {}
+  },
+  "sleep": {
+    "name": "sleep",
+    "description": "Pause for some duration. If you use a number, it is seconds, e.g 1.5 seconds or 0.001 seconds. If you use a string, it is a timespec, such as \"50ms\" or \"10s\" For performance reasons, sleep() cannot be reimplemented by a Context.",
+    "returns": "",
+    "args": {}
+  },
+  "migrate.backup_user": {
+    "name": "migrate.backup_user",
+    "description": "Backup the .talon/user/ directory to a zip file in .talon/backups/",
+    "returns": "",
+    "args": {}
+  },
+  "migrate.v02_all": {
+    "name": "migrate.v02_all",
+    "description": "Perform migrations for Talon v0.2 on all files in user/",
+    "returns": "",
+    "args": {
+      "prefix": "str",
+      "verbose": "bool"
+    }
+  },
+  "migrate.v02_one": {
+    "name": "migrate.v02_one",
+    "description": "Migrate action() definitions from a .talon file to a new Python file.",
+    "returns": "",
+    "args": {
+      "path": "str",
+      "verbose": "bool"
+    }
+  },
+  "mode.disable": {
+    "name": "mode.disable",
+    "description": "Disable a mode",
+    "returns": "",
+    "args": {
+      "mode": "str"
+    }
+  },
+  "mode.enable": {
+    "name": "mode.enable",
+    "description": "Enable a mode",
+    "returns": "",
+    "args": {
+      "mode": "str"
+    }
+  },
+  "mode.restore": {
+    "name": "mode.restore",
+    "description": "Restore saved modes",
+    "returns": "",
+    "args": {}
+  },
+  "mode.save": {
+    "name": "mode.save",
+    "description": "Save all active modes",
+    "returns": "",
+    "args": {}
+  },
+  "mode.toggle": {
+    "name": "mode.toggle",
+    "description": "Toggle a mode",
+    "returns": "",
+    "args": {
+      "mode": "str"
+    }
+  },
+  "path.talon_app": {
+    "name": "path.talon_app",
+    "description": "Path to Talon application",
+    "returns": "str",
+    "args": {}
+  },
+  "path.talon_home": {
+    "name": "path.talon_home",
+    "description": "Path to home/.talon",
+    "returns": "str",
+    "args": {}
+  },
+  "path.talon_user": {
+    "name": "path.talon_user",
+    "description": "Path to Talon user",
+    "returns": "str",
+    "args": {}
+  },
+  "path.user_home": {
+    "name": "path.user_home",
+    "description": "Path to user home",
+    "returns": "str",
+    "args": {}
+  },
+  "speech.disable": {
+    "name": "speech.disable",
+    "description": "Disable speech recognition",
+    "returns": "",
+    "args": {}
+  },
+  "speech.enable": {
+    "name": "speech.enable",
+    "description": "Enable speech recognition",
+    "returns": "",
+    "args": {}
+  },
+  "speech.enabled": {
+    "name": "speech.enabled",
+    "description": "Test if speech recognition is enabled",
+    "returns": "bool",
+    "args": {}
+  },
+  "speech.record_flac": {
+    "name": "speech.record_flac",
+    "description": "Record the phrase audio to a flac file",
+    "returns": "",
+    "args": {}
+  },
+  "speech.record_wav": {
+    "name": "speech.record_wav",
+    "description": "Record the phrase audio to a wave file",
+    "returns": "",
+    "args": {}
+  },
+  "speech.replay": {
+    "name": "speech.replay",
+    "description": "Replay a .flac or .wav file into the speech engine",
+    "returns": "",
+    "args": {
+      "path": "str"
+    }
+  },
+  "speech.set_microphone": {
+    "name": "speech.set_microphone",
+    "description": "Set the currently active microphone - DEPRECATED: use sound.set_microphone()",
+    "returns": "",
+    "args": {
+      "name": "str"
+    }
+  },
+  "speech.toggle": {
+    "name": "speech.toggle",
+    "description": "Toggle speech recognition",
+    "returns": "",
+    "args": {
+      "value": "bool"
+    }
+  },
+  "sound.active_microphone": {
+    "name": "sound.active_microphone",
+    "description": "Return active microphone name",
+    "returns": "str",
+    "args": {}
+  },
+  "sound.microphones": {
+    "name": "sound.microphones",
+    "description": "Return a list of available microphone names",
+    "returns": "",
+    "args": {}
+  },
+  "sound.set_microphone": {
+    "name": "sound.set_microphone",
+    "description": "Set the currently active microphone",
+    "returns": "",
+    "args": {
+      "name": "str"
+    }
+  },
+  "win.file_ext": {
+    "name": "win.file_ext",
+    "description": "Return the open file's extension",
+    "returns": "str",
+    "args": {}
+  },
+  "win.filename": {
+    "name": "win.filename",
+    "description": "Return the open filename",
+    "returns": "str",
+    "args": {}
+  },
+  "win.title": {
+    "name": "win.title",
+    "description": "Get window title",
+    "returns": "str",
+    "args": {}
+  },
+  "tracking.calibrate": {
+    "name": "tracking.calibrate",
+    "description": "Calibrate Eye Tracking",
+    "returns": "",
+    "args": {}
+  },
+  "tracking.control1_enabled": {
+    "name": "tracking.control1_enabled",
+    "description": "Is Control Mouse (Legacy) Enabled?",
+    "returns": "bool",
+    "args": {}
+  },
+  "tracking.control1_toggle": {
+    "name": "tracking.control1_toggle",
+    "description": "Toggle Control Mouse (Legacy)",
+    "returns": "",
+    "args": {
+      "state": "bool"
+    }
+  },
+  "tracking.control_debug_toggle": {
+    "name": "tracking.control_debug_toggle",
+    "description": "Toggle Control Mouse 2 (Debug View)",
+    "returns": "",
+    "args": {
+      "state": "bool"
+    }
+  },
+  "tracking.control_enabled": {
+    "name": "tracking.control_enabled",
+    "description": "Is Control Mouse Enabled?",
+    "returns": "bool",
+    "args": {}
+  },
+  "tracking.control_toggle": {
+    "name": "tracking.control_toggle",
+    "description": "Toggle Control Mouse",
+    "returns": "",
+    "args": {
+      "state": "bool"
+    }
+  },
+  "tracking.control_zoom_enabled": {
+    "name": "tracking.control_zoom_enabled",
+    "description": "Is Control Mouse (Zoom) Enabled?",
+    "returns": "bool",
+    "args": {}
+  },
+  "tracking.control_zoom_toggle": {
+    "name": "tracking.control_zoom_toggle",
+    "description": "Toggle Control Mouse (Zoom)",
+    "returns": "",
+    "args": {
+      "state": "bool"
+    }
+  },
+  "tracking.zoom": {
+    "name": "tracking.zoom",
+    "description": "Trigger Eye Zoom / Click",
+    "returns": "",
+    "args": {
+      "state": "bool"
+    }
+  },
+  "tracking.zoom_cancel": {
+    "name": "tracking.zoom_cancel",
+    "description": "Cancel Eye Zoom",
+    "returns": "",
+    "args": {
+      "state": "bool"
+    }
+  },
+  "menu.check_for_updates": {
+    "name": "menu.check_for_updates",
+    "description": "Check for updates",
+    "returns": "",
+    "args": {}
+  },
+  "menu.open_debug_window": {
+    "name": "menu.open_debug_window",
+    "description": "Open Debug window",
+    "returns": "",
+    "args": {}
+  },
+  "menu.open_log": {
+    "name": "menu.open_log",
+    "description": "Open Talon log",
+    "returns": "",
+    "args": {}
+  },
+  "menu.open_repl": {
+    "name": "menu.open_repl",
+    "description": "Open Talon REPL",
+    "returns": "",
+    "args": {}
+  },
+  "menu.open_talon_home": {
+    "name": "menu.open_talon_home",
+    "description": "Open Talon config folder",
+    "returns": "",
+    "args": {}
+  }
+}
