@@ -1,6 +1,6 @@
 import dataclasses
-import pathlib
 from collections.abc import Callable, Iterable
+from pathlib import Path
 from typing import Any, ClassVar, Mapping, Optional, TypeVar, Union, cast
 
 import tree_sitter_talon
@@ -127,7 +127,7 @@ class UserObjectEntry(ObjectEntry):
         except AttributeError as e:
             raise ValueError(self, e)
 
-    def get_path(self, absolute: bool = False) -> pathlib.Path:
+    def get_path(self, absolute: bool = False) -> Path:
         if isinstance(self, UserPackageEntry):
             return self.path
         else:
@@ -208,12 +208,12 @@ class UserCallbackEntry(UserObjectEntry):
 class UserPackageEntry(UserObjectEntry):
     sort: ClassVar[str] = "package"
     name: str
-    path: pathlib.Path
+    path: Path
     files: list["UserFileEntry"] = dataclasses.field(default_factory=list)
 
     def __init__(
         self,
-        path: pathlib.Path,
+        path: Path,
         files: list["UserFileEntry"] = [],
         *,
         name: Optional[str] = None,
@@ -224,7 +224,7 @@ class UserPackageEntry(UserObjectEntry):
         super().__post_init__(path, files, name=name)
 
     @staticmethod
-    def make_name(name: Optional[str], path: pathlib.Path) -> str:
+    def make_name(name: Optional[str], path: Path) -> str:
         return name or path.parts[-1]
 
     @override
@@ -239,7 +239,7 @@ AnyUserFileEntry = TypeVar("AnyUserFileEntry", bound="UserFileEntry")
 class UserFileEntry(UserObjectEntry):
     sort: ClassVar[str] = "file"
     parent: UserPackageEntry = dataclasses.field(repr=False)
-    path: pathlib.Path
+    path: Path
 
     def __post_init__(self, *args, **kwargs):
         super().__post_init__(*args, **kwargs)
@@ -258,7 +258,7 @@ class UserFileEntry(UserObjectEntry):
             self.parent.files.append(self)
 
     @staticmethod
-    def make_name(package: UserPackageEntry, path: pathlib.Path) -> str:
+    def make_name(package: UserPackageEntry, path: Path) -> str:
         return ".".join((package.get_namespace(), *path.parts))
 
     @override

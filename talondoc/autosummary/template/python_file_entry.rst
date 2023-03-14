@@ -1,1 +1,1 @@
-{{ entry.name | escape | underline }}
+{{ entry.get_name() | escape | underline }}

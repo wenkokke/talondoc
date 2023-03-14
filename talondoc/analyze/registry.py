@@ -262,7 +262,7 @@ class Registry:
             # Functions are TEMPORARY DATA, and are stored under their qualified names:
             if entry.get_resolved_name() in self.functions:
                 e = DuplicateEntry(entry, self.functions[entry.get_resolved_name()])
-                _LOGGER.error(str(e))
+                _LOGGER.warning(str(e))
             else:
                 self.functions[entry.get_resolved_name()] = entry
         elif isinstance(entry, UserCallbackEntry):
@@ -276,7 +276,7 @@ class Registry:
                 try:
                     object_group.append(entry)
                 except DuplicateEntry as e:
-                    _LOGGER.error(str(e))
+                    _LOGGER.warning(str(e))
             else:
                 object_groups[entry.get_resolved_name()] = entry.group()
         elif isinstance(entry, UserCommandEntry):

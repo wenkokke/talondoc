@@ -77,7 +77,7 @@ def analyse_package(
                             else:
                                 bar.step()
                         except ParseError as e:
-                            _LOGGER.error(str(e))
+                            _LOGGER.exception(e)
 
                 # Trigger callbacks:
                 for event_code in trigger:
@@ -130,11 +130,13 @@ def analyse_python_file(
 ) -> UserPythonFileEntry:
     # Retrieve or create file entry:
     with registry.file_entry(UserPythonFileEntry, package, path) as (
-        cached,
+        _cached,
         file_entry,
     ):
-        # Process file (passes control to talondoc.shims.*):
-        module_name = ".".join([package.name, *path.with_suffix("").parts])
-        importlib.import_module(name=module_name, package=package.name)
-
-        return file_entry
+        try:
+            # Process file (passes control to talondoc.shims.*):
+            module_name = ".".join([package.name, *path.with_suffix("").parts])
+            importlib.import_module(name=module_name, package=package.name)
+            return file_entry
+        except ModuleNotFoundError as e:
+            raise e

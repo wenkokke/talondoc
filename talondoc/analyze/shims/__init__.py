@@ -2,7 +2,7 @@ import sys
 from collections.abc import Iterator
 from contextlib import contextmanager
 from importlib.abc import Loader, MetaPathFinder
-from importlib.machinery import ModuleSpec, PathFinder
+from importlib.machinery import ModuleSpec, PathFinder, SourceFileLoader
 from pathlib import Path
 from types import ModuleType
 from typing import ClassVar, Optional, Union
@@ -55,11 +55,11 @@ class TalonShimFinder(MetaPathFinder):
             return None
 
 
-TalonPackage = Union[tuple[str, Union[str, Path]], UserPackageEntry]
+AnyTalonPackage = Union[tuple[str, Union[str, Path]], UserPackageEntry]
 
 
 @contextmanager
-def talon_package(package: TalonPackage) -> Iterator[None]:
+def talon_package(package: AnyTalonPackage) -> Iterator[None]:
     if isinstance(package, UserPackageEntry):
         package_name = package.name
         package_path = str(package.path)
@@ -89,24 +89,36 @@ def talon_package(package: TalonPackage) -> Iterator[None]:
         @classmethod
         def _module_path(cls, fullname: str) -> Path:
             assert cls._is_module(fullname)
-            return Path("/".join(fullname.split(".")[1:]))
+            return Path(package_path, *fullname.split(".")[1:])
 
         @classmethod
-        def _is_dir(cls, fullname: str) -> bool:
-            assert cls._is_module(fullname)
-            return cls._module_path(fullname).is_dir()
+        def _is_subpackage(cls, fullname: str) -> bool:
+            return cls._is_module(fullname) and cls._module_path(fullname).is_dir()
 
         @classmethod
         def find_spec(cls, fullname: str, path=None, target=None):
             if cls._is_module(fullname):
-                if cls._module_path(fullname).is_dir():
-                    return ModuleSpec(
-                        name=fullname,
-                        loader=cls.ImplicitInitLoader(),
-                        is_package=True,
+                if cls._is_subpackage(fullname):
+                    module_spec = ModuleSpec(
+                        name=fullname, loader=cls.ImplicitInitLoader(), is_package=True
                     )
+                    submodule_search_location = str(cls._module_path(fullname))
+                    if not module_spec.submodule_search_locations:
+                        module_spec.submodule_search_locations = []
+                    module_spec.submodule_search_locations.append(
+                        submodule_search_location
+                    )
+                    return module_spec
                 else:
-                    return super().find_spec(fullname, [package_path])
+                    path = str(cls._module_path(fullname).with_suffix(".py"))
+                    module_spec = ModuleSpec(
+                        name=fullname,
+                        loader=SourceFileLoader(fullname, path),
+                        origin=path,
+                        is_package=False,
+                    )
+                    module_spec.has_location = True
+                    return module_spec
             else:
                 # Allow normal sys.path stuff to handle everything else
                 return None
@@ -119,7 +131,7 @@ def talon_package(package: TalonPackage) -> Iterator[None]:
 
 
 @contextmanager
-def talon(registry: Registry, *, package: Optional[TalonPackage] = None):
+def talon(registry: Registry, *, package: Optional[AnyTalonPackage] = None):
     registry.activate()
     sys.meta_path.insert(0, TalonShimFinder)  # type: ignore
     try:

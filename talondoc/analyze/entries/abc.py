@@ -176,7 +176,7 @@ class GroupEntry(Generic[AnyGroupableObject], Entry):
         else:
             if self.default is not None:
                 e = DuplicateEntry(self.default, entry)
-                _LOGGER.error(str(e))
+                _LOGGER.warning(str(e))
             self.default = entry
 
 
