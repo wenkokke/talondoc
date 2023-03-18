@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/bin/
+
+# Set UTF8 mode
+export PYTHONUTF8=1
 
 # POSIX compliant method for 'pipefail':
 fail=$(mktemp)
@@ -15,7 +18,6 @@ output_dir="$script_dir/docs"
   --no-generate-conf \
   --exclude 'conftest.py' \
   --exclude 'test/**' \
-  --exclude 'tags/emoji/emoji.py' \
   "$script_dir/knausj_talon/" \
   || echo > "$fail"
 
