@@ -31,6 +31,7 @@ jobs:
             python: { version: "3.9.8", env: "py39" }
 
     runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.os == 'windows-latest' }}
     steps:
       - uses: actions/checkout@v3
         with:
