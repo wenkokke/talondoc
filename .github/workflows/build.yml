@@ -16,7 +16,7 @@ defaults:
     shell: bash
 
 env:
-  PYTHONUTF8: "1"
+  LC_CTYPE: "C"
   PYTHONIOENCODING: "utf8"
 
 jobs:
