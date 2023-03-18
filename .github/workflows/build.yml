@@ -14,9 +14,10 @@ on:
 defaults:
   run:
     shell: bash
-    
+
 env:
-  PYTHONUTF8: "1"  
+  PYTHONUTF8: "1"
+  PYTHONIOENCODING: "utf8"
 
 jobs:
   build:
