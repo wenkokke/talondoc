@@ -17,6 +17,7 @@ from .abc import (
     ListValue,
     ModeEntry,
     ObjectEntry,
+    SettingEntry,
     SettingValue,
     TagEntry,
 )
@@ -185,7 +186,11 @@ class UserGroupableObjectEntry(UserObjectEntry, GroupableObjectEntry):
 
 @dataclasses.dataclass
 class UserFunctionEntry(UserObjectEntry):
-    sort: ClassVar[str] = "function"
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "function"
+
     parent: "UserPythonFileEntry"
     func: Callable[..., Any] = dataclasses.field(repr=False)
 
@@ -202,7 +207,11 @@ class UserFunctionEntry(UserObjectEntry):
 class UserCallbackEntry(UserObjectEntry):
     """Used to register callbacks into imported Python modules."""
 
-    sort: ClassVar[str] = "callback"
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "callback"
+
     parent: "UserPythonFileEntry"
     func: Callable[..., None] = dataclasses.field(repr=False)
     event_code: EventCode
@@ -221,7 +230,11 @@ class UserCallbackEntry(UserObjectEntry):
     init=False,
 )
 class UserPackageEntry(UserObjectEntry):
-    sort: ClassVar[str] = "package"
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "package"
+
     name: str
     path: Path
     files: list["UserFileEntry"] = dataclasses.field(default_factory=list)
@@ -252,7 +265,11 @@ AnyUserFileEntry = TypeVar("AnyUserFileEntry", bound="UserFileEntry")
 
 @dataclasses.dataclass
 class UserFileEntry(UserObjectEntry):
-    sort: ClassVar[str] = "file"
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "file"
+
     parent: UserPackageEntry = dataclasses.field(repr=False)
     path: Path
 
@@ -303,10 +320,14 @@ AnyUserModuleEntry = TypeVar("AnyUserModuleEntry", bound="UserModuleEntry")
 
 @dataclasses.dataclass
 class UserModuleEntry(UserObjectEntry):
-    sort: ClassVar[str] = "module"
     parent: UserPythonFileEntry = dataclasses.field(repr=False)
     desc: Optional[str]
     index: int = dataclasses.field(init=False)
+
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "module"
 
     def __post_init__(self, *args, **kwargs):
         super().__post_init__(*args, **kwargs)
@@ -337,9 +358,13 @@ class UserContextEntry(UserModuleEntry):
 
 @dataclasses.dataclass
 class UserCommandEntry(UserObjectEntry):
-    sort: ClassVar[str] = "command"
     parent: UserTalonFileEntry = dataclasses.field(repr=False)
     ast: tree_sitter_talon.TalonCommandDeclaration
+
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "command"
 
     def __post_init__(self, *args, **kwargs):
         super().__post_init__(*args, **kwargs)
@@ -444,7 +469,7 @@ class UserModeEntry(UserObjectEntry, ModeEntry):
 
 
 @dataclasses.dataclass
-class UserSettingEntry(UserGroupableObjectEntry):
+class UserSettingEntry(UserGroupableObjectEntry, SettingEntry):
     name: str
     type: Optional[str] = None
     desc: Optional[str] = None

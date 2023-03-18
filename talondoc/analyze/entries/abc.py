@@ -23,7 +23,7 @@ class DuplicateEntry(Exception):
     entry2: "ObjectEntry"
 
     def __str__(self) -> str:
-        sort = self.entry1.__class__.sort.capitalize()
+        sort = self.entry1.__class__.get_sort().capitalize()
         name = self.entry1.get_name()
         return "\n".join(
             [
@@ -54,7 +54,10 @@ AnyEntry = TypeVar("AnyEntry", bound="Entry")
 
 
 class Entry(abc.ABC):
-    sort: ClassVar[str]
+    @classmethod
+    @abc.abstractmethod
+    def get_sort(cls) -> str:
+        """Get the sort of the object, e.g., 'action' or 'capture'."""
 
     @abc.abstractmethod
     def get_namespace(self) -> str:
@@ -68,9 +71,9 @@ class Entry(abc.ABC):
     def get_name(self) -> str:
         """The name for this object, e.g., 'path.talon_home'."""
 
+    @abc.abstractmethod
     def get_qualified_name(self) -> str:
         """The resolved name for this object prefixed by the sort of the object."""
-        return f"{self.__class__.sort}:{self.get_resolved_name()}"
 
     @abc.abstractmethod
     def get_docstring(self) -> Optional[str]:
@@ -81,6 +84,10 @@ AnyObject = TypeVar("AnyObject", bound="ObjectEntry")
 
 
 class ObjectEntry(Entry):
+    @override
+    def get_qualified_name(self) -> str:
+        return f"{self.__class__.get_sort()}:{self.get_resolved_name()}"
+
     @abc.abstractmethod
     def same_as(self, other: "ObjectEntry") -> bool:
         """Test whether or not this object sis the same as the other object."""
@@ -109,9 +116,13 @@ class GroupableObjectEntry(ObjectEntry):
 
 @dataclasses.dataclass
 class GroupEntry(Generic[AnyGroupableObject], Entry):
-    sort: ClassVar[str] = "group"
     default: Optional[AnyGroupableObject] = None
     overrides: list[AnyGroupableObject] = dataclasses.field(default_factory=list)
+
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "group"
 
     @override
     def get_namespace(self) -> str:
@@ -129,6 +140,12 @@ class GroupEntry(Generic[AnyGroupableObject], Entry):
     def get_resolved_name(self) -> str:
         for entry in self.entries():
             return entry.get_resolved_name()
+        raise ValueError("Empty group")
+
+    @override
+    def get_qualified_name(self) -> str:
+        for entry in self.entries():
+            return f"{self.__class__.get_sort()}:{entry.get_qualified_name()}"
         raise ValueError("Empty group")
 
     @override
@@ -164,7 +181,7 @@ class GroupEntry(Generic[AnyGroupableObject], Entry):
                         replaced_older = True
                         assert entry == override, "\n".join(
                             [
-                                f"Found duplicate {entry.__class__.sort}:",
+                                f"Found duplicate {entry.__class__.get_sort()}:",
                                 f"- {repr(entry)}",
                                 f"- {repr(override)}",
                             ]
@@ -187,7 +204,10 @@ class GroupEntry(Generic[AnyGroupableObject], Entry):
 
 
 class ActionEntry(GroupableObjectEntry):
-    sort: ClassVar[str] = "action"
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "action"
 
     @abc.abstractmethod
     def get_function_name(self) -> Optional[str]:
@@ -195,7 +215,10 @@ class ActionEntry(GroupableObjectEntry):
 
 
 class CaptureEntry(GroupableObjectEntry):
-    sort: ClassVar[str] = "capture"
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "capture"
 
     @abc.abstractmethod
     def get_rule(self) -> Union[str, tree_sitter_talon.TalonRule]:
@@ -207,7 +230,10 @@ class CaptureEntry(GroupableObjectEntry):
 
 
 class ListEntry(GroupableObjectEntry):
-    sort: ClassVar[str] = "list"
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "list"
 
     @abc.abstractmethod
     def get_value(self) -> Optional[ListValue]:
@@ -215,11 +241,17 @@ class ListEntry(GroupableObjectEntry):
 
 
 class ModeEntry(ObjectEntry):
-    sort: ClassVar[str] = "mode"
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "mode"
 
 
 class SettingEntry(GroupableObjectEntry):
-    sort: ClassVar[str] = "setting"
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "setting"
 
     @abc.abstractmethod
     def get_value_type(self) -> Optional[str]:
@@ -233,7 +265,10 @@ class SettingEntry(GroupableObjectEntry):
 
 
 class TagEntry(ObjectEntry):
-    sort: ClassVar[str] = "tag"
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "tag"
 
 
 ###############################################################################

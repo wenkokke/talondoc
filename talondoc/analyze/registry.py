@@ -160,98 +160,98 @@ class Registry:
     def groups(self) -> dict[str, dict[str, GroupEntry]]:
         return cast(
             dict[str, dict[str, GroupEntry]],
-            self.data.setdefault(GroupEntry.sort, {}),
+            self.data.setdefault(GroupEntry.get_sort(), {}),
         )
 
     @property
     def action_groups(self) -> dict[str, GroupEntry[ActionEntry]]:
         return cast(
             dict[str, GroupEntry[ActionEntry]],
-            self.groups.setdefault(ActionEntry.sort, {}),
+            self.groups.setdefault(ActionEntry.get_sort(), {}),
         )
 
     @property
     def capture_groups(self) -> dict[str, GroupEntry[CaptureEntry]]:
         return cast(
             dict[str, GroupEntry[CaptureEntry]],
-            self.groups.setdefault(CaptureEntry.sort, {}),
+            self.groups.setdefault(CaptureEntry.get_sort(), {}),
         )
 
     @property
     def list_groups(self) -> dict[str, GroupEntry[ListEntry]]:
         return cast(
             dict[str, GroupEntry[ListEntry]],
-            self.groups.setdefault(ListEntry.sort, {}),
+            self.groups.setdefault(ListEntry.get_sort(), {}),
         )
 
     @property
     def setting_groups(self) -> dict[str, GroupEntry[SettingEntry]]:
         return cast(
             dict[str, GroupEntry[SettingEntry]],
-            self.groups.setdefault(SettingEntry.sort, {}),
+            self.groups.setdefault(SettingEntry.get_sort(), {}),
         )
 
     @property
     def callbacks(self) -> dict[EventCode, list[UserCallbackEntry]]:
         return cast(
             dict[EventCode, list[UserCallbackEntry]],
-            self.temp_data.setdefault(UserCallbackEntry.sort, {}),
+            self.temp_data.setdefault(UserCallbackEntry.get_sort(), {}),
         )
 
     @property
     def commands(self) -> list[UserCommandEntry]:
         return cast(
             list[UserCommandEntry],
-            self.data.setdefault(UserCommandEntry.sort, []),
+            self.data.setdefault(UserCommandEntry.get_sort(), []),
         )
 
     @property
     def contexts(self) -> dict[str, list[UserContextEntry]]:
         return cast(
             dict[str, list[UserContextEntry]],
-            self.data.setdefault(UserContextEntry.sort, {}),
+            self.data.setdefault(UserContextEntry.get_sort(), {}),
         )
 
     @property
     def files(self) -> dict[str, UserFileEntry]:
         return cast(
             dict[str, UserFileEntry],
-            self.data.setdefault(UserFileEntry.sort, {}),
+            self.data.setdefault(UserFileEntry.get_sort(), {}),
         )
 
     @property
     def functions(self) -> dict[str, UserFunctionEntry]:
         return cast(
             dict[str, UserFunctionEntry],
-            self.temp_data.setdefault(UserFunctionEntry.sort, {}),
+            self.temp_data.setdefault(UserFunctionEntry.get_sort(), {}),
         )
 
     @property
     def modes(self) -> dict[str, ModeEntry]:
         return cast(
             dict[str, ModeEntry],
-            self.data.setdefault(ModeEntry.sort, {}),
+            self.data.setdefault(ModeEntry.get_sort(), {}),
         )
 
     @property
     def modules(self) -> dict[str, list[UserModuleEntry]]:
         return cast(
             dict[str, list[UserModuleEntry]],
-            self.data.setdefault(UserModuleEntry.sort, {}),
+            self.data.setdefault(UserModuleEntry.get_sort(), {}),
         )
 
     @property
     def packages(self) -> dict[str, UserPackageEntry]:
         return cast(
             dict[str, UserPackageEntry],
-            self.data.setdefault(UserPackageEntry.sort, {}),
+            self.data.setdefault(UserPackageEntry.get_sort(), {}),
         )
 
     @property
     def tags(self) -> dict[str, TagEntry]:
         return cast(
             dict[str, TagEntry],
-            self.data.setdefault(TagEntry.sort, {}),
+            self.data.setdefault(TagEntry.get_sort(), {}),
         )
 
     def register(self, entry: Entry):
@@ -271,7 +271,7 @@ class Registry:
             self.callbacks.setdefault(entry.event_code, []).append(entry)
         elif isinstance(entry, GroupableObjectEntry):
             # Objects that can be overwritten are stored as groups:
-            object_groups = self.groups.setdefault(entry.__class__.sort, {})
+            object_groups = self.groups.setdefault(entry.__class__.get_sort(), {})
             object_group = object_groups.get(entry.get_resolved_name(), None)
             if object_group:
                 try:
@@ -285,7 +285,9 @@ class Registry:
             self.commands.append(entry)
         else:
             # Everything else is stored under its resolved name:
-            self.data.setdefault(entry.sort, {})[entry.get_resolved_name()] = entry
+            self.data.setdefault(entry.get_sort(), {})[
+                entry.get_resolved_name()
+            ] = entry
 
     @overload
     def lookup(
@@ -376,7 +378,7 @@ class Registry:
         Look up an object entry by its name.
         """
         resolved_name = resolve_name(name, namespace=namespace)
-        return self.groups.get(sort.sort, {}).get(resolved_name, None)
+        return self.groups.get(sort.get_sort(), {}).get(resolved_name, None)
 
     ##################################################
     # The active GLOBAL registry

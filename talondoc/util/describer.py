@@ -125,7 +125,7 @@ class TalonScriptDescriber:
         name: str,
     ) -> Optional[str]:
         if self.docstring_hook:
-            docstring = self.docstring_hook(sort.sort, name)
+            docstring = self.docstring_hook(sort.get_sort(), name)
             if docstring:
                 return docstring
         entry = self.registry.lookup(sort, name)
