@@ -15,11 +15,6 @@ defaults:
   run:
     shell: bash
 
-env:
-  LC_CTYPE: "C"
-  PYTHONUTF8: "1"
-  PYTHONIOENCODING: "utf8"
-
 jobs:
   build:
     name: Build & Test

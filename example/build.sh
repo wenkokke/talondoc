@@ -15,6 +15,7 @@ output_dir="$script_dir/docs"
   --no-generate-conf \
   --exclude 'conftest.py' \
   --exclude 'test/**' \
+  --exclude '**/*.py' \ 
   "$script_dir/knausj_talon/" \
   || echo > "$fail"
 
