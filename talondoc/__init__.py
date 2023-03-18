@@ -5,7 +5,7 @@ import click
 from .autosummary.generate import generate
 from .cache_builtin import cache_builtin
 
-__version__: str = "0.1.3"
+__version__: str = "0.1.4"
 
 
 @click.group(name="talondoc")

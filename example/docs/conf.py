@@ -14,7 +14,7 @@ from collections.abc import Callable
 project = "example"
 copyright = "2022, Wen Kokke"
 author = "Wen Kokke"
-release = "0.1.3"
+release = "0.1.4"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
