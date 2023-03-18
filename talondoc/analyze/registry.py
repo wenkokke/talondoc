@@ -2,7 +2,7 @@ from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, ClassVar, Optional, Union, cast, overload
+from typing import Any, ClassVar, Optional, cast, overload
 
 from ..util.logging import getLogger
 from .entries.abc import (
