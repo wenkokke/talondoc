@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.plugin.symbols.symbols &#8212; example 0.1.3 documentation</title>
+    <title>user.plugin.symbols.symbols &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.plugin.talon_helpers.talon_helpers" href="../talon_helpers/talon_helpers.html" />
-    <link rel="prev" title="user.plugin.repeater.repeater" href="../repeater/repeater.html" />
+    <link rel="next" title="user.plugin.draft_editor.draft_editor.py" href="../draft_editor/draft_editor/api.html" />
+    <link rel="prev" title="user.plugin.mouse.mouse" href="../mouse/mouse.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,101 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.plugin.symbols.symbols</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>new line</td>
+<td><p>Insert “\n”</p></td>
+</tr>
+<tr class="row-even"><td>double dash</td>
+<td><p>Insert “–”</p></td>
+</tr>
+<tr class="row-odd"><td>triple quote</td>
+<td><p>Insert “’’’”</p></td>
+</tr>
+<tr class="row-even"><td>(triple grave | triple back tick | gravy)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;```&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>(dot dot | dotdot)</td>
+<td><p>Insert “..”</p></td>
+</tr>
+<tr class="row-even"><td>ellipses</td>
+<td><p>Insert “…”</p></td>
+</tr>
+<tr class="row-odd"><td>(comma and | spamma)</td>
+<td><p>Insert “, “</p></td>
+</tr>
+<tr class="row-even"><td>arrow</td>
+<td><p>Insert “-&gt;”</p></td>
+</tr>
+<tr class="row-odd"><td>dub arrow</td>
+<td><p>Insert “=&gt;”</p></td>
+</tr>
+<tr class="row-even"><td>empty dub string</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>empty escaped (dub string | dub quotes)</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-even"><td>empty string</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>empty escaped string</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-even"><td>(inside parens | args)</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>inside (squares | square brackets | list)</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-even"><td>inside (bracket | braces)</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>inside percent</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-even"><td>inside (quotes | string)</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>inside (double quotes | dub quotes)</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-even"><td>inside (graves | back ticks)</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>angle that</td>
+<td><p>Let &lt;text&gt; be None
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-even"><td>(square | square bracket) that</td>
+<td><p>Let &lt;text&gt; be None
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-odd"><td>(bracket | brace) that</td>
+<td><p>Let &lt;text&gt; be None
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-even"><td>(parens | args) that</td>
+<td><p>Let &lt;text&gt; be None
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-odd"><td>percent that</td>
+<td><p>Let &lt;text&gt; be None
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-even"><td>quote that</td>
+<td><p>Let &lt;text&gt; be None
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-odd"><td>(double quote | dub quote) that</td>
+<td><p>Let &lt;text&gt; be None
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-even"><td>(grave | back tick) that</td>
+<td><p>Let &lt;text&gt; be None
+Pastes text and preserves clipboard</p></td>
+</tr>
 </tbody>
 </table>
 </section>

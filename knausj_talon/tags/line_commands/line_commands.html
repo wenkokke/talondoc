@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.tags.line_commands.line_commands &#8212; example 0.1.3 documentation</title>
+    <title>user.tags.line_commands.line_commands &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.tags.splits.splits" href="../splits/splits.html" />
-    <link rel="prev" title="user.plugin.draft_editor.draft_editor_open" href="../../plugin/draft_editor/draft_editor_open.html" />
+    <link rel="next" title="user.tags.chapters.chapters.py" href="../chapters/chapters/api.html" />
+    <link rel="prev" title="user.tags.line_commands.line_commands.py" href="line_commands/api.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,131 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.tags.line_commands.line_commands</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>lend</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">line_end</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>bend</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">line_start</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go &lt;number&gt;</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">jump_line</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go &lt;number&gt; end</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">jump_line</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">line_end</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>comment [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>comment &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>clear [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>clear &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>copy [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>copy &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>cut [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>cut [line] &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>(paste | replace) &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>(select | cell | sell) [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>(select | cell | sell) &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>tab that</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">indent_more</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>tab [line] &lt;number&gt;</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">jump_line</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">indent_more</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>tab &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>retab that</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">indent_less</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>retab [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>retab &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>drag [line] down</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">line_swap_down</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>drag [line] up</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">line_swap_up</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>drag up [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>drag up &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>drag down [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>drag down &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>clone [line] &lt;number&gt;</td>
+<td><p>Clones specified line at current position</p></td>
+</tr>
+<tr class="row-odd"><td>select camel left</td>
+<td><p>Extends the selection by camel/subword to the left</p></td>
+</tr>
+<tr class="row-even"><td>select camel right</td>
+<td><p>Extends the selection by camel/subword to the right</p></td>
+</tr>
+<tr class="row-odd"><td>go camel left</td>
+<td><p>Moves cursor to the left by camel case/subword</p></td>
+</tr>
+<tr class="row-even"><td>go camel right</td>
+<td><p>Move cursor to the right by camel case/subword</p></td>
+</tr>
 </tbody>
 </table>
 </section>

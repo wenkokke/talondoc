@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.apps.protonmail.protonmail &#8212; example 0.1.3 documentation</title>
+    <title>user.apps.protonmail.protonmail &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.apps.amethyst.amethyst" href="../amethyst/amethyst.html" />
-    <link rel="prev" title="user.apps.windows_terminal.windows_terminal" href="../windows_terminal/windows_terminal.html" />
+    <link rel="next" title="user.apps.anaconda.anaconda.py" href="../anaconda/anaconda/api.html" />
+    <link rel="prev" title="user.apps.talon_repl.talon_repl" href="../talon_repl/talon_repl.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,141 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.apps.protonmail.protonmail</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>open help</td>
+<td><p>Press ?.</p></td>
+</tr>
+<tr class="row-even"><td>[focus] search</td>
+<td><p>Press /.</p></td>
+</tr>
+<tr class="row-odd"><td>confirm active</td>
+<td><p>Press enter.</p></td>
+</tr>
+<tr class="row-even"><td>close active</td>
+<td><p>Press escape.</p></td>
+</tr>
+<tr class="row-odd"><td>open command [palette]</td>
+<td><p>Press shift-space.</p></td>
+</tr>
+<tr class="row-even"><td>new message</td>
+<td><p>Press c.</p></td>
+</tr>
+<tr class="row-odd"><td>send message</td>
+<td><p>Press ctrl-enter.</p></td>
+</tr>
+<tr class="row-even"><td>save message</td>
+<td><p>Press ctrl-s.</p></td>
+</tr>
+<tr class="row-odd"><td>(go | jump) [to] inbox</td>
+<td><p>Press g.
+Press i.</p></td>
+</tr>
+<tr class="row-even"><td>(go | jump) [to] draft</td>
+<td><p>Press g.
+Press d.</p></td>
+</tr>
+<tr class="row-odd"><td>(go | jump) [to] sent</td>
+<td><p>Press g.
+Press s.</p></td>
+</tr>
+<tr class="row-even"><td>(go | jump) [to] starred</td>
+<td><p>Press g.
+Press ..</p></td>
+</tr>
+<tr class="row-odd"><td>(go | jump) [to] archive</td>
+<td><p>Press g.
+Press a.</p></td>
+</tr>
+<tr class="row-even"><td>(go | jump) [to] spam</td>
+<td><p>Press g.
+Press x.</p></td>
+</tr>
+<tr class="row-odd"><td>(go | jump) [to] trash</td>
+<td><p>Press g.
+Press t.</p></td>
+</tr>
+<tr class="row-even"><td>(prev | previous) message</td>
+<td><p>Press up.</p></td>
+</tr>
+<tr class="row-odd"><td>next message</td>
+<td><p>Press down.</p></td>
+</tr>
+<tr class="row-even"><td>exit message</td>
+<td><p>Press left.</p></td>
+</tr>
+<tr class="row-odd"><td>enter message</td>
+<td><p>Press right.</p></td>
+</tr>
+<tr class="row-even"><td>(show | display) newer [message]</td>
+<td><p>Press k.</p></td>
+</tr>
+<tr class="row-odd"><td>(show | display) older [message]</td>
+<td><p>Press j.</p></td>
+</tr>
+<tr class="row-even"><td>open message</td>
+<td><p>Press enter.</p></td>
+</tr>
+<tr class="row-odd"><td>go back</td>
+<td><p>Press escape.</p></td>
+</tr>
+<tr class="row-even"><td>select all</td>
+<td><p>Press *.
+Press a.</p></td>
+</tr>
+<tr class="row-odd"><td>(deselect | unselect) all</td>
+<td><p>Press *.
+Press n.</p></td>
+</tr>
+<tr class="row-even"><td>select [the] (message | conversation)</td>
+<td><p>Press x.</p></td>
+</tr>
+<tr class="row-odd"><td>mark [as] read</td>
+<td><p>Press r.</p></td>
+</tr>
+<tr class="row-even"><td>mark [as] unread</td>
+<td><p>Press u.</p></td>
+</tr>
+<tr class="row-odd"><td>star (message | conversation)</td>
+<td><p>Press ..</p></td>
+</tr>
+<tr class="row-even"><td>move to inbox</td>
+<td><p>Press i.</p></td>
+</tr>
+<tr class="row-odd"><td>move to trash</td>
+<td><p>Press t.</p></td>
+</tr>
+<tr class="row-even"><td>move to archive</td>
+<td><p>Press a.</p></td>
+</tr>
+<tr class="row-odd"><td>move to spam</td>
+<td><p>Press s.</p></td>
+</tr>
+<tr class="row-even"><td>reply to (message | conversation)</td>
+<td><p>Press shift-r.</p></td>
+</tr>
+<tr class="row-odd"><td>reply all [to] (message | conversation)</td>
+<td><p>Press shift-a.</p></td>
+</tr>
+<tr class="row-even"><td>forward (message | conversation)</td>
+<td><p>Press shift-f.</p></td>
+</tr>
+<tr class="row-odd"><td>(prev | previous) contact</td>
+<td><p>Press up.</p></td>
+</tr>
+<tr class="row-even"><td>next contact</td>
+<td><p>Press down.</p></td>
+</tr>
+<tr class="row-odd"><td>enter contact</td>
+<td><p>Press right.</p></td>
+</tr>
+<tr class="row-even"><td>delete contact</td>
+<td><p>Press t.</p></td>
+</tr>
+<tr class="row-odd"><td>exit contact</td>
+<td><p>Press left.</p></td>
+</tr>
+<tr class="row-even"><td>save contact</td>
+<td><p>Press ctrl-s.</p></td>
+</tr>
 </tbody>
 </table>
 </section>

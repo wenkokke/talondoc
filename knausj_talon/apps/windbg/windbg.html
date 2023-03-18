@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.apps.windbg.windbg &#8212; example 0.1.3 documentation</title>
+    <title>user.apps.windbg.windbg &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.apps.conemu.conemu" href="../conemu/conemu.html" />
-    <link rel="prev" title="user.apps.chrome.chrome" href="../chrome/chrome.html" />
+    <link rel="next" title="user.apps.windbg.windbg.py" href="windbg/api.html" />
+    <link rel="prev" title="user.apps.anaconda.anaconda" href="../anaconda/anaconda.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,87 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.apps.windbg.windbg</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>register &lt;user.registers&gt;</td>
+<td><p>Press &#64;.</p></td>
+</tr>
+<tr class="row-even"><td>open help</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;.hh</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>add microsoft symbols</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;srv*C:</span><span class="se">\\</span><span class="s2">symbols*http://msdl.microsoft.com/download/symbols;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>force reload symbols</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;.reload /f</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>reload symbols</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;.reload</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>loaded modules</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;lm l</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>display pointers</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;dps &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>dereference pointer</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">insert_between</span><span class="p">(</span><span class="s2">&quot;poi(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>show version</td>
+<td><p>Press ctrl-alt-w.</p></td>
+</tr>
+<tr class="row-even"><td>view command</td>
+<td><p>Press alt-1.</p></td>
+</tr>
+<tr class="row-odd"><td>view watch</td>
+<td><p>Press alt-2.</p></td>
+</tr>
+<tr class="row-even"><td>view locals</td>
+<td><p>Press alt-3.</p></td>
+</tr>
+<tr class="row-odd"><td>view registers</td>
+<td><p>Press alt-4.</p></td>
+</tr>
+<tr class="row-even"><td>view memory</td>
+<td><p>Press alt-5.</p></td>
+</tr>
+<tr class="row-odd"><td>view call stack</td>
+<td><p>Press alt-6.</p></td>
+</tr>
+<tr class="row-even"><td>view disassembly</td>
+<td><p>Press alt-7.</p></td>
+</tr>
+<tr class="row-odd"><td>view scratch pad</td>
+<td><p>Press alt-8.</p></td>
+</tr>
+<tr class="row-even"><td>view (processes | threads)</td>
+<td><p>Press alt-9.</p></td>
+</tr>
+<tr class="row-odd"><td>dump function params</td>
+<td><p>Insert “r &#64;rcx,&#64;rdx,&#64;r8,&#64;r9 \n”</p></td>
+</tr>
+<tr class="row-even"><td>(lib | library) &lt;user.windows_dlls&gt;</td>
+<td><p>Insert “{ windows_dlls }”</p></td>
+</tr>
 </tbody>
 </table>
 </section>

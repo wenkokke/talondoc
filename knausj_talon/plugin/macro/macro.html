@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.plugin.macro.macro &#8212; example 0.1.3 documentation</title>
+    <title>user.plugin.macro.macro &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.plugin.text_navigation.text_navigation" href="../text_navigation/text_navigation.html" />
-    <link rel="prev" title="user.plugin.command_history.command_history" href="../command_history/command_history.html" />
+    <link rel="next" title="user.plugin.talon_helpers.talon_helpers" href="../talon_helpers/talon_helpers.html" />
+    <link rel="prev" title="user.plugin.macro.macro.py" href="macro/api.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,30 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.plugin.macro.macro</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>macro record</td>
+<td><p>Begin recording a new voice command macro.</p></td>
+</tr>
+<tr class="row-even"><td>macro stop</td>
+<td><p>Stop recording the macro.</p></td>
+</tr>
+<tr class="row-odd"><td>macro play [{user.saved_macros}]</td>
+<td><p>Execute the commands in the last recorded macro.</p></td>
+</tr>
+<tr class="row-even"><td>macro copy [{user.saved_macros}]</td>
+<td><p>Copied the specified macro to the clipboard as a Talon command.</p></td>
+</tr>
+<tr class="row-odd"><td>macro copy as &lt;user.text&gt;</td>
+<td><p>Copied the specified macro to the clipboard as a Talon command.</p></td>
+</tr>
+<tr class="row-even"><td>macro save as &lt;user.text&gt;</td>
+<td><p>Save the macro.</p></td>
+</tr>
+<tr class="row-odd"><td>macro list</td>
+<td><p>List all saved macros.</p></td>
+</tr>
+<tr class="row-even"><td>macro list close</td>
+<td><p>Closed the saved macros list.</p></td>
+</tr>
 </tbody>
 </table>
 </section>

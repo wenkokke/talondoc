@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.lang.batch.batch &#8212; example 0.1.3 documentation</title>
+    <title>user.lang.batch.batch &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.lang.go.go" href="../go/go.html" />
-    <link rel="prev" title="user.lang.javascript.javascriptreact" href="../javascript/javascriptreact.html" />
+    <link rel="next" title="user.lang.batch.batch.py" href="batch/api.html" />
+    <link rel="prev" title="user.lang.go.go" href="../go/go.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,36 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.lang.batch.batch</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>soft exit</td>
+<td><p>Insert “exit /B 1 \n”</p></td>
+</tr>
+<tr class="row-even"><td>hard exit</td>
+<td><p>Insert “exit 1 \n”</p></td>
+</tr>
+<tr class="row-odd"><td>echo</td>
+<td><p>Insert “echo “</p></td>
+</tr>
+<tr class="row-even"><td>echo off</td>
+<td><p>Insert “&#64;echo off \n”</p></td>
+</tr>
+<tr class="row-odd"><td>call</td>
+<td><p>Insert “call “</p></td>
+</tr>
+<tr class="row-even"><td>call shell</td>
+<td><p>Insert “call cmd  \ c “</p></td>
+</tr>
+<tr class="row-odd"><td>if error</td>
+<td><p>Insert “if errorlevel 1 “</p></td>
+</tr>
+<tr class="row-even"><td>go to</td>
+<td><p>Insert “goto “</p></td>
+</tr>
+<tr class="row-odd"><td>delayed expansion</td>
+<td><p>Insert “SETLOCAL EnableDelayedExpansion \n”</p></td>
+</tr>
+<tr class="row-even"><td>arg &lt;number_small&gt;</td>
+<td><p>Insert “% { number_small }”</p></td>
+</tr>
 </tbody>
 </table>
 </section>

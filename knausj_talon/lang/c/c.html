@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.lang.c.c &#8212; example 0.1.3 documentation</title>
+    <title>user.lang.c.c &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.lang.scala.scala" href="../scala/scala.html" />
-    <link rel="prev" title="user.lang.tags.operators_lambda" href="../tags/operators_lambda.html" />
+    <link rel="next" title="user.apps.vivaldi.vivaldi_mac.py" href="../../apps/vivaldi/vivaldi_mac/api.html" />
+    <link rel="prev" title="user.lang.c.c.py" href="c/api.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,111 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.lang.c.c</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>state include</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;#include &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>state include system</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>state include local</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-even"><td>state type deaf</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;typedef &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>state type deaf struct</td>
+<td><p>Press ‘tab’.</p></td>
+</tr>
+<tr class="row-even"><td>state define</td>
+<td><p>Insert “#define “</p></td>
+</tr>
+<tr class="row-odd"><td>state (undefine | undeaf)</td>
+<td><p>Insert “#undef “</p></td>
+</tr>
+<tr class="row-even"><td>state if (define | deaf)</td>
+<td><p>Insert “#ifdef “</p></td>
+</tr>
+<tr class="row-odd"><td>[state] define &lt;user.text&gt;$</td>
+<td><p>Insert “#define  { user.formatted_text(text, ‘ALL_CAPS,SNAKE_CASE’) }”</p></td>
+</tr>
+<tr class="row-even"><td>[state] (undefine | undeaf) &lt;user.text&gt;$</td>
+<td><p>Insert “#undef  { user.formatted_text(text, ‘ALL_CAPS,SNAKE_CASE’) }”</p></td>
+</tr>
+<tr class="row-odd"><td>[state] if (define | deaf) &lt;user.text&gt;$</td>
+<td><p>Insert “#ifdef  { user.formatted_text(text, ‘ALL_CAPS,SNAKE_CASE’) }”</p></td>
+</tr>
+<tr class="row-even"><td>state pre if</td>
+<td><p>Insert “#if “</p></td>
+</tr>
+<tr class="row-odd"><td>state error</td>
+<td><p>Insert “#error “</p></td>
+</tr>
+<tr class="row-even"><td>state pre else if</td>
+<td><p>Insert “#elif “</p></td>
+</tr>
+<tr class="row-odd"><td>state pre end</td>
+<td><p>Insert “#endif “</p></td>
+</tr>
+<tr class="row-even"><td>state pragma</td>
+<td><p>Insert “#pragma “</p></td>
+</tr>
+<tr class="row-odd"><td>state default</td>
+<td><p>Insert “default: \n break;”</p></td>
+</tr>
+<tr class="row-even"><td>push brackets</td>
+<td><p>Press enter.
+Press enter.</p></td>
+</tr>
+<tr class="row-odd"><td>&lt;user.c_variable&gt; &lt;phrase&gt;</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{c_variable}</span><span class="s2"> &quot;</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">formatted_text</span><span class="p">(</span><span class="n">phrase</span><span class="p">,</span> <span class="s2">&quot;PRIVATE_CAMEL_CASE,NO_SPACES&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>&lt;user.c_variable&gt; &lt;user.letter&gt;</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{c_variable}</span><span class="s2"> </span><span class="si">{letter}</span><span class="s2"> &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>cast to &lt;user.c_cast&gt;</td>
+<td><p>Insert “{ c_cast }”</p></td>
+</tr>
+<tr class="row-even"><td>standard cast to &lt;user.stdint_cast&gt;</td>
+<td><p>Insert “{ stdint_cast }”</p></td>
+</tr>
+<tr class="row-odd"><td>&lt;user.c_types&gt;</td>
+<td><p>Insert “{ c_types }”</p></td>
+</tr>
+<tr class="row-even"><td>&lt;user.c_pointers&gt;</td>
+<td><p>Insert “{ c_pointers }”</p></td>
+</tr>
+<tr class="row-odd"><td>&lt;user.c_keywords&gt;</td>
+<td><p>Insert “{ c_keywords }”</p></td>
+</tr>
+<tr class="row-even"><td>&lt;user.c_signed&gt;</td>
+<td><p>Insert “{ c_signed }”</p></td>
+</tr>
+<tr class="row-odd"><td>standard &lt;user.stdint_types&gt;</td>
+<td><p>Insert “{ stdint_types }”</p></td>
+</tr>
+<tr class="row-even"><td>int main</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>toggle includes</td>
+<td><p>GUI: List libraries for active language</p></td>
+</tr>
+<tr class="row-even"><td>include &lt;user.code_libraries&gt;</td>
+<td><p>Inserts a library and positions the cursor appropriately
+Press end enter.</p></td>
+</tr>
 </tbody>
 </table>
 </section>

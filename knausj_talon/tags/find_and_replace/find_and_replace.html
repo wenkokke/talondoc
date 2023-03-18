@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.tags.find_and_replace.find_and_replace &#8212; example 0.1.3 documentation</title>
+    <title>user.tags.find_and_replace.find_and_replace &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.tags.multiple_cursors.multiple_cursors" href="../multiple_cursors/multiple_cursors.html" />
-    <link rel="prev" title="user.tags.messaging.messaging" href="../messaging/messaging.html" />
+    <link rel="next" title="user.tags.browser.browser_mac.py" href="../browser/browser_mac/api.html" />
+    <link rel="prev" title="user.tags.find_and_replace.find_and_replace.py" href="find_and_replace/api.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,114 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.tags.find_and_replace.find_and_replace</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>hunt this</td>
+<td><p>Finds text in current editor</p></td>
+</tr>
+<tr class="row-even"><td>hunt this (pace | paste)</td>
+<td><p>Finds text in current editor</p></td>
+</tr>
+<tr class="row-odd"><td>hunt this &lt;user.text&gt;</td>
+<td><p>Finds text in current editor</p></td>
+</tr>
+<tr class="row-even"><td>hunt all</td>
+<td><p>Finds text across project</p></td>
+</tr>
+<tr class="row-odd"><td>hunt all (pace | paste)</td>
+<td><p>Finds text across project</p></td>
+</tr>
+<tr class="row-even"><td>hunt all &lt;user.text&gt;</td>
+<td><p>Finds text across project</p></td>
+</tr>
+<tr class="row-odd"><td>hunt case</td>
+<td><p>Toggles find match by case sensitivity</p></td>
+</tr>
+<tr class="row-even"><td>hunt word</td>
+<td><p>Toggles find match by whole words</p></td>
+</tr>
+<tr class="row-odd"><td>hunt expression</td>
+<td><p>Toggles find match by regex</p></td>
+</tr>
+<tr class="row-even"><td>hunt next</td>
+<td><p>Navigates to the next occurrence</p></td>
+</tr>
+<tr class="row-odd"><td>hunt previous</td>
+<td><p>Navigates to the previous occurrence</p></td>
+</tr>
+<tr class="row-even"><td>replace this [&lt;user.text&gt;]</td>
+<td><p>Search and replace for text in the active editor</p></td>
+</tr>
+<tr class="row-odd"><td>replace all</td>
+<td><p>Search and replaces for text in the entire project</p></td>
+</tr>
+<tr class="row-even"><td>replace &lt;user.text&gt; all</td>
+<td><p>Search and replaces for text in the entire project</p></td>
+</tr>
+<tr class="row-odd"><td>replace confirm that</td>
+<td><p>Confirm replace at current position</p></td>
+</tr>
+<tr class="row-even"><td>replace confirm all</td>
+<td><p>Confirm replace all</p></td>
+</tr>
+<tr class="row-odd"><td>clear last &lt;user.text&gt; [over]</td>
+<td><p>Selects the previous occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-even"><td>clear next &lt;user.text&gt; [over]</td>
+<td><p>Selects the next occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-odd"><td>clear last clip</td>
+<td><p>Selects the previous occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-even"><td>clear next clip</td>
+<td><p>Selects the next occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-odd"><td>comment last &lt;user.text&gt; [over]</td>
+<td><p>Selects the previous occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-even"><td>comment last clip</td>
+<td><p>Selects the previous occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-odd"><td>comment next &lt;user.text&gt; [over]</td>
+<td><p>Selects the next occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-even"><td>comment next clip</td>
+<td><p>Selects the next occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-odd"><td>go last &lt;user.text&gt; [over]</td>
+<td><p>Selects the previous occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-even"><td>go last clip</td>
+<td><p>Selects the previous occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-odd"><td>go next &lt;user.text&gt; [over]</td>
+<td><p>Selects the next occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-even"><td>go next clip</td>
+<td><p>Selects the next occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-odd"><td>paste last &lt;user.text&gt; [over]</td>
+<td><p>Selects the previous occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-even"><td>paste next &lt;user.text&gt; [over]</td>
+<td><p>Selects the next occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-odd"><td>replace last &lt;user.text&gt; [over]</td>
+<td><p>Selects the previous occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-even"><td>replace next &lt;user.text&gt; [over]</td>
+<td><p>Selects the next occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-odd"><td>select last &lt;user.text&gt; [over]</td>
+<td><p>Selects the previous occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-even"><td>select next &lt;user.text&gt; [over]</td>
+<td><p>Selects the next occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-odd"><td>select last clip</td>
+<td><p>Selects the previous occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
+<tr class="row-even"><td>select next clip</td>
+<td><p>Selects the next occurrence of the text, and suppresses any find/replace dialogs.</p></td>
+</tr>
 </tbody>
 </table>
 </section>

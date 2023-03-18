@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.tags.terminal.terminal &#8212; example 0.1.3 documentation</title>
+    <title>user.tags.terminal.terminal &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.tags.terminal.unix_utilities" href="unix_utilities.html" />
-    <link rel="prev" title="user.tags.multiple_cursors.multiple_cursors" href="../multiple_cursors/multiple_cursors.html" />
+    <link rel="next" title="user.tags.terminal.readline.py" href="readline/api.html" />
+    <link rel="prev" title="user.tags.chapters.chapters" href="../chapters/chapters.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,56 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.tags.terminal.terminal</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>lisa</td>
+<td><p>Lists directories</p></td>
+</tr>
+<tr class="row-even"><td>lisa all</td>
+<td><p>Lists all directories including hidden</p></td>
+</tr>
+<tr class="row-odd"><td>katie [dir] [&lt;user.text&gt;]</td>
+<td><p>Lists change directory</p></td>
+</tr>
+<tr class="row-even"><td>katie root</td>
+<td><p>Root of current drive</p></td>
+</tr>
+<tr class="row-odd"><td>katie (up | back)</td>
+<td><p>Lists change directory</p></td>
+</tr>
+<tr class="row-even"><td>go &lt;user.system_path&gt;</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;cd &quot;</span><span class="si">{system_path}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>path &lt;user.system_path&gt;</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="si">{system_path}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>clear screen</td>
+<td><p>Clear screen</p></td>
+</tr>
+<tr class="row-odd"><td>run last</td>
+<td><p>Repeats the last command</p></td>
+</tr>
+<tr class="row-even"><td>rerun [&lt;user.text&gt;]</td>
+<td><p>Searches through the previously executed commands</p></td>
+</tr>
+<tr class="row-odd"><td>rerun search</td>
+<td><p>Searches through the previously executed commands</p></td>
+</tr>
+<tr class="row-even"><td>kill all</td>
+<td><p>kills the running command</p></td>
+</tr>
+<tr class="row-odd"><td>copy paste</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">paste</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
 </tbody>
 </table>
 </section>

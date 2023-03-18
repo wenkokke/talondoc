@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.lang.ruby.ruby &#8212; example 0.1.3 documentation</title>
+    <title>user.lang.ruby.ruby &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.lang.proto.proto" href="../proto/proto.html" />
-    <link rel="prev" title="user.lang.sql.sql" href="../sql/sql.html" />
+    <link rel="next" title="user.lang.ruby.ruby.py" href="ruby/api.html" />
+    <link rel="prev" title="user.lang.markdown.markdown" href="../markdown/markdown.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,27 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.lang.ruby.ruby</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>args pipe</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-even"><td>dock string</td>
+<td><p>Inserts a document comment and positions the cursor appropriately</p></td>
+</tr>
+<tr class="row-odd"><td>state end</td>
+<td><p>Insert “end”</p></td>
+</tr>
+<tr class="row-even"><td>state begin</td>
+<td><p>Insert “begin”</p></td>
+</tr>
+<tr class="row-odd"><td>state rescue</td>
+<td><p>Insert “rescue “</p></td>
+</tr>
+<tr class="row-even"><td>state module</td>
+<td><p>Insert “module “</p></td>
+</tr>
+<tr class="row-odd"><td>^instance &lt;user.text&gt;$</td>
+<td><p>inserts properly formatted private function name</p></td>
+</tr>
 </tbody>
 </table>
 </section>

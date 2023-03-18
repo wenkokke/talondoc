@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.apps.dunst.dunst &#8212; example 0.1.3 documentation</title>
+    <title>user.apps.dunst.dunst &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.apps.git.git" href="../git/git.html" />
-    <link rel="prev" title="user.apps.github.github_web" href="../github/github_web.html" />
+    <link rel="next" title="user.apps.tmux.tmux.py" href="../tmux/tmux/api.html" />
+    <link rel="prev" title="user.apps.gdb.gdb.py" href="../gdb/gdb/api.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,21 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.apps.dunst.dunst</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>show notifications</td>
+<td><p>Press ctrl-`.</p></td>
+</tr>
+<tr class="row-even"><td>dismiss [notifications]</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">system_command</span><span class="p">(</span><span class="s2">&quot;dunstctl close&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>dismiss all [notifications]</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">system_command</span><span class="p">(</span><span class="s2">&quot;dunstctl close-all&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
 </tbody>
 </table>
 </section>

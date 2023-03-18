@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.apps.gdb.gdb &#8212; example 0.1.3 documentation</title>
+    <title>user.apps.gdb.gdb &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.apps.discord.discord" href="../discord/discord.html" />
-    <link rel="prev" title="user.apps.anaconda.anaconda" href="../anaconda/anaconda.html" />
+    <link rel="next" title="user.apps.gdb.gdb.py" href="gdb/api.html" />
+    <link rel="prev" title="user.apps.conemu.conemu" href="../conemu/conemu.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,172 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.apps.gdb.gdb</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>until &lt;number&gt;</td>
+<td><p>Insert “until  { number }”</p></td>
+</tr>
+<tr class="row-even"><td>force clear all break points</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;d br</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="s2">&quot;y</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>break [on] clipboard</td>
+<td><p>Press ctrl-shift-v.
+Press enter.</p></td>
+</tr>
+<tr class="row-even"><td>list [source]</td>
+<td><p>Insert “list \n”</p></td>
+</tr>
+<tr class="row-odd"><td>info source</td>
+<td><p>Insert “info source \n”</p></td>
+</tr>
+<tr class="row-even"><td>print</td>
+<td><p>Insert “p “</p></td>
+</tr>
+<tr class="row-odd"><td>print [variable] &lt;user.text&gt;</td>
+<td><p>Insert “p  { text }”</p></td>
+</tr>
+<tr class="row-even"><td>print hex</td>
+<td><p>Insert “p/x “</p></td>
+</tr>
+<tr class="row-odd"><td>print hex [variable] &lt;user.text&gt;</td>
+<td><p>Insert “p/x  { text }”</p></td>
+</tr>
+<tr class="row-even"><td>print string</td>
+<td><p>Insert “p/s “</p></td>
+</tr>
+<tr class="row-odd"><td>hex dump &lt;number&gt; bytes</td>
+<td><p>Insert “x/ { number } bx “</p></td>
+</tr>
+<tr class="row-even"><td>hex dump &lt;number&gt; (half | short) words</td>
+<td><p>Insert “x/ { number } hx “</p></td>
+</tr>
+<tr class="row-odd"><td>hex dump &lt;number&gt; (d | long) words</td>
+<td><p>Insert “x/ { number } dx “</p></td>
+</tr>
+<tr class="row-even"><td>hex dump &lt;number&gt; quad words</td>
+<td><p>Insert “x/ { number } gx “</p></td>
+</tr>
+<tr class="row-odd"><td>hex dump</td>
+<td><p>Insert “x/100gx “</p></td>
+</tr>
+<tr class="row-even"><td>hex dump highlighted</td>
+<td><p>Press enter.</p></td>
+</tr>
+<tr class="row-odd"><td>hex dump clipboard</td>
+<td><p>Press enter.</p></td>
+</tr>
+<tr class="row-even"><td>source</td>
+<td><p>Insert “source  \t \t”</p></td>
+</tr>
+<tr class="row-odd"><td>(list | show | info) display</td>
+<td><p>Insert “info display \n”</p></td>
+</tr>
+<tr class="row-even"><td>display assembly line$</td>
+<td><p>Insert “display /i $pc \n”</p></td>
+</tr>
+<tr class="row-odd"><td>display source</td>
+<td><p>Insert “display “</p></td>
+</tr>
+<tr class="row-even"><td>enable display &lt;number_small&gt;</td>
+<td><p>Insert “enable display  { number_small } \n”</p></td>
+</tr>
+<tr class="row-odd"><td>disable display &lt;number_small&gt;</td>
+<td><p>Insert “disable display  { number_small } \n”</p></td>
+</tr>
+<tr class="row-even"><td>undisplay</td>
+<td><p>Insert “undisplay \n”</p></td>
+</tr>
+<tr class="row-odd"><td>(list | show | info) local</td>
+<td><p>Insert “info local “</p></td>
+</tr>
+<tr class="row-even"><td>(list | show | info) local typed</td>
+<td><p>Insert “info local -t “</p></td>
+</tr>
+<tr class="row-odd"><td>(list | show | info) variable</td>
+<td><p>Insert “info variable “</p></td>
+</tr>
+<tr class="row-even"><td>(list | show | info) variable typed</td>
+<td><p>Insert “info variable -t “</p></td>
+</tr>
+<tr class="row-odd"><td>(list | show | info) locals</td>
+<td><p>Insert “info local \n”</p></td>
+</tr>
+<tr class="row-even"><td>(list | show | info) variables</td>
+<td><p>Insert “info variables \n”</p></td>
+</tr>
+<tr class="row-odd"><td>info threads</td>
+<td><p>Insert “info threads \n”</p></td>
+</tr>
+<tr class="row-even"><td>restart [program]</td>
+<td><p>Insert “r \n”</p></td>
+</tr>
+<tr class="row-odd"><td>continue</td>
+<td><p>Insert “c \n”</p></td>
+</tr>
+<tr class="row-even"><td>back trace</td>
+<td><p>Insert “bt \n”</p></td>
+</tr>
+<tr class="row-odd"><td>debug quit</td>
+<td><p>Insert “quit \n”</p></td>
+</tr>
+<tr class="row-even"><td>debug force quit</td>
+<td><p>Insert “quit \n y \n”</p></td>
+</tr>
+<tr class="row-odd"><td>(show | info) (inf | inferiors)</td>
+<td><p>Insert “info inferiors \n”</p></td>
+</tr>
+<tr class="row-even"><td>inferior &lt;number_small&gt;$</td>
+<td><p>Insert “inferior  { number_small } \n”</p></td>
+</tr>
+<tr class="row-odd"><td>inferior</td>
+<td><p>Insert “inferior “</p></td>
+</tr>
+<tr class="row-even"><td>resume main (inf | inferior)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;inferior 1</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="s2">&quot;c</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>resume [from] (inf | inferior) &lt;number_small&gt;$</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;inferior </span><span class="si">{number_small}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">insert</span><span class="p">(</span><span class="s2">&quot;c</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>set args</td>
+<td><p>Insert “set args “</p></td>
+</tr>
+<tr class="row-odd"><td>show follow (fork | forks) [mode]</td>
+<td><p>Insert “show follow-fork-mode \n”</p></td>
+</tr>
+<tr class="row-even"><td>[set] follow (fork | forks) [mode] child</td>
+<td><p>Insert “set follow-fork-mode child \n”</p></td>
+</tr>
+<tr class="row-odd"><td>[set] follow (fork | forks) [mode] parent</td>
+<td><p>Insert “set follow-fork-mode parent \n”</p></td>
+</tr>
+<tr class="row-even"><td>show detach on fork</td>
+<td><p>Insert “show detach-on-fork \n”</p></td>
+</tr>
+<tr class="row-odd"><td>set detach on fork</td>
+<td><p>Insert “set detach-on-fork on \n”</p></td>
+</tr>
+<tr class="row-even"><td>unset detach on fork</td>
+<td><p>Insert “set detach-on-fork off \n”</p></td>
+</tr>
+<tr class="row-odd"><td>show list size</td>
+<td><p>Insert “show listsize \n”</p></td>
+</tr>
+<tr class="row-even"><td>set list size &lt;number_small&gt;</td>
+<td><p>Insert “set listsize  { number_small } \n”</p></td>
+</tr>
+<tr class="row-odd"><td>clear screen</td>
+<td><p>Insert “shell clear \n”</p></td>
+</tr>
 </tbody>
 </table>
 </section>

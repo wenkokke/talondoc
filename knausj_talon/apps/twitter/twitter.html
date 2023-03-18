@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.apps.twitter.twitter &#8212; example 0.1.3 documentation</title>
+    <title>user.apps.twitter.twitter &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.apps.vivaldi.vivaldi" href="../vivaldi/vivaldi.html" />
-    <link rel="prev" title="user.apps.signal.signal_linux" href="../signal/signal_linux.html" />
+    <link rel="next" title="user.apps.nautilus.nautilus.py" href="../nautilus/nautilus/api.html" />
+    <link rel="prev" title="user.apps.1password.1password_win.py" href="../1password/1password_win/api.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,132 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.apps.twitter.twitter</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>(show shortcuts | shortcuts help)</td>
+<td><p>Press ?.</p></td>
+</tr>
+<tr class="row-even"><td>next tweet</td>
+<td><p>Press j.</p></td>
+</tr>
+<tr class="row-odd"><td>previous tweet</td>
+<td><p>Press k.</p></td>
+</tr>
+<tr class="row-even"><td>page down</td>
+<td><p>Press space.</p></td>
+</tr>
+<tr class="row-odd"><td>load new tweet</td>
+<td><p>Press ..</p></td>
+</tr>
+<tr class="row-even"><td>go home</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gh&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go explore</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;ge&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go notifications</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gn&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go mentions</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gr&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go profile</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go likes</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go lists</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gi&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go direct messages</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gm&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go settings</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go book marks</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gb&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go to user</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gu&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>display settings</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gd&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>new tweet</td>
+<td><p>Press n.</p></td>
+</tr>
+<tr class="row-odd"><td>send tweet</td>
+<td><p>Press ctrl-enter.</p></td>
+</tr>
+<tr class="row-even"><td>new direct message</td>
+<td><p>Press m.</p></td>
+</tr>
+<tr class="row-odd"><td>search</td>
+<td><p>Press /.</p></td>
+</tr>
+<tr class="row-even"><td>like message</td>
+<td><p>Press l.</p></td>
+</tr>
+<tr class="row-odd"><td>reply message</td>
+<td><p>Press r.</p></td>
+</tr>
+<tr class="row-even"><td>re tweet [message]</td>
+<td><p>Press t.</p></td>
+</tr>
+<tr class="row-odd"><td>share tweet</td>
+<td><p>Press s.</p></td>
+</tr>
+<tr class="row-even"><td>bookmark</td>
+<td><p>Press b.</p></td>
+</tr>
+<tr class="row-odd"><td>mute account</td>
+<td><p>Press urge.</p></td>
+</tr>
+<tr class="row-even"><td>block account</td>
+<td><p>Press x.</p></td>
+</tr>
+<tr class="row-odd"><td>open details</td>
+<td><p>Press enter.</p></td>
+</tr>
+<tr class="row-even"><td>expand photo</td>
+<td><p>Press o.</p></td>
+</tr>
 </tbody>
 </table>
 </section>

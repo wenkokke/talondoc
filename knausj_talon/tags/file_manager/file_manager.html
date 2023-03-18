@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.tags.file_manager.file_manager &#8212; example 0.1.3 documentation</title>
+    <title>user.tags.file_manager.file_manager &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.tags.snippets.snippets_open" href="../snippets/snippets_open.html" />
-    <link rel="prev" title="user.tags.debugger.debugger" href="../debugger/debugger.html" />
+    <link rel="next" title="user.tags.emoji.emoji.py" href="../emoji/emoji/api.html" />
+    <link rel="prev" title="user.tags.file_manager.file_manager.py" href="file_manager/api.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,79 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.tags.file_manager.file_manager</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>title force</td>
+<td><p>Refreshes the title to match current directory. this is for e.g. windows command prompt that will need to do some magic.</p></td>
+</tr>
+<tr class="row-even"><td>manager show</td>
+<td><p>Shows the pickers</p></td>
+</tr>
+<tr class="row-odd"><td>manager close</td>
+<td><p>Hides the pickers</p></td>
+</tr>
+<tr class="row-even"><td>manager refresh</td>
+<td><p>Forces an update of the lists (e.g., when file or folder created)</p></td>
+</tr>
+<tr class="row-odd"><td>go &lt;user.system_path&gt;</td>
+<td><p>opens the directory that’s already visible in the view</p></td>
+</tr>
+<tr class="row-even"><td>go back</td>
+<td><p>file_manager_go_forward_directory</p></td>
+</tr>
+<tr class="row-odd"><td>go forward</td>
+<td><p>file_manager_go_forward_directory</p></td>
+</tr>
+<tr class="row-even"><td>(go parent | daddy)</td>
+<td><p>file_manager_open_parent</p></td>
+</tr>
+<tr class="row-odd"><td>^follow numb &lt;number_small&gt;$</td>
+<td><p>Let &lt;directory&gt; be Returns the requested directory for the imgui display by index
+opens the directory that’s already visible in the view</p></td>
+</tr>
+<tr class="row-even"><td>^follow {user.file_manager_directories}$</td>
+<td><p>opens the directory that’s already visible in the view</p></td>
+</tr>
+<tr class="row-odd"><td>^(select | cell) folder {user.file_manager_directories}$</td>
+<td><p>selects the directory</p></td>
+</tr>
+<tr class="row-even"><td>^open &lt;number_small&gt;$</td>
+<td><p>Let &lt;file&gt; be Returns the requested directory for the imgui display by index
+opens the file</p></td>
+</tr>
+<tr class="row-odd"><td>^folder numb &lt;number_small&gt;$</td>
+<td><p>Let &lt;directory&gt; be Returns the requested directory for the imgui display by index
+selects the directory</p></td>
+</tr>
+<tr class="row-even"><td>^file numb &lt;number_small&gt;$</td>
+<td><p>Let &lt;file&gt; be Returns the requested directory for the imgui display by index
+selects the file</p></td>
+</tr>
+<tr class="row-odd"><td>^file {user.file_manager_files}$</td>
+<td><p>selects the file</p></td>
+</tr>
+<tr class="row-even"><td>^(select | cell) file {user.file_manager_files}$</td>
+<td><p>selects the file</p></td>
+</tr>
+<tr class="row-odd"><td>folder new &lt;user.text&gt;</td>
+<td><p>Creates a new folder in a gui filemanager or inserts the command to do so for terminals</p></td>
+</tr>
+<tr class="row-even"><td>properties show</td>
+<td><p>Shows the properties for the file</p></td>
+</tr>
+<tr class="row-odd"><td>terminal here</td>
+<td><p>Opens terminal at current location</p></td>
+</tr>
+<tr class="row-even"><td>folder next</td>
+<td><p>next_folder_page</p></td>
+</tr>
+<tr class="row-odd"><td>folder last</td>
+<td><p>previous_folder_page</p></td>
+</tr>
+<tr class="row-even"><td>file next</td>
+<td><p>next_file_page</p></td>
+</tr>
+<tr class="row-odd"><td>file last</td>
+<td><p>previous_file_page</p></td>
+</tr>
 </tbody>
 </table>
 </section>

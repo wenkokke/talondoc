@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.lang.python.python &#8212; example 0.1.3 documentation</title>
+    <title>user.lang.python.python &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.lang.tags.library_gui_open" href="../tags/library_gui_open.html" />
-    <link rel="prev" title="user.lang.typescript.typescriptreact" href="../typescript/typescriptreact.html" />
+    <link rel="next" title="user.lang.python.python.py" href="python/api.html" />
+    <link rel="prev" title="user.lang.typescript.typescript.py" href="../typescript/typescript/api.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,62 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.lang.python.python</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>dunder in it</td>
+<td><p>Insert “__init__”</p></td>
+</tr>
+<tr class="row-even"><td>state (def | deaf | deft)</td>
+<td><p>Insert “def “</p></td>
+</tr>
+<tr class="row-odd"><td>state try</td>
+<td><p>Insert “try: \n”</p></td>
+</tr>
+<tr class="row-even"><td>state except</td>
+<td><p>Insert “except “</p></td>
+</tr>
+<tr class="row-odd"><td>state raise</td>
+<td><p>Insert “raise “</p></td>
+</tr>
+<tr class="row-even"><td>self taught</td>
+<td><p>Insert “self.”</p></td>
+</tr>
+<tr class="row-odd"><td>pie test</td>
+<td><p>Insert “pytest”</p></td>
+</tr>
+<tr class="row-even"><td>state past</td>
+<td><p>Insert “pass”</p></td>
+</tr>
+<tr class="row-odd"><td>[state] raise {user.python_exception}</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-even"><td>[state] except {user.python_exception}</td>
+<td><p>Insert “except  { python_exception } :”</p></td>
+</tr>
+<tr class="row-odd"><td>dock string</td>
+<td><p>Inserts a document comment and positions the cursor appropriately</p></td>
+</tr>
+<tr class="row-even"><td>dock {user.python_docstring_fields}</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{python_docstring_fields}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">left</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>dock type {user.code_type}</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-even"><td>dock returns type {user.code_type}</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>toggle imports</td>
+<td><p>GUI: List libraries for active language</p></td>
+</tr>
+<tr class="row-even"><td>import &lt;user.code_libraries&gt;</td>
+<td><p>Inserts a library and positions the cursor appropriately
+Press end enter.</p></td>
+</tr>
+<tr class="row-odd"><td>from import</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
 </tbody>
 </table>
 </section>

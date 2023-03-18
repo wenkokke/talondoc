@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.apps.github.github_web &#8212; example 0.1.3 documentation</title>
+    <title>user.apps.github.github_web &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.apps.dunst.dunst" href="../dunst/dunst.html" />
-    <link rel="prev" title="user.apps.safari.safari" href="../safari/safari.html" />
+    <link rel="next" title="user.apps.signal.signal_linux" href="../signal/signal_linux.html" />
+    <link rel="prev" title="user.apps.apple_notes.apple_notes.py" href="../apple_notes/apple_notes/api.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,174 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.apps.github.github_web</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>focus search</td>
+<td><p>Press s.</p></td>
+</tr>
+<tr class="row-even"><td>go to notifications</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gn&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go to dashboard</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gd&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>(keyboard shortcuts show | show keyboard shortcuts)</td>
+<td><p>Press ?.</p></td>
+</tr>
+<tr class="row-odd"><td>(selection move down | move selection down)</td>
+<td><p>Press j.</p></td>
+</tr>
+<tr class="row-even"><td>(selection move up | move selection up)</td>
+<td><p>Press k.</p></td>
+</tr>
+<tr class="row-odd"><td>(selection toggle | toggle selection)</td>
+<td><p>Press x.</p></td>
+</tr>
+<tr class="row-even"><td>(selection open | open selection)</td>
+<td><p>Press o.</p></td>
+</tr>
+<tr class="row-odd"><td>go to code</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gc&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go to issues</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gi&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go to pull requests</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go to wiki</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gw&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go to actions</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;ga&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go to projects</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gb&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go to discussions</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>[web] editor open</td>
+<td><p>Press ..</p></td>
+</tr>
+<tr class="row-odd"><td>(file find | find file)</td>
+<td><p>Press t.</p></td>
+</tr>
+<tr class="row-even"><td>jump to line</td>
+<td><p>Press l.</p></td>
+</tr>
+<tr class="row-odd"><td>((branch | tag) switch | switch (branch | tag))</td>
+<td><p>Press w.</p></td>
+</tr>
+<tr class="row-even"><td>(url expand | expand url)</td>
+<td><p>Press y.</p></td>
+</tr>
+<tr class="row-odd"><td>(show | hide) comments</td>
+<td><p>Press i.</p></td>
+</tr>
+<tr class="row-even"><td>blame view open</td>
+<td><p>Press b.</p></td>
+</tr>
+<tr class="row-odd"><td>(show | hide) annotations</td>
+<td><p>Press a.</p></td>
+</tr>
+<tr class="row-even"><td>(issue create | create [an] issue)</td>
+<td><p>Press c.</p></td>
+</tr>
+<tr class="row-odd"><td>search (issues | [pull] requests)</td>
+<td><p>Press /.</p></td>
+</tr>
+<tr class="row-even"><td>(filter by | edit) labels</td>
+<td><p>Press l.</p></td>
+</tr>
+<tr class="row-odd"><td>(filter by | edit) milestones</td>
+<td><p>Press m.</p></td>
+</tr>
+<tr class="row-even"><td>(filter by | edit) assignee</td>
+<td><p>Press a.</p></td>
+</tr>
+<tr class="row-odd"><td>reply</td>
+<td><p>Press r.</p></td>
+</tr>
+<tr class="row-even"><td>(comment submit | submit comment)</td>
+<td><p>Press ctrl-enter.</p></td>
+</tr>
+<tr class="row-odd"><td>(comment preview | preview comment)</td>
+<td><p>Press ctrl-shift-p.</p></td>
+</tr>
+<tr class="row-even"><td>git hub full screen</td>
+<td><p>Press ctrl-shift-l.</p></td>
+</tr>
+<tr class="row-odd"><td>(form close | close form)</td>
+<td><p>Press escape.</p></td>
+</tr>
+<tr class="row-even"><td>parent commit</td>
+<td><p>Press p.</p></td>
+</tr>
+<tr class="row-odd"><td>other parent commit</td>
+<td><p>Press o.</p></td>
+</tr>
+<tr class="row-even"><td>mark as read</td>
+<td><p>Press y.</p></td>
+</tr>
+<tr class="row-odd"><td>(thread mute | mute thread)</td>
+<td><p>Press shift-m.</p></td>
+</tr>
+<tr class="row-even"><td>(issue open | open issue)</td>
+<td><p>Press o.</p></td>
+</tr>
+<tr class="row-odd"><td>(issue create | create issue)</td>
+<td><p>Press c.</p></td>
+</tr>
+<tr class="row-even"><td>reviewer request</td>
+<td><p>Press q.</p></td>
+</tr>
+<tr class="row-odd"><td>milestone set</td>
+<td><p>Press m.</p></td>
+</tr>
+<tr class="row-even"><td>assignee set</td>
+<td><p>Press a.</p></td>
+</tr>
+<tr class="row-odd"><td>label set</td>
+<td><p>Press l.</p></td>
+</tr>
+<tr class="row-even"><td>go to workflow</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;gf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>timestamps toggle</td>
+<td><p>Press shift-t.</p></td>
+</tr>
+<tr class="row-even"><td>fullscreen toggle</td>
+<td><p>Press shift-f.</p></td>
+</tr>
 </tbody>
 </table>
 </section>

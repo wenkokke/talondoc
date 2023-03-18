@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.apps.git.git &#8212; example 0.1.3 documentation</title>
+    <title>user.apps.git.git &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.apps.git.git_add_patch" href="git_add_patch.html" />
-    <link rel="prev" title="user.apps.dunst.dunst" href="../dunst/dunst.html" />
+    <link rel="next" title="user.apps.git.git.py" href="git/api.html" />
+    <link rel="prev" title="user.apps.wsl.wsl" href="../wsl/wsl.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,57 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.apps.git.git</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>git {user.git_command} [&lt;user.git_arguments&gt;]</td>
+<td><p>Let &lt;args&gt; be &lt;git_arguments&gt; or None
+Insert “git  { git_command } { args }  “</p></td>
+</tr>
+<tr class="row-even"><td>git commit [&lt;user.git_arguments&gt;] message [&lt;user.prose&gt;]</td>
+<td><p>Let &lt;args&gt; be &lt;git_arguments&gt; or None
+Let &lt;message&gt; be &lt;prose&gt; or None</p></td>
+</tr>
+<tr class="row-odd"><td>git stash [push] [&lt;user.git_arguments&gt;] message [&lt;user.prose&gt;]</td>
+<td><p>Let &lt;args&gt; be &lt;git_arguments&gt; or None
+Let &lt;message&gt; be &lt;prose&gt; or None</p></td>
+</tr>
+<tr class="row-even"><td>git status$</td>
+<td><p>Insert “git status \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git add patch$</td>
+<td><p>Insert “git add –patch \n”</p></td>
+</tr>
+<tr class="row-even"><td>git show head$</td>
+<td><p>Insert “git show HEAD \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git diff$</td>
+<td><p>Insert “git diff \n”</p></td>
+</tr>
+<tr class="row-even"><td>git diff (cached | cashed)$</td>
+<td><p>Insert “git diff –cached \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git clone clipboard</td>
+<td><p>Press enter.</p></td>
+</tr>
+<tr class="row-even"><td>git diff highlighted</td>
+<td><p>Press enter.</p></td>
+</tr>
+<tr class="row-odd"><td>git diff clipboard</td>
+<td><p>Press enter.</p></td>
+</tr>
+<tr class="row-even"><td>git add highlighted</td>
+<td><p>Press enter.</p></td>
+</tr>
+<tr class="row-odd"><td>git add clipboard</td>
+<td><p>Press enter.</p></td>
+</tr>
+<tr class="row-even"><td>git commit highlighted</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">insert</span><span class="p">(</span><span class="s2">&quot;git add &quot;</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">paste</span><span class="p">()</span>
+<span class="n">insert</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">git commit</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
 </tbody>
 </table>
 </section>

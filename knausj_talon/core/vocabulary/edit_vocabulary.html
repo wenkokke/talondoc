@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>user.core.vocabulary.edit_vocabulary &#8212; example 0.1.3 documentation</title>
+    <title>user.core.vocabulary.edit_vocabulary &#8212; example 0.1.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bootstrap-sphinx.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
@@ -13,8 +13,8 @@
     <script src="../../../_static/sphinx_highlight.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="user.core.screens.screens" href="../screens/screens.html" />
-    <link rel="prev" title="user.core.windows_and_tabs.window_management" href="../windows_and_tabs/window_management.html" />
+    <link rel="next" title="user.core.vocabulary.vocabulary.py" href="vocabulary/api.html" />
+    <link rel="prev" title="user.core.mouse_grid.mouse_grid.py" href="../mouse_grid/mouse_grid/api.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -110,6 +110,42 @@
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text">user.core.vocabulary.edit_vocabulary</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <tbody>
+<tr class="row-odd"><td>copy to vocab [as &lt;phrase&gt;]$</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">add_selection_to_vocabulary</span><span class="p">(</span><span class="n">phrase</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>copy name to vocab [as &lt;phrase&gt;]$</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">add_selection_to_vocabulary</span><span class="p">(</span><span class="n">phrase</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>copy noun to vocab [as &lt;phrase&gt;]$</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">add_selection_to_vocabulary</span><span class="p">(</span><span class="n">phrase</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;noun&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>copy to replacements as &lt;phrase&gt;$</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">add_selection_to_words_to_replace</span><span class="p">(</span><span class="n">phrase</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>copy name to replacements as &lt;phrase&gt;$</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">add_selection_to_words_to_replace</span><span class="p">(</span><span class="n">phrase</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>copy noun to replacements as &lt;phrase&gt;$</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">add_selection_to_words_to_replace</span><span class="p">(</span><span class="n">phrase</span><span class="p">,</span> <span class="s2">&quot;noun&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
 </tbody>
 </table>
 </section>
