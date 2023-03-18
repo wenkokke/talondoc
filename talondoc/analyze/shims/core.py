@@ -1,10 +1,11 @@
 import inspect
 import platform
-import types
 from collections.abc import Callable, Iterator
 from io import TextIOWrapper
 from types import ModuleType
 from typing import Any, Mapping, Optional, Sequence, cast
+
+from talondoc.analyze.entries.abc import ActionEntry, GroupEntry
 
 from ..entries.user import (
     EventCode,
@@ -176,9 +177,11 @@ class ModuleShim(ModuleType):
 def _action(
     registry: Registry, name: str, *, namespace: Optional[str] = None
 ) -> Optional[Callable[..., Any]]:
-    action_group_entry = registry.lookup(UserActionEntry, name, namespace=namespace)
+    action_group_entry: Optional[GroupEntry[ActionEntry]] = registry.lookup(
+        ActionEntry, name, namespace=namespace
+    )
     if action_group_entry and action_group_entry.default:
-        function_name = action_group_entry.default.func
+        function_name = action_group_entry.default.get_function_name()
         if function_name:
             function_entry = registry.lookup(UserFunctionEntry, function_name)
             if function_entry:

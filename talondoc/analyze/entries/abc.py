@@ -3,6 +3,7 @@ import dataclasses
 from collections.abc import Iterable, Iterator
 from typing import Any, ClassVar, Generic, Mapping, Optional, TypeVar, Union
 
+import tree_sitter_talon
 from typing_extensions import override
 
 from ...util.logging import getLogger
@@ -178,6 +179,61 @@ class GroupEntry(Generic[AnyGroupableObject], Entry):
                 e = DuplicateEntry(self.default, entry)
                 _LOGGER.warning(str(e))
             self.default = entry
+
+
+###############################################################################
+# Concrete object types
+###############################################################################
+
+
+class ActionEntry(GroupableObjectEntry):
+    sort: ClassVar[str] = "action"
+
+    @abc.abstractmethod
+    def get_function_name(self) -> Optional[str]:
+        """Get the fully qualified name of the underlying function."""
+
+
+class CaptureEntry(GroupableObjectEntry):
+    sort: ClassVar[str] = "capture"
+
+    @abc.abstractmethod
+    def get_rule(self) -> Union[str, tree_sitter_talon.TalonRule]:
+        """Get the underlying rule."""
+
+    @abc.abstractmethod
+    def get_function_name(self) -> Optional[str]:
+        """Get the fully qualified name of the underlying function."""
+
+
+class ListEntry(GroupableObjectEntry):
+    sort: ClassVar[str] = "list"
+
+    @abc.abstractmethod
+    def get_value(self) -> Optional[ListValue]:
+        """Get the underlying value."""
+
+
+class ModeEntry(ObjectEntry):
+    sort: ClassVar[str] = "mode"
+
+
+class SettingEntry(GroupableObjectEntry):
+    sort: ClassVar[str] = "setting"
+
+    @abc.abstractmethod
+    def get_value_type(self) -> Optional[str]:
+        """Get the type of the underlying value."""
+
+    @abc.abstractmethod
+    def get_value(
+        self,
+    ) -> Optional[Union[SettingValue, tree_sitter_talon.TalonExpression]]:
+        """Get the underlying value."""
+
+
+class TagEntry(ObjectEntry):
+    sort: ClassVar[str] = "tag"
 
 
 ###############################################################################

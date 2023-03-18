@@ -8,12 +8,17 @@ from typing_extensions import override
 
 from ...util.logging import getLogger
 from .abc import (
+    ActionEntry,
+    CaptureEntry,
     EventCode,
     GroupableObjectEntry,
     GroupEntry,
+    ListEntry,
     ListValue,
+    ModeEntry,
     ObjectEntry,
     SettingValue,
+    TagEntry,
 )
 
 _LOGGER = getLogger(__name__)
@@ -210,7 +215,6 @@ class UserCallbackEntry(UserObjectEntry):
 ###############################################################################
 # Package and File Entries
 ###############################################################################
-1
 
 
 @dataclasses.dataclass(
@@ -360,8 +364,7 @@ class UserCommandEntry(UserObjectEntry):
 
 
 @dataclasses.dataclass
-class UserActionEntry(UserGroupableObjectEntry):
-    sort: ClassVar[str] = "action"
+class UserActionEntry(UserGroupableObjectEntry, ActionEntry):
     desc: Optional[str]
     func: Optional[str]
 
@@ -376,10 +379,13 @@ class UserActionEntry(UserGroupableObjectEntry):
             ]
         )
 
+    @override
+    def get_function_name(self) -> Optional[str]:
+        return self.func
+
 
 @dataclasses.dataclass
-class UserCaptureEntry(UserGroupableObjectEntry):
-    sort: ClassVar[str] = "capture"
+class UserCaptureEntry(UserGroupableObjectEntry, CaptureEntry):
     name: str
     rule: Union[str, tree_sitter_talon.TalonRule]
     desc: Optional[str]
@@ -396,10 +402,17 @@ class UserCaptureEntry(UserGroupableObjectEntry):
             ]
         )
 
+    @override
+    def get_rule(self) -> Union[str, tree_sitter_talon.TalonRule]:
+        return self.rule
+
+    @override
+    def get_function_name(self) -> Optional[str]:
+        return self.func
+
 
 @dataclasses.dataclass
-class UserListEntry(UserGroupableObjectEntry):
-    sort: ClassVar[str] = "list"
+class UserListEntry(UserGroupableObjectEntry, ListEntry):
     name: str
     desc: Optional[str] = None
     value: Optional[ListValue] = None
@@ -409,10 +422,13 @@ class UserListEntry(UserGroupableObjectEntry):
         # TODO: add self to module
         self.value = _normalize_list_value(self.value)
 
+    @override
+    def get_value(self) -> Optional[ListValue]:
+        return self.value
+
 
 @dataclasses.dataclass
-class UserModeEntry(UserObjectEntry):
-    sort: ClassVar[str] = "mode"
+class UserModeEntry(UserObjectEntry, ModeEntry):
     name: str
     parent: UserModuleEntry = dataclasses.field(repr=False)
     desc: Optional[str] = None
@@ -429,7 +445,6 @@ class UserModeEntry(UserObjectEntry):
 
 @dataclasses.dataclass
 class UserSettingEntry(UserGroupableObjectEntry):
-    sort: ClassVar[str] = "setting"
     name: str
     type: Optional[str] = None
     desc: Optional[str] = None
@@ -440,10 +455,19 @@ class UserSettingEntry(UserGroupableObjectEntry):
         # TODO: add self to module
         pass
 
+    @override
+    def get_value_type(self) -> Optional[str]:
+        return self.type
+
+    @override
+    def get_value(
+        self,
+    ) -> Optional[Union[SettingValue, tree_sitter_talon.TalonExpression]]:
+        return self.value
+
 
 @dataclasses.dataclass
-class UserTagEntry(UserObjectEntry):
-    sort: ClassVar[str] = "tag"
+class UserTagEntry(UserObjectEntry, TagEntry):
     name: str
     parent: UserModuleEntry = dataclasses.field(repr=False)
     desc: Optional[str] = None

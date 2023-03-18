@@ -1,6 +1,6 @@
 from collections.abc import Callable
 from functools import singledispatchmethod
-from typing import Optional, Sequence, TypeVar, Union, cast
+from typing import Optional, Sequence, TypeVar, Union
 
 from tree_sitter_talon import (
     Node,
@@ -24,8 +24,15 @@ from tree_sitter_talon import (
     TalonVariable,
 )
 
-from ..analyze.entries.abc import AnyGroupableObject
-from ..analyze.entries.user import UserActionEntry, UserTagEntry
+from ..analyze.entries.abc import (
+    AnyGroupableObject,
+    CaptureEntry,
+    ListEntry,
+    ModeEntry,
+    SettingEntry,
+    TagEntry,
+)
+from ..analyze.entries.user import ActionEntry, UserTagEntry
 from ..analyze.registry import Registry
 from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
 from .logging import getLogger
@@ -106,7 +113,16 @@ class TalonScriptDescriber:
         return None
 
     def get_docstring(
-        self, sort: Union[type[UserTagEntry], type[AnyGroupableObject]], name: str
+        self,
+        sort: Union[
+            type[ActionEntry],
+            type[CaptureEntry],
+            type[ListEntry],
+            type[ModeEntry],
+            type[SettingEntry],
+            type[TagEntry],
+        ],
+        name: str,
     ) -> Optional[str]:
         if self.docstring_hook:
             docstring = self.docstring_hook(sort.sort, name)
@@ -121,7 +137,7 @@ class TalonScriptDescriber:
     def _(self, ast: TalonAction) -> Optional[Desc]:
         # TODO: resolve self.*
         name = ast.action_name.text
-        docstring = self.get_docstring(UserActionEntry, name)
+        docstring = self.get_docstring(ActionEntry, name)
         if docstring:
             desc = from_docstring(docstring)
             if isinstance(desc, StepsTemplate):

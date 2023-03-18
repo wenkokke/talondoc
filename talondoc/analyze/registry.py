@@ -6,31 +6,29 @@ from typing import Any, ClassVar, Optional, Union, cast, overload
 
 from ..util.logging import getLogger
 from .entries.abc import (
-    AnyGroupableObject,
+    ActionEntry,
+    AnyEntry,
+    CaptureEntry,
     DuplicateEntry,
+    Entry,
     GroupableObjectEntry,
     GroupEntry,
-    ObjectEntry,
+    ListEntry,
+    ModeEntry,
+    SettingEntry,
+    TagEntry,
     resolve_name,
 )
 from .entries.user import (
     AnyUserFileEntry,
-    AnyUserModuleEntry,
     EventCode,
-    UserActionEntry,
     UserCallbackEntry,
-    UserCaptureEntry,
     UserCommandEntry,
     UserContextEntry,
     UserFileEntry,
     UserFunctionEntry,
-    UserListEntry,
-    UserModeEntry,
     UserModuleEntry,
-    UserObjectEntry,
     UserPackageEntry,
-    UserSettingEntry,
-    UserTagEntry,
 )
 
 _LOGGER = getLogger(__name__)
@@ -113,7 +111,10 @@ class Registry:
 
     @contextmanager
     def file_entry(
-        self, cls: type[AnyUserFileEntry], package: UserPackageEntry, path: Path
+        self,
+        cls: type[AnyUserFileEntry],
+        package: UserPackageEntry,
+        path: Path,
     ) -> Iterator[tuple[bool, AnyUserFileEntry]]:
         """
         Retrieve a file entry if it exists, or register a new file entry.
@@ -163,31 +164,31 @@ class Registry:
         )
 
     @property
-    def action_groups(self) -> dict[str, GroupEntry[UserActionEntry]]:
+    def action_groups(self) -> dict[str, GroupEntry[ActionEntry]]:
         return cast(
-            dict[str, GroupEntry[UserActionEntry]],
-            self.groups.setdefault(UserActionEntry.sort, {}),
+            dict[str, GroupEntry[ActionEntry]],
+            self.groups.setdefault(ActionEntry.sort, {}),
         )
 
     @property
-    def capture_groups(self) -> dict[str, GroupEntry[UserCaptureEntry]]:
+    def capture_groups(self) -> dict[str, GroupEntry[CaptureEntry]]:
         return cast(
-            dict[str, GroupEntry[UserCaptureEntry]],
-            self.groups.setdefault(UserCaptureEntry.sort, {}),
+            dict[str, GroupEntry[CaptureEntry]],
+            self.groups.setdefault(CaptureEntry.sort, {}),
         )
 
     @property
-    def list_groups(self) -> dict[str, GroupEntry[UserListEntry]]:
+    def list_groups(self) -> dict[str, GroupEntry[ListEntry]]:
         return cast(
-            dict[str, GroupEntry[UserListEntry]],
-            self.groups.setdefault(UserListEntry.sort, {}),
+            dict[str, GroupEntry[ListEntry]],
+            self.groups.setdefault(ListEntry.sort, {}),
         )
 
     @property
-    def setting_groups(self) -> dict[str, GroupEntry[UserSettingEntry]]:
+    def setting_groups(self) -> dict[str, GroupEntry[SettingEntry]]:
         return cast(
-            dict[str, GroupEntry[UserSettingEntry]],
-            self.groups.setdefault(UserSettingEntry.sort, {}),
+            dict[str, GroupEntry[SettingEntry]],
+            self.groups.setdefault(SettingEntry.sort, {}),
         )
 
     @property
@@ -226,10 +227,10 @@ class Registry:
         )
 
     @property
-    def modes(self) -> dict[str, UserModeEntry]:
+    def modes(self) -> dict[str, ModeEntry]:
         return cast(
-            dict[str, UserModeEntry],
-            self.data.setdefault(UserModeEntry.sort, {}),
+            dict[str, ModeEntry],
+            self.data.setdefault(ModeEntry.sort, {}),
         )
 
     @property
@@ -247,13 +248,13 @@ class Registry:
         )
 
     @property
-    def tags(self) -> dict[str, UserTagEntry]:
+    def tags(self) -> dict[str, TagEntry]:
         return cast(
-            dict[str, UserTagEntry],
-            self.data.setdefault(UserTagEntry.sort, {}),
+            dict[str, TagEntry],
+            self.data.setdefault(TagEntry.sort, {}),
         )
 
-    def register(self, entry: UserObjectEntry):
+    def register(self, entry: Entry):
         """
         Register an object entry.
         """
@@ -288,12 +289,64 @@ class Registry:
 
     @overload
     def lookup(
+        self, sort: type[ActionEntry], name: str, *, namespace: Optional[str] = None
+    ) -> Optional[GroupEntry[ActionEntry]]:
+        ...
+
+    @overload
+    def lookup(
+        self, sort: type[CaptureEntry], name: str, *, namespace: Optional[str] = None
+    ) -> Optional[GroupEntry[CaptureEntry]]:
+        ...
+
+    @overload
+    def lookup(
+        self, sort: type[ListEntry], name: str, *, namespace: Optional[str] = None
+    ) -> Optional[GroupEntry[ListEntry]]:
+        ...
+
+    @overload
+    def lookup(
+        self, sort: type[ModeEntry], name: str, *, namespace: Optional[str] = None
+    ) -> Optional[ModeEntry]:
+        ...
+
+    @overload
+    def lookup(
+        self, sort: type[SettingEntry], name: str, *, namespace: Optional[str] = None
+    ) -> Optional[GroupEntry[SettingEntry]]:
+        ...
+
+    @overload
+    def lookup(
+        self, sort: type[TagEntry], name: str, *, namespace: Optional[str] = None
+    ) -> Optional[TagEntry]:
+        ...
+
+    @overload
+    def lookup(
         self,
         sort: type[UserPackageEntry],
         name: str,
         *,
         namespace: Optional[str] = None
     ) -> Optional[UserPackageEntry]:
+        ...
+
+    @overload
+    def lookup(
+        self,
+        sort: type[AnyUserFileEntry],
+        name: str,
+        *,
+        namespace: Optional[str] = None
+    ) -> Optional[AnyUserFileEntry]:
+        ...
+
+    @overload
+    def lookup(
+        self, sort: type[UserModuleEntry], name: str, *, namespace: Optional[str] = None
+    ) -> Sequence[UserModuleEntry]:
         ...
 
     @overload
@@ -313,78 +366,17 @@ class Registry:
         name: str,
         *,
         namespace: Optional[str] = None
-    ) -> Optional[Sequence[UserCallbackEntry]]:
-        ...
-
-    @overload
-    def lookup(
-        self,
-        sort: type[AnyUserFileEntry],
-        name: str,
-        *,
-        namespace: Optional[str] = None
-    ) -> Optional[AnyUserFileEntry]:
-        ...
-
-    @overload
-    def lookup(
-        self,
-        sort: type[UserCommandEntry],
-        name: str,
-        *,
-        namespace: Optional[str] = None
-    ) -> Optional[Sequence[UserCommandEntry]]:
-        ...
-
-    @overload
-    def lookup(
-        self,
-        sort: type[AnyUserModuleEntry],
-        name: str,
-        *,
-        namespace: Optional[str] = None
-    ) -> Optional[AnyUserModuleEntry]:
-        ...
-
-    @overload
-    def lookup(
-        self,
-        sort: type[AnyGroupableObject],
-        name: str,
-        *,
-        namespace: Optional[str] = None
-    ) -> Optional[GroupEntry[AnyGroupableObject]]:
-        ...
-
-    @overload
-    def lookup(
-        self, sort: type[UserModeEntry], name: str, *, namespace: Optional[str] = None
-    ) -> Optional[UserModeEntry]:
-        ...
-
-    @overload
-    def lookup(
-        self, sort: type[UserTagEntry], name: str, *, namespace: Optional[str] = None
-    ) -> Optional[UserTagEntry]:
+    ) -> Sequence[UserCallbackEntry]:
         ...
 
     def lookup(
-        self, sort: type[ObjectEntry], name: str, *, namespace: Optional[str] = None
-    ) -> Union[None, ObjectEntry, GroupEntry, Sequence[ObjectEntry]]:
+        self, sort: type[AnyEntry], name: str, *, namespace: Optional[str] = None
+    ) -> Any:
         """
         Look up an object entry by its name.
         """
         resolved_name = resolve_name(name, namespace=namespace)
-        if issubclass(sort, GroupableObjectEntry):
-            return cast(
-                Optional[GroupEntry[ObjectEntry]],  # type: ignore
-                self.groups.get(sort.sort, {}).get(resolved_name, None),
-            )
-        else:
-            return cast(
-                Optional[Union[ObjectEntry, Sequence[ObjectEntry]]],
-                self.data.get(sort.sort, {}).get(resolved_name, None),
-            )
+        return self.groups.get(sort.sort, {}).get(resolved_name, None)
 
     ##################################################
     # The active GLOBAL registry
