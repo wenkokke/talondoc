@@ -293,6 +293,7 @@ class TalonCommandListDirective(TalonDocDirective):
             for sig in self.arguments:
                 default = self.options.get("default", "include")
                 for command in self.find_file(sig).commands:
+                    print(f"{sig}: {command.ast.left.text}\n")
                     if include_command(
                         command, default=default, exclude=exclude, include=include
                     ):

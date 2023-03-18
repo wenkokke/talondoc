@@ -31,7 +31,6 @@ _LOGGER = getLogger(__name__)
 
 
 class UserObjectEntry(ObjectEntry):
-    sort: ClassVar[str]
     mtime: Optional[float] = None
     location: Union[int, tuple[int, int], None] = None
 
@@ -96,11 +95,13 @@ class UserObjectEntry(ObjectEntry):
 
     @override
     def newer_than(self, other: Union[float, "ObjectEntry"]) -> bool:
-        assert self.mtime is not None, f"missing mtime on {self.__class__.sort}"
+        assert self.mtime is not None, f"missing mtime on {self.__class__.get_sort()}"
         if isinstance(other, float):
             return self.mtime >= other
         if isinstance(other, UserObjectEntry):
-            assert other.mtime is not None, f"missing mtime on {other.__class__.sort}"
+            assert (
+                other.mtime is not None
+            ), f"missing mtime on {other.__class__.get_sort()}"
             return self.mtime >= other.mtime
         else:
             # NOTE: assumes that the other object must be a BuiltinObjectEntry
@@ -126,7 +127,7 @@ class UserObjectEntry(ObjectEntry):
                 return self.get_path(absolute=True).stat().st_mtime
         except FileNotFoundError as e:
             raise AssertionError(
-                f"Could not stat '{self.__class__.sort}': {self.get_path(absolute=True)}"
+                f"Could not stat '{self.__class__.get_sort()}': {self.get_path(absolute=True)}"
             )
 
     def get_package(self) -> "UserPackageEntry":
@@ -186,13 +187,13 @@ class UserGroupableObjectEntry(UserObjectEntry, GroupableObjectEntry):
 
 @dataclasses.dataclass
 class UserFunctionEntry(UserObjectEntry):
+    parent: "UserPythonFileEntry"
+    func: Callable[..., Any] = dataclasses.field(repr=False)
+
     @override
     @classmethod
     def get_sort(cls) -> str:
         return "function"
-
-    parent: "UserPythonFileEntry"
-    func: Callable[..., Any] = dataclasses.field(repr=False)
 
     @override
     def get_name(self) -> str:
@@ -207,14 +208,14 @@ class UserFunctionEntry(UserObjectEntry):
 class UserCallbackEntry(UserObjectEntry):
     """Used to register callbacks into imported Python modules."""
 
+    parent: "UserPythonFileEntry"
+    func: Callable[..., None] = dataclasses.field(repr=False)
+    event_code: EventCode
+
     @override
     @classmethod
     def get_sort(cls) -> str:
         return "callback"
-
-    parent: "UserPythonFileEntry"
-    func: Callable[..., None] = dataclasses.field(repr=False)
-    event_code: EventCode
 
     @override
     def get_name(self) -> str:
@@ -230,14 +231,14 @@ class UserCallbackEntry(UserObjectEntry):
     init=False,
 )
 class UserPackageEntry(UserObjectEntry):
+    name: str
+    path: Path
+    files: list["UserFileEntry"] = dataclasses.field(default_factory=list)
+
     @override
     @classmethod
     def get_sort(cls) -> str:
         return "package"
-
-    name: str
-    path: Path
-    files: list["UserFileEntry"] = dataclasses.field(default_factory=list)
 
     def __init__(
         self,
@@ -265,13 +266,13 @@ AnyUserFileEntry = TypeVar("AnyUserFileEntry", bound="UserFileEntry")
 
 @dataclasses.dataclass
 class UserFileEntry(UserObjectEntry):
+    parent: UserPackageEntry = dataclasses.field(repr=False)
+    path: Path
+
     @override
     @classmethod
     def get_sort(cls) -> str:
         return "file"
-
-    parent: UserPackageEntry = dataclasses.field(repr=False)
-    path: Path
 
     def __post_init__(self, *args, **kwargs):
         super().__post_init__(*args, **kwargs)
@@ -347,8 +348,12 @@ class UserModuleEntry(UserObjectEntry):
 
 @dataclasses.dataclass
 class UserContextEntry(UserModuleEntry):
-    sort: ClassVar[str] = "context"
     matches: Union[None, str, tree_sitter_talon.TalonMatches] = None
+
+    @override
+    @classmethod
+    def get_sort(cls) -> str:
+        return "context"
 
 
 ###############################################################################

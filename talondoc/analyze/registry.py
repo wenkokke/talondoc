@@ -378,7 +378,10 @@ class Registry:
         Look up an object entry by its name.
         """
         resolved_name = resolve_name(name, namespace=namespace)
-        return self.groups.get(sort.get_sort(), {}).get(resolved_name, None)
+        if issubclass(sort, GroupableObjectEntry):
+            return self.groups.get(sort.get_sort(), {}).get(resolved_name, None)
+        else:
+            return self.data.get(sort.get_sort(), {}).get(resolved_name, None)
 
     ##################################################
     # The active GLOBAL registry

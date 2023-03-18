@@ -1,11 +1,12 @@
 build:
-	poetry build
-
-build-doc:
-	sh ./scripts/build-doc
+	poetry install -E docs
+	poetry run sh ./example/build.sh
 
 serve:
-	@(cd docs/_build/html && npx browser-sync -ss)
+	python3 -m http.server --directory ./example/docs/_build/html
+
+test:
+	tox
 
 clean:
 	@git clean -dfqX
@@ -19,4 +20,4 @@ bump-minor:
 bump-major:
 	@poetry run bumpver update --major
 
-.PHONY: build build-doc serve clean test bump-patch bump-minor bump-major
+.PHONY: build serve clean bump-patch bump-minor bump-major
