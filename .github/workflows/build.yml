@@ -17,6 +17,7 @@ defaults:
 
 env:
   LC_CTYPE: "C"
+  PYTHONUTF8: "1"
   PYTHONIOENCODING: "utf8"
 
 jobs:
