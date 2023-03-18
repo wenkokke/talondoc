@@ -14,6 +14,9 @@ on:
 defaults:
   run:
     shell: bash
+    
+env:
+  PYTHONUTF8: "1"  
 
 jobs:
   build:
