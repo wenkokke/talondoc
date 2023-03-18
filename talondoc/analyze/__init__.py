@@ -8,6 +8,7 @@ from tree_sitter_talon import (
     TalonAssignmentStatement,
     TalonBlock,
     TalonCommandDeclaration,
+    TalonDeclarations,
     TalonMatches,
     TalonSettingsDeclaration,
     TalonSourceFile,
@@ -98,29 +99,33 @@ def analyse_talon_file(
         if not cached:
             ast = parse_file(package.path / path, raise_parse_error=True)
             assert isinstance(ast, TalonSourceFile)
-            for declaration in ast.children:
-                if isinstance(declaration, TalonMatches):
+            for child in ast.children:
+                if isinstance(child, TalonMatches):
                     # Register matches:
                     assert file_entry.matches is None
-                    file_entry.matches = declaration
-                elif isinstance(declaration, TalonCommandDeclaration):
-                    # Register command:
-                    command_entry = UserCommandEntry(parent=file_entry, ast=declaration)
-                    registry.register(command_entry)
-                elif isinstance(declaration, TalonSettingsDeclaration):
-                    # Register settings:
-                    for statement in declaration.right.children:
-                        if isinstance(statement, TalonAssignmentStatement):
-                            setting_use_entry = UserSettingEntry(
-                                name=statement.left.text,
-                                parent=file_entry,
-                                value=statement.right,
+                    file_entry.matches = child
+                elif isinstance(child, TalonDeclarations):
+                    for declaration in child.children:
+                        if isinstance(declaration, TalonCommandDeclaration):
+                            # Register command:
+                            command_entry = UserCommandEntry(
+                                parent=file_entry, ast=declaration
                             )
-                            registry.register(setting_use_entry)
-                elif isinstance(declaration, TalonTagImportDeclaration):
-                    # Register tag import:
-                    # TODO: add use entries
-                    pass
+                            registry.register(command_entry)
+                        elif isinstance(declaration, TalonSettingsDeclaration):
+                            # Register settings:
+                            for statement in declaration.right.children:
+                                if isinstance(statement, TalonAssignmentStatement):
+                                    setting_use_entry = UserSettingEntry(
+                                        name=statement.left.text,
+                                        parent=file_entry,
+                                        value=statement.right,
+                                    )
+                                    registry.register(setting_use_entry)
+                        elif isinstance(declaration, TalonTagImportDeclaration):
+                            # Register tag import:
+                            # TODO: add use entries
+                            pass
 
         return file_entry
 
