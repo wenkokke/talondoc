@@ -8,7 +8,6 @@ output_dir="$script_dir/docs"
 
 [ ! -s "$fail" ] && \
   PYTHONUTF8=1 \
-  PYTHONIOENCODING=utf8 \
   talondoc autogen \
   --output-dir "$output_dir/knausj_talon" \
   --sphinx-root "$output_dir" \
@@ -29,7 +28,6 @@ output_dir="$script_dir/docs"
 
 [ ! -s "$fail" ] && \
   PYTHONUTF8=1 \
-  PYTHONIOENCODING=utf8 \
   sphinx-build \
   -M "clean" \
   "$output_dir" \
@@ -38,7 +36,6 @@ output_dir="$script_dir/docs"
 
 [ ! -s "$fail" ] && \
   PYTHONUTF8=1 \
-  PYTHONIOENCODING=utf8 \
   sphinx-build \
   -M "html" \
   "$output_dir" \
