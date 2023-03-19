@@ -3,9 +3,9 @@ import sys
 from docutils import nodes
 from sphinx.util.typing import OptionSpec
 
-from ...util.logging import getLogger
-from ...util.nodes import colspec, entry, row, table, tbody, tgroup, title
-from ...util.typing import optional_str, optional_strlist
+from ....util.logging import getLogger
+from ....util.nodes import colspec, entry, row, table, tbody, tgroup, title
+from ....util.typing import optional_str, optional_strlist
 from . import TalonCommandListDirective
 
 _LOGGER = getLogger(__name__)

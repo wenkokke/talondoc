@@ -4,9 +4,9 @@ from docutils import nodes
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
 
-from ...util.logging import getLogger
-from ...util.nodes import bullet_list
-from ...util.typing import optional_str, optional_strlist
+from ....util.logging import getLogger
+from ....util.nodes import bullet_list
+from ....util.typing import optional_str, optional_strlist
 from . import TalonCommandListDirective
 
 _LOGGER = getLogger(__name__)
