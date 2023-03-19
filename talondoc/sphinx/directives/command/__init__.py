@@ -1,15 +1,26 @@
+import re
 import sys
-from collections.abc import Iterator
-from typing import Optional
+from collections.abc import Callable, Iterator
+from typing import Optional, Union
 
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
-
-from talondoc.sphinx.directives import (
-    TalonDocDirective,
-    TalonDocObjectDescription,
-    include_command,
+from tree_sitter_talon import (
+    TalonCapture,
+    TalonChoice,
+    TalonEndAnchor,
+    TalonList,
+    TalonOptional,
+    TalonParenthesizedRule,
+    TalonRepeat,
+    TalonRepeat1,
+    TalonRule,
+    TalonSeq,
+    TalonStartAnchor,
+    TalonWord,
 )
+
+from talondoc.sphinx.directives import TalonDocDirective, TalonDocObjectDescription
 
 from ....registry.entries.user import (
     UserCommandEntry,
@@ -20,6 +31,74 @@ from ....util.logging import getLogger
 from ....util.typing import flag
 
 _LOGGER = getLogger(__name__)
+
+
+_RE_WHITESPACE = re.compile(r"\s+")
+
+
+def include_command(
+    candidate: UserCommandEntry,
+    sig: Optional[str] = None,
+    *,
+    fullmatch: bool = True,
+    default: str = "include",
+    include: tuple[str, ...] = (),
+    exclude: tuple[str, ...] = (),
+    captures: Optional[
+        Callable[
+            [str],
+            Optional[
+                Union[
+                    TalonCapture,
+                    TalonChoice,
+                    TalonEndAnchor,
+                    TalonList,
+                    TalonOptional,
+                    TalonParenthesizedRule,
+                    TalonRepeat,
+                    TalonRepeat1,
+                    TalonRule,
+                    TalonSeq,
+                    TalonStartAnchor,
+                    TalonWord,
+                ]
+            ],
+        ]
+    ] = None,
+    lists: Optional[Callable[[str], Optional[list[str]]]] = None,
+):
+    assert default in ["include", "exclude"]
+
+    def match(sig: str) -> bool:
+        try:
+            words = _RE_WHITESPACE.split(sig)
+            return bool(
+                candidate.ast.rule.match(
+                    words,
+                    fullmatch=fullmatch,
+                    get_capture=None,
+                    get_list=None,
+                )
+            )
+        except IndexError:
+            return False
+
+    def excluded() -> bool:
+        return (
+            bool(exclude)
+            and any(match(exclude_sig) for exclude_sig in exclude)
+            and not any(match(include_sig) for include_sig in include)
+        )
+
+    def included() -> bool:
+        return any(match(include_sig) for include_sig in include) and not any(
+            match(exclude_sig) for exclude_sig in exclude
+        )
+
+    if default == "include":
+        return (not sig or match(sig)) and not excluded()
+    else:
+        return (sig and match(sig)) or included()
 
 
 class TalonCommandDirective(TalonDocObjectDescription):

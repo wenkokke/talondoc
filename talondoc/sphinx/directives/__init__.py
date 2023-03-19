@@ -1,33 +1,14 @@
-from collections.abc import Callable, Iterator
-from typing import TYPE_CHECKING, Any, Optional, Union, cast
+from collections.abc import Callable
+from typing import TYPE_CHECKING, Any, Optional, cast
 
 import sphinx.directives
 from docutils import nodes
 from sphinx import addnodes
 from talonfmt import talonfmt
-from tree_sitter_talon import (
-    AnyTalonRule,
-    TalonCapture,
-    TalonChoice,
-    TalonComment,
-    TalonEndAnchor,
-    TalonList,
-    TalonOptional,
-    TalonParenthesizedRule,
-    TalonRepeat,
-    TalonRepeat1,
-    TalonRule,
-    TalonSeq,
-    TalonStartAnchor,
-    TalonWord,
-)
+from tree_sitter_talon import TalonComment
 
 from ...registry import Registry
-from ...registry.entries.user import (
-    UserCommandEntry,
-    UserPackageEntry,
-    UserTalonFileEntry,
-)
+from ...registry.entries.user import UserCommandEntry
 from ...util.desc import InvalidInterpolation
 from ...util.describer import TalonScriptDescriber
 from ...util.logging import getLogger
@@ -39,64 +20,6 @@ if TYPE_CHECKING:
     from talondoc.sphinx.domains import TalonDomain
 else:
     TalonDomain = Any
-
-
-def include_command(
-    candidate: UserCommandEntry,
-    sig: Optional[str] = None,
-    *,
-    fullmatch: bool = True,
-    default: str = "include",
-    include: tuple[str, ...] = (),
-    exclude: tuple[str, ...] = (),
-    captures: Optional[
-        Callable[
-            [str],
-            Optional[
-                Union[
-                    TalonCapture,
-                    TalonChoice,
-                    TalonEndAnchor,
-                    TalonList,
-                    TalonOptional,
-                    TalonParenthesizedRule,
-                    TalonRepeat,
-                    TalonRepeat1,
-                    TalonRule,
-                    TalonSeq,
-                    TalonStartAnchor,
-                    TalonWord,
-                ]
-            ],
-        ]
-    ] = None,
-    lists: Optional[Callable[[str], Optional[list[str]]]] = None,
-):
-    assert default in ["include", "exclude"]
-
-    def match(sig: str) -> bool:
-        return bool(
-            candidate.ast.rule.match(
-                sig, fullmatch=fullmatch, get_capture=captures, get_list=lists
-            )
-        )
-
-    def excluded() -> bool:
-        return (
-            bool(exclude)
-            and any(match(exclude_sig) for exclude_sig in exclude)
-            and not any(match(include_sig) for include_sig in include)
-        )
-
-    def included() -> bool:
-        return any(match(include_sig) for include_sig in include) and not any(
-            match(exclude_sig) for exclude_sig in exclude
-        )
-
-    if default == "include":
-        return (not sig or match(sig)) and not excluded()
-    else:
-        return (sig and match(sig)) or included()
 
 
 class TalonDocDirective(sphinx.directives.SphinxDirective):
