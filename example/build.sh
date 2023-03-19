@@ -17,12 +17,12 @@ output_dir="$script_dir/docs"
   --exclude 'conftest.py' \
   --exclude 'test/repo_root_init.py' \
   --exclude 'test/test_code_modified_function.py' \
-   --exclude 'test/test_create_spoken_forms.py' \
-    --exclude 'test/test_dictation.py' \
-   --exclude 'test/test_formatters.py' \
-   --exclude 'test/stubs/talon/__init__.py' \
-   --exclude 'test/stubs/talon/grammar.py' \
-   --exclude 'test/stubs/talon/experimental/textarea.py' \
+  --exclude 'test/test_create_spoken_forms.py' \
+  --exclude 'test/test_dictation.py' \
+  --exclude 'test/test_formatters.py' \
+  --exclude 'test/stubs/talon/__init__.py' \
+  --exclude 'test/stubs/talon/grammar.py' \
+  --exclude 'test/stubs/talon/experimental/textarea.py' \
   "$script_dir/knausj_talon/" \
   || echo > "$fail"
 
