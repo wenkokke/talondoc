@@ -28,6 +28,8 @@ output_dir="$script_dir/docs"
   || echo > "$fail"
 
 [ ! -s "$fail" ] && \
+  PYTHONUTF8=1 \
+  PYTHONIOENCODING=utf8 \
   sphinx-build \
   -M "clean" \
   "$output_dir" \
@@ -35,6 +37,8 @@ output_dir="$script_dir/docs"
   || echo > "$fail"
 
 [ ! -s "$fail" ] && \
+  PYTHONUTF8=1 \
+  PYTHONIOENCODING=utf8 \
   sphinx-build \
   -M "html" \
   "$output_dir" \
