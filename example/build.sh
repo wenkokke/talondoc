@@ -1,8 +1,5 @@
 #!/bin/
 
-# Set UTF8 mode
-export PYTHONUTF8=1
-
 # POSIX compliant method for 'pipefail':
 fail=$(mktemp)
 
@@ -10,6 +7,8 @@ script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 output_dir="$script_dir/docs"
 
 [ ! -s "$fail" ] && \
+  PYTHONUTF8=1 \
+  PYTHONIOENCODING=utf8 \
   talondoc autogen \
   --output-dir "$output_dir/knausj_talon" \
   --sphinx-root "$output_dir" \
