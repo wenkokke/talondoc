@@ -54,7 +54,7 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
             return __docstring_hook
 
     def describe_rule(self, command: UserCommandEntry) -> nodes.Text:
-        return nodes.Text(talonfmt(command.ast.rule, safe=False))
+        return nodes.Text(talonfmt(command.ast.left, safe=False))
 
     def try_describe_script_via_action_docstrings(
         self,
@@ -116,15 +116,25 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
         Describe the script using the docstrings on the script, the docstrings on
         the actions, or finally by including it as a code block.
         """
-        desc = self.try_describe_script_via_script_docstrings(command)
-        desc = desc or self.try_describe_script_via_action_docstrings(
-            command, registry=registry
-        )
         buffer = []
-        if desc:
-            buffer.append(paragraph(nodes.Text(desc)))
-        if not desc or include_script:
+
+        # 1. Use the Talon docstrings in the command script. Talon docstrings are comments which start with ###.
+        desc = self.try_describe_script_via_script_docstrings(command)
+
+        # 2. Use the Python docstrings from the actions used in the command script.
+        if desc is None:
+            desc = self.try_describe_script_via_action_docstrings(
+                command, registry=registry
+            )
+
+        # Append the description.
+        if desc is not None:
+            buffer.append(paragraph(nodes.Text(str(desc))))
+
+        if desc is None or include_script:
+            # 3. Include the command script.
             buffer.append(self.describe_script_via_code_block(command))
+
         return buffer
 
     def handle_command(

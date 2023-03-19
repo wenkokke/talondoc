@@ -42,20 +42,6 @@ _LOGGER = getLogger(__name__)
 NodeVar = TypeVar("NodeVar", bound=Node)
 
 
-def _only_child(children: Sequence[Union[NodeVar, TalonComment]]) -> NodeVar:
-    ret: Optional[NodeVar] = None
-    for child in children:
-        if not isinstance(child, TalonComment):
-            if __debug__ and ret:
-                raise AssertionError(f"Multiple non-comments in {children}.")
-            ret = child
-            if not __debug__:
-                break
-    if ret is None:
-        raise AssertionError(f"Only comments in {children}.")
-    return ret
-
-
 class TalonScriptDescriber:
     def __init__(
         self,
@@ -72,7 +58,7 @@ class TalonScriptDescriber:
 
     @describe.register
     def _(self, ast: TalonCommandDeclaration) -> Optional[Desc]:
-        return self.describe(ast.script)
+        return self.describe(ast.right)
 
     @describe.register
     def _(self, ast: TalonBlock) -> Optional[Desc]:
@@ -152,7 +138,7 @@ class TalonScriptDescriber:
 
     @describe.register
     def _(self, ast: TalonParenthesizedExpression) -> Optional[Desc]:
-        return self.describe(_only_child(ast.children))
+        return self.describe(ast.get_child())
 
     @describe.register
     def _(self, ast: TalonComment) -> Optional[Desc]:

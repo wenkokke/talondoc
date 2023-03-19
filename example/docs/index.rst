@@ -3,7 +3,7 @@ TalonDoc
 
 .. toctree::
   :maxdepth: 1
-  
+
   knausj_talon/index.rst
 
 Loading a Talon package
@@ -17,12 +17,12 @@ Python files in our example package, ``examples/knausj_talon``, we use the
 
   .. talon:package:: ../knausj_talon
     :name: user
-    :exclude: conftest.py, test/**, **/*.py
+    :exclude: conftest.py, test/**
     :trigger: ready
 
 .. talon:package:: ../knausj_talon
   :name: user
-  :exclude: conftest.py, test/**, **/*.py
+  :exclude: conftest.py, test/**
   :trigger: ready
 
 The ``talon:package`` directive takes a single argument, which is the path to
