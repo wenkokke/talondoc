@@ -4,7 +4,7 @@ from docutils.nodes import Element
 from sphinx.util.typing import OptionSpec
 
 from ...analyze import analyse_package
-from ...analyze.registry import NoActiveFile, NoActivePackage, NoActiveRegistry
+from ...registry.registry import NoActiveFile, NoActivePackage, NoActiveRegistry
 from ...util.logging import getLogger
 from ...util.typing import optional_str, optional_strlist
 from . import TalonDocDirective

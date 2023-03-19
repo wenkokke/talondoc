@@ -1,7 +1,7 @@
 from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
 
-from ..analyze.registry import Registry
+from ..registry.registry import Registry
 from ..sphinx.directives.command_hlist import TalonCommandHListDirective
 from ..sphinx.directives.command_table import TalonCommandTableDirective
 from ..util.logging import getLogger

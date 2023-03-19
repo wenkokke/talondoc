@@ -24,16 +24,15 @@ from tree_sitter_talon import (
     TalonVariable,
 )
 
-from ..analyze.entries.abc import (
-    AnyGroupableObject,
+from ..registry.entries.abc import (
     CaptureEntry,
     ListEntry,
     ModeEntry,
     SettingEntry,
     TagEntry,
 )
-from ..analyze.entries.user import ActionEntry, UserTagEntry
-from ..analyze.registry import Registry
+from ..registry.entries.user import ActionEntry, UserTagEntry
+from ..registry.registry import Registry
 from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
 from .logging import getLogger
 

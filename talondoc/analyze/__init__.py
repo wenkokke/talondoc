@@ -16,9 +16,7 @@ from tree_sitter_talon import (
     parse_file,
 )
 
-from ..util.logging import getLogger
-from ..util.progress_bar import ProgressBar
-from .entries.user import (
+from ..registry.entries.user import (
     UserCallbackEntry,
     UserCommandEntry,
     UserFileEntry,
@@ -27,7 +25,9 @@ from .entries.user import (
     UserSettingEntry,
     UserTalonFileEntry,
 )
-from .registry import Registry
+from ..registry.registry import Registry
+from ..util.logging import getLogger
+from ..util.progress_bar import ProgressBar
 from .shims import talon
 
 _LOGGER = getLogger(__name__)
