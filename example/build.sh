@@ -7,9 +7,9 @@ script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 output_dir="$script_dir/docs"
 
 [ ! -s "$fail" ] && \
-  PYTHONUTF8=1 \
-  PYTHONIOENCODING=utf8 \
-  talondoc autogen \
+  python \
+  -X utf8 \
+  -m talondoc autogen \
   --output-dir "$output_dir/knausj_talon" \
   --sphinx-root "$output_dir" \
   --project 'knausj_talon' \
