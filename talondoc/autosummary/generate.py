@@ -8,8 +8,8 @@ import jinja2
 import jinja2.sandbox
 
 from ..analyze import analyse_package
+from ..registry import Registry
 from ..registry.entries.user import UserPythonFileEntry, UserTalonFileEntry
-from ..registry.registry import Registry
 from ..util.progress_bar import ProgressBar
 
 

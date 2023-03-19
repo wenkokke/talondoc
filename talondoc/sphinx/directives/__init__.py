@@ -22,12 +22,12 @@ from tree_sitter_talon import (
     TalonWord,
 )
 
+from ...registry import Registry
 from ...registry.entries.user import (
     UserCommandEntry,
     UserPackageEntry,
     UserTalonFileEntry,
 )
-from ...registry.registry import Registry
 from ...util.desc import InvalidInterpolation
 from ...util.describer import TalonScriptDescriber
 from ...util.logging import getLogger

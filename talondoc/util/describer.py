@@ -24,6 +24,7 @@ from tree_sitter_talon import (
     TalonVariable,
 )
 
+from ..registry import Registry
 from ..registry.entries.abc import (
     CaptureEntry,
     ListEntry,
@@ -32,7 +33,6 @@ from ..registry.entries.abc import (
     TagEntry,
 )
 from ..registry.entries.user import ActionEntry, UserTagEntry
-from ..registry.registry import Registry
 from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
 from .logging import getLogger
 

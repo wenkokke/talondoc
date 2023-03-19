@@ -8,8 +8,6 @@
 
 import os
 import sys
-from typing import Optional, Union
-from collections.abc import Callable
 
 project = "example"
 copyright = "2022, Wen Kokke"

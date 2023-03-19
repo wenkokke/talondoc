@@ -7,8 +7,8 @@ from pathlib import Path
 from types import ModuleType
 from typing import ClassVar, Optional, Union
 
+from ...registry import Registry
 from ...registry.entries.user import UserPackageEntry
-from ...registry.registry import Registry
 from ...util.logging import getLogger
 from .core import ModuleShim, TalonShim
 
