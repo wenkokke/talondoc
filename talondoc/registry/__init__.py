@@ -2,7 +2,7 @@ from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, ClassVar, Optional, cast, overload
+from typing import Any, ClassVar, Literal, Optional, cast, overload
 
 from ..util.logging import getLogger
 from .entries.abc import (
@@ -122,7 +122,7 @@ class Registry:
         try:
             name = UserFileEntry.make_name(package, path)
             resolved_path = (package.path / path).resolve()
-            file_entry = self.lookup(cls, name)
+            file_entry = self.lookup("file", name)
             found_file_entry: bool = False
             if file_entry:
                 if file_entry.newer_than(resolved_path.stat().st_mtime):
@@ -291,97 +291,97 @@ class Registry:
 
     @overload
     def lookup(
-        self, sort: type[ActionEntry], name: str, *, namespace: Optional[str] = None
+        self, sort: Literal["action"], name: str, *, namespace: Optional[str] = None
     ) -> Optional[GroupEntry[ActionEntry]]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[CaptureEntry], name: str, *, namespace: Optional[str] = None
+        self, sort: Literal["capture"], name: str, *, namespace: Optional[str] = None
     ) -> Optional[GroupEntry[CaptureEntry]]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[ListEntry], name: str, *, namespace: Optional[str] = None
+        self, sort: Literal["list"], name: str, *, namespace: Optional[str] = None
     ) -> Optional[GroupEntry[ListEntry]]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[ModeEntry], name: str, *, namespace: Optional[str] = None
+        self, sort: Literal["mode"], name: str, *, namespace: Optional[str] = None
     ) -> Optional[ModeEntry]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[SettingEntry], name: str, *, namespace: Optional[str] = None
+        self, sort: Literal["setting"], name: str, *, namespace: Optional[str] = None
     ) -> Optional[GroupEntry[SettingEntry]]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[TagEntry], name: str, *, namespace: Optional[str] = None
+        self, sort: Literal["tag"], name: str, *, namespace: Optional[str] = None
     ) -> Optional[TagEntry]:
         ...
 
     @overload
     def lookup(
-        self,
-        sort: type[UserPackageEntry],
-        name: str,
-        *,
-        namespace: Optional[str] = None
+        self, sort: Literal["package"], name: str, *, namespace: Optional[str] = None
     ) -> Optional[UserPackageEntry]:
         ...
 
     @overload
     def lookup(
-        self,
-        sort: type[AnyUserFileEntry],
-        name: str,
-        *,
-        namespace: Optional[str] = None
+        self, sort: Literal["file"], name: str, *, namespace: Optional[str] = None
     ) -> Optional[AnyUserFileEntry]:
         ...
 
     @overload
     def lookup(
-        self, sort: type[UserModuleEntry], name: str, *, namespace: Optional[str] = None
+        self, sort: Literal["module"], name: str, *, namespace: Optional[str] = None
     ) -> Sequence[UserModuleEntry]:
         ...
 
     @overload
     def lookup(
-        self,
-        sort: type[UserFunctionEntry],
-        name: str,
-        *,
-        namespace: Optional[str] = None
+        self, sort: Literal["function"], name: str, *, namespace: Optional[str] = None
     ) -> Optional[UserFunctionEntry]:
         ...
 
     @overload
     def lookup(
-        self,
-        sort: type[UserCallbackEntry],
-        name: str,
-        *,
-        namespace: Optional[str] = None
+        self, sort: Literal["callback"], name: str, *, namespace: Optional[str] = None
     ) -> Sequence[UserCallbackEntry]:
         ...
 
     def lookup(
-        self, sort: type[AnyEntry], name: str, *, namespace: Optional[str] = None
+        self,
+        sort: Literal[
+            "action",
+            "capture",
+            "list",
+            "mode",
+            "setting",
+            "tag",
+            "package",
+            "file",
+            "module",
+            "function",
+            "callback",
+        ],
+        name: str,
+        *,
+        namespace: Optional[str] = None
     ) -> Any:
         """
         Look up an object entry by its name.
         """
         resolved_name = resolve_name(name, namespace=namespace)
-        if issubclass(sort, GroupableObjectEntry):
-            return self.groups.get(sort.get_sort(), {}).get(resolved_name, None)
+        if sort in ("action", "capture", "list", "setting"):
+            return self.groups.get(sort, {}).get(resolved_name, None)
         else:
-            return self.data.get(sort.get_sort(), {}).get(resolved_name, None)
+            return self.data.get(sort, {}).get(resolved_name, None)
 
     ##################################################
     # The active GLOBAL registry

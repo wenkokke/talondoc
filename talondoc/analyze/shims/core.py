@@ -177,12 +177,12 @@ def _action(
     registry: Registry, name: str, *, namespace: Optional[str] = None
 ) -> Optional[Callable[..., Any]]:
     action_group_entry: Optional[GroupEntry[ActionEntry]] = registry.lookup(
-        ActionEntry, name, namespace=namespace
+        "action", name, namespace=namespace
     )
     if action_group_entry and action_group_entry.default:
         function_name = action_group_entry.default.get_function_name()
         if function_name:
-            function_entry = registry.lookup(UserFunctionEntry, function_name)
+            function_entry = registry.lookup("function", function_name)
             if function_entry:
                 return function_entry.func
     return ObjectShim()  # type: ignore

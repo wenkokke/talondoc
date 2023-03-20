@@ -759,18 +759,6 @@ lint = ["docutils-stubs", "flake8 (>=3.5.0)", "flake8-simplify", "isort", "mypy 
 test = ["cython", "html5lib", "pytest (>=4.6)"]
 
 [[package]]
-name = "sphinx-bootstrap-theme"
-version = "0.8.1"
-description = "Sphinx Bootstrap Theme."
-category = "main"
-optional = true
-python-versions = "*"
-files = [
-    {file = "sphinx-bootstrap-theme-0.8.1.tar.gz", hash = "sha256:683e3b735448dadd0149f76edecf95ff4bd9157787e9e77e0d048ca6f1d680df"},
-    {file = "sphinx_bootstrap_theme-0.8.1-py2.py3-none-any.whl", hash = "sha256:6ef36206c211846ea6cbdb45bc85645578e7c62d0a883361181708f8b6ea743b"},
-]
-
-[[package]]
 name = "sphinx-rtd-theme"
 version = "1.2.0"
 description = "Read the Docs theme for Sphinx"
@@ -1138,4 +1126,4 @@ test = ["bumpver", "myst-parser", "sphinx-rtd-theme", "sphinx-tabs"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9.8,<4.0.0"
-content-hash = "5339fdc38d62097ac6d3abd16257fd5e7ce884b718e9ac6a55d7be88b3af994d"
+content-hash = "fbee4ed72495765a0ede395e4753d112de446586188a52e80b57d174297a8996"

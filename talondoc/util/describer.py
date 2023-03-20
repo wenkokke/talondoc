@@ -1,6 +1,6 @@
 from collections.abc import Callable
 from functools import singledispatchmethod
-from typing import Optional, Sequence, TypeVar, Union
+from typing import Literal, Optional, Sequence, TypeVar, Union
 
 from tree_sitter_talon import (
     Node,
@@ -99,18 +99,18 @@ class TalonScriptDescriber:
 
     def get_docstring(
         self,
-        sort: Union[
-            type[ActionEntry],
-            type[CaptureEntry],
-            type[ListEntry],
-            type[ModeEntry],
-            type[SettingEntry],
-            type[TagEntry],
+        sort: Literal[
+            "action",
+            "capture",
+            "list",
+            "mode",
+            "setting",
+            "tag",
         ],
         name: str,
     ) -> Optional[str]:
         if self.docstring_hook:
-            docstring = self.docstring_hook(sort.get_sort(), name)
+            docstring = self.docstring_hook(sort, name)
             if docstring:
                 return docstring
         entry = self.registry.lookup(sort, name)
@@ -122,7 +122,7 @@ class TalonScriptDescriber:
     def _(self, ast: TalonAction) -> Optional[Desc]:
         # TODO: resolve self.*
         name = ast.action_name.text
-        docstring = self.get_docstring(ActionEntry, name)
+        docstring = self.get_docstring("action", name)
         if docstring:
             desc = from_docstring(docstring)
             if isinstance(desc, StepsTemplate):

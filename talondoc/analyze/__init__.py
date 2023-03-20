@@ -82,7 +82,7 @@ def analyse_package(
 
                 # Trigger callbacks:
                 for event_code in trigger:
-                    callback_entries = registry.lookup(UserCallbackEntry, event_code)
+                    callback_entries = registry.lookup("callback", event_code)
                     if callback_entries:
                         for callback_entry in callback_entries:
                             callback_entry.func()
