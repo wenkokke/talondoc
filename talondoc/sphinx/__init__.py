@@ -2,15 +2,8 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any, Optional, Sequence, Union, cast
 
-from sphinx.application import Sphinx
-from typing_extensions import (
-    NotRequired,
-    Required,
-    TypeAlias,
-    TypedDict,
-    TypeGuard,
-    TypeVar,
-)
+from sphinx.application import BuildEnvironment, Sphinx
+from typing_extensions import NotRequired, Required, TypeAlias, TypedDict, TypeGuard
 
 from talondoc.registry import NoActiveFile, NoActivePackage, NoActiveRegistry
 
@@ -74,7 +67,9 @@ def _is_talon_package(talon_package: Any) -> TypeGuard[TalonPackage]:
         return False
 
 
-def _canonicalize_talon_package(talon_package: Any) -> TalonPackage:
+def _canonicalize_talon_package(talon_package: Any) -> Optional[TalonPackage]:
+    if talon_package is None:
+        return None
     if type(talon_package) == str:
         return {"path": talon_package}
     if _is_talon_package(talon_package):
@@ -83,15 +78,23 @@ def _canonicalize_talon_package(talon_package: Any) -> TalonPackage:
 
 
 def _canonicalize_talon_packages(talon_packages: Any) -> Sequence[TalonPackage]:
+    if talon_packages is None:
+        return ()
     try:
-        return [_canonicalize_talon_package(talon_packages)]
+        talon_package = _canonicalize_talon_package(talon_packages)
+        return (talon_package,) if talon_package else ()
     except TypeError:
         pass
     if isinstance(talon_packages, Sequence):
-        return [
-            _canonicalize_talon_package(talon_package)
-            for talon_package in talon_packages
-        ]
+        return tuple(
+            filter(
+                None,
+                (
+                    _canonicalize_talon_package(talon_package)
+                    for talon_package in talon_packages
+                ),
+            )
+        )
     raise TypeError(type(talon_packages))
 
 
@@ -105,9 +108,25 @@ def _canonicalize_vararg(vararg: Union[None, str, Sequence[str]]) -> tuple[str, 
     raise TypeError(type(vararg))
 
 
-def _talondoc_load_package(app, env, *args):
-    talon_domain = cast(TalonDomain, env.get_domain("talon"))
+def _talon_packages(env: BuildEnvironment) -> Sequence[TalonPackage]:
+    buffer = []
+
+    # Load via the talon_package option
+    talon_package = _canonicalize_talon_package(env.config["talon_package"])
+    if talon_package:
+        buffer.append(talon_package)
+
+    # Load via the talon_packages option
     talon_packages = _canonicalize_talon_packages(env.config["talon_packages"])
+    if talon_packages:
+        buffer.extend(talon_packages)
+
+    return buffer
+
+
+def _talondoc_load_package(app: Sphinx, env: BuildEnvironment, *args):
+    talon_domain = cast(TalonDomain, env.get_domain("talon"))
+    talon_packages = _talon_packages(env)
     srcdir = Path(env.srcdir)
     for talon_package in talon_packages:
         package_dir = srcdir / talon_package["path"]
@@ -147,22 +166,30 @@ def setup(app: Sphinx) -> dict[str, Any]:
         name="talon_docstring_hook",
         default=None,
         rebuild="env",
-        # types=[
-        #     Callable[[str, str], Optional[str]],
-        #     dict[str, dict[str, str]],
-        # ],
+        types=[
+            Callable,  # _TalonDocstringHook_Callable
+            dict,  # _TalonDocstringHook_Dict
+        ],
+    )
+
+    app.add_config_value(
+        name="talon_package",
+        default=None,
+        rebuild="env",
+        types=[
+            dict,  # TalonPackage
+            str,
+        ],
     )
 
     app.add_config_value(
         name="talon_packages",
         default=None,
         rebuild="env",
-        # types=[
-        #     str,
-        #     TalonPackage,
-        #     Sequence[str],
-        #     Sequence[TalonPackage],
-        # ],
+        types=[
+            list,  # list[TalonPackage]
+            tuple,  # tuple[TalonPackage]
+        ],
     )
 
     app.connect("env-before-read-docs", _talondoc_load_package)

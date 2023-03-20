@@ -6,50 +6,55 @@ TalonDoc
 
   knausj_talon/index.rst
 
+
 Loading a Talon package
 -----------------------
 
 TalonDoc can analyse a Talon package or user directory. To load all Talon and
 Python files in ``example/knausj_talon`` we add the following to `conf.py`:
+
 .. code-block:: python
 
-.. code-block:: rst
-
-  talon_packages = {
+  talon_package = {
     'path': '../knausj_talon',
     'name': 'user',
     'exclude': ['conftest.py', 'test/**'],
     'trigger': 'ready'
   }
 
-The ``talon_packages`` configuration can be either a single package or a list
-of packages. Each package must specify at least the path to the root directory
-of the package, and may optionally specify the name of the package, a list of
-files to include or exclude, and a list of events to trigger after loading the
-package.
+The ``talon_package`` value is required and describes the Talon package that
+is being documented. It should be a dictionary with the key ``path`` whose
+value is the path to the root directory of the Talon package. The path may be
+relative to the ``conf.py`` file. The dictionary may optionally contain any of
+the following keys:
 
-Both ``talon:package`` and ``talon:user`` take a number of options:
-
-``:name:``
+``name``
   The name of the Talon package.
-  This is used to resolve ``self.*`` references.
+  This is used topointing resolve ``self.*`` references.
   Defaults to ``user``.
 
-``:include:``
+``include``
   A list of glob patterns.
   All ``.talon`` and ``.py`` files in the package directory are included by
   default, but any file matched by an include pattern will be included *even
-  if* it matches any of the patterns in ``:exclude:``.
+  if* it matches any of the patterns in ``exclude``.
 
-``:exclude:``
+``exclude``
   A list of glob patterns.
   Any file matched by an exclude pattern will be excluded *unless* it matches
-  any of the patterns in ``:include:``.
+  any of the patterns in ``include``.
 
-``:trigger:``
+``trigger``
   A list of Talon events.
   These events will be triggered after the entire package has been loaded.
   Useful for making sure that "launch" and "ready" callbacks fire.
+
+Optionally, if the ``talon_package`` value is a string, and not a dictionary,
+it is interpreted as the value of the ``path`` field.
+
+If you wish to document multiple Talon packages, you can use ``talon_packages``
+whose value must be a list or tuple of package descriptions as described above.
+
 
 Document individual commands
 ----------------------------
