@@ -1,9 +1,4 @@
 user.apps.brave.brave
 =====================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/brave/brave.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.brave.brave

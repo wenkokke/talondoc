@@ -1,9 +1,4 @@
 user.apps.safari.safari
 =======================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/safari/safari.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.safari.safari

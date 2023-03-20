@@ -1,9 +1,4 @@
 user.apps.teams.teams
 =====================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/teams/teams.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.teams.teams

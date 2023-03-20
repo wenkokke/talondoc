@@ -1,9 +1,4 @@
 user.plugin.dropdown.dropdown
 =============================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: plugin/dropdown/dropdown.talon
-  :exclude: **
-
 .. talon:command-table:: user.plugin.dropdown.dropdown

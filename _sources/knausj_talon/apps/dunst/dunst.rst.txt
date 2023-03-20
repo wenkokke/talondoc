@@ -1,9 +1,4 @@
 user.apps.dunst.dunst
 =====================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/dunst/dunst.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.dunst.dunst

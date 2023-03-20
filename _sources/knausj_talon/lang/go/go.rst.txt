@@ -1,9 +1,4 @@
 user.lang.go.go
 ===============
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/go/go.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.go.go

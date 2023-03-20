@@ -1,9 +1,4 @@
 user.lang.php.php
 =================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/php/php.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.php.php

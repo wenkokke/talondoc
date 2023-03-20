@@ -1,9 +1,4 @@
 user.core.modes.sleep_mode
 ==========================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: core/modes/sleep_mode.talon
-  :exclude: **
-
 .. talon:command-table:: user.core.modes.sleep_mode

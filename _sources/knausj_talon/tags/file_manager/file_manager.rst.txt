@@ -1,9 +1,4 @@
 user.tags.file_manager.file_manager
 ===================================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: tags/file_manager/file_manager.talon
-  :exclude: **
-
 .. talon:command-table:: user.tags.file_manager.file_manager

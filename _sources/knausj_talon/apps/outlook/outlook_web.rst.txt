@@ -1,9 +1,4 @@
 user.apps.outlook.outlook_web
 =============================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/outlook/outlook_web.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.outlook.outlook_web

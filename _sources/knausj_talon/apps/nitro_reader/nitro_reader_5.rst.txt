@@ -1,9 +1,4 @@
 user.apps.nitro_reader.nitro_reader_5
 =====================================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/nitro_reader/nitro_reader_5.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.nitro_reader.nitro_reader_5

@@ -1,9 +1,4 @@
 user.lang.tags.comment_block
 ============================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/tags/comment_block.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.tags.comment_block

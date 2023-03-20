@@ -1,9 +1,4 @@
 user.apps.windows_terminal.windows_terminal
 ===========================================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/windows_terminal/windows_terminal.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.windows_terminal.windows_terminal

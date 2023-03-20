@@ -1,9 +1,4 @@
 user.lang.tags.keywords
 =======================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/tags/keywords.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.tags.keywords

@@ -1,9 +1,4 @@
 user.apps.discord.discord
 =========================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/discord/discord.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.discord.discord

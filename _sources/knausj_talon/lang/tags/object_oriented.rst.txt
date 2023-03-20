@@ -1,9 +1,4 @@
 user.lang.tags.object_oriented
 ==============================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/tags/object_oriented.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.tags.object_oriented

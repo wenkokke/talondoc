@@ -1,9 +1,4 @@
 user.lang.typescript.typescriptreact
 ====================================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/typescript/typescriptreact.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.typescript.typescriptreact

@@ -1,9 +1,4 @@
 user.lang.batch.batch
 =====================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/batch/batch.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.batch.batch

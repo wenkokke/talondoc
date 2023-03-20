@@ -1,9 +1,4 @@
 user.core.edit.edit
 ===================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: core/edit/edit.talon
-  :exclude: **
-
 .. talon:command-table:: user.core.edit.edit

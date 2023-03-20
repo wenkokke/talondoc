@@ -1,9 +1,4 @@
 user.lang.talon.talon
 =====================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/talon/talon.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.talon.talon

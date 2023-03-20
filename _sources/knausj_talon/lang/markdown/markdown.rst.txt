@@ -1,9 +1,4 @@
 user.lang.markdown.markdown
 ===========================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/markdown/markdown.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.markdown.markdown

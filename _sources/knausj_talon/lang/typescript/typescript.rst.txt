@@ -1,9 +1,4 @@
 user.lang.typescript.typescript
 ===============================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/typescript/typescript.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.typescript.typescript

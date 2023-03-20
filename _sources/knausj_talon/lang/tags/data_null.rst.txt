@@ -1,9 +1,4 @@
 user.lang.tags.data_null
 ========================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/tags/data_null.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.tags.data_null

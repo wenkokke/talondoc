@@ -1,9 +1,4 @@
 user.plugin.media.media
 =======================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: plugin/media/media.talon
-  :exclude: **
-
 .. talon:command-table:: user.plugin.media.media

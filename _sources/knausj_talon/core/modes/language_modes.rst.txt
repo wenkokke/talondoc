@@ -1,9 +1,4 @@
 user.core.modes.language_modes
 ==============================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: core/modes/language_modes.talon
-  :exclude: **
-
 .. talon:command-table:: user.core.modes.language_modes

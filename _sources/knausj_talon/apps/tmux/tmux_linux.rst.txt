@@ -1,9 +1,4 @@
 user.apps.tmux.tmux_linux
 =========================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/tmux/tmux_linux.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.tmux.tmux_linux

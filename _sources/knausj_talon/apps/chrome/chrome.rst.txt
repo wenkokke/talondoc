@@ -1,9 +1,4 @@
 user.apps.chrome.chrome
 =======================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/chrome/chrome.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.chrome.chrome

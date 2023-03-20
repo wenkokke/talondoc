@@ -1,9 +1,4 @@
 user.apps.gdb.gdb
 =================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/gdb/gdb.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.gdb.gdb

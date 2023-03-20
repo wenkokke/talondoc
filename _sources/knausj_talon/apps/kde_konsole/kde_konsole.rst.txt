@@ -1,9 +1,4 @@
 user.apps.kde_konsole.kde_konsole
 =================================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/kde_konsole/kde_konsole.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.kde_konsole.kde_konsole

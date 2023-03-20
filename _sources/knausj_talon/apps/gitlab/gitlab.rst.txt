@@ -1,9 +1,4 @@
 user.apps.gitlab.gitlab
 =======================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/gitlab/gitlab.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.gitlab.gitlab

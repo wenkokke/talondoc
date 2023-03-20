@@ -1,9 +1,4 @@
 user.tags.snippets.snippets
 ===========================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: tags/snippets/snippets.talon
-  :exclude: **
-
 .. talon:command-table:: user.tags.snippets.snippets

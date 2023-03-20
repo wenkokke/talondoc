@@ -1,9 +1,4 @@
 user.apps.iterm.iterm
 =====================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/iterm/iterm.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.iterm.iterm

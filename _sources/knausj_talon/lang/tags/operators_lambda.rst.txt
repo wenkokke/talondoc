@@ -1,9 +1,4 @@
 user.lang.tags.operators_lambda
 ===============================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/tags/operators_lambda.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.tags.operators_lambda

@@ -1,9 +1,4 @@
 user.apps.nautilus.nautilus
 ===========================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/nautilus/nautilus.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.nautilus.nautilus

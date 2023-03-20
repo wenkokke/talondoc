@@ -1,9 +1,4 @@
 user.lang.tags.operators_math
 =============================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: lang/tags/operators_math.talon
-  :exclude: **
-
 .. talon:command-table:: user.lang.tags.operators_math

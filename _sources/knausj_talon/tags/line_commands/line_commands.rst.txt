@@ -1,9 +1,4 @@
 user.tags.line_commands.line_commands
 =====================================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: tags/line_commands/line_commands.talon
-  :exclude: **
-
 .. talon:command-table:: user.tags.line_commands.line_commands

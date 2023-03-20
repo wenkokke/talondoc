@@ -1,11 +1,6 @@
 Documentation for knausj_talon
 ==============================
 
-.. talon:package:: /home/runner/work/talondoc/talondoc/example/knausj_talon
-  :name: user
-  :exclude: conftest.py, test/**
-  :trigger: ready
-
 .. toctree::
   settings.rst
   core/user_settings/api.rst
@@ -76,9 +71,6 @@ Documentation for knausj_talon
   core/numbers/numbers/api.rst
   core/file_extension/file_extension/api.rst
   core/file_extension/file_extension.rst
-  test/stubs/talon/grammar/api.rst
-  test/stubs/talon/__init__/api.rst
-  test/stubs/talon/experimental/textarea/api.rst
   plugin/eye_tracking_settings/api.rst
   plugin/talon_draft_window/draft_window.rst
   plugin/talon_draft_window/__init__/api.rst

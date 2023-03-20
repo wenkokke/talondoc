@@ -1,9 +1,4 @@
 user.plugin.datetimeinsert.datetimeinsert
 =========================================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: plugin/datetimeinsert/datetimeinsert.talon
-  :exclude: **
-
 .. talon:command-table:: user.plugin.datetimeinsert.datetimeinsert

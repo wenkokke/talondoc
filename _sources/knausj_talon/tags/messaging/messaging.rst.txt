@@ -1,9 +1,4 @@
 user.tags.messaging.messaging
 =============================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: tags/messaging/messaging.talon
-  :exclude: **
-
 .. talon:command-table:: user.tags.messaging.messaging

@@ -1,9 +1,4 @@
 user.plugin.talon_draft_window.draft_window_open
 ================================================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: plugin/talon_draft_window/draft_window_open.talon
-  :exclude: **
-
 .. talon:command-table:: user.plugin.talon_draft_window.draft_window_open

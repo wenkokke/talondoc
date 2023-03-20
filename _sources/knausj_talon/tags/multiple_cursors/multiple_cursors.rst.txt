@@ -1,9 +1,4 @@
 user.tags.multiple_cursors.multiple_cursors
 ===========================================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: tags/multiple_cursors/multiple_cursors.talon
-  :exclude: **
-
 .. talon:command-table:: user.tags.multiple_cursors.multiple_cursors

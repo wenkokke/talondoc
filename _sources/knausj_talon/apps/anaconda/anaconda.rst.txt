@@ -1,9 +1,4 @@
 user.apps.anaconda.anaconda
 ===========================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: apps/anaconda/anaconda.talon
-  :exclude: **
-
 .. talon:command-table:: user.apps.anaconda.anaconda

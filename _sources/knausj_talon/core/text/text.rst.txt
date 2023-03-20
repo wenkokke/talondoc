@@ -1,9 +1,4 @@
 user.core.text.text
 ===================
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :include: core/text/text.talon
-  :exclude: **
-
 .. talon:command-table:: user.core.text.text
