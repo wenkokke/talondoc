@@ -5,8 +5,8 @@ from typing import Any, Optional, Sequence, Union, cast
 from sphinx.application import Sphinx
 from typing_extensions import TypeAlias, TypedDict
 
-from ..analyze import analyse_package
 from .. import __version__
+from ..analyze import analyse_package
 from ..util.logging import getLogger
 from .domains import TalonDomain
 
