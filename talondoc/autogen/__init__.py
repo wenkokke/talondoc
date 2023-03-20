@@ -107,8 +107,8 @@ def autogen(
     package_entry.path = Path(os.path.relpath(package_entry.path, start=sphinx_root))
 
     # Render talon and python file entries:
-    template_talon_file_entry = env.get_template("talon_file_entry.rst")
-    template_python_file_entry = env.get_template("python_file_entry.rst")
+    template_talon_file_entry = env.get_template("talon_file_entry.rst.jinja2")
+    template_python_file_entry = env.get_template("python_file_entry.rst.jinja2")
     toc: list[Path] = []
     total: int = len(package_entry.files)
     if generate_conf:
@@ -147,7 +147,7 @@ def autogen(
 
     # Create index.rst
     if generate_index:
-        template_index = env.get_template("index.rst")
+        template_index = env.get_template("index.rst.jinja2")
         output_path = output_dir / "index.rst"
         bar.step(" index.rst")
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -155,7 +155,7 @@ def autogen(
 
     # Create conf.py
     if generate_conf:
-        template_confpy = env.get_template("conf.py")
+        template_confpy = env.get_template("conf.py.jinja2")
         output_path = output_dir / "conf.py"
         bar.step(" conf.py")
         output_path.parent.mkdir(parents=True, exist_ok=True)

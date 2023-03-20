@@ -10,24 +10,23 @@ Loading a Talon package
 -----------------------
 
 TalonDoc can analyse a Talon package or user directory. To load all Talon and
-Python files in our example package, ``examples/knausj_talon``, we use the
-``talon:package`` directive:
+Python files in ``example/knausj_talon`` we add the following to `conf.py`:
+.. code-block:: python
 
 .. code-block:: rst
 
-  .. talon:package:: ../knausj_talon
-    :name: user
-    :exclude: conftest.py, test/**
-    :trigger: ready
+  talon_packages = {
+    'path': '../knausj_talon',
+    'name': 'user',
+    'exclude': ['conftest.py', 'test/**'],
+    'trigger': 'ready'
+  }
 
-.. talon:package:: ../knausj_talon
-  :name: user
-  :exclude: conftest.py, test/**
-  :trigger: ready
-
-The ``talon:package`` directive takes a single argument, which is the path to
-the package. We could also have used ``talon:user``, which uses the path to
-the Talon user directory, *e.g.*, ``~/.talon/user`` or ``%AppData%\Talon\user``.
+The ``talon_packages`` configuration can be either a single package or a list
+of packages. Each package must specify at least the path to the root directory
+of the package, and may optionally specify the name of the package, a list of
+files to include or exclude, and a list of events to trigger after loading the
+package.
 
 Both ``talon:package`` and ``talon:user`` take a number of options:
 

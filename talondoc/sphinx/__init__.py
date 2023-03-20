@@ -3,7 +3,16 @@ from pathlib import Path
 from typing import Any, Optional, Sequence, Union, cast
 
 from sphinx.application import Sphinx
-from typing_extensions import TypeAlias, TypedDict
+from typing_extensions import (
+    NotRequired,
+    Required,
+    TypeAlias,
+    TypedDict,
+    TypeGuard,
+    TypeVar,
+)
+
+from talondoc.registry import NoActiveFile, NoActivePackage, NoActiveRegistry
 
 from .. import __version__
 from ..analyze import analyse_package
@@ -12,44 +21,93 @@ from .domains import TalonDomain
 
 _LOGGER = getLogger(__name__)
 
+TalonEvent = str
+
 TalonPackage = TypedDict(
     "TalonPackage",
     {
-        "path": Union[str, Path],
-        "name": Optional[str],
-        "include": Union[None, str, Sequence[str]],
-        "exclude": Union[None, str, Sequence[str]],
-        "trigger": Union[None, str, Sequence[str]],
+        "path": Required[str],
+        "name": NotRequired[str],
+        "include": NotRequired[Union[str, Sequence[str]]],
+        "exclude": NotRequired[Union[str, Sequence[str]]],
+        "trigger": NotRequired[Union[TalonEvent, Sequence[TalonEvent]]],
     },
 )
 
 
-def _convert_talon_packages(talon_packages: Any) -> Sequence[TalonPackage]:
-    if type(talon_packages) == str:
-        return [{"path": talon_packages}]
-    if isinstance(talon_packages, TalonPackage):
-        return [talon_packages]
+def _is_talon_package(talon_package: Any) -> TypeGuard[TalonPackage]:
+    try:
+        assert isinstance(talon_package, dict)
+        path = talon_package.get("path", None)
+        assert isinstance(path, (str, Path))
+        name = talon_package.get("name", None)
+        assert isinstance(name, (str,))
+        include = talon_package.get("include", None)
+        assert (
+            include is None
+            or isinstance(include, (str, Path))
+            or (
+                isinstance(include, Sequence)
+                and all(isinstance(path, (str, Path)) for path in include)
+            )
+        )
+        exclude = talon_package.get("exclude", None)
+        assert (
+            exclude is None
+            or isinstance(exclude, (str, Path))
+            or (
+                isinstance(exclude, Sequence)
+                and all(isinstance(path, (str, Path)) for path in exclude)
+            )
+        )
+        trigger = talon_package.get("trigger", None)
+        assert (
+            trigger is None
+            or isinstance(trigger, str)
+            or (
+                isinstance(trigger, Sequence)
+                and all(isinstance(event, (str,)) for event in trigger)
+            )
+        )
+        return True
+    except AssertionError:
+        return False
+
+
+def _canonicalize_talon_package(talon_package: Any) -> TalonPackage:
+    if type(talon_package) == str:
+        return {"path": talon_package}
+    if _is_talon_package(talon_package):
+        return talon_package
+    raise TypeError(type(talon_package))
+
+
+def _canonicalize_talon_packages(talon_packages: Any) -> Sequence[TalonPackage]:
+    try:
+        return [_canonicalize_talon_package(talon_packages)]
+    except TypeError:
+        pass
     if isinstance(talon_packages, Sequence):
-        buffer = []
-        for talon_package in talon_packages:
-            buffer.extend(convert_talon_packages(talon_package))
-        return buffer
+        return [
+            _canonicalize_talon_package(talon_package)
+            for talon_package in talon_packages
+        ]
     raise TypeError(type(talon_packages))
 
 
-def _convert_tuple(value: Union[None, str, Sequence[str]]) -> tuple[str, ...]:
-    if value is None:
+def _canonicalize_vararg(vararg: Union[None, str, Sequence[str]]) -> tuple[str, ...]:
+    if vararg is None:
         return ()
-    if type(value) == str:
-        return (value,)
-    if isinstance(value, Sequence):
-        return tuple(value)
-    raise TypeError(type(value))
+    if type(vararg) == str:
+        return (vararg,)
+    if isinstance(vararg, Sequence):
+        return tuple(vararg)
+    raise TypeError(type(vararg))
 
 
-def env_get_outdated_handler(app, env, added, changed, removed):
+def _talondoc_load_package(app, env, *args):
     talon_domain = cast(TalonDomain, env.get_domain("talon"))
-    talon_packages = _convert_talon_packages(env.config["talon_packages"])
+    talon_packages = _canonicalize_talon_packages(env.config["talon_packages"])
     srcdir = Path(env.srcdir)
     for talon_package in talon_packages:
         package_dir = srcdir / talon_package["path"]
@@ -57,12 +115,12 @@ def env_get_outdated_handler(app, env, added, changed, removed):
         # Analyse the referenced Talon package:
         try:
             analyse_package(
-                registry=self.talon.registry,
+                registry=talon_domain.registry,
                 package_dir=package_dir,
                 package_name=talon_package.get("name", "user"),
-                include=_convert_tuple(talon_package.get("include")),
-                exclude=_convert_tuple(talon_package.get("exclude")),
-                trigger=_convert_tuple(talon_package.get("trigger")),
+                include=_canonicalize_vararg(talon_package.get("include")),
+                exclude=_canonicalize_vararg(talon_package.get("exclude")),
+                trigger=_canonicalize_vararg(talon_package.get("trigger")),
             )
         except NoActiveRegistry as e:
             _LOGGER.exception(e)
@@ -106,6 +164,8 @@ def setup(app: Sphinx) -> dict[str, Any]:
         #     Sequence[TalonPackage],
         # ],
     )
+
+    app.connect("env-before-read-docs", _talondoc_load_package)
 
     return {
         "version": __version__,
