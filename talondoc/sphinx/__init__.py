@@ -39,22 +39,22 @@ def setup(app: Sphinx) -> dict[str, Any]:
         name="talon_docstring_hook",
         default=None,
         rebuild="env",
-        types=[
-            Callable[[str, str], Optional[str]],
-            dict[str, dict[str, str]],
-        ],
+        # types=[
+        #     Callable[[str, str], Optional[str]],
+        #     dict[str, dict[str, str]],
+        # ],
     )
 
     app.add_config_value(
         name="talon_packages",
         default=None,
         rebuild="env",
-        types=[
-            str,
-            TalonPackage,
-            Sequence[str],
-            Sequence[TalonPackage],
-        ],
+        # types=[
+        #     str,
+        #     TalonPackage,
+        #     Sequence[str],
+        #     Sequence[TalonPackage],
+        # ],
     )
 
     return {
