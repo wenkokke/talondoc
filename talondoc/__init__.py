@@ -2,7 +2,7 @@ from typing import Optional
 
 import click
 
-from .autosummary.generate import generate
+from .autogen import autogen
 from .cache_builtin import cache_builtin
 
 __version__: str = "0.1.4"
@@ -84,7 +84,7 @@ def cli():
     "--generate-index/--no-generate-index",
     default=True,
 )
-def autogen(
+def _autogen(
     package_dir: str,
     *,
     output_dir: str,
@@ -100,7 +100,7 @@ def autogen(
     generate_conf: bool,
     generate_index: bool,
 ):
-    generate(
+    autogen(
         package_dir,
         output_dir=output_dir,
         sphinx_root=sphinx_root,
@@ -122,18 +122,8 @@ def autogen(
     "output_dir",
     type=click.Path(),
 )
-def preprocess(output_dir: str):
+def _cache_builtin(output_dir: str):
     cache_builtin(output_dir=output_dir)
-
-
-@cli.command(name="print_builtin")
-def print_builtin():
-    import importlib.resources
-
-    for path in (importlib.resources.files("talondoc") / "data").iterdir():
-        if path.name.startswith("talon_actions_dict"):
-            name, version, build, commit = path.name.removesuffix(".json").split("-")
-            print([name, version, build, commit])
 
 
 if __name__ == "__main__":

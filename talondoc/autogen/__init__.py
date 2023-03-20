@@ -34,7 +34,7 @@ def _default_author(author: Optional[str]) -> str:
         return os.getlogin()
 
 
-def generate(
+def autogen(
     package_dir: Union[str, Path],
     *,
     package_name: Optional[str] = None,
