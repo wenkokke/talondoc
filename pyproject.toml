@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "talondoc"
-version = "0.2.0"
+version = "0.2.1"
 description = "A Sphinx extension for Talon user directories."
 license = "MIT"
 authors = ["Wen Kokke <wenkokke@users.noreply.github.com>"]
@@ -69,7 +69,7 @@ minversion = "6.0"
 testpaths = ["tests"]
 
 [tool.bumpver]
-current_version = "0.2.0"
+current_version = "0.2.1"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "Bump version {old_version} -> {new_version}"
 commit = true
