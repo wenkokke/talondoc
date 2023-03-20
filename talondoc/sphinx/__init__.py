@@ -20,13 +20,14 @@ TalonPackage = TypedDict(
 )
 
 
+_TalonDocstringHook_Callable: TypeAlias = Callable[[str, str], Optional[str]]
+_TalonDocstringHook_Dict: TypeAlias = dict[str, dict[str, str]]
+
+
 TalonDocstringHook: TypeAlias = Union[
   _TalonDocstringHook_Callable,
   _TalonDocstringHook_Dict,
 ]
-
-_TalonDocstringHook_Callable: TypeAlias = Callable[[str, str], Optional[str]]
-_TalonDocstringHook_Dict: TypeAlias = dict[str, dict[str, str]]
 
 
 def setup(app: Sphinx) -> dict[str, Any]:
