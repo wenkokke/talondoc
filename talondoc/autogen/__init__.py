@@ -70,7 +70,7 @@ def autogen(
     loaders: list[jinja2.BaseLoader] = []
     if template_dir:
         loaders.append(jinja2.FileSystemLoader(template_dir))
-    loaders.append(jinja2.PackageLoader("talondoc", "autosummary/template"))
+    loaders.append(jinja2.PackageLoader("talondoc", "autogen/template"))
 
     # Create jinja2 environment
     env = jinja2.sandbox.SandboxedEnvironment(
