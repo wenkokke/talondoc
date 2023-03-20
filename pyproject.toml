@@ -34,12 +34,14 @@ types-pytz = "*"
 types-setuptools = "*"
 # Extra: docs & test
 bumpver = { version = "*", optional = true }
-sphinx-bootstrap-theme = { version = "^0.8.1", optional = true }
+myst-parser = { version = "^1.0.0", optional = true }
+sphinx-rtd-theme = { version = "^1.2.0", optional = true }
+sphinx-tabs = { version = "^3.4.1", optional = true }
 
 [tool.poetry.extras]
 mypy = ["types-docutils", "types-pytz", "types-setuptools"]
-test = ["bumpver", "sphinx_bootstrap_theme"]
-docs = ["sphinx_bootstrap_theme"]
+test = ["bumpver", "myst-parser", "sphinx-rtd-theme", "sphinx-tabs"]
+docs = ["myst-parser", "sphinx-rtd-theme", "sphinx-tabs"]
 
 [tool.poetry.scripts]
 talondoc = "talondoc:cli"
