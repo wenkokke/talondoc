@@ -29,6 +29,7 @@ _TalonDocstringHook_Callable: TypeAlias = Callable[[str, str], Optional[str]]
 
 print(_TalonDocstringHook_Callable.__name__)
 
+
 def setup(app: Sphinx) -> dict[str, Any]:
     app.add_domain(TalonDomain)
 
