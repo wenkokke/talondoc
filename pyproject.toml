@@ -100,6 +100,7 @@ commands_pre =
   mkdir -p '{env_tmp_dir}/docs'
   cp '{tox_root}/example/docs/conf.py' '{env_tmp_dir}/docs/conf.py'
   cp '{tox_root}/example/docs/index.md' '{env_tmp_dir}/docs/index.md'
+  cp -R '{tox_root}/example/docs/_static' '{env_tmp_dir}/docs/_static'
 commands =
   sh '{env_tmp_dir}/build.sh'
   {envpython} -m bumpver update --patch --dry --no-fetch
@@ -108,4 +109,5 @@ commands_post =
   rm -rf '{env_tmp_dir}/knausj_talon'
   rm -f '{env_tmp_dir}/docs/conf.py'
   rm -f '{env_tmp_dir}/docs/index.md'
+  rm -rf '{env_tmp_dir}/docs/_static'
 """
