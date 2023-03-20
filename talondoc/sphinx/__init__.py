@@ -25,24 +25,24 @@ _TalonDocstringHook_Dict: TypeAlias = dict[str, dict[str, str]]
 
 
 TalonDocstringHook: TypeAlias = Union[
-  _TalonDocstringHook_Callable,
-  _TalonDocstringHook_Dict,
+    _TalonDocstringHook_Callable,
+    _TalonDocstringHook_Dict,
 ]
 
 
 def setup(app: Sphinx) -> dict[str, Any]:
     app.add_domain(TalonDomain)
-    
+
     app.add_config_value(
-      name="talon_docstring_hook",
-      default=None,
-      rebuild="env",
-      types=[
-        _TalonDocstringHook_Callable,
-        _TalonDocstringHook_Dict,
-      ]
+        name="talon_docstring_hook",
+        default=None,
+        rebuild="env",
+        types=[
+            _TalonDocstringHook_Callable,
+            _TalonDocstringHook_Dict,
+        ],
     )
-    
+
     return {
         "version": __version__,
         "parallel_read_safe": False,
