@@ -19,6 +19,8 @@ TalonPackage = TypedDict(
     },
 )
 
+print(TalonPackage.__name__)
+
 
 TalonDocstringHook: TypeAlias = Union[
     Callable[[str, str], Optional[str]],
