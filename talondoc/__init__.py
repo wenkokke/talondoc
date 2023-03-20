@@ -5,7 +5,7 @@ import click
 from .autogen import autogen
 from .cache_builtin import cache_builtin
 
-__version__: str = "0.2.0"
+__version__: str = "0.2.1"
 
 
 @click.group(name="talondoc")
