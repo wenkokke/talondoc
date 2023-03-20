@@ -29,7 +29,7 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
 
     @property
     def docstring_hook(self) -> Callable[[str, str], Optional[str]]:
-        docstring_hook = self.env.config["talondoc_docstring_hook"]
+        docstring_hook = self.env.config["talon_docstring_hook"]
         if docstring_hook is None:
 
             def __docstring_hook(sort: str, name: str) -> Optional[str]:
