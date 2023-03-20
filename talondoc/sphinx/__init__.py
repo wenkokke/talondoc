@@ -16,7 +16,7 @@ TalonPackage = TypedDict(
         "include": Union[None, str, Sequence[str]],
         "exclude": Union[None, str, Sequence[str]],
         "trigger": Union[None, str, Sequence[str]],
-    },
+    }
 )
 
 
@@ -40,6 +40,18 @@ def setup(app: Sphinx) -> dict[str, Any]:
         types=[
             _TalonDocstringHook_Callable,
             _TalonDocstringHook_Dict,
+        ],
+    )
+    
+    app.add_config_value(
+        name="talon_packages",
+        default=None,
+        rebuild="env",
+        types=[
+            str,
+            TalonPackage,
+            Sequence[str],
+            Sequence[TalonPackage],
         ],
     )
 
