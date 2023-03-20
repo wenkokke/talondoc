@@ -29,8 +29,6 @@ TalonDocstringHook: TypeAlias = Union[
     _TalonDocstringHook_Dict,
 ]
 
-print(Sequence[TalonPackage].__name__)
-
 
 def setup(app: Sphinx) -> dict[str, Any]:
     app.add_domain(TalonDomain)
