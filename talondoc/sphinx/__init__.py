@@ -16,7 +16,7 @@ TalonPackage = TypedDict(
         "include": Union[None, str, Sequence[str]],
         "exclude": Union[None, str, Sequence[str]],
         "trigger": Union[None, str, Sequence[str]],
-    }
+    },
 )
 
 
@@ -38,7 +38,7 @@ def setup(app: Sphinx) -> dict[str, Any]:
             dict[str, dict[str, str]],
         ],
     )
-    
+
     app.add_config_value(
         name="talon_packages",
         default=None,
