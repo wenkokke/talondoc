@@ -1,25 +1,27 @@
-from typing import Any, Optional, Sequence, Union
-from typing_extensions import TypedDict
 from pathlib import Path
+from typing import Any, Optional, Sequence, Union
 
 from sphinx.application import Sphinx
+from typing_extensions import TypedDict
 
 from .. import __version__
 from .domains import TalonDomain
 
-
-TalonPackage = TypedDict('TalonPackage', {
-  'path': Union[str, Path],
-  'name': Optional[str],
-  'include': Union[None, str, Sequence[str]],
-  'exclude': Union[None, str, Sequence[str]],
-  'trigger': Union[None, str, Sequence[str]],
-})
+TalonPackage = TypedDict(
+    "TalonPackage",
+    {
+        "path": Union[str, Path],
+        "name": Optional[str],
+        "include": Union[None, str, Sequence[str]],
+        "exclude": Union[None, str, Sequence[str]],
+        "trigger": Union[None, str, Sequence[str]],
+    },
+)
 
 
 TalonDocstringHook = Union[
-  Callable[[str, str], Optional[str]],
-  dict[str, dict[str, str]],
+    Callable[[str, str], Optional[str]],
+    dict[str, dict[str, str]],
 ]
 
 
