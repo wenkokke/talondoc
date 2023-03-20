@@ -1,7 +1,7 @@
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any, Optional, Sequence, Union, cast
-from ...analyze import analyse_package
+from ..analyze import analyse_package
 
 from sphinx.application import Sphinx
 from typing_extensions import TypeAlias, TypedDict
