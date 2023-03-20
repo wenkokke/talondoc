@@ -1,9 +1,12 @@
 build:
-	poetry install -E docs
-	poetry run sh ./example/build.sh
+	@poetry install -E docs
+	@poetry run sh ./example/build.sh
 
 serve:
 	python3 -m http.server --directory ./example/docs/_build/html
+
+type:
+	@poetry run mypy talondoc
 
 test:
 	tox
