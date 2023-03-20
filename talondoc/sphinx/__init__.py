@@ -1,11 +1,11 @@
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any, Optional, Sequence, Union, cast
-from ..analyze import analyse_package
 
 from sphinx.application import Sphinx
 from typing_extensions import TypeAlias, TypedDict
 
+from ..analyze import analyse_package
 from .. import __version__
 from ..util.logging import getLogger
 from .domains import TalonDomain
@@ -14,7 +14,7 @@ _LOGGER = getLogger(__name__)
 
 TalonPackage = TypedDict(
     "TalonPackage",
-    { 
+    {
         "path": Union[str, Path],
         "name": Optional[str],
         "include": Union[None, str, Sequence[str]],
@@ -22,6 +22,7 @@ TalonPackage = TypedDict(
         "trigger": Union[None, str, Sequence[str]],
     },
 )
+
 
 def _convert_talon_packages(talon_packages: Any) -> Sequence[TalonPackage]:
     if type(talon_packages) == str:
@@ -34,7 +35,7 @@ def _convert_talon_packages(talon_packages: Any) -> Sequence[TalonPackage]:
             buffer.extend(convert_talon_packages(talon_package))
         return buffer
     raise TypeError(type(talon_packages))
-    
+
 
 def _convert_tuple(value: Union[None, str, Sequence[str]]) -> tuple[str, ...]:
     if value is None:
@@ -44,24 +45,24 @@ def _convert_tuple(value: Union[None, str, Sequence[str]]) -> tuple[str, ...]:
     if isinstance(value, Sequence):
         return tuple(value)
     raise TypeError(type(value))
-    
+
 
 def env_get_outdated_handler(app, env, added, changed, removed):
     talon_domain = cast(TalonDomain, env.get_domain("talon"))
     talon_packages = _convert_talon_packages(env.config["talon_packages"])
     srcdir = Path(env.srcdir)
     for talon_package in talon_packages:
-        package_dir = srcdir / talon_package['path']
+        package_dir = srcdir / talon_package["path"]
 
         # Analyse the referenced Talon package:
         try:
             analyse_package(
                 registry=self.talon.registry,
                 package_dir=package_dir,
-                package_name=talon_package.get('name', 'user'),
-                include=_convert_tuple(talon_package.get('include')),
-                exclude=_convert_tuple(talon_package.get('exclude')),
-                trigger=_convert_tuple(talon_package.get('trigger')),
+                package_name=talon_package.get("name", "user"),
+                include=_convert_tuple(talon_package.get("include")),
+                exclude=_convert_tuple(talon_package.get("exclude")),
+                trigger=_convert_tuple(talon_package.get("trigger")),
             )
         except NoActiveRegistry as e:
             _LOGGER.exception(e)
