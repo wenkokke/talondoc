@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from typing import Any, Optional, Sequence, Union
 from typing_extensions import TypedDict
 from pathlib import Path
