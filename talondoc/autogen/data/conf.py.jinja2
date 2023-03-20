@@ -12,6 +12,27 @@ copyright = "{{ year }}, {{ author }}"
 author = "{{ author }}"
 release = "{{ release }}"
 
+# -- Options for TalonDoc ----------------------------------------------------
+# https://wen.works/talondoc/
+
+talon_packages = {
+  'path': '{{ package_path }}',
+  'name': '{{ package_name }}',
+  {%- if include %}
+  'include': {{ include | string }},
+  {%- endif %}
+  {%- if exclude %}
+  'exclude': {{ exclude | string }},
+  {%- endif %}
+  {%- if trigger %}
+  'trigger': {{ trigger | string }},
+  {%- endif %}
+}
+
+# def talon_docstring_hook(sort: str, name: str) -> Optional[str]:
+#     return None
+#
+
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 

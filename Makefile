@@ -1,23 +1,66 @@
-build:
-	poetry install -E docs
-	poetry run sh ./example/build.sh
+#################################################################################
+# Common tasks
+#################################################################################
 
-serve:
-	python3 -m http.server --directory ./example/docs/_build/html
+.PHONY: default
+default: test
 
-test:
-	tox
+.PHONY: docs
+docs: require-poetry type-check
+	@poetry install --all-extras
+	@poetry run sh ./example/build.sh
 
-clean:
+.PHONY: serve
+serve: require-poetry
+	@poetry run python3 -m http.server --directory ./example/docs/_build/html
+
+.PHONY: clean
+clean: require-poetry
 	@git clean -dfqX
 
-bump-patch:
+.PHONY: test
+test: require-tox type-check
+	@tox
+
+.PHONY: type-check
+type-check: require-poetry
+	@poetry install --all-extras
+	@poetry run mypy talondoc
+
+
+#################################################################################
+# Version management
+#################################################################################
+
+.PHONY: bump-patch
+bump-patch: require-poetry
 	@poetry run bumpver update --patch
 
-bump-minor:
+.PHONY: bump-minor
+bump-minor: require-poetry
 	@poetry run bumpver update --minor
 
-bump-major:
+.PHONY: bump-major
+bump-major: require-poetry
 	@poetry run bumpver update --major
 
-.PHONY: build serve clean bump-patch bump-minor bump-major
+
+#################################################################################
+# Dependencies with reasonable error messages
+#################################################################################
+
+.PHONY: require-tox
+require-tox:
+ifeq (,$(wildcard $(shell which tox)))
+	@echo "The command you called requires tox"
+	@echo "See: https://tox.wiki/en/latest/installation.html"
+	@exit 1
+endif
+
+.PHONY: require-poetry
+require-poetry:
+ifeq (,$(wildcard $(shell which poetry)))
+	@echo "The command you called requires Poetry"
+	@echo "See: https://python-poetry.org/docs/#installation"
+	@exit 1
+endif
