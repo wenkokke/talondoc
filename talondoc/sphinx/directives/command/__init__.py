@@ -83,8 +83,8 @@ def include_command(
                 candidate.ast.rule.match(
                     words,
                     fullmatch=fullmatch,
-                    get_capture=None,
-                    get_list=None,
+                    get_capture=captures,
+                    get_list=lists,
                 )
             )
         except IndexError:
