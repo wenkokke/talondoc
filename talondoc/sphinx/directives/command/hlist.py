@@ -7,7 +7,7 @@ from sphinx.util.typing import OptionSpec
 from ....util.logging import getLogger
 from ....util.nodes import bullet_list
 from ....util.typing import optional_str, optional_strlist
-from . import TalonCommandListDirective
+from . import TalonCommandListDirective, describe_command
 
 _LOGGER = getLogger(__name__)
 
@@ -29,10 +29,12 @@ class TalonCommandHListDirective(TalonCommandListDirective):
     def run(self) -> list[nodes.Node]:
         ncolumns = self.options.get("columns", 2)
         fulllist = [
-            self.describe_command(
+            describe_command(
                 command,
+                addnodes.desc_signature(),
                 registry=self.talon.registry,
                 include_script=False,
+                docstring_hook=self.docstring_hook,
             )
             for command in self.find_commands()
         ]

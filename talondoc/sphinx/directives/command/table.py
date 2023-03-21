@@ -6,7 +6,7 @@ from sphinx.util.typing import OptionSpec
 from ....util.logging import getLogger
 from ....util.nodes import colspec, entry, row, table, tbody, tgroup, title
 from ....util.typing import optional_str, optional_strlist
-from . import TalonCommandListDirective
+from . import TalonCommandListDirective, describe_rule, describe_script
 
 _LOGGER = getLogger(__name__)
 
@@ -33,12 +33,13 @@ class TalonCommandTableDirective(TalonCommandListDirective):
                     colspec(colwidth=1),
                     tbody(
                         row(
-                            entry(self.describe_rule(command)),
+                            entry(describe_rule(command)),
                             entry(
-                                *self.describe_script(
+                                *describe_script(
                                     command,
                                     registry=self.talon.registry,
                                     include_script=False,
+                                    docstring_hook=self.docstring_hook,
                                 )
                             ),
                         )

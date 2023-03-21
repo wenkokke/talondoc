@@ -23,14 +23,14 @@ from tree_sitter_talon import (
     TalonWord,
 )
 
-from talondoc.sphinx.directives import TalonDocDirective, TalonDocObjectDescription
-
 from ....registry import Registry
 from ....registry.entries.user import (
     UserCommandEntry,
     UserPackageEntry,
     UserTalonFileEntry,
 )
+from ....sphinx.directives import TalonDocDirective, TalonDocObjectDescription
+from ....sphinx.typing import TalonDocstringHook_Callable
 from ....util.desc import InvalidInterpolation
 from ....util.describer import TalonScriptDescriber
 from ....util.logging import getLogger
@@ -108,6 +108,110 @@ def include_command(
         return (sig and match(sig)) or included()
 
 
+def describe_rule(command: UserCommandEntry) -> nodes.Text:
+    return nodes.Text(talonfmt(command.ast.left, safe=False))
+
+
+def try_describe_script_via_action_docstrings(
+    command: UserCommandEntry,
+    *,
+    registry: Registry,
+    docstring_hook: Optional[TalonDocstringHook_Callable],
+) -> Optional[nodes.Text]:
+    """
+    Describe the script using the docstrings on the actions used by the script.
+    """
+    try:
+        describer = TalonScriptDescriber(registry, docstring_hook=docstring_hook)
+        desc = describer.describe(command.ast)
+        if desc:
+            return nodes.Text(str(desc))
+    except InvalidInterpolation as e:
+        _LOGGER.exception(e)
+    return None
+
+
+def try_describe_script_via_script_docstrings(
+    command: UserCommandEntry,
+) -> Optional[nodes.Text]:
+    """
+    Describe the script using the docstrings present in the script itself.
+    """
+    comments = []
+    for child in command.ast.right.children:
+        if isinstance(child, TalonComment):
+            comment = child.text.strip()
+            if comment.startswith("###"):
+                comments.append(comment.removeprefix("###").strip())
+    if comments:
+        return nodes.Text(" ".join(comments))
+    else:
+        return None
+
+
+def describe_script_via_code_block(command: UserCommandEntry) -> addnodes.highlightlang:
+    """
+    Describe the script by including it as a code block.
+    """
+    code = talonfmt(command.ast.script, safe=False)
+    literal_block = nodes.literal_block(code, code)
+    literal_block["language"] = "python"
+    return literal_block  # type: ignore
+
+
+def describe_script(
+    command: UserCommandEntry,
+    *,
+    registry: Registry,
+    include_script: bool,
+    docstring_hook: Optional[TalonDocstringHook_Callable],
+) -> list[nodes.Element]:
+    """
+    Describe the script using the docstrings on the script, the docstrings on
+    the actions, or finally by including it as a code block.
+    """
+    buffer = []
+
+    # 1. Use the Talon docstrings in the command script. Talon docstrings are comments which start with ###.
+    desc = try_describe_script_via_script_docstrings(command)
+
+    # 2. Use the Python docstrings from the actions used in the command script.
+    if desc is None:
+        desc = try_describe_script_via_action_docstrings(
+            command, registry=registry, docstring_hook=docstring_hook
+        )
+
+    # Append the description.
+    if desc is not None:
+        buffer.append(paragraph(nodes.Text(str(desc))))
+
+    if desc is None or include_script:
+        # 3. Include the command script.
+        buffer.append(describe_script_via_code_block(command))
+
+    return buffer
+
+
+def describe_command(
+    command: UserCommandEntry,
+    signode: addnodes.desc_signature,
+    *,
+    registry: Registry,
+    include_script: bool,
+    docstring_hook: Optional[TalonDocstringHook_Callable],
+) -> addnodes.desc_signature:
+    signode += desc_name(describe_rule(command))
+    signode += desc_content(
+        *describe_script(
+            command,
+            registry=registry,
+            include_script=include_script,
+            docstring_hook=docstring_hook,
+        )
+    )
+    return signode
+
+
 class TalonCommandDirective(TalonDocObjectDescription):
     has_content = True
     required_arguments = 1
@@ -134,129 +238,14 @@ class TalonCommandDirective(TalonDocObjectDescription):
 
     def handle_signature(self, sig: str, signode: addnodes.desc_signature):
         command = self.find_command(sig)
-        self.handle_command(
+        describe_command(
             command,
             signode,
             registry=self.talon.registry,
             include_script=self.options.get("script", False),
+            docstring_hook=self.docstring_hook,
         )
         return command.get_name()
-
-    def describe_rule(self, command: UserCommandEntry) -> nodes.Text:
-        return nodes.Text(talonfmt(command.ast.left, safe=False))
-
-    def try_describe_script_via_action_docstrings(
-        self,
-        command: UserCommandEntry,
-        *,
-        registry: Registry,
-    ) -> Optional[nodes.Text]:
-        """
-        Describe the script using the docstrings on the actions used by the script.
-        """
-        try:
-            describer = TalonScriptDescriber(
-                registry, docstring_hook=self.docstring_hook
-            )
-            desc = describer.describe(command.ast)
-            if desc:
-                return nodes.Text(str(desc))
-        except InvalidInterpolation as e:
-            _LOGGER.exception(e)
-        return None
-
-    def try_describe_script_via_script_docstrings(
-        self,
-        command: UserCommandEntry,
-    ) -> Optional[nodes.Text]:
-        """
-        Describe the script using the docstrings present in the script itself.
-        """
-        comments = []
-        for child in command.ast.right.children:
-            if isinstance(child, TalonComment):
-                comment = child.text.strip()
-                if comment.startswith("###"):
-                    comments.append(comment.removeprefix("###").strip())
-        if comments:
-            return nodes.Text(" ".join(comments))
-        else:
-            return None
-
-    def describe_script_via_code_block(
-        self, command: UserCommandEntry
-    ) -> addnodes.highlightlang:
-        """
-        Describe the script by including it as a code block.
-        """
-        code = talonfmt(command.ast.script, safe=False)
-        literal_block = nodes.literal_block(code, code)
-        literal_block["language"] = "python"
-        return literal_block  # type: ignore
-
-    def describe_script(
-        self,
-        command: UserCommandEntry,
-        *,
-        registry: Registry,
-        include_script: bool,
-    ) -> list[nodes.Element]:
-        """
-        Describe the script using the docstrings on the script, the docstrings on
-        the actions, or finally by including it as a code block.
-        """
-        buffer = []
-
-        # 1. Use the Talon docstrings in the command script. Talon docstrings are comments which start with ###.
-        desc = self.try_describe_script_via_script_docstrings(command)
-
-        # 2. Use the Python docstrings from the actions used in the command script.
-        if desc is None:
-            desc = self.try_describe_script_via_action_docstrings(
-                command, registry=registry
-            )
-
-        # Append the description.
-        if desc is not None:
-            buffer.append(paragraph(nodes.Text(str(desc))))
-
-        if desc is None or include_script:
-            # 3. Include the command script.
-            buffer.append(self.describe_script_via_code_block(command))
-
-        return buffer
-
-    def handle_command(
-        self,
-        command: UserCommandEntry,
-        signode: addnodes.desc_signature,
-        *,
-        registry: Registry,
-        include_script: bool,
-    ) -> addnodes.desc_signature:
-        signode += desc_name(self.describe_rule(command))
-        signode += desc_content(
-            *self.describe_script(
-                command,
-                registry=registry,
-                include_script=include_script,
-            )
-        )
-        return signode
-
-    def describe_command(
-        self,
-        command: UserCommandEntry,
-        *,
-        registry: Registry,
-        include_script: bool,
-    ) -> addnodes.desc_signature:
-        return self.handle_command(
-            command,
-            addnodes.desc_signature(),
-            registry=registry,
-            include_script=include_script,
-        )
 
 
 class TalonCommandListDirective(TalonDocDirective):

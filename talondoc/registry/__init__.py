@@ -75,6 +75,17 @@ class Registry:
     _active_file_entry: Optional[UserFileEntry] = field(default=None, init=False)
 
     @contextmanager
+    def as_active_package_entry(
+        self, package_entry: UserPackageEntry
+    ) -> Iterator[None]:
+        try:
+            self.active_package_entry = package_entry
+            yield None
+        finally:
+            # NOTE: a package remains active until the next package is opened
+            pass
+
+    @contextmanager
     def package_entry(
         self,
         name: Optional[str],
@@ -391,10 +402,12 @@ class Registry:
 
     @staticmethod
     def get_active_global_registry() -> "Registry":
-        if Registry._active_global_registry:
-            return Registry._active_global_registry
-        else:
-            raise NoActiveRegistry()
+        try:
+            if Registry._active_global_registry:
+                return Registry._active_global_registry
+        except AttributeError:
+            pass
+        raise NoActiveRegistry()
 
     @staticmethod
     def get_active_package() -> UserPackageEntry:

@@ -1,3 +1,4 @@
+import importlib
 import sys
 from collections.abc import Iterator
 from contextlib import contextmanager
@@ -5,12 +6,13 @@ from importlib.abc import Loader, MetaPathFinder
 from importlib.machinery import ModuleSpec, PathFinder, SourceFileLoader
 from pathlib import Path
 from types import ModuleType
-from typing import ClassVar, Optional, Union
+from typing import ClassVar, Optional, Sequence, Union
 
-from ...registry import Registry
-from ...registry.entries.user import UserPackageEntry
-from ...util.logging import getLogger
-from .core import ModuleShim, TalonShim
+from ....registry import Registry
+from ....registry.entries.user import UserPackageEntry, UserPythonFileEntry
+from ....util.logging import getLogger
+from ....util.progress_bar import ProgressBar
+from .shims import ModuleShim, TalonShim
 
 _LOGGER = getLogger(__name__)
 
@@ -59,7 +61,7 @@ AnyTalonPackage = Union[tuple[str, Union[str, Path]], UserPackageEntry]
 
 
 @contextmanager
-def talon_package(package: AnyTalonPackage) -> Iterator[None]:
+def talon_package_shims(package: AnyTalonPackage) -> Iterator[None]:
     if isinstance(package, UserPackageEntry):
         package_name = package.name
         package_path = str(package.path)
@@ -131,15 +133,60 @@ def talon_package(package: AnyTalonPackage) -> Iterator[None]:
 
 
 @contextmanager
-def talon(registry: Registry, *, package: Optional[AnyTalonPackage] = None):
+def talon_shims(registry: Registry, *, package: Optional[AnyTalonPackage] = None):
     registry.activate()
     sys.meta_path.insert(0, TalonShimFinder)  # type: ignore
     try:
         if package:
-            with talon_package(package):
+            with talon_package_shims(package):
                 yield None
         else:
             yield None
     finally:
         sys.meta_path.remove(TalonShimFinder)  # type: ignore
         Registry.activate(None)
+
+
+def analyse_file(
+    registry: Registry, path: Path, package: UserPackageEntry
+) -> UserPythonFileEntry:
+    # Retrieve or create file entry:
+    with registry.file_entry(UserPythonFileEntry, package, path) as (
+        _cached,
+        file_entry,
+    ):
+        try:
+            # Process file (passes control to talondoc.analyze.standalone.python.shims):
+            module_name = ".".join([package.name, *path.with_suffix("").parts])
+            importlib.import_module(name=module_name, package=package.name)
+            return file_entry
+        except ModuleNotFoundError as e:
+            raise e
+
+
+def analyse_files(
+    registry: Registry,
+    paths: Sequence[Path],
+    package: UserPackageEntry,
+    *,
+    trigger: tuple[str, ...] = (),
+    show_progress: bool = False,
+) -> None:
+    # Retrieve or create package entry:
+    with registry.as_active_package_entry(package):
+        with talon_shims(registry, package=package):
+            bar = ProgressBar(total=len(paths), show=show_progress)
+            for path in paths:
+                path = path.relative_to(package.path)
+                try:
+                    bar.step(f" {path}")
+                    analyse_file(registry, path, package)
+                except Exception as e:
+                    _LOGGER.exception(e)
+
+            # Trigger callbacks:
+            for event_code in trigger:
+                callback_entries = registry.lookup("callback", event_code)
+                if callback_entries:
+                    for callback_entry in callback_entries:
+                        callback_entry.func()

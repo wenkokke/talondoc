@@ -3,29 +3,16 @@ from pathlib import Path
 from typing import Any, Optional, Sequence, Union, cast
 
 from sphinx.application import BuildEnvironment, Sphinx
-from typing_extensions import NotRequired, Required, TypeAlias, TypedDict, TypeGuard
-
-from talondoc.registry import NoActiveFile, NoActivePackage, NoActiveRegistry
+from typing_extensions import TypeGuard
 
 from .. import __version__
-from ..analyze import analyse_package
+from ..analyze.standalone import analyse_package
+from ..registry import NoActiveFile, NoActivePackage, NoActiveRegistry
 from ..util.logging import getLogger
 from .domains import TalonDomain
+from .typing import TalonPackage
 
 _LOGGER = getLogger(__name__)
-
-TalonEvent = str
-
-TalonPackage = TypedDict(
-    "TalonPackage",
-    {
-        "path": Required[str],
-        "name": NotRequired[str],
-        "include": NotRequired[Union[str, Sequence[str]]],
-        "exclude": NotRequired[Union[str, Sequence[str]]],
-        "trigger": NotRequired[Union[TalonEvent, Sequence[TalonEvent]]],
-    },
-)
 
 
 def _is_talon_package(talon_package: Any) -> TypeGuard[TalonPackage]:
@@ -147,16 +134,6 @@ def _talondoc_load_package(app: Sphinx, env: BuildEnvironment, *args):
             _LOGGER.exception(e)
         except NoActiveFile as e:
             _LOGGER.exception(e)
-
-
-_TalonDocstringHook_Callable: TypeAlias = Callable[[str, str], Optional[str]]
-_TalonDocstringHook_Dict: TypeAlias = dict[str, dict[str, str]]
-
-
-TalonDocstringHook: TypeAlias = Union[
-    _TalonDocstringHook_Callable,
-    _TalonDocstringHook_Dict,
-]
 
 
 def setup(app: Sphinx) -> dict[str, Any]:

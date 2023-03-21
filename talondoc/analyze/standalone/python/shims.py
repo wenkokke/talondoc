@@ -5,9 +5,9 @@ from io import TextIOWrapper
 from types import ModuleType
 from typing import Any, Mapping, Optional, Sequence, cast
 
-from ...registry import Registry
-from ...registry.entries.abc import ActionEntry, GroupEntry
-from ...registry.entries.user import (
+from ....registry import Registry
+from ....registry.entries.abc import ActionEntry, GroupEntry
+from ....registry.entries.user import (
     EventCode,
     ListValue,
     SettingValue,
