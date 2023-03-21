@@ -1,5 +1,10 @@
 # TalonDoc
 
+:::{toctree}
+  :maxdepth: 1
+  knausj_talon/index.rst
+:::
+
 ## Loading a Talon package
 
 TalonDoc can analyse a Talon package or user directory. To load all Talon and
