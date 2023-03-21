@@ -2,7 +2,7 @@
 
 :::{toctree}
   :maxdepth: 1
-  knausj_talon/index.rst
+knausj_talon/index
 :::
 
 ## Loading a Talon package
