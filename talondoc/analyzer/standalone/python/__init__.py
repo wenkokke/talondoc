@@ -156,7 +156,7 @@ def analyse_file(
         file_entry,
     ):
         try:
-            # Process file (passes control to talondoc.analyze.standalone.python.shims):
+            # Process file (passes control to talondoc.analyzer.standalone.python.shims):
             module_name = ".".join([package.name, *path.with_suffix("").parts])
             importlib.import_module(name=module_name, package=package.name)
             return file_entry
