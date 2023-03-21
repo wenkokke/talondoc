@@ -47,8 +47,8 @@ any of the patterns in `include`.
 These events will be triggered after the entire package has been loaded.
 Useful for making sure that "launch" and "ready" callbacks fire.
 
-Optionally, if the `talon_package` value is a string, and not a dictionary,
-it is interpreted as the value of the `path` field.
+If the `talon_package` value is a string, and not a dictionary, it is
+interpreted as the value of the `path` field.
 
 If you wish to document multiple Talon packages, you can use `talon_packages`
 whose value must be a list or tuple of package descriptions as described above.
