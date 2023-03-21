@@ -53,10 +53,36 @@ it is interpreted as the value of the `path` field.
 If you wish to document multiple Talon packages, you can use `talon_packages`
 whose value must be a list or tuple of package descriptions as described above.
 
+:::{note}
+Sphinx can work with either reStructuredText or Markdown, but in order to work with Markdown you need to add the following to your `conf.py`:
+```python
+extensions = [
+    # Enables support for Markdown
+    # https://www.sphinx-doc.org/en/master/usage/markdown.html
+    "myst_parser",
+
+    # Other extensions
+    # ...
+]
+```
+Furthermore, in order to use the colon fence syntax (`:::`) used throughout this guide, you need to enable the `colon_fence` extension, by adding the following to your `conf.py`:
+```python
+myst_enable_extensions = [
+    # Enables colon fence directives
+    # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#syntax-colon-fence
+    "colon_fence",
+
+    # Other extensions
+    ...
+]
+```
+:::
+
 
 ## Document individual commands
 
-TalonDoc can generate documentation for an individual command using `talon:command` by entering any phrase which triggers the command. For instance, the following code:
+TalonDoc can generate documentation for an individual command using
+Furthermore, in order to use the: syntax`talon:command` by entering any phrase which triggers the command. For instance, the following code:
 
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
