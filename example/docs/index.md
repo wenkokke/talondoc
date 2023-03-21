@@ -53,7 +53,7 @@ it is interpreted as the value of the `path` field.
 If you wish to document multiple Talon packages, you can use `talon_packages`
 whose value must be a list or tuple of package descriptions as described above.
 
-:::{note}
+:::{warning}
 Sphinx can work with either reStructuredText or Markdown, but in order to work with Markdown you need to add the following to your `conf.py`:
 ```python
 extensions = [
@@ -76,13 +76,13 @@ myst_enable_extensions = [
     # ...
 ]
 ```
+For more information, see [the Sphinx documentation](https://www.sphinx-doc.org/en/master/usage/markdown.html) and [the MyST documentation](https://myst-parser.readthedocs.io/en/latest/).
 :::
 
 
 ## Document individual commands
 
-TalonDoc can generate documentation for an individual command using
-Furthermore, in order to use the: syntax`talon:command` by entering any phrase which triggers the command. For instance, the following code:
+TalonDoc can generate documentation for an individual command using `talon:command` by entering any phrase which triggers the command. For instance, the following code:
 
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText

@@ -12,7 +12,7 @@ docs: require-poetry type-check
 
 .PHONY: serve
 serve: require-poetry
-	@poetry run python3 -m http.server --directory ./example/docs/_build/html
+	@poetry run python3 -m http.server --directory ./example/docs/_build/html 8001
 
 .PHONY: clean
 clean: require-poetry
