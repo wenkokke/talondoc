@@ -4,12 +4,9 @@ from docutils import nodes
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
 
-from ....util.logging import getLogger
 from ....util.nodes import bullet_list
 from ....util.typing import optional_str, optional_strlist
-from . import TalonCommandListDirective, describe_command
-
-_LOGGER = getLogger(__name__)
+from .util import TalonCommandListDirective, describe_command
 
 
 class TalonCommandHListDirective(TalonCommandListDirective):
@@ -17,7 +14,8 @@ class TalonCommandHListDirective(TalonCommandListDirective):
     required_arguments = 0
     optional_arguments = sys.maxsize
     option_spec: OptionSpec = {
-        "package": optional_str,
+        "package": optional_strlist,
+        "context": optional_strlist,
         "caption": optional_str,
         "default": optional_str,
         "include": optional_strlist,

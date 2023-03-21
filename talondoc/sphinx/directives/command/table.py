@@ -3,12 +3,9 @@ import sys
 from docutils import nodes
 from sphinx.util.typing import OptionSpec
 
-from ....util.logging import getLogger
 from ....util.nodes import colspec, entry, row, table, tbody, tgroup, title
 from ....util.typing import optional_str, optional_strlist
-from . import TalonCommandListDirective, describe_rule, describe_script
-
-_LOGGER = getLogger(__name__)
+from .util import TalonCommandListDirective, describe_rule, describe_script
 
 
 class TalonCommandTableDirective(TalonCommandListDirective):
@@ -16,7 +13,8 @@ class TalonCommandTableDirective(TalonCommandListDirective):
     required_arguments = 0
     optional_arguments = sys.maxsize
     option_spec: OptionSpec = {
-        "package": optional_str,
+        "package": optional_strlist,
+        "context": optional_strlist,
         "caption": optional_str,
         "default": optional_str,
         "include": optional_strlist,

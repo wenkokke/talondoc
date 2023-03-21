@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 
 
 def optional_strlist(argument: Optional[str]) -> tuple[str, ...]:
@@ -15,13 +15,5 @@ def optional_str(argument: Optional[str]) -> Optional[str]:
         return None
 
 
-def flag(argument: Optional[str]) -> bool:
-    if argument:
-        normalized = argument.strip().lower()
-        if normalized == "true":
-            return True
-        if normalized == "false":
-            return False
-        raise ValueError(f"Not a boolean '{argument}'")
-    else:
-        return False
+def flag(argument: Any) -> bool:
+    return True
