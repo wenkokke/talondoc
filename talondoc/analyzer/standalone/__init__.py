@@ -32,7 +32,7 @@ def analyse_package(
     show_progress: bool = False,
 ) -> UserPackageEntry:
     # Retrieve or create package entry:
-    with registry.package_entry(package_name, package_dir.absolute()) as (
+    with registry.package(package_name, package_dir.absolute()) as (
         cached,
         package_entry,
     ):

@@ -1,5 +1,5 @@
-from pathlib import Path
-from typing import Optional, Sequence, Union
+import re
+from typing import Sequence, Union
 
 from ...registry import Registry
 from ...registry.entries.user import UserFileEntry, UserPackageEntry, UserTalonFileEntry
@@ -76,3 +76,8 @@ def resolve_files(
         else:
             buffer.append(file)
     return buffer
+
+
+def wildcard_pattern(pattern: str) -> re.Pattern:
+    """Compile a pattern with wildcards to a regular expression."""
+    return re.compile(".*".join(map(re.escape, pattern.split("*"))))
