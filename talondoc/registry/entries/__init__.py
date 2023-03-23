@@ -1,33 +1,16 @@
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Iterable, Iterator
 from dataclasses import dataclass, field
+from functools import cached_property
 from pathlib import Path
-from typing import Any, Generic, Mapping, Optional, Union, cast
+from typing import Any, Generic, Mapping, Optional, Sequence, Union, cast
 
 import tree_sitter_talon
 from dataclasses_json import dataclass_json
-from typing_extensions import Literal, Protocol, Self, TypeAlias, TypeVar
+from typing_extensions import Literal, Protocol, Self, TypeAlias, TypeVar, final
 
 from ...util.logging import getLogger
 
 _LOGGER = getLogger(__name__)
-
-##############################################################################
-# Protocols
-##############################################################################
-
-
-class HasLastModified(Protocol):
-    @property
-    def last_modified(self) -> Optional[float]:
-        ...
-
-
-def is_newer_than(this: HasLastModified, that: HasLastModified) -> bool:
-    if this.last_modified is None:
-        return False
-    if that.last_modified is None:
-        return True
-    return this.last_modified >= that.last_modified
 
 
 ##############################################################################
@@ -64,6 +47,7 @@ Script: TypeAlias = tree_sitter_talon.TalonBlock
 ##############################################################################
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class SrcLoc:
@@ -151,13 +135,24 @@ class _HasName(_HasParent):
 
     @property
     def name(self) -> str:
-        assert len(self.path) > 0, "Entry has empty name"
-        resolved_name: tuple[str, ...]
-        if self.path[0] == "self":
-            resolved_name = (self.parent.namespace, *self.path[1:])
+        return resolve_path(self.path, self.parent.namespace)
+
+
+def resolve_name(name: str, namespace: Optional[str]) -> str:
+    return resolve_path(tuple(name.split(".")), namespace)
+
+
+def resolve_path(path: Sequence[str], namespace: Optional[str]) -> str:
+    assert len(path) > 0, "Entry has empty name"
+    resolved_name: tuple[str, ...]
+    if path[0] == "self":
+        if namespace:
+            resolved_name = (namespace, *path[1:])
         else:
-            resolved_name = self.path
-        return ".".join(resolved_name)
+            raise ValueError(f"encountered 'self', but 'namespace' was not provided")
+    else:
+        resolved_name = tuple(path)
+    return ".".join(resolved_name)
 
 
 @dataclass(frozen=True)
@@ -184,10 +179,15 @@ class _HasGroup(_HasName):
     def is_override(self) -> bool:
         return isinstance(self.parent, Context)
 
+    @property
+    def always_matches(self) -> bool:
+        return isinstance(self.parent, Context) and self.parent.always_matches
+
 
 _AnyHasGroup = TypeVar("_AnyHasGroup", bound=_HasGroup)
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class Group(
@@ -199,9 +199,25 @@ class Group(
     @classmethod
     def singleton(cls, value: _AnyHasGroup) -> Self:
         if value.is_override:
-            return cls(declaration=value, definition_list=[])
+            return cls(declaration=value, override_list=[])
         else:
-            return cls(declaration=None, definition_list=[value])
+            return cls(declaration=None, override_list=[value])
+
+    @property
+    def always_matches(self) -> Optional[_AnyHasGroup]:
+        for override in self.override_list:
+            if override.always_matches:
+                return override
+        return None
+
+    @property
+    def default(self) -> Optional[_AnyHasGroup]:
+        return self.declaration or self.always_matches
+
+    def entries(self) -> Iterator[_AnyHasGroup]:
+        if self.declaration:
+            yield self.declaration
+        yield from self.override_list
 
 
 ##############################################################################
@@ -209,12 +225,13 @@ class Group(
 ##############################################################################
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class Package:
     name: str
     path: Optional[Path]
-    file_list: list["File"] = field(default_factory=list)
+    file_list: list["File"] = field(init=False, default_factory=list)
 
     @property
     def last_modified(self) -> Optional[float]:
@@ -232,14 +249,17 @@ class Package:
 ##############################################################################
 
 
-@dataclass_json
 @dataclass(frozen=True)
 class File(_HasPackage):
     path: Path
 
+    @staticmethod
+    def make_name(path: Path, namespace: str) -> str:
+        return ".".join((namespace, *path.parts))
+
     @property
     def name(self) -> str:
-        return ".".join((self.namespace, *self.path.parts))
+        return File.make_name(self.path, self.namespace)
 
     @property
     def last_modified(self) -> Optional[float]:
@@ -250,19 +270,21 @@ class File(_HasPackage):
         return SrcLoc(path=self.path)
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class TalonFile(File):
     context: "Context"
-    command_list: list["Command"] = field(default_factory=list)
-    setting_list: list["Setting"] = field(default_factory=list)
+    command_list: list["Command"] = field(init=False, default_factory=list)
+    setting_list: list["Setting"] = field(init=False, default_factory=list)
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class PythonFile(File):
-    module_list: list["Module"] = field(default_factory=list)
-    context_list: list["Context"] = field(default_factory=list)
+    module_list: list["Module"] = field(init=False, default_factory=list)
+    context_list: list["Context"] = field(init=False, default_factory=list)
 
 
 ##############################################################################
@@ -299,6 +321,7 @@ class Callback(_HasFile[PythonFile]):
 ##############################################################################
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class Module(
@@ -309,6 +332,7 @@ class Module(
     pass
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class Context(
@@ -318,12 +342,37 @@ class Context(
 ):
     matches: Matches
 
+    @cached_property
+    def parsed_matches(self) -> Optional[tree_sitter_talon.TalonMatches]:
+        if isinstance(self.matches, str):
+            try:
+                source = f"""{self.matches}\n-\n"""
+                source_ast = tree_sitter_talon.parse(source, raise_parse_error=True)
+                assert isinstance(source_ast, tree_sitter_talon.TalonSourceFile)
+                for child in source_ast.children:
+                    if isinstance(child, tree_sitter_talon.TalonMatches):
+                        return child
+                return None  # NOTE: self.matches declared no matches
+            except (AssertionError, tree_sitter_talon.ParseError) as e:
+                _LOGGER.exception(e)
+                return None
+        else:
+            return self.matches
+
+    @property
+    def always_matches(self) -> bool:
+        return self.parsed_matches is None or all(
+            isinstance(child, tree_sitter_talon.TalonComment)
+            for child in self.parsed_matches.children
+        )
+
 
 ##############################################################################
 # Commands
 ##############################################################################
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class Command(
@@ -339,6 +388,7 @@ class Command(
 ##############################################################################
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class Action(
@@ -351,6 +401,7 @@ class Action(
     pass
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class Capture(
@@ -363,6 +414,7 @@ class Capture(
     rule: Rule
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class List(
@@ -374,6 +426,7 @@ class List(
     value: Optional[ListValue]
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class Setting(
@@ -386,6 +439,7 @@ class Setting(
     value_type_hint: Optional[type]
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class Mode(
@@ -397,6 +451,7 @@ class Mode(
     pass
 
 
+@final
 @dataclass_json
 @dataclass(frozen=True)
 class Tag(
