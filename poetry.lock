@@ -1023,26 +1023,26 @@ test = ["bumpver", "pytest (>=7.1.2,<8.0.0)", "pytest-golden (>=0.2.2,<0.3.0)"]
 
 [[package]]
 name = "types-docutils"
-version = "0.19.1.6"
+version = "0.19.1.7"
 description = "Typing stubs for docutils"
 category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "types-docutils-0.19.1.6.tar.gz", hash = "sha256:a334a703a8688910d0869464f1f6f8bd330d75843bdab4f893547bfb29417a01"},
-    {file = "types_docutils-0.19.1.6-py3-none-any.whl", hash = "sha256:b7e182f371cbe20828a8750ffb150219968452445946f66f33778b08e81c7d89"},
+    {file = "types-docutils-0.19.1.7.tar.gz", hash = "sha256:cb6e0dd1c895c723002ec4dc8334bf9df04726ef0cf13f5597501578b47eef30"},
+    {file = "types_docutils-0.19.1.7-py3-none-any.whl", hash = "sha256:bbf89cf3b9460ce780434f8cc52ce846b0f14505ff3496fc6a17acd9967aee9e"},
 ]
 
 [[package]]
 name = "types-pytz"
-version = "2023.2.0.0"
+version = "2023.3.0.0"
 description = "Typing stubs for pytz"
 category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "types-pytz-2023.2.0.0.tar.gz", hash = "sha256:eec7c806220776cde7b2fb20371853ddd0d14fa7544ca3c6862433ade37469df"},
-    {file = "types_pytz-2023.2.0.0-py3-none-any.whl", hash = "sha256:a6cca439e1f87be0ce745181543b58587f4e685d6b14627255dced68004ba05e"},
+    {file = "types-pytz-2023.3.0.0.tar.gz", hash = "sha256:ecdc70d543aaf3616a7e48631543a884f74205f284cefd6649ddf44c6a820aac"},
+    {file = "types_pytz-2023.3.0.0-py3-none-any.whl", hash = "sha256:4fc2a7fbbc315f0b6630e0b899fd6c743705abe1094d007b0e612d10da15e0f3"},
 ]
 
 [[package]]
