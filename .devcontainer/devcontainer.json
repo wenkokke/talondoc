@@ -1,0 +1,20 @@
+{
+	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/gh-cli:1": {},
+		"ghcr.io/devcontainers-contrib/features/pre-commit:2": {},
+		"ghcr.io/devcontainers-contrib/features/wget-apt-get:1": {},
+		"ghcr.io/dhoeric/features/act:1": {},
+		"ghcr.io/devcontainers-contrib/features/tox": {},
+		"ghcr.io/devcontainers-contrib/features/poetry": {}
+	},
+	"postCreateCommand": "poetry install",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.makefile-tools",
+				"ms-python.python"
+			]
+		}
+	}
+}
