@@ -117,6 +117,17 @@ class Registry:
     def lookup(self, cls: type[talon.Data], name: Any) -> Optional[Any]:
         return self._typed_store(cls).get(self._resolve_name(name), None)
 
+    def lookup_description(self, cls: type[talon.Data], name: Any) -> Optional[str]:
+        if talon.is_simple(cls):
+            simple = self.lookup(cls, name)
+            if simple:
+                return simple.description
+        if talon.is_group(cls):
+            group = self.lookup_default(cls, name)  # type: ignore
+            if group:
+                return group.description
+        return None
+
     def lookup_default(
         self, cls: type[GroupDataVar], name: str
     ) -> Optional[GroupDataVar]:
@@ -132,7 +143,7 @@ class Registry:
         return None
 
     def lookup_default_function(
-        self, cls: type[talon.Action], name: str
+        self, cls: type[Union[talon.Action, talon.Capture]], name: str
     ) -> Optional[Callable[..., Any]]:
         action = self.lookup_default(talon.Action, name)
         if action and action.function_name:

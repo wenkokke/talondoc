@@ -12,7 +12,7 @@ from tree_sitter_talon import TalonBlock as Script
 from tree_sitter_talon import TalonExpression as Expression
 from tree_sitter_talon import TalonMatch as Match
 from tree_sitter_talon import TalonRule as Rule
-from typing_extensions import Final, Literal, TypeAlias, TypeVar, final, override
+from typing_extensions import Literal, TypeAlias, TypeGuard, TypeVar, final, override
 
 from ..util.logging import getLogger
 
@@ -28,6 +28,11 @@ class Data(metaclass=ABCMeta):
     @property
     @abstractmethod
     def name(self) -> str:
+        ...
+
+    @property
+    @abstractmethod
+    def description(self) -> Optional[str]:
         ...
 
     @property
@@ -65,13 +70,18 @@ PackageName: TypeAlias = str
 @dataclass
 class Package(Data):
     name: PackageName
-
     location: Union[Literal["builtin"], "Location"]
 
-    parent_name: Final[None] = None
-    parent_type: Final[None] = None
+    parent_name: None = None
+    parent_type: None = None
 
     files: list["FileName"] = field(default_factory=list)
+
+    @property
+    @final
+    @override
+    def description(self) -> None:
+        return None
 
     @classmethod
     @final
@@ -105,6 +115,12 @@ class File(Data):
     def name(self) -> FileName:
         return ".".join(self.location.path.parts)
 
+    @property
+    @final
+    @override
+    def description(self) -> None:
+        return None
+
     @classmethod
     @final
     @override
@@ -134,6 +150,12 @@ class Function(Data):
     @override
     def name(self) -> FunctionName:
         return f"{self.parent_name}:{self.function.__name__}"
+
+    @property
+    @final
+    @override
+    def description(self) -> Optional[str]:
+        return self.function.__doc__
 
     @classmethod
     @final
@@ -168,6 +190,12 @@ class Callback(Data):
     @override
     def name(self) -> CallbackName:
         return f"{self.parent_name}:{self.function.__name__}"
+
+    @property
+    @final
+    @override
+    def description(self) -> Optional[str]:
+        return self.function.__doc__
 
     @classmethod
     @final
@@ -448,8 +476,7 @@ class Tag(Data):
 # Type Variables
 ##############################################################################
 
-SimpleDataVar = TypeVar(
-    "SimpleDataVar",
+SimpleData: TypeAlias = Union[
     Package,
     File,
     Function,
@@ -458,14 +485,54 @@ SimpleDataVar = TypeVar(
     Command,
     Mode,
     Tag,
+]
+
+
+def is_simple(cls: type[Data]) -> TypeGuard[type[SimpleData]]:
+    return issubclass(
+        cls,
+        (
+            Package,
+            File,
+            Function,
+            Module,
+            Context,
+            Command,
+            Mode,
+            Tag,
+        ),
+    )
+
+
+SimpleDataVar = TypeVar(
+    "SimpleDataVar",
+    bound=SimpleData,
 )
 
-GroupDataVar = TypeVar(
-    "GroupDataVar",
+
+GroupData: TypeAlias = Union[
     Action,
     Capture,
     List,
     Setting,
+]
+
+
+def is_group(cls: type[Data]) -> TypeGuard[type[GroupData]]:
+    return issubclass(
+        cls,
+        (
+            Action,
+            Capture,
+            List,
+            Setting,
+        ),
+    )
+
+
+GroupDataVar = TypeVar(
+    "GroupDataVar",
+    bound=GroupData,
 )
 
 

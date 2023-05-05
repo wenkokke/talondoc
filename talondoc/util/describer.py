@@ -25,14 +25,7 @@ from tree_sitter_talon import (
 )
 
 from ..registry import Registry
-from ..registry.entries.abc import (
-    CaptureEntry,
-    ListEntry,
-    ModeEntry,
-    SettingEntry,
-    TagEntry,
-)
-from ..registry.entries.user import ActionEntry, UserTagEntry
+from ..registry import entries as talon
 from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
 from .logging import getLogger
 
@@ -99,23 +92,16 @@ class TalonScriptDescriber:
 
     def get_docstring(
         self,
-        sort: Literal[
-            "action",
-            "capture",
-            "list",
-            "mode",
-            "setting",
-            "tag",
-        ],
+        cls: type[talon.Data],
         name: str,
     ) -> Optional[str]:
         if self.docstring_hook:
-            docstring = self.docstring_hook(sort, name)
+            docstring = self.docstring_hook(cls.__name__, name)
             if docstring:
                 return docstring
-        entry = self.registry.lookup(sort, name)
-        if entry is not None:
-            return entry.get_docstring()
+        value = self.registry.lookup(cls, name)
+        if value is not None:
+            return value.description
         return None
 
     @describe.register
