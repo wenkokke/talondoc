@@ -9,7 +9,7 @@ from types import ModuleType
 from typing import ClassVar, Optional, Sequence, Union
 
 from ....registry import Registry
-from ....registry.entries.user import UserPackageEntry, UserPythonFileEntry
+from ....registry import entries as talon
 from ....util.logging import getLogger
 from ....util.progress_bar import ProgressBar
 from .shims import ModuleShim, TalonShim
@@ -57,14 +57,11 @@ class TalonShimFinder(MetaPathFinder):
             return None
 
 
-AnyTalonPackage = Union[tuple[str, Union[str, Path]], UserPackageEntry]
-
-
 @contextmanager
-def talon_package_shims(package: AnyTalonPackage) -> Iterator[None]:
-    if isinstance(package, UserPackageEntry):
+def talon_package_shims(package: talon.Package) -> Iterator[None]:
+    if isinstance(package, talon.Package):
         package_name = package.name
-        package_path = str(package.path)
+        package_path = str(package.location.path)
     else:
         package_name = package[0]
         package_path = str(package[1])
