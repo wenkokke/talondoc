@@ -1,15 +1,16 @@
-from abc import ABC, ABCMeta, abstractmethod
-from collections.abc import Callable, Iterable, Iterator
+from abc import ABCMeta, abstractmethod
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, ClassVar, Generic, Mapping, Optional, Sequence, Union
+from typing import Any, Generic, Mapping, Optional, Sequence, Union
 
 import tree_sitter_talon
 from dataclasses_json import dataclass_json
+from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
 from tree_sitter_talon import TalonBlock as Script
 from tree_sitter_talon import TalonExpression as Expression
-from tree_sitter_talon import TalonMatches as Matches
+from tree_sitter_talon import TalonMatch as Match
 from tree_sitter_talon import TalonRule as Rule
 from typing_extensions import Final, Literal, TypeAlias, TypeVar, final, override
 
@@ -31,7 +32,7 @@ class Data(metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def location(self) -> Union[Literal["builtin"], "SourceLocation"]:
+    def location(self) -> Union[Literal["builtin"], "Location"]:
         ...
 
     @property
@@ -65,7 +66,7 @@ PackageName: TypeAlias = str
 class Package(Data):
     name: PackageName
 
-    location: Union[Literal["builtin"], "SourceLocation"]
+    location: Union[Literal["builtin"], "Location"]
 
     parent_name: Final[None] = None
     parent_type: Final[None] = None
@@ -90,7 +91,7 @@ FileName: TypeAlias = str
 @dataclass_json
 @dataclass
 class File(Data):
-    location: "SourceLocation"
+    location: "Location"
 
     parent_name: PackageName
     parent_type: Literal["package"] = "package"
@@ -123,7 +124,7 @@ FunctionName: TypeAlias = str
 class Function(Data):
     function: Callable[..., Any] = field(repr=False)
 
-    location: "SourceLocation"
+    location: "Location"
 
     parent_name: FileName
     parent_type: Literal["file"]
@@ -157,7 +158,7 @@ class Callback(Data):
 
     function: Callable[..., Any] = field(repr=False)
 
-    location: "SourceLocation"
+    location: "Location"
 
     parent_name: FileName
     parent_type: Literal["file"]
@@ -188,7 +189,7 @@ ModuleName: TypeAlias = str
 class Module(Data):
     index: int
     description: Optional[str]
-    location: "SourceLocation"
+    location: "Location"
 
     parent_name: FileName
     parent_type: Literal["file"]
@@ -213,11 +214,11 @@ ContextName: TypeAlias = str
 @dataclass_json
 @dataclass
 class Context(Data):
-    matches: Matches
+    matches: list[Match]
 
     index: int
     description: Optional[str]
-    location: "SourceLocation"
+    location: "Location"
 
     parent_name: FileName
     parent_type: Literal["file"]
@@ -228,6 +229,10 @@ class Context(Data):
     def name(self) -> ContextName:
         return f"{self.parent_name}.context.{self.index}"
 
+    @final
+    def is_default(self) -> bool:
+        return False
+
     @classmethod
     @final
     @override
@@ -235,14 +240,14 @@ class Context(Data):
         return True
 
 
-def parse_matches(matches: str) -> Matches:
+def parse_matches(matches: str) -> Sequence[Match]:
     src = f"{matches}\n-\n"
     ast = tree_sitter_talon.parse(src, raise_parse_error=True)
     assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
     for child in ast.children:
-        if isinstance(child, Matches):
-            return child
-    return Matches("", "matches", Point(0, 0), Point(0, 0), [])
+        if isinstance(child, tree_sitter_talon.TalonMatches):
+            return [match for match in child.children if isinstance(match, Match)]
+    return []
 
 
 ##############################################################################
@@ -261,7 +266,7 @@ class Command(Data):
 
     index: int
     description: Optional[str]
-    location: "SourceLocation"
+    location: "Location"
 
     parent_name: ContextName
     parent_type: Literal["context"] = "context"
@@ -305,8 +310,7 @@ class Action(Data):
 
     name: ActionName
     description: Optional[str]
-    location: Union[Literal["builtin"], "SourceLocation"]
-    is_default: bool
+    location: Union[Literal["builtin"], "Location"]
 
     parent_name: Union[ModuleName, ContextName]
     parent_type: Literal["module", "context"]
@@ -331,8 +335,7 @@ class Capture(Data):
 
     name: CaptureName
     description: Optional[str]
-    location: Union[Literal["builtin"], "SourceLocation"]
-    is_default: bool
+    location: Union[Literal["builtin"], "Location"]
 
     parent_name: Union[ModuleName, ContextName]
     parent_type: Literal["module", "context"]
@@ -361,8 +364,7 @@ class List(Data):
 
     name: ListName
     description: Optional[str]
-    location: Union[Literal["builtin"], "SourceLocation"]
-    is_default: bool
+    location: Union[Literal["builtin"], "Location"]
 
     parent_name: Union[ModuleName, ContextName]
     parent_type: Literal["module", "context"]
@@ -388,8 +390,7 @@ class Setting(Data):
 
     name: SettingName
     description: Optional[str]
-    location: Union[Literal["builtin"], "SourceLocation"]
-    is_default: bool
+    location: Union[Literal["builtin"], "Location"]
 
     parent_name: Union[ModuleName, ContextName]
     parent_type: Literal["module", "context"]
@@ -410,7 +411,7 @@ ModeName: TypeAlias = str
 class Mode(Data):
     name: ModeName
     description: Optional[str]
-    location: Union[Literal["builtin"], "SourceLocation"]
+    location: Union[Literal["builtin"], "Location"]
 
     parent_name: ModuleName
     parent_type: Literal["module"] = "module"
@@ -431,7 +432,7 @@ TagName: TypeAlias = str
 class Tag(Data):
     name: TagName
     description: Optional[str]
-    location: Union[Literal["builtin"], "SourceLocation"]
+    location: Union[Literal["builtin"], "Location"]
 
     parent_name: ModuleName
     parent_type: Literal["module"] = "module"
@@ -476,15 +477,6 @@ GroupDataVar = TypeVar(
 class Group(Generic[GroupDataVar]):
     declarations: list[GroupDataVar] = field(default_factory=list)
     overrides: list[GroupDataVar] = field(default_factory=list)
-
-    @property
-    def default(self) -> Optional[GroupDataVar]:
-        for declaration in self.declarations:
-            return declaration
-        for override in self.overrides:
-            if override.is_default:
-                return override
-        return None
 
     def append(self, value: GroupDataVar) -> None:
         if value.parent_type == "module":
@@ -535,10 +527,10 @@ class DuplicateData(Exception):
 @final
 @dataclass_json
 @dataclass
-class SourceLocation:
+class Location:
     path: Path
-    start_position: Optional[Point]
-    end_position: Optional[Point]
+    start_position: Optional[Point] = None
+    end_position: Optional[Point] = None
 
     def __str__(self) -> str:
         if self.start_position is not None:
@@ -548,12 +540,20 @@ class SourceLocation:
         return f"{self.path}"
 
     @staticmethod
-    def from_node(
-        path: Path,
-        node: tree_sitter_talon.Node,
-    ) -> "SourceLocation":
-        return SourceLocation(
+    def from_ast(path: Path, node: Node) -> "Location":
+        return Location(
             path=path,
             start_position=node.start_position,
             end_position=node.end_position,
         )
+
+    @staticmethod
+    def from_function(function: Callable[..., Any]) -> "Location":
+        code = function.__code__
+        path = Path(code.co_filename)
+        start_position = Point(code.co_firstlineno, 0)
+        return Location(path=path, start_position=start_position)
+
+    @staticmethod
+    def from_path(path: Path) -> "Location":
+        return Location(path=path)

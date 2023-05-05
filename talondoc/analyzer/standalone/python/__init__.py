@@ -59,12 +59,10 @@ class TalonShimFinder(MetaPathFinder):
 
 @contextmanager
 def talon_package_shims(package: talon.Package) -> Iterator[None]:
-    if isinstance(package, talon.Package):
-        package_name = package.name
-        package_path = str(package.location.path)
-    else:
-        package_name = package[0]
-        package_path = str(package[1])
+    assert package.location != "builtin"
+
+    package_name = package.name
+    package_path = str(package.location.path)
 
     class PackagePathFinder(PathFinder):
         """
@@ -75,7 +73,7 @@ def talon_package_shims(package: talon.Package) -> Iterator[None]:
             def create_module(cls, spec: ModuleSpec):
                 return cls.load_module(spec.name)
 
-            def exec_module(cls, module: ModuleType):
+            def exec_module(cls, _module: ModuleType):
                 pass
 
             def load_module(cls, fullname: str):
@@ -95,7 +93,7 @@ def talon_package_shims(package: talon.Package) -> Iterator[None]:
             return cls._is_module(fullname) and cls._module_path(fullname).is_dir()
 
         @classmethod
-        def find_spec(cls, fullname: str, path=None, target=None):
+        def find_spec(cls, fullname: str, path=None, _target=None):
             if cls._is_module(fullname):
                 if cls._is_subpackage(fullname):
                     module_spec = ModuleSpec(
@@ -130,7 +128,7 @@ def talon_package_shims(package: talon.Package) -> Iterator[None]:
 
 
 @contextmanager
-def talon_shims(registry: Registry, *, package: Optional[AnyTalonPackage] = None):
+def talon_shims(registry: Registry, *, package: Optional[talon.Package] = None):
     registry.activate()
     sys.meta_path.insert(0, TalonShimFinder)  # type: ignore
     try:
@@ -141,49 +139,45 @@ def talon_shims(registry: Registry, *, package: Optional[AnyTalonPackage] = None
             yield None
     finally:
         sys.meta_path.remove(TalonShimFinder)  # type: ignore
-        Registry.activate(None)
+        registry.deactivate()
 
 
-def analyse_file(
-    registry: Registry, path: Path, package: UserPackageEntry
-) -> UserPythonFileEntry:
+def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None:
     # Retrieve or create file entry:
-    with registry.file_entry(UserPythonFileEntry, package, path) as (
-        _cached,
-        file_entry,
-    ):
-        try:
-            # Process file (passes control to talondoc.analyzer.standalone.python.shims):
-            module_name = ".".join([package.name, *path.with_suffix("").parts])
-            importlib.import_module(name=module_name, package=package.name)
-            return file_entry
-        except ModuleNotFoundError as e:
-            raise e
+    file = talon.File(
+        location=talon.Location.from_path(path),
+        parent_name=package.name,
+        parent_type="package",
+    )
+    registry.register(file)
+    # Process file (passes control to talondoc.analyzer.standalone.python.shims):
+    module_name = ".".join([package.name, *path.with_suffix("").parts])
+    importlib.import_module(name=module_name, package=package.name)
 
 
 def analyse_files(
     registry: Registry,
     paths: Sequence[Path],
-    package: UserPackageEntry,
+    package: talon.Package,
     *,
     trigger: tuple[str, ...] = (),
     show_progress: bool = False,
 ) -> None:
+    assert package.location != "builtin"
     # Retrieve or create package entry:
-    with registry.as_active_package_entry(package):
-        with talon_shims(registry, package=package):
-            bar = ProgressBar(total=len(paths), show=show_progress)
-            for path in paths:
-                path = path.relative_to(package.path)
-                try:
-                    bar.step(f" {path}")
-                    analyse_file(registry, path, package)
-                except Exception as e:
-                    _LOGGER.exception(e)
+    with talon_shims(registry, package=package):
+        bar = ProgressBar(total=len(paths), show=show_progress)
+        for file_path in paths:
+            file_path = file_path.relative_to(package.location.path)
+            try:
+                bar.step(f" {file_path}")
+                analyse_file(registry, file_path, package)
+            except Exception as e:
+                _LOGGER.exception(e)
 
-            # Trigger callbacks:
-            for event_code in trigger:
-                callback_entries = registry.lookup("callback", event_code)
-                if callback_entries:
-                    for callback_entry in callback_entries:
-                        callback_entry.func()
+        # Trigger callbacks:
+        for event_code in trigger:
+            callbacks = registry.lookup(talon.Callback, event_code)
+            if callbacks is not None:
+                for callback in callbacks:
+                    callback.function()

@@ -6,23 +6,7 @@ from types import ModuleType
 from typing import Any, Mapping, Optional, Sequence, cast
 
 from ....registry import Registry
-from ....registry.entries.abc import ActionEntry, GroupEntry
-from ....registry.entries.user import (
-    EventCode,
-    ListValue,
-    SettingValue,
-    UserActionEntry,
-    UserCallbackEntry,
-    UserCaptureEntry,
-    UserContextEntry,
-    UserFunctionEntry,
-    UserListEntry,
-    UserModeEntry,
-    UserModuleEntry,
-    UserPythonFileEntry,
-    UserSettingEntry,
-    UserTagEntry,
-)
+from ....registry import entries as talon
 
 
 class ObjectShim:
@@ -30,15 +14,17 @@ class ObjectShim:
     A simple shim which responds to any method.
     """
 
-    def register(self, event_code: EventCode, func: Callable[..., Any]):
-        file = Registry.get_active_file()
-        assert isinstance(file, UserPythonFileEntry)
-        callback_entry = UserCallbackEntry(
-            parent=file,
-            func=func,
-            event_code=event_code,
+    def register(self, event_code: talon.EventCode, func: Callable[..., Any]):
+        registry = Registry.get_active_global_registry()
+        registry.register(
+            talon.Callback(
+                event_code=event_code,
+                function=func,
+                location=talon.Location.from_function(func),
+                parent_name=registry.get_active_file().name,
+                parent_type="file",
+            )
         )
-        Registry.get_active_global_registry().register(callback_entry)
 
     def __init__(self, *args, **kwargs):
         pass
@@ -173,21 +159,6 @@ class ModuleShim(ModuleType):
             return ObjectShim()
 
 
-def _action(
-    registry: Registry, name: str, *, namespace: Optional[str] = None
-) -> Optional[Callable[..., Any]]:
-    action_group_entry: Optional[GroupEntry[ActionEntry]] = registry.lookup(
-        "action", name, namespace=namespace
-    )
-    if action_group_entry and action_group_entry.default:
-        function_name = action_group_entry.default.get_function_name()
-        if function_name:
-            function_entry = registry.lookup("function", function_name)
-            if function_entry:
-                return function_entry.func
-    return ObjectShim()  # type: ignore
-
-
 class TalonActionsShim:
     def __getattr__(self, name: str) -> Optional[Callable[..., Any]]:
         try:
@@ -197,9 +168,7 @@ class TalonActionsShim:
             )
         except AttributeError:
             registry = Registry.get_active_global_registry()
-            package = registry.active_package_entry
-            namespace = package.get_namespace() if package else None
-            return _action(registry, name, namespace=namespace)
+            return registry.lookup_default_function(talon.Action, name) or ObjectShim()
 
 
 class TalonAppShim(ObjectShim):
@@ -215,23 +184,27 @@ class TalonAppShim(ObjectShim):
         raise ValueError(system)
 
 
-class TalonContextListsShim(Mapping[str, ListValue]):
+class TalonContextListsShim(Mapping[str, talon.ListValue]):
     def __init__(self, context: "TalonShim.Context"):
         self._context = context
 
-    def _add_list_value(self, name: str, value: ListValue):
-        namespace = self._context._module_entry.get_namespace()
-        list_entry = UserListEntry(
-            name=f"{namespace}.{name}",
-            parent=self._context._module_entry,
-            value=value,
+    def _add_list_value(self, name: str, value: talon.ListValue):
+        self._context._registry.register(
+            talon.List(
+                value=value,
+                value_type_hint=None,
+                name=f"{self._context._package.name}.{name}",
+                description=None,
+                location=self._context._context.location,
+                parent_name=self._context._context.name,
+                parent_type="context",
+            )
         )
-        Registry.get_active_global_registry().register(list_entry)
 
-    def __setitem__(self, name: str, value: ListValue):
+    def __setitem__(self, name: str, value: talon.ListValue):
         self._add_list_value(name, value)
 
-    def update(self, values: Mapping[str, ListValue]):
+    def update(self, values: Mapping[str, talon.ListValue]):
         for name, value in values.items():
             self._add_list_value(name, value)
 
@@ -249,19 +222,23 @@ class TalonContextSettingsShim(Mapping):
     def __init__(self, context: "TalonShim.Context"):
         self._context = context
 
-    def _add_setting_value(self, name: str, value: SettingValue):
-        namespace = self._context._module_entry.get_namespace()
-        setting_entry = UserSettingEntry(
-            name=f"{namespace}.{name}",
-            parent=self._context._module_entry,
-            value=value,
+    def _add_setting_value(self, name: str, value: talon.SettingValue):
+        self._context._registry.register(
+            talon.Setting(
+                value=value,
+                value_type_hint=None,
+                name=f"{self._context._package.name}.{name}",
+                description=None,
+                location=self._context._context.location,
+                parent_name=self._context._context.name,
+                parent_type="context",
+            )
         )
-        Registry.get_active_global_registry().register(setting_entry)
 
-    def __setitem__(self, name: str, value: SettingValue):
+    def __setitem__(self, name: str, value: talon.SettingValue):
         self._add_setting_value(name, value)
 
-    def update(self, values: Mapping[str, SettingValue]):
+    def update(self, values: Mapping[str, talon.SettingValue]):
         for name, value in values.items():
             self._add_setting_value(name, value)
 
@@ -326,56 +303,72 @@ class TalonShim(ModuleShim):
 
     class Module(ObjectShim):
         def __init__(self, desc: Optional[str] = None):
-            file = Registry.get_active_file()
-            assert isinstance(file, UserPythonFileEntry)
-            self._module_entry = UserModuleEntry(parent=file, desc=desc)
-            Registry.get_active_global_registry().register(self._module_entry)
+            self._registry = Registry.get_active_global_registry()
+            self._package = self._registry.get_active_package()
+            self._file = self._registry.get_active_file()
+            self._module = talon.Module(
+                index=len(self._file.modules) + 1,
+                description=desc,
+                location=self._file.location,
+                parent_name=self._file.name,
+                parent_type="file",
+            )
+            self._registry.register(self._module)
 
         def action_class(self, cls: type):
             for name, func in inspect.getmembers(cls, inspect.isfunction):
                 assert inspect.isfunction(func)
-                registry = Registry.get_active_global_registry()
-                function_entry = UserFunctionEntry(
-                    func=func,
-                    parent=self._module_entry.parent,
+                package = self._registry.get_active_package()
+                file = self._registry.get_active_file()
+                function = talon.Function(
+                    function=func,
+                    location=talon.Location.from_function(func),
+                    parent_name=file.name,
+                    parent_type="file",
                 )
-                function_entry.set_location(func.__code__.co_firstlineno)
-                registry.register(function_entry)
-                action_entry = UserActionEntry(
-                    parent=self._module_entry,
-                    name=f"{self._module_entry.get_namespace()}.{name}",
-                    desc=func.__doc__,
-                    func=function_entry.get_name(),
+                self._registry.register(function)
+                action = talon.Action(
+                    function_name=function.name,
+                    function_type_hints=None,
+                    name=f"{package.name}.{name}",
+                    description=func.__doc__,
+                    location=function.location,
+                    parent_name=self._module.name,
+                    parent_type="module",
                 )
-                action_entry.set_location(func.__code__.co_firstlineno)
-                registry.register(action_entry)
+                self._registry.register(action)
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
-            registry = Registry.get_active_global_registry()
-            namespace = self._module_entry.get_namespace()
-            return _action(registry, name, namespace=namespace)  # type: ignore
+            return (
+                self._registry.lookup_default_function(talon.Action, name)
+                or ObjectShim()
+            )
 
         def capture(
             self, rule: str
         ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
-                namespace = self._module_entry.get_namespace()
-                registry = Registry.get_active_global_registry()
-                function_entry = UserFunctionEntry(
-                    func=func,
-                    parent=self._module_entry.parent,
+                assert inspect.isfunction(func)
+                package = self._registry.get_active_package()
+                file = self._registry.get_active_file()
+                function = talon.Function(
+                    function=func,
+                    location=talon.Location.from_function(func),
+                    parent_name=file.name,
+                    parent_type="file",
                 )
-                function_entry.set_location(func.__code__.co_firstlineno)
-                registry.register(function_entry)
-                capture_entry = UserCaptureEntry(
-                    name=f"{namespace}.{func.__name__}",
-                    parent=self._module_entry,
-                    rule=rule,
-                    desc=func.__doc__,
-                    func=function_entry.get_name(),
+                self._registry.register(function)
+                capture = talon.Capture(
+                    rule=talon.parse_rule(rule),
+                    function_name=function.name,
+                    function_type_hints=None,
+                    name=f"{package.name}.{func.__name__}",
+                    description=func.__doc__,
+                    location=function.location,
+                    parent_name=self._module.name,
+                    parent_type="module",
                 )
-                capture_entry.set_location(func.__code__.co_firstlineno)
-                registry.register(capture_entry)
+                self._registry.register(capture)
                 return func
 
             return __decorator
@@ -384,55 +377,74 @@ class TalonShim(ModuleShim):
             self,
             name: str,
             type: type,
-            default: SettingValue = None,
+            default: talon.SettingValue = None,
             desc: str = None,
         ):
-            namespace = self._module_entry.get_namespace()
-            setting_entry = UserSettingEntry(
-                name=f"{namespace}.{name}",
-                parent=self._module_entry,
-                type=type.__name__,
-                desc=desc,
-                value=default,
+            self._registry.register(
+                talon.Setting(
+                    value=default,
+                    value_type_hint=type,
+                    name=f"{self._package.name}.{name}",
+                    description=desc,
+                    location=self._module.location,
+                    parent_name=self._module.name,
+                    parent_type="module",
+                )
             )
-            Registry.get_active_global_registry().register(setting_entry)
 
         def list(self, name: str, desc: str = None):
-            namespace = self._module_entry.get_namespace()
-            list_entry = UserListEntry(
-                name=f"{namespace}.{name}",
-                parent=self._module_entry,
-                desc=desc,
+            self._registry.register(
+                talon.List(
+                    value=None,
+                    value_type_hint=None,
+                    name=f"{self._package.name}.{name}",
+                    description=desc,
+                    location=self._module.location,
+                    parent_name=self._module.name,
+                    parent_type="module",
+                )
             )
-            Registry.get_active_global_registry().register(list_entry)
 
         def mode(self, name: str, desc: str = None):
-            namespace = self._module_entry.get_namespace()
-            mode_entry = UserModeEntry(
-                name=f"{namespace}.{name}",
-                parent=self._module_entry,
-                desc=desc,
+            self._registry.register(
+                talon.Mode(
+                    name=f"{self._package.name}.{name}",
+                    description=desc,
+                    location=self._module.location,
+                    parent_name=self._module.name,
+                    parent_type="module",
+                )
             )
-            Registry.get_active_global_registry().register(mode_entry)
 
         def tag(self, name: str, desc: str = None):
-            namespace = self._module_entry.get_namespace()
-            tag_entry = UserTagEntry(
-                name=f"{namespace}.{name}",
-                parent=self._module_entry,
-                desc=desc,
+            self._registry.register(
+                talon.Tag(
+                    name=f"{self._package.name}.{name}",
+                    description=desc,
+                    location=self._module.location,
+                    parent_name=self._module.name,
+                    parent_type="module",
+                )
             )
-            Registry.get_active_global_registry().register(tag_entry)
 
         # TODO: apps
         # TODO: scope
 
     class Context(ObjectShim):
         def __init__(self, desc: Optional[str] = None):
-            file = Registry.get_active_file()
-            assert isinstance(file, UserPythonFileEntry)
-            self._module_entry = UserContextEntry(parent=file, desc=desc)
-            Registry.get_active_global_registry().register(self._module_entry)
+            self._registry = Registry.get_active_global_registry()
+            self._package = self._registry.get_active_package()
+            self._file = self._registry.get_active_file()
+            index = len(self._file.contexts) + 1
+            self._context = talon.Context(
+                matches=[],
+                index=index,
+                description=desc,
+                location=self._file.location,
+                parent_name=self._file.name,
+                parent_type="file",
+            )
+            self._registry.register(self._context)
             self._lists = TalonContextListsShim(self)
             self._settings = TalonContextSettingsShim(self)
             self._tags = TalonContextTagsShim(self)
@@ -440,19 +452,19 @@ class TalonShim(ModuleShim):
             # TODO: apps
 
         @property
-        def lists(self) -> Mapping[str, ListValue]:
+        def lists(self) -> Mapping[str, talon.ListValue]:
             return self._lists
 
         @lists.setter
-        def lists(self, lists: Mapping[str, ListValue]) -> None:
+        def lists(self, lists: Mapping[str, talon.ListValue]) -> None:
             self._lists.update(lists)
 
         @property
-        def settings(self) -> Mapping[str, SettingValue]:
+        def settings(self) -> Mapping[str, talon.SettingValue]:
             return self._settings
 
         @settings.setter
-        def settings(self, values: Mapping[str, SettingValue]):
+        def settings(self, values: Mapping[str, talon.SettingValue]):
             self._settings.update(values)
 
         @property
@@ -466,29 +478,31 @@ class TalonShim(ModuleShim):
         def action_class(self, namespace: str) -> Callable[[type], type]:
             def __decorator(cls: type):
                 for name, func in inspect.getmembers(cls, inspect.isfunction):
-                    registry = Registry.get_active_global_registry()
-                    function_entry = UserFunctionEntry(
-                        func=func,
-                        parent=self._module_entry.parent,
+                    assert inspect.isfunction(func)
+                    package = self._registry.get_active_package()
+                    file = self._registry.get_active_file()
+                    function = talon.Function(
+                        function=func,
+                        location=talon.Location.from_function(func),
+                        parent_name=file.name,
+                        parent_type="file",
                     )
-                    function_entry.set_location(func.__code__.co_firstlineno)
-                    registry.register(function_entry)
-                    name = f"{namespace}.{name}"
-                    action_entry = UserActionEntry(
-                        parent=self._module_entry,
-                        name=name,
-                        desc=func.__doc__,
-                        func=function_entry.get_name(),
+                    self._registry.register(function)
+                    action = talon.Action(
+                        function_name=function.name,
+                        function_type_hints=None,
+                        name=f"{package.name}.{name}",
+                        description=func.__doc__,
+                        location=function.location,
+                        parent_name=self._context.name,
+                        parent_type="context",
                     )
-                    action_entry.set_location(func.__code__.co_firstlineno)
-                    registry.register(action_entry)
+                    self._registry.register(action)
 
             return __decorator
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
-            registry = Registry.get_active_global_registry()
-            namespace = self._module_entry.get_namespace()
-            return _action(registry, name, namespace=namespace)
+            return self._registry.lookup_default_function(talon.Action, name)
 
         def capture(
             self, namespace: Optional[str] = None, rule: Optional[str] = None
@@ -496,25 +510,28 @@ class TalonShim(ModuleShim):
             namespace = namespace or self._module_entry.get_namespace()
 
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
-                if rule is None:
-                    raise ValueError("Missing rule")
-
-                function_entry = UserFunctionEntry(
-                    func=func,
-                    parent=self._module_entry.parent,
+                assert rule is not None
+                assert inspect.isfunction(func)
+                package = self._registry.get_active_package()
+                file = self._registry.get_active_file()
+                function = talon.Function(
+                    function=func,
+                    location=talon.Location.from_function(func),
+                    parent_name=file.name,
+                    parent_type="file",
                 )
-                function_entry.set_location(func.__code__.co_firstlineno)
-                capture_entry = UserCaptureEntry(
-                    name=f"{namespace}.{func.__name__}",
-                    parent=self._module_entry,
-                    rule=rule,
-                    desc=func.__doc__,
-                    func=function_entry.get_name(),
+                self._registry.register(function)
+                capture = talon.Capture(
+                    rule=talon.parse_rule(rule),
+                    function_name=function.name,
+                    function_type_hints=None,
+                    name=f"{package.name}.{func.__name__}",
+                    description=func.__doc__,
+                    location=function.location,
+                    parent_name=self._module.name,
+                    parent_type="module",
                 )
-                capture_entry.set_location(func.__code__.co_firstlineno)
-                registry = Registry.get_active_global_registry()
-                registry.register(function_entry)
-                registry.register(capture_entry)
+                self._registry.register(capture)
                 return func
 
             return __decorator

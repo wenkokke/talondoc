@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from functools import singledispatchmethod
 from typing import (
     Any,
+    Callable,
     ClassVar,
     Dict,
     List,
@@ -26,16 +27,14 @@ class Registry:
     _data: Final[Dict[str, Any]]
     _temp_data: Final[Dict[str, Any]]
 
-    _active_package: Optional[talon.Package]
-    _active_file: Optional[talon.File]
-    _active_module_or_context: Optional[Union[talon.Module, talon.Context]]
+    _active_package: Optional[talon.Package] = None
+    _active_file: Optional[talon.File] = None
 
     def __init__(self, data: Dict[str, Any], temp_data: Dict[str, Any]):
         self._data = data
         self._temp_data = temp_data
         self._active_package = None
         self._active_file = None
-        self._active_module_or_context = None
 
     ######################################################################
     # Register Data
@@ -46,11 +45,17 @@ class Registry:
         raise TypeError(type(value))
 
     def _register_simple_data(self, value: SimpleDataVar) -> None:
+        # Register the data in the store.
         store = self._typed_store(value.__class__)
         old_value = store.get(value.name, None)
         if old_value is not None:
             raise talon.DuplicateData(value, old_value)
         store[value.name] = value
+        # Set the active package, file, module, or context.
+        if isinstance(value, talon.Package):
+            self._active_package = value
+        if isinstance(value, talon.File):
+            self._active_file = value
 
     def _register_grouped_data(self, value: GroupDataVar) -> None:
         store = self._typed_store(value.__class__)
@@ -105,12 +110,46 @@ class Registry:
     def lookup(
         self,
         cls: type[talon.Callback],
-        name: talon.CallbackName,
-    ) -> Optional[Mapping[talon.EventCode, talon.Callback]]:
+        name: talon.EventCode,
+    ) -> Optional[Sequence[talon.Callback]]:
         ...
 
-    def lookup(self, cls: type[talon.Data], name: str) -> Optional[Any]:
-        return self._typed_store(cls).get(name, None)
+    def lookup(self, cls: type[talon.Data], name: Any) -> Optional[Any]:
+        return self._typed_store(cls).get(self._resolve_name(name), None)
+
+    def lookup_default(
+        self, cls: type[GroupDataVar], name: str
+    ) -> Optional[GroupDataVar]:
+        group = self.lookup(cls, name)
+        if group:
+            for declaration in group.declarations:
+                return declaration
+            for override in group.overrides:
+                assert override.parent_type == "context"
+                context = self.lookup(talon.Context, override.parent_name)
+                if context and context.is_default():
+                    return override
+        return None
+
+    def lookup_default_function(
+        self, cls: type[talon.Action], name: str
+    ) -> Optional[Callable[..., Any]]:
+        action = self.lookup_default(talon.Action, name)
+        if action and action.function_name:
+            action_function = self.lookup(talon.Function, action.function_name)
+            if action_function:
+                return action_function.function
+        return None
+
+    def _resolve_name(self, name: str) -> str:
+        try:
+            package = self.get_active_package()
+            parts = name.split(".")
+            if len(parts) >= 1 and parts[0] == "self":
+                name = ".".join((package.name, *parts[1:]))
+        except NoActivePackage:
+            pass
+        return name
 
     ######################################################################
     # Typed Access To Data
@@ -222,7 +261,7 @@ class Registry:
         """
         Registry._active_global_registry = self
 
-    def deactivate(self: Optional["Registry"] = None):
+    def deactivate(self: "Registry"):
         """
         Deactivate this registry.
         """
@@ -260,19 +299,6 @@ class Registry:
             pass
         raise NoActiveFile()
 
-    @staticmethod
-    def get_active_module_or_context() -> Union[talon.Module, talon.Context]:
-        """
-        Retrieve the active module or context.
-        """
-        registry = Registry.get_active_global_registry()
-        try:
-            if registry._active_module_or_context is not None:
-                return registry._active_module_or_context
-        except AttributeError:
-            pass
-        raise NoActiveModuleOrContext()
-
 
 ##############################################################################
 # Exceptions
@@ -307,13 +333,3 @@ class NoActiveFile(Exception):
 
     def __str__(self) -> str:
         return "No active file"
-
-
-class NoActiveModuleOrContext(Exception):
-    """
-    Exception raised when the user attempts to get the active module
-    or context when no module or context is being processed.
-    """
-
-    def __str__(self) -> str:
-        return "No active module or context"

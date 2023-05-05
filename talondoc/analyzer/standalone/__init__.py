@@ -2,8 +2,7 @@ from pathlib import Path
 from typing import Optional
 
 from ...registry import Registry
-from ...registry.entries.user import UserPackageEntry
-from ...util.progress_bar import ProgressBar
+from ...registry.entries import Location, Package
 from .python import analyse_files as analyse_python_files
 from .talon import analyse_files as analyse_talon_files
 
@@ -30,42 +29,38 @@ def analyse_package(
     exclude: tuple[str, ...] = (),
     trigger: tuple[str, ...] = (),
     show_progress: bool = False,
-) -> UserPackageEntry:
+) -> None:
     # Retrieve or create package entry:
-    with registry.package(package_name, package_dir.absolute()) as (
-        cached,
-        package_entry,
-    ):
-        if not cached:
-            paths = [
-                path
-                for path in package_entry.path.glob("**/*")
-                if _include_file(path, include=include, exclude=exclude)
-            ]
+    package = Package(
+        name=package_name or package_dir.parts[-1],
+        location=Location.from_path(package_dir.absolute()),
+    )
+    assert package.location != "builtin"
+    paths = [
+        path
+        for path in package.location.path.glob("**/*")
+        if _include_file(path, include=include, exclude=exclude)
+    ]
 
-            # Analyse Python files
-            python_paths = [
-                path for path in paths if path.is_file() and path.suffix.endswith(".py")
-            ]
-            analyse_python_files(
-                registry,
-                python_paths,
-                package_entry,
-                trigger=trigger,
-                show_progress=show_progress,
-            )
+    # Analyse Python files
+    python_paths = [
+        path for path in paths if path.is_file() and path.suffix.endswith(".py")
+    ]
+    analyse_python_files(
+        registry,
+        python_paths,
+        package,
+        trigger=trigger,
+        show_progress=show_progress,
+    )
 
-            # Analyse Talon files
-            talon_paths = [
-                path
-                for path in paths
-                if path.is_file() and path.suffix.endswith(".talon")
-            ]
-            analyse_talon_files(
-                registry,
-                talon_paths,
-                package_entry,
-                show_progress=show_progress,
-            )
-
-        return package_entry
+    # Analyse Talon files
+    talon_paths = [
+        path for path in paths if path.is_file() and path.suffix.endswith(".talon")
+    ]
+    analyse_talon_files(
+        registry,
+        talon_paths,
+        package,
+        show_progress=show_progress,
+    )
