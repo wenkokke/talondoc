@@ -1,11 +1,13 @@
 from pathlib import Path
-from typing import Sequence
+from typing import Iterator, List, Optional, Sequence
 
 from tree_sitter_talon import (
     ParseError,
     TalonAssignmentStatement,
     TalonCommandDeclaration,
+    TalonDeclaration,
     TalonDeclarations,
+    TalonMatch,
     TalonMatches,
     TalonSettingsDeclaration,
     TalonSourceFile,
@@ -14,72 +16,106 @@ from tree_sitter_talon import (
 )
 
 from ...registry import Registry
-from ...registry.entries.user import (
-    UserCommandEntry,
-    UserPackageEntry,
-    UserSettingEntry,
-    UserTalonFileEntry,
-)
+from ...registry import entries as talon
 from ...util.logging import getLogger
 from ...util.progress_bar import ProgressBar
 
 _LOGGER = getLogger(__name__)
 
 
-def analyse_file(
-    registry: Registry, path: Path, package: UserPackageEntry
-) -> UserTalonFileEntry:
-    # Retrieve or create file entry:
-    with registry.file_entry(UserTalonFileEntry, package, path) as (cached, file_entry):
-        # Process file:
-        if not cached:
-            ast = parse_file(package.path / path, raise_parse_error=True)
-            assert isinstance(ast, TalonSourceFile)
-            for child in ast.children:
-                if isinstance(child, TalonMatches):
-                    # Register matches:
-                    assert file_entry.matches is None
-                    file_entry.matches = child
-                elif isinstance(child, TalonDeclarations):
-                    for declaration in child.children:
-                        if isinstance(declaration, TalonCommandDeclaration):
-                            # Register command:
-                            command_entry = UserCommandEntry(
-                                parent=file_entry, ast=declaration
-                            )
-                            registry.register(command_entry)
-                        elif isinstance(declaration, TalonSettingsDeclaration):
-                            # Register settings:
-                            for statement in declaration.right.children:
-                                if isinstance(statement, TalonAssignmentStatement):
-                                    setting_use_entry = UserSettingEntry(
-                                        name=statement.left.text,
-                                        parent=file_entry,
-                                        value=statement.right,
-                                    )
-                                    registry.register(setting_use_entry)
-                        elif isinstance(declaration, TalonTagImportDeclaration):
-                            # Register tag import:
-                            # TODO: add use entries
-                            pass
+def _TalonSourceFile_get_matches(ast: TalonSourceFile) -> Iterator[talon.Match]:
+    for child in ast.children:
+        if isinstance(child, TalonMatches):
+            for match in child.children:
+                if isinstance(match, TalonMatch):
+                    yield match
 
-        return file_entry
+
+def _TalonSourceFile_get_declarations(
+    ast: TalonSourceFile,
+) -> Iterator[TalonDeclaration]:
+    for child in ast.children:
+        if isinstance(child, TalonDeclarations):
+            yield from child.children
+
+
+def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None:
+    assert package.location != "builtin"
+    # Create a file entry:
+    file = talon.File(
+        location=talon.Location.from_path(path),
+        parent_name=package.name,
+        parent_type="package",
+    )
+    registry.register(file)
+
+    # Parse file:
+    ast = parse_file(package.location.path / path, raise_parse_error=True)
+    assert isinstance(ast, TalonSourceFile)
+
+    # Create a context entry:
+    context = talon.Context(
+        matches=list(_TalonSourceFile_get_matches(ast)),
+        index=len(file.contexts) + 1,
+        description=ast.get_docstring(),
+        location=file.location,
+        parent_name=file.name,
+        parent_type="file",
+    )
+    registry.register(context)
+
+    # Process declarations:
+    for declaration in _TalonSourceFile_get_declarations(ast):
+        if isinstance(declaration, TalonCommandDeclaration):
+            # Register command:
+            command = talon.Command(
+                rule=declaration.left,
+                script=declaration.right,
+                index=len(context.commands) + 1,
+                description=declaration.get_docstring(),
+                location=talon.Location.from_ast(context.location.path, declaration),
+                parent_name=context.name,
+                parent_type="context",
+            )
+            context.commands.append(command.name)
+            registry.register(command)
+        elif isinstance(declaration, TalonSettingsDeclaration):
+            # Register settings:
+            for statement in declaration.right.children:
+                if isinstance(statement, TalonAssignmentStatement):
+                    registry.register(
+                        talon.Setting(
+                            value=statement.right,
+                            value_type_hint=None,
+                            name=statement.left.text,
+                            description=None,
+                            location=talon.Location.from_ast(
+                                context.location.path, statement
+                            ),
+                            parent_name=context.name,
+                            parent_type="context",
+                        )
+                    )
+        elif isinstance(declaration, TalonTagImportDeclaration):
+            # Register tag import:
+            # TODO: add use entries
+            pass
 
 
 def analyse_files(
     registry: Registry,
     paths: Sequence[Path],
-    package: UserPackageEntry,
+    package: talon.Package,
     *,
     show_progress: bool = False,
 ) -> None:
+    assert package.location != "builtin"
     # Retrieve or create package entry:
-    with registry.as_active_package_entry(package):
-        bar = ProgressBar(total=len(paths), show=show_progress)
-        for path in paths:
-            path = path.relative_to(package.path)
-            try:
-                bar.step(f" {path}")
-                analyse_file(registry, path, package)
-            except ParseError as e:
-                _LOGGER.exception(e)
+    bar = ProgressBar(total=len(paths), show=show_progress)
+    for path in paths:
+        path = path.relative_to(package.location.path)
+        try:
+            bar.step(f" {path}")
+            analyse_file(registry, path, package)
+        except ParseError as e:
+            _LOGGER.exception(e)

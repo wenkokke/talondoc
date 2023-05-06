@@ -45,6 +45,8 @@ class Registry:
         raise TypeError(type(value))
 
     def _register_simple_data(self, value: SimpleDataVar) -> None:
+        # Print the value name to the log.
+        _LOGGER.info(f"register {value.__class__.__name__} {value.name}")
         # Register the data in the store.
         store = self._typed_store(value.__class__)
         old_value = store.get(value.name, None)
@@ -58,6 +60,9 @@ class Registry:
             self._active_file = value
 
     def _register_grouped_data(self, value: GroupDataVar) -> None:
+        # Print the value name to the log.
+        _LOGGER.info(f"register {value.__class__.__name__} {value.name}")
+        # Register the data in the store.
         store = self._typed_store(value.__class__)
         old_group = store.get(value.name)
         if old_group is None:
@@ -65,6 +70,9 @@ class Registry:
         old_group.append(value)
 
     def _register_callback(self, value: talon.Callback) -> None:
+        # Print the value name to the log.
+        _LOGGER.info(f"register {value.__class__.__name__} {value.name}")
+        # Register the data in the store.
         self._typed_store(talon.Callback).setdefault(value.event_code, []).append(value)
 
     # Simple entries

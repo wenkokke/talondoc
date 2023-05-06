@@ -243,6 +243,7 @@ ContextName: TypeAlias = str
 @dataclass
 class Context(Data):
     matches: list[Match]
+    commands: list["CommandName"] = field(default_factory=list, init=False)
 
     index: int
     description: Optional[str]
