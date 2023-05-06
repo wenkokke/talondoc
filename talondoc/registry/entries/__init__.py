@@ -9,9 +9,10 @@ from tree_sitter_talon import Point as Point
 from tree_sitter_talon import TalonBlock as Script
 from tree_sitter_talon import TalonMatch as Match
 from tree_sitter_talon import TalonRule as Rule
-from typing_extensions import Literal, final, override
+from typing_extensions import Literal, TypeVar, final, override
 
-from talondoc.registry.entries.abc import (
+from ...util.logging import getLogger
+from .abc import (
     ActionName,
     CallbackName,
     CaptureName,
@@ -35,8 +36,6 @@ from talondoc.registry.entries.abc import (
     SimpleData,
     TagName,
 )
-
-from ...util.logging import getLogger
 
 _LOGGER = getLogger(__name__)
 
@@ -240,6 +239,8 @@ class Callback(Data):
     def is_serialisable(cls) -> bool:
         return False
 
+
+CallbackVar = TypeVar("CallbackVar", bound=Callback)
 
 ##############################################################################
 # Modules and Contexts

@@ -17,12 +17,13 @@ from typing import (
 
 from typing_extensions import Final
 
-from talondoc.registry.entries.abc import (
+from ..util.logging import getLogger
+from . import entries as talon
+from .entries import CallbackVar
+from .entries.abc import (
     CaptureName,
-    CommandName,
     DataVar,
     DuplicateData,
-    FileName,
     GroupData,
     GroupDataVar,
     ListName,
@@ -30,9 +31,6 @@ from talondoc.registry.entries.abc import (
     SimpleDataVar,
     UnknownReference,
 )
-
-from ..util.logging import getLogger
-from . import entries as talon
 
 _LOGGER = getLogger(__name__)
 
@@ -61,10 +59,10 @@ class Registry:
     ######################################################################
 
     @singledispatchmethod
-    def register(self, value: object) -> None:
+    def register(self, value: DataVar) -> DataVar:
         raise TypeError(type(value))
 
-    def _register_simple_data(self, value: SimpleDataVar) -> None:
+    def _register_simple_data(self, value: SimpleDataVar) -> SimpleDataVar:
         # Print the value name to the log.
         _LOGGER.info(f"register {value.__class__.__name__} {value.name}")
         # Register the data in the store.
@@ -78,8 +76,9 @@ class Registry:
             self._active_package = value
         if isinstance(value, talon.File):
             self._active_file = value
+        return value
 
-    def _register_grouped_data(self, value: GroupDataVar) -> None:
+    def _register_grouped_data(self, value: GroupDataVar) -> GroupDataVar:
         # Print the value name to the log.
         _LOGGER.info(f"register {value.__class__.__name__} {value.name}")
         # Register the data in the store.
@@ -88,12 +87,14 @@ class Registry:
         if old_group is None:
             store[value.name] = old_group = talon.Group[GroupDataVar]()
         old_group.append(value)
+        return value
 
-    def _register_callback(self, value: talon.Callback) -> None:
+    def _register_callback(self, value: CallbackVar) -> CallbackVar:
         # Print the value name to the log.
         _LOGGER.info(f"register {value.__class__.__name__} {value.name}")
         # Register the data in the store.
         self._typed_store(talon.Callback).setdefault(value.event_code, []).append(value)
+        return value
 
     # Simple entries
     register.register(talon.Package, _register_simple_data)

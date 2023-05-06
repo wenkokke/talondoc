@@ -313,7 +313,6 @@ class TalonShim(ModuleShim):
             )
             self._file.modules.append(self._module.name)
             self._registry.register(self._module)
-            self._registry.register(self._module)
 
         def action_class(self, cls: type):
             for name, func in inspect.getmembers(cls, inspect.isfunction):

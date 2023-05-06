@@ -1,13 +1,7 @@
 from collections.abc import Callable
-from typing import TYPE_CHECKING, Any, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, Optional, cast
 
 import sphinx.directives
-
-from talondoc.registry.entries.user import (
-    UserFileEntry,
-    UserPackageEntry,
-    UserTalonFileEntry,
-)
 
 if TYPE_CHECKING:
     from talondoc.sphinx.domains import TalonDomain
