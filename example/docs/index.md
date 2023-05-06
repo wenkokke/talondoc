@@ -89,19 +89,19 @@ TalonDoc can generate documentation for an individual command using `talon:comma
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
 .. talon:command:: hunt this
-  :script:
+  :always_include_script:
 
 .. talon:command:: hunt this pace
-  :script:
+  :always_include_script:
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:command} hunt this
-  :script:
+  :always_include_script:
 :::
 
 :::{talon:command} hunt this pace
-  :script:
+  :always_include_script:
 :::
 ::::::
 :::::::::
@@ -109,11 +109,11 @@ TalonDoc can generate documentation for an individual command using `talon:comma
 ...will generate the following bit of documentation:
 
 :::{talon:command} hunt this
-  :script:
+  :always_include_script:
 :::
 
 :::{talon:command} hunt this pace
-  :script:
+  :always_include_script:
 :::
 
 TalonDoc will attempt to generate documentation for the command using the
@@ -130,12 +130,12 @@ The `talon:command` directive take the following options:
 Multiple packages can be specified, in which case they should be separated by commas.
 Defaults to the active package.
 
-`:context:`
+`restrict_to:`
 : The context in which the command is defined.
 Contexts can be specified using Talon context names, e.g., `user.apps.discord.discord` or `user.apps.discord.discord.talon`, or by using file names relative to the package root, e.g., `apps/discord/discord.talon`. Multiple contexts can be specified, in which case they should be separated by commas.
 By default, all commands in all packages are searched.
 
-`:script:`
+`:always_include_script:`
 : Whether or not to include the Talon script for the command.
 Defaults to false.
 
@@ -168,14 +168,14 @@ To generate the correct documentation you must specify the context in which it i
 ::::::{code-tab} rst reStructuredText
 .. talon:command:: answer call
 .. talon:command:: decline call
-  :context: user.apps.discord.discord
+  :restrict_to: user.apps.discord.discord
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:command} answer call
 :::
 :::{talon:command} decline call
-  :context: user.apps.discord.discord
+  :restrict_to: user.apps.discord.discord
 :::
 ::::::
 :::::::::
@@ -185,7 +185,7 @@ To generate the correct documentation you must specify the context in which it i
 :::{talon:command} answer call
 :::
 :::{talon:command} decline call
-  :context: user.apps.discord.discord
+  :restrict_to: user.apps.discord.discord
 :::
 
 ## Document groups of commands
@@ -197,25 +197,19 @@ For instance, the following code:
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
 .. talon:command-table::
-  :context: user.apps.discord.discord
-  :default: exclude
-  :include: answer call, decline call
+  :restrict_to: user.apps.discord.discord
 
 .. talon:command-table::
   :caption: A little custom hunting table.
-  :include: hunt this, hunt this paste
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:command-table}
-  :context: user.apps.discord.discord
-  :default: exclude
-  :include: answer call, decline call
+  :restrict_to: user.apps.discord.discord
 :::
 
 :::{talon:command-table}
   :caption: A little custom hunting table.
-  :include: hunt this, hunt this paste
 :::
 ::::::
 :::::::::
@@ -223,15 +217,11 @@ For instance, the following code:
 ... generates the following two tables:
 
 :::{talon:command-table}
-  :context: user.apps.discord.discord
-  :default: exclude
-  :include: answer call, decline call
+  :restrict_to: user.apps.discord.discord
 :::
 
 :::{talon:command-table}
   :caption: A little custom hunting table.
-  :default: exclude
-  :include: hunt this, hunt this paste
 :::
 
 Similarily, the following code:
@@ -239,17 +229,13 @@ Similarily, the following code:
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
 .. talon:command-hlist::
-  :context: apps/discord/discord.talon
-  :default: exclude
-  :include: toggle inbox, oldest unread, mark inbox channel read
+  :restrict_to: apps/discord/discord.talon
   :columns: 3
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:command-hlist}
-  :context: apps/discord/discord.talon
-  :default: exclude
-  :include: toggle inbox, oldest unread, mark inbox channel read
+  :restrict_to: apps/discord/discord.talon
   :columns: 3
 ::::::
 :::::::::
@@ -257,9 +243,7 @@ Similarily, the following code:
 ... generates the following list:
 
 :::{talon:command-hlist}
-  :context: apps/discord/discord.talon
-  :default: exclude
-  :include: toggle inbox, oldest unread, mark inbox channel read
+  :restrict_to: apps/discord/discord.talon
   :columns: 3
 :::
 
@@ -275,7 +259,7 @@ package_. Furthermore, these directives take the following options:
 Multiple packages can be specified, in which case they should be separated by commas.
 Defaults to the active package.
 
-`:context:`
+`restrict_to:`
 : The context in which the command is defined.
 Contexts can be specified using Talon context names, e.g., `user.apps.discord.discord` or `user.apps.discord.discord.talon`, or by using file names relative to the package root, e.g., `apps/discord/discord.talon`. Multiple contexts can be specified, in which case they should be separated by commas.
 By default, all commands in all packages are searched.
