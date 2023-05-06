@@ -25,6 +25,6 @@ class TalonDomain(Domain):
     def __init__(self, env: BuildEnvironment):
         super().__init__(env)
         self.registry = Registry(
-            data=self.data,
+            data=self.env.temp_data,
             temp_data=self.env.temp_data,
         )

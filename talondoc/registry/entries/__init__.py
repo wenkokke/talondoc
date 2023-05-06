@@ -109,7 +109,7 @@ class File(SimpleData):
     @final
     @override
     def name(self) -> FileName:
-        return ".".join(self.parent_name, *self.location.path.parts)
+        return ".".join((self.parent_name, *self.location.path.parts))
 
     @property
     @final
@@ -742,6 +742,9 @@ class Tag(SimpleData):
 ##############################################################################
 
 
+@final
+@dataclass_json
+@dataclass
 class Group(Generic[GroupDataVar]):
     declarations: list[GroupDataVar] = field(default_factory=list)
     overrides: list[GroupDataVar] = field(default_factory=list)

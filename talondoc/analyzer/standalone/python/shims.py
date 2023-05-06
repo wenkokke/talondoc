@@ -311,6 +311,8 @@ class TalonShim(ModuleShim):
                 _location=self._file.location,
                 _parent_name=self._file.name,
             )
+            self._file.modules.append(self._module.name)
+            self._registry.register(self._module)
             self._registry.register(self._module)
 
         def action_class(self, cls: type):
@@ -437,6 +439,7 @@ class TalonShim(ModuleShim):
                 _location=self._file.location,
                 _parent_name=self._file.name,
             )
+            self._file.contexts.append(self._context.name)
             self._registry.register(self._context)
             self._lists = TalonContextListsShim(self)
             self._settings = TalonContextSettingsShim(self)
