@@ -20,9 +20,8 @@ class ObjectShim:
             talon.Callback(
                 event_code=event_code,
                 function=func,
-                location=talon.Location.from_function(func),
-                parent_name=registry.get_active_file().name,
-                parent_type="file",
+                _location=talon.Location.from_function(func),
+                _parent_name=registry.get_active_file().name,
             )
         )
 
@@ -193,11 +192,11 @@ class TalonContextListsShim(Mapping[str, talon.ListValue]):
             talon.List(
                 value=value,
                 value_type_hint=None,
-                name=f"{self._context._package.name}.{name}",
-                description=None,
-                location=self._context._context.location,
-                parent_name=self._context._context.name,
-                parent_type="context",
+                _name=f"{self._context._package.name}.{name}",
+                _description=None,
+                _location=self._context._context.location,
+                _parent_name=self._context._context.name,
+                _parent_type="context",
             )
         )
 
@@ -227,11 +226,11 @@ class TalonContextSettingsShim(Mapping):
             talon.Setting(
                 value=value,
                 value_type_hint=None,
-                name=f"{self._context._package.name}.{name}",
-                description=None,
-                location=self._context._context.location,
-                parent_name=self._context._context.name,
-                parent_type="context",
+                _name=f"{self._context._package.name}.{name}",
+                _description=None,
+                _location=self._context._context.location,
+                _parent_name=self._context._context.name,
+                _parent_type="context",
             )
         )
 
@@ -308,10 +307,9 @@ class TalonShim(ModuleShim):
             self._file = self._registry.get_active_file()
             self._module = talon.Module(
                 index=len(self._file.modules) + 1,
-                description=desc,
-                location=self._file.location,
-                parent_name=self._file.name,
-                parent_type="file",
+                _description=desc,
+                _location=self._file.location,
+                _parent_name=self._file.name,
             )
             self._registry.register(self._module)
 
@@ -322,19 +320,18 @@ class TalonShim(ModuleShim):
                 file = self._registry.get_active_file()
                 function = talon.Function(
                     function=func,
-                    location=talon.Location.from_function(func),
-                    parent_name=file.name,
-                    parent_type="file",
+                    _location=talon.Location.from_function(func),
+                    _parent_name=file.name,
                 )
                 self._registry.register(function)
                 action = talon.Action(
-                    function_name=function.name,
-                    function_type_hints=None,
-                    name=f"{package.name}.{name}",
-                    description=func.__doc__,
-                    location=function.location,
-                    parent_name=self._module.name,
-                    parent_type="module",
+                    _name=f"{package.name}.{name}",
+                    _description=func.__doc__,
+                    _location=function.location,
+                    _parent_name=self._module.name,
+                    _parent_type="module",
+                    _function_name=function.name,
+                    _function_type_hints=None,
                 )
                 self._registry.register(action)
 
@@ -353,20 +350,19 @@ class TalonShim(ModuleShim):
                 file = self._registry.get_active_file()
                 function = talon.Function(
                     function=func,
-                    location=talon.Location.from_function(func),
-                    parent_name=file.name,
-                    parent_type="file",
+                    _location=talon.Location.from_function(func),
+                    _parent_name=file.name,
                 )
                 self._registry.register(function)
                 capture = talon.Capture(
                     rule=talon.parse_rule(rule),
-                    function_name=function.name,
-                    function_type_hints=None,
-                    name=f"{package.name}.{func.__name__}",
-                    description=func.__doc__,
-                    location=function.location,
-                    parent_name=self._module.name,
-                    parent_type="module",
+                    _name=f"{package.name}.{func.__name__}",
+                    _description=func.__doc__,
+                    _location=function.location,
+                    _parent_name=self._module.name,
+                    _parent_type="module",
+                    _function_name=function.name,
+                    _function_type_hints=None,
                 )
                 self._registry.register(capture)
                 return func
@@ -384,11 +380,11 @@ class TalonShim(ModuleShim):
                 talon.Setting(
                     value=default,
                     value_type_hint=type,
-                    name=f"{self._package.name}.{name}",
-                    description=desc,
-                    location=self._module.location,
-                    parent_name=self._module.name,
-                    parent_type="module",
+                    _name=f"{self._package.name}.{name}",
+                    _description=desc,
+                    _location=self._module.location,
+                    _parent_name=self._module.name,
+                    _parent_type="module",
                 )
             )
 
@@ -397,33 +393,31 @@ class TalonShim(ModuleShim):
                 talon.List(
                     value=None,
                     value_type_hint=None,
-                    name=f"{self._package.name}.{name}",
-                    description=desc,
-                    location=self._module.location,
-                    parent_name=self._module.name,
-                    parent_type="module",
+                    _name=f"{self._package.name}.{name}",
+                    _description=desc,
+                    _location=self._module.location,
+                    _parent_name=self._module.name,
+                    _parent_type="module",
                 )
             )
 
         def mode(self, name: str, desc: str = None):
             self._registry.register(
                 talon.Mode(
-                    name=f"{self._package.name}.{name}",
-                    description=desc,
-                    location=self._module.location,
-                    parent_name=self._module.name,
-                    parent_type="module",
+                    _name=f"{self._package.name}.{name}",
+                    _description=desc,
+                    _location=self._module.location,
+                    _parent_name=self._module.name,
                 )
             )
 
         def tag(self, name: str, desc: str = None):
             self._registry.register(
                 talon.Tag(
-                    name=f"{self._package.name}.{name}",
-                    description=desc,
-                    location=self._module.location,
-                    parent_name=self._module.name,
-                    parent_type="module",
+                    _name=f"{self._package.name}.{name}",
+                    _description=desc,
+                    _location=self._module.location,
+                    _parent_name=self._module.name,
                 )
             )
 
@@ -439,10 +433,9 @@ class TalonShim(ModuleShim):
             self._context = talon.Context(
                 matches=[],
                 index=index,
-                description=desc,
-                location=self._file.location,
-                parent_name=self._file.name,
-                parent_type="file",
+                _description=desc,
+                _location=self._file.location,
+                _parent_name=self._file.name,
             )
             self._registry.register(self._context)
             self._lists = TalonContextListsShim(self)
@@ -483,19 +476,18 @@ class TalonShim(ModuleShim):
                     file = self._registry.get_active_file()
                     function = talon.Function(
                         function=func,
-                        location=talon.Location.from_function(func),
-                        parent_name=file.name,
-                        parent_type="file",
+                        _location=talon.Location.from_function(func),
+                        _parent_name=file.name,
                     )
                     self._registry.register(function)
                     action = talon.Action(
-                        function_name=function.name,
-                        function_type_hints=None,
-                        name=f"{package.name}.{name}",
-                        description=func.__doc__,
-                        location=function.location,
-                        parent_name=self._context.name,
-                        parent_type="context",
+                        _name=f"{package.name}.{name}",
+                        _description=func.__doc__,
+                        _location=function.location,
+                        _parent_name=self._context.name,
+                        _parent_type="context",
+                        _function_name=function.name,
+                        _function_type_hints=None,
                     )
                     self._registry.register(action)
 
@@ -516,20 +508,19 @@ class TalonShim(ModuleShim):
                 file = self._registry.get_active_file()
                 function = talon.Function(
                     function=func,
-                    location=talon.Location.from_function(func),
-                    parent_name=file.name,
-                    parent_type="file",
+                    _location=talon.Location.from_function(func),
+                    _parent_name=file.name,
                 )
                 self._registry.register(function)
                 capture = talon.Capture(
                     rule=talon.parse_rule(rule),
-                    function_name=function.name,
-                    function_type_hints=None,
-                    name=f"{package.name}.{func.__name__}",
-                    description=func.__doc__,
-                    location=function.location,
-                    parent_name=self._module.name,
-                    parent_type="module",
+                    _name=f"{package.name}.{func.__name__}",
+                    _description=func.__doc__,
+                    _location=function.location,
+                    _parent_name=self._context.name,
+                    _parent_type="module",
+                    _function_name=function.name,
+                    _function_type_hints=None,
                 )
                 self._registry.register(capture)
                 return func

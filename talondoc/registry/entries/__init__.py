@@ -1,6 +1,6 @@
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Generic, Optional, Sequence, Union
+from typing import Any, Generic, Mapping, Optional, Sequence, Union
 
 import tree_sitter_talon
 from dataclasses_json import dataclass_json
@@ -50,18 +50,38 @@ _LOGGER = getLogger(__name__)
 @dataclass_json
 @dataclass
 class Package(SimpleData):
-    name: PackageName
-    location: Union[Literal["builtin"], Location]
-
-    parent_name: None = None
-    parent_type: None = None
-
+    _name: PackageName
+    _location: Union[Literal["builtin"], Location]
     files: list["FileName"] = field(default_factory=list)
 
     @property
     @final
     @override
+    def name(self) -> FileName:
+        return self._name
+
+    @property
+    @final
+    @override
     def description(self) -> None:
+        return None
+
+    @property
+    @final
+    @override
+    def location(self) -> Union[Literal["builtin"], Location]:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> None:
+        return None
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> None:
         return None
 
     @classmethod
@@ -80,11 +100,8 @@ class Package(SimpleData):
 @dataclass_json
 @dataclass
 class File(SimpleData):
-    location: Location
-
-    parent_name: PackageName
-    parent_type: Literal["package"] = "package"
-
+    _location: Location
+    _parent_name: PackageName
     modules: list["ModuleName"] = field(default_factory=list)
     contexts: list["ContextName"] = field(default_factory=list)
 
@@ -99,6 +116,24 @@ class File(SimpleData):
     @override
     def description(self) -> None:
         return None
+
+    @property
+    @final
+    @override
+    def location(self) -> Location:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> str:
+        return self._parent_name
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> Literal["package"]:
+        return "package"
 
     @classmethod
     @final
@@ -116,11 +151,8 @@ class File(SimpleData):
 @dataclass
 class Function(SimpleData):
     function: Callable[..., Any] = field(repr=False)
-
-    location: Location
-
-    parent_name: FileName
-    parent_type: Literal["file"]
+    _location: Location
+    _parent_name: FileName
 
     @property
     @final
@@ -133,6 +165,24 @@ class Function(SimpleData):
     @override
     def description(self) -> Optional[str]:
         return self.function.__doc__
+
+    @property
+    @final
+    @override
+    def location(self) -> Location:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> str:
+        return self._parent_name
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> Literal["file"]:
+        return "file"
 
     @classmethod
     @final
@@ -150,13 +200,9 @@ class Function(SimpleData):
 @dataclass
 class Callback(Data):
     event_code: EventCode
-
     function: Callable[..., Any] = field(repr=False)
-
-    location: Location
-
-    parent_name: FileName
-    parent_type: Literal["file"]
+    _location: Location
+    _parent_name: FileName
 
     @property
     @final
@@ -169,6 +215,24 @@ class Callback(Data):
     @override
     def description(self) -> Optional[str]:
         return self.function.__doc__
+
+    @property
+    @final
+    @override
+    def location(self) -> Location:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> str:
+        return self._parent_name
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> Literal["file"]:
+        return "file"
 
     @classmethod
     @final
@@ -187,17 +251,39 @@ class Callback(Data):
 @dataclass
 class Module(SimpleData):
     index: int
-    description: Optional[str]
-    location: Location
-
-    parent_name: FileName
-    parent_type: Literal["file"]
+    _description: Optional[str]
+    _location: Location
+    _parent_name: FileName
 
     @property
     @final
     @override
     def name(self) -> ModuleName:
         return f"{self.parent_name}.module.{self.index}"
+
+    @property
+    @final
+    @override
+    def description(self) -> Optional[str]:
+        return self._description
+
+    @property
+    @final
+    @override
+    def location(self) -> Location:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> str:
+        return self._parent_name
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> Literal["file"]:
+        return "file"
 
     @classmethod
     @final
@@ -211,20 +297,41 @@ class Module(SimpleData):
 @dataclass
 class Context(SimpleData):
     matches: list[Match]
-    commands: list["CommandName"] = field(default_factory=list, init=False)
-
     index: int
-    description: Optional[str]
-    location: Location
-
-    parent_name: FileName
-    parent_type: Literal["file"]
+    _description: Optional[str]
+    _location: Location
+    _parent_name: FileName
+    commands: list["CommandName"] = field(default_factory=list, init=False)
 
     @property
     @final
     @override
     def name(self) -> ContextName:
         return f"{self.parent_name}.context.{self.index}"
+
+    @property
+    @final
+    @override
+    def description(self) -> Optional[str]:
+        return self._description
+
+    @property
+    @final
+    @override
+    def location(self) -> Location:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> str:
+        return self._parent_name
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> Literal["file"]:
+        return "file"
 
     @final
     def is_default(self) -> bool:
@@ -258,17 +365,38 @@ def parse_matches(matches: str) -> Sequence[Match]:
 class Command(SimpleData):
     rule: Rule
     script: Script
-
     index: int
-    description: Optional[str]
-    location: Location
-
-    parent_name: ContextName
-    parent_type: Literal["context"] = "context"
+    _description: Optional[str]
+    _location: Location
+    _parent_name: ContextName
 
     @property
     def name(self) -> CommandName:
         return f"{self.parent_name}.command.{self.index}"
+
+    @property
+    @final
+    @override
+    def description(self) -> Optional[str]:
+        return self._description
+
+    @property
+    @final
+    @override
+    def location(self) -> Location:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> str:
+        return self._parent_name
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> Literal["context"]:
+        return "context"
 
     @classmethod
     @final
@@ -298,15 +426,55 @@ def parse_rule(rule: str) -> Rule:
 @dataclass_json
 @dataclass
 class Action(GroupDataHasFunction):
-    function_name: Optional[FunctionName]
-    function_type_hints: Optional[dict[str, type]]
+    _name: ActionName
+    _description: Optional[str]
+    _location: Union[Literal["builtin"], Location]
+    _parent_name: Union[ModuleName, ContextName]
+    _parent_type: Literal["module", "context"]
+    _function_name: Optional[FunctionName]
+    _function_type_hints: Optional[dict[str, type]]
 
-    name: ActionName
-    description: Optional[str]
-    location: Union[Literal["builtin"], Location]
+    @property
+    @final
+    @override
+    def name(self) -> str:
+        return self._name
 
-    parent_name: Union[ModuleName, ContextName]
-    parent_type: Literal["module", "context"]
+    @property
+    @final
+    @override
+    def description(self) -> Optional[str]:
+        return self._description
+
+    @property
+    @final
+    @override
+    def location(self) -> Union[Literal["builtin"], Location]:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> str:
+        return self._parent_name
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> Literal["module", "context"]:
+        return self._parent_type
+
+    @property
+    @final
+    @override
+    def function_name(self) -> Optional[FunctionName]:
+        return self._function_name
+
+    @property
+    @final
+    @override
+    def function_type_hints(self) -> Optional[Mapping[str, type]]:
+        return self._function_type_hints
 
     @classmethod
     @final
@@ -320,15 +488,55 @@ class Action(GroupDataHasFunction):
 @dataclass
 class Capture(GroupDataHasFunction):
     rule: Rule
-    function_name: Optional[FunctionName]
-    function_type_hints: Optional[dict[str, type]]
+    _name: CaptureName
+    _description: Optional[str]
+    _location: Union[Literal["builtin"], Location]
+    _parent_name: Union[ModuleName, ContextName]
+    _parent_type: Literal["module", "context"]
+    _function_name: Optional[FunctionName]
+    _function_type_hints: Optional[dict[str, type]]
 
-    name: CaptureName
-    description: Optional[str]
-    location: Union[Literal["builtin"], Location]
+    @property
+    @final
+    @override
+    def name(self) -> str:
+        return self._name
 
-    parent_name: Union[ModuleName, ContextName]
-    parent_type: Literal["module", "context"]
+    @property
+    @final
+    @override
+    def description(self) -> Optional[str]:
+        return self._description
+
+    @property
+    @final
+    @override
+    def location(self) -> Union[Literal["builtin"], Location]:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> str:
+        return self._parent_name
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> Literal["module", "context"]:
+        return self._parent_type
+
+    @property
+    @final
+    @override
+    def function_name(self) -> Optional[FunctionName]:
+        return self._function_name
+
+    @property
+    @final
+    @override
+    def function_type_hints(self) -> Optional[Mapping[str, type]]:
+        return self._function_type_hints
 
     @classmethod
     @final
@@ -343,13 +551,41 @@ class Capture(GroupDataHasFunction):
 class List(GroupData):
     value: Optional[ListValue]
     value_type_hint: Optional[type]
+    _name: ListName
+    _description: Optional[str]
+    _location: Union[Literal["builtin"], Location]
+    _parent_name: Union[ModuleName, ContextName]
+    _parent_type: Literal["module", "context"]
 
-    name: ListName
-    description: Optional[str]
-    location: Union[Literal["builtin"], Location]
+    @property
+    @final
+    @override
+    def name(self) -> str:
+        return self._name
 
-    parent_name: Union[ModuleName, ContextName]
-    parent_type: Literal["module", "context"]
+    @property
+    @final
+    @override
+    def description(self) -> Optional[str]:
+        return self._description
+
+    @property
+    @final
+    @override
+    def location(self) -> Union[Literal["builtin"], Location]:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> str:
+        return self._parent_name
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> Literal["module", "context"]:
+        return self._parent_type
 
     @classmethod
     @final
@@ -364,13 +600,41 @@ class List(GroupData):
 class Setting(GroupData):
     value: Optional[SettingValue]
     value_type_hint: Optional[type]
+    _name: SettingName
+    _description: Optional[str]
+    _location: Union[Literal["builtin"], Location]
+    _parent_name: Union[ModuleName, ContextName]
+    _parent_type: Literal["module", "context"]
 
-    name: SettingName
-    description: Optional[str]
-    location: Union[Literal["builtin"], Location]
+    @property
+    @final
+    @override
+    def name(self) -> str:
+        return self._name
 
-    parent_name: Union[ModuleName, ContextName]
-    parent_type: Literal["module", "context"]
+    @property
+    @final
+    @override
+    def description(self) -> Optional[str]:
+        return self._description
+
+    @property
+    @final
+    @override
+    def location(self) -> Union[Literal["builtin"], Location]:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> str:
+        return self._parent_name
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> Literal["module", "context"]:
+        return self._parent_type
 
     @classmethod
     @final
@@ -383,12 +647,41 @@ class Setting(GroupData):
 @dataclass_json
 @dataclass
 class Mode(SimpleData):
-    name: ModeName
-    description: Optional[str]
-    location: Union[Literal["builtin"], Location]
+    _name: ModeName
+    _description: Optional[str]
+    _location: Union[Literal["builtin"], Location]
+    _parent_name: ModuleName
+    _parent_type: Literal["module"] = "module"
 
-    parent_name: ModuleName
-    parent_type: Literal["module"] = "module"
+    @property
+    @final
+    @override
+    def name(self) -> str:
+        return self._name
+
+    @property
+    @final
+    @override
+    def description(self) -> Optional[str]:
+        return self._description
+
+    @property
+    @final
+    @override
+    def location(self) -> Union[Literal["builtin"], Location]:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> str:
+        return self._parent_name
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> Literal["module"]:
+        return self._parent_type
 
     @classmethod
     @final
@@ -401,12 +694,41 @@ class Mode(SimpleData):
 @dataclass_json
 @dataclass
 class Tag(SimpleData):
-    name: TagName
-    description: Optional[str]
-    location: Union[Literal["builtin"], Location]
+    _name: TagName
+    _description: Optional[str]
+    _location: Union[Literal["builtin"], Location]
+    _parent_name: ModuleName
+    _parent_type: Literal["module"] = "module"
 
-    parent_name: ModuleName
-    parent_type: Literal["module"] = "module"
+    @property
+    @final
+    @override
+    def name(self) -> str:
+        return self._name
+
+    @property
+    @final
+    @override
+    def description(self) -> Optional[str]:
+        return self._description
+
+    @property
+    @final
+    @override
+    def location(self) -> Union[Literal["builtin"], Location]:
+        return self._location
+
+    @property
+    @final
+    @override
+    def parent_name(self) -> str:
+        return self._parent_name
+
+    @property
+    @final
+    @override
+    def parent_type(self) -> Literal["module"]:
+        return self._parent_type
 
     @classmethod
     @final

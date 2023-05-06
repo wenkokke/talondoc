@@ -1,12 +1,12 @@
 from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Mapping, Optional, Union, cast
 
 from dataclasses_json import dataclass_json
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
-from typing_extensions import Literal, TypeAlias, TypeVar, final
+from typing_extensions import Final, Literal, TypeAlias, TypeVar, final
 
 from ...util.logging import getLogger
 
@@ -167,7 +167,7 @@ class GroupDataHasFunction(GroupData, metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def function_type_hints(self) -> Optional[dict[str, type]]:
+    def function_type_hints(self) -> Optional[Mapping[str, type]]:
         ...
 
 
