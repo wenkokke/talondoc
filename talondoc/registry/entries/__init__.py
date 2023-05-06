@@ -151,7 +151,8 @@ class File(SimpleData):
 class Function(SimpleData):
     function: Callable[..., Any] = field(repr=False)
     _location: Location
-    _parent_name: FileName
+    _parent_name: str
+    _parent_type: Literal["module", "context"]
 
     @property
     @final
@@ -180,8 +181,8 @@ class Function(SimpleData):
     @property
     @final
     @override
-    def parent_type(self) -> Literal["file"]:
-        return "file"
+    def parent_type(self) -> Literal["module", "context"]:
+        return self._parent_type
 
     @classmethod
     @final

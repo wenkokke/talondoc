@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "talondoc"
-version = "0.2.1"
+version = "0.3.0"
 description = "A Sphinx extension for Talon user directories."
 license = "MIT"
 authors = ["Wen Kokke <wenkokke@users.noreply.github.com>"]

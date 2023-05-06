@@ -318,11 +318,11 @@ class TalonShim(ModuleShim):
             for name, func in inspect.getmembers(cls, inspect.isfunction):
                 assert inspect.isfunction(func)
                 package = self._registry.get_active_package()
-                file = self._registry.get_active_file()
                 function = talon.Function(
                     function=func,
                     _location=talon.Location.from_function(func),
-                    _parent_name=file.name,
+                    _parent_name=self._module.name,
+                    _parent_type="module",
                 )
                 self._registry.register(function)
                 action = talon.Action(
@@ -348,11 +348,11 @@ class TalonShim(ModuleShim):
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
                 assert inspect.isfunction(func)
                 package = self._registry.get_active_package()
-                file = self._registry.get_active_file()
                 function = talon.Function(
                     function=func,
                     _location=talon.Location.from_function(func),
-                    _parent_name=file.name,
+                    _parent_name=self._module.name,
+                    _parent_type="module",
                 )
                 self._registry.register(function)
                 capture = talon.Capture(
@@ -475,11 +475,11 @@ class TalonShim(ModuleShim):
                 for name, func in inspect.getmembers(cls, inspect.isfunction):
                     assert inspect.isfunction(func)
                     package = self._registry.get_active_package()
-                    file = self._registry.get_active_file()
                     function = talon.Function(
                         function=func,
                         _location=talon.Location.from_function(func),
-                        _parent_name=file.name,
+                        _parent_name=self._context.name,
+                        _parent_type="context",
                     )
                     self._registry.register(function)
                     action = talon.Action(
@@ -507,11 +507,11 @@ class TalonShim(ModuleShim):
                 assert rule is not None
                 assert inspect.isfunction(func)
                 package = self._registry.get_active_package()
-                file = self._registry.get_active_file()
                 function = talon.Function(
                     function=func,
                     _location=talon.Location.from_function(func),
-                    _parent_name=file.name,
+                    _parent_name=self._context.name,
+                    _parent_type="context",
                 )
                 self._registry.register(function)
                 capture = talon.Capture(
