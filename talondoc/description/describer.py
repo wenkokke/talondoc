@@ -1,6 +1,6 @@
 from collections.abc import Callable
 from functools import singledispatchmethod
-from typing import Literal, Optional, Sequence, TypeVar, Union
+from typing import Optional, TypeVar
 
 from tree_sitter_talon import (
     Node,
@@ -26,8 +26,8 @@ from tree_sitter_talon import (
 
 from ..registry import Registry
 from ..registry import entries as talon
-from .desc import Desc, Step, StepsTemplate, Value, concat, from_docstring
-from .logging import getLogger
+from ..util.logging import getLogger
+from . import Description, Step, StepsTemplate, Value, concat, from_docstring
 
 _LOGGER = getLogger(__name__)
 
@@ -43,51 +43,51 @@ class TalonScriptDescriber:
         docstring_hook: Optional[Callable[[str, str], Optional[str]]] = None,
     ) -> None:
         self.registry = registry
-        self.docstring_hook = docstring_hook
+        self.docstring_hook = docstring_hook or (lambda clsname, name: None)
 
     @singledispatchmethod
-    def describe(self, ast: Node) -> Optional[Desc]:
+    def describe(self, ast: Node) -> Optional[Description]:
         raise TypeError(type(ast))
 
     @describe.register
-    def _(self, ast: TalonCommandDeclaration) -> Optional[Desc]:
+    def _(self, ast: TalonCommandDeclaration) -> Optional[Description]:
         return self.describe(ast.right)
 
     @describe.register
-    def _(self, ast: TalonBlock) -> Optional[Desc]:
+    def _(self, ast: TalonBlock) -> Optional[Description]:
         buffer = []
         for child in ast.children:
             buffer.append(self.describe(child))
         return concat(*buffer)
 
     @describe.register
-    def _(self, ast: TalonExpressionStatement) -> Optional[Desc]:
+    def _(self, ast: TalonExpressionStatement) -> Optional[Description]:
         desc = self.describe(ast.expression)
         if isinstance(ast.expression, TalonString):
             return Step(desc=f'Insert "{desc}"')
         return desc
 
     @describe.register
-    def _(self, ast: TalonAssignmentStatement) -> Optional[Desc]:
+    def _(self, ast: TalonAssignmentStatement) -> Optional[Description]:
         right = self.describe(ast.right)
         return Step(f"Let <{ast.left.text}> be {right}")
 
     @describe.register
-    def _(self, ast: TalonBinaryOperator) -> Optional[Desc]:
+    def _(self, ast: TalonBinaryOperator) -> Optional[Description]:
         left = self.describe(ast.left)
         right = self.describe(ast.right)
         return Value(f"{left} {ast.operator.text} {right}")
 
     @describe.register
-    def _(self, ast: TalonVariable) -> Optional[Desc]:
+    def _(self, ast: TalonVariable) -> Optional[Description]:
         return Value(f"<{ast.text}>")
 
     @describe.register
-    def _(self, ast: TalonKeyAction) -> Optional[Desc]:
+    def _(self, ast: TalonKeyAction) -> Optional[Description]:
         return Step(f"Press {ast.arguments.text.strip()}.")
 
     @describe.register
-    def _(self, ast: TalonSleepAction, **kwargs) -> Optional[Desc]:
+    def _(self, ast: TalonSleepAction, **kwargs) -> Optional[Description]:
         return None
 
     def get_docstring(
@@ -95,20 +95,17 @@ class TalonScriptDescriber:
         cls: type[talon.Data],
         name: str,
     ) -> Optional[str]:
-        if self.docstring_hook:
-            docstring = self.docstring_hook(cls.__name__, name)
-            if docstring:
-                return docstring
-        value = self.registry.lookup(cls, name)
-        if value is not None:
-            return value.description
-        return None
+        # Try the docstring_hook:
+        docstring = self.docstring_hook(cls.__name__, name)
+        # Try the registry:
+        docstring = docstring or self.registry.lookup_description(cls, name)
+        return docstring
 
     @describe.register
-    def _(self, ast: TalonAction) -> Optional[Desc]:
+    def _(self, ast: TalonAction) -> Optional[Description]:
         # TODO: resolve self.*
         name = ast.action_name.text
-        docstring = self.get_docstring("action", name)
+        docstring = self.get_docstring(talon.Action, name)
         if docstring:
             desc = from_docstring(docstring)
             if isinstance(desc, StepsTemplate):
@@ -123,33 +120,33 @@ class TalonScriptDescriber:
         return None
 
     @describe.register
-    def _(self, ast: TalonParenthesizedExpression) -> Optional[Desc]:
+    def _(self, ast: TalonParenthesizedExpression) -> Optional[Description]:
         return self.describe(ast.get_child())
 
     @describe.register
-    def _(self, ast: TalonComment) -> Optional[Desc]:
+    def _(self, ast: TalonComment) -> Optional[Description]:
         return None
 
     @describe.register
-    def _(self, ast: TalonInteger) -> Optional[Desc]:
+    def _(self, ast: TalonInteger) -> Optional[Description]:
         return Value(ast.text)
 
     @describe.register
-    def _(self, ast: TalonFloat) -> Optional[Desc]:
+    def _(self, ast: TalonFloat) -> Optional[Description]:
         return Value(ast.text)
 
     @describe.register
-    def _(self, ast: TalonImplicitString) -> Optional[Desc]:
+    def _(self, ast: TalonImplicitString) -> Optional[Description]:
         return Value(ast.text)
 
     @describe.register
-    def _(self, ast: TalonString) -> Optional[Desc]:
+    def _(self, ast: TalonString) -> Optional[Description]:
         return concat(*(self.describe(child) for child in ast.children))
 
     @describe.register
-    def _(self, ast: TalonStringContent) -> Optional[Desc]:
+    def _(self, ast: TalonStringContent) -> Optional[Description]:
         return Value(ast.text)
 
     @describe.register
-    def _(self, ast: TalonStringEscapeSequence) -> Optional[Desc]:
+    def _(self, ast: TalonStringEscapeSequence) -> Optional[Description]:
         return Value(ast.text)

@@ -1,76 +1,57 @@
-from abc import ABCMeta, abstractmethod
-from collections.abc import Callable, Iterable
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Any, Generic, Mapping, Optional, Sequence, Union
+from typing import Any, Generic, Optional, Sequence, Union
 
 import tree_sitter_talon
 from dataclasses_json import dataclass_json
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
 from tree_sitter_talon import TalonBlock as Script
-from tree_sitter_talon import TalonExpression as Expression
 from tree_sitter_talon import TalonMatch as Match
 from tree_sitter_talon import TalonRule as Rule
-from typing_extensions import Literal, TypeAlias, TypeGuard, TypeVar, final, override
+from typing_extensions import Literal, final, override
 
-from ..util.logging import getLogger
+from talondoc.registry.entries.abc import (
+    ActionName,
+    CallbackName,
+    CaptureName,
+    CommandName,
+    ContextName,
+    Data,
+    EventCode,
+    FileName,
+    FunctionName,
+    GroupData,
+    GroupDataHasFunction,
+    GroupDataVar,
+    ListName,
+    ListValue,
+    Location,
+    ModeName,
+    ModuleName,
+    PackageName,
+    SettingName,
+    SettingValue,
+    SimpleData,
+    TagName,
+)
+
+from ...util.logging import getLogger
 
 _LOGGER = getLogger(__name__)
 
 
 ##############################################################################
-# Abstact Data
-##############################################################################
-
-
-class Data(metaclass=ABCMeta):
-    @property
-    @abstractmethod
-    def name(self) -> str:
-        ...
-
-    @property
-    @abstractmethod
-    def description(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def location(self) -> Union[Literal["builtin"], "Location"]:
-        ...
-
-    @property
-    @abstractmethod
-    def parent_name(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def parent_type(self) -> Optional[Literal["package", "file", "module", "context"]]:
-        ...
-
-    @classmethod
-    @abstractmethod
-    def is_serialisable(cls) -> bool:
-        ...
-
-
-DataVar = TypeVar("DataVar", bound=Data)
-
-##############################################################################
 # Packages
 ##############################################################################
-
-PackageName: TypeAlias = str
 
 
 @final
 @dataclass_json
 @dataclass
-class Package(Data):
+class Package(SimpleData):
     name: PackageName
-    location: Union[Literal["builtin"], "Location"]
+    location: Union[Literal["builtin"], Location]
 
     parent_name: None = None
     parent_type: None = None
@@ -94,14 +75,12 @@ class Package(Data):
 # Files
 ##############################################################################
 
-FileName: TypeAlias = str
-
 
 @final
 @dataclass_json
 @dataclass
-class File(Data):
-    location: "Location"
+class File(SimpleData):
+    location: Location
 
     parent_name: PackageName
     parent_type: Literal["package"] = "package"
@@ -113,7 +92,7 @@ class File(Data):
     @final
     @override
     def name(self) -> FileName:
-        return ".".join(self.location.path.parts)
+        return ".".join(self.parent_name, *self.location.path.parts)
 
     @property
     @final
@@ -132,15 +111,13 @@ class File(Data):
 # Functions
 ##############################################################################
 
-FunctionName: TypeAlias = str
-
 
 @final
 @dataclass
-class Function(Data):
+class Function(SimpleData):
     function: Callable[..., Any] = field(repr=False)
 
-    location: "Location"
+    location: Location
 
     parent_name: FileName
     parent_type: Literal["file"]
@@ -168,10 +145,6 @@ class Function(Data):
 # Callbacks
 ##############################################################################
 
-CallbackName: TypeAlias = str
-
-EventCode: TypeAlias = Union[int, str]
-
 
 @final
 @dataclass
@@ -180,7 +153,7 @@ class Callback(Data):
 
     function: Callable[..., Any] = field(repr=False)
 
-    location: "Location"
+    location: Location
 
     parent_name: FileName
     parent_type: Literal["file"]
@@ -208,16 +181,14 @@ class Callback(Data):
 # Modules and Contexts
 ##############################################################################
 
-ModuleName: TypeAlias = str
-
 
 @final
 @dataclass_json
 @dataclass
-class Module(Data):
+class Module(SimpleData):
     index: int
     description: Optional[str]
-    location: "Location"
+    location: Location
 
     parent_name: FileName
     parent_type: Literal["file"]
@@ -235,19 +206,16 @@ class Module(Data):
         return True
 
 
-ContextName: TypeAlias = str
-
-
 @final
 @dataclass_json
 @dataclass
-class Context(Data):
+class Context(SimpleData):
     matches: list[Match]
     commands: list["CommandName"] = field(default_factory=list, init=False)
 
     index: int
     description: Optional[str]
-    location: "Location"
+    location: Location
 
     parent_name: FileName
     parent_type: Literal["file"]
@@ -283,19 +251,17 @@ def parse_matches(matches: str) -> Sequence[Match]:
 # Commands
 ##############################################################################
 
-CommandName: TypeAlias = str
-
 
 @final
 @dataclass_json
 @dataclass
-class Command(Data):
+class Command(SimpleData):
     rule: Rule
     script: Script
 
     index: int
     description: Optional[str]
-    location: "Location"
+    location: Location
 
     parent_name: ContextName
     parent_type: Literal["context"] = "context"
@@ -327,19 +293,17 @@ def parse_rule(rule: str) -> Rule:
 # Objects
 ##############################################################################
 
-ActionName: TypeAlias = str
-
 
 @final
 @dataclass_json
 @dataclass
-class Action(Data):
+class Action(GroupDataHasFunction):
     function_name: Optional[FunctionName]
     function_type_hints: Optional[dict[str, type]]
 
     name: ActionName
     description: Optional[str]
-    location: Union[Literal["builtin"], "Location"]
+    location: Union[Literal["builtin"], Location]
 
     parent_name: Union[ModuleName, ContextName]
     parent_type: Literal["module", "context"]
@@ -351,20 +315,17 @@ class Action(Data):
         return True
 
 
-CaptureName: TypeAlias = str
-
-
 @final
 @dataclass_json
 @dataclass
-class Capture(Data):
+class Capture(GroupDataHasFunction):
     rule: Rule
     function_name: Optional[FunctionName]
     function_type_hints: Optional[dict[str, type]]
 
     name: CaptureName
     description: Optional[str]
-    location: Union[Literal["builtin"], "Location"]
+    location: Union[Literal["builtin"], Location]
 
     parent_name: Union[ModuleName, ContextName]
     parent_type: Literal["module", "context"]
@@ -376,24 +337,16 @@ class Capture(Data):
         return True
 
 
-ListName: TypeAlias = str
-
-ListValue: TypeAlias = Union[
-    Mapping[str, Any],
-    Iterable[str],
-]
-
-
 @final
 @dataclass_json
 @dataclass
-class List(Data):
+class List(GroupData):
     value: Optional[ListValue]
     value_type_hint: Optional[type]
 
     name: ListName
     description: Optional[str]
-    location: Union[Literal["builtin"], "Location"]
+    location: Union[Literal["builtin"], Location]
 
     parent_name: Union[ModuleName, ContextName]
     parent_type: Literal["module", "context"]
@@ -405,21 +358,16 @@ class List(Data):
         return True
 
 
-SettingName: TypeAlias = str
-
-SettingValue: TypeAlias = Union[Any, Expression]
-
-
 @final
 @dataclass_json
 @dataclass
-class Setting(Data):
+class Setting(GroupData):
     value: Optional[SettingValue]
     value_type_hint: Optional[type]
 
     name: SettingName
     description: Optional[str]
-    location: Union[Literal["builtin"], "Location"]
+    location: Union[Literal["builtin"], Location]
 
     parent_name: Union[ModuleName, ContextName]
     parent_type: Literal["module", "context"]
@@ -431,16 +379,13 @@ class Setting(Data):
         return True
 
 
-ModeName: TypeAlias = str
-
-
 @final
 @dataclass_json
 @dataclass
-class Mode(Data):
+class Mode(SimpleData):
     name: ModeName
     description: Optional[str]
-    location: Union[Literal["builtin"], "Location"]
+    location: Union[Literal["builtin"], Location]
 
     parent_name: ModuleName
     parent_type: Literal["module"] = "module"
@@ -450,18 +395,15 @@ class Mode(Data):
     @override
     def is_serialisable(cls) -> bool:
         return True
-
-
-TagName: TypeAlias = str
 
 
 @final
 @dataclass_json
 @dataclass
-class Tag(Data):
+class Tag(SimpleData):
     name: TagName
     description: Optional[str]
-    location: Union[Literal["builtin"], "Location"]
+    location: Union[Literal["builtin"], Location]
 
     parent_name: ModuleName
     parent_type: Literal["module"] = "module"
@@ -471,70 +413,6 @@ class Tag(Data):
     @override
     def is_serialisable(cls) -> bool:
         return True
-
-
-##############################################################################
-# Type Variables
-##############################################################################
-
-SimpleData: TypeAlias = Union[
-    Package,
-    File,
-    Function,
-    Module,
-    Context,
-    Command,
-    Mode,
-    Tag,
-]
-
-
-def is_simple(cls: type[Data]) -> TypeGuard[type[SimpleData]]:
-    return issubclass(
-        cls,
-        (
-            Package,
-            File,
-            Function,
-            Module,
-            Context,
-            Command,
-            Mode,
-            Tag,
-        ),
-    )
-
-
-SimpleDataVar = TypeVar(
-    "SimpleDataVar",
-    bound=SimpleData,
-)
-
-
-GroupData: TypeAlias = Union[
-    Action,
-    Capture,
-    List,
-    Setting,
-]
-
-
-def is_group(cls: type[Data]) -> TypeGuard[type[GroupData]]:
-    return issubclass(
-        cls,
-        (
-            Action,
-            Capture,
-            List,
-            Setting,
-        ),
-    )
-
-
-GroupDataVar = TypeVar(
-    "GroupDataVar",
-    bound=GroupData,
-)
 
 
 ##############################################################################
@@ -551,77 +429,3 @@ class Group(Generic[GroupDataVar]):
             self.declarations.append(value)
         else:
             self.overrides.append(value)
-
-
-##############################################################################
-# Exceptions
-##############################################################################
-
-
-@dataclass(frozen=True)
-class DuplicateData(Exception):
-    """Raised when an entry is defined in multiple modules."""
-
-    entry1: Data
-    entry2: Data
-
-    def __str__(self) -> str:
-        class_name1 = self.entry1.__class__.__name__
-        class_name2 = self.entry2.__class__.__name__
-        if class_name1 != class_name2:
-            _LOGGER.warning(
-                f"DuplicateData exception with types {class_name1} and {class_name2}"
-            )
-        entry_name1 = self.entry1.name
-        entry_name2 = self.entry2.name
-        if class_name1 != class_name2:
-            _LOGGER.warning(
-                f"DuplicateData exception with names {entry_name1} and {entry_name2}"
-            )
-        return "\n".join(
-            [
-                f"{class_name1} '{entry_name1}' is declared twice:",
-                f"- {self.entry1.location}",
-                f"- {self.entry2.location}",
-            ]
-        )
-
-
-##############################################################################
-# Source Locations
-##############################################################################
-
-
-@final
-@dataclass_json
-@dataclass
-class Location:
-    path: Path
-    start_position: Optional[Point] = None
-    end_position: Optional[Point] = None
-
-    def __str__(self) -> str:
-        if self.start_position is not None:
-            return (
-                f"{self.path}:{self.start_position.line}:{self.start_position.column}"
-            )
-        return f"{self.path}"
-
-    @staticmethod
-    def from_ast(path: Path, node: Node) -> "Location":
-        return Location(
-            path=path,
-            start_position=node.start_position,
-            end_position=node.end_position,
-        )
-
-    @staticmethod
-    def from_function(function: Callable[..., Any]) -> "Location":
-        code = function.__code__
-        path = Path(code.co_filename)
-        start_position = Point(code.co_firstlineno, 0)
-        return Location(path=path, start_position=start_position)
-
-    @staticmethod
-    def from_path(path: Path) -> "Location":
-        return Location(path=path)

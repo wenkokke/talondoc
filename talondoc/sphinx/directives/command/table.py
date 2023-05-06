@@ -1,47 +1,53 @@
 import sys
+from typing import Optional
 
 from docutils import nodes
 from sphinx.util.typing import OptionSpec
 
-from ....util.nodes import colspec, entry, row, table, tbody, tgroup, title
-from ....util.typing import optional_str, optional_strlist
-from .util import TalonCommandListDirective, describe_rule, describe_script
+from ...util.addnodes import colspec, entry, row, table, tbody, tgroup, title
+from ...util.typing import flag, optional_str, optional_strlist
+from .abc import TalonDocCommandDescription
 
 
-class TalonCommandTableDirective(TalonCommandListDirective):
+class TalonCommandTableDirective(TalonDocCommandDescription):
     has_content = False
     required_arguments = 0
     optional_arguments = sys.maxsize
     option_spec: OptionSpec = {
-        "package": optional_strlist,
-        "context": optional_strlist,
+        "restrict_to": optional_strlist,
+        "always_include_script": flag,
         "caption": optional_str,
-        "default": optional_str,
-        "include": optional_strlist,
-        "exclude": optional_strlist,
     }
     final_argument_whitespace = False
+
+    @property
+    def caption(self) -> str:
+        # Get caption from options
+        caption: Optional[str] = self.options.get("caption", None)
+        if caption:
+            return caption
+        # Get caption from file name
+        return ".".join(self.arguments)
 
     def run(self) -> list[nodes.Node]:
         return [
             table(
-                *[title(nodes.Text(caption)) for caption in self.caption()],
+                *[title(nodes.Text(caption)) for caption in self.caption],
                 tgroup(
                     colspec(colwidth=1),
                     colspec(colwidth=1),
                     tbody(
                         row(
-                            entry(describe_rule(command)),
+                            entry(self.describe_rule(command.rule)),
                             entry(
-                                *describe_script(
+                                *self.describe_script(
                                     command,
-                                    registry=self.talon.registry,
-                                    include_script=False,
+                                    always_include_script=self.always_include_script,
                                     docstring_hook=self.docstring_hook,
                                 )
                             ),
                         )
-                        for command in self.find_commands()
+                        for command in self.get_commands(restrict_to=self.restrict_to)
                     ),
                     cols=2,
                 ),

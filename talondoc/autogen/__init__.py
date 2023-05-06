@@ -9,7 +9,7 @@ import jinja2.sandbox
 
 from ..analyzer.standalone import analyse_package
 from ..registry import Registry
-from ..registry.entries.user import UserPythonFileEntry, UserTalonFileEntry
+from ..registry import entries as talon
 from ..util.progress_bar import ProgressBar
 
 
@@ -82,7 +82,7 @@ def autogen(
 
     # Analyse the package
     registry = Registry()
-    package_entry = analyse_package(
+    analyse_package(
         registry=registry,
         package_dir=package_dir,
         package_name=package_name,
@@ -91,55 +91,53 @@ def autogen(
         trigger=trigger,
         show_progress=True,
     )
+    assert len(registry.packages) == 1
+    package = next(iter(registry.packages.values()))
+    assert package.location != "builtin"
     ctx = {
         "project": project,
         "author": author,
         "year": str(datetime.date.today().year),
         "release": release,
-        "package_name": package_entry.name,
-        "package_path": package_entry.path,
+        "package_name": package.name,
+        "package_path": package.location.path,
         "include": include,
         "exclude": exclude,
         "trigger": trigger,
     }
 
     # Make package path relative to output_dir:
-    package_entry.path = Path(os.path.relpath(package_entry.path, start=sphinx_root))
+    package_path = Path(os.path.relpath(package.location.path, start=sphinx_root))
 
     # Render talon and python file entries:
-    template_talon_file_entry = env.get_template("talon_file_entry.rst.jinja2")
-    template_python_file_entry = env.get_template("python_file_entry.rst.jinja2")
+    template_talon_file = env.get_template("talon_file.rst.jinja2")
+    template_python_file = env.get_template("python_file.rst.jinja2")
     toc: list[Path] = []
-    total: int = len(package_entry.files)
+    total: int = len(package.files)
     if generate_conf:
         total += 1
     if generate_index:
         total += 1
     bar = ProgressBar(total=total)
-    for file_entry in package_entry.files:
+    for file_name in package.files:
+        file = registry.get(talon.File, file_name, referenced_by=package)
         # Create path/to/talon/file.rst:
-        if file_entry.path.suffix == ".talon":
-            assert isinstance(file_entry, UserTalonFileEntry)
-            bar.step(f" {str(file_entry.path)}")
-            output_relpath = file_entry.path.with_suffix(".rst")
+        if file.location.path.suffix == ".talon":
+            bar.step(f" {str(file.location.path)}")
+            output_relpath = file.location.path.with_suffix(".rst")
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_text(
-                template_talon_file_entry.render(entry=file_entry, **ctx)
-            )
+            output_path.write_text(template_talon_file.render(entry=file, **ctx))
 
         # Create path/to/python/file/api.rst:
-        elif file_entry.path.suffix == ".py":
-            assert isinstance(file_entry, UserPythonFileEntry)
-            bar.step(f" {str(file_entry.path)}")
-            output_relpath = file_entry.path.with_suffix("") / "api.rst"
+        elif file.location.path.suffix == ".py":
+            bar.step(f" {str(file.location.path)}")
+            output_relpath = file.location.path.with_suffix("") / "api.rst"
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_text(
-                template_python_file_entry.render(entry=file_entry, **ctx)
-            )
+            output_path.write_text(template_python_file.render(entry=file, **ctx))
 
         # Skip file entry:
         else:

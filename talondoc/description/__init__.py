@@ -5,7 +5,7 @@ from typing import Optional, Union
 
 import docstring_parser
 
-from ..util.logging import getLogger
+from .logging import getLogger
 
 _LOGGER = getLogger(__name__)
 
@@ -14,7 +14,7 @@ _LOGGER = getLogger(__name__)
 class InvalidInterpolation(Exception):
     """Exception raised when attempting to interpolate a multiline doc string."""
 
-    argument: Optional["Desc"]
+    argument: Optional["Description"]
     template: Optional["StepsTemplate"] = None
 
     def __str__(self) -> str:
@@ -24,7 +24,7 @@ class InvalidInterpolation(Exception):
         return msg
 
 
-class Desc:
+class Description:
     def as_steps(self) -> "Steps":
         """
         Lift a description to steps.
@@ -32,11 +32,11 @@ class Desc:
         return Steps(())
 
 
-DescLike = Union[None, str, Desc, Iterable[Desc]]
+DescLike = Union[None, str, Description, Iterable[Description]]
 
 
 @dataclasses.dataclass(frozen=True)
-class Value(Desc):
+class Value(Description):
     """
     The description of a value.
     """
@@ -51,7 +51,7 @@ class Value(Desc):
 
 
 @dataclasses.dataclass(frozen=True)
-class Step(Desc):
+class Step(Description):
     """
     The description of one step in a series of steps.
     """
@@ -66,7 +66,7 @@ class Step(Desc):
 
 
 @dataclasses.dataclass(frozen=True)
-class Steps(Desc):
+class Steps(Description):
     """
     The description of a series of steps.
     """
@@ -81,11 +81,11 @@ class Steps(Desc):
 
 
 @dataclasses.dataclass
-class StepsTemplate(Desc):
+class StepsTemplate(Description):
     template: str
     names: tuple[str, ...]
 
-    def __call__(self, values: tuple[Optional[Desc], ...]) -> Steps:
+    def __call__(self, values: tuple[Optional[Description], ...]) -> Steps:
         ret = self.template
         for name, value in zip(self.names, values):
             if isinstance(value, Value):
@@ -101,7 +101,9 @@ class StepsTemplate(Desc):
         return Steps(steps=(Step(desc=str(self)),))
 
 
-def and_then(desc1: Optional[Desc], desc2: Optional[Desc]) -> Optional[Desc]:
+def and_then(
+    desc1: Optional[Description], desc2: Optional[Description]
+) -> Optional[Description]:
     if desc1 is None:
         return desc2
     elif desc2 is None:
@@ -112,23 +114,23 @@ def and_then(desc1: Optional[Desc], desc2: Optional[Desc]) -> Optional[Desc]:
         return Steps(steps=(*desc1.as_steps().steps, *desc2.as_steps().steps))
 
 
-def concat(*desclike: DescLike) -> Optional[Desc]:
-    ret: Optional[Desc] = None
+def concat(*desclike: DescLike) -> Optional[Description]:
+    ret: Optional[Description] = None
     for desc in desclike:
         if desc is None:
             pass
         elif isinstance(desc, str):
             ret = and_then(ret, Step(desc))
-        elif isinstance(desc, Desc):
+        elif isinstance(desc, Description):
             ret = and_then(ret, desc)
         else:
             ret = and_then(ret, concat(*desc))
     return ret
 
 
-def from_docstring(docstring: str) -> Optional[Desc]:
+def from_docstring(docstring: str) -> Optional[Description]:
     # Attempt to create a description:
-    desc: Optional[Desc]
+    desc: Optional[Description]
 
     # Handle docstrings of the form "Return XXX":
     return_value_desc_en = re.match("^[Rr]eturns? (.*)", docstring)

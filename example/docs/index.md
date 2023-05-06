@@ -89,19 +89,19 @@ TalonDoc can generate documentation for an individual command using `talon:comma
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
 .. talon:command:: hunt this
-  :include_script:
+  :script:
 
 .. talon:command:: hunt this pace
-  :include_script:
+  :script:
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:command} hunt this
-  :include_script:
+  :script:
 :::
 
 :::{talon:command} hunt this pace
-  :include_script:
+  :script:
 :::
 ::::::
 :::::::::
@@ -109,11 +109,11 @@ TalonDoc can generate documentation for an individual command using `talon:comma
 ...will generate the following bit of documentation:
 
 :::{talon:command} hunt this
-  :include_script:
+  :script:
 :::
 
 :::{talon:command} hunt this pace
-  :include_script:
+  :script:
 :::
 
 TalonDoc will attempt to generate documentation for the command using the
@@ -135,7 +135,7 @@ Defaults to the active package.
 Contexts can be specified using Talon context names, e.g., `user.apps.discord.discord` or `user.apps.discord.discord.talon`, or by using file names relative to the package root, e.g., `apps/discord/discord.talon`. Multiple contexts can be specified, in which case they should be separated by commas.
 By default, all commands in all packages are searched.
 
-`:include_script:`
+`:script:`
 : Whether or not to include the Talon script for the command.
 Defaults to false.
 

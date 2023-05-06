@@ -5,19 +5,34 @@ from typing import (
     Callable,
     ClassVar,
     Dict,
+    Iterator,
     List,
     Mapping,
     Optional,
     Sequence,
     Union,
+    cast,
     overload,
 )
 
 from typing_extensions import Final
 
+from talondoc.registry.entries.abc import (
+    CaptureName,
+    CommandName,
+    DataVar,
+    DuplicateData,
+    FileName,
+    GroupData,
+    GroupDataVar,
+    ListName,
+    SimpleData,
+    SimpleDataVar,
+    UnknownReference,
+)
+
 from ..util.logging import getLogger
 from . import entries as talon
-from .entries import Group, GroupDataVar, SimpleDataVar
 
 _LOGGER = getLogger(__name__)
 
@@ -30,7 +45,12 @@ class Registry:
     _active_package: Optional[talon.Package] = None
     _active_file: Optional[talon.File] = None
 
-    def __init__(self, data: Dict[str, Any], temp_data: Dict[str, Any]):
+    def __init__(
+        self,
+        *,
+        data: Dict[str, Any] = {},
+        temp_data: Dict[str, Any] = {},
+    ):
         self._data = data
         self._temp_data = temp_data
         self._active_package = None
@@ -51,7 +71,7 @@ class Registry:
         store = self._typed_store(value.__class__)
         old_value = store.get(value.name, None)
         if old_value is not None:
-            raise talon.DuplicateData(value, old_value)
+            raise DuplicateData(value, old_value)
         store[value.name] = value
         # Set the active package, file, module, or context.
         if isinstance(value, talon.Package):
@@ -66,7 +86,7 @@ class Registry:
         store = self._typed_store(value.__class__)
         old_group = store.get(value.name)
         if old_group is None:
-            store[value.name] = old_group = Group[GroupDataVar]()
+            store[value.name] = old_group = talon.Group[GroupDataVar]()
         old_group.append(value)
 
     def _register_callback(self, value: talon.Callback) -> None:
@@ -95,8 +115,99 @@ class Registry:
     register.register(talon.Callback, _register_callback)
 
     ######################################################################
+    # Finding Data
+    ######################################################################
+
+    def resolve_packages(
+        self, packages: Iterator[Union[talon.PackageName, talon.Package]]
+    ) -> Iterator[talon.Package]:
+        for package in packages:
+            if isinstance(package, talon.Package):
+                yield package
+            else:
+                yield self.get(talon.Package, package)
+
+    def resolve_files(
+        self, files: Iterator[Union[talon.FileName, talon.File]]
+    ) -> Iterator[talon.File]:
+        for file in files:
+            if isinstance(file, talon.File):
+                yield file
+            else:
+                yield self.get(talon.File, file)
+
+    def resolve_contexts(
+        self, contexts: Iterator[Union[talon.FileName, talon.File, talon.Context]]
+    ) -> Iterator[talon.Context]:
+        for value in contexts:
+            if isinstance(value, talon.Context):
+                yield value
+            else:
+                if isinstance(value, str):
+                    value = self.get(talon.File, value)
+                assert isinstance(value, talon.File)
+                for context_name in value.contexts:
+                    yield self.get(talon.Context, context_name)
+
+    def get_commands(
+        self,
+        *,
+        restrict_to: Optional[
+            Iterator[Union[talon.FileName, talon.File, talon.Context]]
+        ] = None,
+    ) -> Iterator[talon.Command]:
+        if restrict_to is None:
+            yield from self.commands.values()
+        else:
+            for context in self.resolve_contexts(restrict_to):
+                for command_name in context.commands:
+                    yield self.get(talon.Command, command_name, referenced_by=context)
+
+    def find_commands(
+        self,
+        text: Sequence[str],
+        *,
+        fullmatch: bool = False,
+        restrict_to: Optional[Iterator[Union[talon.FileName, talon.Context]]] = None,
+    ) -> Iterator[talon.Command]:
+        for command in self.get_commands(restrict_to=restrict_to):
+            if command.rule.match(
+                text,
+                fullmatch=fullmatch,
+                get_capture=self._get_capture_rule,
+                get_list=self._get_list_value,
+            ):
+                yield command
+
+    def _get_capture_rule(self, name: CaptureName) -> Optional[talon.Rule]:
+        """Get the rule for a capture. Hook for 'match'."""
+        return self.get(talon.Capture, name).rule
+
+    def _get_list_value(self, name: ListName) -> Optional[talon.ListValue]:
+        """Get the values for a list. Hook for 'match'."""
+        return self.get(talon.List, name).value
+
+    ######################################################################
     # Look Up Data
     ######################################################################
+
+    def get(
+        self,
+        cls: type[DataVar],
+        name: str,
+        *,
+        referenced_by: Optional[talon.Data] = None,
+    ) -> DataVar:
+        value: Optional[DataVar] = None
+        if issubclass(cls, SimpleData):
+            value = cast(Optional[DataVar], self.lookup(cls, name))
+        elif issubclass(cls, GroupData):
+            value = cast(Optional[DataVar], self.lookup_default(cls, name))
+        elif issubclass(cls, talon.Callback):
+            raise ValueError(f"Registry.get does not support callbacks")
+        if value is not None:
+            return value
+        raise UnknownReference(cls, name, referenced_by)
 
     @overload
     def lookup(
@@ -111,7 +222,7 @@ class Registry:
         self,
         cls: type[GroupDataVar],
         name: str,
-    ) -> Optional[Group[GroupDataVar]]:
+    ) -> Optional[talon.Group[GroupDataVar]]:
         ...
 
     @overload
@@ -126,12 +237,12 @@ class Registry:
         return self._typed_store(cls).get(self._resolve_name(name), None)
 
     def lookup_description(self, cls: type[talon.Data], name: Any) -> Optional[str]:
-        if talon.is_simple(cls):
+        if issubclass(cls, SimpleData):
             simple = self.lookup(cls, name)
             if simple:
                 return simple.description
-        if talon.is_group(cls):
-            group = self.lookup_default(cls, name)  # type: ignore
+        if issubclass(cls, GroupData):
+            group = self.lookup_default(cls, name)
             if group:
                 return group.description
         return None
@@ -151,13 +262,13 @@ class Registry:
         return None
 
     def lookup_default_function(
-        self, cls: type[Union[talon.Action, talon.Capture]], name: str
+        self, cls: type[talon.GroupDataHasFunction], name: str
     ) -> Optional[Callable[..., Any]]:
-        action = self.lookup_default(talon.Action, name)
-        if action and action.function_name:
-            action_function = self.lookup(talon.Function, action.function_name)
-            if action_function:
-                return action_function.function
+        value = self.lookup_default(cls, name)
+        if value and value.function_name:
+            value_function = self.lookup(talon.Function, value.function_name)
+            if value_function:
+                return value_function.function
         return None
 
     def _resolve_name(self, name: str) -> str:
@@ -203,19 +314,19 @@ class Registry:
         return self._typed_store(talon.Command)
 
     @property
-    def actions(self) -> Mapping[str, Group[talon.Action]]:
+    def actions(self) -> Mapping[str, talon.Group[talon.Action]]:
         return self._typed_store(talon.Action)
 
     @property
-    def captures(self) -> Mapping[str, Group[talon.Capture]]:
+    def captures(self) -> Mapping[str, talon.Group[talon.Capture]]:
         return self._typed_store(talon.Capture)
 
     @property
-    def lists(self) -> Mapping[str, Group[talon.List]]:
+    def lists(self) -> Mapping[str, talon.Group[talon.List]]:
         return self._typed_store(talon.List)
 
     @property
-    def settings(self) -> Mapping[str, Group[talon.Setting]]:
+    def settings(self) -> Mapping[str, talon.Group[talon.Setting]]:
         return self._typed_store(talon.Setting)
 
     @property
@@ -235,7 +346,9 @@ class Registry:
         ...
 
     @overload
-    def _typed_store(self, cls: type[GroupDataVar]) -> Dict[str, Group[GroupDataVar]]:
+    def _typed_store(
+        self, cls: type[GroupDataVar]
+    ) -> Dict[str, talon.Group[GroupDataVar]]:
         ...
 
     @overload
