@@ -330,15 +330,17 @@ class Registry:
         value = self.lookup_default(cls, name)
         if value and value.function_name:
             function = self.lookup(talon.Function, value.function_name)
-            if function:
+            if function is not None:
+                # Create copy for _function_wrapper
+                func = function.function
 
-                def _function_wrapper(*args, **kwargs):
-                    func_name = function.function.__name__
-                    func_type = inspect.signature(function.function)
+                def _function_wrapper(*args: Any, **kwargs: Any) -> Any:
+                    func_name = func.__name__
+                    func_type = inspect.signature(func)
                     act_argc = len(args) + len(kwargs)
                     exp_argc = len(func_type.parameters)
                     if act_argc != exp_argc:
-                        act_argv = []
+                        act_argv: List[str] = []
                         act_argv.extend(map(str, args))
                         act_argv.extend(f"{key}={val}" for key, val in kwargs.items())
                         _LOGGER.warning(
@@ -346,7 +348,7 @@ class Registry:
                             f"expected: {func_type}\n"
                             f"found: ({', '.join(act_argv)})"
                         )
-                    return function.function(*args, **kwargs)
+                    return func(*args, **kwargs)
 
                 return _function_wrapper
             else:
