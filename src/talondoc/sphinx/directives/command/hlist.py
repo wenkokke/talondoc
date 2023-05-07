@@ -1,16 +1,19 @@
 import sys
-from typing import Iterator, Optional, cast
+from typing import Iterator, List, Optional, Sequence, cast
 
 from docutils import nodes
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
 
+from ...._util.logging import getLogger
 from ...util.addnodes import bullet_list
 from ...util.typing import flag, optional_str, optional_strlist
-from .abc import TalonDocCommandDescription
+from .abc import TalonDocCommandListDescription
+
+_LOGGER = getLogger(__name__)
 
 
-class TalonCommandHListDirective(TalonDocCommandDescription):
+class TalonCommandHListDirective(TalonDocCommandListDescription):
     has_content = False
     required_arguments = 0
     optional_arguments = sys.maxsize
@@ -18,21 +21,13 @@ class TalonCommandHListDirective(TalonDocCommandDescription):
         "restrict_to": optional_strlist,
         "always_include_script": flag,
         "caption": optional_str,
+        "include": optional_strlist,
+        "exclude": optional_strlist,
         "columns": int,
     }
     final_argument_whitespace = False
 
-    @property
-    def caption(self) -> str:
-        # Get caption from options or from file name
-        return cast(str, self.options.get("caption", None) or ".".join(self.arguments))
-
-    @property
-    def columns(self) -> int:
-        return cast(int, self.options.get("columns", 2))
-
     def run(self) -> list[nodes.Node]:
-        commands = self.get_commands(restrict_to=self.restrict_to)
         fulllist = [
             self.describe_command(
                 command,
@@ -40,7 +35,7 @@ class TalonCommandHListDirective(TalonDocCommandDescription):
                 always_include_script=self.always_include_script,
                 docstring_hook=self.docstring_hook,
             )
-            for command in commands
+            for command in self.commands
         ]
         # create a hlist node where the items are distributed
         # (source: sphinx.directives.other.HList)

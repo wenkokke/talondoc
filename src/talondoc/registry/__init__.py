@@ -15,6 +15,7 @@ from typing import (
     overload,
 )
 
+from talonfmt import talonfmt
 from typing_extensions import Final
 
 from .._util.logging import getLogger
@@ -178,21 +179,50 @@ class Registry:
         restrict_to: Optional[Iterator[Union[talon.FileName, talon.Context]]] = None,
     ) -> Iterator[talon.Command]:
         for command in self.get_commands(restrict_to=restrict_to):
-            if command.rule.match(
+            if self.match(text, command.rule, fullmatch=fullmatch):
+                yield command
+
+    def match(
+        self,
+        text: Sequence[str],
+        rule: talon.Rule,
+        *,
+        fullmatch: bool = False,
+    ) -> bool:
+        try:
+            if rule.match(
                 text,
                 fullmatch=fullmatch,
                 get_capture=self._get_capture_rule,
                 get_list=self._get_list_value,
             ):
-                yield command
+                return True
+        except IndexError as e:
+            _LOGGER.warning(
+                f"Caught {e.__class__.__name__} "
+                f"when deciding if '{talonfmt(rule)}' "
+                f"matches '{' '.join(text)}'"
+            )
+        return False
+
+    # TODO: remove once builtins are properly supported
+    _BUILTIN_CAPTURE_NAMES: ClassVar[Sequence[CaptureName]] = (
+        "digit_string",
+        "digits",
+        "number",
+        "number_signed",
+        "number_small",
+        "phrase",
+        "word",
+    )
 
     def _get_capture_rule(self, name: CaptureName) -> Optional[talon.Rule]:
         """Get the rule for a capture. Hook for 'match'."""
         try:
             return self.get(talon.Capture, name).rule
         except UnknownReference as e:
-            # If the capture is not a common builtin capture, log a warning:
-            if name not in ("digit_string", "number", "number_small", "phrase", "word"):
+            # If the capture is not a builtin capture, log a warning:
+            if name not in self.__class__._BUILTIN_CAPTURE_NAMES:
                 _LOGGER.warning(e)
             return None
 
@@ -266,7 +296,7 @@ class Registry:
         ...
 
     def lookup(self, cls: type[talon.Data], name: Any) -> Optional[Any]:
-        return self._typed_store(cls).get(self._resolve_name(name), None)
+        return self._typed_store(cls).get(self.resolve_name(name), None)
 
     def lookup_description(self, cls: type[talon.Data], name: Any) -> Optional[str]:
         if issubclass(cls, SimpleData):
@@ -303,9 +333,12 @@ class Registry:
                 return value_function.function
         return None
 
-    def _resolve_name(self, name: str) -> str:
+    def resolve_name(
+        self, name: str, *, package: Optional[talon.Package] = None
+    ) -> str:
         try:
-            package = self.get_active_package()
+            if package is None:
+                package = self.get_active_package()
             parts = name.split(".")
             if len(parts) >= 1 and parts[0] == "self":
                 name = ".".join((package.name, *parts[1:]))

@@ -198,18 +198,22 @@ For instance, the following code:
 ::::::{code-tab} rst reStructuredText
 .. talon:command-table::
   :restrict_to: user.apps.discord.discord
+  :include: answer call, decline call
 
 .. talon:command-table::
   :caption: A little custom hunting table.
+  :include: hunt this, hunt this pace
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:command-table}
   :restrict_to: user.apps.discord.discord
+  :include: answer call, decline call
 :::
 
 :::{talon:command-table}
   :caption: A little custom hunting table.
+  :include: hunt this, hunt this pace
 :::
 ::::::
 :::::::::
@@ -218,10 +222,12 @@ For instance, the following code:
 
 :::{talon:command-table}
   :restrict_to: user.apps.discord.discord
+  :include: answer call, decline call
 :::
 
 :::{talon:command-table}
   :caption: A little custom hunting table.
+  :include: hunt this, hunt this pace
 :::
 
 Similarily, the following code:
@@ -230,12 +236,14 @@ Similarily, the following code:
 ::::::{code-tab} rst reStructuredText
 .. talon:command-hlist::
   :restrict_to: apps/discord/discord.talon
+  :include: toggle dee ems, toggle pins, toggle members
   :columns: 3
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:command-hlist}
   :restrict_to: apps/discord/discord.talon
+  :include: toggle dee ems, toggle pins, toggle members
   :columns: 3
 ::::::
 :::::::::
@@ -244,6 +252,7 @@ Similarily, the following code:
 
 :::{talon:command-hlist}
   :restrict_to: apps/discord/discord.talon
+  :include: toggle dee ems, toggle pins, toggle members
   :columns: 3
 :::
 
@@ -267,11 +276,6 @@ By default, all commands in all packages are searched.
 `:caption:`
 : A caption for the table.
 Defaults to the module name, if given.
-
-`:default:`
-: Either `include` or `exclude`.
-Determines whether commands are included or excluded by default.
-Defaults to `include` if a context is specified, and to `exclude` otherwise.
 
 `:include:`
 : A list of command phrases.

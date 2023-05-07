@@ -70,10 +70,15 @@ talon_package = {
         "test/test_create_spoken_forms.py",
         "test/test_dictation.py",
         "test/test_formatters.py",
+        "plugin/draft_editor/draft_editor_open.talon",
         "plugin/draft_editor/draft_editor.py",
+        "plugin/draft_editor/draft_editor.talon",
         "plugin/talon_draft_window/__init__.py",
+        "plugin/talon_draft_window/draft_global.talon",
         "plugin/talon_draft_window/draft_talon_helpers.py",
         "plugin/talon_draft_window/draft_ui.py",
+        "plugin/talon_draft_window/draft_window_open.talon",
+        "plugin/talon_draft_window/draft_window.talon",
         "plugin/talon_draft_window/test_draft_ui.py",
     ],
     "trigger": "ready",
@@ -85,7 +90,6 @@ talon_package = {
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
-
 
 
 # import sphinx_bootstrap_theme

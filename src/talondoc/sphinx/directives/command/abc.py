@@ -1,5 +1,5 @@
 import re
-from typing import ClassVar, Iterator, Optional, Sequence
+from typing import ClassVar, Iterator, List, Optional, Sequence, cast
 
 from docutils import nodes
 from sphinx import addnodes
@@ -72,14 +72,17 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         _LOGGER.debug(
             f"searching for commands matching '{text}' (restrict_to={restrict_to})"
         )
-        words = self.__class__._RE_WHITESPACE.split(text)
         yield from self.talon.registry.find_commands(
-            words,
+            self._split_phrase(text),
             fullmatch=fullmatch,
             restrict_to=restrict_to,
         )
 
     _RE_WHITESPACE: ClassVar[re.Pattern[str]] = re.compile(r"\s+")
+
+    @final
+    def _split_phrase(self, text: str) -> Sequence[str]:
+        return self.__class__._RE_WHITESPACE.split(text)
 
     @final
     def describe_command(
@@ -188,3 +191,82 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         literal_block = nodes.literal_block(code, code)
         literal_block["language"] = "python"
         return literal_block
+
+
+class TalonDocCommandListDescription(TalonDocCommandDescription):
+    @property
+    def caption(self) -> str:
+        # Get caption from options or from file name
+        return cast(str, self.options.get("caption", None) or ".".join(self.arguments))
+
+    @property
+    def include(self) -> Sequence[Sequence[str]]:
+        return tuple(
+            self._split_phrase(phrase) for phrase in self.options.get("include", ())
+        )
+
+    @property
+    def exclude(self) -> Sequence[Sequence[str]]:
+        return tuple(
+            self._split_phrase(phrase) for phrase in self.options.get("exclude", ())
+        )
+
+    @property
+    def columns(self) -> int:
+        return cast(int, self.options.get("columns", 2))
+
+    @property
+    def commands(self) -> Iterator[talon.Command]:
+        for command in self.get_commands(restrict_to=self.restrict_to):
+            if self._should_include(command.rule):
+                yield command
+
+    def _should_include(
+        self,
+        rule: talon.Rule,
+        *,
+        fullmatch: bool = False,
+    ) -> bool:
+        # If both :include: and :exclude:
+        # Does command match :include: and not match :exclude:?
+        # If :include: but no :exclude:
+        # Does command match :include:?
+        # If :exclude: but no :include:
+        # Does command not match exclude?
+        _should_include = self._matches_include(rule, fullmatch=fullmatch)
+        _should_exclude = self._matches_exclude(rule, fullmatch=fullmatch)
+        return _should_include and not _should_exclude
+
+    @final
+    def _matches_include(
+        self,
+        rule: talon.Rule,
+        *,
+        fullmatch: bool = False,
+    ) -> bool:
+        return self._match_any_of(rule, self.include, default=True, fullmatch=fullmatch)
+
+    @final
+    def _matches_exclude(
+        self,
+        rule: talon.Rule,
+        *,
+        fullmatch: bool = False,
+    ) -> bool:
+        return self._match_any_of(
+            rule, self.exclude, default=False, fullmatch=fullmatch
+        )
+
+    @final
+    def _match_any_of(
+        self,
+        rule: talon.Rule,
+        phrases: Sequence[Sequence[str]],
+        *,
+        default: bool,
+        fullmatch: bool = False,
+    ) -> bool:
+        return any(
+            self.talon.registry.match(phrase, rule, fullmatch=fullmatch)
+            for phrase in phrases
+        )

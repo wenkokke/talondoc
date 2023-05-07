@@ -5,6 +5,8 @@ from io import TextIOWrapper
 from types import ModuleType
 from typing import Any, Mapping, Optional, Sequence, cast
 
+from tree_sitter_talon import Point
+
 from ...._util.logging import getLogger
 from ... import Registry
 from ... import entries as talon
@@ -200,7 +202,10 @@ class TalonContextListsShim(Mapping[str, talon.ListValue]):
             talon.List(
                 value=value,
                 value_type_hint=None,
-                name=f"{self._context._package.name}.{name}",
+                # NOTE: list names on contexts are fully qualified
+                name=self._context._registry.resolve_name(
+                    name, package=self._context._package
+                ),
                 description=None,
                 location=self._context._context.location,
                 parent_name=self._context._context.name,
@@ -234,7 +239,10 @@ class TalonContextSettingsShim(Mapping):
             talon.Setting(
                 value=value,
                 value_type_hint=None,
-                name=f"{self._context._package.name}.{name}",
+                # NOTE: setting names on contexts are fully qualified
+                name=self._context._registry.resolve_name(
+                    name, package=self._context._package
+                ),
                 description=None,
                 location=self._context._context.location,
                 parent_name=self._context._context.name,
@@ -391,6 +399,7 @@ class TalonShim(ModuleShim):
                 talon.Setting(
                     value=default,
                     value_type_hint=type,
+                    # NOTE: list names passed to modules are unqualified
                     name=f"{self._package.name}.{name}",
                     description=desc,
                     location=self._module.location,
@@ -404,6 +413,7 @@ class TalonShim(ModuleShim):
                 talon.List(
                     value=None,
                     value_type_hint=None,
+                    # NOTE: list names passed to modules are unqualified
                     name=f"{self._package.name}.{name}",
                     description=desc,
                     location=self._module.location,
@@ -482,23 +492,27 @@ class TalonShim(ModuleShim):
         def action_class(self, namespace: str) -> Callable[[type], type]:
             def __decorator(cls: type):
                 for name, func in inspect.getmembers(cls, inspect.isfunction):
+                    # LINT: check if function on decorated class is a function
                     assert inspect.isfunction(func)
+
+                    location = talon.Location.from_function(func)
                     function = talon.Function(
                         namespace=namespace,
                         function=func,
-                        location=talon.Location.from_function(func),
+                        location=location,
                         parent_name=self._context.name,
                         parent_type=talon.Context,
                     )
                     self._registry.register(function)
                     action = talon.Action(
+                        # NOTE: function names on action classes are unqualified
                         name=f"{namespace}.{name}",
-                        function_name=function.name,
-                        function_type_hints=None,
                         description=func.__doc__,
-                        location=function.location,
+                        location=location,
                         parent_name=self._context.name,
                         parent_type=talon.Context,
+                        function_name=function.name,
+                        function_type_hints=None,
                     )
                     self._registry.register(action)
 
@@ -508,27 +522,67 @@ class TalonShim(ModuleShim):
             return self._registry.lookup_default_function(talon.Action, name)
 
         def capture(
-            self, namespace: Optional[str] = None, rule: Optional[str] = None
+            self, name: Optional[str] = None, rule: Optional[str] = None
         ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
-                assert rule is not None
-                assert inspect.isfunction(func)
-                package = self._registry.get_active_package()
+                # LINT: check if decorated function is a function
+                if not inspect.isfunction(func):
+                    _LOGGER.error(f"decorated object is not a function")
+                    return func
+
+                location = talon.Location.from_function(func)
+
+                # LINT: check if rule is set
+                if rule is None:
+                    _LOGGER.error(f"missing capture rule at {location}")
+                    # insert placeholder rule
+                    parsed_rule = talon.Rule(
+                        text="",
+                        type_name="rule",
+                        start_position=Point(-1, -1),
+                        end_position=Point(-1, -1),
+                        children=[],
+                    )
+                else:
+                    parsed_rule = talon.parse_rule(rule)
+
+                # LINT: resolve capture name and check if decorated function has expected name
+                if name is not None:
+                    exp_funcname = name.split(".")[-1]
+                    act_funcname = func.__name__
+                    # TODO: only issue warning if linter is pedanic
+                    if exp_funcname != act_funcname:
+                        _LOGGER.warning(
+                            f"function for capture {name} "
+                            f"at {location} "
+                            f"is named {act_funcname} "
+                            f"instead of {exp_funcname}"
+                        )
+                    resolved_name = self._registry.resolve_name(name)
+                else:
+                    _LOGGER.error(
+                        f"missing name for capture decorator "
+                        f"applied to {func.__name__} "
+                        f"at {location}"
+                    )
+                    resolved_name = f"{self._package.name}.{func.__name__}"
+
                 function = talon.Function(
-                    namespace=namespace or package.name,
+                    namespace=resolved_name,
                     function=func,
-                    location=talon.Location.from_function(func),
+                    location=location,
                     parent_name=self._context.name,
                     parent_type=talon.Context,
                 )
                 self._registry.register(function)
                 capture = talon.Capture(
-                    rule=talon.parse_rule(rule),
-                    name=f"{namespace or package.name}.{func.__name__}",
+                    rule=parsed_rule,
+                    # NOTE: capture names passed to contexts are fully qualified
+                    name=resolved_name,
                     function_name=function.name,
                     function_type_hints=None,
                     description=func.__doc__,
-                    location=function.location,
+                    location=location,
                     parent_name=self._context.name,
                     parent_type=talon.Context,
                 )
