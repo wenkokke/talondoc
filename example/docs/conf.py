@@ -14,7 +14,7 @@ from sphinx.application import Sphinx
 project = "TalonDoc"
 copyright = "2022, Wen Kokke"
 author = "Wen Kokke"
-release = "0.3.0"
+release = "0.3.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
