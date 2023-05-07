@@ -21,9 +21,9 @@ _LOGGER = getLogger(__name__)
 
 class TalonDocCommandDescription(TalonDocObjectDescription):
     @property
-    def restrict_to(self) -> Optional[Sequence[str]]:
-        restrict_to = self.options.get("restrict_to", None)
-        return None if not restrict_to else tuple(restrict_to)
+    def contexts(self) -> Optional[Sequence[str]]:
+        result = [*self.options.get("context", []), *self.options.get("contexts", [])]
+        return result if result else None
 
     @property
     def always_include_script(self) -> bool:
@@ -57,9 +57,9 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
     def get_commands(
         self,
         *,
-        restrict_to: Optional[Sequence[str]] = None,
+        context: Optional[Sequence[str]] = None,
     ) -> Iterator[talon.Command]:
-        yield from self.talon.registry.get_commands(restrict_to=restrict_to)
+        yield from self.talon.registry.get_commands(context=context)
 
     @final
     def find_commands(
@@ -70,7 +70,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         restrict_to: Optional[Sequence[str]] = None,
     ) -> Iterator[talon.Command]:
         _LOGGER.debug(
-            f"searching for commands matching '{text}' (restrict_to={restrict_to})"
+            f"searching for commands matching '{text}' (restricted by {restrict_to})"
         )
         yield from self.talon.registry.find_commands(
             self._split_phrase(text),
@@ -217,7 +217,7 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
 
     @property
     def commands(self) -> Iterator[talon.Command]:
-        for command in self.get_commands(restrict_to=self.restrict_to):
+        for command in self.get_commands(context=self.context):
             if self._should_include(command.rule):
                 yield command
 

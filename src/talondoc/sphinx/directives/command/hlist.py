@@ -18,7 +18,8 @@ class TalonCommandHListDirective(TalonDocCommandListDescription):
     required_arguments = 0
     optional_arguments = sys.maxsize
     option_spec: OptionSpec = {
-        "restrict_to": optional_strlist,
+        "context": optional_strlist,
+        "contexts": optional_strlist,
         "always_include_script": flag,
         "caption": optional_str,
         "include": optional_strlist,

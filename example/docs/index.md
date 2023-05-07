@@ -1,7 +1,7 @@
 # TalonDoc
 
 :::{toctree}
-  :maxdepth: 1
+:maxdepth: 1
 knausj_talon/index
 :::
 
@@ -89,19 +89,19 @@ TalonDoc can generate documentation for an individual command using `talon:comma
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
 .. talon:command:: hunt this
-  :always_include_script:
+:always_include_script:
 
 .. talon:command:: hunt this pace
-  :always_include_script:
+:always_include_script:
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:command} hunt this
-  :always_include_script:
+:always_include_script:
 :::
 
 :::{talon:command} hunt this pace
-  :always_include_script:
+:always_include_script:
 :::
 ::::::
 :::::::::
@@ -109,11 +109,11 @@ TalonDoc can generate documentation for an individual command using `talon:comma
 ...will generate the following bit of documentation:
 
 :::{talon:command} hunt this
-  :always_include_script:
+:always_include_script:
 :::
 
 :::{talon:command} hunt this pace
-  :always_include_script:
+:always_include_script:
 :::
 
 TalonDoc will attempt to generate documentation for the command using the
@@ -125,19 +125,11 @@ following three options, in order:
 
 The `talon:command` directive take the following options:
 
-`:package:`
-: The package in which the command is defined.
-Multiple packages can be specified, in which case they should be separated by commas.
-Defaults to the active package.
-
-`restrict_to:`
-: The context in which the command is defined.
-Contexts can be specified using Talon context names, e.g., `user.apps.discord.discord` or `user.apps.discord.discord.talon`, or by using file names relative to the package root, e.g., `apps/discord/discord.talon`. Multiple contexts can be specified, in which case they should be separated by commas.
-By default, all commands in all packages are searched.
-
 `:always_include_script:`
-: Whether or not to include the Talon script for the command.
-Defaults to false.
+: If specified, the literal script is _always_ included in the command description.
+
+`:context:` and `:contexts:`
+: The contexts in which to search for the command. Contexts can be specified using Talon context names, e.g., `user.apps.discord.discord` or `user.apps.discord.discord.talon`, or by using file names relative to the package root, _e.g._, `apps/discord/discord.talon`. Multiple contexts can be specified, in which case they should be separated by commas. If neither `:context:` nor `:contexts:` is specified, all commands are searched.
 
 If the command is ambiguous it is necessary to specify the context. For instance, the command 'decline call' matches multiple commands in different contexts. Therefore, the following code will raise an error:
 
@@ -168,14 +160,14 @@ To generate the correct documentation you must specify the context in which it i
 ::::::{code-tab} rst reStructuredText
 .. talon:command:: answer call
 .. talon:command:: decline call
-  :restrict_to: user.apps.discord.discord
+:context: user.apps.discord.discord
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:command} answer call
 :::
 :::{talon:command} decline call
-  :restrict_to: user.apps.discord.discord
+:context: user.apps.discord.discord
 :::
 ::::::
 :::::::::
@@ -185,7 +177,7 @@ To generate the correct documentation you must specify the context in which it i
 :::{talon:command} answer call
 :::
 :::{talon:command} decline call
-  :restrict_to: user.apps.discord.discord
+:context: user.apps.discord.discord
 :::
 
 ## Document groups of commands
@@ -197,23 +189,23 @@ For instance, the following code:
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
 .. talon:command-table::
-  :restrict_to: user.apps.discord.discord
-  :include: answer call, decline call
+:context: user.apps.discord.discord
+:include: answer call, decline call
 
 .. talon:command-table::
-  :caption: A little custom hunting table.
-  :include: hunt this, hunt this pace
+:caption: A little custom hunting table.
+:include: hunt this, hunt this pace
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:command-table}
-  :restrict_to: user.apps.discord.discord
-  :include: answer call, decline call
+:context: user.apps.discord.discord
+:include: answer call, decline call
 :::
 
 :::{talon:command-table}
-  :caption: A little custom hunting table.
-  :include: hunt this, hunt this pace
+:caption: A little custom hunting table.
+:include: hunt this, hunt this pace
 :::
 ::::::
 :::::::::
@@ -221,13 +213,13 @@ For instance, the following code:
 ... generates the following two tables:
 
 :::{talon:command-table}
-  :restrict_to: user.apps.discord.discord
-  :include: answer call, decline call
+:context: user.apps.discord.discord
+:include: answer call, decline call
 :::
 
 :::{talon:command-table}
-  :caption: A little custom hunting table.
-  :include: hunt this, hunt this pace
+:caption: A little custom hunting table.
+:include: hunt this, hunt this pace
 :::
 
 Similarily, the following code:
@@ -235,25 +227,25 @@ Similarily, the following code:
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
 .. talon:command-hlist::
-  :restrict_to: apps/discord/discord.talon
-  :include: toggle dee ems, toggle pins, toggle members
-  :columns: 3
+:context: apps/discord/discord.talon
+:include: toggle dee ems, toggle pins, toggle members
+:columns: 3
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:command-hlist}
-  :restrict_to: apps/discord/discord.talon
-  :include: toggle dee ems, toggle pins, toggle members
-  :columns: 3
+:context: apps/discord/discord.talon
+:include: toggle dee ems, toggle pins, toggle members
+:columns: 3
 ::::::
 :::::::::
 
 ... generates the following list:
 
 :::{talon:command-hlist}
-  :restrict_to: apps/discord/discord.talon
-  :include: toggle dee ems, toggle pins, toggle members
-  :columns: 3
+:context: apps/discord/discord.talon
+:include: toggle dee ems, toggle pins, toggle members
+:columns: 3
 :::
 
 The `talon:command-table` and `talon:command-hlist` directives take any
@@ -263,23 +255,18 @@ root, _e.g._, `apps/discord/discord.talon`, or module names, _e.g._,
 is optional. If no arguments are given, commands are included from the _entire
 package_. Furthermore, these directives take the following options:
 
-`:package:`
-: The package in which the command is defined.
-Multiple packages can be specified, in which case they should be separated by commas.
-Defaults to the active package.
+`:always_include_script:`
+: If specified, the literal script is _always_ included in the command description.
 
-`restrict_to:`
-: The context in which the command is defined.
-Contexts can be specified using Talon context names, e.g., `user.apps.discord.discord` or `user.apps.discord.discord.talon`, or by using file names relative to the package root, e.g., `apps/discord/discord.talon`. Multiple contexts can be specified, in which case they should be separated by commas.
-By default, all commands in all packages are searched.
+`:context:` and `:contexts:`
+: The contexts in which to search for the commands. Contexts can be specified using Talon context names, e.g., `user.apps.discord.discord` or `user.apps.discord.discord.talon`, or by using file names relative to the package root, _e.g._, `apps/discord/discord.talon`. Multiple contexts can be specified, in which case they should be separated by commas. If neither `:context:` nor `:contexts:` is specified, all commands are searched.
 
 `:caption:`
 : A caption for the table.
 Defaults to the module name, if given.
 
 `:include:`
-: A list of command phrases.
-If `:include:` is specified, all commands matching one of these phrases are included. Otherwise, all commands are included.
+: A list of command phrases. If `:include:` is specified, all commands matching one of these phrases are included. Otherwise, all commands are included.
 
 `:exclude:`
 : A list of command phrases.
