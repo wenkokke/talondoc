@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Optional
 
-from ...registry import Registry
-from ...registry.entries import Location, Package
+from .. import Registry
+from ..entries import Location, Package
 from .python import analyse_files as analyse_python_files
 from .talon import analyse_files as analyse_talon_files
 

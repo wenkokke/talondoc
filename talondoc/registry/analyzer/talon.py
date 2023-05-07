@@ -15,10 +15,10 @@ from tree_sitter_talon import (
     parse_file,
 )
 
-from ...registry import Registry
-from ...registry import entries as talon
 from ...util.logging import getLogger
 from ...util.progress_bar import ProgressBar
+from .. import Registry
+from .. import entries as talon
 
 _LOGGER = getLogger(__name__)
 

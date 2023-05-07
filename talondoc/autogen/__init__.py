@@ -7,9 +7,9 @@ from typing import Optional, Union
 import jinja2
 import jinja2.sandbox
 
-from ..analyzer.standalone import analyse_package
 from ..registry import Registry
 from ..registry import entries as talon
+from ..registry.analyzer import analyse_package
 from ..util.progress_bar import ProgressBar
 
 

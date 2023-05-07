@@ -8,10 +8,10 @@ from pathlib import Path
 from types import ModuleType
 from typing import ClassVar, Optional, Sequence, Union
 
-from ....registry import Registry
-from ....registry import entries as talon
 from ....util.logging import getLogger
 from ....util.progress_bar import ProgressBar
+from ... import Registry
+from ... import entries as talon
 from .shims import ModuleShim, TalonShim
 
 _LOGGER = getLogger(__name__)
@@ -149,7 +149,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
         parent_name=package.name,
     )
     registry.register(file)
-    # Process file (passes control to talondoc.analyzer.standalone.python.shims):
+    # Process file (passes control to talondoc.analyzer.python.shims):
     module_name = ".".join([package.name, *path.with_suffix("").parts])
     importlib.import_module(name=module_name, package=package.name)
 

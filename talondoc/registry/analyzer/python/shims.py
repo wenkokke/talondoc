@@ -5,8 +5,8 @@ from io import TextIOWrapper
 from types import ModuleType
 from typing import Any, Mapping, Optional, Sequence, cast
 
-from ....registry import Registry
-from ....registry import entries as talon
+from ... import Registry
+from ... import entries as talon
 
 
 class ObjectShim:
