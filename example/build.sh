@@ -1,4 +1,4 @@
-#!/bin/
+#!/bin/sh
 
 # POSIX compliant method for 'pipefail':
 fail=$(mktemp)
@@ -12,18 +12,27 @@ output_dir="$script_dir/docs"
   --output-dir "$output_dir/knausj_talon" \
   --sphinx-root "$output_dir" \
   --project 'knausj_talon' \
-  --package-name user \
+  --package-name "user" \
   --no-generate-conf \
-  --exclude 'conftest.py' \
-  --exclude 'test/repo_root_init.py' \
-  --exclude 'test/test_code_modified_function.py' \
-  --exclude 'test/test_create_spoken_forms.py' \
-  --exclude 'test/test_dictation.py' \
-  --exclude 'test/test_formatters.py' \
-  --exclude 'test/stubs/talon/__init__.py' \
-  --exclude 'test/stubs/talon/grammar.py' \
-  --exclude 'test/stubs/talon/experimental/textarea.py' \
+  --exclude "conftest.py" \
+  --exclude "test/stubs/talon/__init__.py" \
+  --exclude "test/stubs/talon/grammar.py" \
+  --exclude "test/stubs/talon/experimental/textarea.py" \
+  --exclude "test/repo_root_init.py" \
+  --exclude "test/test_code_modified_function.py" \
+  --exclude "test/test_create_spoken_forms.py" \
+  --exclude "test/test_dictation.py" \
+  --exclude "test/test_formatters.py" \
+  "${TALONDOC_AUTOGEN_EXTRA_ARGS}" \
   "$script_dir/knausj_talon/" \
+  || echo > "$fail"
+
+[ ! -s "$fail" ] && \
+  PYTHONUTF8=1 \
+  sphinx-build \
+  -M "clean" \
+  "$output_dir" \
+  "$output_dir/_build" \
   || echo > "$fail"
 
 [ ! -s "$fail" ] && \
