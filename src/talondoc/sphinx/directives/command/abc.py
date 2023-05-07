@@ -21,9 +21,9 @@ _LOGGER = getLogger(__name__)
 
 class TalonDocCommandDescription(TalonDocObjectDescription):
     @property
-    def contexts(self) -> Optional[Sequence[str]]:
+    def contexts(self) -> Optional[Iterator[str]]:
         result = [*self.options.get("context", []), *self.options.get("contexts", [])]
-        return result if result else None
+        return iter(result) if result else None
 
     @property
     def always_include_script(self) -> bool:
@@ -35,7 +35,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         text: str,
         *,
         fullmatch: bool = False,
-        restrict_to: Optional[Sequence[str]] = None,
+        restrict_to: Optional[Iterator[str]] = None,
     ) -> talon.Command:
         commands = list(
             self.find_commands(text, fullmatch=fullmatch, restrict_to=restrict_to)
@@ -57,7 +57,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
     def get_commands(
         self,
         *,
-        restrict_to: Optional[Sequence[str]] = None,
+        restrict_to: Optional[Iterator[str]] = None,
     ) -> Iterator[talon.Command]:
         yield from self.talon.registry.get_commands(restrict_to=restrict_to)
 
@@ -67,7 +67,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         text: str,
         *,
         fullmatch: bool = False,
-        restrict_to: Optional[Sequence[str]] = None,
+        restrict_to: Optional[Iterator[str]] = None,
     ) -> Iterator[talon.Command]:
         _LOGGER.debug(
             f"searching for commands matching '{text}' (restricted by {restrict_to})"

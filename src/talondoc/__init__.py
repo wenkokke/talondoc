@@ -9,7 +9,7 @@ from .cache_builtin import cache_builtin
 
 @click.group(name="talondoc")
 @click.version_option(
-    package_name="talondoc",
+    prog_name="talondoc",
     version=__version__,
 )
 def talondoc():

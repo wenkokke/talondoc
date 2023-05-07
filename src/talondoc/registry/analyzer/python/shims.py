@@ -391,7 +391,7 @@ class TalonShim(ModuleShim):
             name: str,
             type: type,
             default: talon.SettingValue = None,
-            desc: str = None,
+            desc: Optional[str] = None,
         ):
             self._registry.register(
                 talon.Setting(
@@ -406,7 +406,11 @@ class TalonShim(ModuleShim):
                 )
             )
 
-        def list(self, name: str, desc: str = None):
+        def list(
+            self,
+            name: str,
+            desc: Optional[str] = None,
+        ):
             self._registry.register(
                 talon.List(
                     value=None,
@@ -420,7 +424,11 @@ class TalonShim(ModuleShim):
                 )
             )
 
-        def mode(self, name: str, desc: str = None):
+        def mode(
+            self,
+            name: str,
+            desc: Optional[str] = None,
+        ):
             self._registry.register(
                 talon.Mode(
                     name=f"{self._package.name}.{name}",
@@ -430,7 +438,11 @@ class TalonShim(ModuleShim):
                 )
             )
 
-        def tag(self, name: str, desc: str = None):
+        def tag(
+            self,
+            name: str,
+            desc: Optional[str] = None,
+        ):
             self._registry.register(
                 talon.Tag(
                     name=f"{self._package.name}.{name}",

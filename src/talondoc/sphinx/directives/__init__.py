@@ -34,7 +34,7 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
         else:
 
             def __docstring_hook(sort: str, name: str) -> Optional[str]:
-                value = docstring_hook(sort, name)  # type: ignore
+                value = docstring_hook(sort, name)
                 assert value is None or isinstance(value, str)
                 return value
 

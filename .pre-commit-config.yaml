@@ -47,7 +47,14 @@ repos:
       - id: mypy
         args: ["--config-file", "pyproject.toml"]
         additional_dependencies:
-          ["types_docutils", "types_editdistance", "types_pytz", "types_setuptools"]
+          [
+            "types_click",
+            "types_docutils",
+            "types_editdistance",
+            "types_jinja2",
+            "types_pytz",
+            "types_setuptools",
+          ]
   - repo: https://github.com/wenkokke/talonfmt
     rev: 1.9.5
     hooks:

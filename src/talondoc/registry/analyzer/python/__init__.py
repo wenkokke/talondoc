@@ -6,12 +6,13 @@ from importlib.abc import Loader, MetaPathFinder
 from importlib.machinery import ModuleSpec, PathFinder, SourceFileLoader
 from pathlib import Path
 from types import ModuleType
-from typing import ClassVar, Optional, Sequence, Union
+from typing import ClassVar, Optional, Sequence, cast
 
 from ...._util.logging import getLogger
 from ...._util.progress_bar import ProgressBar
 from ... import Registry
 from ... import entries as talon
+from ...entries.abc import Location
 from .shims import ModuleShim, TalonShim
 
 _LOGGER = getLogger(__name__)
@@ -25,8 +26,8 @@ class TalonShimFinder(MetaPathFinder):
     PACKAGES: ClassVar[tuple[str, ...]] = ("talon", "talon_plugins")
 
     class TalonShimLoader(Loader):
-        def create_module(cls, spec: ModuleSpec):
-            return cls.load_module(spec.name)
+        def create_module(cls, spec: ModuleSpec) -> ModuleType:
+            return cast(ModuleType, cls.load_module(spec.name))
 
         def exec_module(cls, module: ModuleType):
             pass
@@ -45,7 +46,12 @@ class TalonShimFinder(MetaPathFinder):
         )
 
     @classmethod
-    def find_spec(cls, fullname: str, path=None, target=None):
+    def find_spec(
+        cls,
+        fullname: str,
+        path: Optional[Sequence[str]] = None,
+        target: Optional[ModuleType] = None,
+    ) -> Optional[ModuleSpec]:
         if cls._is_module(fullname):
             return ModuleSpec(
                 name=fullname,
@@ -70,17 +76,17 @@ def talon_package_shims(package: talon.Package) -> Iterator[None]:
         """
 
         class ImplicitInitLoader(Loader):
-            def create_module(cls, spec: ModuleSpec):
+            def create_module(cls, spec: ModuleSpec):  # type: ignore[no-untyped-def]
                 return cls.load_module(spec.name)
 
-            def exec_module(cls, _module: ModuleType):
+            def exec_module(cls, _module: ModuleType):  # type: ignore[no-untyped-def]
                 pass
 
-            def load_module(cls, fullname: str):
+            def load_module(cls, fullname: str):  # type: ignore[no-untyped-def]
                 return ModuleType(fullname)
 
         @classmethod
-        def _is_module(cls, fullname: str):
+        def _is_module(cls, fullname: str) -> bool:
             return fullname == package_name or fullname.startswith(f"{package_name}.")
 
         @classmethod
@@ -120,16 +126,16 @@ def talon_package_shims(package: talon.Package) -> Iterator[None]:
                 # Allow normal sys.path stuff to handle everything else
                 return None
 
-    sys.meta_path.insert(0, PackagePathFinder)  # type: ignore
+    sys.meta_path.insert(0, PackagePathFinder)
     try:
         yield None
     finally:
-        sys.meta_path.remove(PackagePathFinder)  # type: ignore
+        sys.meta_path.remove(PackagePathFinder)
 
 
 @contextmanager
 def talon_shims(registry: Registry, *, package: Optional[talon.Package] = None):
-    sys.meta_path.insert(0, TalonShimFinder)  # type: ignore
+    sys.meta_path.insert(0, TalonShimFinder)
     try:
         if package:
             with talon_package_shims(package):
@@ -137,13 +143,13 @@ def talon_shims(registry: Registry, *, package: Optional[talon.Package] = None):
         else:
             yield None
     finally:
-        sys.meta_path.remove(TalonShimFinder)  # type: ignore
+        sys.meta_path.remove(TalonShimFinder)
 
 
 def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None:
     # Retrieve or create file entry:
     file = talon.File(
-        location=talon.Location.from_path(path),
+        location=Location.from_path(path),
         parent_name=package.name,
     )
     registry.register(file)
