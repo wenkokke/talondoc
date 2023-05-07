@@ -47,6 +47,9 @@ docs = [
 [project.scripts]
 talondoc = "talondoc:talondoc"
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.isort]
 profile = "black"
 line_length = 88
