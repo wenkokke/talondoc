@@ -89,11 +89,11 @@ def talondoc():
     default=bool(os.environ.get("TALONDOC_STRICT", False)),
 )
 def _autogen(
-    package_dir: str,
     *,
     output_dir: str,
     sphinx_root: str,
     template_dir: Optional[str],
+    package_dir: str,
     package_name: Optional[str],
     include: list[str],
     exclude: list[str],
