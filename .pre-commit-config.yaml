@@ -24,12 +24,12 @@ repos:
       - id: mixed-line-ending
       - id: trailing-whitespace
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v3.0.0-alpha.6"
+    rev: "v3.0.0-alpha.9-for-vscode"
     hooks:
       - id: prettier
         exclude: "^(tests/data/golden|talondoc/data)s"
   - repo: https://github.com/ikamensh/flynt/
-    rev: "0.77"
+    rev: "0.78"
     hooks:
       - id: flynt
   - repo: https://github.com/pycqa/isort
@@ -38,11 +38,11 @@ repos:
       - id: isort
         args: ["--profile=black", "--filter-files", "--line-width=88"]
   - repo: https://github.com/psf/black
-    rev: "23.1.0"
+    rev: "23.3.0"
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.1.1"
+    rev: "v1.2.0"
     hooks:
       - id: mypy
         args: ["--config-file", "pyproject.toml"]
