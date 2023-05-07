@@ -332,7 +332,7 @@ class TalonShim(ModuleShim):
 
         def action_class(self, cls: type):
             for name, func in inspect.getmembers(cls, inspect.isfunction):
-                assert inspect.isfunction(func)
+                assert callable(func)
                 package = self._registry.get_active_package()
                 function = talon.Function(
                     namespace=package.name,
@@ -361,7 +361,7 @@ class TalonShim(ModuleShim):
             self, rule: str
         ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
-                assert inspect.isfunction(func)
+                assert callable(func)
                 package = self._registry.get_active_package()
                 function = talon.Function(
                     namespace=package.name,
@@ -491,7 +491,7 @@ class TalonShim(ModuleShim):
             def __decorator(cls: type):
                 for name, func in inspect.getmembers(cls, inspect.isfunction):
                     # LINT: check if function on decorated class is a function
-                    assert inspect.isfunction(func)
+                    assert callable(func)
 
                     location = talon.Location.from_function(func)
                     function = talon.Function(
@@ -521,9 +521,7 @@ class TalonShim(ModuleShim):
         ) -> Optional[Callable[[Callable[..., Any]], Callable[..., Any]]]:
             def __decorator(func: Callable[..., Any]):
                 # LINT: check if function on decorated class is a function
-                assert callable(
-                    func
-                ), f"@ctx.action({repr(name)}) decorates {repr(func)}"
+                assert callable(func)
                 namespace = name.split(".")[0]
 
                 location = talon.Location.from_function(func)
