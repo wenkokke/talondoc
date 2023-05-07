@@ -1,20 +1,26 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/python:3.9",
+  "image": "mcr.microsoft.com/vscode/devcontainers/base",
   "features": {
-    "ghcr.io/devcontainers-contrib/features/gh-cli:1": {},
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.9"
+    },
     "ghcr.io/devcontainers-contrib/features/pre-commit:2": {},
-    "ghcr.io/devcontainers-contrib/features/wget-apt-get:1": {},
-    "ghcr.io/dhoeric/features/act:1": {},
-    "ghcr.io/devcontainers-contrib/features/tox": {}
+    "ghcr.io/devcontainers-contrib/features/tox:2": {},
+    "ghcr.io/devcontainers/features/git:1": {}
   },
-  "postCreateCommand": [
-    "git submodule update --init",
-    "pip install .[docs]",
-    "mypy --install-types --non-interactive"
-  ],
+  "postCreateCommand": {
+    "git-submodules": "git submodule update --init",
+    "pre-commit": "pre-commit install",
+    "pip": "pip install .[docs]",
+    "mypy": "mypy --install-types --non-interactive"
+  },
   "customizations": {
     "vscode": {
-      "extensions": ["ms-vscode.makefile-tools", "ms-python.python"]
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-vscode.makefile-tools"
+      ]
     }
   }
 }
