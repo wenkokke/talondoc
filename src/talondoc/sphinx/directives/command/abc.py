@@ -217,7 +217,7 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
 
     @property
     def commands(self) -> Iterator[talon.Command]:
-        for command in self.get_commands(context=self.context):
+        for command in self.get_commands(context=self.contexts):
             if self._should_include(command.rule):
                 yield command
 

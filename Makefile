@@ -11,15 +11,14 @@ test:
 #################################################################################
 
 .PHONY: serve
-serve: .venv/ | docs
+serve:
+	@python -m venv .venv
 	@.venv/bin/python -m http.server --directory ./example/docs/_build/html
 
 .PHONY: docs
 docs: .venv/
+	@python -m venv .venv
 	@bash -c "source .venv/bin/activate; pip install -q .[docs]; ./example/build.sh"
-
-.venv/:
-	python -m venv .venv
 
 #################################################################################
 # Version management

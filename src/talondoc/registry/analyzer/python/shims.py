@@ -354,10 +354,14 @@ class TalonShim(ModuleShim):
                 self._registry.register(action)
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
-            return (
-                self._registry.lookup_default_function(talon.Action, name)
-                or ObjectShim()
-            )
+            def _action_wrapper(*args, **kwargs):
+                function = self._registry.lookup_default_function(talon.Action, name)
+                if function is None:
+                    return ObjectShim()
+                else:
+                    return function(*args, **kwargs)
+
+            return _action_wrapper
 
         def capture(
             self, rule: str
