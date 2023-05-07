@@ -5,8 +5,11 @@ from io import TextIOWrapper
 from types import ModuleType
 from typing import Any, Mapping, Optional, Sequence, cast
 
+from ....util.logging import getLogger
 from ... import Registry
 from ... import entries as talon
+
+_LOGGER = getLogger(__name__)
 
 
 class ObjectShim:
@@ -15,15 +18,20 @@ class ObjectShim:
     """
 
     def register(self, event_code: talon.EventCode, func: Callable[..., Any]):
-        registry = Registry.get_active_global_registry()
-        registry.register(
-            talon.Callback(
-                event_code=event_code,
-                function=func,
-                location=talon.Location.from_function(func),
-                parent_name=registry.get_active_file().name,
+        if inspect.isfunction(func):
+            registry = Registry.get_active_global_registry()
+            registry.register(
+                talon.Callback(
+                    event_code=event_code,
+                    function=func,
+                    location=talon.Location.from_function(func),
+                    parent_name=registry.get_active_file().name,
+                )
             )
-        )
+        else:
+            _LOGGER.info(
+                f"skip callback for {repr(event_code)}: {repr(func)} is not a function"
+            )
 
     def __init__(self, *args, **kwargs):
         pass

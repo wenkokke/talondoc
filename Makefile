@@ -1,21 +1,19 @@
 #################################################################################
-# Common tasks
+# Tests
 #################################################################################
 
 .PHONY: test
-test:
+test: mypy
 	tox
 
-.venv/:
-	python -m venv .venv
-
-.PHONY: install
-install: .venv/
-	.venv/bin/pip install .[test]
+#################################################################################
+# Build Docs
+#################################################################################
 
 .PHONY: autogen
-autogen: .venv/ | install
-	.venv/bin/python -m talondoc autogen \
+autogen: .venv/
+	@.venv/bin/pip install -q .[docs] 2>/dev/null
+	@.venv/bin/python -m talondoc autogen \
 		--output-dir "example/docs/knausj_talon" \
 		--package-name "user" \
 		--sphinx-root "example/docs" \
@@ -37,7 +35,11 @@ autogen: .venv/ | install
 
 .PHONY: mypy
 mypy: .venv/
-	.venv/bin/python -m mypy talondoc
+	@.venv/bin/pip install -q .[mypy]
+	@.venv/bin/python -m mypy talondoc
+
+.venv/:
+	python -m venv .venv
 
 #################################################################################
 # Version management
@@ -45,33 +47,12 @@ mypy: .venv/
 
 .PHONY: bump-patch
 bump-patch: require-poetry
-	@poetry run bumpver update --patch
+	@pipx run bumpver update --patch
 
 .PHONY: bump-minor
 bump-minor: require-poetry
-	@poetry run bumpver update --minor
+	@pipx run bumpver update --minor
 
 .PHONY: bump-major
 bump-major: require-poetry
-	@poetry run bumpver update --major
-
-
-#################################################################################
-# Dependencies with reasonable error messages
-#################################################################################
-
-.PHONY: require-tox
-require-tox:
-ifeq (,$(wildcard $(shell which tox)))
-	@echo "The command you called requires tox"
-	@echo "See: https://tox.wiki/en/latest/installation.html"
-	@exit 1
-endif
-
-.PHONY: require-poetry
-require-poetry:
-ifeq (,$(wildcard $(shell which poetry)))
-	@echo "The command you called requires Poetry"
-	@echo "See: https://python-poetry.org/docs/#installation"
-	@exit 1
-endif
+	@pipx run bumpver update --major

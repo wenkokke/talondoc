@@ -1,3 +1,4 @@
+import inspect
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Mapping, Optional, Union
@@ -65,9 +66,11 @@ class Location:
 
     @staticmethod
     def from_function(function: Callable[..., Any]) -> "Location":
-        code = function.__code__
-        path = Path(code.co_filename)
-        start_position = Point(code.co_firstlineno, 0)
+        assert inspect.isfunction(
+            function
+        ), f"Location.from_function received {repr(function)}"
+        path = Path(function.__code__.co_filename)
+        start_position = Point(function.__code__.co_firstlineno, 0)
         return Location(path=path, start_position=start_position)
 
     @staticmethod
