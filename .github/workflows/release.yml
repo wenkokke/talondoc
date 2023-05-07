@@ -38,7 +38,7 @@ jobs:
       - name: Build dist
         run: |
           pip install build
-          python -m build --sdist
+          python -m build
 
       - name: Publish to GitHub Releases
         uses: softprops/action-gh-release@v1
