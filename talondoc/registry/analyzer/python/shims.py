@@ -474,7 +474,6 @@ class TalonShim(ModuleShim):
             def __decorator(cls: type):
                 for name, func in inspect.getmembers(cls, inspect.isfunction):
                     assert inspect.isfunction(func)
-                    package = self._registry.get_active_package()
                     function = talon.Function(
                         function=func,
                         location=talon.Location.from_function(func),
@@ -485,7 +484,7 @@ class TalonShim(ModuleShim):
                     action = talon.Action(
                         function_name=function.name,
                         function_type_hints=None,
-                        name=f"{package.name}.{name}",
+                        name=f"{namespace}.{name}",
                         description=func.__doc__,
                         location=function.location,
                         parent_name=self._context.name,
