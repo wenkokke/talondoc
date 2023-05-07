@@ -5,10 +5,13 @@
     "ghcr.io/devcontainers-contrib/features/pre-commit:2": {},
     "ghcr.io/devcontainers-contrib/features/wget-apt-get:1": {},
     "ghcr.io/dhoeric/features/act:1": {},
-    "ghcr.io/devcontainers-contrib/features/tox": {},
-    "ghcr.io/devcontainers-contrib/features/poetry": {}
+    "ghcr.io/devcontainers-contrib/features/tox": {}
   },
-  "postCreateCommand": "poetry install && git submodule init && git submodule update && mypy --install-types  --non-interactive",
+  "postCreateCommand": [
+    "git submodule update --init",
+    "pip install .[docs]",
+    "mypy --install-types --non-interactive"
+  ],
   "customizations": {
     "vscode": {
       "extensions": ["ms-vscode.makefile-tools", "ms-python.python"]
