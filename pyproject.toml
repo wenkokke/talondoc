@@ -77,8 +77,6 @@ no_implicit_optional = false
 warn_redundant_casts = true
 warn_return_any = true
 warn_unused_configs = true
-# See: https://github.com/python/mypy/issues/4717
-disable_error_code = ['type-abstract']
 
 [tool.pytest.ini_options]
 enable_assertion_pass_hook = true
