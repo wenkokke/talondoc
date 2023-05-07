@@ -3,7 +3,7 @@
 #################################################################################
 
 .PHONY: test
-test: mypy
+test:
 	tox
 
 #################################################################################
@@ -22,13 +22,13 @@ docs: .venv/
 #################################################################################
 
 .PHONY: bump-patch
-bump-patch: require-poetry
+bump-patch:
 	@pipx run bumpver update --patch
 
 .PHONY: bump-minor
-bump-minor: require-poetry
+bump-minor:
 	@pipx run bumpver update --minor
 
 .PHONY: bump-major
-bump-major: require-poetry
+bump-major:
 	@pipx run bumpver update --major
