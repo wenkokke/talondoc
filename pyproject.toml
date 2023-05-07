@@ -47,8 +47,21 @@ docs = [
 [project.scripts]
 talondoc = "talondoc:talondoc"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.bumpver]
+current_version = "0.3.0"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "Bump version {old_version} -> {new_version}"
+commit = true
+tag = true
+push = true
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+  '^current_version = "{version}"$',
+  '^version = "{version}"$',
+]
+"example/docs/conf.py" = ['^release = "{version}"$']
+"talondoc/__init__.py" = ['^__version__: str = "{version}"$']
 
 [tool.isort]
 profile = "black"
@@ -72,21 +85,8 @@ filterwarnings = ["ignore::DeprecationWarning:.*:"]
 minversion = "6.0"
 testpaths = ["tests"]
 
-[tool.bumpver]
-current_version = "0.2.1"
-version_pattern = "MAJOR.MINOR.PATCH"
-commit_message = "Bump version {old_version} -> {new_version}"
-commit = true
-tag = true
-push = true
-
-[tool.bumpver.file_patterns]
-"pyproject.toml" = [
-  '^current_version = "{version}"$',
-  '^version = "{version}"$',
-]
-"example/docs/conf.py" = ['^release = "{version}"$']
-"talondoc/__init__.py" = ['^__version__: str = "{version}"$']
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.tox]
 legacy_tox_ini = """
