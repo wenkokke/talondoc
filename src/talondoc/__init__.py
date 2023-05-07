@@ -17,15 +17,15 @@ def talondoc():
 
 
 @talondoc.command(name="autogen")
-@click.argument(
-    "package-dir",
-    type=click.Path(),
-)
 @click.option(
-    "-p",
     "--package-name",
     type=str,
     default=None,
+)
+@click.option(
+    "--package-dir",
+    type=click.Path(),
+    required=True,
 )
 @click.option(
     "-o",
