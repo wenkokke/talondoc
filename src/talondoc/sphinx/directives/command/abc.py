@@ -7,12 +7,12 @@ from talonfmt import talonfmt
 from tree_sitter_talon import TalonComment
 from typing_extensions import final
 
+from ...._util.logging import getLogger
 from ....description import InvalidInterpolation
 from ....description.describer import TalonScriptDescriber
 from ....registry import entries as talon
 from ....sphinx.directives import TalonDocObjectDescription
 from ....sphinx.typing import TalonDocstringHook_Callable
-from ....util.logging import getLogger
 from ...util.addnodes import desc_content, desc_name, paragraph
 from ..errors import AmbiguousSignature, UnmatchedSignature
 

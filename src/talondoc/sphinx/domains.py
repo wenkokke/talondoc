@@ -1,8 +1,8 @@
 from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
 
+from .._util.logging import getLogger
 from ..registry import Registry
-from ..util.logging import getLogger
 from .directives.command import TalonCommandDirective
 from .directives.command.hlist import TalonCommandHListDirective
 from .directives.command.table import TalonCommandTableDirective

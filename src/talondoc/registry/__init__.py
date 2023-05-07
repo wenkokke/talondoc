@@ -17,7 +17,7 @@ from typing import (
 
 from typing_extensions import Final
 
-from ..util.logging import getLogger
+from .._util.logging import getLogger
 from . import entries as talon
 from .entries import CallbackVar
 from .entries.abc import (

@@ -6,9 +6,9 @@ from sphinx.application import BuildEnvironment, Sphinx
 from typing_extensions import TypeGuard
 
 from .. import __version__
+from .._util.logging import getLogger
 from ..registry import NoActiveFile, NoActivePackage, NoActiveRegistry
 from ..registry.analyzer import analyse_package
-from ..util.logging import getLogger
 from .domains import TalonDomain
 from .typing import TalonPackage
 

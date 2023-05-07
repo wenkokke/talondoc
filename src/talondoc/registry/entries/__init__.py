@@ -11,7 +11,7 @@ from tree_sitter_talon import TalonMatch as Match
 from tree_sitter_talon import TalonRule as Rule
 from typing_extensions import Literal, TypeVar, final, override
 
-from ...util.logging import getLogger
+from ..._util.logging import getLogger
 from .abc import (
     ActionName,
     CaptureName,

@@ -7,10 +7,10 @@ from typing import Optional, Union
 import jinja2
 import jinja2.sandbox
 
+from .._util.progress_bar import ProgressBar
 from ..registry import Registry
 from ..registry import entries as talon
 from ..registry.analyzer import analyse_package
-from ..util.progress_bar import ProgressBar
 
 
 # Taken from:

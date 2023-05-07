@@ -15,8 +15,8 @@ from tree_sitter_talon import (
     parse_file,
 )
 
-from ...util.logging import getLogger
-from ...util.progress_bar import ProgressBar
+from ..._util.logging import getLogger
+from ..._util.progress_bar import ProgressBar
 from .. import Registry
 from .. import entries as talon
 

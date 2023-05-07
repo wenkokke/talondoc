@@ -8,8 +8,8 @@ from pathlib import Path
 from types import ModuleType
 from typing import ClassVar, Optional, Sequence, Union
 
-from ....util.logging import getLogger
-from ....util.progress_bar import ProgressBar
+from ...._util.logging import getLogger
+from ...._util.progress_bar import ProgressBar
 from ... import Registry
 from ... import entries as talon
 from .shims import ModuleShim, TalonShim

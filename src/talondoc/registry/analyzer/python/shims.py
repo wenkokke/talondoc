@@ -5,7 +5,7 @@ from io import TextIOWrapper
 from types import ModuleType
 from typing import Any, Mapping, Optional, Sequence, cast
 
-from ....util.logging import getLogger
+from ...._util.logging import getLogger
 from ... import Registry
 from ... import entries as talon
 

@@ -6,7 +6,7 @@ from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
 from typing_extensions import override
 
-from ....util.logging import getLogger
+from ...._util.logging import getLogger
 from ...util.typing import flag, optional_strlist
 from ..errors import AmbiguousSignature, UnmatchedSignature
 from .abc import TalonDocCommandDescription

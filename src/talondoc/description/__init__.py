@@ -5,7 +5,7 @@ from typing import Optional, Union
 
 import docstring_parser
 
-from ..util.logging import getLogger
+from .._util.logging import getLogger
 
 _LOGGER = getLogger(__name__)
 
