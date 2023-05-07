@@ -57,9 +57,9 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
     def get_commands(
         self,
         *,
-        context: Optional[Sequence[str]] = None,
+        restrict_to: Optional[Sequence[str]] = None,
     ) -> Iterator[talon.Command]:
-        yield from self.talon.registry.get_commands(context=context)
+        yield from self.talon.registry.get_commands(restrict_to=restrict_to)
 
     @final
     def find_commands(
@@ -217,7 +217,7 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
 
     @property
     def commands(self) -> Iterator[talon.Command]:
-        for command in self.get_commands(context=self.contexts):
+        for command in self.get_commands(restrict_to=self.contexts):
             if self._should_include(command.rule):
                 yield command
 
