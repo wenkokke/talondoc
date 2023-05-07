@@ -28,10 +28,12 @@ dependencies = [
 
 [project.optional-dependencies]
 mypy = [
+  "types_click",
   "types_docutils",
   "types_editdistance",
+  "types_jinja2",
   "types_pytz",
-  "types_setuptools"
+  "types_setuptools",
 ]
 test = [
   "bumpver",
