@@ -279,11 +279,8 @@ Defaults to the module name, if given.
 
 `:include:`
 : A list of command phrases.
-If `:default:` is set to `exclude`, a command matching any of these phrases
-is included _unless_ it is matched by any of the phrases in `:exclude:`.
-If `:default:` is set to `include`, a command matching any of these phrases is included _even if_ it is matched by any of the phrases in `:exclude:`.
+If `:include:` is specified, all commands matching one of these phrases are included. Otherwise, all commands are included.
 
 `:exclude:`
 : A list of command phrases.
-If `:default:` is set to `exclude`, a command matching any of these phrases is excluded _even if_ it is matched by any of the phrases in `:include:`.
-If `:default:` is set to `include`, a command matching any of these phrases is excluded _unless_ it is matched by any of the phrases in `:include:`.
+If `:exclude:` is specified, any commands matching one of these phrases are excluded.
