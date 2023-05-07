@@ -13,6 +13,7 @@ output_dir="$script_dir/docs"
   --sphinx-root "$output_dir" \
   --project 'knausj_talon' \
   --package-name "user" \
+  --package-dir "$script_dir/knausj_talon/" \
   --no-generate-conf \
   --exclude "conftest.py" \
   --exclude "test/stubs/talon/__init__.py" \
@@ -23,8 +24,7 @@ output_dir="$script_dir/docs"
   --exclude "test/test_create_spoken_forms.py" \
   --exclude "test/test_dictation.py" \
   --exclude "test/test_formatters.py" \
-  "${TALONDOC_AUTOGEN_EXTRA_ARGS}" \
-  "$script_dir/knausj_talon/" \
+  "${TALONDOC_AUTOGEN_EXTRA_ARGS:}" \
   || echo > "$fail"
 
 [ ! -s "$fail" ] && \
