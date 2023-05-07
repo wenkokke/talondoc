@@ -49,6 +49,7 @@ def autogen(
     release: Optional[str] = None,
     generate_conf: bool = True,
     generate_index: bool = True,
+    continue_on_error: bool = True,
 ):
     # Set defaults for arguments
     if isinstance(package_dir, str):
@@ -90,6 +91,7 @@ def autogen(
         exclude=exclude,
         trigger=trigger,
         show_progress=True,
+        continue_on_error=continue_on_error,
     )
     assert len(registry.packages) == 1
     package = next(iter(registry.packages.values()))

@@ -29,6 +29,7 @@ def analyse_package(
     exclude: tuple[str, ...] = (),
     trigger: tuple[str, ...] = (),
     show_progress: bool = False,
+    continue_on_error: bool = True,
 ) -> None:
     # Activate the registry:
     registry.activate()
@@ -56,6 +57,7 @@ def analyse_package(
         package,
         trigger=trigger,
         show_progress=show_progress,
+        continue_on_error=continue_on_error,
     )
 
     # Analyse Talon files

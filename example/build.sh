@@ -23,6 +23,7 @@ output_dir="$script_dir/docs"
   --exclude "test/test_create_spoken_forms.py" \
   --exclude "test/test_dictation.py" \
   --exclude "test/test_formatters.py" \
+  "${TALONDOC_AUTOGEN_EXTRA_ARGS}" \
   "$script_dir/knausj_talon/" \
   || echo > "$fail"
 

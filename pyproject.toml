@@ -99,6 +99,8 @@ isolated_build = true
 allowlist_externals = cp, mkdir, sh, rm
 extras =
   test
+setenv =
+  TALONDOC_AUTOGEN_EXTRA_ARGS = --no-continue-on-error
 commands_pre =
   cp '{tox_root}/example/build.sh' '{env_tmp_dir}/build.sh'
   cp -R '{tox_root}/example/knausj_talon' '{env_tmp_dir}/knausj_talon'

@@ -159,6 +159,7 @@ def analyse_files(
     *,
     trigger: tuple[str, ...] = (),
     show_progress: bool = False,
+    continue_on_error: bool = True,
 ) -> None:
     assert package.location != "builtin"
     # Retrieve or create package entry:
@@ -170,7 +171,10 @@ def analyse_files(
                 bar.step(f" {file_path}")
                 analyse_file(registry, file_path, package)
             except Exception as e:
-                _LOGGER.exception(e)
+                if continue_on_error:
+                    raise e
+                else:
+                    _LOGGER.exception(e)
 
         # Trigger callbacks:
         for event_code in trigger:

@@ -83,6 +83,10 @@ def talondoc():
     "--generate-index/--no-generate-index",
     default=True,
 )
+@click.option(
+    "--continue-on-error/--no-continue-on-error",
+    default=True,
+)
 def _autogen(
     package_dir: str,
     *,
@@ -98,6 +102,7 @@ def _autogen(
     release: Optional[str],
     generate_conf: bool,
     generate_index: bool,
+    continue_on_error: bool,
 ):
     autogen(
         package_dir,
@@ -113,6 +118,7 @@ def _autogen(
         release=release,
         generate_conf=generate_conf,
         generate_index=generate_index,
+        continue_on_error=continue_on_error,
     )
 
 
