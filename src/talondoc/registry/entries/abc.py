@@ -82,9 +82,7 @@ class Location:
 
     @staticmethod
     def from_function(function: Callable[..., Any]) -> "Location":
-        assert inspect.isfunction(
-            function
-        ), f"Location.from_function received {repr(function)}"
+        assert callable(function), f"Location.from_function received {repr(function)}"
         path = Path(function.__code__.co_filename)
         start_position = Point(function.__code__.co_firstlineno, -1)
         return Location(path=path, start_position=start_position)

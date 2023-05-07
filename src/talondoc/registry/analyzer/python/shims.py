@@ -354,14 +354,8 @@ class TalonShim(ModuleShim):
                 self._registry.register(action)
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
-            def _action_wrapper(*args, **kwargs):
-                function = self._registry.lookup_default_function(talon.Action, name)
-                if function is None:
-                    return ObjectShim()
-                else:
-                    return function(*args, **kwargs)
-
-            return _action_wrapper
+            function = self._registry.lookup_default_function(talon.Action, name)
+            return function or ObjectShim()
 
         def capture(
             self, rule: str
@@ -522,8 +516,38 @@ class TalonShim(ModuleShim):
 
             return __decorator
 
-        def action(self, name: str) -> Optional[Callable[..., Any]]:
-            return self._registry.lookup_default_function(talon.Action, name)
+        def action(
+            self, name: str
+        ) -> Optional[Callable[[Callable[..., Any]], Callable[..., Any]]]:
+            def __decorator(func: Callable[..., Any]):
+                # LINT: check if function on decorated class is a function
+                assert callable(
+                    func
+                ), f"@ctx.action({repr(name)}) decorates {repr(func)}"
+                namespace = name.split(".")[0]
+
+                location = talon.Location.from_function(func)
+                function = talon.Function(
+                    namespace=namespace,
+                    function=func,
+                    location=location,
+                    parent_name=self._context.name,
+                    parent_type=talon.Context,
+                )
+                self._registry.register(function)
+                action = talon.Action(
+                    # NOTE: function names on actions are fully qualified
+                    name=name,
+                    description=func.__doc__,
+                    location=location,
+                    parent_name=self._context.name,
+                    parent_type=talon.Context,
+                    function_name=function.name,
+                    function_type_hints=None,
+                )
+                self._registry.register(action)
+
+            return __decorator
 
         def capture(
             self, name: Optional[str] = None, rule: Optional[str] = None

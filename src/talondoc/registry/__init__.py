@@ -1,3 +1,4 @@
+import inspect
 from dataclasses import dataclass
 from functools import singledispatchmethod
 from typing import (
@@ -328,9 +329,28 @@ class Registry:
     ) -> Optional[Callable[..., Any]]:
         value = self.lookup_default(cls, name)
         if value and value.function_name:
-            value_function = self.lookup(talon.Function, value.function_name)
-            if value_function:
-                return value_function.function
+            function = self.lookup(talon.Function, value.function_name)
+            if function:
+
+                def _function_wrapper(*args, **kwargs):
+                    func_name = function.function.__name__
+                    func_type = inspect.signature(function.function)
+                    act_argc = len(args) + len(kwargs)
+                    exp_argc = len(func_type.parameters)
+                    if act_argc != exp_argc:
+                        act_argv = []
+                        act_argv.extend(map(str, args))
+                        act_argv.extend(f"{key}={val}" for key, val in kwargs.items())
+                        _LOGGER.warning(
+                            f"mismatch in number of parameters for {func_name}\n"
+                            f"expected: {func_type}\n"
+                            f"found: ({', '.join(act_argv)})"
+                        )
+                    return function.function(*args, **kwargs)
+
+                return _function_wrapper
+            else:
+                return None
         return None
 
     def resolve_name(
