@@ -15,6 +15,8 @@ from tree_sitter_talon import (
     parse_file,
 )
 
+from talondoc.registry.entries.abc import Location
+
 from ..._util.logging import getLogger
 from ..._util.progress_bar import ProgressBar
 from .. import Registry
@@ -43,7 +45,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
     assert package.location != "builtin"
     # Create a file entry:
     file = talon.File(
-        location=talon.Location.from_path(path),
+        location=Location.from_path(path),
         parent_name=package.name,
     )
     registry.register(file)
@@ -72,7 +74,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
                 script=declaration.right,
                 index=len(context.commands),
                 description=declaration.get_docstring(),
-                location=talon.Location.from_ast(context.location.path, declaration),
+                location=Location.from_ast(context.location.path, declaration),
                 parent_name=context.name,
             )
             context.commands.append(command.name)
@@ -87,7 +89,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
                             value_type_hint=None,
                             name=statement.left.text,
                             description=None,
-                            location=talon.Location.from_ast(
+                            location=Location.from_ast(
                                 context.location.path, statement
                             ),
                             parent_name=context.name,

@@ -1,41 +1,16 @@
-import inspect
-import itertools
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Mapping, Optional, Sequence, Union
+from typing import Any, Callable, Mapping, Optional, Sequence, Union, cast
 
 import editdistance
 from dataclasses_json import dataclass_json
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
-from typing_extensions import Literal, TypeAlias, TypeVar, final
+from typing_extensions import Literal, TypeVar, final
 
 from ..._util.logging import getLogger
 
 _LOGGER = getLogger(__name__)
-
-
-##############################################################################
-# Type Aliases
-##############################################################################
-
-PackageName: TypeAlias = str
-FileName: TypeAlias = str
-FunctionName: TypeAlias = str
-CallbackName: TypeAlias = str
-ModuleName: TypeAlias = str
-ContextName: TypeAlias = str
-CommandName: TypeAlias = str
-ActionName: TypeAlias = str
-CaptureName: TypeAlias = str
-ListName: TypeAlias = str
-SettingName: TypeAlias = str
-ModeName: TypeAlias = str
-TagName: TypeAlias = str
-
-EventCode: TypeAlias = Union[int, str]
-ListValue: TypeAlias = Union[Dict[str, Any], List[str]]
-SettingValue: TypeAlias = Any
 
 
 ##############################################################################
@@ -148,7 +123,7 @@ GroupDataVar = TypeVar(
 
 
 class GroupDataHasFunction(GroupData):
-    function_name: Optional[FunctionName]
+    function_name: Optional[str]
     function_type_hints: Optional[Mapping[str, type]]
 
 

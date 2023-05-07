@@ -5,8 +5,8 @@ from typing import Any, Optional, Sequence, Union, cast
 from sphinx.application import BuildEnvironment, Sphinx
 from typing_extensions import TypeGuard
 
-from .. import __version__
 from .._util.logging import getLogger
+from .._version import __version__
 from ..registry import NoActiveFile, NoActivePackage, NoActiveRegistry
 from ..registry.analyzer import analyse_package
 from .domains import TalonDomain

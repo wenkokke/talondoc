@@ -27,6 +27,7 @@ from tree_sitter_talon import (
 from .._util.logging import getLogger
 from ..registry import Registry
 from ..registry import entries as talon
+from ..registry.entries.abc import Data
 from . import Description, Step, StepsTemplate, Value, concat, from_docstring
 
 _LOGGER = getLogger(__name__)
@@ -92,7 +93,7 @@ class TalonScriptDescriber:
 
     def get_docstring(
         self,
-        cls: type[talon.Data],
+        cls: type[Data],
         name: str,
     ) -> Optional[str]:
         # Try the docstring_hook:

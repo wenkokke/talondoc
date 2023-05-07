@@ -1,3 +1,4 @@
+import typing
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any, Generic, Mapping, Optional, Sequence, Union
@@ -6,37 +7,46 @@ import tree_sitter_talon
 from dataclasses_json import dataclass_json
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
-from tree_sitter_talon import TalonBlock as Script
-from tree_sitter_talon import TalonMatch as Match
-from tree_sitter_talon import TalonRule as Rule
-from typing_extensions import Literal, TypeVar, final, override
+from tree_sitter_talon import TalonBlock, TalonMatch, TalonRule
+from typing_extensions import Literal, TypeAlias, TypeVar, final
 
 from ..._util.logging import getLogger
 from .abc import (
-    ActionName,
-    CaptureName,
-    CommandName,
-    ContextName,
     Data,
-    EventCode,
-    FileName,
-    FunctionName,
     GroupData,
     GroupDataHasFunction,
     GroupDataVar,
-    ListName,
-    ListValue,
     Location,
-    ModeName,
-    ModuleName,
-    PackageName,
-    SettingName,
-    SettingValue,
     SimpleData,
-    TagName,
 )
 
 _LOGGER = getLogger(__name__)
+
+
+##############################################################################
+# Type Aliases
+##############################################################################
+
+PackageName: TypeAlias = str
+FileName: TypeAlias = str
+FunctionName: TypeAlias = str
+CallbackName: TypeAlias = str
+ModuleName: TypeAlias = str
+ContextName: TypeAlias = str
+CommandName: TypeAlias = str
+ActionName: TypeAlias = str
+CaptureName: TypeAlias = str
+ListName: TypeAlias = str
+SettingName: TypeAlias = str
+ModeName: TypeAlias = str
+TagName: TypeAlias = str
+
+EventCode: TypeAlias = Union[int, str]
+Match: TypeAlias = TalonMatch
+Script: TypeAlias = TalonBlock
+Rule: TypeAlias = TalonRule
+ListValue: TypeAlias = Union[typing.Dict[str, Any], typing.List[str]]
+SettingValue: TypeAlias = Any
 
 
 ##############################################################################
@@ -138,7 +148,11 @@ def parse_matches(matches: str) -> Sequence[Match]:
     assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
     for child in ast.children:
         if isinstance(child, tree_sitter_talon.TalonMatches):
-            return [match for match in child.children if isinstance(match, Match)]
+            return [
+                match
+                for match in child.children
+                if isinstance(match, tree_sitter_talon.TalonMatch)
+            ]
     return []
 
 

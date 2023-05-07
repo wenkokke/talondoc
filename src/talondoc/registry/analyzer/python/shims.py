@@ -7,6 +7,8 @@ from typing import Any, Mapping, Optional, Sequence, cast
 
 from tree_sitter_talon import Point
 
+from talondoc.registry.entries.abc import Location
+
 from ...._util.logging import getLogger
 from ... import Registry
 from ... import entries as talon
@@ -26,7 +28,7 @@ class ObjectShim:
                 talon.Callback(
                     event_code=event_code,
                     function=func,
-                    location=talon.Location.from_function(func),
+                    location=Location.from_function(func),
                     parent_name=registry.get_active_file().name,
                 )
             )
@@ -337,7 +339,7 @@ class TalonShim(ModuleShim):
                 function = talon.Function(
                     namespace=package.name,
                     function=func,
-                    location=talon.Location.from_function(func),
+                    location=Location.from_function(func),
                     parent_name=self._module.name,
                     parent_type=talon.Module,
                 )
@@ -366,7 +368,7 @@ class TalonShim(ModuleShim):
                 function = talon.Function(
                     namespace=package.name,
                     function=func,
-                    location=talon.Location.from_function(func),
+                    location=Location.from_function(func),
                     parent_name=self._module.name,
                     parent_type=talon.Module,
                 )
@@ -505,7 +507,7 @@ class TalonShim(ModuleShim):
                     # LINT: check if function on decorated class is a function
                     assert callable(func)
 
-                    location = talon.Location.from_function(func)
+                    location = Location.from_function(func)
                     function = talon.Function(
                         namespace=namespace,
                         function=func,
@@ -536,7 +538,7 @@ class TalonShim(ModuleShim):
                 assert callable(func)
                 namespace = name.split(".")[0]
 
-                location = talon.Location.from_function(func)
+                location = Location.from_function(func)
                 function = talon.Function(
                     namespace=namespace,
                     function=func,
@@ -568,7 +570,7 @@ class TalonShim(ModuleShim):
                     _LOGGER.error(f"decorated object is not a function")
                     return func
 
-                location = talon.Location.from_function(func)
+                location = Location.from_function(func)
 
                 # LINT: check if rule is set
                 if rule is None:

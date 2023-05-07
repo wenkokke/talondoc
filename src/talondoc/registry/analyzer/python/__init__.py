@@ -76,13 +76,13 @@ def talon_package_shims(package: talon.Package) -> Iterator[None]:
         """
 
         class ImplicitInitLoader(Loader):
-            def create_module(cls, spec: ModuleSpec):  # type: ignore[no-untyped-def]
+            def create_module(cls, spec: ModuleSpec):
                 return cls.load_module(spec.name)
 
-            def exec_module(cls, _module: ModuleType):  # type: ignore[no-untyped-def]
+            def exec_module(cls, _module: ModuleType):
                 pass
 
-            def load_module(cls, fullname: str):  # type: ignore[no-untyped-def]
+            def load_module(cls, fullname: str):
                 return ModuleType(fullname)
 
         @classmethod

@@ -23,12 +23,13 @@ from .._util.logging import getLogger
 from . import entries as talon
 from .entries import CallbackVar
 from .entries.abc import (
-    CaptureName,
+    Data,
     DataVar,
     DuplicateData,
     GroupData,
+    GroupDataHasFunction,
+    GroupDataHasFunctionVar,
     GroupDataVar,
-    ListName,
     SimpleData,
     SimpleDataVar,
     UnknownReference,
@@ -207,7 +208,7 @@ class Registry:
         return False
 
     # TODO: remove once builtins are properly supported
-    _BUILTIN_CAPTURE_NAMES: ClassVar[Sequence[CaptureName]] = (
+    _BUILTIN_CAPTURE_NAMES: ClassVar[Sequence[talon.CaptureName]] = (
         "digit_string",
         "digits",
         "number",
@@ -217,7 +218,7 @@ class Registry:
         "word",
     )
 
-    def _get_capture_rule(self, name: CaptureName) -> Optional[talon.Rule]:
+    def _get_capture_rule(self, name: talon.CaptureName) -> Optional[talon.Rule]:
         """Get the rule for a capture. Hook for 'match'."""
         try:
             return self.get(talon.Capture, name).rule
@@ -227,7 +228,7 @@ class Registry:
                 _LOGGER.warning(e)
             return None
 
-    def _get_list_value(self, name: ListName) -> Optional[talon.ListValue]:
+    def _get_list_value(self, name: talon.ListName) -> Optional[talon.ListValue]:
         """Get the values for a list. Hook for 'match'."""
         try:
             return self.get(talon.List, name).value
@@ -244,7 +245,7 @@ class Registry:
         cls: type[DataVar],
         name: str,
         *,
-        referenced_by: Optional[talon.Data] = None,
+        referenced_by: Optional[Data] = None,
     ) -> DataVar:
         value: Optional[DataVar] = None
         if issubclass(cls, SimpleData):
@@ -296,10 +297,10 @@ class Registry:
     ) -> Optional[Sequence[talon.Callback]]:
         ...
 
-    def lookup(self, cls: type[talon.Data], name: Any) -> Optional[Any]:
+    def lookup(self, cls: type[Data], name: Any) -> Optional[Any]:
         return self._typed_store(cls).get(self.resolve_name(name), None)
 
-    def lookup_description(self, cls: type[talon.Data], name: Any) -> Optional[str]:
+    def lookup_description(self, cls: type[Data], name: Any) -> Optional[str]:
         if issubclass(cls, SimpleData):
             simple = self.lookup(cls, name)
             if simple:
@@ -325,7 +326,7 @@ class Registry:
         return None
 
     def lookup_default_function(
-        self, cls: type[talon.GroupDataHasFunction], name: str
+        self, cls: type[GroupDataHasFunction], name: str
     ) -> Optional[Callable[..., Any]]:
         value = self.lookup_default(cls, name)
         if value and value.function_name:
@@ -445,10 +446,10 @@ class Registry:
         ...
 
     @overload
-    def _typed_store(self, cls: type[talon.Data]) -> Dict[Any, Any]:
+    def _typed_store(self, cls: type[Data]) -> Dict[Any, Any]:
         ...
 
-    def _typed_store(self, cls: type[talon.Data]) -> Dict[Any, Any]:
+    def _typed_store(self, cls: type[Data]) -> Dict[Any, Any]:
         # If the data is not serialisable, store it in temp_data:
         if cls.serialisable:
             data = self._data
