@@ -112,28 +112,31 @@ def _talon_packages(env: BuildEnvironment) -> Sequence[TalonPackage]:
 
 
 def _talondoc_load_package(app: Sphinx, env: BuildEnvironment, *args):
-    talon_domain = cast(TalonDomain, env.get_domain("talon"))
-    talon_packages = _talon_packages(env)
-    srcdir = Path(env.srcdir)
-    for talon_package in talon_packages:
-        package_dir = srcdir / talon_package["path"]
+    try:
+        talon_domain = cast(TalonDomain, env.get_domain("talon"))
+        talon_packages = _talon_packages(env)
+        srcdir = Path(env.srcdir)
+        for talon_package in talon_packages:
+            package_dir = srcdir / talon_package["path"]
 
-        # Analyse the referenced Talon package:
-        try:
-            analyse_package(
-                registry=talon_domain.registry,
-                package_dir=package_dir,
-                package_name=talon_package.get("name", "user"),
-                include=_canonicalize_vararg(talon_package.get("include")),
-                exclude=_canonicalize_vararg(talon_package.get("exclude")),
-                trigger=_canonicalize_vararg(talon_package.get("trigger")),
-            )
-        except NoActiveRegistry as e:
-            _LOGGER.exception(e)
-        except NoActivePackage as e:
-            _LOGGER.exception(e)
-        except NoActiveFile as e:
-            _LOGGER.exception(e)
+            # Analyse the referenced Talon package:
+            try:
+                analyse_package(
+                    registry=talon_domain.registry,
+                    package_dir=package_dir,
+                    package_name=talon_package.get("name", "user"),
+                    include=_canonicalize_vararg(talon_package.get("include")),
+                    exclude=_canonicalize_vararg(talon_package.get("exclude")),
+                    trigger=_canonicalize_vararg(talon_package.get("trigger")),
+                )
+            except NoActiveRegistry as e:
+                _LOGGER.exception(e)
+            except NoActivePackage as e:
+                _LOGGER.exception(e)
+            except NoActiveFile as e:
+                _LOGGER.exception(e)
+    except Exception as e:
+        _LOGGER.exception(e)
 
 
 def setup(app: Sphinx) -> dict[str, Any]:

@@ -18,6 +18,7 @@ requires-python = ">=3.7,<3.12"
 dependencies = [
   "awesome_progress-bar >=1.7,<2",
   "docstring_parser >=0.14,<0.16",
+  "editdistance >=0.6,<0.7",
   "Jinja2 >=3,<4",
   "Sphinx >=5,<7",
   "talonfmt >=1.7.4,<2",
@@ -25,7 +26,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-mypy = ["types_docutils", "types_pytz", "types_setuptools"]
+mypy = [
+  "types_docutils",
+  "types_editdistance",
+  "types_pytz",
+  "types_setuptools"
+]
 test = [
   "bumpver",
   "myst_parser >=1,<2",

@@ -60,7 +60,22 @@ sphinx_tabs_disable_css_loading = True
 talon_package = {
     "path": "../knausj_talon",
     "name": "user",
-    "exclude": ["conftest.py", "test/**"],
+    "exclude": [
+        "conftest.py",
+        "test/stubs/talon/__init__.py",
+        "test/stubs/talon/grammar.py",
+        "test/stubs/talon/experimental/textarea.py",
+        "test/repo_root_init.py",
+        "test/test_code_modified_function.py",
+        "test/test_create_spoken_forms.py",
+        "test/test_dictation.py",
+        "test/test_formatters.py",
+        "plugin/draft_editor/draft_editor.py",
+        "plugin/talon_draft_window/__init__.py",
+        "plugin/talon_draft_window/draft_talon_helpers.py",
+        "plugin/talon_draft_window/draft_ui.py",
+        "plugin/talon_draft_window/test_draft_ui.py",
+    ],
     "trigger": "ready",
 }
 

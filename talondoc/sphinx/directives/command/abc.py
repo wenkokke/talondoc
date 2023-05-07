@@ -1,5 +1,5 @@
 import re
-from typing import ClassVar, Iterator, Optional
+from typing import ClassVar, Iterator, Optional, Sequence
 
 from docutils import nodes
 from sphinx import addnodes
@@ -110,7 +110,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         *,
         always_include_script: bool,
         docstring_hook: Optional[TalonDocstringHook_Callable],
-    ) -> list[nodes.Element]:
+    ) -> Sequence[nodes.Element]:
         """
         Describe the script using the docstrings on the script, the docstrings on
         the actions, or finally by including it as a code block.

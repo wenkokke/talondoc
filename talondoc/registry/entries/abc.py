@@ -1,8 +1,10 @@
 import inspect
+import itertools
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Mapping, Optional, Union
+from typing import Any, Callable, Dict, List, Mapping, Optional, Sequence, Union
 
+import editdistance
 from dataclasses_json import dataclass_json
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
@@ -49,12 +51,26 @@ class Location:
     start_position: Optional[Point] = None
     end_position: Optional[Point] = None
 
+    @staticmethod
+    def _str_from_point(position: Optional[Point]) -> Optional[str]:
+        if position is not None:
+            if position.column <= -1:
+                return f"{position.line}"
+            else:
+                return f"{position.line}:{position.column}"
+        else:
+            return None
+
     def __str__(self) -> str:
-        if self.start_position is not None:
-            return (
-                f"{self.path}:{self.start_position.line}:{self.start_position.column}"
-            )
-        return f"{self.path}"
+        start_position = Location._str_from_point(self.start_position)
+        if start_position:
+            end_position = Location._str_from_point(self.end_position)
+            if end_position:
+                return f"{self.path}:{start_position}-{end_position}"
+            else:
+                return f"{self.path}:{start_position}"
+        else:
+            return f"{self.path}"
 
     @staticmethod
     def from_ast(path: Path, node: Node) -> "Location":
@@ -70,7 +86,7 @@ class Location:
             function
         ), f"Location.from_function received {repr(function)}"
         path = Path(function.__code__.co_filename)
-        start_position = Point(function.__code__.co_firstlineno, 0)
+        start_position = Point(function.__code__.co_firstlineno, -1)
         return Location(path=path, start_position=start_position)
 
     @staticmethod
@@ -184,11 +200,30 @@ class UnknownReference(Exception):
     ref_type: type[Data]
     ref_name: str
 
-    data: Optional[Data]
+    referenced_by: Optional[Data]
+    known_references: Optional[Sequence[str]]
 
     def __str__(self) -> str:
         buffer = []
-        if self.data is not None:
-            buffer.append(f"{self.data.__class__.__name__} references")
-        buffer.append(f"unknown {self.ref_type.__name__} '{self.ref_name}'")
+
+        # If referenced_by is set, include it:
+        if self.referenced_by is not None:
+            referenced_by_type_name = self.referenced_by.__class__.__name__.lower()
+            buffer.append(
+                f"{referenced_by_type_name} {self.referenced_by.name} references"
+            )
+
+        # Include unknown reference:
+        ref_type_name = self.ref_type.__name__.lower()
+        buffer.append(f"unknown {ref_type_name} {self.ref_name}")
+
+        # If known_references is set, include the closest matching subset:
+        if self.known_references is not None:
+
+            def _distance(known_ref_name: str) -> int:
+                return editdistance.eval(self.ref_name, known_ref_name)
+
+            closest_known_references = sorted(self.known_references, key=_distance)[:10]
+            buffer.append(f"(Did you mean {','.join(closest_known_references)})")
+
         return " ".join(buffer)

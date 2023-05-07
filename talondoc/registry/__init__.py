@@ -66,7 +66,7 @@ class Registry:
 
     def _register_simple_data(self, value: SimpleDataVar) -> SimpleDataVar:
         # Print the value name to the log.
-        _LOGGER.info(f"register {value.__class__.__name__} {value.name}")
+        _LOGGER.debug(f"register {value.__class__.__name__} {value.name}")
         # Register the data in the store.
         store = self._typed_store(value.__class__)
         old_value = store.get(value.name, None)
@@ -87,7 +87,7 @@ class Registry:
 
     def _register_grouped_data(self, value: GroupDataVar) -> GroupDataVar:
         # Print the value name to the log.
-        _LOGGER.info(f"register {value.__class__.__name__} {value.name}")
+        _LOGGER.debug(f"register {value.__class__.__name__} {value.name}")
         # Register the data in the store.
         store = self._typed_store(value.__class__)
         old_group = store.get(value.name)
@@ -98,7 +98,7 @@ class Registry:
 
     def _register_callback(self, value: CallbackVar) -> CallbackVar:
         # Print the value name to the log.
-        _LOGGER.info(f"register {value.__class__.__name__} {value.name}")
+        _LOGGER.debug(f"register {value.__class__.__name__} {value.name}")
         # Register the data in the store.
         self._typed_store(talon.Callback).setdefault(value.event_code, []).append(value)
         return value
@@ -189,11 +189,19 @@ class Registry:
 
     def _get_capture_rule(self, name: CaptureName) -> Optional[talon.Rule]:
         """Get the rule for a capture. Hook for 'match'."""
-        return self.get(talon.Capture, name).rule
+        try:
+            return self.get(talon.Capture, name).rule
+        except UnknownReference as e:
+            _LOGGER.warning(e)
+            return None
 
     def _get_list_value(self, name: ListName) -> Optional[talon.ListValue]:
         """Get the values for a list. Hook for 'match'."""
-        return self.get(talon.List, name).value
+        try:
+            return self.get(talon.List, name).value
+        except UnknownReference as e:
+            _LOGGER.warning(e)
+            return None
 
     ######################################################################
     # Look Up Data
@@ -209,13 +217,28 @@ class Registry:
         value: Optional[DataVar] = None
         if issubclass(cls, SimpleData):
             value = cast(Optional[DataVar], self.lookup(cls, name))
+            # For files, try various alternatives:
+            if value is None and issubclass(cls, talon.File):
+                value = cast(
+                    Optional[DataVar],
+                    # Try the search again with ".talon" suffixed:
+                    self.lookup(cls, f"{name}.talon") or
+                    # Try the search again assuming name is a path:
+                    self.lookup(cls, f"user.{name.replace('/', '.')}"),
+                )
+
         elif issubclass(cls, GroupData):
             value = cast(Optional[DataVar], self.lookup_default(cls, name))
         elif issubclass(cls, talon.Callback):
             raise ValueError(f"Registry.get does not support callbacks")
         if value is not None:
             return value
-        raise UnknownReference(cls, name, referenced_by)
+        raise UnknownReference(
+            cls,
+            name,
+            referenced_by=referenced_by,
+            known_references=tuple(self._typed_store(cls).keys()),
+        )
 
     @overload
     def lookup(
@@ -405,36 +428,32 @@ class Registry:
         """
         Deactivate this registry.
         """
-        if self is not None:
-            assert self == Registry._active_global_registry
+        if self is not None and self != Registry._active_global_registry:
+            _LOGGER.warning(f"attempted to deactivate registry that is inactive")
         Registry._active_global_registry = None
 
     ##################################################
     # The active package, file, module, or context
     ##################################################
 
-    @staticmethod
-    def get_active_package() -> talon.Package:
+    def get_active_package(self) -> talon.Package:
         """
         Retrieve the active package.
         """
-        registry = Registry.get_active_global_registry()
         try:
-            if registry._active_package is not None:
-                return registry._active_package
+            if self._active_package is not None:
+                return self._active_package
         except AttributeError:
             pass
         raise NoActivePackage()
 
-    @staticmethod
-    def get_active_file() -> talon.File:
+    def get_active_file(self) -> talon.File:
         """
         Retrieve the active file.
         """
-        registry = Registry.get_active_global_registry()
         try:
-            if registry._active_file is not None:
-                return registry._active_file
+            if self._active_file is not None:
+                return self._active_file
         except AttributeError:
             pass
         raise NoActiveFile()

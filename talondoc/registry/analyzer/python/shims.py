@@ -29,8 +29,8 @@ class ObjectShim:
                 )
             )
         else:
-            _LOGGER.info(
-                f"skip callback for {repr(event_code)}: {repr(func)} is not a function"
+            _LOGGER.debug(
+                f"skip register {talon.Callback.__name__}: callback of type {func.__class__.__qualname__} is not a function"
             )
 
     def __init__(self, *args, **kwargs):

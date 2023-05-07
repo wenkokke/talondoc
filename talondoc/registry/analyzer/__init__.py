@@ -30,6 +30,9 @@ def analyse_package(
     trigger: tuple[str, ...] = (),
     show_progress: bool = False,
 ) -> None:
+    # Activate the registry:
+    registry.activate()
+
     # Retrieve or create package entry:
     package = Package(
         name=package_name or package_dir.parts[-1],
@@ -65,3 +68,6 @@ def analyse_package(
         package,
         show_progress=show_progress,
     )
+
+    # Deactivate the registry:
+    registry.deactivate()
