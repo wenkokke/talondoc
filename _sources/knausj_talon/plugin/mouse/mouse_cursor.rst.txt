@@ -1,4 +1,0 @@
-user.plugin.mouse.mouse_cursor
-==============================
-
-.. talon:command-table:: user.plugin.mouse.mouse_cursor

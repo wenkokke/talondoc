@@ -1,4 +1,0 @@
-user.apps.github.github_web
-===========================
-
-.. talon:command-table:: user.apps.github.github_web

@@ -1,4 +1,0 @@
-user.lang.php.php
-=================
-
-.. talon:command-table:: user.lang.php.php

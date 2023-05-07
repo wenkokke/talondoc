@@ -1,4 +1,0 @@
-user.core.windows_and_tabs.window_management
-============================================
-
-.. talon:command-table:: user.core.windows_and_tabs.window_management

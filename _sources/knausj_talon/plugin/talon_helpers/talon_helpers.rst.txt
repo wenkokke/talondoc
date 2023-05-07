@@ -1,4 +1,0 @@
-user.plugin.talon_helpers.talon_helpers
-=======================================
-
-.. talon:command-table:: user.plugin.talon_helpers.talon_helpers

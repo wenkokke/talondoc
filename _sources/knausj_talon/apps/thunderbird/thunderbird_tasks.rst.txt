@@ -1,4 +1,0 @@
-user.apps.thunderbird.thunderbird_tasks
-=======================================
-
-.. talon:command-table:: user.apps.thunderbird.thunderbird_tasks

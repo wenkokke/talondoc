@@ -1,4 +1,0 @@
-user.apps.taskwarrior.taskwarrior_linux
-=======================================
-
-.. talon:command-table:: user.apps.taskwarrior.taskwarrior_linux

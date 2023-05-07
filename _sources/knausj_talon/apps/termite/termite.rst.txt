@@ -1,4 +1,0 @@
-user.apps.termite.termite
-=========================
-
-.. talon:command-table:: user.apps.termite.termite

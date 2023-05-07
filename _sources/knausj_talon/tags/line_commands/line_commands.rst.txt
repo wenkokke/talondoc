@@ -1,4 +1,0 @@
-user.tags.line_commands.line_commands
-=====================================
-
-.. talon:command-table:: user.tags.line_commands.line_commands

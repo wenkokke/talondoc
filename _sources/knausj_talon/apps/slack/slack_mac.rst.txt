@@ -1,4 +1,0 @@
-user.apps.slack.slack_mac
-=========================
-
-.. talon:command-table:: user.apps.slack.slack_mac

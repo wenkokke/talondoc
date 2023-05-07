@@ -1,4 +1,0 @@
-user.core.edit.standard
-=======================
-
-.. talon:command-table:: user.core.edit.standard

@@ -1,4 +1,0 @@
-user.apps.thunderbird.thunderbird
-=================================
-
-.. talon:command-table:: user.apps.thunderbird.thunderbird

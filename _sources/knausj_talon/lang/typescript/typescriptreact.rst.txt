@@ -1,4 +1,0 @@
-user.lang.typescript.typescriptreact
-====================================
-
-.. talon:command-table:: user.lang.typescript.typescriptreact

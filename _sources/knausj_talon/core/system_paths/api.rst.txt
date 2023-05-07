@@ -1,2 +1,0 @@
-user.core.system_paths.py
-=========================

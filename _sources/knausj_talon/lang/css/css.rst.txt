@@ -1,4 +1,0 @@
-user.lang.css.css
-=================
-
-.. talon:command-table:: user.lang.css.css

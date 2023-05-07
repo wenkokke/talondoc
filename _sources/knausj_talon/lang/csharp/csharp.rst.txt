@@ -1,4 +1,0 @@
-user.lang.csharp.csharp
-=======================
-
-.. talon:command-table:: user.lang.csharp.csharp

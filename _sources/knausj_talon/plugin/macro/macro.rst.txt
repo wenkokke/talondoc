@@ -1,4 +1,0 @@
-user.plugin.macro.macro
-=======================
-
-.. talon:command-table:: user.plugin.macro.macro

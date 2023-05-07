@@ -1,4 +1,0 @@
-user.tags.snippets.snippets_open
-================================
-
-.. talon:command-table:: user.tags.snippets.snippets_open

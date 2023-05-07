@@ -1,2 +1,0 @@
-user.core.text.text_and_dictation.py
-====================================

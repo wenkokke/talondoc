@@ -1,4 +1,0 @@
-user.apps.tmux.tmux
-===================
-
-.. talon:command-table:: user.apps.tmux.tmux

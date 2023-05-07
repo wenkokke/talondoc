@@ -1,4 +1,0 @@
-user.lang.batch.batch
-=====================
-
-.. talon:command-table:: user.lang.batch.batch

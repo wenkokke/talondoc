@@ -1,4 +1,0 @@
-user.apps.iterm.iterm
-=====================
-
-.. talon:command-table:: user.apps.iterm.iterm

@@ -1,4 +1,0 @@
-user.tags.chapters.chapters
-===========================
-
-.. talon:command-table:: user.tags.chapters.chapters

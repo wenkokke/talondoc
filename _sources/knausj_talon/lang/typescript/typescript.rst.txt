@@ -1,4 +1,0 @@
-user.lang.typescript.typescript
-===============================
-
-.. talon:command-table:: user.lang.typescript.typescript

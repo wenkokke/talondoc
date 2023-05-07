@@ -1,4 +1,0 @@
-user.core.edit_settings
-=======================
-
-.. talon:command-table:: user.core.edit_settings

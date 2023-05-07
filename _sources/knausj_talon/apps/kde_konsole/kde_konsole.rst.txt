@@ -1,4 +1,0 @@
-user.apps.kde_konsole.kde_konsole
-=================================
-
-.. talon:command-table:: user.apps.kde_konsole.kde_konsole

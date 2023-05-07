@@ -1,4 +1,0 @@
-user.apps.chrome.chrome
-=======================
-
-.. talon:command-table:: user.apps.chrome.chrome

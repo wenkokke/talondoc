@@ -1,4 +1,0 @@
-user.core.windows_and_tabs.tabs
-===============================
-
-.. talon:command-table:: user.core.windows_and_tabs.tabs

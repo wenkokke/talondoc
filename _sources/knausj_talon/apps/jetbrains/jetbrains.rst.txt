@@ -1,4 +1,0 @@
-user.apps.jetbrains.jetbrains
-=============================
-
-.. talon:command-table:: user.apps.jetbrains.jetbrains

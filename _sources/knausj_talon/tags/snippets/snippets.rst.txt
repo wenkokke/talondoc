@@ -1,4 +1,0 @@
-user.tags.snippets.snippets
-===========================
-
-.. talon:command-table:: user.tags.snippets.snippets

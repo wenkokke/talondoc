@@ -1,4 +1,0 @@
-user.apps.gnome_terminal.gnome_terminal
-=======================================
-
-.. talon:command-table:: user.apps.gnome_terminal.gnome_terminal

@@ -1,4 +1,0 @@
-user.apps.talon_repl.talon_repl
-===============================
-
-.. talon:command-table:: user.apps.talon_repl.talon_repl

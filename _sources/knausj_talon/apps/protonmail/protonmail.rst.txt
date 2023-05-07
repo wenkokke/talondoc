@@ -1,4 +1,0 @@
-user.apps.protonmail.protonmail
-===============================
-
-.. talon:command-table:: user.apps.protonmail.protonmail

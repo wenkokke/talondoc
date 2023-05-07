@@ -1,4 +1,0 @@
-user.apps.outlook.outlook_win
-=============================
-
-.. talon:command-table:: user.apps.outlook.outlook_win

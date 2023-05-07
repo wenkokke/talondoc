@@ -1,4 +1,0 @@
-user.core.mouse_grid.mouse_grid
-===============================
-
-.. talon:command-table:: user.core.mouse_grid.mouse_grid

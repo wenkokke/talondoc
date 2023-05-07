@@ -1,4 +1,0 @@
-user.lang.terraform.terraform
-=============================
-
-.. talon:command-table:: user.lang.terraform.terraform

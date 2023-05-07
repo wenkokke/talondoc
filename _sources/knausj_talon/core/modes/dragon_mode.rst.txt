@@ -1,4 +1,0 @@
-user.core.modes.dragon_mode
-===========================
-
-.. talon:command-table:: user.core.modes.dragon_mode

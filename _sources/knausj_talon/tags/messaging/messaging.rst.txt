@@ -1,4 +1,0 @@
-user.tags.messaging.messaging
-=============================
-
-.. talon:command-table:: user.tags.messaging.messaging

@@ -1,4 +1,0 @@
-user.apps.windbg.windbg
-=======================
-
-.. talon:command-table:: user.apps.windbg.windbg

@@ -1,4 +1,0 @@
-user.apps.rstudio.rstudio_mac
-=============================
-
-.. talon:command-table:: user.apps.rstudio.rstudio_mac

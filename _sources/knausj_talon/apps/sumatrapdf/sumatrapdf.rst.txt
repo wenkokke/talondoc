@@ -1,4 +1,0 @@
-user.apps.sumatrapdf.sumatrapdf
-===============================
-
-.. talon:command-table:: user.apps.sumatrapdf.sumatrapdf

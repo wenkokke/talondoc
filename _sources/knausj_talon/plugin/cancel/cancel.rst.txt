@@ -1,4 +1,0 @@
-user.plugin.cancel.cancel
-=========================
-
-.. talon:command-table:: user.plugin.cancel.cancel

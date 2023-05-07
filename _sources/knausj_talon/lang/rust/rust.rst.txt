@@ -1,4 +1,0 @@
-user.lang.rust.rust
-===================
-
-.. talon:command-table:: user.lang.rust.rust

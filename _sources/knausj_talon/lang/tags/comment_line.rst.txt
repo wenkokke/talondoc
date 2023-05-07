@@ -1,4 +1,0 @@
-user.lang.tags.comment_line
-===========================
-
-.. talon:command-table:: user.lang.tags.comment_line

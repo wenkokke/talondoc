@@ -1,4 +1,0 @@
-user.apps.evernote.mac
-======================
-
-.. talon:command-table:: user.apps.evernote.mac

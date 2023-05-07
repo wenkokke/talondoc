@@ -1,4 +1,0 @@
-user.plugin.text_navigation.text_navigation
-===========================================
-
-.. talon:command-table:: user.plugin.text_navigation.text_navigation

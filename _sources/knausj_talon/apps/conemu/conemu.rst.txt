@@ -1,4 +1,0 @@
-user.apps.conemu.conemu
-=======================
-
-.. talon:command-table:: user.apps.conemu.conemu

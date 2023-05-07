@@ -1,4 +1,0 @@
-user.core.edit.edit
-===================
-
-.. talon:command-table:: user.core.edit.edit

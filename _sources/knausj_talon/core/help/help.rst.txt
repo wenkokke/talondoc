@@ -1,4 +1,0 @@
-user.core.help.help
-===================
-
-.. talon:command-table:: user.core.help.help

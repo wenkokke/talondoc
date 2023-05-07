@@ -1,4 +1,0 @@
-user.apps.kindle.kindle
-=======================
-
-.. talon:command-table:: user.apps.kindle.kindle

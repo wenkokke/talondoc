@@ -1,4 +1,0 @@
-user.lang.r.r
-=============
-
-.. talon:command-table:: user.lang.r.r

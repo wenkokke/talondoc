@@ -1,4 +1,0 @@
-user.apps.brave.brave
-=====================
-
-.. talon:command-table:: user.apps.brave.brave

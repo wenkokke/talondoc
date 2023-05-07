@@ -1,4 +1,0 @@
-user.lang.tags.imperative
-=========================
-
-.. talon:command-table:: user.lang.tags.imperative

@@ -1,4 +1,0 @@
-user.lang.markdown.markdown
-===========================
-
-.. talon:command-table:: user.lang.markdown.markdown

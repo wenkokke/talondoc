@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TalonDoc &mdash; TalonDoc 0.2.1 documentation</title>
+  <title>TalonDoc &mdash; TalonDoc 0.4.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/custom-tabs.css" type="text/css" />
@@ -112,33 +112,79 @@ These events will be triggered after the entire package has been loaded.
 Useful for making sure that “launch” and “ready” callbacks fire.</p>
 </dd>
 </dl>
-<p>Optionally, if the <code class="docutils literal notranslate"><span class="pre">talon_package</span></code> value is a string, and not a dictionary,
-it is interpreted as the value of the <code class="docutils literal notranslate"><span class="pre">path</span></code> field.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">talon_package</span></code> value is a string, and not a dictionary, it is
+interpreted as the value of the <code class="docutils literal notranslate"><span class="pre">path</span></code> field.</p>
 <p>If you wish to document multiple Talon packages, you can use <code class="docutils literal notranslate"><span class="pre">talon_packages</span></code>
 whose value must be a list or tuple of package descriptions as described above.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Sphinx can work with either reStructuredText or Markdown, but in order to work with Markdown you need to add the following to your <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Enables support for Markdown</span>
+    <span class="c1"># https://www.sphinx-doc.org/en/master/usage/markdown.html</span>
+    <span class="s2">&quot;myst_parser&quot;</span><span class="p">,</span>
+
+    <span class="c1"># Other extensions</span>
+    <span class="c1"># ...</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Furthermore, in order to use the colon fence syntax (<code class="docutils literal notranslate"><span class="pre">:::</span></code>) used throughout this guide, you need to enable the <code class="docutils literal notranslate"><span class="pre">colon_fence</span></code> extension, by adding the following to your <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">myst_enable_extensions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Enables colon fence directives</span>
+    <span class="c1"># https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#syntax-colon-fence</span>
+    <span class="s2">&quot;colon_fence&quot;</span><span class="p">,</span>
+
+    <span class="c1"># Other extensions</span>
+    <span class="c1"># ...</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>For more information, see <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/markdown.html">the Sphinx documentation</a> and <a class="reference external" href="https://myst-parser.readthedocs.io/en/latest/">the MyST documentation</a>.</p>
+</div>
 </section>
 <section id="document-individual-commands">
 <h2>Document individual commands<a class="headerlink" href="#document-individual-commands" title="Permalink to this heading"></a></h2>
 <p>TalonDoc can generate documentation for an individual command using <code class="docutils literal notranslate"><span class="pre">talon:command</span></code> by entering any phrase which triggers the command. For instance, the following code:</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-0-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-0-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-0-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-0-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:command</span><span class="p">::</span> hunt this
-  <span class="nc">:script:</span> true
+<span class="nc">:always_include_script:</span>
 
 <span class="p">..</span> <span class="ow">talon:command</span><span class="p">::</span> hunt this pace
-  <span class="nc">:script:</span> true
+<span class="nc">:always_include_script:</span>
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-0-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-0-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:command} hunt this
-  :script: true
+:always_include_script:
 :::
 
 :::{talon:command} hunt this pace
-  :script: true
+:always_include_script:
 :::
 </pre></div>
 </div>
 </div></div>
 <p>…will generate the following bit of documentation:</p>
+<dl class="talon command">
+<dt class="sig sig-object talon">
+<span class="sig-name descname"><span class="pre">hunt</span> <span class="pre">this</span></span><dd><p><span class="pre">Finds</span> <span class="pre">text</span> <span class="pre">in</span> <span class="pre">current</span> <span class="pre">editor</span></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon command">
+<dt class="sig sig-object talon">
+<span class="sig-name descname"><span class="pre">hunt</span> <span class="pre">this</span> <span class="pre">(pace</span> <span class="pre">|</span> <span class="pre">paste)</span></span><dd><p><span class="pre">Finds</span> <span class="pre">text</span> <span class="pre">in</span> <span class="pre">current</span> <span class="pre">editor</span></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">25</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">paste</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
 <p>TalonDoc will attempt to generate documentation for the command using the
 following three options, in order:</p>
 <ol class="arabic simple">
@@ -146,38 +192,96 @@ following three options, in order:</p>
 <li><p>Use the Python docstrings from the actions used in the command script.</p></li>
 <li><p>Include the command script.</p></li>
 </ol>
-<p>Optionally, <code class="docutils literal notranslate"><span class="pre">:script:</span> <span class="pre">true</span></code> forces TalonDoc to always include the command
-script, in addition to any generated documentation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">talon:command</span></code> directive take the following options:</p>
+<dl class="simple myst">
+<dt><code class="docutils literal notranslate"><span class="pre">:always_include_script:</span></code></dt><dd><p>If specified, the literal script is <em>always</em> included in the command description.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:context:</span></code> and <code class="docutils literal notranslate"><span class="pre">:contexts:</span></code></dt><dd><p>The contexts in which to search for the command. Contexts can be specified using Talon context names, e.g., <code class="docutils literal notranslate"><span class="pre">user.apps.discord.discord</span></code> or <code class="docutils literal notranslate"><span class="pre">user.apps.discord.discord.talon</span></code>, or by using file names relative to the package root, <em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">apps/discord/discord.talon</span></code>. Multiple contexts can be specified, in which case they should be separated by commas. If neither <code class="docutils literal notranslate"><span class="pre">:context:</span></code> nor <code class="docutils literal notranslate"><span class="pre">:contexts:</span></code> is specified, all commands are searched.</p>
+</dd>
+</dl>
+<p>If the command is ambiguous it is necessary to specify the context. For instance, the command ‘decline call’ matches multiple commands in different contexts. Therefore, the following code will raise an error:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-1-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-1-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-1-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-1-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:command</span><span class="p">::</span> answer call
+<span class="p">..</span> <span class="ow">talon:command</span><span class="p">::</span> decline call
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-1-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:command} answer call
+:::
+:::{talon:command} decline call
+:::
+</pre></div>
+</div>
+</div></div>
+<p>…and it generates the following bad documentation. It inserts the ambiguous command verbatim, and does not generate any other documentation for it:</p>
+<dl class="talon command">
+<dt class="sig sig-object talon">
+<span class="sig-name descname"><span class="pre">answer</span> <span class="pre">call</span></span><dd><p><span class="pre">Answer</span> <span class="pre">incoming</span> <span class="pre">call</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon command">
+<dt class="sig sig-object talon">
+<span class="sig-name descname"><span class="pre">decline</span> <span class="pre">call</span></span></dt>
+<dd></dd></dl>
+
+<p>To generate the correct documentation you must specify the context in which it is defined. For example, the following code:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-2-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-2-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-2-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-2-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:command</span><span class="p">::</span> answer call
+<span class="p">..</span> <span class="ow">talon:command</span><span class="p">::</span> decline call
+<span class="nc">:context:</span> user.apps.discord.discord
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-2-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:command} answer call
+:::
+:::{talon:command} decline call
+:context: user.apps.discord.discord
+:::
+</pre></div>
+</div>
+</div></div>
+<p>…will generate the following, much better looking documentation:</p>
+<dl class="talon command">
+<dt class="sig sig-object talon">
+<span class="sig-name descname"><span class="pre">answer</span> <span class="pre">call</span></span><dd><p><span class="pre">Answer</span> <span class="pre">incoming</span> <span class="pre">call</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon command">
+<dt class="sig sig-object talon">
+<span class="sig-name descname"><span class="pre">decline</span> <span class="pre">call</span></span><dd><p><span class="pre">Decline</span> <span class="pre">incoming</span> <span class="pre">call</span></p>
+</dd></dt>
+<dd></dd></dl>
+
 </section>
 <section id="document-groups-of-commands">
 <h2>Document groups of commands<a class="headerlink" href="#document-groups-of-commands" title="Permalink to this heading"></a></h2>
 <p>TalonDoc can generate documentation for groups of commands via two different directives: <code class="docutils literal notranslate"><span class="pre">talon:command-table</span></code> and <code class="docutils literal notranslate"><span class="pre">talon:command-hlist</span></code>. The first generates a table with two columns—the rule and the description (as above). The second generates a horizontal list with command descriptions as those generated by <code class="docutils literal notranslate"><span class="pre">talon:command</span></code>. Both directives have the same options.</p>
 <p>For instance, the following code:</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-1-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-1-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-1-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-1-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-1-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:command-table</span><span class="p">::</span> user.apps.discord.discord
-  <span class="nc">:default:</span> exclude
-  <span class="nc">:include:</span> answer call, decline call
+<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-3-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-3-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-3-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-3-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-3-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:command-table</span><span class="p">::</span>
+<span class="nc">:context:</span> user.apps.discord.discord
+<span class="nc">:include:</span> answer call, decline call
 
 <span class="p">..</span> <span class="ow">talon:command-table</span><span class="p">::</span>
-  <span class="nc">:caption:</span> A little custom hunting table.
-  <span class="nc">:include:</span> hunt this, hunt this paste
+<span class="nc">:caption:</span> A little custom hunting table.
+<span class="nc">:include:</span> hunt this, hunt this pace
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-1-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-1-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:command-table} user.apps.discord.discord
-  :default: exclude
-  :include: answer call, decline call
+</div><div aria-labelledby="tab-3-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-3-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:command-table}
+:context: user.apps.discord.discord
+:include: answer call, decline call
 :::
 
 :::{talon:command-table}
-  :caption: A little custom hunting table.
-  :include: hunt this, hunt this paste
+:caption: A little custom hunting table.
+:include: hunt this, hunt this pace
 :::
 </pre></div>
 </div>
 </div></div>
 <p>… generates the following two tables:</p>
 <table class="compact docutils align-default" id="id1">
-<caption><span class="caption-text">user.apps.discord.discord</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text"></span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td>answer call</td>
 <td><p>Answer incoming call</p></td>
@@ -200,15 +304,15 @@ script, in addition to any generated documentation.</p>
 </table>
 <p>Similarily, the following code:</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-2-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-2-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-2-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-2-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-2-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:command-hlist</span><span class="p">::</span> user.apps.discord.discord
-  <span class="nc">:default:</span> exclude
-  <span class="nc">:include:</span> toggle inbox, oldest unread, mark inbox channel read
-  <span class="nc">:columns:</span> 3
+<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-4-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-4-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-4-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-4-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:command-hlist</span><span class="p">::</span>
+<span class="nc">:context:</span> apps/discord/discord.talon
+<span class="nc">:include:</span> toggle dee ems, toggle pins, toggle members
+<span class="nc">:columns:</span> 3
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-2-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-2-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:command-hlist} user.apps.discord.discord
-:default: exclude
-:include: toggle inbox, oldest unread, mark inbox channel read
+</div><div aria-labelledby="tab-4-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-4-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:command-hlist}
+:context: apps/discord/discord.talon
+:include: toggle dee ems, toggle pins, toggle members
 :columns: 3
 </pre></div>
 </div>
@@ -216,17 +320,17 @@ script, in addition to any generated documentation.</p>
 <p>… generates the following list:</p>
 <table class="hlist"><tr><td><ul>
 <dt class="sig sig-object">
-<span class="sig-name descname"><span class="pre">oldest</span> <span class="pre">unread</span></span><dd><p><span class="pre">Go</span> <span class="pre">to</span> <span class="pre">oldest</span> <span class="pre">unread</span> <span class="pre">message</span></p>
+<span class="sig-name descname"><span class="pre">toggle</span> <span class="pre">(dee</span> <span class="pre">ems</span> <span class="pre">|</span> <span class="pre">dims)</span></span><dd><p><span class="pre">Toggle</span> <span class="pre">between</span> <span class="pre">dms</span> <span class="pre">and</span> <span class="pre">your</span> <span class="pre">most</span> <span class="pre">recent</span> <span class="pre">server</span></p>
 </dd></dt>
 </ul>
 </td><td><ul>
 <dt class="sig sig-object">
-<span class="sig-name descname"><span class="pre">toggle</span> <span class="pre">inbox</span></span><dd><p><span class="pre">Toggle</span> <span class="pre">inbox</span> <span class="pre">popout</span></p>
+<span class="sig-name descname"><span class="pre">toggle</span> <span class="pre">pins</span></span><dd><p><span class="pre">Toggle</span> <span class="pre">pins</span> <span class="pre">popout</span></p>
 </dd></dt>
 </ul>
 </td><td><ul>
 <dt class="sig sig-object">
-<span class="sig-name descname"><span class="pre">mark</span> <span class="pre">inbox</span> <span class="pre">channel</span> <span class="pre">read</span></span><dd><p><span class="pre">Mark</span> <span class="pre">top</span> <span class="pre">inbox</span> <span class="pre">channel</span> <span class="pre">read</span></p>
+<span class="sig-name descname"><span class="pre">toggle</span> <span class="pre">(members</span> <span class="pre">|</span> <span class="pre">member</span> <span class="pre">list)</span></span><dd><p><span class="pre">Toggle</span> <span class="pre">channel</span> <span class="pre">member</span> <span class="pre">list</span></p>
 </dd></dt>
 </ul>
 </td></tr></table>
@@ -237,22 +341,17 @@ root, <em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre
 is optional. If no arguments are given, commands are included from the <em>entire
 package</em>. Furthermore, these directives take the following options:</p>
 <dl class="simple myst">
+<dt><code class="docutils literal notranslate"><span class="pre">:always_include_script:</span></code></dt><dd><p>If specified, the literal script is <em>always</em> included in the command description.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">:context:</span></code> and <code class="docutils literal notranslate"><span class="pre">:contexts:</span></code></dt><dd><p>The contexts in which to search for the commands. Contexts can be specified using Talon context names, e.g., <code class="docutils literal notranslate"><span class="pre">user.apps.discord.discord</span></code> or <code class="docutils literal notranslate"><span class="pre">user.apps.discord.discord.talon</span></code>, or by using file names relative to the package root, <em>e.g.</em>, <code class="docutils literal notranslate"><span class="pre">apps/discord/discord.talon</span></code>. Multiple contexts can be specified, in which case they should be separated by commas. If neither <code class="docutils literal notranslate"><span class="pre">:context:</span></code> nor <code class="docutils literal notranslate"><span class="pre">:contexts:</span></code> is specified, all commands are searched.</p>
+</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">:caption:</span></code></dt><dd><p>A caption for the table.
 Defaults to the module name, if given.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">:default:</span></code></dt><dd><p>Either <code class="docutils literal notranslate"><span class="pre">include</span></code> or <code class="docutils literal notranslate"><span class="pre">exclude</span></code>.
-Determines whether commands are included or excluded by default.
-Defaults to <code class="docutils literal notranslate"><span class="pre">include</span></code> if a file path or module name is specific,
-and to <code class="docutils literal notranslate"><span class="pre">exclude</span></code> otherwise.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">:include:</span></code></dt><dd><p>A list of command phrases.
-If <code class="docutils literal notranslate"><span class="pre">:default:</span></code> is set to <code class="docutils literal notranslate"><span class="pre">exclude</span></code>, a command matching any of these phrases
-is included <em>unless</em> it is matched by any of the phrases in <code class="docutils literal notranslate"><span class="pre">:exclude:</span></code>.
-If <code class="docutils literal notranslate"><span class="pre">:default:</span></code> is set to <code class="docutils literal notranslate"><span class="pre">include</span></code>, a command matching any of these phrases is included <em>even if</em> it is matched by any of the phrases in <code class="docutils literal notranslate"><span class="pre">:exclude:</span></code>.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">:include:</span></code></dt><dd><p>A list of command phrases. If <code class="docutils literal notranslate"><span class="pre">:include:</span></code> is specified, all commands matching one of these phrases are included. Otherwise, all commands are included.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">:exclude:</span></code></dt><dd><p>A list of command phrases.
-If <code class="docutils literal notranslate"><span class="pre">:default:</span></code> is set to <code class="docutils literal notranslate"><span class="pre">exclude</span></code>, a command matching any of these phrases is excluded <em>even if</em> it is matched by any of the phrases in <code class="docutils literal notranslate"><span class="pre">:include:</span></code>.
-If <code class="docutils literal notranslate"><span class="pre">:default:</span></code> is set to <code class="docutils literal notranslate"><span class="pre">include</span></code>, a command matching any of these phrases is excluded <em>unless</em> it is matched by any of the phrases in <code class="docutils literal notranslate"><span class="pre">:include:</span></code>.</p>
+If <code class="docutils literal notranslate"><span class="pre">:exclude:</span></code> is specified, any commands matching one of these phrases are excluded.</p>
 </dd>
 </dl>
 </section>

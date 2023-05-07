@@ -1,4 +1,0 @@
-user.lang.tags.functions_common
-===============================
-
-.. talon:command-table:: user.lang.tags.functions_common

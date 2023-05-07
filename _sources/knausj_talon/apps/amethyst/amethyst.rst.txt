@@ -1,4 +1,0 @@
-user.apps.amethyst.amethyst
-===========================
-
-.. talon:command-table:: user.apps.amethyst.amethyst

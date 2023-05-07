@@ -1,4 +1,0 @@
-user.lang.sql.sql
-=================
-
-.. talon:command-table:: user.lang.sql.sql

@@ -1,4 +1,0 @@
-user.core.homophones.homophones_open
-====================================
-
-.. talon:command-table:: user.core.homophones.homophones_open

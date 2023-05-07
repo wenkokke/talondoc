@@ -1,4 +1,0 @@
-user.core.modes.dictation_mode
-==============================
-
-.. talon:command-table:: user.core.modes.dictation_mode

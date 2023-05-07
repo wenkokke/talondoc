@@ -1,4 +1,0 @@
-user.lang.javascript.javascriptreact
-====================================
-
-.. talon:command-table:: user.lang.javascript.javascriptreact

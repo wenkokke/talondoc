@@ -1,4 +1,0 @@
-user.core.modes.modes
-=====================
-
-.. talon:command-table:: user.core.modes.modes

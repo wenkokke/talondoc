@@ -1,4 +1,0 @@
-user.plugin.media.media
-=======================
-
-.. talon:command-table:: user.plugin.media.media

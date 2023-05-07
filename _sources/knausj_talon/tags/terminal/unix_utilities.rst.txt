@@ -1,4 +1,0 @@
-user.tags.terminal.unix_utilities
-=================================
-
-.. talon:command-table:: user.tags.terminal.unix_utilities

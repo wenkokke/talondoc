@@ -1,4 +1,0 @@
-user.lang.scala.scala
-=====================
-
-.. talon:command-table:: user.lang.scala.scala

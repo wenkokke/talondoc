@@ -1,4 +1,0 @@
-user.apps.kubectl.kubectl
-=========================
-
-.. talon:command-table:: user.apps.kubectl.kubectl

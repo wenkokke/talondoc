@@ -1,4 +1,0 @@
-user.apps.i3wm.i3wm
-===================
-
-.. talon:command-table:: user.apps.i3wm.i3wm

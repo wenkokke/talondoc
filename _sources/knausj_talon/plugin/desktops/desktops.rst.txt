@@ -1,4 +1,0 @@
-user.plugin.desktops.desktops
-=============================
-
-.. talon:command-table:: user.plugin.desktops.desktops

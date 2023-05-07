@@ -1,4 +1,0 @@
-user.apps.opera.opera
-=====================
-
-.. talon:command-table:: user.apps.opera.opera

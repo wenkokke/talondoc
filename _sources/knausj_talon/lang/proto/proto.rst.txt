@@ -1,4 +1,0 @@
-user.lang.proto.proto
-=====================
-
-.. talon:command-table:: user.lang.proto.proto

@@ -1,4 +1,0 @@
-user.tags.multiple_cursors.multiple_cursors
-===========================================
-
-.. talon:command-table:: user.tags.multiple_cursors.multiple_cursors

@@ -1,4 +1,0 @@
-user.lang.python.python
-=======================
-
-.. talon:command-table:: user.lang.python.python

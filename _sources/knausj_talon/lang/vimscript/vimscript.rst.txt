@@ -1,4 +1,0 @@
-user.lang.vimscript.vimscript
-=============================
-
-.. talon:command-table:: user.lang.vimscript.vimscript

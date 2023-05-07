@@ -1,4 +1,0 @@
-user.lang.tags.operators_pointer
-================================
-
-.. talon:command-table:: user.lang.tags.operators_pointer

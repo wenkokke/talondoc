@@ -1,4 +1,0 @@
-user.settings
-=============
-
-.. talon:command-table:: user.settings

@@ -1,4 +1,0 @@
-user.apps.firefox.firefox
-=========================
-
-.. talon:command-table:: user.apps.firefox.firefox

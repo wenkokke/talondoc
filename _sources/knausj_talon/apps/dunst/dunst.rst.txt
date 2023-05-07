@@ -1,4 +1,0 @@
-user.apps.dunst.dunst
-=====================
-
-.. talon:command-table:: user.apps.dunst.dunst

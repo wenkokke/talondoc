@@ -1,4 +1,0 @@
-user.apps.apple_terminal.apple_terminal
-=======================================
-
-.. talon:command-table:: user.apps.apple_terminal.apple_terminal

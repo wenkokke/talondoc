@@ -1,4 +1,0 @@
-user.tags.pages.pages
-=====================
-
-.. talon:command-table:: user.tags.pages.pages

@@ -1,4 +1,0 @@
-user.lang.tags.data_bool
-========================
-
-.. talon:command-table:: user.lang.tags.data_bool

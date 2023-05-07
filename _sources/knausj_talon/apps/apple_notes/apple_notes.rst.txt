@@ -1,4 +1,0 @@
-user.apps.apple_notes.apple_notes
-=================================
-
-.. talon:command-table:: user.apps.apple_notes.apple_notes

@@ -1,4 +1,0 @@
-user.lang.tags.operators_assignment
-===================================
-
-.. talon:command-table:: user.lang.tags.operators_assignment

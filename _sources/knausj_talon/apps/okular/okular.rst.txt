@@ -1,4 +1,0 @@
-user.apps.okular.okular
-=======================
-
-.. talon:command-table:: user.apps.okular.okular

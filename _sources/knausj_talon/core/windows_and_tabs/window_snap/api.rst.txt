@@ -1,2 +1,0 @@
-user.core.windows_and_tabs.window_snap.py
-=========================================

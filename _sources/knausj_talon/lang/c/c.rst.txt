@@ -1,4 +1,0 @@
-user.lang.c.c
-=============
-
-.. talon:command-table:: user.lang.c.c

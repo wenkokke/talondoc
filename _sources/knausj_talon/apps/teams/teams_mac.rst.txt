@@ -1,4 +1,0 @@
-user.apps.teams.teams_mac
-=========================
-
-.. talon:command-table:: user.apps.teams.teams_mac

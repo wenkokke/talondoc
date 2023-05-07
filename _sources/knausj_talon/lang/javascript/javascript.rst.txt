@@ -1,4 +1,0 @@
-user.lang.javascript.javascript
-===============================
-
-.. talon:command-table:: user.lang.javascript.javascript

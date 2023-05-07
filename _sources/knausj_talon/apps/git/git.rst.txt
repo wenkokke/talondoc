@@ -1,4 +1,0 @@
-user.apps.git.git
-=================
-
-.. talon:command-table:: user.apps.git.git

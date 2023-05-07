@@ -1,4 +1,0 @@
-user.apps.anaconda.anaconda
-===========================
-
-.. talon:command-table:: user.apps.anaconda.anaconda

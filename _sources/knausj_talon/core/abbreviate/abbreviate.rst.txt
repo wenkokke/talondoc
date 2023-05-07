@@ -1,4 +1,0 @@
-user.core.abbreviate.abbreviate
-===============================
-
-.. talon:command-table:: user.core.abbreviate.abbreviate

@@ -1,4 +1,0 @@
-user.lang.talon.talon
-=====================
-
-.. talon:command-table:: user.lang.talon.talon

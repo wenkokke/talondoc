@@ -1,4 +1,0 @@
-user.apps.thunderbird.thunderbird_composer
-==========================================
-
-.. talon:command-table:: user.apps.thunderbird.thunderbird_composer

@@ -1,4 +1,0 @@
-user.core.modes.sleep_mode
-==========================
-
-.. talon:command-table:: user.core.modes.sleep_mode

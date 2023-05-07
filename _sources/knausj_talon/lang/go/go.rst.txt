@@ -1,4 +1,0 @@
-user.lang.go.go
-===============
-
-.. talon:command-table:: user.lang.go.go

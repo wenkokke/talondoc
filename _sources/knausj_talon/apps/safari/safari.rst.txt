@@ -1,4 +1,0 @@
-user.apps.safari.safari
-=======================
-
-.. talon:command-table:: user.apps.safari.safari

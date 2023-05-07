@@ -1,4 +1,0 @@
-user.core.keys.keys
-===================
-
-.. talon:command-table:: user.core.keys.keys

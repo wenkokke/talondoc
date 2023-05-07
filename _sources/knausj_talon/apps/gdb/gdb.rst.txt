@@ -1,4 +1,0 @@
-user.apps.gdb.gdb
-=================
-
-.. talon:command-table:: user.apps.gdb.gdb

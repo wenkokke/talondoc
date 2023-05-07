@@ -1,4 +1,0 @@
-user.lang.java.java
-===================
-
-.. talon:command-table:: user.lang.java.java

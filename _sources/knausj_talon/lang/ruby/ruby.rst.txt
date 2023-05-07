@@ -1,4 +1,0 @@
-user.lang.ruby.ruby
-===================
-
-.. talon:command-table:: user.lang.ruby.ruby

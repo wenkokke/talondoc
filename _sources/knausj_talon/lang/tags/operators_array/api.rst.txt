@@ -1,2 +1,0 @@
-user.lang.tags.operators_array.py
-=================================

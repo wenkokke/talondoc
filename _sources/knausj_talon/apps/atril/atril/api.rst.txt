@@ -1,2 +1,0 @@
-user.apps.atril.atril.py
-========================

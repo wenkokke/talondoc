@@ -1,4 +1,0 @@
-user.lang.tags.operators_lambda
-===============================
-
-.. talon:command-table:: user.lang.tags.operators_lambda

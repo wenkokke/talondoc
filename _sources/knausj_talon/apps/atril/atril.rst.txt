@@ -1,4 +1,0 @@
-user.apps.atril.atril
-=====================
-
-.. talon:command-table:: user.apps.atril.atril
