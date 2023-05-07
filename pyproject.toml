@@ -83,6 +83,10 @@ warn_unreachable = true
 implicit_reexport = false
 strict_concatenate = true
 strict_equality = true
+# disallow_untyped_calls = true
+# disallow_untyped_defs = true
+# disallow_incomplete_defs = true
+disallow_untyped_decorators = true
 
 [tool.pytest.ini_options]
 enable_assertion_pass_hook = true
