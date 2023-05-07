@@ -1,5 +1,5 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "image": "mcr.microsoft.com/devcontainers/python:3.9",
   "features": {
     "ghcr.io/devcontainers-contrib/features/gh-cli:1": {},
     "ghcr.io/devcontainers-contrib/features/pre-commit:2": {},
