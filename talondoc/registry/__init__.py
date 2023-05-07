@@ -258,7 +258,7 @@ class Registry:
             for override in group.overrides:
                 assert override.parent_type == "context"
                 context = self.lookup(talon.Context, override.parent_name)
-                if context and context.is_default():
+                if context and context.always_on:
                     return override
         return None
 
@@ -364,7 +364,7 @@ class Registry:
 
     def _typed_store(self, cls: type[talon.Data]) -> Dict[Any, Any]:
         # If the data is not serialisable, store it in temp_data:
-        if cls.is_serialisable():
+        if cls.serialisable:
             data = self._data
         else:
             data = self._temp_data

@@ -14,7 +14,6 @@ from typing_extensions import Literal, TypeVar, final, override
 from ...util.logging import getLogger
 from .abc import (
     ActionName,
-    CallbackName,
     CaptureName,
     CommandName,
     ContextName,
@@ -49,45 +48,14 @@ _LOGGER = getLogger(__name__)
 @dataclass_json
 @dataclass
 class Package(SimpleData):
-    _name: PackageName
-    _location: Union[Literal["builtin"], Location]
-    files: list["FileName"] = field(default_factory=list)
+    files: list["FileName"] = field(default_factory=list, init=False)
 
-    @property
-    @final
-    @override
-    def name(self) -> FileName:
-        return self._name
-
-    @property
-    @final
-    @override
-    def description(self) -> None:
-        return None
-
-    @property
-    @final
-    @override
-    def location(self) -> Union[Literal["builtin"], Location]:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> None:
-        return None
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> None:
-        return None
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return True
+    name: PackageName
+    description: None = field(default=None, init=False)
+    location: Union[Literal["builtin"], Location]
+    parent_name: None = field(default=None, init=False)
+    parent_type: None = field(default=None, init=False)
+    serialisable: bool = field(default=True, init=False)
 
 
 ##############################################################################
@@ -99,149 +67,19 @@ class Package(SimpleData):
 @dataclass_json
 @dataclass
 class File(SimpleData):
-    _location: Location
-    _parent_name: PackageName
-    modules: list["ModuleName"] = field(default_factory=list)
-    contexts: list["ContextName"] = field(default_factory=list)
+    modules: list["ModuleName"] = field(default_factory=list, init=False)
+    contexts: list["ContextName"] = field(default_factory=list, init=False)
 
-    @property
-    @final
-    @override
-    def name(self) -> FileName:
-        return ".".join((self.parent_name, *self.location.path.parts))
+    name: FileName = field(init=False)
+    description: None = field(default=None, init=False)
+    location: Location
+    parent_name: PackageName
+    parent_type: type[Package] = field(default=Package, init=False)
+    serialisable: bool = field(default=True, init=False)
 
-    @property
-    @final
-    @override
-    def description(self) -> None:
-        return None
+    def __post_init__(self, *_args, **_kwargs) -> None:
+        self.name = ".".join((self.parent_name, *self.location.path.parts))
 
-    @property
-    @final
-    @override
-    def location(self) -> Location:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> str:
-        return self._parent_name
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> Literal["package"]:
-        return "package"
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return True
-
-
-##############################################################################
-# Functions
-##############################################################################
-
-
-@final
-@dataclass
-class Function(SimpleData):
-    function: Callable[..., Any] = field(repr=False)
-    _location: Location
-    _parent_name: str
-    _parent_type: Literal["module", "context"]
-
-    @property
-    @final
-    @override
-    def name(self) -> FunctionName:
-        return f"{self.parent_name}:{self.function.__name__}"
-
-    @property
-    @final
-    @override
-    def description(self) -> Optional[str]:
-        return self.function.__doc__
-
-    @property
-    @final
-    @override
-    def location(self) -> Location:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> str:
-        return self._parent_name
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> Literal["module", "context"]:
-        return self._parent_type
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return False
-
-
-##############################################################################
-# Callbacks
-##############################################################################
-
-
-@final
-@dataclass
-class Callback(Data):
-    event_code: EventCode
-    function: Callable[..., Any] = field(repr=False)
-    _location: Location
-    _parent_name: FileName
-
-    @property
-    @final
-    @override
-    def name(self) -> CallbackName:
-        return f"{self.parent_name}:{self.function.__name__}"
-
-    @property
-    @final
-    @override
-    def description(self) -> Optional[str]:
-        return self.function.__doc__
-
-    @property
-    @final
-    @override
-    def location(self) -> Location:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> str:
-        return self._parent_name
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> Literal["file"]:
-        return "file"
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return False
-
-
-CallbackVar = TypeVar("CallbackVar", bound=Callback)
 
 ##############################################################################
 # Modules and Contexts
@@ -253,97 +91,39 @@ CallbackVar = TypeVar("CallbackVar", bound=Callback)
 @dataclass
 class Module(SimpleData):
     index: int
-    _description: Optional[str]
-    _location: Location
-    _parent_name: FileName
 
-    @property
-    @final
-    @override
-    def name(self) -> ModuleName:
-        return f"{self.parent_name}.module.{self.index}"
+    name: ModuleName = field(init=False)
+    description: Optional[str]
+    location: Location
+    parent_name: FileName
+    parent_type: type[File] = field(default=File, init=False)
+    serialisable: bool = field(default=True, init=False)
 
-    @property
-    @final
-    @override
-    def description(self) -> Optional[str]:
-        return self._description
-
-    @property
-    @final
-    @override
-    def location(self) -> Location:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> str:
-        return self._parent_name
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> Literal["file"]:
-        return "file"
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return True
+    def __post_init__(self, *_args, **_kwargs) -> None:
+        self.name = f"{self.parent_name}.module.{self.index}"
 
 
 @final
 @dataclass_json
 @dataclass
 class Context(SimpleData):
-    matches: list[Match]
     index: int
-    _description: Optional[str]
-    _location: Location
-    _parent_name: FileName
+    matches: list[Match]
     commands: list["CommandName"] = field(default_factory=list, init=False)
 
-    @property
-    @final
-    @override
-    def name(self) -> ContextName:
-        return f"{self.parent_name}.context.{self.index}"
+    name: ContextName = field(init=False)
+    description: Optional[str]
+    location: Location
+    parent_name: FileName
+    parent_type: type[File] = field(default=File, init=False)
+    serialisable: bool = field(default=True, init=False)
+
+    def __post_init__(self, *_args, **_kwargs) -> None:
+        self.name = f"{self.parent_name}.context.{self.index}"
 
     @property
-    @final
-    @override
-    def description(self) -> Optional[str]:
-        return self._description
-
-    @property
-    @final
-    @override
-    def location(self) -> Location:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> str:
-        return self._parent_name
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> Literal["file"]:
-        return "file"
-
-    @final
-    def is_default(self) -> bool:
-        return False
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return True
+    def always_on(self) -> bool:
+        return not self.matches
 
 
 def parse_matches(matches: str) -> Sequence[Match]:
@@ -357,6 +137,54 @@ def parse_matches(matches: str) -> Sequence[Match]:
 
 
 ##############################################################################
+# Functions
+##############################################################################
+
+
+@final
+@dataclass
+class Function(SimpleData):
+    name: str = field(init=False)
+    description: Optional[str] = field(init=False)
+    location: Location
+    parent_name: Union[ModuleName, ContextName]
+    parent_type: Union[type[Module], type[Context]]
+    serialisable: bool = field(default=False, init=False)
+
+    function: Callable[..., Any] = field(repr=False)
+
+    def __post_init__(self, *_args, **_kwargs) -> None:
+        self.name = f"{self.parent_name}:{self.function.__name__}"
+        self.description = self.function.__doc__
+
+
+##############################################################################
+# Callbacks
+##############################################################################
+
+
+@final
+@dataclass
+class Callback(Data):
+    name: str = field(init=False)
+    description: Optional[str] = field(init=False)
+    location: Location
+    parent_name: FileName
+    parent_type: type[File] = field(default=File, init=False)
+    serialisable: bool = field(default=False, init=False)
+
+    event_code: EventCode
+    function: Callable[..., Any] = field(repr=False)
+
+    def __post_init__(self, *_args, **_kwargs) -> None:
+        self.name = f"{self.parent_name}:{self.function.__name__}"
+        self.description = self.function.__doc__
+
+
+CallbackVar = TypeVar("CallbackVar", bound=Callback)
+
+
+##############################################################################
 # Commands
 ##############################################################################
 
@@ -365,46 +193,19 @@ def parse_matches(matches: str) -> Sequence[Match]:
 @dataclass_json
 @dataclass
 class Command(SimpleData):
+    index: int
     rule: Rule
     script: Script
-    index: int
-    _description: Optional[str]
-    _location: Location
-    _parent_name: ContextName
 
-    @property
-    def name(self) -> CommandName:
-        return f"{self.parent_name}.command.{self.index}"
+    name: str = field(init=False)
+    description: Optional[str]
+    location: Location
+    parent_name: ContextName
+    parent_type: type[Context] = field(default=Context, init=False)
+    serialisable: bool = field(default=True, init=False)
 
-    @property
-    @final
-    @override
-    def description(self) -> Optional[str]:
-        return self._description
-
-    @property
-    @final
-    @override
-    def location(self) -> Location:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> str:
-        return self._parent_name
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> Literal["context"]:
-        return "context"
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return True
+    def __post_init__(self, *_args, **_kwargs) -> None:
+        self.name = f"{self.parent_name}.command.{self.index}"
 
 
 def parse_rule(rule: str) -> Rule:
@@ -428,61 +229,15 @@ def parse_rule(rule: str) -> Rule:
 @dataclass_json
 @dataclass
 class Action(GroupDataHasFunction):
-    _name: ActionName
-    _description: Optional[str]
-    _location: Union[Literal["builtin"], Location]
-    _parent_name: Union[ModuleName, ContextName]
-    _parent_type: Literal["module", "context"]
-    _function_name: Optional[FunctionName]
-    _function_type_hints: Optional[dict[str, type]]
+    function_name: Optional[FunctionName]
+    function_type_hints: Optional[Mapping[str, type]]
 
-    @property
-    @final
-    @override
-    def name(self) -> str:
-        return self._name
-
-    @property
-    @final
-    @override
-    def description(self) -> Optional[str]:
-        return self._description
-
-    @property
-    @final
-    @override
-    def location(self) -> Union[Literal["builtin"], Location]:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> str:
-        return self._parent_name
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> Literal["module", "context"]:
-        return self._parent_type
-
-    @property
-    @final
-    @override
-    def function_name(self) -> Optional[FunctionName]:
-        return self._function_name
-
-    @property
-    @final
-    @override
-    def function_type_hints(self) -> Optional[Mapping[str, type]]:
-        return self._function_type_hints
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return True
+    name: ActionName
+    description: Optional[str]
+    location: Union[Literal["builtin"], Location]
+    parent_name: Union[ModuleName, ContextName]
+    parent_type: Union[type[Module], type[Context]]
+    serialisable: bool = field(default=True, init=False)
 
 
 @final
@@ -490,61 +245,15 @@ class Action(GroupDataHasFunction):
 @dataclass
 class Capture(GroupDataHasFunction):
     rule: Rule
-    _name: CaptureName
-    _description: Optional[str]
-    _location: Union[Literal["builtin"], Location]
-    _parent_name: Union[ModuleName, ContextName]
-    _parent_type: Literal["module", "context"]
-    _function_name: Optional[FunctionName]
-    _function_type_hints: Optional[dict[str, type]]
+    function_name: Optional[FunctionName]
+    function_type_hints: Optional[Mapping[str, type]]
 
-    @property
-    @final
-    @override
-    def name(self) -> str:
-        return self._name
-
-    @property
-    @final
-    @override
-    def description(self) -> Optional[str]:
-        return self._description
-
-    @property
-    @final
-    @override
-    def location(self) -> Union[Literal["builtin"], Location]:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> str:
-        return self._parent_name
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> Literal["module", "context"]:
-        return self._parent_type
-
-    @property
-    @final
-    @override
-    def function_name(self) -> Optional[FunctionName]:
-        return self._function_name
-
-    @property
-    @final
-    @override
-    def function_type_hints(self) -> Optional[Mapping[str, type]]:
-        return self._function_type_hints
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return True
+    name: CaptureName
+    description: Optional[str]
+    location: Union[Literal["builtin"], Location]
+    parent_name: Union[ModuleName, ContextName]
+    parent_type: Union[type[Module], type[Context]]
+    serialisable: bool = field(default=True, init=False)
 
 
 @final
@@ -553,47 +262,13 @@ class Capture(GroupDataHasFunction):
 class List(GroupData):
     value: Optional[ListValue]
     value_type_hint: Optional[type]
-    _name: ListName
-    _description: Optional[str]
-    _location: Union[Literal["builtin"], Location]
-    _parent_name: Union[ModuleName, ContextName]
-    _parent_type: Literal["module", "context"]
 
-    @property
-    @final
-    @override
-    def name(self) -> str:
-        return self._name
-
-    @property
-    @final
-    @override
-    def description(self) -> Optional[str]:
-        return self._description
-
-    @property
-    @final
-    @override
-    def location(self) -> Union[Literal["builtin"], Location]:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> str:
-        return self._parent_name
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> Literal["module", "context"]:
-        return self._parent_type
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return True
+    name: ListName
+    description: Optional[str]
+    location: Union[Literal["builtin"], Location]
+    parent_name: Union[ModuleName, ContextName]
+    parent_type: Union[type[Module], type[Context]]
+    serialisable: bool = field(default=True, init=False)
 
 
 @final
@@ -602,141 +277,37 @@ class List(GroupData):
 class Setting(GroupData):
     value: Optional[SettingValue]
     value_type_hint: Optional[type]
-    _name: SettingName
-    _description: Optional[str]
-    _location: Union[Literal["builtin"], Location]
-    _parent_name: Union[ModuleName, ContextName]
-    _parent_type: Literal["module", "context"]
 
-    @property
-    @final
-    @override
-    def name(self) -> str:
-        return self._name
-
-    @property
-    @final
-    @override
-    def description(self) -> Optional[str]:
-        return self._description
-
-    @property
-    @final
-    @override
-    def location(self) -> Union[Literal["builtin"], Location]:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> str:
-        return self._parent_name
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> Literal["module", "context"]:
-        return self._parent_type
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return True
+    name: SettingName
+    description: Optional[str]
+    location: Union[Literal["builtin"], Location]
+    parent_name: Union[ModuleName, ContextName]
+    parent_type: Union[type[Module], type[Context]]
+    serialisable: bool = field(default=True, init=False)
 
 
 @final
 @dataclass_json
 @dataclass
 class Mode(SimpleData):
-    _name: ModeName
-    _description: Optional[str]
-    _location: Union[Literal["builtin"], Location]
-    _parent_name: ModuleName
-    _parent_type: Literal["module"] = "module"
-
-    @property
-    @final
-    @override
-    def name(self) -> str:
-        return self._name
-
-    @property
-    @final
-    @override
-    def description(self) -> Optional[str]:
-        return self._description
-
-    @property
-    @final
-    @override
-    def location(self) -> Union[Literal["builtin"], Location]:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> str:
-        return self._parent_name
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> Literal["module"]:
-        return self._parent_type
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return True
+    name: ModeName
+    description: Optional[str]
+    location: Union[Literal["builtin"], Location]
+    parent_name: ModuleName
+    parent_type: type[Module] = field(default=Module, init=False)
+    serialisable: bool = field(default=True, init=False)
 
 
 @final
 @dataclass_json
 @dataclass
 class Tag(SimpleData):
-    _name: TagName
-    _description: Optional[str]
-    _location: Union[Literal["builtin"], Location]
-    _parent_name: ModuleName
-    _parent_type: Literal["module"] = "module"
-
-    @property
-    @final
-    @override
-    def name(self) -> str:
-        return self._name
-
-    @property
-    @final
-    @override
-    def description(self) -> Optional[str]:
-        return self._description
-
-    @property
-    @final
-    @override
-    def location(self) -> Union[Literal["builtin"], Location]:
-        return self._location
-
-    @property
-    @final
-    @override
-    def parent_name(self) -> str:
-        return self._parent_name
-
-    @property
-    @final
-    @override
-    def parent_type(self) -> Literal["module"]:
-        return self._parent_type
-
-    @classmethod
-    @final
-    @override
-    def is_serialisable(cls) -> bool:
-        return True
+    name: TagName
+    description: Optional[str]
+    location: Union[Literal["builtin"], Location]
+    parent_name: ModuleName
+    parent_type: type[Module] = field(default=Module, init=False)
+    serialisable: bool = field(default=True, init=False)
 
 
 ##############################################################################
@@ -752,7 +323,8 @@ class Group(Generic[GroupDataVar]):
     overrides: list[GroupDataVar] = field(default_factory=list)
 
     def append(self, value: GroupDataVar) -> None:
-        if value.parent_type == "module":
+        if issubclass(value.parent_type, Module):
             self.declarations.append(value)
         else:
+            assert issubclass(value.parent_type, Context)
             self.overrides.append(value)

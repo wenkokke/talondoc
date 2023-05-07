@@ -32,8 +32,8 @@ def analyse_package(
 ) -> None:
     # Retrieve or create package entry:
     package = Package(
-        _name=package_name or package_dir.parts[-1],
-        _location=Location.from_path(package_dir.absolute()),
+        name=package_name or package_dir.parts[-1],
+        location=Location.from_path(package_dir.absolute()),
     )
     registry.register(package)
     assert package.location != "builtin"

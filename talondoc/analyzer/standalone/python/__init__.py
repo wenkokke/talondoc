@@ -145,8 +145,8 @@ def talon_shims(registry: Registry, *, package: Optional[talon.Package] = None):
 def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None:
     # Retrieve or create file entry:
     file = talon.File(
-        _location=talon.Location.from_path(path),
-        _parent_name=package.name,
+        location=talon.Location.from_path(path),
+        parent_name=package.name,
     )
     registry.register(file)
     # Process file (passes control to talondoc.analyzer.standalone.python.shims):

@@ -1,12 +1,11 @@
-from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Mapping, Optional, Union, cast
+from typing import Any, Callable, Dict, List, Mapping, Optional, Union
 
 from dataclasses_json import dataclass_json
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
-from typing_extensions import Final, Literal, TypeAlias, TypeVar, final
+from typing_extensions import Literal, TypeAlias, TypeVar, final
 
 from ...util.logging import getLogger
 
@@ -81,36 +80,14 @@ class Location:
 ##############################################################################
 
 
-class Data(metaclass=ABCMeta):
-    @property
-    @abstractmethod
-    def name(self) -> str:
-        ...
-
-    @property
-    @abstractmethod
-    def description(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def location(self) -> Union[Literal["builtin"], "Location"]:
-        ...
-
-    @property
-    @abstractmethod
-    def parent_name(self) -> Optional[str]:
-        ...
-
-    @property
-    @abstractmethod
-    def parent_type(self) -> Optional[Literal["package", "file", "module", "context"]]:
-        ...
-
-    @classmethod
-    @abstractmethod
-    def is_serialisable(cls) -> bool:
-        ...
+@dataclass
+class Data:
+    name: str
+    description: Optional[str]
+    location: Union[Literal["builtin"], "Location"]
+    parent_name: Optional[str]
+    parent_type: Optional[type["Data"]]
+    serialisable: bool
 
 
 DataVar = TypeVar("DataVar", bound=Data)
@@ -121,7 +98,7 @@ DataVar = TypeVar("DataVar", bound=Data)
 ##############################################################################
 
 
-class SimpleData(Data, metaclass=ABCMeta):
+class SimpleData(Data):
     pass
 
 
@@ -136,16 +113,10 @@ SimpleDataVar = TypeVar(
 ##############################################################################
 
 
-class GroupData(Data, metaclass=ABCMeta):
-    @property
-    @abstractmethod
-    def parent_name(self) -> str:
-        ...
-
-    @property
-    @abstractmethod
-    def parent_type(self) -> Literal["module", "context"]:
-        ...
+@dataclass
+class GroupData(Data):
+    parent_name: str
+    parent_type: type["Data"]
 
 
 GroupDataVar = TypeVar(
@@ -159,16 +130,9 @@ GroupDataVar = TypeVar(
 ##############################################################################
 
 
-class GroupDataHasFunction(GroupData, metaclass=ABCMeta):
-    @property
-    @abstractmethod
-    def function_name(self) -> Optional[FunctionName]:
-        ...
-
-    @property
-    @abstractmethod
-    def function_type_hints(self) -> Optional[Mapping[str, type]]:
-        ...
+class GroupDataHasFunction(GroupData):
+    function_name: Optional[FunctionName]
+    function_type_hints: Optional[Mapping[str, type]]
 
 
 GroupDataHasFunctionVar = TypeVar(

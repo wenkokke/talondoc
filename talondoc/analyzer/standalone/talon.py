@@ -43,8 +43,8 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
     assert package.location != "builtin"
     # Create a file entry:
     file = talon.File(
-        _location=talon.Location.from_path(path),
-        _parent_name=package.name,
+        location=talon.Location.from_path(path),
+        parent_name=package.name,
     )
     registry.register(file)
 
@@ -56,9 +56,9 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
     context = talon.Context(
         matches=list(_TalonSourceFile_get_matches(ast)),
         index=len(file.contexts) + 1,
-        _description=ast.get_docstring(),
-        _location=file.location,
-        _parent_name=file.name,
+        description=ast.get_docstring(),
+        location=file.location,
+        parent_name=file.name,
     )
     registry.register(context)
 
@@ -70,9 +70,9 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
                 rule=declaration.left,
                 script=declaration.right,
                 index=len(context.commands) + 1,
-                _description=declaration.get_docstring(),
-                _location=talon.Location.from_ast(context.location.path, declaration),
-                _parent_name=context.name,
+                description=declaration.get_docstring(),
+                location=talon.Location.from_ast(context.location.path, declaration),
+                parent_name=context.name,
             )
             context.commands.append(command.name)
             registry.register(command)
@@ -84,13 +84,13 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
                         talon.Setting(
                             value=statement.right,
                             value_type_hint=None,
-                            _name=statement.left.text,
-                            _description=None,
-                            _location=talon.Location.from_ast(
+                            name=statement.left.text,
+                            description=None,
+                            location=talon.Location.from_ast(
                                 context.location.path, statement
                             ),
-                            _parent_name=context.name,
-                            _parent_type="context",
+                            parent_name=context.name,
+                            parent_type=talon.Context,
                         )
                     )
         elif isinstance(declaration, TalonTagImportDeclaration):
