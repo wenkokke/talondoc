@@ -17,7 +17,7 @@ defaults:
 
 jobs:
   build:
-    name: CI / ${{ matrix.os.name }}
+    name: Test on ${{ matrix.os.name }}
 
     strategy:
       matrix:
