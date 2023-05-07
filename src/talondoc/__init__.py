@@ -2,10 +2,9 @@ from typing import Optional
 
 import click
 
+from ._version import __version__
 from .autogen import autogen
 from .cache_builtin import cache_builtin
-
-__version__: str = "0.2.1"
 
 
 @click.group(name="talondoc")

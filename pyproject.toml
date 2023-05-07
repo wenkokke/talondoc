@@ -61,7 +61,7 @@ push = true
   '^version = "{version}"$',
 ]
 "example/docs/conf.py" = ['^release = "{version}"$']
-"talondoc/__init__.py" = ['^__version__: str = "{version}"$']
+"talondoc/_version.py" = ['^__version__: str = "{version}"$']
 
 [tool.isort]
 profile = "black"
