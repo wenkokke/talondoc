@@ -100,7 +100,10 @@ class Module(SimpleData):
     serialisable: bool = field(default=True, init=False)
 
     def __post_init__(self, *_args, **_kwargs) -> None:
-        self.name = f"{self.parent_name}.module.{self.index}"
+        if self.index == 0:
+            self.name = f"{self.parent_name}.mod"
+        else:
+            self.name = f"{self.parent_name}.mod.{self.index}"
 
 
 @final
@@ -119,7 +122,10 @@ class Context(SimpleData):
     serialisable: bool = field(default=True, init=False)
 
     def __post_init__(self, *_args, **_kwargs) -> None:
-        self.name = f"{self.parent_name}.context.{self.index}"
+        if self.index == 0:
+            self.name = f"{self.parent_name}.ctx"
+        else:
+            self.name = f"{self.parent_name}.ctx.{self.index}"
 
     @property
     def always_on(self) -> bool:
@@ -144,6 +150,7 @@ def parse_matches(matches: str) -> Sequence[Match]:
 @final
 @dataclass
 class Function(SimpleData):
+    namespace: str
     name: str = field(init=False)
     description: Optional[str] = field(init=False)
     location: Location
@@ -154,7 +161,7 @@ class Function(SimpleData):
     function: Callable[..., Any] = field(repr=False)
 
     def __post_init__(self, *_args, **_kwargs) -> None:
-        self.name = f"{self.parent_name}:{self.function.__name__}"
+        self.name = f"{self.parent_name}:{self.namespace}.{self.function.__name__}"
         self.description = self.function.__doc__
 
 
@@ -205,7 +212,7 @@ class Command(SimpleData):
     serialisable: bool = field(default=True, init=False)
 
     def __post_init__(self, *_args, **_kwargs) -> None:
-        self.name = f"{self.parent_name}.command.{self.index}"
+        self.name = f"{self.parent_name}.cmd.{self.index}"
 
 
 def parse_rule(rule: str) -> Rule:

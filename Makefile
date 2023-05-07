@@ -2,31 +2,42 @@
 # Common tasks
 #################################################################################
 
-.PHONY: default
-default: test
-
-.PHONY: docs
-docs: require-poetry type-check
-	@poetry install --all-extras
-	@poetry run sh ./example/build.sh
-
-.PHONY: serve
-serve: require-poetry
-	@poetry run python3 -m http.server --directory ./example/docs/_build/html 8001
-
-.PHONY: clean
-clean: require-poetry
-	@git clean -dfqX
-
 .PHONY: test
-test: require-tox type-check
-	@tox
+test:
+	tox
 
-.PHONY: type-check
-type-check: require-poetry
-	@poetry install --all-extras
-	@poetry run mypy talondoc
+.venv/:
+	python -m venv .venv
 
+.PHONY: install
+install: .venv/
+	.venv/bin/pip install .[test]
+
+.PHONY: autogen
+autogen: .venv/ | install
+	.venv/bin/python -m talondoc autogen \
+		--output-dir "example/docs/knausj_talon" \
+		--package-name "user" \
+		--sphinx-root "example/docs" \
+		--exclude "conftest.py" \
+		--exclude "test/stubs/talon/__init__.py" \
+		--exclude "test/stubs/talon/grammar.py" \
+		--exclude "test/stubs/talon/experimental/textarea.py" \
+		--exclude "test/repo_root_init.py" \
+		--exclude "test/test_code_modified_function.py" \
+		--exclude "test/test_create_spoken_forms.py" \
+		--exclude "test/test_dictation.py" \
+		--exclude "test/test_formatters.py" \
+		--exclude "plugin/draft_editor/draft_editor.py" \
+		--exclude "plugin/talon_draft_window/__init__.py" \
+		--exclude "plugin/talon_draft_window/draft_talon_helpers.py" \
+		--exclude "plugin/talon_draft_window/draft_ui.py" \
+		--exclude "plugin/talon_draft_window/test_draft_ui.py" \
+		"example/knausj_talon/"
+
+.PHONY: mypy
+mypy: .venv/
+	.venv/bin/python -m mypy talondoc
 
 #################################################################################
 # Version management

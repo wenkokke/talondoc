@@ -48,11 +48,13 @@ class Registry:
         *,
         data: Dict[str, Any] = {},
         temp_data: Dict[str, Any] = {},
+        continue_on_error: bool = True,
     ):
         self._data = data
         self._temp_data = temp_data
         self._active_package = None
         self._active_file = None
+        self._continue_on_error = continue_on_error
 
     ######################################################################
     # Register Data
@@ -69,7 +71,12 @@ class Registry:
         store = self._typed_store(value.__class__)
         old_value = store.get(value.name, None)
         if old_value is not None:
-            raise DuplicateData(value, old_value)
+            exc = DuplicateData(value, old_value)
+            if self._continue_on_error:
+                _LOGGER.warning(exc)
+                return old_value
+            else:
+                raise exc
         store[value.name] = value
         # Set the active package, file, module, or context.
         if isinstance(value, talon.Package):
@@ -256,7 +263,7 @@ class Registry:
             for declaration in group.declarations:
                 return declaration
             for override in group.overrides:
-                assert override.parent_type == "context"
+                assert issubclass(override.parent_type, talon.Context)
                 context = self.lookup(talon.Context, override.parent_name)
                 if context and context.always_on:
                     return override

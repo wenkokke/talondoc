@@ -55,11 +55,12 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
     # Create a context entry:
     context = talon.Context(
         matches=list(_TalonSourceFile_get_matches(ast)),
-        index=len(file.contexts) + 1,
+        index=len(file.contexts),
         description=ast.get_docstring(),
         location=file.location,
         parent_name=file.name,
     )
+    file.contexts.append(context.name)
     registry.register(context)
 
     # Process declarations:
@@ -69,7 +70,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
             command = talon.Command(
                 rule=declaration.left,
                 script=declaration.right,
-                index=len(context.commands) + 1,
+                index=len(context.commands),
                 description=declaration.get_docstring(),
                 location=talon.Location.from_ast(context.location.path, declaration),
                 parent_name=context.name,
