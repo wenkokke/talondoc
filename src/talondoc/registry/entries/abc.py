@@ -224,6 +224,6 @@ class UnknownReference(Exception):
                 return editdistance.eval(self.ref_name, known_ref_name)
 
             closest_known_references = sorted(self.known_references, key=_distance)[:10]
-            buffer.append(f"(Did you mean {','.join(closest_known_references)})")
+            buffer.append(f"(Did you mean {', '.join(closest_known_references)})")
 
         return " ".join(buffer)

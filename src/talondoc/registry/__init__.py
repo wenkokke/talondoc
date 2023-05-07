@@ -35,7 +35,6 @@ from .entries.abc import (
 _LOGGER = getLogger(__name__)
 
 
-@dataclass(init=False)
 class Registry:
     _data: Final[Dict[str, Any]]
     _temp_data: Final[Dict[str, Any]]
@@ -192,7 +191,9 @@ class Registry:
         try:
             return self.get(talon.Capture, name).rule
         except UnknownReference as e:
-            _LOGGER.warning(e)
+            # If the capture is not a common builtin capture, log a warning:
+            if name not in ("digit_string", "number", "number_small", "phrase", "word"):
+                _LOGGER.warning(e)
             return None
 
     def _get_list_value(self, name: ListName) -> Optional[talon.ListValue]:

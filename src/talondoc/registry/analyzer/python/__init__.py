@@ -129,7 +129,6 @@ def talon_package_shims(package: talon.Package) -> Iterator[None]:
 
 @contextmanager
 def talon_shims(registry: Registry, *, package: Optional[talon.Package] = None):
-    registry.activate()
     sys.meta_path.insert(0, TalonShimFinder)  # type: ignore
     try:
         if package:
@@ -139,7 +138,6 @@ def talon_shims(registry: Registry, *, package: Optional[talon.Package] = None):
             yield None
     finally:
         sys.meta_path.remove(TalonShimFinder)  # type: ignore
-        registry.deactivate()
 
 
 def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None:

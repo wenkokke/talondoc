@@ -1,5 +1,5 @@
 import sys
-from typing import Optional
+from typing import cast
 
 from docutils import nodes
 from sphinx.util.typing import OptionSpec
@@ -22,17 +22,13 @@ class TalonCommandTableDirective(TalonDocCommandDescription):
 
     @property
     def caption(self) -> str:
-        # Get caption from options
-        caption: Optional[str] = self.options.get("caption", None)
-        if caption:
-            return caption
-        # Get caption from file name
-        return ".".join(self.arguments)
+        # Get caption from options or from file name
+        return cast(str, self.options.get("caption", None) or ".".join(self.arguments))
 
     def run(self) -> list[nodes.Node]:
         return [
             table(
-                *[title(nodes.Text(caption)) for caption in self.caption],
+                title(nodes.Text(self.caption)),
                 tgroup(
                     colspec(colwidth=1),
                     colspec(colwidth=1),

@@ -10,6 +10,10 @@ test:
 # Build Docs
 #################################################################################
 
+.PHONY: serve
+serve: .venv/ | docs
+	@.venv/bin/python -m http.server --directory ./example/docs/_build/html
+
 .PHONY: docs
 docs: .venv/
 	@bash -c "source .venv/bin/activate; pip install -q .[docs]; ./example/build.sh"

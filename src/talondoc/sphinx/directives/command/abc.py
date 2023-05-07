@@ -21,12 +21,9 @@ _LOGGER = getLogger(__name__)
 
 class TalonDocCommandDescription(TalonDocObjectDescription):
     @property
-    def restrict_to(self) -> Optional[Iterator[str]]:
+    def restrict_to(self) -> Optional[Sequence[str]]:
         restrict_to = self.options.get("restrict_to", None)
-        if not restrict_to:
-            return None
-        else:
-            yield from restrict_to
+        return None if not restrict_to else tuple(restrict_to)
 
     @property
     def always_include_script(self) -> bool:
@@ -38,7 +35,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         text: str,
         *,
         fullmatch: bool = False,
-        restrict_to: Optional[Iterator[str]] = None,
+        restrict_to: Optional[Sequence[str]] = None,
     ) -> talon.Command:
         commands = list(
             self.find_commands(text, fullmatch=fullmatch, restrict_to=restrict_to)
@@ -60,7 +57,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
     def get_commands(
         self,
         *,
-        restrict_to: Optional[Iterator[str]] = None,
+        restrict_to: Optional[Sequence[str]] = None,
     ) -> Iterator[talon.Command]:
         yield from self.talon.registry.get_commands(restrict_to=restrict_to)
 
@@ -70,10 +67,14 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         text: str,
         *,
         fullmatch: bool = False,
-        restrict_to: Optional[Iterator[str]] = None,
+        restrict_to: Optional[Sequence[str]] = None,
     ) -> Iterator[talon.Command]:
+        _LOGGER.debug(
+            f"searching for commands matching '{text}' (restrict_to={restrict_to})"
+        )
+        words = self.__class__._RE_WHITESPACE.split(text)
         yield from self.talon.registry.find_commands(
-            self.__class__._RE_WHITESPACE.split(text),
+            words,
             fullmatch=fullmatch,
             restrict_to=restrict_to,
         )
@@ -179,11 +180,11 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
     @final
     def _describe_script_with_script(
         self, command: talon.Command
-    ) -> addnodes.highlightlang:
+    ) -> nodes.literal_block:
         """
         Describe the script by including it as a code block.
         """
         code = talonfmt(command.script, safe=False)
         literal_block = nodes.literal_block(code, code)
         literal_block["language"] = "python"
-        return literal_block  # type: ignore
+        return literal_block
