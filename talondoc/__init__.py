@@ -13,11 +13,11 @@ __version__: str = "0.2.1"
     package_name="talondoc",
     version=__version__,
 )
-def cli():
+def talondoc():
     pass
 
 
-@cli.command(name="autogen")
+@talondoc.command(name="autogen")
 @click.argument(
     "package-dir",
     type=click.Path(),
@@ -117,7 +117,7 @@ def _autogen(
     )
 
 
-@cli.command(name="cache_builtin")
+@talondoc.command(name="cache_builtin")
 @click.argument(
     "output_dir",
     type=click.Path(),
@@ -127,4 +127,4 @@ def _cache_builtin(output_dir: str):
 
 
 if __name__ == "__main__":
-    cli()
+    talondoc()

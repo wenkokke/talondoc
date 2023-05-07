@@ -39,7 +39,7 @@ docs = [
 ]
 
 [project.scripts]
-talondoc = "talondoc:cli"
+talondoc = "talondoc:talondoc"
 
 [tool.isort]
 profile = "black"
