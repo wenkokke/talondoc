@@ -1,3 +1,4 @@
+import os
 from typing import Optional
 
 import click
@@ -85,7 +86,7 @@ def talondoc():
 )
 @click.option(
     "--continue-on-error/--no-continue-on-error",
-    default=True,
+    default=bool(os.environ.get("TALONDOC_STRICT", False)),
 )
 def _autogen(
     package_dir: str,
