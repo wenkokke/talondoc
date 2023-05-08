@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "talondoc"
-version = "0.4.0"
+version = "0.4.2"
 description = "A Sphinx extension for Talon user directories."
 license = { file = 'LICENSE' }
 authors = [{ name = "Wen Kokke", email = "wenkokke@users.noreply.github.com" }]
@@ -20,7 +20,7 @@ dependencies = [
   "docstring_parser >=0.14,<0.16",
   "editdistance >=0.6,<0.7",
   "Jinja2 >=3,<4",
-  "Sphinx >=5,<7",
+  "Sphinx >=5,<8",
   "talonfmt >=1.7.4,<2",
   "tree_sitter_talon >=1007.2.0.0",
   'pywin32;platform_system=="Windows"',
@@ -51,7 +51,7 @@ docs = [
 talondoc = "talondoc:talondoc"
 
 [tool.bumpver]
-current_version = "0.4.0"
+current_version = "0.4.2"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "Bump version {old_version} -> {new_version}"
 commit = true
@@ -108,7 +108,7 @@ allowlist_externals = cp, mkdir, sh, rm
 extras =
   test
 setenv =
-  TALONDOC_AUTOGEN_EXTRA_ARGS = --no-continue-on-error
+  TALONDOC_STRICT = 1
 commands_pre =
   cp '{tox_root}/example/build.sh' '{env_tmp_dir}/build.sh'
   cp -R '{tox_root}/example/knausj_talon' '{env_tmp_dir}/knausj_talon'
