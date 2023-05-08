@@ -14,7 +14,7 @@ from sphinx.application import Sphinx
 project = "TalonDoc"
 copyright = "2022, Wen Kokke"
 author = "Wen Kokke"
-release = "0.2.1"
+release = "0.4.2"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -60,7 +60,17 @@ sphinx_tabs_disable_css_loading = True
 talon_package = {
     "path": "../knausj_talon",
     "name": "user",
-    "exclude": ["conftest.py", "test/**"],
+    "exclude": [
+        "conftest.py",
+        "test/stubs/talon/__init__.py",
+        "test/stubs/talon/grammar.py",
+        "test/stubs/talon/experimental/textarea.py",
+        "test/repo_root_init.py",
+        "test/test_code_modified_function.py",
+        "test/test_create_spoken_forms.py",
+        "test/test_dictation.py",
+        "test/test_formatters.py",
+    ],
     "trigger": "ready",
 }
 
@@ -70,7 +80,6 @@ talon_package = {
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
-
 
 
 # import sphinx_bootstrap_theme

@@ -1,0 +1,2 @@
+include src/talondoc/autogen/data/*.jinja2
+include src/talondoc/registry/data/*.json
