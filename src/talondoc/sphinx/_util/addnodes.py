@@ -16,15 +16,15 @@ def _with_children_and_attributes(
 ) -> NodeVar:
     for child in children:
         if isinstance(child, nodes.Node):
-            node += child  # type: ignore
+            node += child  # type: ignore[operator]
         else:
             for grandchild in child:
-                node += grandchild  # type: ignore
+                node += grandchild  # type: ignore[operator]
     for attribute_name, attribute_value in attributes.items():
         if isinstance(attribute_value, Sequence):
-            node[attribute_name].append(attribute_value)  # type: ignore
+            node[attribute_name].append(attribute_value)  # type: ignore[index]
         else:
-            node[attribute_name] = attribute_value  # type: ignore
+            node[attribute_name] = attribute_value  # type: ignore[index]
     return node
 
 

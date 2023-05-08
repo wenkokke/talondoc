@@ -10,9 +10,9 @@ from typing import ClassVar, Optional, Sequence, cast
 
 from ...._util.logging import getLogger
 from ...._util.progress_bar import ProgressBar
-from ... import Registry
-from ... import entries as talon
-from ...entries.abc import Location
+from ...registry import Registry
+from ...registry import entries as talon
+from ...registry.entries.abc import Location
 from .shims import ModuleShim, TalonShim
 
 _LOGGER = getLogger(__name__)

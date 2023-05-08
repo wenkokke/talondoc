@@ -10,7 +10,7 @@ from tree_sitter_talon import Point as Point
 from tree_sitter_talon import TalonBlock, TalonMatch, TalonRule
 from typing_extensions import Literal, TypeAlias, TypeVar, final
 
-from ..._util.logging import getLogger
+from ...._util.logging import getLogger
 from .abc import (
     Data,
     GroupData,

@@ -1,12 +1,11 @@
 import sys
-from typing import Optional, Sequence, cast
 
 from docutils import nodes
 from sphinx.util.typing import OptionSpec
 
 from ...._util.logging import getLogger
-from ...util.addnodes import colspec, entry, row, table, tbody, tgroup, title
-from ...util.typing import flag, optional_str, optional_strlist
+from ..._util.addnodes import colspec, entry, row, table, tbody, tgroup, title
+from ..._util.typing import flag, optional_str, optional_strlist
 from .abc import TalonDocCommandListDescription
 
 _LOGGER = getLogger(__name__)

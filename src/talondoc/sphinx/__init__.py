@@ -7,8 +7,8 @@ from typing_extensions import TypeGuard
 
 from .._util.logging import getLogger
 from .._version import __version__
-from ..registry import NoActiveFile, NoActivePackage, NoActiveRegistry
-from ..registry.analyzer import analyse_package
+from ..analysis.registry import NoActiveFile, NoActivePackage, NoActiveRegistry
+from ..analysis.static import analyse_package
 from .domains import TalonDomain
 from .typing import TalonPackage
 

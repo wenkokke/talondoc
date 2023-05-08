@@ -8,7 +8,7 @@ from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
 from typing_extensions import Literal, TypeVar, final
 
-from ..._util.logging import getLogger
+from ...._util.logging import getLogger
 
 _LOGGER = getLogger(__name__)
 

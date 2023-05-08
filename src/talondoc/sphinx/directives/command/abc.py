@@ -1,5 +1,5 @@
 import re
-from typing import ClassVar, Iterator, List, Optional, Sequence, cast
+from typing import ClassVar, Iterator, Optional, Sequence, cast
 
 from docutils import nodes
 from sphinx import addnodes
@@ -8,12 +8,12 @@ from tree_sitter_talon import TalonComment
 from typing_extensions import final
 
 from ...._util.logging import getLogger
+from ....analysis.registry import entries as talon
 from ....description import InvalidInterpolation
 from ....description.describer import TalonScriptDescriber
-from ....registry import entries as talon
 from ....sphinx.directives import TalonDocObjectDescription
 from ....sphinx.typing import TalonDocstringHook_Callable
-from ...util.addnodes import desc_content, desc_name, paragraph
+from ..._util.addnodes import desc_content, desc_name, paragraph
 from ..errors import AmbiguousSignature, UnmatchedSignature
 
 _LOGGER = getLogger(__name__)
