@@ -295,7 +295,7 @@ class TalonContextTagsShim(Sequence):
 
 
 class TalonResourceShim(ObjectShim):
-    def open(self, file: str, mode: str) -> TextIOWrapper:
+    def open(self, file: str, mode: str = "r") -> TextIOWrapper:
         return cast(TextIOWrapper, open(file, mode))
 
     def read(self, file: str) -> str:
