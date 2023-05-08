@@ -1,0 +1,26 @@
+{
+  "image": "mcr.microsoft.com/vscode/devcontainers/base",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.9"
+    },
+    "ghcr.io/devcontainers-contrib/features/pre-commit:2": {},
+    "ghcr.io/devcontainers-contrib/features/tox:2": {},
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "postCreateCommand": {
+    "git-submodules": "git submodule update --init",
+    "pre-commit": "pre-commit install",
+    "pip": "pip install .[docs]",
+    "mypy": "mypy --install-types --non-interactive"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-vscode.makefile-tools"
+      ]
+    }
+  }
+}
