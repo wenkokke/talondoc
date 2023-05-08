@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, Optional, cast
 import sphinx.directives
 
 if TYPE_CHECKING:
-    from talondoc.sphinx.domains import TalonDomain
+    from ..domains import TalonDomain
 else:
     TalonDomain = Any
 

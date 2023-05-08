@@ -19,7 +19,7 @@ from typing import (
 from talonfmt import talonfmt
 from typing_extensions import Final
 
-from .._util.logging import getLogger
+from ..._util.logging import getLogger
 from . import entries as talon
 from .entries import CallbackVar
 from .entries.abc import (
@@ -28,7 +28,6 @@ from .entries.abc import (
     DuplicateData,
     GroupData,
     GroupDataHasFunction,
-    GroupDataHasFunctionVar,
     GroupDataVar,
     SimpleData,
     SimpleDataVar,

@@ -8,9 +8,9 @@ import jinja2
 import jinja2.sandbox
 
 from .._util.progress_bar import ProgressBar
-from ..registry import Registry
-from ..registry import entries as talon
-from ..registry.analyzer import analyse_package
+from ..analysis.registry import Registry
+from ..analysis.registry import entries as talon
+from ..analysis.static import analyse_package
 
 
 # Taken from:

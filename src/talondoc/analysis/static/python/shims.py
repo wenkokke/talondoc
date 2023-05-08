@@ -7,11 +7,10 @@ from typing import Any, Mapping, Optional, Sequence, cast
 
 from tree_sitter_talon import Point
 
-from talondoc.registry.entries.abc import Location
-
 from ...._util.logging import getLogger
-from ... import Registry
-from ... import entries as talon
+from ...registry import Registry
+from ...registry import entries as talon
+from ...registry.entries.abc import Location
 
 _LOGGER = getLogger(__name__)
 

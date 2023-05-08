@@ -25,9 +25,9 @@ from tree_sitter_talon import (
 )
 
 from .._util.logging import getLogger
-from ..registry import Registry
-from ..registry import entries as talon
-from ..registry.entries.abc import Data
+from ..analysis.registry import Registry
+from ..analysis.registry import entries as talon
+from ..analysis.registry.entries.abc import Data
 from . import Description, Step, StepsTemplate, Value, concat, from_docstring
 
 _LOGGER = getLogger(__name__)

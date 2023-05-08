@@ -1,13 +1,12 @@
 import sys
-from typing import Iterator, List, Optional, Sequence, cast
 
 from docutils import nodes
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
 
 from ...._util.logging import getLogger
-from ...util.addnodes import bullet_list
-from ...util.typing import flag, optional_str, optional_strlist
+from ..._util.addnodes import bullet_list
+from ..._util.typing import flag, optional_str, optional_strlist
 from .abc import TalonDocCommandListDescription
 
 _LOGGER = getLogger(__name__)
