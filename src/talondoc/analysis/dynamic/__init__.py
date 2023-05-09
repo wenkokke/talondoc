@@ -11,6 +11,7 @@ from typing_extensions import Self
 
 from ..._util.io import NonBlockingTextIOWrapper
 from ..._util.logging import getLogger
+from ..registry import entries as talon
 
 _LOGGER = getLogger(__name__)
 
@@ -62,7 +63,9 @@ class TalonRepl(AbstractContextManager):
         assert self._session_stdout
         _END_OF_RESPONSE = "END_OF_RESPONSE"
         self.eval(*line, f"print('{_END_OF_RESPONSE}')")
-        yield from self._session_stdout.readwhile(lambda line: line != _END_OF_RESPONSE)
+        yield from self._session_stdout.readwhile(
+            lambda line: line != _END_OF_RESPONSE, timeout=1
+        )
 
     def __exit__(
         self,
@@ -80,11 +83,34 @@ class TalonRepl(AbstractContextManager):
 
 def cache_builtin(output_dir: Union[str, Path]):
     with TalonRepl() as repl:
-        print(repr(repl))
-        print("HELLO?")
-        for line in repl.eval_print("import talon", "talon.actions.list()"):
-            print(line)
-        print("HELLO?")
+        print("BEGIN")
+        print(
+            "\n".join(
+                repl.eval_print(
+                    "import inspect",
+                    "import json",
+                    "",
+                    "actions = []",
+                    "",
+                    "for action_impls in registry.actions.values():",
+                    "    for action_impl in action_impls:",
+                    "        name = action_impl.path",
+                    "        description = action_impl.type_decl.desc",
+                    "        parent_name = action_impl.ctx.path",
+                    "        parent_type = type(action_impl.ctx).__name__",
+                    "        actions.append({",
+                    "          'name':name,",
+                    "          'description':description,",
+                    "          'location':'builtin',",
+                    "          'parent_type':parent_type,",
+                    "          'parent_name':parent_name,",
+                    "        })",
+                    "",
+                    "print(json.dumps(actions))",
+                )
+            )
+        )
+        print("END")
 
 
 # @dataclass_json
