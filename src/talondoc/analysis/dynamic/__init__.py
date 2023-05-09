@@ -90,7 +90,7 @@ def cache_builtin(output_dir: Union[str, Path]):
                     "import inspect",
                     "import json",
                     "",
-                    "actions = []",
+                    "action_dicts = []",
                     "",
                     "for action_impls in registry.actions.values():",
                     "    for action_impl in action_impls:",
@@ -98,7 +98,7 @@ def cache_builtin(output_dir: Union[str, Path]):
                     "        description = action_impl.type_decl.desc",
                     "        parent_name = action_impl.ctx.path",
                     "        parent_type = type(action_impl.ctx).__name__",
-                    "        actions.append({",
+                    "        action_dicts.append({",
                     "          'name':name,",
                     "          'description':description,",
                     "          'location':'builtin',",
@@ -106,7 +106,7 @@ def cache_builtin(output_dir: Union[str, Path]):
                     "          'parent_name':parent_name,",
                     "        })",
                     "",
-                    "print(json.dumps(actions))",
+                    "print(json.dumps(action_dicts))",
                 )
             )
         )
