@@ -4,9 +4,10 @@ import platform
 import subprocess
 from contextlib import AbstractContextManager
 from pathlib import Path
-from time import sleep
 from types import TracebackType
 from typing import Iterator, Optional, Union
+
+from typing_extensions import Self
 
 from ..._util.io import NonBlockingTextIOWrapper
 from ..._util.logging import getLogger
@@ -26,8 +27,9 @@ class TalonRepl(AbstractContextManager):
         else:
             return os.path.expandvars("$HOME/.talon/.venv/bin/repl")
 
-    def __enter__(self) -> None:
+    def __enter__(self) -> Self:
         self.open()
+        return self
 
     def open(self) -> None:
         self._session = subprocess.Popen(
@@ -77,14 +79,12 @@ class TalonRepl(AbstractContextManager):
 
 
 def cache_builtin(output_dir: Union[str, Path]):
-    repl = TalonRepl()
-    repl.open()
-    print("HELLO?")
-    for line in repl.eval_print("import talon", "talon.actions.list()"):
-        print(line)
-    print("HELLO?")
-    repl.close()
-    pass
+    with TalonRepl() as repl:
+        print(repr(repl))
+        print("HELLO?")
+        for line in repl.eval_print("import talon", "talon.actions.list()"):
+            print(line)
+        print("HELLO?")
 
 
 # @dataclass_json
