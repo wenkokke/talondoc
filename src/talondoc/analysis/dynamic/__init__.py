@@ -1,4 +1,5 @@
 import io
+import json
 import os
 import platform
 import subprocess
@@ -84,30 +85,28 @@ class TalonRepl(AbstractContextManager):
 def cache_builtin(output_dir: Union[str, Path]):
     with TalonRepl() as repl:
         print("BEGIN")
-        print(
-            "\n".join(
-                repl.eval_print(
-                    "import inspect",
-                    "import json",
-                    "",
-                    "action_dicts = []",
-                    "",
-                    "for action_impls in registry.actions.values():",
-                    "    for action_impl in action_impls:",
-                    "        name = action_impl.path",
-                    "        description = action_impl.type_decl.desc",
-                    "        parent_name = action_impl.ctx.path",
-                    "        parent_type = type(action_impl.ctx).__name__",
-                    "        action_dicts.append({",
-                    "          'name':name,",
-                    "          'description':description,",
-                    "          'location':'builtin',",
-                    "          'parent_type':parent_type,",
-                    "          'parent_name':parent_name,",
-                    "        })",
-                    "",
-                    "print(json.dumps(action_dicts))",
-                )
+        resp = "\n".join(
+            repl.eval_print(
+                "import inspect",
+                "import json",
+                "",
+                "action_dicts = []",
+                "",
+                "for action_impls in registry.actions.values():",
+                "    for action_impl in action_impls:",
+                "        name = action_impl.path",
+                "        description = action_impl.type_decl.desc",
+                "        parent_name = action_impl.ctx.path",
+                "        parent_type = type(action_impl.ctx).__name__",
+                "        action_dicts.append({",
+                "          'name':name,",
+                "          'description':description,",
+                "          'location':'builtin',",
+                "          'parent_type':parent_type,",
+                "          'parent_name':parent_name,",
+                "        })",
+                "",
+                "print(json.dumps(action_dicts))",
             )
         )
         print("END")

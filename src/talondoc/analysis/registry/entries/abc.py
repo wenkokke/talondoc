@@ -1,9 +1,8 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Mapping, Optional, Sequence, Union, cast
+from typing import TYPE_CHECKING, Any, Callable, Mapping, Optional, Sequence, Union
 
 import editdistance
-from dataclasses_json import dataclass_json
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
 from typing_extensions import Literal, TypeVar, final
@@ -13,33 +12,43 @@ from ...._util.logging import getLogger
 _LOGGER = getLogger(__name__)
 
 
+if TYPE_CHECKING:
+    from . import Context, File, Module, Package
+else:
+    Package = "SimpleData"
+    File = "SimpleData"
+    Module = "SimpleData"
+    Context = "SimpleData"
+
+
 ##############################################################################
 # Source Locations
 ##############################################################################
 
 
 @final
-@dataclass_json
 @dataclass
 class Location:
     path: Path
-    start_position: Optional[Point] = None
-    end_position: Optional[Point] = None
+    start_line: Optional[int] = None
+    start_column: Optional[int] = None
+    end_line: Optional[int] = None
+    end_column: Optional[int] = None
 
     @staticmethod
-    def _str_from_point(position: Optional[Point]) -> Optional[str]:
-        if position is not None:
-            if position.column <= -1:
-                return f"{position.line}"
+    def _str_from_point(line: Optional[int], column: Optional[int]) -> Optional[str]:
+        if line is not None:
+            if column is not None:
+                return f"{line}"
             else:
-                return f"{position.line}:{position.column}"
+                return f"{line}:{column}"
         else:
             return None
 
     def __str__(self) -> str:
-        start_position = Location._str_from_point(self.start_position)
+        start_position = Location._str_from_point(self.start_line, self.start_column)
         if start_position:
-            end_position = Location._str_from_point(self.end_position)
+            end_position = Location._str_from_point(self.end_line, self.end_column)
             if end_position:
                 return f"{self.path}:{start_position}-{end_position}"
             else:
@@ -51,16 +60,17 @@ class Location:
     def from_ast(path: Path, node: Node) -> "Location":
         return Location(
             path=path,
-            start_position=node.start_position,
-            end_position=node.end_position,
+            start_line=node.start_position.line,
+            start_column=node.start_position.column,
+            end_line=node.end_position.line,
+            end_column=node.end_position.column,
         )
 
     @staticmethod
     def from_function(function: Callable[..., Any]) -> "Location":
         assert callable(function), f"Location.from_function received {repr(function)}"
         path = Path(function.__code__.co_filename)
-        start_position = Point(function.__code__.co_firstlineno, -1)
-        return Location(path=path, start_position=start_position)
+        return Location(path=path, start_line=function.__code__.co_firstlineno)
 
     @staticmethod
     def from_path(path: Path) -> "Location":
@@ -78,7 +88,7 @@ class Data:
     description: Optional[str]
     location: Union[Literal["builtin"], "Location"]
     parent_name: Optional[str]
-    parent_type: Optional[type["Data"]]
+    parent_type: Optional[Union[type[Package], type[File], type[Module], type[Context]]]
     serialisable: bool
 
 
@@ -108,7 +118,7 @@ SimpleDataVar = TypeVar(
 @dataclass
 class GroupData(Data):
     parent_name: str
-    parent_type: type["Data"]
+    parent_type: Union[type[Module], type[Context]]
 
 
 GroupDataVar = TypeVar(
