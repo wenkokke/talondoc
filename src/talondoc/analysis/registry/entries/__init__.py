@@ -1,7 +1,8 @@
 import typing
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Generic, Mapping, Optional, Sequence, Union
+from inspect import Signature
+from typing import Any, Dict, Generic, Mapping, Optional, Sequence, Union
 
 import tree_sitter_talon
 from tree_sitter_talon import Node as Node
@@ -10,6 +11,13 @@ from tree_sitter_talon import TalonBlock, TalonMatch, TalonRule
 from typing_extensions import Literal, TypeAlias, TypeVar, final
 
 from ...._util.logging import getLogger
+from ._serialise import (
+    field_any,
+    field_function_type_hints,
+    field_optstr,
+    field_parent_type,
+    field_str,
+)
 from .abc import (
     Data,
     GroupData,
@@ -17,6 +25,7 @@ from .abc import (
     GroupDataVar,
     Location,
     SimpleData,
+    field_location,
 )
 
 _LOGGER = getLogger(__name__)
@@ -44,43 +53,8 @@ EventCode: TypeAlias = Union[int, str]
 Script: TypeAlias = TalonBlock
 ListValue: TypeAlias = Union[typing.Dict[str, Any], typing.List[str]]
 SettingValue: TypeAlias = Any
-
-
-##############################################################################
-# Parsing
-##############################################################################
-
-
 Match: TypeAlias = TalonMatch
-
-
-def parse_matches(matches: str) -> Sequence[Match]:
-    src = f"{matches}\n-\n"
-    ast = tree_sitter_talon.parse(src, raise_parse_error=True)
-    assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
-    for child in ast.children:
-        if isinstance(child, tree_sitter_talon.TalonMatches):
-            return [
-                match
-                for match in child.children
-                if isinstance(match, tree_sitter_talon.TalonMatch)
-            ]
-    return []
-
-
 Rule: TypeAlias = TalonRule
-
-
-def parse_rule(rule: str) -> Rule:
-    src = f"-\n{rule}: skip\n"
-    ast = tree_sitter_talon.parse(src, raise_parse_error=True)
-    assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
-    for child in ast.children:
-        if isinstance(child, tree_sitter_talon.TalonDeclarations):
-            for declaration in child.children:
-                if isinstance(declaration, tree_sitter_talon.TalonCommandDeclaration):
-                    return declaration.left
-    return Rule("", "rule", Point(0, 0), Point(0, 0), [])
 
 
 ##############################################################################
@@ -253,7 +227,7 @@ class Command(SimpleData):
 @dataclass
 class Action(GroupDataHasFunction):
     function_name: Optional[FunctionName]
-    function_type_hints: Optional[Mapping[str, type]]
+    function_type_hints: Optional[Signature]
 
     name: ActionName
     description: Optional[str]
@@ -262,13 +236,25 @@ class Action(GroupDataHasFunction):
     parent_type: Union[type[Module], type[Context]]
     serialisable: bool = field(default=True, init=False)
 
+    @staticmethod
+    def load(fields: Dict[str, Any]) -> "Action":
+        return Action(
+            function_name=None,
+            function_type_hints=field_function_type_hints(fields),
+            name=field_str(fields, "name"),
+            description=field_optstr(fields, "description"),
+            location=field_location(fields),
+            parent_name=field_str(fields, "parent_name"),
+            parent_type=field_parent_type(fields, (Module, Context)),
+        )
+
 
 @final
 @dataclass
 class Capture(GroupDataHasFunction):
     rule: Rule
     function_name: Optional[FunctionName]
-    function_type_hints: Optional[Mapping[str, type]]
+    function_type_hints: Optional[Signature]
 
     name: CaptureName
     description: Optional[str]
@@ -345,3 +331,34 @@ class Group(Generic[GroupDataVar]):
         else:
             assert issubclass(value.parent_type, Context)
             self.overrides.append(value)
+
+
+##############################################################################
+# Parsing
+##############################################################################
+
+
+def parse_matches(matches: str) -> Sequence[Match]:
+    src = f"{matches}\n-\n"
+    ast = tree_sitter_talon.parse(src, raise_parse_error=True)
+    assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
+    for child in ast.children:
+        if isinstance(child, tree_sitter_talon.TalonMatches):
+            return [
+                match
+                for match in child.children
+                if isinstance(match, tree_sitter_talon.TalonMatch)
+            ]
+    return []
+
+
+def parse_rule(rule: str) -> Rule:
+    src = f"-\n{rule}: skip\n"
+    ast = tree_sitter_talon.parse(src, raise_parse_error=True)
+    assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
+    for child in ast.children:
+        if isinstance(child, tree_sitter_talon.TalonDeclarations):
+            for declaration in child.children:
+                if isinstance(declaration, tree_sitter_talon.TalonCommandDeclaration):
+                    return declaration.left
+    return Rule("", "rule", Point(0, 0), Point(0, 0), [])

@@ -345,7 +345,7 @@ class TalonShim(ModuleShim):
                 self._registry.register(function)
                 action = talon.Action(
                     function_name=function.name,
-                    function_type_hints=None,
+                    function_type_hints=inspect.signature(func),
                     name=f"{package.name}.{name}",
                     description=func.__doc__,
                     location=function.location,
@@ -375,7 +375,7 @@ class TalonShim(ModuleShim):
                 capture = talon.Capture(
                     rule=talon.parse_rule(rule),
                     function_name=function.name,
-                    function_type_hints=None,
+                    function_type_hints=inspect.signature(func),
                     name=f"{package.name}.{func.__name__}",
                     description=func.__doc__,
                     location=function.location,
@@ -516,14 +516,14 @@ class TalonShim(ModuleShim):
                     )
                     self._registry.register(function)
                     action = talon.Action(
+                        function_name=function.name,
+                        function_type_hints=inspect.signature(func),
                         # NOTE: function names on action classes are unqualified
                         name=f"{namespace}.{name}",
                         description=func.__doc__,
                         location=location,
                         parent_name=self._context.name,
                         parent_type=talon.Context,
-                        function_name=function.name,
-                        function_type_hints=None,
                     )
                     self._registry.register(action)
 
@@ -547,14 +547,14 @@ class TalonShim(ModuleShim):
                 )
                 self._registry.register(function)
                 action = talon.Action(
+                    function_name=function.name,
+                    function_type_hints=inspect.signature(func),
                     # NOTE: function names on actions are fully qualified
                     name=name,
                     description=func.__doc__,
                     location=location,
                     parent_name=self._context.name,
                     parent_type=talon.Context,
-                    function_name=function.name,
-                    function_type_hints=None,
                 )
                 self._registry.register(action)
 

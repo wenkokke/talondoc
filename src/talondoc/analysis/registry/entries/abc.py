@@ -1,13 +1,24 @@
 from dataclasses import dataclass
+from inspect import Signature
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Callable, Mapping, Optional, Sequence, Union
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Callable,
+    Mapping,
+    Optional,
+    Sequence,
+    Union,
+    cast,
+)
 
 import editdistance
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
-from typing_extensions import Literal, TypeVar, final
+from typing_extensions import Literal, TypeGuard, TypeVar, final
 
 from ...._util.logging import getLogger
+from ._serialise import field_any, field_optint, field_str
 
 _LOGGER = getLogger(__name__)
 
@@ -15,10 +26,10 @@ _LOGGER = getLogger(__name__)
 if TYPE_CHECKING:
     from . import Context, File, Module, Package
 else:
-    Package = "SimpleData"
-    File = "SimpleData"
-    Module = "SimpleData"
-    Context = "SimpleData"
+    Package = type
+    File = type
+    Module = type
+    Context = type
 
 
 ##############################################################################
@@ -75,6 +86,32 @@ class Location:
     @staticmethod
     def from_path(path: Path) -> "Location":
         return Location(path=path)
+
+    @staticmethod
+    def load(value: Any) -> Union[Literal["builtin"], "Location"]:
+        if isinstance(value, str) and value == "builtin":
+            return cast(Literal["builtin"], value)
+        elif isinstance(value, Mapping):
+            return Location(
+                path=Path(field_str(value, "path")),
+                start_line=field_optint(value, "start_line"),
+                start_column=field_optint(value, "start_column"),
+                end_line=field_optint(value, "end_line"),
+                end_column=field_optint(value, "end_column"),
+            )
+        raise TypeError(f"Expected literal 'builtin' or Location, found {repr(value)}")
+
+    @staticmethod
+    def guard(value: Any) -> TypeGuard[Union[Literal["builtin"], "Location"]]:
+        if isinstance(value, str) and value == "builtin":
+            return True
+        if isinstance(value, Location):
+            return True
+        return False
+
+
+def field_location(fields: Mapping[str, Any]) -> Union[Literal["builtin"], "Location"]:
+    return field_any(fields, "location", parse=Location.load, guard=Location.guard)
 
 
 ##############################################################################
@@ -134,7 +171,7 @@ GroupDataVar = TypeVar(
 
 class GroupDataHasFunction(GroupData):
     function_name: Optional[str]
-    function_type_hints: Optional[Mapping[str, type]]
+    function_type_hints: Optional[Signature]
 
 
 GroupDataHasFunctionVar = TypeVar(
@@ -204,7 +241,7 @@ class UnknownReference(Exception):
         if self.known_references is not None:
 
             def _distance(known_ref_name: str) -> int:
-                return editdistance.eval(self.ref_name, known_ref_name)
+                return int(editdistance.eval(self.ref_name, known_ref_name))
 
             closest_known_references = sorted(self.known_references, key=_distance)[:10]
             buffer.append(f"(Did you mean {', '.join(closest_known_references)})")
