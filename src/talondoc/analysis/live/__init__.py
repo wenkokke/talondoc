@@ -7,7 +7,7 @@ from contextlib import AbstractContextManager
 from functools import cached_property
 from pathlib import Path
 from types import TracebackType
-from typing import Iterator, Optional, Union
+from typing import Iterator, List, Optional, Union
 
 from packaging.version import Version
 from typing_extensions import Self
@@ -71,7 +71,8 @@ class TalonRepl(AbstractContextManager):
         )
 
     def eval_print(self, *line: str) -> str:
-        return "\n".join(self.eval_print_lines(*line))
+        print(repr(line))
+        return "\n".join(self.eval_print_lines(*line)).strip()
 
     def __exit__(
         self,
@@ -88,9 +89,14 @@ class TalonRepl(AbstractContextManager):
 
     @cached_property
     def talon_version(self) -> Version:
-        version_str = self.eval_print("print(talon.app.version)")
-        version, build, hash = version_str.split("-")
-        return Version(f"{version}b{build}+{hash}")
+        version, beta, hash = self.eval_print(
+            "print(talon.app.version)",
+        ).split("-", maxsplit=3)
+        if beta is not None:
+            version += f"b{beta}"
+        if hash is not None:
+            version += f"+{hash}"
+        return Version(version)
 
     @cached_property
     def actions_json(self) -> str:
