@@ -4,7 +4,7 @@ from typing import Optional
 import click
 
 from ._version import __version__
-from .analysis.dynamic import cache_builtin
+from .analysis.live import cache_builtin
 from .autogen import autogen
 
 

@@ -9,6 +9,7 @@ from pathlib import Path
 from types import TracebackType
 from typing import Iterator, Optional, Union
 
+import packaging
 from typing_extensions import Self
 
 from ..._util.io import NonBlockingTextIOWrapper
@@ -61,13 +62,16 @@ class TalonRepl(AbstractContextManager):
         self._session.stdin.write(bytes("\n".join(line) + "\n", "utf-8"))
         self._session.stdin.flush()
 
-    def eval_print(self, *line: str) -> Iterator[str]:
+    def eval_print_lines(self, *line: str) -> Iterator[str]:
         assert self._session_stdout
         _END_OF_RESPONSE = "END_OF_RESPONSE"
         self.eval(*line, f"print('{_END_OF_RESPONSE}')")
         yield from self._session_stdout.readwhile(
             lambda line: line != _END_OF_RESPONSE, timeout=1
         )
+
+    def eval_print(self, *line: str) -> str:
+        return "\n".join(self.eval_print_lines(*line))
 
     def __exit__(
         self,
@@ -83,57 +87,59 @@ class TalonRepl(AbstractContextManager):
             self._session.wait()
 
     @cached_property
+    def talon_version(self) -> str:
+        return self.eval_print("print(talon.app.version)")
+
+    @cached_property
     def actions_json(self) -> str:
-        return "\n".join(
-            self.eval_print(
-                "import inspect",
-                "import json",
-                "",
-                "action_dicts = []",
-                "",
-                "def _repr_obj(obj):",
-                "  if obj in (inspect.Signature.empty, inspect.Parameter.empty):",
-                "    return None",
-                "  return repr(obj)",
-                "",
-                "def _repr_cls(cls):",
-                "  if cls in (inspect.Signature.empty, inspect.Parameter.empty):",
-                "    return None",
-                "  if hasattr(cls,'__name__'):",
-                "    return cls.__name__",
-                "  return repr(cls)",
-                "",
-                "for action_impls in registry.actions.values():",
-                "    for action_impl in action_impls:",
-                "        signature = inspect.signature(action_impl.func)",
-                "        parameter_type_hints = [",
-                "           {",
-                "             'name':parameter.name,",
-                "             'kind':parameter.kind,",
-                "             'default':_repr_obj(parameter.default),",
-                "             'annotation':_repr_cls(parameter.annotation)",
-                "           }",
-                "           for parameter in signature.parameters.values()",
-                "        ]",
-                "        function_type_hints = {",
-                "          'parameters':parameter_type_hints,",
-                "          'return_annotation':_repr_cls(signature.return_annotation),",
-                "        }",
-                "        name = action_impl.path",
-                "        description = action_impl.type_decl.desc",
-                "        parent_name = action_impl.ctx.path",
-                "        parent_type = type(action_impl.ctx).__name__",
-                "        action_dicts.append({",
-                "          'function_type_hints':function_type_hints,",
-                "          'name':name,",
-                "          'description':description,",
-                "          'location':'builtin',",
-                "          'parent_type':parent_type,",
-                "          'parent_name':parent_name,",
-                "        })",
-                "",
-                "print(json.dumps(action_dicts))",
-            )
+        return self.eval_print(
+            "import inspect",
+            "import json",
+            "",
+            "action_dicts = []",
+            "",
+            "def _repr_obj(obj):",
+            "  if obj in (inspect.Signature.empty, inspect.Parameter.empty):",
+            "    return None",
+            "  return repr(obj)",
+            "",
+            "def _repr_cls(cls):",
+            "  if cls in (inspect.Signature.empty, inspect.Parameter.empty):",
+            "    return None",
+            "  if hasattr(cls,'__name__'):",
+            "    return cls.__name__",
+            "  return repr(cls)",
+            "",
+            "for action_impls in registry.actions.values():",
+            "    for action_impl in action_impls:",
+            "        signature = inspect.signature(action_impl.func)",
+            "        parameter_type_hints = [",
+            "           {",
+            "             'name':parameter.name,",
+            "             'kind':parameter.kind,",
+            "             'default':_repr_obj(parameter.default),",
+            "             'annotation':_repr_cls(parameter.annotation)",
+            "           }",
+            "           for parameter in signature.parameters.values()",
+            "        ]",
+            "        function_type_hints = {",
+            "          'parameters':parameter_type_hints,",
+            "          'return_annotation':_repr_cls(signature.return_annotation),",
+            "        }",
+            "        name = action_impl.path",
+            "        description = action_impl.type_decl.desc",
+            "        parent_name = action_impl.ctx.path",
+            "        parent_type = type(action_impl.ctx).__name__",
+            "        action_dicts.append({",
+            "          'function_type_hints':function_type_hints,",
+            "          'name':name,",
+            "          'description':description,",
+            "          'location':'builtin',",
+            "          'parent_type':parent_type,",
+            "          'parent_name':parent_name,",
+            "        })",
+            "",
+            "print(json.dumps(action_dicts))",
         )
 
     @property
@@ -144,5 +150,6 @@ class TalonRepl(AbstractContextManager):
 
 def cache_builtin(output_dir: str) -> None:
     with TalonRepl() as repl:
-        for action in repl.actions:
-            print(action)
+        print(repl.talon_version)
+        # for action in repl.actions:
+        #     print(action)
