@@ -3,6 +3,7 @@ import json
 import os
 import platform
 import subprocess
+import textwrap
 from contextlib import AbstractContextManager
 from functools import cached_property
 from pathlib import Path
@@ -71,7 +72,6 @@ class TalonRepl(AbstractContextManager):
         )
 
     def eval_print(self, *line: str) -> str:
-        print(repr(line))
         return "\n".join(self.eval_print_lines(*line)).strip()
 
     def __exit__(
@@ -90,7 +90,11 @@ class TalonRepl(AbstractContextManager):
     @cached_property
     def talon_version(self) -> Version:
         version, beta, hash = self.eval_print(
-            "print(talon.app.version)",
+            textwrap.dedent(
+                """
+                print(talon.app.version)
+                """
+            )
         ).split("-", maxsplit=3)
         if beta is not None:
             version += f"b{beta}"
@@ -101,53 +105,57 @@ class TalonRepl(AbstractContextManager):
     @cached_property
     def actions_json(self) -> str:
         return self.eval_print(
-            "import inspect",
-            "import json",
-            "",
-            "action_dicts = []",
-            "",
-            "def _repr_obj(obj):",
-            "  if obj in (inspect.Signature.empty, inspect.Parameter.empty):",
-            "    return None",
-            "  return repr(obj)",
-            "",
-            "def _repr_cls(cls):",
-            "  if cls in (inspect.Signature.empty, inspect.Parameter.empty):",
-            "    return None",
-            "  if hasattr(cls,'__name__'):",
-            "    return cls.__name__",
-            "  return repr(cls)",
-            "",
-            "for action_impls in registry.actions.values():",
-            "    for action_impl in action_impls:",
-            "        signature = inspect.signature(action_impl.func)",
-            "        parameter_type_hints = [",
-            "           {",
-            "             'name':parameter.name,",
-            "             'kind':parameter.kind,",
-            "             'default':_repr_obj(parameter.default),",
-            "             'annotation':_repr_cls(parameter.annotation)",
-            "           }",
-            "           for parameter in signature.parameters.values()",
-            "        ]",
-            "        function_type_hints = {",
-            "          'parameters':parameter_type_hints,",
-            "          'return_annotation':_repr_cls(signature.return_annotation),",
-            "        }",
-            "        name = action_impl.path",
-            "        description = action_impl.type_decl.desc",
-            "        parent_name = action_impl.ctx.path",
-            "        parent_type = type(action_impl.ctx).__name__",
-            "        action_dicts.append({",
-            "          'function_type_hints':function_type_hints,",
-            "          'name':name,",
-            "          'description':description,",
-            "          'location':'builtin',",
-            "          'parent_type':parent_type,",
-            "          'parent_name':parent_name,",
-            "        })",
-            "",
-            "print(json.dumps(action_dicts))",
+            textwrap.dedent(
+                """
+                import inspect
+                import json
+
+                action_dicts = []
+
+                def _repr_obj(obj):
+                    if obj in (inspect.Signature.empty, inspect.Parameter.empty):
+                        return None
+                    return repr(obj)
+
+                def _repr_cls(cls):
+                    if cls in (inspect.Signature.empty, inspect.Parameter.empty):
+                        return None
+                    if hasattr(cls,'__name__'):
+                        return cls.__name__
+                    return repr(cls)
+
+                for action_impls in registry.actions.values():
+                    for action_impl in action_impls:
+                        signature = inspect.signature(action_impl.func)
+                        parameter_type_hints = [
+                            {
+                            'name':parameter.name,
+                            'kind':parameter.kind,
+                            'default':_repr_obj(parameter.default),
+                            'annotation':_repr_cls(parameter.annotation)
+                            }
+                            for parameter in signature.parameters.values()
+                        ]
+                        function_type_hints = {
+                            'parameters':parameter_type_hints,
+                            'return_annotation':_repr_cls(signature.return_annotation),
+                        }
+                        name = action_impl.path
+                        description = action_impl.type_decl.desc
+                        parent_name = action_impl.ctx.path
+                        parent_type = type(action_impl.ctx).__name__
+                        action_dicts.append({
+                            'function_type_hints':function_type_hints,
+                            'name':name,
+                            'description':description,
+                            'location':'builtin',
+                            'parent_type':parent_type,
+                            'parent_name':parent_name,
+                        })
+
+                print(json.dumps(action_dicts))
+                """
+            )
         )
 
     @property
