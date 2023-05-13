@@ -9,7 +9,7 @@ from pathlib import Path
 from types import TracebackType
 from typing import Iterator, Optional, Union
 
-import packaging
+from packaging.version import Version
 from typing_extensions import Self
 
 from ..._util.io import NonBlockingTextIOWrapper
@@ -55,7 +55,7 @@ class TalonRepl(AbstractContextManager):
         )
         # Read at least one line from stdout:
         for line in self._session_stdout.readlines(minlines=1):
-            print(line)
+            _LOGGER.debug(f"> {line}")
 
     def eval(self, *line: str) -> None:
         assert self._session and self._session.stdin
@@ -87,8 +87,10 @@ class TalonRepl(AbstractContextManager):
             self._session.wait()
 
     @cached_property
-    def talon_version(self) -> str:
-        return self.eval_print("print(talon.app.version)")
+    def talon_version(self) -> Version:
+        version_str = self.eval_print("print(talon.app.version)")
+        version, build, hash = version_str.split("-")
+        return Version(f"{version}b{build}+{hash}")
 
     @cached_property
     def actions_json(self) -> str:
