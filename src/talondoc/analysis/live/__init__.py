@@ -1,3 +1,4 @@
+import importlib.resources
 import io
 import json
 import os
@@ -6,10 +7,12 @@ import subprocess
 import textwrap
 from contextlib import AbstractContextManager
 from functools import cached_property
+from importlib.resources import Resource
 from pathlib import Path
 from types import TracebackType
 from typing import Iterator, List, Optional, Union
 
+import packaging
 from packaging.version import Version
 from typing_extensions import Self
 
@@ -58,21 +61,23 @@ class TalonRepl(AbstractContextManager):
         for line in self._session_stdout.readlines(minlines=1):
             _LOGGER.debug(f"> {line}")
 
-    def eval(self, *line: str) -> None:
-        assert self._session and self._session.stdin
-        self._session.stdin.write(bytes("\n".join(line) + "\n", "utf-8"))
+    def eval(self, *line: str, encoding: str = "utf-8") -> str:
+        assert self._session and self._session.stdin and self._session_stdout
+        __EOR__ = "END_OF_RESPONSE"
+        is_EOR = lambda line: line == __EOR__
+        print_EOR = f"print('{__EOR__}')"
+        self._session.stdin.write(bytes("\n".join([*line, print_EOR]) + "\n", encoding))
         self._session.stdin.flush()
+        return "\n".join(self._session_stdout.readuntil(is_EOR, timeout=1)).strip()
 
-    def eval_print_lines(self, *line: str) -> Iterator[str]:
-        assert self._session_stdout
-        _END_OF_RESPONSE = "END_OF_RESPONSE"
-        self.eval(*line, f"print('{_END_OF_RESPONSE}')")
-        yield from self._session_stdout.readwhile(
-            lambda line: line != _END_OF_RESPONSE, timeout=1
-        )
+    def eval_file(self, path: Path, *, encoding: str = "utf-8") -> str:
+        return self.eval(path.read_text(), encoding=encoding)
 
-    def eval_print(self, *line: str) -> str:
-        return "\n".join(self.eval_print_lines(*line)).strip()
+    def eval_resource(self, resource: Resource, *, encoding: str = "utf-8") -> str:
+        with importlib.resources.open_text(
+            "talondoc.analysis.live.resources", resource
+        ) as rp:
+            return self.eval("\n".join(rp.readlines()), encoding=encoding)
 
     def __exit__(
         self,
@@ -88,14 +93,10 @@ class TalonRepl(AbstractContextManager):
             self._session.wait()
 
     @cached_property
-    def talon_version(self) -> Version:
-        version, beta, hash = self.eval_print(
-            textwrap.dedent(
-                """
-                print(talon.app.version)
-                """
-            )
-        ).split("-", maxsplit=3)
+    def version(self) -> Version:
+        version, beta, hash = self.eval_resource("get_version.py").split(
+            "-", maxsplit=3
+        )
         if beta is not None:
             version += f"b{beta}"
         if hash is not None:
@@ -104,68 +105,18 @@ class TalonRepl(AbstractContextManager):
 
     @cached_property
     def actions_json(self) -> str:
-        return self.eval_print(
-            textwrap.dedent(
-                """
-                import inspect
-                import json
-
-                action_dicts = []
-
-                def _repr_obj(obj):
-                    if obj in (inspect.Signature.empty, inspect.Parameter.empty):
-                        return None
-                    return repr(obj)
-
-                def _repr_cls(cls):
-                    if cls in (inspect.Signature.empty, inspect.Parameter.empty):
-                        return None
-                    if hasattr(cls,'__name__'):
-                        return cls.__name__
-                    return repr(cls)
-
-                for action_impls in registry.actions.values():
-                    for action_impl in action_impls:
-                        signature = inspect.signature(action_impl.func)
-                        parameter_type_hints = [
-                            {
-                            'name':parameter.name,
-                            'kind':parameter.kind,
-                            'default':_repr_obj(parameter.default),
-                            'annotation':_repr_cls(parameter.annotation)
-                            }
-                            for parameter in signature.parameters.values()
-                        ]
-                        function_type_hints = {
-                            'parameters':parameter_type_hints,
-                            'return_annotation':_repr_cls(signature.return_annotation),
-                        }
-                        name = action_impl.path
-                        description = action_impl.type_decl.desc
-                        parent_name = action_impl.ctx.path
-                        parent_type = type(action_impl.ctx).__name__
-                        action_dicts.append({
-                            'function_type_hints':function_type_hints,
-                            'name':name,
-                            'description':description,
-                            'location':'builtin',
-                            'parent_type':parent_type,
-                            'parent_name':parent_name,
-                        })
-
-                print(json.dumps(action_dicts))
-                """
-            )
-        )
+        return self.eval_resource("get_actions.py")
 
     @property
     def actions(self) -> Iterator[talon.Action]:
-        for action_fields in json.loads(self.actions_json):
+        actions_json = self.actions_json
+        print(actions_json)
+        for action_fields in json.loads(actions_json):
             yield talon.Action.load(action_fields)
 
 
 def cache_builtin(output_dir: str) -> None:
     with TalonRepl() as repl:
-        print(repl.talon_version)
-        # for action in repl.actions:
-        #     print(action)
+        print(repl.version)
+        for action in repl.actions:
+            print(action)

@@ -42,6 +42,14 @@ class NonBlockingTextIOWrapper:
             else:
                 yield line
 
+    def readuntil(
+        self, predicate: Callable[[str], bool], timeout: Optional[float] = None
+    ) -> Iterator[str]:
+        yield from self.readwhile(
+            predicate=lambda line: not predicate(line),
+            timeout=timeout,
+        )
+
     def readwhile(
         self, predicate: Callable[[str], bool], timeout: Optional[float] = None
     ) -> Iterator[str]:
