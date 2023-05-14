@@ -50,7 +50,6 @@ def _get_actions() -> None:
                     "parent_name": parent_name,
                 }
             )
-
     print(json.dumps(action_dicts))
 
 

@@ -10,7 +10,7 @@ from functools import cached_property
 from importlib.resources import Resource
 from pathlib import Path
 from types import TracebackType
-from typing import Iterator, List, Optional, Union
+from typing import Iterator, List, Optional, Sequence, Union
 
 import packaging
 from packaging.version import Version
@@ -70,14 +70,23 @@ class TalonRepl(AbstractContextManager):
         self._session.stdin.flush()
         return "\n".join(self._session_stdout.readuntil(is_EOR, timeout=1)).strip()
 
-    def eval_file(self, path: Path, *, encoding: str = "utf-8") -> str:
-        return self.eval(path.read_text(), encoding=encoding)
+    def eval_file(self, file: str, *, encoding: str = "utf-8") -> str:
+        return self.eval(
+            f"with open('{file}', 'r', encoding='{encoding}') as f:",
+            f"    exec(f.read())",
+            f"",
+        )
 
     def eval_resource(self, resource: Resource, *, encoding: str = "utf-8") -> str:
-        with importlib.resources.open_text(
+        file: str
+        with importlib.resources.path(
             "talondoc.analysis.live.resources", resource
-        ) as rp:
-            return self.eval("\n".join(rp.readlines()), encoding=encoding)
+        ) as path:
+            if path.exists():
+                file = str(path.absolute())
+            else:
+                raise FileNotFoundError(path)
+        return self.eval_file(file, encoding=encoding)
 
     def __exit__(
         self,
@@ -94,25 +103,28 @@ class TalonRepl(AbstractContextManager):
 
     @cached_property
     def version(self) -> Version:
-        version, beta, hash = self.eval_resource("get_version.py").split(
-            "-", maxsplit=3
-        )
-        if beta is not None:
-            version += f"b{beta}"
-        if hash is not None:
-            version += f"+{hash}"
+        parts = self.eval_resource("get_version.py").split("-", maxsplit=3)
+        version = parts[0]
+        if len(parts) >= 2:
+            version += f"b{parts[1]}"
+        if len(parts) >= 3:
+            version += f"+{parts[2]}"
         return Version(version)
 
     @cached_property
-    def actions_json(self) -> str:
-        return self.eval_resource("get_actions.py")
+    def actions(self) -> Sequence[talon.Action]:
+        # Get the actions as JSON from Talon
+        actions_json = self.eval_resource("get_actions.py")
 
-    @property
-    def actions(self) -> Iterator[talon.Action]:
-        actions_json = self.actions_json
-        print(actions_json)
-        for action_fields in json.loads(actions_json):
-            yield talon.Action.load(action_fields)
+        # Parse the JSON
+        try:
+            actions_fields = json.loads(actions_json)
+        except json.JSONDecodeError as e:
+            _LOGGER.error(e)
+            return ()
+
+        # Return the actions
+        return tuple(map(talon.Action.load, actions_fields))
 
 
 def cache_builtin(output_dir: str) -> None:
