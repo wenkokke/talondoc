@@ -1,6 +1,6 @@
 import typing
 from collections.abc import Callable
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from inspect import Signature
 from typing import Any, Dict, Generic, Mapping, Optional, Sequence, Union
 
@@ -11,13 +11,6 @@ from tree_sitter_talon import TalonBlock, TalonMatch, TalonRule
 from typing_extensions import Literal, TypeAlias, TypeVar, final
 
 from ...._util.logging import getLogger
-from ._serialise import (
-    field_any,
-    field_function_type_hints,
-    field_optstr,
-    field_parent_type,
-    field_str,
-)
 from .abc import (
     Data,
     GroupData,
@@ -25,7 +18,15 @@ from .abc import (
     GroupDataVar,
     Location,
     SimpleData,
-    field_location,
+    asdict_location,
+)
+from .serialise import (
+    asdict_signature,
+    parse_class,
+    parse_field,
+    parse_optfield,
+    parse_signature,
+    parse_str,
 )
 
 _LOGGER = getLogger(__name__)
@@ -237,16 +238,31 @@ class Action(GroupDataHasFunction):
     serialisable: bool = field(default=True, init=False)
 
     @staticmethod
-    def load(fields: Dict[str, Any]) -> "Action":
+    def from_dict(value: Mapping[Any, Any]) -> "Action":
         return Action(
             function_name=None,
-            function_type_hints=field_function_type_hints(fields),
-            name=field_str(fields, "name"),
-            description=field_optstr(fields, "description"),
-            location=field_location(fields),
-            parent_name=field_str(fields, "parent_name"),
-            parent_type=field_parent_type(fields, (Module, Context)),
+            function_type_hints=parse_optfield("function_type_hints", parse_signature)(
+                value
+            ),
+            name=parse_field("name", parse_str)(value),
+            description=parse_optfield("description", parse_str)(value),
+            location=parse_field("location", Location.from_dict)(value),
+            parent_name=parse_field("parent_name", parse_str)(value),
+            parent_type=parse_field("parent_type", parse_class(Module, Context))(value),  # type: ignore[arg-type]
         )
+
+    def to_dict(self) -> Mapping[Any, Any]:
+        return {
+            "function_name": None,
+            "function_type_hints": asdict_signature(self.function_type_hints)
+            if self.function_type_hints
+            else None,
+            "name": self.name,
+            "description": self.description,
+            "location": asdict_location(self.location),
+            "parent_name": self.parent_name,
+            "parent_type": self.parent_type.__name__,
+        }
 
 
 @final

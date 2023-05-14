@@ -104,31 +104,25 @@ class TalonRepl(AbstractContextManager):
     @cached_property
     def version(self) -> Version:
         parts = self.eval_resource("get_version.py").split("-", maxsplit=3)
-        version = parts[0]
+        pep440_version = parts[0]
         if len(parts) >= 2:
-            version += f"b{parts[1]}"
+            pep440_version += f"b{parts[1]}"
         if len(parts) >= 3:
-            version += f"+{parts[2]}"
-        return Version(version)
+            pep440_version += f"+{parts[2]}"
+        return Version(pep440_version)
 
     @cached_property
     def actions(self) -> Sequence[talon.Action]:
-        # Get the actions as JSON from Talon
         actions_json = self.eval_resource("get_actions.py")
-
-        # Parse the JSON
         try:
             actions_fields = json.loads(actions_json)
         except json.JSONDecodeError as e:
             _LOGGER.error(e)
             return ()
-
-        # Return the actions
-        return tuple(map(talon.Action.load, actions_fields))
+        return tuple(map(talon.Action.from_dict, actions_fields))
 
 
 def cache_builtin(output_dir: str) -> None:
     with TalonRepl() as repl:
-        print(repl.version)
         for action in repl.actions:
             print(action)

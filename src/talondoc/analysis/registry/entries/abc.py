@@ -1,10 +1,11 @@
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from inspect import Signature
 from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Any,
     Callable,
+    Dict,
     Mapping,
     Optional,
     Sequence,
@@ -15,10 +16,10 @@ from typing import (
 import editdistance
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
-from typing_extensions import Literal, TypeGuard, TypeVar, final
+from typing_extensions import Literal, TypeVar, final
 
 from ...._util.logging import getLogger
-from ._serialise import field_any, field_optint, field_str
+from .serialise import parse_field, parse_optint, parse_str
 
 _LOGGER = getLogger(__name__)
 
@@ -88,30 +89,28 @@ class Location:
         return Location(path=path)
 
     @staticmethod
-    def load(value: Any) -> Union[Literal["builtin"], "Location"]:
+    def from_dict(value: Mapping[Any, Any]) -> Union[Literal["builtin"], "Location"]:
         if isinstance(value, str) and value == "builtin":
             return cast(Literal["builtin"], value)
         elif isinstance(value, Mapping):
             return Location(
-                path=Path(field_str(value, "path")),
-                start_line=field_optint(value, "start_line"),
-                start_column=field_optint(value, "start_column"),
-                end_line=field_optint(value, "end_line"),
-                end_column=field_optint(value, "end_column"),
+                path=Path(parse_field("path", parse_str)(value)),
+                start_line=parse_field("start_line", parse_optint)(value),
+                start_column=parse_field("start_column", parse_optint)(value),
+                end_line=parse_field("end_line", parse_optint)(value),
+                end_column=parse_field("end_column", parse_optint)(value),
             )
         raise TypeError(f"Expected literal 'builtin' or Location, found {repr(value)}")
 
-    @staticmethod
-    def guard(value: Any) -> TypeGuard[Union[Literal["builtin"], "Location"]]:
-        if isinstance(value, str) and value == "builtin":
-            return True
-        if isinstance(value, Location):
-            return True
-        return False
+    def to_dict(self) -> Dict[str, Any]:
+        return asdict(self)
 
 
-def field_location(fields: Mapping[str, Any]) -> Union[Literal["builtin"], "Location"]:
-    return field_any(fields, "location", parse=Location.load, guard=Location.guard)
+def asdict_location(location: Union[Literal["builtin"], "Location"]) -> Any:
+    if isinstance(location, str) and location == "builtin":
+        return "builtin"
+    else:
+        return location.to_dict()
 
 
 ##############################################################################
