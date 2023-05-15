@@ -4,15 +4,12 @@ import json
 import os
 import platform
 import subprocess
-import textwrap
 from contextlib import AbstractContextManager
 from functools import cached_property
 from importlib.resources import Resource
-from pathlib import Path
 from types import TracebackType
-from typing import Iterator, List, Optional, Sequence, Union
+from typing import Optional, Sequence
 
-import packaging
 from packaging.version import Version
 from typing_extensions import Self
 
@@ -121,8 +118,30 @@ class TalonRepl(AbstractContextManager):
             return ()
         return tuple(map(talon.Action.from_dict, actions_fields))
 
+    @cached_property
+    def captures(self) -> Sequence[talon.Capture]:
+        captures_json = self.eval_resource("get_captures.py")
+        try:
+            captures_fields = json.loads(captures_json)
+        except json.JSONDecodeError as e:
+            _LOGGER.error(e)
+            return ()
+        return tuple(map(talon.Capture.from_dict, captures_fields))
+
+    @cached_property
+    def commands(self) -> Sequence[talon.Capture]:
+        commands_json = self.eval_resource("get_commands.py")
+        print(commands_json)
+        try:
+            commands_fields = json.loads(commands_json)
+        except json.JSONDecodeError as e:
+            _LOGGER.error(e)
+            return ()
+        return tuple(map(talon.Capture.from_dict, commands_fields))
+
 
 def cache_builtin(output_dir: str) -> None:
     with TalonRepl() as repl:
-        for action in repl.actions:
-            print(action)
+        print(repl.version)
+        for command in repl.commands:
+            print(command)

@@ -1,6 +1,8 @@
+import textwrap
 import typing
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
+from functools import singledispatch
 from inspect import Signature
 from typing import Any, Dict, Generic, Mapping, Optional, Sequence, Union
 
@@ -19,8 +21,10 @@ from .abc import (
     Location,
     SimpleData,
     asdict_location,
+    rule_name,
 )
 from .serialise import (
+    asdict_opt,
     asdict_signature,
     parse_class,
     parse_field,
@@ -57,6 +61,58 @@ SettingValue: TypeAlias = Any
 Match: TypeAlias = TalonMatch
 Rule: TypeAlias = TalonRule
 
+
+##############################################################################
+# Common Decoders
+##############################################################################
+
+
+def parse_matches(value: Any) -> Sequence[Match]:
+    src = f"{parse_str(value)}\n-\n"
+    ast = tree_sitter_talon.parse(src, raise_parse_error=True)
+    assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
+    for child in ast.children:
+        if isinstance(child, tree_sitter_talon.TalonMatches):
+            return [
+                match
+                for match in child.children
+                if isinstance(match, tree_sitter_talon.TalonMatch)
+            ]
+    return []
+
+
+def parse_rule(value: Any) -> Rule:
+    src = f"-\n{parse_str(value)}: skip\n"
+    ast = tree_sitter_talon.parse(src, raise_parse_error=True)
+    assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
+    for child in ast.children:
+        if isinstance(child, tree_sitter_talon.TalonDeclarations):
+            for declaration in child.children:
+                if isinstance(declaration, tree_sitter_talon.TalonCommandDeclaration):
+                    return declaration.left
+    raise ValueError(f"Could not parse rule '{value}'")
+
+
+def parse_script(value: Any) -> Script:
+    src = f"-\nskip:\n{textwrap.indent(parse_str(value), '  ')}\n"
+    ast = tree_sitter_talon.parse(src, raise_parse_error=True)
+    assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
+    for child in ast.children:
+        if isinstance(child, tree_sitter_talon.TalonDeclarations):
+            for declaration in child.children:
+                if isinstance(declaration, tree_sitter_talon.TalonCommandDeclaration):
+                    return declaration.right
+    raise ValueError(f"Could not parse script '{value}'")
+
+
+field_signature = parse_optfield("function_signature", parse_signature)
+field_name = parse_field("name", parse_str)
+field_description = parse_optfield("description", parse_str)
+field_location = parse_field("location", Location.from_dict)
+field_parent_name = parse_field("parent_name", parse_str)
+field_rule = parse_field("rule", parse_rule)
+field_matches = parse_field("matches", parse_matches)
+field_script = parse_field("script", parse_script)
 
 ##############################################################################
 # Packages
@@ -117,9 +173,9 @@ class Module(SimpleData):
 
     def __post_init__(self, *_args, **_kwargs) -> None:
         if self.index == 0:
-            self.name = f"{self.parent_name}.mod"
+            self.name = f"{self.parent_name}"
         else:
-            self.name = f"{self.parent_name}.mod.{self.index}"
+            self.name = f"{self.parent_name}.{self.index}"
 
 
 @final
@@ -138,13 +194,22 @@ class Context(SimpleData):
 
     def __post_init__(self, *_args, **_kwargs) -> None:
         if self.index == 0:
-            self.name = f"{self.parent_name}.ctx"
+            self.name = f"{self.parent_name}"
         else:
-            self.name = f"{self.parent_name}.ctx.{self.index}"
+            self.name = f"{self.parent_name}.{self.index}"
 
     @property
     def always_on(self) -> bool:
         return not self.matches
+
+
+##############################################################################
+# Common Decoders - Cont'd
+##############################################################################
+
+field_parent_type: Callable[[Any], Union[type[Module], type[Context]]] = parse_field(
+    "parent_type", parse_class(Module, Context)  # type: ignore[arg-type]
+)
 
 
 ##############################################################################
@@ -195,7 +260,6 @@ class Callback(Data):
 
 CallbackVar = TypeVar("CallbackVar", bound=Callback)
 
-
 ##############################################################################
 # Commands
 ##############################################################################
@@ -204,19 +268,37 @@ CallbackVar = TypeVar("CallbackVar", bound=Callback)
 @final
 @dataclass
 class Command(SimpleData):
-    index: int
     rule: Rule
     script: Script
 
     name: str = field(init=False)
     description: Optional[str]
-    location: Location
+    location: Union[Literal["builtin"], Location]
     parent_name: ContextName
     parent_type: type[Context] = field(default=Context, init=False)
     serialisable: bool = field(default=True, init=False)
 
     def __post_init__(self, *_args, **_kwargs) -> None:
-        self.name = f"{self.parent_name}.cmd.{self.index}"
+        self.name = rule_name(self.rule)
+
+    @staticmethod
+    def from_dict(value: Mapping[Any, Any]) -> "Command":
+        return Command(
+            rule=field_rule(value),
+            script=field_script(value),
+            description=field_description(value),
+            location=field_location(value),
+            parent_name=field_parent_name(value),
+        )
+
+    def to_dict(self) -> Mapping[Any, Any]:
+        return {
+            "rule": self.rule.text,
+            "script": self.script.text,
+            "description": self.description,
+            "location": asdict_location(self.location),
+            "parent_name": self.parent_name,
+        }
 
 
 ##############################################################################
@@ -228,7 +310,7 @@ class Command(SimpleData):
 @dataclass
 class Action(GroupDataHasFunction):
     function_name: Optional[FunctionName]
-    function_type_hints: Optional[Signature]
+    function_signature: Optional[Signature]
 
     name: ActionName
     description: Optional[str]
@@ -241,22 +323,18 @@ class Action(GroupDataHasFunction):
     def from_dict(value: Mapping[Any, Any]) -> "Action":
         return Action(
             function_name=None,
-            function_type_hints=parse_optfield("function_type_hints", parse_signature)(
-                value
-            ),
-            name=parse_field("name", parse_str)(value),
-            description=parse_optfield("description", parse_str)(value),
-            location=parse_field("location", Location.from_dict)(value),
-            parent_name=parse_field("parent_name", parse_str)(value),
-            parent_type=parse_field("parent_type", parse_class(Module, Context))(value),  # type: ignore[arg-type]
+            function_signature=field_signature(value),
+            name=field_name(value),
+            description=field_description(value),
+            location=field_location(value),
+            parent_name=field_parent_name(value),
+            parent_type=field_parent_type(value),
         )
 
     def to_dict(self) -> Mapping[Any, Any]:
         return {
             "function_name": None,
-            "function_type_hints": asdict_signature(self.function_type_hints)
-            if self.function_type_hints
-            else None,
+            "function_signature": asdict_opt(asdict_signature)(self.function_signature),
             "name": self.name,
             "description": self.description,
             "location": asdict_location(self.location),
@@ -270,7 +348,7 @@ class Action(GroupDataHasFunction):
 class Capture(GroupDataHasFunction):
     rule: Rule
     function_name: Optional[FunctionName]
-    function_type_hints: Optional[Signature]
+    function_signature: Optional[Signature]
 
     name: CaptureName
     description: Optional[str]
@@ -278,6 +356,31 @@ class Capture(GroupDataHasFunction):
     parent_name: Union[ModuleName, ContextName]
     parent_type: Union[type[Module], type[Context]]
     serialisable: bool = field(default=True, init=False)
+
+    @staticmethod
+    def from_dict(value: Mapping[Any, Any]) -> "Capture":
+        return Capture(
+            rule=field_rule(value),
+            function_name=None,
+            function_signature=field_signature(value),
+            name=field_name(value),
+            description=field_description(value),
+            location=field_location(value),
+            parent_name=field_parent_name(value),
+            parent_type=field_parent_type(value),
+        )
+
+    def to_dict(self) -> Mapping[Any, Any]:
+        return {
+            "rule": self.rule.text,
+            "function_name": None,
+            "function_signature": asdict_opt(asdict_signature)(self.function_signature),
+            "name": self.name,
+            "description": self.description,
+            "location": asdict_location(self.location),
+            "parent_name": self.parent_name,
+            "parent_type": self.parent_type.__name__,
+        }
 
 
 @final
@@ -347,34 +450,3 @@ class Group(Generic[GroupDataVar]):
         else:
             assert issubclass(value.parent_type, Context)
             self.overrides.append(value)
-
-
-##############################################################################
-# Parsing
-##############################################################################
-
-
-def parse_matches(matches: str) -> Sequence[Match]:
-    src = f"{matches}\n-\n"
-    ast = tree_sitter_talon.parse(src, raise_parse_error=True)
-    assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
-    for child in ast.children:
-        if isinstance(child, tree_sitter_talon.TalonMatches):
-            return [
-                match
-                for match in child.children
-                if isinstance(match, tree_sitter_talon.TalonMatch)
-            ]
-    return []
-
-
-def parse_rule(rule: str) -> Rule:
-    src = f"-\n{rule}: skip\n"
-    ast = tree_sitter_talon.parse(src, raise_parse_error=True)
-    assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
-    for child in ast.children:
-        if isinstance(child, tree_sitter_talon.TalonDeclarations):
-            for declaration in child.children:
-                if isinstance(declaration, tree_sitter_talon.TalonCommandDeclaration):
-                    return declaration.left
-    return Rule("", "rule", Point(0, 0), Point(0, 0), [])

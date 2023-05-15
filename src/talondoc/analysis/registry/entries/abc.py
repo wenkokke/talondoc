@@ -1,4 +1,5 @@
 from dataclasses import asdict, dataclass
+from functools import singledispatch
 from inspect import Signature
 from pathlib import Path
 from typing import (
@@ -16,10 +17,25 @@ from typing import (
 import editdistance
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
+from tree_sitter_talon import (
+    TalonCapture,
+    TalonChoice,
+    TalonComment,
+    TalonEndAnchor,
+    TalonList,
+    TalonOptional,
+    TalonParenthesizedRule,
+    TalonRepeat,
+    TalonRepeat1,
+    TalonRule,
+    TalonSeq,
+    TalonStartAnchor,
+    TalonWord,
+)
 from typing_extensions import Literal, TypeVar, final
 
 from ...._util.logging import getLogger
-from .serialise import parse_field, parse_optint, parse_str
+from .serialise import parse_field, parse_int, parse_optfield, parse_str
 
 _LOGGER = getLogger(__name__)
 
@@ -95,10 +111,10 @@ class Location:
         elif isinstance(value, Mapping):
             return Location(
                 path=Path(parse_field("path", parse_str)(value)),
-                start_line=parse_field("start_line", parse_optint)(value),
-                start_column=parse_field("start_column", parse_optint)(value),
-                end_line=parse_field("end_line", parse_optint)(value),
-                end_column=parse_field("end_column", parse_optint)(value),
+                start_line=parse_optfield("start_line", parse_int)(value),
+                start_column=parse_optfield("start_column", parse_int)(value),
+                end_line=parse_optfield("end_line", parse_int)(value),
+                end_column=parse_optfield("end_column", parse_int)(value),
             )
         raise TypeError(f"Expected literal 'builtin' or Location, found {repr(value)}")
 
@@ -170,7 +186,7 @@ GroupDataVar = TypeVar(
 
 class GroupDataHasFunction(GroupData):
     function_name: Optional[str]
-    function_type_hints: Optional[Signature]
+    function_signature: Optional[Signature]
 
 
 GroupDataHasFunctionVar = TypeVar(
@@ -246,3 +262,96 @@ class UnknownReference(Exception):
             buffer.append(f"(Did you mean {', '.join(closest_known_references)})")
 
         return " ".join(buffer)
+
+
+##############################################################################
+# Convert rules to names
+##############################################################################
+
+
+def _rule_name_escape(text: str) -> str:
+    return text.replace("_", "_5f").replace(".", "_2e")
+
+
+@singledispatch
+def rule_name(
+    rule: Union[
+        TalonRule,
+        TalonCapture,
+        TalonChoice,
+        TalonEndAnchor,
+        TalonList,
+        TalonOptional,
+        TalonParenthesizedRule,
+        TalonRepeat,
+        TalonRepeat1,
+        TalonSeq,
+        TalonStartAnchor,
+        TalonWord,
+        TalonComment,
+    ]
+) -> str:
+    raise TypeError(f"Unexpected value {type(rule)}")
+
+
+@rule_name.register
+def _(rule: TalonRule) -> str:
+    _not_comment = lambda rule: not isinstance(rule, TalonComment)
+    return "__".join(map(rule_name, filter(_not_comment, rule.children)))
+
+
+@rule_name.register
+def _(rule: TalonCapture) -> str:
+    return f"_lt{_rule_name_escape(rule.capture_name.text)}_gt"
+
+
+@rule_name.register
+def _(rule: TalonChoice) -> str:
+    _not_comment = lambda rule: not isinstance(rule, TalonComment)
+    return "_pi".join(map(rule_name, filter(_not_comment, rule.children)))
+
+
+@rule_name.register
+def _(rule: TalonEndAnchor) -> str:
+    return "_ra"
+
+
+@rule_name.register
+def _(rule: TalonList) -> str:
+    return f"_lb{_rule_name_escape(rule.list_name.text)}_rb"
+
+
+@rule_name.register
+def _(rule: TalonOptional) -> str:
+    return f"_ls{rule_name(rule.get_child())}_rs"
+
+
+@rule_name.register
+def _(rule: TalonParenthesizedRule) -> str:
+    return f"_lp{rule_name(rule.get_child())}_rp"
+
+
+@rule_name.register
+def _(rule: TalonRepeat) -> str:
+    return f"{rule.get_child()}_st"
+
+
+@rule_name.register
+def _(rule: TalonRepeat1) -> str:
+    return f"{rule.get_child()}_pl"
+
+
+@rule_name.register
+def _(rule: TalonSeq) -> str:
+    _not_comment = lambda rule: not isinstance(rule, TalonComment)
+    return "__".join(map(rule_name, filter(_not_comment, rule.children)))
+
+
+@rule_name.register
+def _(rule: TalonStartAnchor) -> str:
+    return "_la"
+
+
+@rule_name.register
+def _(rule: TalonWord) -> str:
+    return _rule_name_escape(rule.text)

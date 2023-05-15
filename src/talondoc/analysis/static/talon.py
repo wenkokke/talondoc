@@ -71,7 +71,6 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
             command = talon.Command(
                 rule=declaration.left,
                 script=declaration.right,
-                index=len(context.commands),
                 description=declaration.get_docstring(),
                 location=Location.from_ast(context.location.path, declaration),
                 parent_name=context.name,

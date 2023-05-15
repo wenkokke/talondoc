@@ -1,9 +1,12 @@
+import base64
+import pickle
 from collections.abc import Callable
 from inspect import Parameter, Signature
 from typing import Any, Dict, Mapping, Optional, Sequence, Union
 
 from typing_extensions import TypeVar
 
+_S = TypeVar("_S")
 _T = TypeVar("_T")
 
 ##############################################################################
@@ -11,10 +14,20 @@ _T = TypeVar("_T")
 ##############################################################################
 
 
-def asdict_object(obj: object) -> Optional[str]:
-    if obj in (Signature.empty, Parameter.empty):
-        return None
-    return repr(obj)
+def asdict_opt(asdict: Callable[[_S], _T]) -> Callable[[Optional[_S]], Optional[_T]]:
+    def _asdict(value: Optional[_S]) -> Optional[_T]:
+        if value is None:
+            return None
+        else:
+            return asdict(value)
+
+    return _asdict
+
+
+def asdict_object(value: Any) -> Optional[str]:
+    obj = base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
+    print(f"default = {obj}")
+    return obj
 
 
 def asdict_class(cls: type) -> Optional[str]:
@@ -46,11 +59,18 @@ def asdict_signature(sig: Signature) -> Dict[str, Any]:
 ##############################################################################
 
 
+def parse_pickle(value: Any) -> Any:
+    try:
+        return pickle.loads(base64.b64decode(parse_str(value), validate=True))
+    except ModuleNotFoundError as e:
+        return None
+
+
 def parse_value_by_type(cls: type[_T]) -> Callable[[Any], _T]:
     def _parser(value: Any) -> _T:
         if isinstance(value, cls):
             return value
-        raise TypeError(f"Expected {cls.__name__}, found {type(value)}")
+        raise TypeError(f"Expected {cls.__name__}, found {type(value).__name__}")
 
     return _parser
 
@@ -127,7 +147,7 @@ def parse_parameter(value: Any) -> Parameter:
     return Parameter(
         name=parse_field("name", parse_str)(value),
         kind=parse_field("kind", parse_kind)(value),
-        default=parse_optfield("default", parse_str)(value),
+        default=parse_optfield("default", parse_pickle)(value),
         annotation=parse_optfield("annotation", parse_type)(value),
     )
 

@@ -1,14 +1,14 @@
 import talon  # pyright: ignore[reportMissingImports]
 
 
-def _get_actions() -> None:
+def _get_captures() -> None:
     import base64
     import inspect
     import json
     import pickle
     import typing
 
-    action_dicts = []
+    capture_dicts = []
 
     def asdict_object(value: typing.Any) -> str:
         return base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
@@ -34,16 +34,17 @@ def _get_actions() -> None:
             "return_annotation": asdict_class(sig.return_annotation),
         }
 
-    for action_impls in talon.registry.actions.values():
-        for action_impl in action_impls:
-            name = action_impl.path
-            description = action_impl.type_decl.desc
-            parent_name = action_impl.ctx.path
-            parent_type = type(action_impl.ctx).__name__
-            action_dicts.append(
+    for capture_impls in talon.registry.captures.values():
+        for capture_impl in capture_impls:
+            name = capture_impl.path
+            description = capture_impl.func.__doc__
+            parent_name = capture_impl.ctx.path
+            parent_type = type(capture_impl.ctx).__name__
+            capture_dicts.append(
                 {
+                    "rule": capture_impl.rule.rule,
                     "function_signature": asdict_signature(
-                        inspect.signature(action_impl.func)
+                        inspect.signature(capture_impl.func)
                     ),
                     "name": name,
                     "description": description,
@@ -52,8 +53,8 @@ def _get_actions() -> None:
                     "parent_name": parent_name,
                 }
             )
-    print(json.dumps(action_dicts))
+    print(json.dumps(capture_dicts))
 
 
-_get_actions()
-del _get_actions
+_get_captures()
+del _get_captures
