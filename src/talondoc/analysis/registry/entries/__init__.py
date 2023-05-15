@@ -4,13 +4,13 @@ from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from functools import singledispatch
 from inspect import Signature
-from typing import Any, Dict, Generic, Mapping, Optional, Sequence, Union
+from typing import Any, Generic, Mapping, Optional, Sequence, Union
 
 import tree_sitter_talon
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
 from tree_sitter_talon import TalonBlock, TalonMatch, TalonRule
-from typing_extensions import Literal, TypeAlias, TypeVar, final
+from typing_extensions import Literal, Self, TypeAlias, TypeVar, final
 
 from ...._util.logging import getLogger
 from .abc import (
@@ -21,16 +21,24 @@ from .abc import (
     Location,
     SimpleData,
     asdict_location,
+    parse_location,
     rule_name,
 )
 from .serialise import (
+    JsonValue,
+    asdict_class,
     asdict_opt,
+    asdict_pickle,
     asdict_signature,
     parse_class,
+    parse_dict,
     parse_field,
+    parse_list_of,
     parse_optfield,
+    parse_pickle,
     parse_signature,
     parse_str,
+    parse_type,
 )
 
 _LOGGER = getLogger(__name__)
@@ -63,7 +71,20 @@ Rule: TypeAlias = TalonRule
 
 
 ##############################################################################
-# Common Decoders
+# Decoders - Common
+##############################################################################
+
+
+field_signature = parse_optfield("function_signature", parse_signature)
+field_name = parse_field("name", parse_str)
+field_description = parse_optfield("description", parse_str)
+field_location = parse_field("location", parse_location)
+field_optlocation = parse_optfield("location", parse_location)
+field_parent_name = parse_field("parent_name", parse_str)
+field_value_type_hint = parse_optfield("value_type_hint", parse_type)
+
+##############################################################################
+# Decoders - Matches
 ##############################################################################
 
 
@@ -81,6 +102,13 @@ def parse_matches(value: Any) -> Sequence[Match]:
     return []
 
 
+field_matches = parse_field("matches", parse_matches)
+
+##############################################################################
+# Decoders - Rules
+##############################################################################
+
+
 def parse_rule(value: Any) -> Rule:
     src = f"-\n{parse_str(value)}: skip\n"
     ast = tree_sitter_talon.parse(src, raise_parse_error=True)
@@ -91,6 +119,13 @@ def parse_rule(value: Any) -> Rule:
                 if isinstance(declaration, tree_sitter_talon.TalonCommandDeclaration):
                     return declaration.left
     raise ValueError(f"Could not parse rule '{value}'")
+
+
+field_rule = parse_field("rule", parse_rule)
+
+##############################################################################
+# Decoders - Scripts
+##############################################################################
 
 
 def parse_script(value: Any) -> Script:
@@ -105,14 +140,42 @@ def parse_script(value: Any) -> Script:
     raise ValueError(f"Could not parse script '{value}'")
 
 
-field_signature = parse_optfield("function_signature", parse_signature)
-field_name = parse_field("name", parse_str)
-field_description = parse_optfield("description", parse_str)
-field_location = parse_field("location", Location.from_dict)
-field_parent_name = parse_field("parent_name", parse_str)
-field_rule = parse_field("rule", parse_rule)
-field_matches = parse_field("matches", parse_matches)
 field_script = parse_field("script", parse_script)
+
+##############################################################################
+# Encoders/Decoders - List Values
+##############################################################################
+
+
+def asdict_list_value(value: ListValue) -> JsonValue:
+    if isinstance(value, Mapping):
+        return {key: asdict_pickle(val) for key, val in value.items()}
+    else:
+        return value  # type: ignore[return-value]
+
+
+def parse_list_value(value: JsonValue) -> ListValue:
+    if isinstance(value, Mapping):
+        return {key: parse_pickle(val) for key, val in parse_dict(value).items()}
+    if isinstance(value, Sequence):
+        return list(map(parse_str, value))
+    raise TypeError(
+        f"Expected dict[str, any] or list[str], found {type(value).__name__}"
+    )
+
+
+field_list_value = parse_optfield("value", parse_list_value)
+
+##############################################################################
+# Encoders/Decoders - Setting Values
+##############################################################################
+
+
+asdict_setting_value = asdict_pickle
+
+parse_setting_value = parse_pickle
+
+field_setting_value = parse_optfield("value", parse_setting_value)
 
 ##############################################################################
 # Packages
@@ -126,7 +189,7 @@ class Package(SimpleData):
 
     name: PackageName
     description: None = field(default=None, init=False)
-    location: Union[Literal["builtin"], Location]
+    location: Location
     parent_name: None = field(default=None, init=False)
     parent_type: None = field(default=None, init=False)
     serialisable: bool = field(default=True, init=False)
@@ -207,9 +270,9 @@ class Context(SimpleData):
 # Common Decoders - Cont'd
 ##############################################################################
 
-field_parent_type: Callable[[Any], Union[type[Module], type[Context]]] = parse_field(
-    "parent_type", parse_class(Module, Context)  # type: ignore[arg-type]
-)
+field_parent_type: Callable[
+    [JsonValue], Union[type[Module], type[Context]]
+] = parse_field("parent_type", parse_class(Module, Context))
 
 
 ##############################################################################
@@ -273,7 +336,7 @@ class Command(SimpleData):
 
     name: str = field(init=False)
     description: Optional[str]
-    location: Union[Literal["builtin"], Location]
+    location: Location
     parent_name: ContextName
     parent_type: type[Context] = field(default=Context, init=False)
     serialisable: bool = field(default=True, init=False)
@@ -281,17 +344,17 @@ class Command(SimpleData):
     def __post_init__(self, *_args, **_kwargs) -> None:
         self.name = rule_name(self.rule)
 
-    @staticmethod
-    def from_dict(value: Mapping[Any, Any]) -> "Command":
+    @classmethod
+    def from_dict(cls, value: JsonValue) -> "Command":
         return Command(
             rule=field_rule(value),
             script=field_script(value),
             description=field_description(value),
-            location=field_location(value),
+            location=parse_field("location", Location.from_dict)(value),
             parent_name=field_parent_name(value),
         )
 
-    def to_dict(self) -> Mapping[Any, Any]:
+    def to_dict(self) -> JsonValue:
         return {
             "rule": self.rule.text,
             "script": self.script.text,
@@ -319,8 +382,8 @@ class Action(GroupDataHasFunction):
     parent_type: Union[type[Module], type[Context]]
     serialisable: bool = field(default=True, init=False)
 
-    @staticmethod
-    def from_dict(value: Mapping[Any, Any]) -> "Action":
+    @classmethod
+    def from_dict(cls, value: JsonValue) -> "Action":
         return Action(
             function_name=None,
             function_signature=field_signature(value),
@@ -331,7 +394,7 @@ class Action(GroupDataHasFunction):
             parent_type=field_parent_type(value),
         )
 
-    def to_dict(self) -> Mapping[Any, Any]:
+    def to_dict(self) -> JsonValue:
         return {
             "function_name": None,
             "function_signature": asdict_opt(asdict_signature)(self.function_signature),
@@ -357,8 +420,8 @@ class Capture(GroupDataHasFunction):
     parent_type: Union[type[Module], type[Context]]
     serialisable: bool = field(default=True, init=False)
 
-    @staticmethod
-    def from_dict(value: Mapping[Any, Any]) -> "Capture":
+    @classmethod
+    def from_dict(cls, value: JsonValue) -> "Capture":
         return Capture(
             rule=field_rule(value),
             function_name=None,
@@ -370,7 +433,7 @@ class Capture(GroupDataHasFunction):
             parent_type=field_parent_type(value),
         )
 
-    def to_dict(self) -> Mapping[Any, Any]:
+    def to_dict(self) -> JsonValue:
         return {
             "rule": self.rule.text,
             "function_name": None,
@@ -391,10 +454,33 @@ class List(GroupData):
 
     name: ListName
     description: Optional[str]
-    location: Union[Literal["builtin"], Location]
+    location: Union[None, Literal["builtin"], Location]
     parent_name: Union[ModuleName, ContextName]
     parent_type: Union[type[Module], type[Context]]
     serialisable: bool = field(default=True, init=False)
+
+    @classmethod
+    def from_dict(cls, value: JsonValue) -> "List":
+        return List(
+            value=field_list_value(value),
+            value_type_hint=field_value_type_hint(value),
+            name=field_name(value),
+            description=field_description(value),
+            location=field_optlocation(value),
+            parent_name=field_parent_name(value),
+            parent_type=field_parent_type(value),
+        )
+
+    def to_dict(self) -> JsonValue:
+        return {
+            "value": asdict_opt(asdict_list_value)(self.value),
+            "value_type_hint": asdict_opt(asdict_class)(self.value_type_hint),
+            "name": self.name,
+            "description": self.description,
+            "location": asdict_opt(asdict_location)(self.location),
+            "parent_name": self.parent_name,
+            "parent_type": self.parent_type.__name__,
+        }
 
 
 @final
@@ -405,10 +491,33 @@ class Setting(GroupData):
 
     name: SettingName
     description: Optional[str]
-    location: Union[Literal["builtin"], Location]
+    location: Union[None, Literal["builtin"], Location]
     parent_name: Union[ModuleName, ContextName]
     parent_type: Union[type[Module], type[Context]]
     serialisable: bool = field(default=True, init=False)
+
+    @classmethod
+    def from_dict(cls, value: JsonValue) -> "Setting":
+        return Setting(
+            value=field_setting_value(value),
+            value_type_hint=field_value_type_hint(value),
+            name=field_name(value),
+            description=field_description(value),
+            location=field_optlocation(value),
+            parent_name=field_parent_name(value),
+            parent_type=field_parent_type(value),
+        )
+
+    def to_dict(self) -> JsonValue:
+        return {
+            "value": asdict_opt(asdict_pickle)(self.value),
+            "value_type_hint": asdict_opt(asdict_class)(self.value_type_hint),
+            "name": self.name,
+            "description": self.description,
+            "location": asdict_opt(asdict_location)(self.location),
+            "parent_name": self.parent_name,
+            "parent_type": self.parent_type.__name__,
+        }
 
 
 @final
@@ -416,10 +525,27 @@ class Setting(GroupData):
 class Mode(SimpleData):
     name: ModeName
     description: Optional[str]
-    location: Union[Literal["builtin"], Location]
+    location: Union[None, Literal["builtin"], Location]
     parent_name: ModuleName
     parent_type: type[Module] = field(default=Module, init=False)
     serialisable: bool = field(default=True, init=False)
+
+    @classmethod
+    def from_dict(cls, value: JsonValue) -> "Mode":
+        return Mode(
+            name=field_name(value),
+            description=field_description(value),
+            location=field_optlocation(value),
+            parent_name=field_parent_name(value),
+        )
+
+    def to_dict(self) -> JsonValue:
+        return {
+            "name": self.name,
+            "description": self.description,
+            "location": asdict_opt(asdict_location)(self.location),
+            "parent_name": self.parent_name,
+        }
 
 
 @final
@@ -427,10 +553,27 @@ class Mode(SimpleData):
 class Tag(SimpleData):
     name: TagName
     description: Optional[str]
-    location: Union[Literal["builtin"], Location]
+    location: Union[None, Literal["builtin"], Location]
     parent_name: ModuleName
     parent_type: type[Module] = field(default=Module, init=False)
     serialisable: bool = field(default=True, init=False)
+
+    @classmethod
+    def from_dict(cls, value: JsonValue) -> "Tag":
+        return Tag(
+            name=field_name(value),
+            description=field_description(value),
+            location=field_optlocation(value),
+            parent_name=field_parent_name(value),
+        )
+
+    def to_dict(self) -> JsonValue:
+        return {
+            "name": self.name,
+            "description": self.description,
+            "location": asdict_opt(asdict_location)(self.location),
+            "parent_name": self.parent_name,
+        }
 
 
 ##############################################################################
@@ -450,3 +593,19 @@ class Group(Generic[GroupDataVar]):
         else:
             assert issubclass(value.parent_type, Context)
             self.overrides.append(value)
+
+    @classmethod
+    def from_dict(cls: type[GroupDataVar], value: JsonValue) -> Self:  # type: ignore
+        _parse_list_of_cls = parse_list_of(cls.from_dict)
+        return Group(
+            declarations=parse_field("declarations", _parse_list_of_cls)(value),
+            overrides=parse_field("overrides", _parse_list_of_cls)(value),
+        )
+
+    def to_dict(self) -> JsonValue:
+        return {
+            "declarations": [
+                declaration.to_dict() for declaration in self.declarations
+            ],
+            "overrides": [override.to_dict() for override in self.overrides],
+        }

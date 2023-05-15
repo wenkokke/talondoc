@@ -19,6 +19,8 @@ from typing import (
 from talonfmt import talonfmt
 from typing_extensions import Final
 
+from talondoc.analysis.registry.entries.serialise import JsonValue
+
 from ..._util.logging import getLogger
 from . import entries as talon
 from .entries import CallbackVar
@@ -37,6 +39,7 @@ from .entries.abc import (
 _LOGGER = getLogger(__name__)
 
 
+@dataclass
 class Registry:
     _data: Final[Dict[str, Any]]
     _temp_data: Final[Dict[str, Any]]
@@ -122,6 +125,10 @@ class Registry:
 
     # Callback entries
     register.register(talon.Callback, _register_callback)
+
+    def extend(self, values: Sequence[DataVar]) -> None:
+        for value in values:
+            self.register(value)
 
     ######################################################################
     # Finding Data
@@ -458,6 +465,35 @@ class Registry:
         store = data.setdefault(cls.__name__, {})
         assert isinstance(store, dict)
         return store
+
+    ##################################################
+    # Encoder/Decoder
+    ##################################################
+
+    def to_dict(self) -> JsonValue:
+        return {
+            talon.Command.__name__: {
+                name: command.to_dict() for name, command in self.commands.items()
+            },
+            talon.Action.__name__: {
+                name: group.to_dict() for name, group in self.actions.items()
+            },
+            talon.Capture.__name__: {
+                name: group.to_dict() for name, group in self.captures.items()
+            },
+            talon.List.__name__: {
+                name: group.to_dict() for name, group in self.lists.items()
+            },
+            talon.Setting.__name__: {
+                name: group.to_dict() for name, group in self.settings.items()
+            },
+            talon.Mode.__name__: {
+                name: group.to_dict() for name, group in self.modes.items()
+            },
+            talon.Tag.__name__: {
+                name: group.to_dict() for name, group in self.tags.items()
+            },
+        }
 
     ##################################################
     # The active GLOBAL registry

@@ -71,7 +71,7 @@ def autogen(
     loaders: list[jinja2.BaseLoader] = []
     if template_dir:
         loaders.append(jinja2.FileSystemLoader(template_dir))
-    loaders.append(jinja2.PackageLoader("talondoc", "autogen/data"))
+    loaders.append(jinja2.PackageLoader("talondoc._autogen", "resources"))
 
     # Create jinja2 environment
     env = jinja2.sandbox.SandboxedEnvironment(
@@ -95,7 +95,6 @@ def autogen(
     )
     assert len(registry.packages) == 1
     package = next(iter(registry.packages.values()))
-    assert package.location != "builtin"
     ctx = {
         "project": project,
         "author": author,

@@ -15,6 +15,7 @@ from typing_extensions import Self
 
 from ..._util.io import NonBlockingTextIOWrapper
 from ..._util.logging import getLogger
+from ..registry import Registry
 from ..registry import entries as talon
 
 _LOGGER = getLogger(__name__)
@@ -118,6 +119,10 @@ class TalonRepl(AbstractContextManager):
             return ()
         return tuple(map(talon.Action.from_dict, actions_fields))
 
+    @property
+    def builtin_actions(self) -> Sequence[talon.Action]:
+        return tuple(filter(lambda action: action.builtin, self.actions))
+
     @cached_property
     def captures(self) -> Sequence[talon.Capture]:
         captures_json = self.eval_resource("get_captures.py")
@@ -128,10 +133,13 @@ class TalonRepl(AbstractContextManager):
             return ()
         return tuple(map(talon.Capture.from_dict, captures_fields))
 
+    @property
+    def builtin_captures(self) -> Sequence[talon.Capture]:
+        return tuple(filter(lambda capture: capture.builtin, self.captures))
+
     @cached_property
     def commands(self) -> Sequence[talon.Capture]:
         commands_json = self.eval_resource("get_commands.py")
-        print(commands_json)
         try:
             commands_fields = json.loads(commands_json)
         except json.JSONDecodeError as e:
@@ -139,9 +147,81 @@ class TalonRepl(AbstractContextManager):
             return ()
         return tuple(map(talon.Capture.from_dict, commands_fields))
 
+    @cached_property
+    def lists(self) -> Sequence[talon.List]:
+        lists_json = self.eval_resource("get_lists.py")
+        try:
+            lists_fields = json.loads(lists_json)
+        except json.JSONDecodeError as e:
+            _LOGGER.error(e)
+            return ()
+        return tuple(map(talon.List.from_dict, lists_fields))
 
-def cache_builtin(output_dir: str) -> None:
-    with TalonRepl() as repl:
-        print(repl.version)
-        for command in repl.commands:
-            print(command)
+    @property
+    def builtin_lists(self) -> Sequence[talon.List]:
+        return tuple(filter(lambda list: list.builtin, self.lists))
+
+    @cached_property
+    def settings(self) -> Sequence[talon.Setting]:
+        settings_json = self.eval_resource("get_settings.py")
+        try:
+            settings_fields = json.loads(settings_json)
+        except json.JSONDecodeError as e:
+            _LOGGER.error(e)
+            return ()
+        return tuple(map(talon.Setting.from_dict, settings_fields))
+
+    @property
+    def builtin_settings(self) -> Sequence[talon.Setting]:
+        return tuple(filter(lambda setting: setting.builtin, self.settings))
+
+    @cached_property
+    def modes(self) -> Sequence[talon.Mode]:
+        modes_json = self.eval_resource("get_modes.py")
+        try:
+            modes_fields = json.loads(modes_json)
+        except json.JSONDecodeError as e:
+            _LOGGER.error(e)
+            return ()
+        return tuple(map(talon.Mode.from_dict, modes_fields))
+
+    @property
+    def builtin_modes(self) -> Sequence[talon.Mode]:
+        return tuple(filter(lambda mode: mode.builtin, self.modes))
+
+    @cached_property
+    def tags(self) -> Sequence[talon.Tag]:
+        tags_json = self.eval_resource("get_tags.py")
+        try:
+            tags_fields = json.loads(tags_json)
+        except json.JSONDecodeError as e:
+            _LOGGER.error(e)
+            return ()
+        return tuple(map(talon.Tag.from_dict, tags_fields))
+
+    @property
+    def builtin_tags(self) -> Sequence[talon.Tag]:
+        return tuple(filter(lambda tag: tag.builtin, self.tags))
+
+    @property
+    def registry(self) -> Registry:
+        registry = Registry()
+        registry.extend(self.commands)
+        registry.extend(self.actions)
+        registry.extend(self.captures)
+        registry.extend(self.lists)
+        registry.extend(self.settings)
+        registry.extend(self.modes)
+        registry.extend(self.tags)
+        return registry
+
+    @property
+    def builtin_registry(self) -> Registry:
+        registry = Registry()
+        registry.extend(self.builtin_actions)
+        registry.extend(self.builtin_captures)
+        registry.extend(self.builtin_lists)
+        registry.extend(self.builtin_settings)
+        registry.extend(self.builtin_modes)
+        registry.extend(self.builtin_tags)
+        return registry

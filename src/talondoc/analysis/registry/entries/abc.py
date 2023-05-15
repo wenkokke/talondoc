@@ -1,3 +1,4 @@
+from abc import abstractmethod
 from dataclasses import asdict, dataclass
 from functools import singledispatch
 from inspect import Signature
@@ -32,10 +33,17 @@ from tree_sitter_talon import (
     TalonStartAnchor,
     TalonWord,
 )
-from typing_extensions import Literal, TypeVar, final
+from typing_extensions import Literal, Self, TypeVar, final
 
 from ...._util.logging import getLogger
-from .serialise import parse_field, parse_int, parse_optfield, parse_str
+from .serialise import (
+    JsonValue,
+    parse_dict,
+    parse_field,
+    parse_int,
+    parse_optfield,
+    parse_str,
+)
 
 _LOGGER = getLogger(__name__)
 
@@ -105,10 +113,8 @@ class Location:
         return Location(path=path)
 
     @staticmethod
-    def from_dict(value: Mapping[Any, Any]) -> Union[Literal["builtin"], "Location"]:
-        if isinstance(value, str) and value == "builtin":
-            return cast(Literal["builtin"], value)
-        elif isinstance(value, Mapping):
+    def from_dict(value: JsonValue) -> "Location":
+        if isinstance(value, Dict):
             return Location(
                 path=Path(parse_field("path", parse_str)(value)),
                 start_line=parse_optfield("start_line", parse_int)(value),
@@ -118,11 +124,18 @@ class Location:
             )
         raise TypeError(f"Expected literal 'builtin' or Location, found {repr(value)}")
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> JsonValue:
         return asdict(self)
 
 
-def asdict_location(location: Union[Literal["builtin"], "Location"]) -> Any:
+def parse_location(value: JsonValue) -> Union[Literal["builtin"], "Location"]:
+    if isinstance(value, str) and value == "builtin":
+        return "builtin"
+    else:
+        return Location.from_dict(parse_dict(value))
+
+
+def asdict_location(location: Union[Literal["builtin"], "Location"]) -> JsonValue:
     if isinstance(location, str) and location == "builtin":
         return "builtin"
     else:
@@ -138,10 +151,16 @@ def asdict_location(location: Union[Literal["builtin"], "Location"]) -> Any:
 class Data:
     name: str
     description: Optional[str]
-    location: Union[Literal["builtin"], "Location"]
+    location: Union[None, Literal["builtin"], "Location"]
     parent_name: Optional[str]
     parent_type: Optional[Union[type[Package], type[File], type[Module], type[Context]]]
     serialisable: bool
+
+    @property
+    def builtin(self) -> bool:
+        return self.name.split(".", maxsplit=2)[0] != "user" and (
+            not self.parent_name or self.parent_name.split(".", maxsplit=2)[0] != "user"
+        )
 
 
 DataVar = TypeVar("DataVar", bound=Data)
@@ -171,6 +190,15 @@ SimpleDataVar = TypeVar(
 class GroupData(Data):
     parent_name: str
     parent_type: Union[type[Module], type[Context]]
+
+    @classmethod
+    @abstractmethod
+    def from_dict(cls, value: JsonValue) -> Self:
+        ...
+
+    @abstractmethod
+    def to_dict(self) -> JsonValue:
+        ...
 
 
 GroupDataVar = TypeVar(

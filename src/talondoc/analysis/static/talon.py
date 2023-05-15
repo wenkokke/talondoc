@@ -41,7 +41,6 @@ def _TalonSourceFile_get_declarations(
 
 
 def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None:
-    assert package.location != "builtin"
     # Create a file entry:
     file = talon.File(
         location=Location.from_path(path),
@@ -107,7 +106,6 @@ def analyse_files(
     *,
     show_progress: bool = False,
 ) -> None:
-    assert package.location != "builtin"
     # Retrieve or create package entry:
     bar = ProgressBar(total=len(paths), show=show_progress)
     for path in paths:

@@ -3,9 +3,9 @@ from typing import Optional
 
 import click
 
+from ._autogen import autogen
+from ._cache_builtin import cache_builtin
 from ._version import __version__
-from .analysis.live import cache_builtin
-from .autogen import autogen
 
 
 @click.group(name="talondoc")

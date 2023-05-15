@@ -4,10 +4,22 @@ from collections.abc import Callable
 from inspect import Parameter, Signature
 from typing import Any, Dict, Mapping, Optional, Sequence, Union
 
-from typing_extensions import TypeVar
+from typing_extensions import TypeAlias, TypeVar
+
+from ...._util.logging import getLogger
+
+_LOGGER = getLogger(__name__)
 
 _S = TypeVar("_S")
 _T = TypeVar("_T")
+
+JsonValue: TypeAlias = Union[
+    None,
+    int,
+    str,
+    dict[str, "JsonValue"],
+    list["JsonValue"],
+]
 
 ##############################################################################
 # Decoder
@@ -24,13 +36,15 @@ def asdict_opt(asdict: Callable[[_S], _T]) -> Callable[[Optional[_S]], Optional[
     return _asdict
 
 
-def asdict_object(value: Any) -> Optional[str]:
-    obj = base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
-    print(f"default = {obj}")
-    return obj
+def asdict_pickle(value: Any) -> JsonValue:
+    if isinstance(value, str):
+        return value
+    else:
+        value = base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
+        return {"pickle": value}
 
 
-def asdict_class(cls: type) -> Optional[str]:
+def asdict_class(cls: type) -> JsonValue:
     if cls in (Signature.empty, Parameter.empty):
         return None
     if hasattr(cls, "__name__"):
@@ -38,16 +52,16 @@ def asdict_class(cls: type) -> Optional[str]:
     return repr(cls)
 
 
-def asdict_parameter(par: Parameter) -> Dict[str, Any]:
+def asdict_parameter(par: Parameter) -> JsonValue:
     return {
         "name": par.name,
         "kind": par.kind,
-        "default": asdict_object(par.default),
+        "default": asdict_pickle(par.default),
         "annotation": asdict_class(par.annotation),
     }
 
 
-def asdict_signature(sig: Signature) -> Dict[str, Any]:
+def asdict_signature(sig: Signature) -> JsonValue:
     return {
         "parameters": [asdict_parameter(par) for par in sig.parameters.values()],
         "return_annotation": asdict_class(sig.return_annotation),
@@ -59,14 +73,21 @@ def asdict_signature(sig: Signature) -> Dict[str, Any]:
 ##############################################################################
 
 
-def parse_pickle(value: Any) -> Any:
-    try:
-        return pickle.loads(base64.b64decode(parse_str(value), validate=True))
-    except ModuleNotFoundError as e:
-        return None
+def parse_pickle(value: JsonValue) -> Any:
+    if isinstance(value, str):
+        return parse_str(value)
+    elif isinstance(value, Mapping):
+        value = parse_str(value["pickle"])
+        try:
+            return pickle.loads(base64.b64decode(value, validate=True))
+        except ModuleNotFoundError as e:
+            _LOGGER.warning(e)
+            return None
+    else:
+        raise TypeError(f"Expected str or dict, found {type(value).__name__}")
 
 
-def parse_value_by_type(cls: type[_T]) -> Callable[[Any], _T]:
+def parse_value_by_type(cls: type[_T]) -> Callable[[JsonValue], _T]:
     def _parser(value: Any) -> _T:
         if isinstance(value, cls):
             return value
@@ -81,8 +102,12 @@ parse_list = parse_value_by_type(list)
 parse_dict = parse_value_by_type(dict)
 
 
-def parse_opt(parser: Callable[[Any], _T]) -> Callable[[Any], Optional[_T]]:
-    def _parser(value: Any) -> Optional[_T]:
+def parse_list_of(parser: Callable[[JsonValue], _T]) -> Callable[[JsonValue], list[_T]]:
+    return lambda value: list(map(parser, parse_list(value)))
+
+
+def parse_opt(parser: Callable[[JsonValue], _T]) -> Callable[[JsonValue], Optional[_T]]:
+    def _parser(value: JsonValue) -> Optional[_T]:
         if value is None:
             return None
         else:
@@ -97,8 +122,10 @@ parse_optlist = parse_opt(parse_list)
 parse_optdict = parse_opt(parse_dict)
 
 
-def parse_field(name: str, parser: Callable[[Any], _T]) -> Callable[[Any], _T]:
-    def _parser(value: Any) -> _T:
+def parse_field(
+    name: str, parser: Callable[[JsonValue], _T]
+) -> Callable[[JsonValue], _T]:
+    def _parser(value: JsonValue) -> _T:
         value = parse_dict(value)
         try:
             return parser(value[name])
@@ -111,9 +138,9 @@ def parse_field(name: str, parser: Callable[[Any], _T]) -> Callable[[Any], _T]:
 
 
 def parse_optfield(
-    name: str, parser: Callable[[Any], _T]
-) -> Callable[[Any], Optional[_T]]:
-    def _parser(value: Any) -> Optional[_T]:
+    name: str, parser: Callable[[JsonValue], _T]
+) -> Callable[[JsonValue], Optional[_T]]:
+    def _parser(value: JsonValue) -> Optional[_T]:
         try:
             return parse_field(name, parse_opt(parser))(value)
         except KeyError as e:
@@ -122,17 +149,20 @@ def parse_optfield(
     return _parser
 
 
-def parse_value(options: tuple[_T, ...]) -> Callable[[Any], _T]:
-    OPTIONS_DICT = {opt: opt for opt in options}
-    return lambda value: OPTIONS_DICT[value]
+_EnumType = TypeVar("_EnumType", bound=int)
 
 
-def parse_class(*options: type[_T]) -> Callable[[Any], type[_T]]:
-    return lambda value: {opt.__name__: opt for opt in options}[value]
+def parse_enum(options: tuple[_EnumType, ...]) -> Callable[[JsonValue], _EnumType]:
+    OPTIONS_DICT = {int(opt): opt for opt in options}
+    return lambda value: OPTIONS_DICT[parse_int(value)]
+
+
+def parse_class(*options: type[_T]) -> Callable[[JsonValue], type[_T]]:
+    return lambda value: {opt.__name__: opt for opt in options}[parse_str(value)]
 
 
 parse_type = parse_class(bool, dict, float, int, list, set, str, tuple)
-parse_kind = parse_value(
+parse_kind = parse_enum(
     (
         Parameter.POSITIONAL_ONLY,
         Parameter.POSITIONAL_OR_KEYWORD,
@@ -143,7 +173,7 @@ parse_kind = parse_value(
 )
 
 
-def parse_parameter(value: Any) -> Parameter:
+def parse_parameter(value: JsonValue) -> Parameter:
     return Parameter(
         name=parse_field("name", parse_str)(value),
         kind=parse_field("kind", parse_kind)(value),
@@ -152,12 +182,12 @@ def parse_parameter(value: Any) -> Parameter:
     )
 
 
-def parse_parameters(value: Any) -> Sequence[Parameter]:
+def parse_parameters(value: JsonValue) -> Sequence[Parameter]:
     return tuple(map(parse_parameter, parse_list(value)))
 
 
-def parse_signature(value: Any) -> Signature:
+def parse_signature(value: JsonValue) -> Signature:
     return Signature(
         parameters=parse_field("parameters", parse_parameters)(value),
-        return_annotation=parse_field("return_annotation", parse_type)(value),
+        return_annotation=parse_optfield("return_annotation", parse_type)(value),
     )

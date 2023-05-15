@@ -41,7 +41,6 @@ def analyse_package(
         location=Location.from_path(package_dir.absolute()),
     )
     registry.register(package)
-    assert package.location != "builtin"
     paths = [
         path
         for path in package.location.path.glob("**/*")

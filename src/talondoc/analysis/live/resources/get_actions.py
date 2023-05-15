@@ -10,8 +10,13 @@ def _get_actions() -> None:
 
     action_dicts = []
 
-    def asdict_object(value: typing.Any) -> str:
-        return base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
+    def asdict_pickle(value: typing.Any) -> typing.Any:
+        if isinstance(value, str):
+            return value
+        else:
+            return {
+                "pickle": base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
+            }
 
     def asdict_class(cls: type) -> typing.Optional[str]:
         if cls in (inspect.Signature.empty, inspect.Parameter.empty):
@@ -24,7 +29,7 @@ def _get_actions() -> None:
         return {
             "name": par.name,
             "kind": par.kind,
-            "default": asdict_object(par.default),
+            "default": asdict_pickle(par.default),
             "annotation": asdict_class(par.annotation),
         }
 

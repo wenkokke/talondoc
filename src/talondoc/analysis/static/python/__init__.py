@@ -65,8 +65,6 @@ class TalonShimFinder(MetaPathFinder):
 
 @contextmanager
 def talon_package_shims(package: talon.Package) -> Iterator[None]:
-    assert package.location != "builtin"
-
     package_name = package.name
     package_path = str(package.location.path)
 
@@ -167,7 +165,6 @@ def analyse_files(
     show_progress: bool = False,
     continue_on_error: bool = True,
 ) -> None:
-    assert package.location != "builtin"
     # Retrieve or create package entry:
     with talon_shims(registry, package=package):
         bar = ProgressBar(total=len(paths), show=show_progress)
