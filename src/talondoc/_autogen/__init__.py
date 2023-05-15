@@ -71,7 +71,9 @@ def autogen(
     loaders: list[jinja2.BaseLoader] = []
     if template_dir:
         loaders.append(jinja2.FileSystemLoader(template_dir))
-    loaders.append(jinja2.PackageLoader("talondoc._autogen", "resources"))
+    loaders.append(
+        jinja2.PackageLoader("talondoc._autogen", "resources", encoding="utf-8")
+    )
 
     # Create jinja2 environment
     env = jinja2.sandbox.SandboxedEnvironment(

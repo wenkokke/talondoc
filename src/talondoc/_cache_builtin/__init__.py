@@ -1,6 +1,6 @@
 import json
 
-from .analysis.live import TalonRepl
+from ..analysis.live import TalonRepl
 
 
 def cache_builtin(output_dir: str) -> None:
