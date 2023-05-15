@@ -325,7 +325,7 @@ def rule_name(
 @rule_name.register
 def _(rule: TalonRule) -> str:
     _not_comment = lambda rule: not isinstance(rule, TalonComment)
-    return "__".join(map(rule_name, filter(_not_comment, rule.children)))
+    return f"__{'__'.join(map(rule_name, filter(_not_comment, rule.children)))}__"
 
 
 @rule_name.register
