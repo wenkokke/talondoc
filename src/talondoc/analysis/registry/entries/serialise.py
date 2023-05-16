@@ -150,9 +150,7 @@ def parse_field(
         try:
             return parser(value[name])
         except TypeError as e:
-            raise TypeError(
-                f"Error when checking type for field '{name}'. {e}"
-            ).with_traceback(e.__traceback__)
+            raise TypeError(f"Error when checking type for field {name}. {e}")
 
     return _parser
 

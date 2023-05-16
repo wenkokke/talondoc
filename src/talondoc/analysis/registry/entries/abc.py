@@ -227,7 +227,7 @@ GroupDataHasFunctionVar = TypeVar(
 ##############################################################################
 
 
-@dataclass(frozen=True)
+@dataclass
 class DuplicateData(Exception):
     """Raised when an entry is defined in multiple modules."""
 
@@ -256,7 +256,7 @@ class DuplicateData(Exception):
         )
 
 
-@dataclass(frozen=True)
+@dataclass
 class UnknownReference(Exception):
     """Raised when an entry is defined in multiple modules."""
 
