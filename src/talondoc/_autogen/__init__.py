@@ -97,20 +97,21 @@ def autogen(
     )
     assert len(registry.packages) == 1
     package = next(iter(registry.packages.values()))
+
+    # Make package path relative to output_dir:
+    package_path = Path(os.path.relpath(package.location.path, start=sphinx_root))
+
     ctx = {
         "project": project,
         "author": author,
         "year": str(datetime.date.today().year),
         "release": release,
         "package_name": package.name,
-        "package_path": package.location.path,
+        "package_path": package_path,
         "include": include,
         "exclude": exclude,
         "trigger": trigger,
     }
-
-    # Make package path relative to output_dir:
-    package_path = Path(os.path.relpath(package.location.path, start=sphinx_root))
 
     # Render talon and python file entries:
     template_talon_file = env.get_template("talon_file.rst.jinja2")

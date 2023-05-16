@@ -94,10 +94,7 @@ class Registry:
         _LOGGER.debug(f"register {value.__class__.__name__} {value.name}")
         # Register the data in the store.
         store = self._typed_store(value.__class__)
-        old_group = store.get(value.name)
-        if old_group is None:
-            store[value.name] = old_group = talon.Group[GroupDataVar]()
-        old_group.append(value)
+        store.setdefault(value.name, []).append(value)
         return value
 
     def _register_callback(self, value: CallbackVar) -> CallbackVar:
@@ -173,7 +170,9 @@ class Registry:
         ] = None,
     ) -> Iterator[talon.Command]:
         if restrict_to is None:
-            yield from self.commands.values()
+            for group in self.commands.values():
+                for command in group:
+                    yield command
         else:
             for context in self.resolve_contexts(restrict_to):
                 for command_name in context.commands:
@@ -292,7 +291,7 @@ class Registry:
         self,
         cls: type[GroupDataVar],
         name: str,
-    ) -> Optional[talon.Group[GroupDataVar]]:
+    ) -> Optional[List[GroupDataVar]]:
         ...
 
     @overload
@@ -322,13 +321,13 @@ class Registry:
     ) -> Optional[GroupDataVar]:
         group = self.lookup(cls, name)
         if group:
-            for declaration in group.declarations:
-                return declaration
-            for override in group.overrides:
-                assert issubclass(override.parent_type, talon.Context)
-                context = self.lookup(talon.Context, override.parent_name)
-                if context and context.always_on:
-                    return override
+            for obj in group:
+                if issubclass(obj.parent_type, talon.Module):
+                    return obj
+                else:
+                    ctx = self.lookup(talon.Context, obj.parent_name)
+                    if ctx and ctx.always_on:
+                        return obj
         return None
 
     def lookup_default_function(
@@ -392,7 +391,7 @@ class Registry:
         return self._typed_store(talon.Function)
 
     @property
-    def callbacks(self) -> Mapping[talon.EventCode, Sequence[talon.Callback]]:
+    def callbacks(self) -> Mapping[talon.EventCode, List[talon.Callback]]:
         return self._typed_store(talon.Callback)
 
     @property
@@ -404,23 +403,23 @@ class Registry:
         return self._typed_store(talon.Context)
 
     @property
-    def commands(self) -> Mapping[str, talon.Command]:
+    def commands(self) -> Mapping[str, List[talon.Command]]:
         return self._typed_store(talon.Command)
 
     @property
-    def actions(self) -> Mapping[str, talon.Group[talon.Action]]:
+    def actions(self) -> Mapping[str, List[talon.Action]]:
         return self._typed_store(talon.Action)
 
     @property
-    def captures(self) -> Mapping[str, talon.Group[talon.Capture]]:
+    def captures(self) -> Mapping[str, List[talon.Capture]]:
         return self._typed_store(talon.Capture)
 
     @property
-    def lists(self) -> Mapping[str, talon.Group[talon.List]]:
+    def lists(self) -> Mapping[str, List[talon.List]]:
         return self._typed_store(talon.List)
 
     @property
-    def settings(self) -> Mapping[str, talon.Group[talon.Setting]]:
+    def settings(self) -> Mapping[str, List[talon.Setting]]:
         return self._typed_store(talon.Setting)
 
     @property
@@ -440,9 +439,7 @@ class Registry:
         ...
 
     @overload
-    def _typed_store(
-        self, cls: type[GroupDataVar]
-    ) -> Dict[str, talon.Group[GroupDataVar]]:
+    def _typed_store(self, cls: type[GroupDataVar]) -> Dict[str, List[GroupDataVar]]:
         ...
 
     @overload
@@ -473,25 +470,30 @@ class Registry:
     def to_dict(self) -> JsonValue:
         return {
             talon.Command.__name__: {
-                name: command.to_dict() for name, command in self.commands.items()
+                name: [command.to_dict() for command in group]
+                for name, group in self.commands.items()
             },
             talon.Action.__name__: {
-                name: group.to_dict() for name, group in self.actions.items()
+                name: [action.to_dict() for action in group]
+                for name, group in self.actions.items()
             },
             talon.Capture.__name__: {
-                name: group.to_dict() for name, group in self.captures.items()
+                name: [capture.to_dict() for capture in group]
+                for name, group in self.captures.items()
             },
             talon.List.__name__: {
-                name: group.to_dict() for name, group in self.lists.items()
+                name: [list.to_dict() for list in group]
+                for name, group in self.lists.items()
             },
             talon.Setting.__name__: {
-                name: group.to_dict() for name, group in self.settings.items()
+                name: [setting.to_dict() for setting in group]
+                for name, group in self.settings.items()
             },
             talon.Mode.__name__: {
-                name: group.to_dict() for name, group in self.modes.items()
+                name: mode.to_dict() for name, mode in self.modes.items()
             },
             talon.Tag.__name__: {
-                name: group.to_dict() for name, group in self.tags.items()
+                name: tag.to_dict() for name, tag in self.tags.items()
             },
         }
 

@@ -22,7 +22,10 @@ if "sphinx" not in sys.modules:
             else:
                 return super().format(record)  # type: ignore[no-any-return]
 
-    _FORMATTER = PrettyColoredFormatter(fmt="%(log_color)s%(levelname)s: %(message)s")
+    _FORMATTER = PrettyColoredFormatter(
+        fmt="%(log_color)s%(levelname)s: %(message)s",
+        log_colors={"ERROR": "red", "WARNING": "red"},
+    )
 
     _HANDLER = logging.StreamHandler()
     _HANDLER.setFormatter(_FORMATTER)

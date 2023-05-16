@@ -350,7 +350,7 @@ CallbackVar = TypeVar("CallbackVar", bound=Callback)
 
 @final
 @dataclass
-class Command(SimpleData):
+class Command(GroupData):
     rule: Rule
     script: Script
 
@@ -618,39 +618,4 @@ class Tag(SimpleData):
             "description": self.description,
             "location": asdict_opt(asdict_location)(self.location),
             "parent_name": self.parent_name,
-        }
-
-
-##############################################################################
-# Groups
-##############################################################################
-
-
-@final
-@dataclass
-class Group(Generic[GroupDataVar]):
-    declarations: list[GroupDataVar] = field(default_factory=list)
-    overrides: list[GroupDataVar] = field(default_factory=list)
-
-    def append(self, value: GroupDataVar) -> None:
-        if issubclass(value.parent_type, Module):
-            self.declarations.append(value)
-        else:
-            assert issubclass(value.parent_type, Context)
-            self.overrides.append(value)
-
-    @classmethod
-    def from_dict(cls: type[GroupDataVar], value: JsonValue) -> Self:  # type: ignore
-        _parse_list_of_cls = parse_list_of(cls.from_dict)
-        return Group(
-            declarations=parse_field("declarations", _parse_list_of_cls)(value),
-            overrides=parse_field("overrides", _parse_list_of_cls)(value),
-        )
-
-    def to_dict(self) -> JsonValue:
-        return {
-            "declarations": [
-                declaration.to_dict() for declaration in self.declarations
-            ],
-            "overrides": [override.to_dict() for override in self.overrides],
         }
