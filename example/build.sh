@@ -8,7 +8,8 @@ output_dir="$script_dir/docs"
 
 [ ! -s "$fail" ] && \
   PYTHONUTF8=1 \
-  talondoc autogen \
+  talondoc \
+  autogen \
   --output-dir "$output_dir/knausj_talon" \
   --sphinx-root "$output_dir" \
   --project 'knausj_talon' \

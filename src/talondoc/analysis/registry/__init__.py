@@ -1,4 +1,5 @@
 import inspect
+import itertools
 from dataclasses import dataclass
 from functools import singledispatchmethod
 from typing import (
@@ -16,6 +17,7 @@ from typing import (
     overload,
 )
 
+from more_itertools import partition
 from talonfmt import talonfmt
 from typing_extensions import Final
 
@@ -75,7 +77,7 @@ class Registry:
         store = self._typed_store(value.__class__)
         old_value = store.get(value.name, None)
         if old_value is not None:
-            exc = DuplicateData(value, old_value)
+            exc = DuplicateData([value, old_value])
             if self._continue_on_error:
                 _LOGGER.warning(exc)
                 return old_value
@@ -322,13 +324,22 @@ class Registry:
     ) -> Optional[GroupDataVar]:
         group = self.lookup(cls, name)
         if group:
-            for obj in group:
+            _IS_DECLARATION: int = 0
+            _IS_ALWAYS_ON: int = 1
+
+            def _complexity(obj: GroupDataVar) -> int:
                 if issubclass(obj.parent_type, talon.Module):
-                    return obj
+                    return _IS_DECLARATION
                 else:
-                    ctx = self.lookup(talon.Context, obj.parent_name)
-                    if ctx and ctx.always_on:
-                        return obj
+                    ctx = self.get(talon.Context, obj.parent_name, referenced_by=obj)
+                    return _IS_ALWAYS_ON + len(ctx.matches)
+
+            sorted_group = [(_complexity(obj), obj) for obj in group]
+            sorted_group.sort(key=lambda tup: tup[0])
+            declarations = [obj for c, obj in sorted_group if c == _IS_DECLARATION]
+            if len(declarations) >= 2:
+                _LOGGER.warning(DuplicateData(declarations))
+            return sorted_group[0][1]
         return None
 
     def lookup_default_function(

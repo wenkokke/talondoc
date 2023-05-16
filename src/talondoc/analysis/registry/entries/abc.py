@@ -3,17 +3,7 @@ from dataclasses import asdict, dataclass
 from functools import singledispatch
 from inspect import Signature
 from pathlib import Path
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Callable,
-    Dict,
-    Mapping,
-    Optional,
-    Sequence,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, Callable, Dict, Optional, Sequence, Union
 
 import editdistance
 from tree_sitter_talon import Node as Node
@@ -231,27 +221,23 @@ GroupDataHasFunctionVar = TypeVar(
 class DuplicateData(Exception):
     """Raised when an entry is defined in multiple modules."""
 
-    data1: Data
-    data2: Data
+    data: Sequence[Data]
 
     def __str__(self) -> str:
-        cls_name1 = self.data1.__class__.__name__
-        cls_name2 = self.data2.__class__.__name__
-        if cls_name1 != cls_name2:
+        cls_names = set([data.__class__.__name__ for data in self.data])
+        if len(cls_names) >= 2:
             _LOGGER.warning(
-                f"DuplicateData exception with types {cls_name1} and {cls_name2}"
+                f"DuplicateData exception with types {', '.join(cls_names)}"
             )
-        data_name1 = self.data1.name
-        data_name2 = self.data2.name
-        if cls_name1 != cls_name2:
+        data_names = set([data.name for data in self.data])
+        if len(data_names) >= 2:
             _LOGGER.warning(
-                f"DuplicateData exception with names {data_name1} and {data_name2}"
+                f"DuplicateData exception with names {', '.join(data_names)}"
             )
         return "\n".join(
             [
-                f"{cls_name1} '{data_name1}' is declared twice:",
-                f"- {self.data1.location}",
-                f"- {self.data2.location}",
+                f"{cls_names.pop()} '{data_names.pop()}' is declared multiple times:",
+                *[f"- {data.location}" for data in self.data],
             ]
         )
 
@@ -273,12 +259,12 @@ class UnknownReference(Exception):
         if self.referenced_by is not None:
             referenced_by_type_name = self.referenced_by.__class__.__name__.lower()
             buffer.append(
-                f"{referenced_by_type_name} {self.referenced_by.name} references"
+                f"{referenced_by_type_name} '{self.referenced_by.name}' references"
             )
 
         # Include unknown reference:
         ref_type_name = self.ref_type.__name__.lower()
-        buffer.append(f"unknown {ref_type_name} {self.ref_name}")
+        buffer.append(f"unknown {ref_type_name} '{self.ref_name}'")
 
         # If known_references is set, include the closest matching subset:
         if self.known_references is not None:
@@ -287,7 +273,10 @@ class UnknownReference(Exception):
                 return int(editdistance.eval(self.ref_name, known_ref_name))
 
             closest_known_references = sorted(self.known_references, key=_distance)[:10]
-            buffer.append(f"(Did you mean {', '.join(closest_known_references)})")
+            did_you_mean = ", ".join(
+                [f"'{ref_name}'" for ref_name in closest_known_references]
+            )
+            buffer.append(f"(Did you mean {did_you_mean}.)")
 
         return " ".join(buffer)
 
