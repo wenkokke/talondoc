@@ -4,15 +4,16 @@ from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from functools import partial, singledispatch
 from inspect import Signature
-from typing import Any, Generic, Mapping, Optional, Sequence, Union
+from typing import Any, Mapping, Optional, Sequence, Union
 
 import tree_sitter_talon
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
 from tree_sitter_talon import TalonBlock, TalonMatch, TalonRule
-from typing_extensions import Literal, Self, TypeAlias, TypeVar, final
+from typing_extensions import Literal, TypeAlias, TypeVar, final
 
 from ...._util.logging import getLogger
+from ._compat import COMPAT as _COMPAT
 from .abc import (
     Data,
     GroupData,
@@ -149,7 +150,7 @@ def asdict_list_value(value: ListValue) -> JsonValue:
     if isinstance(value, Mapping):
         return {key: asdict_pickle(val) for key, val in value.items()}
     else:
-        return value  # type: ignore[return-value]
+        return list(value)
 
 
 def parse_list_value(value: JsonValue, *, context: dict[str, str] = {}) -> ListValue:
@@ -503,6 +504,19 @@ class List(GroupData):
     parent_name: Union[ModuleName, ContextName]
     parent_type: Union[type[Module], type[Context]]
     serialisable: bool = field(default=True, init=False)
+
+    def __post_init__(self, *args, **kwargs) -> None:
+        if self.value is None:
+            pass
+        elif isinstance(self.value, Mapping):
+            self.value = dict(self.value)
+        elif isinstance(self.value, Sequence):
+            self.value = list(self.value)
+        else:
+            _LOGGER.warning(  # type: ignore[unreachable]
+                f"List value for {self.name} should be list or dict, found {type(self.value)}"
+            )
+            self.value = None
 
     @classmethod
     def from_dict(cls, value: JsonValue) -> "List":

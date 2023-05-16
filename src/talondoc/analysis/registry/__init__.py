@@ -140,7 +140,11 @@ class Registry:
             if isinstance(package, talon.Package):
                 yield package
             else:
-                yield self.get(talon.Package, package)
+                try:
+                    yield self.get(talon.Package, package)
+                except UnknownReference as e:
+                    _LOGGER.error(e)
+                    pass
 
     def resolve_files(
         self, files: Iterator[Union[talon.FileName, talon.File]]
@@ -149,7 +153,11 @@ class Registry:
             if isinstance(file, talon.File):
                 yield file
             else:
-                yield self.get(talon.File, file)
+                try:
+                    yield self.get(talon.File, file)
+                except UnknownReference as e:
+                    _LOGGER.error(e)
+                    pass
 
     def resolve_contexts(
         self, contexts: Iterator[Union[talon.FileName, talon.File, talon.Context]]
@@ -159,10 +167,14 @@ class Registry:
                 yield value
             else:
                 if isinstance(value, str):
-                    value = self.get(talon.File, value)
+                    try:
+                        value = self.get(talon.File, value)
+                    except UnknownReference as e:
+                        _LOGGER.error(e)
+                        continue
                 assert isinstance(value, talon.File)
                 for context_name in value.contexts:
-                    yield self.get(talon.Context, context_name)
+                    yield self.get(talon.Context, context_name, referenced_by=value)
 
     def get_commands(
         self,
@@ -274,12 +286,13 @@ class Registry:
             raise ValueError(f"Registry.get does not support callbacks")
         if value is not None:
             return value
-        raise UnknownReference(
-            cls,
-            name,
-            referenced_by=referenced_by,
-            known_references=tuple(self._typed_store(cls).keys()),
-        )
+        else:
+            raise UnknownReference(
+                cls,
+                name,
+                referenced_by=referenced_by,
+                known_references=tuple(self._typed_store(cls).keys()),
+            )
 
     @overload
     def lookup(
