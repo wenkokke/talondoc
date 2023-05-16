@@ -138,14 +138,14 @@ class TalonRepl(AbstractContextManager):
         return tuple(filter(lambda capture: capture.builtin, self.captures))
 
     @cached_property
-    def commands(self) -> Sequence[talon.Capture]:
+    def commands(self) -> Sequence[talon.Command]:
         commands_json = self.eval_resource("get_commands.py")
         try:
             commands_fields = json.loads(commands_json)
         except json.JSONDecodeError as e:
             _LOGGER.error(e)
             return ()
-        return tuple(map(talon.Capture.from_dict, commands_fields))
+        return tuple(map(talon.Command.from_dict, commands_fields))
 
     @cached_property
     def lists(self) -> Sequence[talon.List]:

@@ -110,11 +110,11 @@ class Registry:
     register.register(talon.Function, _register_simple_data)
     register.register(talon.Module, _register_simple_data)
     register.register(talon.Context, _register_simple_data)
-    register.register(talon.Command, _register_simple_data)
     register.register(talon.Mode, _register_simple_data)
     register.register(talon.Tag, _register_simple_data)
 
     # Group entries
+    register.register(talon.Command, _register_grouped_data)
     register.register(talon.Action, _register_grouped_data)
     register.register(talon.Capture, _register_grouped_data)
     register.register(talon.List, _register_grouped_data)
@@ -171,6 +171,7 @@ class Registry:
     ) -> Iterator[talon.Command]:
         if restrict_to is None:
             for group in self.commands.values():
+                assert isinstance(group, list), f"Unexpected value {group}"
                 for command in group:
                     yield command
         else:
