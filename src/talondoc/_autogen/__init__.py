@@ -6,6 +6,7 @@ from typing import Optional, Union
 
 import jinja2
 import jinja2.sandbox
+from typing_extensions import Literal
 
 from .._util.progress_bar import ProgressBar
 from ..analysis.registry import Registry
@@ -50,6 +51,7 @@ def autogen(
     generate_conf: bool = True,
     generate_index: bool = True,
     continue_on_error: bool = True,
+    format: Literal["md", "rst"] = "rst",
 ):
     # Set defaults for arguments
     if isinstance(package_dir, str):
@@ -111,11 +113,13 @@ def autogen(
         "include": include,
         "exclude": exclude,
         "trigger": trigger,
+        "format": format,
     }
 
     # Render talon and python file entries:
-    template_talon_file = env.get_template("talon_file.rst.jinja2")
-    template_python_file = env.get_template("python_file.rst.jinja2")
+    template_talon_file = env.get_template(f"talon_file.{format}.jinja2")
+    template_python_file = env.get_template(f"python_file.{format}.jinja2")
+
     toc: list[Path] = []
     total: int = len(package.files)
     if generate_conf:
@@ -125,19 +129,19 @@ def autogen(
     bar = ProgressBar(total=total)
     for file_name in package.files:
         file = registry.get(talon.File, file_name, referenced_by=package)
-        # Create path/to/talon/file.rst:
+        # Create path/to/talon/file.{md,rst}:
         if file.location.path.suffix == ".talon":
             bar.step(f" {str(file.location.path)}")
-            output_relpath = file.location.path.with_suffix(".rst")
+            output_relpath = file.location.path.with_suffix(f".{format}")
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(template_talon_file.render(entry=file, **ctx))
 
-        # Create path/to/python/file/api.rst:
+        # Create path/to/python/file/api.{md,rst}:
         elif file.location.path.suffix == ".py":
             bar.step(f" {str(file.location.path)}")
-            output_relpath = file.location.path.with_suffix("") / "api.rst"
+            output_relpath = file.location.path.with_suffix("") / f"api.{format}"
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -147,11 +151,11 @@ def autogen(
         else:
             bar.step()
 
-    # Create index.rst
+    # Create index.{md,rst}
     if generate_index:
-        template_index = env.get_template("index.rst.jinja2")
-        output_path = output_dir / "index.rst"
-        bar.step(" index.rst")
+        template_index = env.get_template(f"index.{format}.jinja2")
+        output_path = output_dir / f"index.{format}"
+        bar.step(f" index.{format}")
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(template_index.render(toc=toc, **ctx))
 

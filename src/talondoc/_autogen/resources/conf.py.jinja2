@@ -3,7 +3,6 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
@@ -12,6 +11,33 @@ copyright = "{{ year }}, {{ author }}"
 author = "{{ author }}"
 release = "{{ release }}"
 
+# -- General configuration ---------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+
+extensions = [
+  {%- if markdown %}
+  # Enables support for Markdown
+  # https://www.sphinx-doc.org/en/master/usage/markdown.html
+  "myst_parser",
+  {%- endif %}
+  # Enable support for Talon
+  "talondoc.sphinx",
+]
+
+{%- if markdown %}
+# -- Options for MyST --------------------------------------------------------
+# https://myst-parser.readthedocs.io/en/latest/
+
+myst_enable_extensions = [
+    # Enables colon fence directives
+    # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#syntax-colon-fence
+    "colon_fence",
+    # Enables definition lists
+    # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#definition-lists
+    "deflist",
+]
+
+{%- endif %}
 # -- Options for TalonDoc ----------------------------------------------------
 # https://wen.works/talondoc/
 
@@ -32,12 +58,6 @@ talon_packages = {
 # def talon_docstring_hook(sort: str, name: str) -> Optional[str]:
 #     return None
 #
-
-# -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-
-extensions = ["talondoc.sphinx"]
-
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

@@ -103,6 +103,11 @@ def talondoc(*, log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"]):
     "--continue-on-error/--no-continue-on-error",
     default=bool(os.environ.get("TALONDOC_STRICT", False)),
 )
+@click.option(
+    "--format",
+    type=click.Choice(["rst", "md"]),
+    default="rst",
+)
 def _autogen(
     *,
     output_dir: str,
@@ -119,6 +124,7 @@ def _autogen(
     generate_conf: bool,
     generate_index: bool,
     continue_on_error: bool,
+    format: Literal["rst", "md"],
 ):
     autogen(
         package_dir,
@@ -135,6 +141,7 @@ def _autogen(
         generate_conf=generate_conf,
         generate_index=generate_index,
         continue_on_error=continue_on_error,
+        format=format,
     )
 
 
