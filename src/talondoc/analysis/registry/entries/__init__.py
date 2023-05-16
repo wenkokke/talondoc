@@ -2,7 +2,7 @@ import textwrap
 import typing
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
-from functools import singledispatch
+from functools import partial, singledispatch
 from inspect import Signature
 from typing import Any, Generic, Mapping, Optional, Sequence, Union
 
@@ -74,8 +74,6 @@ Rule: TypeAlias = TalonRule
 # Decoders - Common
 ##############################################################################
 
-
-field_signature = parse_optfield("function_signature", parse_signature)
 field_name = parse_field("name", parse_str)
 field_description = parse_optfield("description", parse_str)
 field_location = parse_field("location", parse_location)
@@ -154,9 +152,12 @@ def asdict_list_value(value: ListValue) -> JsonValue:
         return value  # type: ignore[return-value]
 
 
-def parse_list_value(value: JsonValue) -> ListValue:
+def parse_list_value(value: JsonValue, *, context: dict[str, str] = {}) -> ListValue:
     if isinstance(value, Mapping):
-        return {key: parse_pickle(val) for key, val in parse_dict(value).items()}
+        return {
+            key: parse_pickle(val, context=context)
+            for key, val in parse_dict(value).items()
+        }
     if isinstance(value, Sequence):
         return list(map(parse_str, value))
     raise TypeError(
@@ -164,7 +165,16 @@ def parse_list_value(value: JsonValue) -> ListValue:
     )
 
 
-field_list_value = parse_optfield("value", parse_list_value)
+def field_list_value(value: JsonValue) -> Optional[ListValue]:
+    context: dict[str, str] = {
+        "object_type": "list",
+        "field_name": "value",
+    }
+    if isinstance(value, dict):
+        context["object_name"] = str(value.get("name", None))
+
+    return parse_optfield("value", partial(parse_list_value, context=context))(value)
+
 
 ##############################################################################
 # Encoders/Decoders - Setting Values
@@ -175,7 +185,17 @@ asdict_setting_value = asdict_pickle
 
 parse_setting_value = parse_pickle
 
-field_setting_value = parse_optfield("value", parse_setting_value)
+
+def field_setting_value(value: JsonValue) -> Optional[SettingValue]:
+    context: dict[str, str] = {
+        "object_type": "setting",
+        "field_name": "value",
+    }
+    if isinstance(value, dict):
+        context["object_name"] = str(value.get("name", None))
+
+    return parse_optfield("value", partial(parse_pickle, context=context))(value)
+
 
 ##############################################################################
 # Packages
@@ -369,6 +389,18 @@ class Command(SimpleData):
 ##############################################################################
 
 
+def field_action_function_signature(value: JsonValue) -> Optional[Signature]:
+    context: dict[str, str] = {
+        "object_type": "action",
+        "field_name": "function_signature",
+    }
+    if isinstance(value, dict):
+        context["object_name"] = str(value.get("name", None))
+    return parse_optfield(
+        "function_signature", partial(parse_signature, context=context)
+    )(value)
+
+
 @final
 @dataclass
 class Action(GroupDataHasFunction):
@@ -386,7 +418,7 @@ class Action(GroupDataHasFunction):
     def from_dict(cls, value: JsonValue) -> "Action":
         return Action(
             function_name=None,
-            function_signature=field_signature(value),
+            function_signature=field_action_function_signature(value),
             name=field_name(value),
             description=field_description(value),
             location=field_location(value),
@@ -404,6 +436,19 @@ class Action(GroupDataHasFunction):
             "parent_name": self.parent_name,
             "parent_type": self.parent_type.__name__,
         }
+
+
+def field_capture_function_signature(value: JsonValue) -> Optional[Signature]:
+    context: dict[str, str] = {
+        "object_type": "capture",
+        "field_name": "default",
+        "field_path": "function_signature.parameters",
+    }
+    if isinstance(value, dict):
+        context["object_name"] = str(value.get("name", None))
+    return parse_optfield(
+        "function_signature", partial(parse_signature, context=context)
+    )(value)
 
 
 @final
@@ -425,7 +470,7 @@ class Capture(GroupDataHasFunction):
         return Capture(
             rule=field_rule(value),
             function_name=None,
-            function_signature=field_signature(value),
+            function_signature=field_capture_function_signature(value),
             name=field_name(value),
             description=field_description(value),
             location=field_location(value),

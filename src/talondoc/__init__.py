@@ -28,7 +28,6 @@ def talondoc(*, log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"]):
             "INFO": logging.INFO,
             "DEBUG": logging.DEBUG,
         }.get(log_level.upper(), logging.INFO),
-        format="%(log_color)s%(levelname)s: %(message)s",
     )
     pass
 

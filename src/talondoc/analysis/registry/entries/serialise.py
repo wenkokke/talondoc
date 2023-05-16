@@ -1,7 +1,9 @@
 import base64
 import pickle
 from collections.abc import Callable
+from functools import partial
 from inspect import Parameter, Signature
+from logging import WARNING
 from typing import Any, Dict, Mapping, Optional, Sequence, Union
 
 from typing_extensions import TypeAlias, TypeVar
@@ -73,7 +75,7 @@ def asdict_signature(sig: Signature) -> JsonValue:
 ##############################################################################
 
 
-def parse_pickle(value: JsonValue) -> Any:
+def parse_pickle(value: JsonValue, *, context: dict[str, str] = {}) -> Any:
     if isinstance(value, str):
         return parse_str(value)
     elif isinstance(value, Mapping):
@@ -81,7 +83,25 @@ def parse_pickle(value: JsonValue) -> Any:
         try:
             return pickle.loads(base64.b64decode(value, validate=True))
         except ModuleNotFoundError as e:
-            _LOGGER.warning(e)
+            if _LOGGER.isEnabledFor(WARNING):
+                object_name = context.get("object_name", None)
+                object_type = context.get("object_type", "object")
+                field_name = context.get("field_name", None)
+                field_path = context.get("field_path", None)
+                message_buffer: list[str] = []
+                message_buffer.append(f"Cannot decode")
+                if field_name:
+                    message_buffer.append(f"field {field_name}")
+                else:
+                    message_buffer.append(f"unknown field")
+                if field_path:
+                    message_buffer.append(f"in {field_path}")
+                if object_name:
+                    message_buffer.append(f"of {object_type} {object_name}.")
+                else:
+                    message_buffer.append(f"unknown {object_type}.")
+                message_buffer.append(str(e))
+                _LOGGER.warning(" ".join(message_buffer))
             return None
     else:
         raise TypeError(f"Expected str or dict, found {type(value).__name__}")
@@ -173,21 +193,27 @@ parse_kind = parse_enum(
 )
 
 
-def parse_parameter(value: JsonValue) -> Parameter:
+def parse_parameter(value: JsonValue, *, context: dict[str, str] = {}) -> Parameter:
     return Parameter(
         name=parse_field("name", parse_str)(value),
         kind=parse_field("kind", parse_kind)(value),
-        default=parse_optfield("default", parse_pickle)(value),
+        default=parse_optfield("default", partial(parse_pickle, context=context))(
+            value
+        ),
         annotation=parse_optfield("annotation", parse_type)(value),
     )
 
 
-def parse_parameters(value: JsonValue) -> Sequence[Parameter]:
-    return tuple(map(parse_parameter, parse_list(value)))
+def parse_parameters(
+    value: JsonValue, *, context: dict[str, str] = {}
+) -> Sequence[Parameter]:
+    return tuple(map(partial(parse_parameter, context=context), parse_list(value)))
 
 
-def parse_signature(value: JsonValue) -> Signature:
+def parse_signature(value: JsonValue, *, context: dict[str, str] = {}) -> Signature:
     return Signature(
-        parameters=parse_field("parameters", parse_parameters)(value),
+        parameters=parse_field(
+            "parameters", partial(parse_parameters, context=context)
+        )(value),
         return_annotation=parse_optfield("return_annotation", parse_type)(value),
     )
