@@ -35,7 +35,7 @@ class Description:
 DescLike = Union[None, str, Description, Iterable[Description]]
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass
 class Value(Description):
     """
     The description of a value.
@@ -50,7 +50,7 @@ class Value(Description):
         return Steps(steps=(Step(self),))
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass
 class Step(Description):
     """
     The description of one step in a series of steps.
@@ -65,7 +65,7 @@ class Step(Description):
         return Steps(steps=(self,))
 
 
-@dataclasses.dataclass(frozen=True)
+@dataclasses.dataclass
 class Steps(Description):
     """
     The description of a series of steps.

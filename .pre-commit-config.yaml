@@ -27,7 +27,7 @@ repos:
     rev: "v3.0.0-alpha.9-for-vscode"
     hooks:
       - id: prettier
-        exclude: "^(tests/data/golden|talondoc/data)s"
+        exclude: "^(tests/data/golden|src/talondoc/_cache_builtin/resources|)s"
   - repo: https://github.com/ikamensh/flynt/
     rev: "0.78"
     hooks:

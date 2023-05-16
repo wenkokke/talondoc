@@ -41,12 +41,12 @@ def _TalonSourceFile_get_declarations(
 
 
 def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None:
-    assert package.location != "builtin"
     # Create a file entry:
     file = talon.File(
         location=Location.from_path(path),
         parent_name=package.name,
     )
+    package.files.append(file.name)
     registry.register(file)
 
     # Parse file:
@@ -71,7 +71,6 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
             command = talon.Command(
                 rule=declaration.left,
                 script=declaration.right,
-                index=len(context.commands),
                 description=declaration.get_docstring(),
                 location=Location.from_ast(context.location.path, declaration),
                 parent_name=context.name,
@@ -108,7 +107,6 @@ def analyse_files(
     *,
     show_progress: bool = False,
 ) -> None:
-    assert package.location != "builtin"
     # Retrieve or create package entry:
     bar = ProgressBar(total=len(paths), show=show_progress)
     for path in paths:

@@ -65,8 +65,6 @@ class TalonShimFinder(MetaPathFinder):
 
 @contextmanager
 def talon_package_shims(package: talon.Package) -> Iterator[None]:
-    assert package.location != "builtin"
-
     package_name = package.name
     package_path = str(package.location.path)
 
@@ -152,6 +150,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
         location=Location.from_path(path),
         parent_name=package.name,
     )
+    package.files.append(file.name)
     registry.register(file)
     # Process file (passes control to talondoc.analyzer.python.shims):
     module_name = ".".join([package.name, *path.with_suffix("").parts])
@@ -167,7 +166,6 @@ def analyse_files(
     show_progress: bool = False,
     continue_on_error: bool = True,
 ) -> None:
-    assert package.location != "builtin"
     # Retrieve or create package entry:
     with talon_shims(registry, package=package):
         bar = ProgressBar(total=len(paths), show=show_progress)
