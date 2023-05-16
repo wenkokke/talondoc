@@ -46,6 +46,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
         location=Location.from_path(path),
         parent_name=package.name,
     )
+    package.files.append(file.name)
     registry.register(file)
 
     # Parse file:

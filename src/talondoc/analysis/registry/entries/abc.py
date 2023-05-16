@@ -267,7 +267,7 @@ class UnknownReference(Exception):
         buffer.append(f"unknown {ref_type_name} '{self.ref_name}'")
 
         # If known_references is set, include the closest matching subset:
-        if self.known_references is not None:
+        if self.known_references:
 
             def _distance(known_ref_name: str) -> int:
                 return int(editdistance.eval(self.ref_name, known_ref_name))

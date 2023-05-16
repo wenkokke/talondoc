@@ -97,8 +97,8 @@ def autogen(
         show_progress=True,
         continue_on_error=continue_on_error,
     )
-    assert len(registry.packages) == 1
-    package = next(iter(registry.packages.values()))
+    assert package_name in registry.packages
+    package = registry.get(talon.Package, package_name)
 
     # Make package path relative to output_dir:
     package_path = Path(os.path.relpath(package.location.path, start=sphinx_root))
@@ -136,7 +136,9 @@ def autogen(
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_text(template_talon_file.render(entry=file, **ctx))
+            output_path.write_text(
+                template_talon_file.render(file_name=file_name, **ctx)
+            )
 
         # Create path/to/python/file/api.{md,rst}:
         elif file.location.path.suffix == ".py":
@@ -145,7 +147,9 @@ def autogen(
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_text(template_python_file.render(entry=file, **ctx))
+            output_path.write_text(
+                template_python_file.render(file_name=file_name, **ctx)
+            )
 
         # Skip file entry:
         else:

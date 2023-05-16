@@ -1,4 +1,4 @@
-{{ entry.name.removesuffix(".talon") | escape | underline }}
+{{ file_name.removesuffix(".talon") | escape | underline }}
 
 .. talon:command-table::
-  :context: {{ entry.name.removesuffix(".talon") }}
+  :context: {{ file_name.removesuffix(".talon") }}
