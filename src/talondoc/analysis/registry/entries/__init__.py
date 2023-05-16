@@ -506,16 +506,15 @@ class List(GroupData):
     serialisable: bool = field(default=True, init=False)
 
     def __post_init__(self, *args, **kwargs) -> None:
-        if self.value is None:
-            pass
-        elif isinstance(self.value, Mapping):
+        if isinstance(self.value, Mapping):
             self.value = dict(self.value)
         elif isinstance(self.value, Sequence):
             self.value = list(self.value)
         else:
-            _LOGGER.warning(  # type: ignore[unreachable]
-                f"List value for {self.name} should be list or dict, found {type(self.value)}"
-            )
+            if type(self.value).__name__ != "ObjectShim" and self.value is not None:
+                _LOGGER.warning(  # type: ignore[unreachable]
+                    f"List value for {self.name} should be list or dict, found {type(self.value)}"
+                )
             self.value = None
 
     @classmethod
