@@ -2,9 +2,11 @@ import os
 from typing import Optional
 
 import click
+from typing_extensions import Literal
 
 from ._autogen import autogen
 from ._cache_builtin import cache_builtin
+from ._util import logging
 from ._version import __version__
 
 
@@ -13,7 +15,21 @@ from ._version import __version__
     prog_name="talondoc",
     version=__version__,
 )
-def talondoc():
+@click.option(
+    "--log-level",
+    type=click.Choice(["ERROR", "WARNING", "INFO", "DEBUG"], case_sensitive=False),
+    default="INFO",
+)
+def talondoc(*, log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"]):
+    logging.basicConfig(
+        level={
+            "ERROR": logging.ERROR,
+            "WARNING": logging.WARNING,
+            "INFO": logging.INFO,
+            "DEBUG": logging.DEBUG,
+        }.get(log_level.upper(), logging.INFO),
+        format="%(log_color)s%(levelname)s: %(message)s",
+    )
     pass
 
 
@@ -128,7 +144,9 @@ def _autogen(
     "output_dir",
     type=click.Path(),
 )
-def _cache_builtin(output_dir: str):
+def _cache_builtin(
+    output_dir: str,
+):
     cache_builtin(output_dir=output_dir)
 
 

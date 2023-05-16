@@ -1,0 +1,2246 @@
+{
+  "Command": {},
+  "Action": {
+    "insert": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "text",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "insert",
+          "description": "Insert text at the current cursor position",
+          "location": "builtin",
+          "parent_name": "main",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "text",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "insert",
+          "description": "Insert text at the current cursor position",
+          "location": "builtin",
+          "parent_name": "talon_plugins.main",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "key": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "key",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "key",
+          "description": "Press one or more keys by name, space-separated",
+          "location": "builtin",
+          "parent_name": "talon_plugins.main",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "mouse_click": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "button",
+                "kind": 1,
+                "default": { "pickle": "gARLAC4=" },
+                "annotation": "int"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "mouse_click",
+          "description": "Press and release a mouse button",
+          "location": "builtin",
+          "parent_name": "talon_plugins.main",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "mouse_drag": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "button",
+                "kind": 1,
+                "default": { "pickle": "gARLAC4=" },
+                "annotation": "int"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "mouse_drag",
+          "description": "Hold down a mouse button",
+          "location": "builtin",
+          "parent_name": "talon_plugins.main",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "mouse_move": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "x",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "float"
+              },
+              {
+                "name": "y",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "float"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "mouse_move",
+          "description": "Move mouse to (x, y) coordinate",
+          "location": "builtin",
+          "parent_name": "talon_plugins.main",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "mouse_release": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "button",
+                "kind": 1,
+                "default": { "pickle": "gARLAC4=" },
+                "annotation": "int"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "mouse_release",
+          "description": "Release a mouse button",
+          "location": "builtin",
+          "parent_name": "talon_plugins.main",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "mouse_scroll": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "y",
+                "kind": 1,
+                "default": { "pickle": "gARLAC4=" },
+                "annotation": "float"
+              },
+              {
+                "name": "x",
+                "kind": 1,
+                "default": { "pickle": "gARLAC4=" },
+                "annotation": "float"
+              },
+              {
+                "name": "by_lines",
+                "kind": 1,
+                "default": { "pickle": "gASJLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "mouse_scroll",
+          "description": "Scroll the mouse wheel",
+          "location": "builtin",
+          "parent_name": "talon_plugins.main",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "mouse_x": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "float" },
+          "name": "mouse_x",
+          "description": "Mouse X position",
+          "location": "builtin",
+          "parent_name": "talon_plugins.main",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "mouse_y": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "float" },
+          "name": "mouse_y",
+          "description": "Mouse Y position",
+          "location": "builtin",
+          "parent_name": "talon_plugins.main",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "skip": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "skip",
+          "description": "Do nothing",
+          "location": "builtin",
+          "parent_name": "talon_plugins.main",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "speech.record_flac": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "speech.record_flac",
+          "description": "Record the phrase audio to a flac file",
+          "location": "builtin",
+          "parent_name": "talon_plugins.record",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "speech.record_wav": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "speech.record_wav",
+          "description": "Record the phrase audio to a wave file",
+          "location": "builtin",
+          "parent_name": "talon_plugins.record",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "speech.replay": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "path",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "speech.replay",
+          "description": "Replay a .flac or .wav file into the speech engine",
+          "location": "builtin",
+          "parent_name": "talon_plugins.record",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "speech.disable": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "speech.disable",
+          "description": "Disable speech recognition",
+          "location": "builtin",
+          "parent_name": "talon_plugins.speech",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "speech.enable": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "speech.enable",
+          "description": "Enable speech recognition",
+          "location": "builtin",
+          "parent_name": "talon_plugins.speech",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "speech.enabled": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "bool" },
+          "name": "speech.enabled",
+          "description": "Test if speech recognition is enabled",
+          "location": "builtin",
+          "parent_name": "talon_plugins.speech",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "speech.toggle": {
+      "declarations": [],
+      "overrides": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "value",
+                "kind": 1,
+                "default": { "pickle": "gAROLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "speech.toggle",
+          "description": "Toggle speech recognition",
+          "location": "builtin",
+          "parent_name": "talon_plugins.speech",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "dictate.replace_words": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "words",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "dictate.replace_words",
+          "description": "Replace words according to the dictate.word_map dictionary setting",
+          "location": "builtin",
+          "parent_name": "dictate",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "win.filename": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "win.filename",
+          "description": "Return the open filename",
+          "location": "builtin",
+          "parent_name": "win",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "app.bundle": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "app.bundle",
+          "description": "Get active app's bundle identifier",
+          "location": "builtin",
+          "parent_name": "app",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "app.executable": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "app.executable",
+          "description": "Get active app's executable name",
+          "location": "builtin",
+          "parent_name": "app",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "app.name": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "app.name",
+          "description": "Get active app's name",
+          "location": "builtin",
+          "parent_name": "app",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "app.notify": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              { "name": "body", "kind": 1, "default": "", "annotation": "str" },
+              { "name": "title", "kind": 1, "default": "", "annotation": "str" },
+              { "name": "subtitle", "kind": 1, "default": "", "annotation": "str" },
+              {
+                "name": "sound",
+                "kind": 1,
+                "default": { "pickle": "gASJLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "app.notify",
+          "description": "Show a desktop notification",
+          "location": "builtin",
+          "parent_name": "app",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "app.path": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "app.path",
+          "description": "Get active app's file path",
+          "location": "builtin",
+          "parent_name": "app",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "browser.focus_search": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "browser.focus_search",
+          "description": "Focus the search box",
+          "location": "builtin",
+          "parent_name": "browser",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "browser.go_blank": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "browser.go_blank",
+          "description": "Go to a blank page",
+          "location": "builtin",
+          "parent_name": "browser",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "clip.capture_text": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "key",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "clip.capture_text",
+          "description": "Send key sequence and return resulting clipboard text",
+          "location": "builtin",
+          "parent_name": "clip",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "clip.clear": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "clip.clear",
+          "description": "Clear clipboard contents",
+          "location": "builtin",
+          "parent_name": "clip",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "clip.image": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "clip.image",
+          "description": "Get clipboard image",
+          "location": "builtin",
+          "parent_name": "clip",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "clip.set_image": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "image",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "clip.set_image",
+          "description": "Set clipboard image",
+          "location": "builtin",
+          "parent_name": "clip",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "clip.set_text": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "text",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "clip.set_text",
+          "description": "Set clipboard text",
+          "location": "builtin",
+          "parent_name": "clip",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "clip.text": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "clip.text",
+          "description": "Get clipboard text",
+          "location": "builtin",
+          "parent_name": "clip",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.cancel_phrase__unstable": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "core.cancel_phrase__unstable",
+          "description": "Cancel the currently running phrase",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.current_command__unstable": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "tuple" },
+          "name": "core.current_command__unstable",
+          "description": "Return the currently executing command",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.last_command": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "tuple" },
+          "name": "core.last_command",
+          "description": "Return the last executed command",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.last_phrase": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "core.last_phrase",
+          "description": "Return the last-spoken phrase",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.recent_commands": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "core.recent_commands",
+          "description": "Return recently executed commands (grouped by phrase)",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.recent_phrases": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "core.recent_phrases",
+          "description": "Return recently-spoken phrases",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.repeat_command": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "times",
+                "kind": 1,
+                "default": { "pickle": "gARLAS4=" },
+                "annotation": "int"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "core.repeat_command",
+          "description": "Repeat the last command N times",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.repeat_partial_phrase": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "times",
+                "kind": 1,
+                "default": { "pickle": "gARLAS4=" },
+                "annotation": "int"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "core.repeat_partial_phrase",
+          "description": "Repeat the previous phrase or current partial phrase N times",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.repeat_phrase": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "times",
+                "kind": 1,
+                "default": { "pickle": "gARLAS4=" },
+                "annotation": "int"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "core.repeat_phrase",
+          "description": "Repeat the last phrase N times",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.replace_command": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "commands",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "core.replace_command",
+          "description": "Replace the current command in history with one or more commands",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.run_command": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "cmd",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              },
+              {
+                "name": "m",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "core.run_command",
+          "description": "Run a single command for a recognized phrase",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.run_hotkey": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "hotkey",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "core.run_hotkey",
+          "description": "Run all commands for a hotkey",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.run_phrase": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "phrase",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "core.run_phrase",
+          "description": "Run all commands for a recognized phrase",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "core.run_talon_script": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "ctx",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              },
+              {
+                "name": "script",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              },
+              {
+                "name": "m",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "core.run_talon_script",
+          "description": "Run a single TalonScript for a recognized phrase",
+          "location": "builtin",
+          "parent_name": "core",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "dictate.join_words": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "words",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              },
+              { "name": "separator", "kind": 1, "default": " ", "annotation": "str" }
+            ],
+            "return_annotation": "str"
+          },
+          "name": "dictate.join_words",
+          "description": "Join a list of words into a single string for insertion",
+          "location": "builtin",
+          "parent_name": "dictate",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "dictate.lower": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "p",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "dictate.lower",
+          "description": "Insert lowercase text with auto_insert()",
+          "location": "builtin",
+          "parent_name": "dictate",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "dictate.natural": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "p",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "dictate.natural",
+          "description": "Insert naturally-capitalized text with auto_insert()",
+          "location": "builtin",
+          "parent_name": "dictate",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "dictate.parse_words": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "p",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "dictate.parse_words",
+          "description": "Extract words from a spoken Capture",
+          "location": "builtin",
+          "parent_name": "dictate",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "auto_format": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "text",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "str"
+          },
+          "name": "auto_format",
+          "description": "Apply text formatting, such as auto spacing, for the native language",
+          "location": "builtin",
+          "parent_name": "main",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "auto_insert": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "text",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "auto_insert",
+          "description": "Insert text at the current cursor position, automatically formatting it using the actions.auto_format(text)",
+          "location": "builtin",
+          "parent_name": "main",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "mimic": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "text",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "mimic",
+          "description": "Simulate speaking {text}",
+          "location": "builtin",
+          "parent_name": "main",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "print": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "obj",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "print",
+          "description": "Display an object in the log",
+          "location": "builtin",
+          "parent_name": "main",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "sleep": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "duration",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "None"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "sleep",
+          "description": "Pause for some duration.\n            If you use a number, it is seconds, e.g 1.5 seconds or 0.001 seconds.\n            If you use a string, it is a timespec, such as \"50ms\" or \"10s\"\n            For performance reasons, sleep() cannot be reimplemented by a Context.",
+          "location": "builtin",
+          "parent_name": "main",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "migrate.backup_user": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "migrate.backup_user",
+          "description": "Backup the .talon/user/ directory to a zip file in .talon/backups/",
+          "location": "builtin",
+          "parent_name": "migrate",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "migrate.v02_all": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              { "name": "prefix", "kind": 1, "default": "", "annotation": "str" },
+              {
+                "name": "verbose",
+                "kind": 1,
+                "default": { "pickle": "gASJLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "migrate.v02_all",
+          "description": "Perform migrations for Talon v0.2 on all files in user/",
+          "location": "builtin",
+          "parent_name": "migrate",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "migrate.v02_one": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "path",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              },
+              {
+                "name": "verbose",
+                "kind": 1,
+                "default": { "pickle": "gASJLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "migrate.v02_one",
+          "description": "Migrate action() definitions from a .talon file to a new Python file.",
+          "location": "builtin",
+          "parent_name": "migrate",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "mode.disable": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "mode",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "mode.disable",
+          "description": "Disable a mode",
+          "location": "builtin",
+          "parent_name": "mode",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "mode.enable": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "mode",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "mode.enable",
+          "description": "Enable a mode",
+          "location": "builtin",
+          "parent_name": "mode",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "mode.restore": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "mode.restore",
+          "description": "Restore saved modes",
+          "location": "builtin",
+          "parent_name": "mode",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "mode.save": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "mode.save",
+          "description": "Save all active modes",
+          "location": "builtin",
+          "parent_name": "mode",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "mode.toggle": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "mode",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "mode.toggle",
+          "description": "Toggle a mode",
+          "location": "builtin",
+          "parent_name": "mode",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "path.talon_app": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "path.talon_app",
+          "description": "Path to Talon application",
+          "location": "builtin",
+          "parent_name": "path",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "path.talon_home": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "path.talon_home",
+          "description": "Path to home/.talon",
+          "location": "builtin",
+          "parent_name": "path",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "path.talon_user": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "path.talon_user",
+          "description": "Path to Talon user",
+          "location": "builtin",
+          "parent_name": "path",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "path.user_home": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "path.user_home",
+          "description": "Path to user home",
+          "location": "builtin",
+          "parent_name": "path",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "speech.set_microphone": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "name",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "speech.set_microphone",
+          "description": "Set the currently active microphone - DEPRECATED: use sound.set_microphone()",
+          "location": "builtin",
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "sound.active_microphone": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "sound.active_microphone",
+          "description": "Return active microphone name",
+          "location": "builtin",
+          "parent_name": "sound",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "sound.microphones": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "sound.microphones",
+          "description": "Return a list of available microphone names",
+          "location": "builtin",
+          "parent_name": "sound",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "sound.set_microphone": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "name",
+                "kind": 1,
+                "default": { "pickle": "gASVFgAAAAAAAACMB2luc3BlY3SUjAZfZW1wdHmUk5Qu" },
+                "annotation": "str"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "sound.set_microphone",
+          "description": "Set the currently active microphone",
+          "location": "builtin",
+          "parent_name": "sound",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "win.file_ext": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "win.file_ext",
+          "description": "Return the open file's extension",
+          "location": "builtin",
+          "parent_name": "win",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "win.title": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "str" },
+          "name": "win.title",
+          "description": "Get window title",
+          "location": "builtin",
+          "parent_name": "win",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.calibrate": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "tracking.calibrate",
+          "description": "Calibrate Eye Tracking",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.control1_enabled": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "bool" },
+          "name": "tracking.control1_enabled",
+          "description": "Is Control Mouse (Legacy) Enabled?",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.control1_toggle": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "state",
+                "kind": 1,
+                "default": { "pickle": "gAROLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "tracking.control1_toggle",
+          "description": "Toggle Control Mouse (Legacy)",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.control_debug_toggle": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "state",
+                "kind": 1,
+                "default": { "pickle": "gAROLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "tracking.control_debug_toggle",
+          "description": "Toggle Control Mouse 2 (Debug View)",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.control_enabled": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "bool" },
+          "name": "tracking.control_enabled",
+          "description": "Is Control Mouse Enabled?",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.control_gaze_focus_toggle": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "state",
+                "kind": 1,
+                "default": { "pickle": "gAROLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "tracking.control_gaze_focus_toggle",
+          "description": "Toggle Control Mouse 2 (Gaze Focus)",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.control_gaze_scroll_toggle": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "state",
+                "kind": 1,
+                "default": { "pickle": "gAROLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "tracking.control_gaze_scroll_toggle",
+          "description": "Toggle Control Mouse 2 (Gaze Scroll)",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.control_gaze_toggle": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "state",
+                "kind": 1,
+                "default": { "pickle": "gAROLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "tracking.control_gaze_toggle",
+          "description": "Toggle Control Mouse 2 (Gaze Control)",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.control_head_toggle": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "state",
+                "kind": 1,
+                "default": { "pickle": "gAROLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "tracking.control_head_toggle",
+          "description": "Toggle Control Mouse 2 (Head Control)",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.control_mouse_jump_toggle": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "state",
+                "kind": 1,
+                "default": { "pickle": "gAROLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "tracking.control_mouse_jump_toggle",
+          "description": "Toggle Control Mouse 2 (Mouse Jump)",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.control_toggle": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "state",
+                "kind": 1,
+                "default": { "pickle": "gAROLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "tracking.control_toggle",
+          "description": "Toggle Control Mouse",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.control_zoom_enabled": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "bool" },
+          "name": "tracking.control_zoom_enabled",
+          "description": "Is Control Mouse (Zoom) Enabled?",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.control_zoom_toggle": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "state",
+                "kind": 1,
+                "default": { "pickle": "gAROLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "tracking.control_zoom_toggle",
+          "description": "Toggle Control Mouse (Zoom)",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.zoom": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "state",
+                "kind": 1,
+                "default": { "pickle": "gAROLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "tracking.zoom",
+          "description": "Trigger Eye Zoom / Click",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "tracking.zoom_cancel": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": {
+            "parameters": [
+              {
+                "name": "state",
+                "kind": 1,
+                "default": { "pickle": "gAROLg==" },
+                "annotation": "bool"
+              }
+            ],
+            "return_annotation": "None"
+          },
+          "name": "tracking.zoom_cancel",
+          "description": "Cancel Eye Zoom",
+          "location": "builtin",
+          "parent_name": "tracking",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "menu.check_for_updates": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "menu.check_for_updates",
+          "description": "Check for updates",
+          "location": "builtin",
+          "parent_name": "menu",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "menu.open_debug_window": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "menu.open_debug_window",
+          "description": "Open Debug window",
+          "location": "builtin",
+          "parent_name": "menu",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "menu.open_log": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "menu.open_log",
+          "description": "Open Talon log",
+          "location": "builtin",
+          "parent_name": "menu",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "menu.open_repl": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "menu.open_repl",
+          "description": "Open Talon REPL",
+          "location": "builtin",
+          "parent_name": "menu",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "menu.open_talon_home": {
+      "declarations": [
+        {
+          "function_name": null,
+          "function_signature": { "parameters": [], "return_annotation": "None" },
+          "name": "menu.open_talon_home",
+          "description": "Open Talon config folder",
+          "location": "builtin",
+          "parent_name": "menu",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    }
+  },
+  "Capture": {},
+  "List": {},
+  "Setting": {
+    "dictate.word_map": {
+      "declarations": [
+        {
+          "value": null,
+          "value_type_hint": "dict",
+          "name": "dictate.word_map",
+          "description": null,
+          "location": null,
+          "parent_name": "dictate",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "dictate.punctuation": {
+      "declarations": [
+        {
+          "value": ".,-!?",
+          "value_type_hint": "list",
+          "name": "dictate.punctuation",
+          "description": null,
+          "location": null,
+          "parent_name": "dictate",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "imgui.scale": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASVCgAAAAAAAABHP/AAAAAAAAAu" },
+          "value_type_hint": "float",
+          "name": "imgui.scale",
+          "description": "scale the size of ui elements",
+          "location": null,
+          "parent_name": "imgui",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "imgui.dark_mode": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASJLg==" },
+          "value_type_hint": "bool",
+          "name": "imgui.dark_mode",
+          "description": "dark UI mode",
+          "location": null,
+          "parent_name": "imgui",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "key_wait": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASVCgAAAAAAAABHP/AAAAAAAAAu" },
+          "value_type_hint": "float",
+          "name": "key_wait",
+          "description": "milliseconds to pause between key and modifier presses",
+          "location": null,
+          "parent_name": "main",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "key_hold": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASVCgAAAAAAAABHAAAAAAAAAAAu" },
+          "value_type_hint": "float",
+          "name": "key_hold",
+          "description": "milliseconds to wait between key press and release",
+          "location": null,
+          "parent_name": "main",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "insert_wait": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASVCgAAAAAAAABHAAAAAAAAAAAu" },
+          "value_type_hint": "float",
+          "name": "insert_wait",
+          "description": "milliseconds to pause after each letter in insert()",
+          "location": null,
+          "parent_name": "main",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "speech.debug": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASJLg==" },
+          "value_type_hint": "bool",
+          "name": "speech.debug",
+          "description": "verbose speech debugging",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "speech.gain": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASVCgAAAAAAAABHP/AAAAAAAAAu" },
+          "value_type_hint": "float",
+          "name": "speech.gain",
+          "description": "software microphone gain",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "speech.normalize": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASJLg==" },
+          "value_type_hint": "bool",
+          "name": "speech.normalize",
+          "description": "software microphone normalization",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "speech.timeout": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASVCgAAAAAAAABHP9MzMzMzMzMu" },
+          "value_type_hint": "float",
+          "name": "speech.timeout",
+          "description": "voice activity timeout (seconds)",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "speech.threshold": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASVCgAAAAAAAABHP+gAAAAAAAAu" },
+          "value_type_hint": "float",
+          "name": "speech.threshold",
+          "description": "voice sensitivity (0.0 - 1.0)",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "speech.engine": {
+      "declarations": [
+        {
+          "value": null,
+          "value_type_hint": "str",
+          "name": "speech.engine",
+          "description": "preferred speech engine",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": [
+        {
+          "value": "wav2letter-conformer",
+          "value_type_hint": null,
+          "name": "speech.engine",
+          "description": null,
+          "location": null,
+          "parent_name": "talon_plugins.speech",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "speech._engine_id": {
+      "declarations": [
+        {
+          "value": null,
+          "value_type_hint": "str",
+          "name": "speech._engine_id",
+          "description": "engine id (internal)",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": [
+        {
+          "value": "2285dbfb9e55d7f889ef4c6a6509c620bdac8ca71e0f8216aeb620c9e971b62b",
+          "value_type_hint": null,
+          "name": "speech._engine_id",
+          "description": null,
+          "location": null,
+          "parent_name": "talon_plugins.speech",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "speech.microphone": {
+      "declarations": [
+        {
+          "value": null,
+          "value_type_hint": "str",
+          "name": "speech.microphone",
+          "description": "preferred microphone",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "speech.language": {
+      "declarations": [
+        {
+          "value": null,
+          "value_type_hint": "str",
+          "name": "speech.language",
+          "description": "preferred language",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "speech.record_all": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASJLg==" },
+          "value_type_hint": "bool",
+          "name": "speech.record_all",
+          "description": "record all phrases (locally)",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": [
+        {
+          "value": { "pickle": "gASILg==" },
+          "value_type_hint": null,
+          "name": "speech.record_all",
+          "description": null,
+          "location": null,
+          "parent_name": "talon_plugins.speech",
+          "parent_type": "Context"
+        }
+      ]
+    },
+    "speech.record_labels": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASJLg==" },
+          "value_type_hint": "bool",
+          "name": "speech.record_labels",
+          "description": "record audacity text labels",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "speech.record_path": {
+      "declarations": [
+        {
+          "value": "recordings",
+          "value_type_hint": "str",
+          "name": "speech.record_path",
+          "description": "path under TALON_HOME to place recordings",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": []
+    },
+    "speech._subtitles": {
+      "declarations": [
+        {
+          "value": { "pickle": "gASILg==" },
+          "value_type_hint": "bool",
+          "name": "speech._subtitles",
+          "description": "draw subtitles",
+          "location": null,
+          "parent_name": "speech",
+          "parent_type": "Module"
+        }
+      ],
+      "overrides": [
+        {
+          "value": { "pickle": "gASJLg==" },
+          "value_type_hint": null,
+          "name": "speech._subtitles",
+          "description": null,
+          "location": null,
+          "parent_name": "talon_plugins.speech",
+          "parent_type": "Context"
+        }
+      ]
+    }
+  },
+  "Mode": {
+    "command": {
+      "name": "command",
+      "description": "Voice commands",
+      "location": null,
+      "parent_name": "main"
+    },
+    "dictation": {
+      "name": "dictation",
+      "description": "Direct speech to text",
+      "location": null,
+      "parent_name": "main"
+    },
+    "sleep": {
+      "name": "sleep",
+      "description": "Active when speech is paused",
+      "location": null,
+      "parent_name": "main"
+    },
+    "hotkey": {
+      "name": "hotkey",
+      "description": "Hotkeys",
+      "location": null,
+      "parent_name": "main"
+    },
+    "noise": {
+      "name": "noise",
+      "description": "Noise recognition",
+      "location": null,
+      "parent_name": "main"
+    },
+    "face": {
+      "name": "face",
+      "description": "Facial expressions",
+      "location": null,
+      "parent_name": "main"
+    }
+  },
+  "Tag": {
+    "browser": {
+      "name": "browser",
+      "description": null,
+      "location": null,
+      "parent_name": "main"
+    },
+    "editor": {
+      "name": "editor",
+      "description": null,
+      "location": null,
+      "parent_name": "main"
+    },
+    "terminal": {
+      "name": "terminal",
+      "description": null,
+      "location": null,
+      "parent_name": "main"
+    }
+  }
+}
