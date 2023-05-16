@@ -102,8 +102,18 @@ where = ["src"]
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py39, py310, py311
+envlist = py39-md, py39-rst, py310-md, py310-rst, py311-md, py311-rst
 isolated_build = true
+
+[md]
+description = Tests TalonDoc with Markdown
+setenv =
+  TALONDOC_FORMAT = md
+
+[rst]
+description = Tests TalonDoc with reStructuredText
+setenv =
+  TALONDOC_FORMAT = md
 
 [testenv]
 allowlist_externals = cp, mkdir, sh, rm
@@ -127,4 +137,22 @@ commands_post =
   rm -f '{env_tmp_dir}/docs/conf.py'
   rm -f '{env_tmp_dir}/docs/index.md'
   rm -rf '{env_tmp_dir}/docs/_static'
+
+[testenv:py39-md]
+setenv = {[md]setenv}
+
+[testenv:py310-md]
+setenv = {[md]setenv}
+
+[testenv:py311-md]
+setenv = {[md]setenv}
+
+[testenv:py39-rst]
+setenv = {[rst]setenv}
+
+[testenv:py310-rst]
+setenv = {[rst]setenv}
+
+[testenv:py311-rst]
+setenv = {[rst]setenv}
 """
