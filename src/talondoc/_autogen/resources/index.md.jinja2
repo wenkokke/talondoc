@@ -1,0 +1,7 @@
+# {{ ("Documentation for " + project) | escape }}
+
+:::{toctree}
+{%- for file in toc %}
+{{ file }}
+{%- endfor %}
+:::

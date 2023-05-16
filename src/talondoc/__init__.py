@@ -2,10 +2,12 @@ import os
 from typing import Optional
 
 import click
+from typing_extensions import Literal
 
+from ._autogen import autogen
+from ._cache_builtin import cache_builtin
+from ._util import logging
 from ._version import __version__
-from .analysis.dynamic import cache_builtin
-from .autogen import autogen
 
 
 @click.group(name="talondoc")
@@ -13,7 +15,20 @@ from .autogen import autogen
     prog_name="talondoc",
     version=__version__,
 )
-def talondoc():
+@click.option(
+    "--log-level",
+    type=click.Choice(["ERROR", "WARNING", "INFO", "DEBUG"], case_sensitive=False),
+    default="INFO",
+)
+def talondoc(*, log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"]):
+    logging.basicConfig(
+        level={
+            "ERROR": logging.ERROR,
+            "WARNING": logging.WARNING,
+            "INFO": logging.INFO,
+            "DEBUG": logging.DEBUG,
+        }.get(log_level.upper(), logging.INFO),
+    )
     pass
 
 
@@ -88,6 +103,11 @@ def talondoc():
     "--continue-on-error/--no-continue-on-error",
     default=bool(os.environ.get("TALONDOC_STRICT", False)),
 )
+@click.option(
+    "--format",
+    type=click.Choice(["rst", "md"]),
+    default="rst",
+)
 def _autogen(
     *,
     output_dir: str,
@@ -104,6 +124,7 @@ def _autogen(
     generate_conf: bool,
     generate_index: bool,
     continue_on_error: bool,
+    format: Literal["rst", "md"],
 ):
     autogen(
         package_dir,
@@ -120,6 +141,7 @@ def _autogen(
         generate_conf=generate_conf,
         generate_index=generate_index,
         continue_on_error=continue_on_error,
+        format=format,
     )
 
 
@@ -128,7 +150,9 @@ def _autogen(
     "output_dir",
     type=click.Path(),
 )
-def _cache_builtin(output_dir: str):
+def _cache_builtin(
+    output_dir: str,
+):
     cache_builtin(output_dir=output_dir)
 
 
