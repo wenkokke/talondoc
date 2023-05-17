@@ -17,14 +17,13 @@ from tree_sitter_talon import (
 
 from ..._util.logging import getLogger
 from ..._util.progress_bar import ProgressBar
-from ..registry import Registry
-from ..registry import entries as talon
-from ..registry.entries.abc import Location
+from ..registry import Registry, data
+from ..registry.data.abc import Location
 
 _LOGGER = getLogger(__name__)
 
 
-def _TalonSourceFile_get_matches(ast: TalonSourceFile) -> Iterator[talon.Match]:
+def _TalonSourceFile_get_matches(ast: TalonSourceFile) -> Iterator[data.Match]:
     for child in ast.children:
         if isinstance(child, TalonMatches):
             for match in child.children:
@@ -40,9 +39,9 @@ def _TalonSourceFile_get_declarations(
             yield from child.children
 
 
-def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None:
+def analyse_file(registry: Registry, path: Path, package: data.Package) -> None:
     # Create a file entry:
-    file = talon.File(
+    file = data.File(
         location=Location.from_path(path),
         parent_name=package.name,
     )
@@ -54,7 +53,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
     assert isinstance(ast, TalonSourceFile)
 
     # Create a context entry:
-    context = talon.Context(
+    context = data.Context(
         matches=list(_TalonSourceFile_get_matches(ast)),
         index=len(file.contexts),
         description=ast.get_docstring(),
@@ -68,7 +67,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
     for declaration in _TalonSourceFile_get_declarations(ast):
         if isinstance(declaration, TalonCommandDeclaration):
             # Register command:
-            command = talon.Command(
+            command = data.Command(
                 rule=declaration.left,
                 script=declaration.right,
                 description=declaration.get_docstring(),
@@ -82,7 +81,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
             for statement in declaration.right.children:
                 if isinstance(statement, TalonAssignmentStatement):
                     registry.register(
-                        talon.Setting(
+                        data.Setting(
                             value=statement.right,
                             value_type_hint=None,
                             name=statement.left.text,
@@ -91,7 +90,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
                                 context.location.path, statement
                             ),
                             parent_name=context.name,
-                            parent_type=talon.Context,
+                            parent_type=data.Context,
                         )
                     )
         elif isinstance(declaration, TalonTagImportDeclaration):
@@ -103,7 +102,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
 def analyse_files(
     registry: Registry,
     paths: Sequence[Path],
-    package: talon.Package,
+    package: data.Package,
     *,
     show_progress: bool = False,
 ) -> None:

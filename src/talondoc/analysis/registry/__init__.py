@@ -1,5 +1,4 @@
 import inspect
-import itertools
 from dataclasses import dataclass
 from functools import singledispatchmethod
 from typing import (
@@ -17,16 +16,15 @@ from typing import (
     overload,
 )
 
-from more_itertools import partition
 from talonfmt import talonfmt
 from typing_extensions import Final
 
-from talondoc.analysis.registry.entries.serialise import JsonValue
+from talondoc.analysis.registry.data.serialise import JsonValue
 
 from ..._util.logging import getLogger
-from . import entries as talon
-from .entries import CallbackVar
-from .entries.abc import (
+from . import data
+from .data import CallbackVar
+from .data.abc import (
     Data,
     DataVar,
     DuplicateData,
@@ -46,8 +44,8 @@ class Registry:
     _data: Final[Dict[str, Any]]
     _temp_data: Final[Dict[str, Any]]
 
-    _active_package: Optional[talon.Package] = None
-    _active_file: Optional[talon.File] = None
+    _active_package: Optional[data.Package] = None
+    _active_file: Optional[data.File] = None
 
     def __init__(
         self,
@@ -85,9 +83,9 @@ class Registry:
                 raise exc
         store[value.name] = value
         # Set the active package, file, module, or context.
-        if isinstance(value, talon.Package):
+        if isinstance(value, data.Package):
             self._active_package = value
-        if isinstance(value, talon.File):
+        if isinstance(value, data.File):
             self._active_file = value
         return value
 
@@ -103,27 +101,27 @@ class Registry:
         # Print the value name to the log.
         _LOGGER.debug(f"register {value.__class__.__name__} {value.name}")
         # Register the data in the store.
-        self._typed_store(talon.Callback).setdefault(value.event_code, []).append(value)
+        self._typed_store(data.Callback).setdefault(value.event_code, []).append(value)
         return value
 
     # Simple entries
-    register.register(talon.Package, _register_simple_data)
-    register.register(talon.File, _register_simple_data)
-    register.register(talon.Function, _register_simple_data)
-    register.register(talon.Module, _register_simple_data)
-    register.register(talon.Context, _register_simple_data)
-    register.register(talon.Mode, _register_simple_data)
-    register.register(talon.Tag, _register_simple_data)
+    register.register(data.Package, _register_simple_data)
+    register.register(data.File, _register_simple_data)
+    register.register(data.Function, _register_simple_data)
+    register.register(data.Module, _register_simple_data)
+    register.register(data.Context, _register_simple_data)
+    register.register(data.Mode, _register_simple_data)
+    register.register(data.Tag, _register_simple_data)
 
     # Group entries
-    register.register(talon.Command, _register_grouped_data)
-    register.register(talon.Action, _register_grouped_data)
-    register.register(talon.Capture, _register_grouped_data)
-    register.register(talon.List, _register_grouped_data)
-    register.register(talon.Setting, _register_grouped_data)
+    register.register(data.Command, _register_grouped_data)
+    register.register(data.Action, _register_grouped_data)
+    register.register(data.Capture, _register_grouped_data)
+    register.register(data.List, _register_grouped_data)
+    register.register(data.Setting, _register_grouped_data)
 
     # Callback entries
-    register.register(talon.Callback, _register_callback)
+    register.register(data.Callback, _register_callback)
 
     def extend(self, values: Sequence[DataVar]) -> None:
         for value in values:
@@ -134,55 +132,55 @@ class Registry:
     ######################################################################
 
     def resolve_packages(
-        self, packages: Iterator[Union[talon.PackageName, talon.Package]]
-    ) -> Iterator[talon.Package]:
+        self, packages: Iterator[Union[data.PackageName, data.Package]]
+    ) -> Iterator[data.Package]:
         for package in packages:
-            if isinstance(package, talon.Package):
+            if isinstance(package, data.Package):
                 yield package
             else:
                 try:
-                    yield self.get(talon.Package, package)
+                    yield self.get(data.Package, package)
                 except UnknownReference as e:
                     _LOGGER.error(e)
                     pass
 
     def resolve_files(
-        self, files: Iterator[Union[talon.FileName, talon.File]]
-    ) -> Iterator[talon.File]:
+        self, files: Iterator[Union[data.FileName, data.File]]
+    ) -> Iterator[data.File]:
         for file in files:
-            if isinstance(file, talon.File):
+            if isinstance(file, data.File):
                 yield file
             else:
                 try:
-                    yield self.get(talon.File, file)
+                    yield self.get(data.File, file)
                 except UnknownReference as e:
                     _LOGGER.error(e)
                     pass
 
     def resolve_contexts(
-        self, contexts: Iterator[Union[talon.FileName, talon.File, talon.Context]]
-    ) -> Iterator[talon.Context]:
+        self, contexts: Iterator[Union[data.FileName, data.File, data.Context]]
+    ) -> Iterator[data.Context]:
         for value in contexts:
-            if isinstance(value, talon.Context):
+            if isinstance(value, data.Context):
                 yield value
             else:
                 if isinstance(value, str):
                     try:
-                        value = self.get(talon.File, value)
+                        value = self.get(data.File, value)
                     except UnknownReference as e:
                         _LOGGER.error(e)
                         continue
-                assert isinstance(value, talon.File)
+                assert isinstance(value, data.File)
                 for context_name in value.contexts:
-                    yield self.get(talon.Context, context_name, referenced_by=value)
+                    yield self.get(data.Context, context_name, referenced_by=value)
 
     def get_commands(
         self,
         *,
         restrict_to: Optional[
-            Iterator[Union[talon.FileName, talon.File, talon.Context]]
+            Iterator[Union[data.FileName, data.File, data.Context]]
         ] = None,
-    ) -> Iterator[talon.Command]:
+    ) -> Iterator[data.Command]:
         if restrict_to is None:
             for group in self.commands.values():
                 assert isinstance(group, list), f"Unexpected value {group}"
@@ -191,15 +189,15 @@ class Registry:
         else:
             for context in self.resolve_contexts(restrict_to):
                 for command_name in context.commands:
-                    yield self.get(talon.Command, command_name, referenced_by=context)
+                    yield self.get(data.Command, command_name, referenced_by=context)
 
     def find_commands(
         self,
         text: Sequence[str],
         *,
         fullmatch: bool = False,
-        restrict_to: Optional[Iterator[Union[talon.FileName, talon.Context]]] = None,
-    ) -> Iterator[talon.Command]:
+        restrict_to: Optional[Iterator[Union[data.FileName, data.Context]]] = None,
+    ) -> Iterator[data.Command]:
         for command in self.get_commands(restrict_to=restrict_to):
             if self.match(text, command.rule, fullmatch=fullmatch):
                 yield command
@@ -207,7 +205,7 @@ class Registry:
     def match(
         self,
         text: Sequence[str],
-        rule: talon.Rule,
+        rule: data.Rule,
         *,
         fullmatch: bool = False,
     ) -> bool:
@@ -228,7 +226,7 @@ class Registry:
         return False
 
     # TODO: remove once builtins are properly supported
-    _BUILTIN_CAPTURE_NAMES: ClassVar[Sequence[talon.CaptureName]] = (
+    _BUILTIN_CAPTURE_NAMES: ClassVar[Sequence[data.CaptureName]] = (
         "digit_string",
         "digits",
         "number",
@@ -238,20 +236,20 @@ class Registry:
         "word",
     )
 
-    def _get_capture_rule(self, name: talon.CaptureName) -> Optional[talon.Rule]:
+    def _get_capture_rule(self, name: data.CaptureName) -> Optional[data.Rule]:
         """Get the rule for a capture. Hook for 'match'."""
         try:
-            return self.get(talon.Capture, name).rule
+            return self.get(data.Capture, name).rule
         except UnknownReference as e:
             # If the capture is not a builtin capture, log a warning:
             if name not in self.__class__._BUILTIN_CAPTURE_NAMES:
                 _LOGGER.warning(e)
             return None
 
-    def _get_list_value(self, name: talon.ListName) -> Optional[talon.ListValue]:
+    def _get_list_value(self, name: data.ListName) -> Optional[data.ListValue]:
         """Get the values for a list. Hook for 'match'."""
         try:
-            return self.get(talon.List, name).value
+            return self.get(data.List, name).value
         except UnknownReference as e:
             _LOGGER.warning(e)
             return None
@@ -271,7 +269,7 @@ class Registry:
         if issubclass(cls, SimpleData):
             value = cast(Optional[DataVar], self.lookup(cls, name))
             # For files, try various alternatives:
-            if value is None and issubclass(cls, talon.File):
+            if value is None and issubclass(cls, data.File):
                 value = cast(
                     Optional[DataVar],
                     # Try the search again with ".talon" suffixed:
@@ -282,7 +280,7 @@ class Registry:
 
         elif issubclass(cls, GroupData):
             value = cast(Optional[DataVar], self.lookup_default(cls, name))
-        elif issubclass(cls, talon.Callback):
+        elif issubclass(cls, data.Callback):
             raise ValueError(f"Registry.get does not support callbacks")
         if value is not None:
             return value
@@ -313,9 +311,9 @@ class Registry:
     @overload
     def lookup(
         self,
-        cls: type[talon.Callback],
-        name: talon.EventCode,
-    ) -> Optional[Sequence[talon.Callback]]:
+        cls: type[data.Callback],
+        name: data.EventCode,
+    ) -> Optional[Sequence[data.Callback]]:
         ...
 
     def lookup(self, cls: type[Data], name: Any) -> Optional[Any]:
@@ -341,10 +339,10 @@ class Registry:
             _IS_ALWAYS_ON: int = 1
 
             def _complexity(obj: GroupDataVar) -> int:
-                if issubclass(obj.parent_type, talon.Module):
+                if issubclass(obj.parent_type, data.Module):
                     return _IS_DECLARATION
                 else:
-                    ctx = self.get(talon.Context, obj.parent_name, referenced_by=obj)
+                    ctx = self.get(data.Context, obj.parent_name, referenced_by=obj)
                     return _IS_ALWAYS_ON + len(ctx.matches)
 
             sorted_group = [(_complexity(obj), obj) for obj in group]
@@ -360,7 +358,7 @@ class Registry:
     ) -> Optional[Callable[..., Any]]:
         value = self.lookup_default(cls, name)
         if value and value.function_name:
-            function = self.lookup(talon.Function, value.function_name)
+            function = self.lookup(data.Function, value.function_name)
             if function is not None:
                 # Create copy for _function_wrapper
                 func = function.function
@@ -386,9 +384,7 @@ class Registry:
                 return None
         return None
 
-    def resolve_name(
-        self, name: str, *, package: Optional[talon.Package] = None
-    ) -> str:
+    def resolve_name(self, name: str, *, package: Optional[data.Package] = None) -> str:
         try:
             if package is None:
                 package = self.get_active_package()
@@ -404,56 +400,56 @@ class Registry:
     ######################################################################
 
     @property
-    def packages(self) -> Mapping[str, talon.Package]:
-        return self._typed_store(talon.Package)
+    def packages(self) -> Mapping[str, data.Package]:
+        return self._typed_store(data.Package)
 
     @property
-    def files(self) -> Mapping[str, talon.File]:
-        return self._typed_store(talon.File)
+    def files(self) -> Mapping[str, data.File]:
+        return self._typed_store(data.File)
 
     @property
-    def functions(self) -> Mapping[str, talon.Function]:
-        return self._typed_store(talon.Function)
+    def functions(self) -> Mapping[str, data.Function]:
+        return self._typed_store(data.Function)
 
     @property
-    def callbacks(self) -> Mapping[talon.EventCode, List[talon.Callback]]:
-        return self._typed_store(talon.Callback)
+    def callbacks(self) -> Mapping[data.EventCode, List[data.Callback]]:
+        return self._typed_store(data.Callback)
 
     @property
-    def modules(self) -> Mapping[str, talon.Module]:
-        return self._typed_store(talon.Module)
+    def modules(self) -> Mapping[str, data.Module]:
+        return self._typed_store(data.Module)
 
     @property
-    def contexts(self) -> Mapping[str, talon.Context]:
-        return self._typed_store(talon.Context)
+    def contexts(self) -> Mapping[str, data.Context]:
+        return self._typed_store(data.Context)
 
     @property
-    def commands(self) -> Mapping[str, List[talon.Command]]:
-        return self._typed_store(talon.Command)
+    def commands(self) -> Mapping[str, List[data.Command]]:
+        return self._typed_store(data.Command)
 
     @property
-    def actions(self) -> Mapping[str, List[talon.Action]]:
-        return self._typed_store(talon.Action)
+    def actions(self) -> Mapping[str, List[data.Action]]:
+        return self._typed_store(data.Action)
 
     @property
-    def captures(self) -> Mapping[str, List[talon.Capture]]:
-        return self._typed_store(talon.Capture)
+    def captures(self) -> Mapping[str, List[data.Capture]]:
+        return self._typed_store(data.Capture)
 
     @property
-    def lists(self) -> Mapping[str, List[talon.List]]:
-        return self._typed_store(talon.List)
+    def lists(self) -> Mapping[str, List[data.List]]:
+        return self._typed_store(data.List)
 
     @property
-    def settings(self) -> Mapping[str, List[talon.Setting]]:
-        return self._typed_store(talon.Setting)
+    def settings(self) -> Mapping[str, List[data.Setting]]:
+        return self._typed_store(data.Setting)
 
     @property
-    def modes(self) -> Mapping[str, talon.Mode]:
-        return self._typed_store(talon.Mode)
+    def modes(self) -> Mapping[str, data.Mode]:
+        return self._typed_store(data.Mode)
 
     @property
-    def tags(self) -> Mapping[str, talon.Tag]:
-        return self._typed_store(talon.Tag)
+    def tags(self) -> Mapping[str, data.Tag]:
+        return self._typed_store(data.Tag)
 
     ######################################################################
     # Internal Typed Access To Data
@@ -469,8 +465,8 @@ class Registry:
 
     @overload
     def _typed_store(
-        self, cls: type[talon.Callback]
-    ) -> Dict[talon.EventCode, List[talon.Callback]]:
+        self, cls: type[data.Callback]
+    ) -> Dict[data.EventCode, List[data.Callback]]:
         ...
 
     @overload
@@ -494,32 +490,30 @@ class Registry:
 
     def to_dict(self) -> JsonValue:
         return {
-            talon.Command.__name__: {
+            data.Command.__name__: {
                 name: [command.to_dict() for command in group]
                 for name, group in self.commands.items()
             },
-            talon.Action.__name__: {
+            data.Action.__name__: {
                 name: [action.to_dict() for action in group]
                 for name, group in self.actions.items()
             },
-            talon.Capture.__name__: {
+            data.Capture.__name__: {
                 name: [capture.to_dict() for capture in group]
                 for name, group in self.captures.items()
             },
-            talon.List.__name__: {
+            data.List.__name__: {
                 name: [list.to_dict() for list in group]
                 for name, group in self.lists.items()
             },
-            talon.Setting.__name__: {
+            data.Setting.__name__: {
                 name: [setting.to_dict() for setting in group]
                 for name, group in self.settings.items()
             },
-            talon.Mode.__name__: {
+            data.Mode.__name__: {
                 name: mode.to_dict() for name, mode in self.modes.items()
             },
-            talon.Tag.__name__: {
-                name: tag.to_dict() for name, tag in self.tags.items()
-            },
+            data.Tag.__name__: {name: tag.to_dict() for name, tag in self.tags.items()},
         }
 
     ##################################################
@@ -555,7 +549,7 @@ class Registry:
     # The active package, file, module, or context
     ##################################################
 
-    def get_active_package(self) -> talon.Package:
+    def get_active_package(self) -> data.Package:
         """
         Retrieve the active package.
         """
@@ -566,7 +560,7 @@ class Registry:
             pass
         raise NoActivePackage()
 
-    def get_active_file(self) -> talon.File:
+    def get_active_file(self) -> data.File:
         """
         Retrieve the active file.
         """

@@ -8,7 +8,7 @@ from tree_sitter_talon import TalonComment
 from typing_extensions import final
 
 from ...._util.logging import getLogger
-from ....analysis.registry import entries as talon
+from ....analysis.registry import data
 from ....description import InvalidInterpolation
 from ....description.describer import TalonScriptDescriber
 from ....sphinx.directives import TalonDocObjectDescription
@@ -36,7 +36,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         *,
         fullmatch: bool = False,
         restrict_to: Optional[Iterator[str]] = None,
-    ) -> talon.Command:
+    ) -> data.Command:
         commands = list(
             self.find_commands(text, fullmatch=fullmatch, restrict_to=restrict_to)
         )
@@ -58,7 +58,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         self,
         *,
         restrict_to: Optional[Iterator[str]] = None,
-    ) -> Iterator[talon.Command]:
+    ) -> Iterator[data.Command]:
         yield from self.talon.registry.get_commands(restrict_to=restrict_to)
 
     @final
@@ -68,7 +68,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         *,
         fullmatch: bool = False,
         restrict_to: Optional[Iterator[str]] = None,
-    ) -> Iterator[talon.Command]:
+    ) -> Iterator[data.Command]:
         _LOGGER.debug(
             f"searching for commands matching '{text}' (restricted by {restrict_to})"
         )
@@ -87,7 +87,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
     @final
     def describe_command(
         self,
-        command: talon.Command,
+        command: data.Command,
         signode: addnodes.desc_signature,
         *,
         always_include_script: bool,
@@ -104,13 +104,13 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         return signode
 
     @final
-    def describe_rule(self, rule: talon.Rule) -> nodes.Text:
+    def describe_rule(self, rule: data.Rule) -> nodes.Text:
         return nodes.Text(talonfmt(rule, safe=False))
 
     @final
     def describe_script(
         self,
-        command: talon.Command,
+        command: data.Command,
         *,
         always_include_script: bool,
         docstring_hook: Optional[TalonDocstringHook_Callable],
@@ -143,7 +143,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
     @final
     def _try_describe_script_with_script_docstrings(
         self,
-        command: talon.Command,
+        command: data.Command,
     ) -> Optional[nodes.Text]:
         """
         Describe the script using the docstrings present in the script itself.
@@ -162,7 +162,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
     @final
     def _try_describe_script_with_action_docstrings(
         self,
-        command: talon.Command,
+        command: data.Command,
         *,
         docstring_hook: Optional[TalonDocstringHook_Callable],
     ) -> Optional[nodes.Text]:
@@ -182,7 +182,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
 
     @final
     def _describe_script_with_script(
-        self, command: talon.Command
+        self, command: data.Command
     ) -> nodes.literal_block:
         """
         Describe the script by including it as a code block.
@@ -216,14 +216,14 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
         return cast(int, self.options.get("columns", 2))
 
     @property
-    def commands(self) -> Iterator[talon.Command]:
+    def commands(self) -> Iterator[data.Command]:
         for command in self.get_commands(restrict_to=self.contexts):
             if self._should_include(command.rule):
                 yield command
 
     def _should_include(
         self,
-        rule: talon.Rule,
+        rule: data.Rule,
         *,
         fullmatch: bool = False,
     ) -> bool:
@@ -240,7 +240,7 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
     @final
     def _matches_include(
         self,
-        rule: talon.Rule,
+        rule: data.Rule,
         *,
         fullmatch: bool = False,
     ) -> bool:
@@ -249,7 +249,7 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
     @final
     def _matches_exclude(
         self,
-        rule: talon.Rule,
+        rule: data.Rule,
         *,
         fullmatch: bool = False,
     ) -> bool:
@@ -260,7 +260,7 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
     @final
     def _match_any_of(
         self,
-        rule: talon.Rule,
+        rule: data.Rule,
         phrases: Sequence[Sequence[str]],
         *,
         default: bool,

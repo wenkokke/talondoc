@@ -1,8 +1,8 @@
 import textwrap
 import typing
 from collections.abc import Callable
-from dataclasses import asdict, dataclass, field
-from functools import partial, singledispatch
+from dataclasses import dataclass, field
+from functools import partial
 from inspect import Signature
 from typing import Any, Mapping, Optional, Sequence, Union
 
@@ -18,7 +18,6 @@ from .abc import (
     Data,
     GroupData,
     GroupDataHasFunction,
-    GroupDataVar,
     Location,
     SimpleData,
     asdict_location,
@@ -34,7 +33,6 @@ from .serialise import (
     parse_class,
     parse_dict,
     parse_field,
-    parse_list_of,
     parse_optfield,
     parse_pickle,
     parse_signature,

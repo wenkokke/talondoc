@@ -8,9 +8,8 @@ from typing import Any, Mapping, Optional, Sequence, cast
 from tree_sitter_talon import Point
 
 from ...._util.logging import getLogger
-from ...registry import Registry
-from ...registry import entries as talon
-from ...registry.entries.abc import Location
+from ...registry import Registry, data
+from ...registry.data.abc import Location
 
 _LOGGER = getLogger(__name__)
 
@@ -20,11 +19,11 @@ class ObjectShim:
     A simple shim which responds to any method.
     """
 
-    def register(self, event_code: talon.EventCode, func: Callable[..., Any]):
+    def register(self, event_code: data.EventCode, func: Callable[..., Any]):
         if inspect.isfunction(func):
             registry = Registry.get_active_global_registry()
             registry.register(
-                talon.Callback(
+                data.Callback(
                     event_code=event_code,
                     function=func,
                     location=Location.from_function(func),
@@ -33,7 +32,7 @@ class ObjectShim:
             )
         else:
             _LOGGER.debug(
-                f"skip register {talon.Callback.__name__}: callback of type {func.__class__.__qualname__} is not a function"
+                f"skip register {data.Callback.__name__}: callback of type {func.__class__.__qualname__} is not a function"
             )
 
     def __init__(self, *args, **kwargs):
@@ -178,7 +177,7 @@ class TalonActionsShim:
             )
         except AttributeError:
             registry = Registry.get_active_global_registry()
-            return registry.lookup_default_function(talon.Action, name) or ObjectShim()
+            return registry.lookup_default_function(data.Action, name) or ObjectShim()
 
 
 class TalonAppShim(ObjectShim):
@@ -194,13 +193,13 @@ class TalonAppShim(ObjectShim):
         raise ValueError(system)
 
 
-class TalonContextListsShim(Mapping[str, talon.ListValue]):
+class TalonContextListsShim(Mapping[str, data.ListValue]):
     def __init__(self, context: "TalonShim.Context"):
         self._context = context
 
-    def _add_list_value(self, name: str, value: talon.ListValue):
+    def _add_list_value(self, name: str, value: data.ListValue):
         self._context._registry.register(
-            talon.List(
+            data.List(
                 value=value,
                 value_type_hint=None,
                 # NOTE: list names on contexts are fully qualified
@@ -210,14 +209,14 @@ class TalonContextListsShim(Mapping[str, talon.ListValue]):
                 description=None,
                 location=self._context._context.location,
                 parent_name=self._context._context.name,
-                parent_type=talon.Context,
+                parent_type=data.Context,
             )
         )
 
-    def __setitem__(self, name: str, value: talon.ListValue):
+    def __setitem__(self, name: str, value: data.ListValue):
         self._add_list_value(name, value)
 
-    def update(self, values: Mapping[str, talon.ListValue]):
+    def update(self, values: Mapping[str, data.ListValue]):
         for name, value in values.items():
             self._add_list_value(name, value)
 
@@ -235,9 +234,9 @@ class TalonContextSettingsShim(Mapping):
     def __init__(self, context: "TalonShim.Context"):
         self._context = context
 
-    def _add_setting_value(self, name: str, value: talon.SettingValue):
+    def _add_setting_value(self, name: str, value: data.SettingValue):
         self._context._registry.register(
-            talon.Setting(
+            data.Setting(
                 value=value,
                 value_type_hint=None,
                 # NOTE: setting names on contexts are fully qualified
@@ -247,14 +246,14 @@ class TalonContextSettingsShim(Mapping):
                 description=None,
                 location=self._context._context.location,
                 parent_name=self._context._context.name,
-                parent_type=talon.Context,
+                parent_type=data.Context,
             )
         )
 
-    def __setitem__(self, name: str, value: talon.SettingValue):
+    def __setitem__(self, name: str, value: data.SettingValue):
         self._add_setting_value(name, value)
 
-    def update(self, values: Mapping[str, talon.SettingValue]):
+    def update(self, values: Mapping[str, data.SettingValue]):
         for name, value in values.items():
             self._add_setting_value(name, value)
 
@@ -322,7 +321,7 @@ class TalonShim(ModuleShim):
             self._registry = Registry.get_active_global_registry()
             self._package = self._registry.get_active_package()
             self._file = self._registry.get_active_file()
-            self._module = talon.Module(
+            self._module = data.Module(
                 index=len(self._file.modules),
                 description=desc,
                 location=self._file.location,
@@ -335,27 +334,27 @@ class TalonShim(ModuleShim):
             for name, func in inspect.getmembers(cls, inspect.isfunction):
                 assert callable(func)
                 package = self._registry.get_active_package()
-                function = talon.Function(
+                function = data.Function(
                     namespace=package.name,
                     function=func,
                     location=Location.from_function(func),
                     parent_name=self._module.name,
-                    parent_type=talon.Module,
+                    parent_type=data.Module,
                 )
                 self._registry.register(function)
-                action = talon.Action(
+                action = data.Action(
                     function_name=function.name,
                     function_signature=inspect.signature(func),
                     name=f"{package.name}.{name}",
                     description=func.__doc__,
                     location=function.location,
                     parent_name=self._module.name,
-                    parent_type=talon.Module,
+                    parent_type=data.Module,
                 )
                 self._registry.register(action)
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
-            function = self._registry.lookup_default_function(talon.Action, name)
+            function = self._registry.lookup_default_function(data.Action, name)
             return function or ObjectShim()
 
         def capture(
@@ -364,23 +363,23 @@ class TalonShim(ModuleShim):
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
                 assert callable(func)
                 package = self._registry.get_active_package()
-                function = talon.Function(
+                function = data.Function(
                     namespace=package.name,
                     function=func,
                     location=Location.from_function(func),
                     parent_name=self._module.name,
-                    parent_type=talon.Module,
+                    parent_type=data.Module,
                 )
                 self._registry.register(function)
-                capture = talon.Capture(
-                    rule=talon.parse_rule(rule),
+                capture = data.Capture(
+                    rule=data.parse_rule(rule),
                     function_name=function.name,
                     function_signature=inspect.signature(func),
                     name=f"{package.name}.{func.__name__}",
                     description=func.__doc__,
                     location=function.location,
                     parent_name=self._module.name,
-                    parent_type=talon.Module,
+                    parent_type=data.Module,
                 )
                 self._registry.register(capture)
                 return func
@@ -391,11 +390,11 @@ class TalonShim(ModuleShim):
             self,
             name: str,
             type: type,
-            default: talon.SettingValue = None,
+            default: data.SettingValue = None,
             desc: Optional[str] = None,
         ):
             self._registry.register(
-                talon.Setting(
+                data.Setting(
                     value=default,
                     value_type_hint=type,
                     # NOTE: list names passed to modules are unqualified
@@ -403,7 +402,7 @@ class TalonShim(ModuleShim):
                     description=desc,
                     location=self._module.location,
                     parent_name=self._module.name,
-                    parent_type=talon.Module,
+                    parent_type=data.Module,
                 )
             )
 
@@ -413,7 +412,7 @@ class TalonShim(ModuleShim):
             desc: Optional[str] = None,
         ):
             self._registry.register(
-                talon.List(
+                data.List(
                     value=None,
                     value_type_hint=None,
                     # NOTE: list names passed to modules are unqualified
@@ -421,7 +420,7 @@ class TalonShim(ModuleShim):
                     description=desc,
                     location=self._module.location,
                     parent_name=self._module.name,
-                    parent_type=talon.Module,
+                    parent_type=data.Module,
                 )
             )
 
@@ -431,7 +430,7 @@ class TalonShim(ModuleShim):
             desc: Optional[str] = None,
         ):
             self._registry.register(
-                talon.Mode(
+                data.Mode(
                     name=f"{self._package.name}.{name}",
                     description=desc,
                     location=self._module.location,
@@ -445,7 +444,7 @@ class TalonShim(ModuleShim):
             desc: Optional[str] = None,
         ):
             self._registry.register(
-                talon.Tag(
+                data.Tag(
                     name=f"{self._package.name}.{name}",
                     description=desc,
                     location=self._module.location,
@@ -461,7 +460,7 @@ class TalonShim(ModuleShim):
             self._registry = Registry.get_active_global_registry()
             self._package = self._registry.get_active_package()
             self._file = self._registry.get_active_file()
-            self._context = talon.Context(
+            self._context = data.Context(
                 matches=[],
                 index=len(self._file.contexts),
                 description=desc,
@@ -477,19 +476,19 @@ class TalonShim(ModuleShim):
             # TODO: apps
 
         @property
-        def lists(self) -> Mapping[str, talon.ListValue]:
+        def lists(self) -> Mapping[str, data.ListValue]:
             return self._lists
 
         @lists.setter
-        def lists(self, lists: Mapping[str, talon.ListValue]) -> None:
+        def lists(self, lists: Mapping[str, data.ListValue]) -> None:
             self._lists.update(lists)
 
         @property
-        def settings(self) -> Mapping[str, talon.SettingValue]:
+        def settings(self) -> Mapping[str, data.SettingValue]:
             return self._settings
 
         @settings.setter
-        def settings(self, values: Mapping[str, talon.SettingValue]):
+        def settings(self, values: Mapping[str, data.SettingValue]):
             self._settings.update(values)
 
         @property
@@ -507,15 +506,15 @@ class TalonShim(ModuleShim):
                     assert callable(func)
 
                     location = Location.from_function(func)
-                    function = talon.Function(
+                    function = data.Function(
                         namespace=namespace,
                         function=func,
                         location=location,
                         parent_name=self._context.name,
-                        parent_type=talon.Context,
+                        parent_type=data.Context,
                     )
                     self._registry.register(function)
-                    action = talon.Action(
+                    action = data.Action(
                         function_name=function.name,
                         function_signature=inspect.signature(func),
                         # NOTE: function names on action classes are unqualified
@@ -523,7 +522,7 @@ class TalonShim(ModuleShim):
                         description=func.__doc__,
                         location=location,
                         parent_name=self._context.name,
-                        parent_type=talon.Context,
+                        parent_type=data.Context,
                     )
                     self._registry.register(action)
 
@@ -538,15 +537,15 @@ class TalonShim(ModuleShim):
                 namespace = name.split(".")[0]
 
                 location = Location.from_function(func)
-                function = talon.Function(
+                function = data.Function(
                     namespace=namespace,
                     function=func,
                     location=location,
                     parent_name=self._context.name,
-                    parent_type=talon.Context,
+                    parent_type=data.Context,
                 )
                 self._registry.register(function)
-                action = talon.Action(
+                action = data.Action(
                     function_name=function.name,
                     function_signature=inspect.signature(func),
                     # NOTE: function names on actions are fully qualified
@@ -554,7 +553,7 @@ class TalonShim(ModuleShim):
                     description=func.__doc__,
                     location=location,
                     parent_name=self._context.name,
-                    parent_type=talon.Context,
+                    parent_type=data.Context,
                 )
                 self._registry.register(action)
 
@@ -575,7 +574,7 @@ class TalonShim(ModuleShim):
                 if rule is None:
                     _LOGGER.error(f"missing capture rule at {location}")
                     # insert placeholder rule
-                    parsed_rule = talon.Rule(
+                    parsed_rule = data.Rule(
                         text="",
                         type_name="rule",
                         start_position=Point(-1, -1),
@@ -583,7 +582,7 @@ class TalonShim(ModuleShim):
                         children=[],
                     )
                 else:
-                    parsed_rule = talon.parse_rule(rule)
+                    parsed_rule = data.parse_rule(rule)
 
                 # LINT: resolve capture name and check if decorated function has expected name
                 if name is not None:
@@ -606,15 +605,15 @@ class TalonShim(ModuleShim):
                     )
                     resolved_name = f"{self._package.name}.{func.__name__}"
 
-                function = talon.Function(
+                function = data.Function(
                     namespace=resolved_name,
                     function=func,
                     location=location,
                     parent_name=self._context.name,
-                    parent_type=talon.Context,
+                    parent_type=data.Context,
                 )
                 self._registry.register(function)
-                capture = talon.Capture(
+                capture = data.Capture(
                     rule=parsed_rule,
                     # NOTE: capture names passed to contexts are fully qualified
                     name=resolved_name,
@@ -623,7 +622,7 @@ class TalonShim(ModuleShim):
                     description=func.__doc__,
                     location=location,
                     parent_name=self._context.name,
-                    parent_type=talon.Context,
+                    parent_type=data.Context,
                 )
                 self._registry.register(capture)
                 return func

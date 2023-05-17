@@ -10,9 +10,8 @@ from typing import ClassVar, Optional, Sequence, cast
 
 from ...._util.logging import getLogger
 from ...._util.progress_bar import ProgressBar
-from ...registry import Registry
-from ...registry import entries as talon
-from ...registry.entries.abc import Location
+from ...registry import Registry, data
+from ...registry.data.abc import Location
 from .shims import ModuleShim, TalonShim
 
 _LOGGER = getLogger(__name__)
@@ -64,7 +63,7 @@ class TalonShimFinder(MetaPathFinder):
 
 
 @contextmanager
-def talon_package_shims(package: talon.Package) -> Iterator[None]:
+def talon_package_shims(package: data.Package) -> Iterator[None]:
     package_name = package.name
     package_path = str(package.location.path)
 
@@ -132,7 +131,7 @@ def talon_package_shims(package: talon.Package) -> Iterator[None]:
 
 
 @contextmanager
-def talon_shims(registry: Registry, *, package: Optional[talon.Package] = None):
+def talon_shims(registry: Registry, *, package: Optional[data.Package] = None):
     sys.meta_path.insert(0, TalonShimFinder)
     try:
         if package:
@@ -144,9 +143,9 @@ def talon_shims(registry: Registry, *, package: Optional[talon.Package] = None):
         sys.meta_path.remove(TalonShimFinder)
 
 
-def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None:
+def analyse_file(registry: Registry, path: Path, package: data.Package) -> None:
     # Retrieve or create file entry:
-    file = talon.File(
+    file = data.File(
         location=Location.from_path(path),
         parent_name=package.name,
     )
@@ -160,7 +159,7 @@ def analyse_file(registry: Registry, path: Path, package: talon.Package) -> None
 def analyse_files(
     registry: Registry,
     paths: Sequence[Path],
-    package: talon.Package,
+    package: data.Package,
     *,
     trigger: tuple[str, ...] = (),
     show_progress: bool = False,
@@ -182,7 +181,7 @@ def analyse_files(
 
         # Trigger callbacks:
         for event_code in trigger:
-            callbacks = registry.lookup(talon.Callback, event_code)
+            callbacks = registry.lookup(data.Callback, event_code)
             if callbacks is not None:
                 for callback in callbacks:
                     callback.function()

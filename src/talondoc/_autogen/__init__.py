@@ -9,8 +9,7 @@ import jinja2.sandbox
 from typing_extensions import Literal
 
 from .._util.progress_bar import ProgressBar
-from ..analysis.registry import Registry
-from ..analysis.registry import entries as talon
+from ..analysis.registry import Registry, data
 from ..analysis.static import analyse_package
 
 
@@ -98,7 +97,7 @@ def autogen(
         continue_on_error=continue_on_error,
     )
     assert package_name in registry.packages
-    package = registry.get(talon.Package, package_name)
+    package = registry.get(data.Package, package_name)
 
     # Make package path relative to output_dir:
     package_path = Path(os.path.relpath(package.location.path, start=sphinx_root))
@@ -128,7 +127,7 @@ def autogen(
         total += 1
     bar = ProgressBar(total=total)
     for file_name in package.files:
-        file = registry.get(talon.File, file_name, referenced_by=package)
+        file = registry.get(data.File, file_name, referenced_by=package)
         # Create path/to/talon/file.{md,rst}:
         if file.location.path.suffix == ".talon":
             bar.step(f" {str(file.location.path)}")

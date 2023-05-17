@@ -25,9 +25,8 @@ from tree_sitter_talon import (
 )
 
 from .._util.logging import getLogger
-from ..analysis.registry import Registry
-from ..analysis.registry import entries as talon
-from ..analysis.registry.entries.abc import Data
+from ..analysis.registry import Registry, data
+from ..analysis.registry.data.abc import Data
 from . import Description, Step, StepsTemplate, Value, concat, from_docstring
 
 _LOGGER = getLogger(__name__)
@@ -106,7 +105,7 @@ class TalonScriptDescriber:
     def _(self, ast: TalonAction) -> Optional[Description]:
         # TODO: resolve self.*
         name = ast.action_name.text
-        docstring = self.get_docstring(talon.Action, name)
+        docstring = self.get_docstring(data.Action, name)
         if docstring:
             desc = from_docstring(docstring)
             if isinstance(desc, StepsTemplate):

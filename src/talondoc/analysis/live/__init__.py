@@ -15,8 +15,7 @@ from typing_extensions import Self
 
 from ..._util.io import NonBlockingTextIOWrapper
 from ..._util.logging import getLogger
-from ..registry import Registry
-from ..registry import entries as talon
+from ..registry import Registry, data
 
 _LOGGER = getLogger(__name__)
 
@@ -110,97 +109,97 @@ class TalonRepl(AbstractContextManager):
         return Version(pep440_version)
 
     @cached_property
-    def actions(self) -> Sequence[talon.Action]:
+    def actions(self) -> Sequence[data.Action]:
         actions_json = self.eval_resource("get_actions.py")
         try:
             actions_fields = json.loads(actions_json)
         except json.JSONDecodeError as e:
             _LOGGER.error(e)
             return ()
-        return tuple(map(talon.Action.from_dict, actions_fields))
+        return tuple(map(data.Action.from_dict, actions_fields))
 
     @property
-    def builtin_actions(self) -> Sequence[talon.Action]:
+    def builtin_actions(self) -> Sequence[data.Action]:
         return tuple(filter(lambda action: action.builtin, self.actions))
 
     @cached_property
-    def captures(self) -> Sequence[talon.Capture]:
+    def captures(self) -> Sequence[data.Capture]:
         captures_json = self.eval_resource("get_captures.py")
         try:
             captures_fields = json.loads(captures_json)
         except json.JSONDecodeError as e:
             _LOGGER.error(e)
             return ()
-        return tuple(map(talon.Capture.from_dict, captures_fields))
+        return tuple(map(data.Capture.from_dict, captures_fields))
 
     @property
-    def builtin_captures(self) -> Sequence[talon.Capture]:
+    def builtin_captures(self) -> Sequence[data.Capture]:
         return tuple(filter(lambda capture: capture.builtin, self.captures))
 
     @cached_property
-    def commands(self) -> Sequence[talon.Command]:
+    def commands(self) -> Sequence[data.Command]:
         commands_json = self.eval_resource("get_commands.py")
         try:
             commands_fields = json.loads(commands_json)
         except json.JSONDecodeError as e:
             _LOGGER.error(e)
             return ()
-        return tuple(map(talon.Command.from_dict, commands_fields))
+        return tuple(map(data.Command.from_dict, commands_fields))
 
     @cached_property
-    def lists(self) -> Sequence[talon.List]:
+    def lists(self) -> Sequence[data.List]:
         lists_json = self.eval_resource("get_lists.py")
         try:
             lists_fields = json.loads(lists_json)
         except json.JSONDecodeError as e:
             _LOGGER.error(e)
             return ()
-        return tuple(map(talon.List.from_dict, lists_fields))
+        return tuple(map(data.List.from_dict, lists_fields))
 
     @property
-    def builtin_lists(self) -> Sequence[talon.List]:
+    def builtin_lists(self) -> Sequence[data.List]:
         return tuple(filter(lambda list: list.builtin, self.lists))
 
     @cached_property
-    def settings(self) -> Sequence[talon.Setting]:
+    def settings(self) -> Sequence[data.Setting]:
         settings_json = self.eval_resource("get_settings.py")
         try:
             settings_fields = json.loads(settings_json)
         except json.JSONDecodeError as e:
             _LOGGER.error(e)
             return ()
-        return tuple(map(talon.Setting.from_dict, settings_fields))
+        return tuple(map(data.Setting.from_dict, settings_fields))
 
     @property
-    def builtin_settings(self) -> Sequence[talon.Setting]:
+    def builtin_settings(self) -> Sequence[data.Setting]:
         return tuple(filter(lambda setting: setting.builtin, self.settings))
 
     @cached_property
-    def modes(self) -> Sequence[talon.Mode]:
+    def modes(self) -> Sequence[data.Mode]:
         modes_json = self.eval_resource("get_modes.py")
         try:
             modes_fields = json.loads(modes_json)
         except json.JSONDecodeError as e:
             _LOGGER.error(e)
             return ()
-        return tuple(map(talon.Mode.from_dict, modes_fields))
+        return tuple(map(data.Mode.from_dict, modes_fields))
 
     @property
-    def builtin_modes(self) -> Sequence[talon.Mode]:
+    def builtin_modes(self) -> Sequence[data.Mode]:
         return tuple(filter(lambda mode: mode.builtin, self.modes))
 
     @cached_property
-    def tags(self) -> Sequence[talon.Tag]:
+    def tags(self) -> Sequence[data.Tag]:
         tags_json = self.eval_resource("get_tags.py")
         try:
             tags_fields = json.loads(tags_json)
         except json.JSONDecodeError as e:
             _LOGGER.error(e)
             return ()
-        return tuple(map(talon.Tag.from_dict, tags_fields))
+        return tuple(map(data.Tag.from_dict, tags_fields))
 
     @property
-    def builtin_tags(self) -> Sequence[talon.Tag]:
+    def builtin_tags(self) -> Sequence[data.Tag]:
         return tuple(filter(lambda tag: tag.builtin, self.tags))
 
     @property
