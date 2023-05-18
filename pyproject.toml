@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "talondoc"
-version = "0.5.0"
+version = "0.5.1"
 description = "A Sphinx extension for Talon user directories."
 license = { file = 'LICENSE' }
 authors = [{ name = "Wen Kokke", email = "wenkokke@users.noreply.github.com" }]
@@ -57,7 +57,7 @@ docs = [
 talondoc = "talondoc:talondoc"
 
 [tool.bumpver]
-current_version = "0.5.0"
+current_version = "0.5.1"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "Bump version {old_version} -> {new_version}"
 commit = true
