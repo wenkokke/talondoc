@@ -13,7 +13,6 @@ from tree_sitter_talon import TalonBlock, TalonMatch, TalonRule
 from typing_extensions import Literal, TypeAlias, TypeVar, final
 
 from ...._util.logging import getLogger
-from ._compat import COMPAT as _COMPAT
 from .abc import (
     Data,
     GroupData,
