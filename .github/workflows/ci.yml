@@ -128,13 +128,13 @@ jobs:
         run: pip install .[docs]
 
       - name: Build docs
-        run: sphinx-build -M html docs docs/_build
+        run: ./example/build.sh
 
       - name: Deploy doc
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
-          branch: docs
-          folder: docs/_build/html
+          branch: example/docs
+          folder: example/docs/_build/html
 
   ################################################################################
   # Publish package to GitHub Releases
