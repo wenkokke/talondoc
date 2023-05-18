@@ -1,0 +1,5 @@
+user.apps.gdb.gdb_global
+========================
+
+.. talon:command-table::
+  :context: user.apps.gdb.gdb_global

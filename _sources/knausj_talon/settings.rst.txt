@@ -1,0 +1,5 @@
+user.settings
+=============
+
+.. talon:command-table::
+  :context: user.settings

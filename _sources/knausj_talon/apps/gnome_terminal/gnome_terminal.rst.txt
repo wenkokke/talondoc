@@ -1,0 +1,5 @@
+user.apps.gnome_terminal.gnome_terminal
+=======================================
+
+.. talon:command-table::
+  :context: user.apps.gnome_terminal.gnome_terminal

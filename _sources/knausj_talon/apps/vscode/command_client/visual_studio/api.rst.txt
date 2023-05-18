@@ -1,0 +1,2 @@
+user.apps.vscode.command_client.visual_studio.py
+================================================

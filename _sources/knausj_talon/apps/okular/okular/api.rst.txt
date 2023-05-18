@@ -1,0 +1,2 @@
+user.apps.okular.okular.py
+==========================

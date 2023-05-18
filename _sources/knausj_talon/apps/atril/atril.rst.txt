@@ -1,0 +1,5 @@
+user.apps.atril.atril
+=====================
+
+.. talon:command-table::
+  :context: user.apps.atril.atril
