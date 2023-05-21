@@ -29,7 +29,7 @@ class TalonCommandDirective(TalonDocCommandDescription):
         return [" ".join(self.arguments)]
 
     @override
-    def handle_signature(self, sig: str, signode: addnodes.desc_signature):
+    def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
         try:
             command = self.find_command(sig, fullmatch=False, restrict_to=self.contexts)
             signode = self.describe_command(

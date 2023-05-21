@@ -25,7 +25,7 @@ def _get_captures() -> None:
             return cls.__name__
         return repr(cls)
 
-    def asdict_parameter(par: inspect.Parameter) -> typing.Dict:
+    def asdict_parameter(par: inspect.Parameter) -> typing.Dict[str, typing.Any]:
         return {
             "name": par.name,
             "kind": par.kind,
@@ -33,7 +33,7 @@ def _get_captures() -> None:
             "annotation": asdict_class(par.annotation),
         }
 
-    def asdict_signature(sig: inspect.Signature) -> typing.Dict:
+    def asdict_signature(sig: inspect.Signature) -> typing.Dict[str, typing.Any]:
         return {
             "parameters": [asdict_parameter(par) for par in sig.parameters.values()],
             "return_annotation": asdict_class(sig.return_annotation),

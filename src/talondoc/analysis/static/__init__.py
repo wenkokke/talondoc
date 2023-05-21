@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Sequence
 
 from ..registry import Registry
 from ..registry.data import Package
@@ -11,8 +11,8 @@ from .talon import analyse_files as analyse_talon_files
 def _include_file(
     file_path: Path,
     *,
-    include: tuple[str, ...] = (),
-    exclude: tuple[str, ...] = (),
+    include: Sequence[str] = (),
+    exclude: Sequence[str] = (),
 ) -> bool:
     return (
         not exclude
@@ -26,9 +26,9 @@ def analyse_package(
     package_dir: Path,
     *,
     package_name: Optional[str] = None,
-    include: tuple[str, ...] = (),
-    exclude: tuple[str, ...] = (),
-    trigger: tuple[str, ...] = (),
+    include: Sequence[str] = (),
+    exclude: Sequence[str] = (),
+    trigger: Sequence[str] = (),
     show_progress: bool = False,
     continue_on_error: bool = True,
 ) -> None:

@@ -15,7 +15,7 @@ else:
 if "sphinx" not in sys.modules:
     import colorlog
 
-    class PrettyColoredFormatter(colorlog.ColoredFormatter):
+    class PrettyColoredFormatter(colorlog.ColoredFormatter):  # type: ignore[misc]
         def format(self, record: LogRecord) -> str:
             if record.levelno == INFO:
                 return record.getMessage()

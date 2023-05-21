@@ -1,6 +1,5 @@
 import inspect
 from dataclasses import dataclass
-from functools import singledispatchmethod
 from typing import (
     Any,
     Callable,
@@ -11,6 +10,7 @@ from typing import (
     Mapping,
     Optional,
     Sequence,
+    Type,
     Union,
     cast,
     overload,
@@ -21,6 +21,7 @@ from typing_extensions import Final
 
 from talondoc.analysis.registry.data.serialise import JsonValue
 
+from ..._compat_singledispatchmethod import singledispatchmethod
 from ..._util.logging import getLogger
 from . import data
 from .data import CallbackVar
@@ -260,7 +261,7 @@ class Registry:
 
     def get(
         self,
-        cls: type[DataVar],
+        cls: Type[DataVar],
         name: str,
         *,
         referenced_by: Optional[Data] = None,
@@ -295,7 +296,7 @@ class Registry:
     @overload
     def lookup(
         self,
-        cls: type[SimpleDataVar],
+        cls: Type[SimpleDataVar],
         name: str,
     ) -> Optional[SimpleDataVar]:
         ...
@@ -303,7 +304,7 @@ class Registry:
     @overload
     def lookup(
         self,
-        cls: type[GroupDataVar],
+        cls: Type[GroupDataVar],
         name: str,
     ) -> Optional[List[GroupDataVar]]:
         ...
@@ -311,15 +312,15 @@ class Registry:
     @overload
     def lookup(
         self,
-        cls: type[data.Callback],
+        cls: Type[data.Callback],
         name: data.EventCode,
     ) -> Optional[Sequence[data.Callback]]:
         ...
 
-    def lookup(self, cls: type[Data], name: Any) -> Optional[Any]:
+    def lookup(self, cls: Type[Data], name: Any) -> Optional[Any]:
         return self._typed_store(cls).get(self.resolve_name(name), None)
 
-    def lookup_description(self, cls: type[Data], name: Any) -> Optional[str]:
+    def lookup_description(self, cls: Type[Data], name: Any) -> Optional[str]:
         if issubclass(cls, SimpleData):
             simple = self.lookup(cls, name)
             if simple:
@@ -331,7 +332,7 @@ class Registry:
         return None
 
     def lookup_default(
-        self, cls: type[GroupDataVar], name: str
+        self, cls: Type[GroupDataVar], name: str
     ) -> Optional[GroupDataVar]:
         group = self.lookup(cls, name)
         if group:
@@ -354,7 +355,7 @@ class Registry:
         return None
 
     def lookup_default_function(
-        self, cls: type[GroupDataHasFunction], name: str
+        self, cls: Type[GroupDataHasFunction], name: str
     ) -> Optional[Callable[..., Any]]:
         value = self.lookup_default(cls, name)
         if value and value.function_name:
@@ -456,24 +457,24 @@ class Registry:
     ######################################################################
 
     @overload
-    def _typed_store(self, cls: type[SimpleDataVar]) -> Dict[str, SimpleDataVar]:
+    def _typed_store(self, cls: Type[SimpleDataVar]) -> Dict[str, SimpleDataVar]:
         ...
 
     @overload
-    def _typed_store(self, cls: type[GroupDataVar]) -> Dict[str, List[GroupDataVar]]:
+    def _typed_store(self, cls: Type[GroupDataVar]) -> Dict[str, List[GroupDataVar]]:
         ...
 
     @overload
     def _typed_store(
-        self, cls: type[data.Callback]
+        self, cls: Type[data.Callback]
     ) -> Dict[data.EventCode, List[data.Callback]]:
         ...
 
     @overload
-    def _typed_store(self, cls: type[Data]) -> Dict[Any, Any]:
+    def _typed_store(self, cls: Type[Data]) -> Dict[Any, Any]:
         ...
 
-    def _typed_store(self, cls: type[Data]) -> Dict[Any, Any]:
+    def _typed_store(self, cls: Type[Data]) -> Dict[Any, Any]:
         # If the data is not serialisable, store it in temp_data:
         if cls.serialisable:
             data = self._data
@@ -531,13 +532,13 @@ class Registry:
             pass
         raise NoActiveRegistry()
 
-    def activate(self: "Registry"):
+    def activate(self: "Registry") -> None:
         """
         Activate this registry.
         """
         Registry._active_global_registry = self
 
-    def deactivate(self: "Registry"):
+    def deactivate(self: "Registry") -> None:
         """
         Deactivate this registry.
         """

@@ -1,7 +1,7 @@
-from typing import Any, Optional
+from typing import Any, Optional, Sequence
 
 
-def optional_strlist(argument: Optional[str]) -> tuple[str, ...]:
+def optional_strlist(argument: Optional[str]) -> Sequence[str]:
     if argument:
         return tuple(pattern.strip() for pattern in argument.split(","))
     else:

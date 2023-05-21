@@ -4,7 +4,7 @@ from collections.abc import Callable
 from functools import partial
 from inspect import Parameter, Signature
 from logging import WARNING
-from typing import Any, Dict, Mapping, Optional, Sequence, Union
+from typing import Any, Dict, List, Mapping, Optional, Sequence, Type, Union
 
 from typing_extensions import TypeAlias, TypeVar
 
@@ -19,8 +19,8 @@ JsonValue: TypeAlias = Union[
     None,
     int,
     str,
-    dict[str, "JsonValue"],
-    list["JsonValue"],
+    Dict[str, "JsonValue"],
+    List["JsonValue"],
 ]
 
 ##############################################################################
@@ -75,7 +75,7 @@ def asdict_signature(sig: Signature) -> JsonValue:
 ##############################################################################
 
 
-def parse_pickle(value: JsonValue, *, context: dict[str, str] = {}) -> Any:
+def parse_pickle(value: JsonValue, *, context: Dict[str, str] = {}) -> Any:
     if isinstance(value, str):
         return parse_str(value)
     elif isinstance(value, Mapping):
@@ -88,7 +88,7 @@ def parse_pickle(value: JsonValue, *, context: dict[str, str] = {}) -> Any:
                 object_type = context.get("object_type", "object")
                 field_name = context.get("field_name", None)
                 field_path = context.get("field_path", None)
-                message_buffer: list[str] = []
+                message_buffer: List[str] = []
                 message_buffer.append(f"Cannot decode")
                 if field_name:
                     message_buffer.append(f"field {field_name}")
@@ -107,7 +107,7 @@ def parse_pickle(value: JsonValue, *, context: dict[str, str] = {}) -> Any:
         raise TypeError(f"Expected str or dict, found {type(value).__name__}")
 
 
-def parse_value_by_type(cls: type[_T]) -> Callable[[JsonValue], _T]:
+def parse_value_by_type(cls: Type[_T]) -> Callable[[JsonValue], _T]:
     def _parser(value: Any) -> _T:
         if isinstance(value, cls):
             return value
@@ -122,7 +122,7 @@ parse_list = parse_value_by_type(list)
 parse_dict = parse_value_by_type(dict)
 
 
-def parse_list_of(parser: Callable[[JsonValue], _T]) -> Callable[[JsonValue], list[_T]]:
+def parse_list_of(parser: Callable[[JsonValue], _T]) -> Callable[[JsonValue], List[_T]]:
     return lambda value: list(map(parser, parse_list(value)))
 
 
@@ -170,12 +170,12 @@ def parse_optfield(
 _EnumType = TypeVar("_EnumType", bound=int)
 
 
-def parse_enum(options: tuple[_EnumType, ...]) -> Callable[[JsonValue], _EnumType]:
+def parse_enum(options: Sequence[_EnumType]) -> Callable[[JsonValue], _EnumType]:
     OPTIONS_DICT = {int(opt): opt for opt in options}
     return lambda value: OPTIONS_DICT[parse_int(value)]
 
 
-def parse_class(*options: type[_T]) -> Callable[[JsonValue], type[_T]]:
+def parse_class(*options: Type[_T]) -> Callable[[JsonValue], Type[_T]]:
     return lambda value: {opt.__name__: opt for opt in options}[parse_str(value)]
 
 
@@ -191,7 +191,7 @@ parse_kind = parse_enum(
 )
 
 
-def parse_parameter(value: JsonValue, *, context: dict[str, str] = {}) -> Parameter:
+def parse_parameter(value: JsonValue, *, context: Dict[str, str] = {}) -> Parameter:
     return Parameter(
         name=parse_field("name", parse_str)(value),
         kind=parse_field("kind", parse_kind)(value),
@@ -203,12 +203,12 @@ def parse_parameter(value: JsonValue, *, context: dict[str, str] = {}) -> Parame
 
 
 def parse_parameters(
-    value: JsonValue, *, context: dict[str, str] = {}
+    value: JsonValue, *, context: Dict[str, str] = {}
 ) -> Sequence[Parameter]:
     return tuple(map(partial(parse_parameter, context=context), parse_list(value)))
 
 
-def parse_signature(value: JsonValue, *, context: dict[str, str] = {}) -> Signature:
+def parse_signature(value: JsonValue, *, context: Dict[str, str] = {}) -> Signature:
     return Signature(
         parameters=parse_field(
             "parameters", partial(parse_parameters, context=context)

@@ -5,10 +5,9 @@ import os
 import platform
 import subprocess
 from contextlib import AbstractContextManager
-from functools import cached_property
 from importlib.resources import Resource
 from types import TracebackType
-from typing import Optional, Sequence
+from typing import Optional, Sequence, Type
 
 from packaging.version import Version
 from typing_extensions import Self
@@ -20,7 +19,7 @@ from ..registry import Registry, data
 _LOGGER = getLogger(__name__)
 
 
-class TalonRepl(AbstractContextManager):
+class TalonRepl(AbstractContextManager["TalonRepl"]):
     _session: Optional[subprocess.Popen[bytes]]
     _session_stdout: Optional[NonBlockingTextIOWrapper]
     _session_stderr: Optional[NonBlockingTextIOWrapper]
@@ -87,7 +86,7 @@ class TalonRepl(AbstractContextManager):
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
+        exc_type: Optional[Type[BaseException]],
         exc_val: Optional[BaseException],
         exc_tb: Optional[TracebackType],
     ) -> None:
@@ -98,7 +97,7 @@ class TalonRepl(AbstractContextManager):
             self.eval("exit()")
             self._session.wait()
 
-    @cached_property
+    @property
     def version(self) -> Version:
         parts = self.eval_resource("get_version.py").split("-", maxsplit=3)
         pep440_version = parts[0]
@@ -108,7 +107,7 @@ class TalonRepl(AbstractContextManager):
             pep440_version += f"+{parts[2]}"
         return Version(pep440_version)
 
-    @cached_property
+    @property
     def actions(self) -> Sequence[data.Action]:
         actions_json = self.eval_resource("get_actions.py")
         try:
@@ -122,7 +121,7 @@ class TalonRepl(AbstractContextManager):
     def builtin_actions(self) -> Sequence[data.Action]:
         return tuple(filter(lambda action: action.builtin, self.actions))
 
-    @cached_property
+    @property
     def captures(self) -> Sequence[data.Capture]:
         captures_json = self.eval_resource("get_captures.py")
         try:
@@ -136,7 +135,7 @@ class TalonRepl(AbstractContextManager):
     def builtin_captures(self) -> Sequence[data.Capture]:
         return tuple(filter(lambda capture: capture.builtin, self.captures))
 
-    @cached_property
+    @property
     def commands(self) -> Sequence[data.Command]:
         commands_json = self.eval_resource("get_commands.py")
         try:
@@ -146,7 +145,7 @@ class TalonRepl(AbstractContextManager):
             return ()
         return tuple(map(data.Command.from_dict, commands_fields))
 
-    @cached_property
+    @property
     def lists(self) -> Sequence[data.List]:
         lists_json = self.eval_resource("get_lists.py")
         try:
@@ -160,7 +159,7 @@ class TalonRepl(AbstractContextManager):
     def builtin_lists(self) -> Sequence[data.List]:
         return tuple(filter(lambda list: list.builtin, self.lists))
 
-    @cached_property
+    @property
     def settings(self) -> Sequence[data.Setting]:
         settings_json = self.eval_resource("get_settings.py")
         try:
@@ -174,7 +173,7 @@ class TalonRepl(AbstractContextManager):
     def builtin_settings(self) -> Sequence[data.Setting]:
         return tuple(filter(lambda setting: setting.builtin, self.settings))
 
-    @cached_property
+    @property
     def modes(self) -> Sequence[data.Mode]:
         modes_json = self.eval_resource("get_modes.py")
         try:
@@ -188,7 +187,7 @@ class TalonRepl(AbstractContextManager):
     def builtin_modes(self) -> Sequence[data.Mode]:
         return tuple(filter(lambda mode: mode.builtin, self.modes))
 
-    @cached_property
+    @property
     def tags(self) -> Sequence[data.Tag]:
         tags_json = self.eval_resource("get_tags.py")
         try:

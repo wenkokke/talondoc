@@ -2,7 +2,7 @@ import datetime
 import os
 import subprocess
 from pathlib import Path
-from typing import Optional, Union
+from typing import List, Optional, Sequence, Tuple, Union
 
 import jinja2
 import jinja2.sandbox
@@ -41,9 +41,9 @@ def autogen(
     sphinx_root: Union[None, str, Path] = None,
     output_dir: Union[None, str, Path] = None,
     template_dir: Union[None, str, Path] = None,
-    include: tuple[str, ...] = (),
-    exclude: tuple[str, ...] = (),
-    trigger: tuple[str, ...] = (),
+    include: Sequence[str] = (),
+    exclude: Sequence[str] = (),
+    trigger: Sequence[str] = (),
     project: Optional[str] = None,
     author: Optional[str] = None,
     release: Optional[str] = None,
@@ -51,7 +51,7 @@ def autogen(
     generate_index: bool = True,
     continue_on_error: bool = True,
     format: Literal["md", "rst"] = "rst",
-):
+) -> None:
     # Set defaults for arguments
     if isinstance(package_dir, str):
         package_dir = Path(package_dir)
@@ -69,7 +69,7 @@ def autogen(
     release = release or "0.1.0"
 
     # Create jinja2 loaders
-    loaders: list[jinja2.BaseLoader] = []
+    loaders: List[jinja2.BaseLoader] = []
     if template_dir:
         loaders.append(jinja2.FileSystemLoader(template_dir))
     loaders.append(
@@ -97,7 +97,7 @@ def autogen(
         continue_on_error=continue_on_error,
     )
     assert package_name in registry.packages
-    package = registry.get(data.Package, package_name)
+    package: data.Package = registry.get(data.Package, package_name)
 
     # Make package path relative to output_dir:
     package_path = Path(os.path.relpath(package.location.path, start=sphinx_root))
@@ -119,7 +119,7 @@ def autogen(
     template_talon_file = env.get_template(f"talon_file.{format}.jinja2")
     template_python_file = env.get_template(f"python_file.{format}.jinja2")
 
-    toc: list[Path] = []
+    toc: List[Path] = []
     total: int = len(package.files)
     if generate_conf:
         total += 1
@@ -127,7 +127,7 @@ def autogen(
         total += 1
     bar = ProgressBar(total=total)
     for file_name in package.files:
-        file = registry.get(data.File, file_name, referenced_by=package)
+        file: data.File = registry.get(data.File, file_name, referenced_by=package)
         # Create path/to/talon/file.{md,rst}:
         if file.location.path.suffix == ".talon":
             bar.step(f" {str(file.location.path)}")

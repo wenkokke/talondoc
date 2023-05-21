@@ -1,10 +1,9 @@
 import textwrap
 import typing
-from collections.abc import Callable
 from dataclasses import dataclass, field
 from functools import partial
 from inspect import Signature
-from typing import Any, Mapping, Optional, Sequence, Union
+from typing import Any, Callable, Dict, Mapping, Optional, Sequence, Type, Union
 
 import tree_sitter_talon
 from tree_sitter_talon import Node as Node
@@ -150,7 +149,7 @@ def asdict_list_value(value: ListValue) -> JsonValue:
         return list(value)
 
 
-def parse_list_value(value: JsonValue, *, context: dict[str, str] = {}) -> ListValue:
+def parse_list_value(value: JsonValue, *, context: Dict[str, str] = {}) -> ListValue:
     if isinstance(value, Mapping):
         return {
             key: parse_pickle(val, context=context)
@@ -159,12 +158,12 @@ def parse_list_value(value: JsonValue, *, context: dict[str, str] = {}) -> ListV
     if isinstance(value, Sequence):
         return list(map(parse_str, value))
     raise TypeError(
-        f"Expected dict[str, any] or list[str], found {type(value).__name__}"
+        f"Expected Dict[str, any] or List[str], found {type(value).__name__}"
     )
 
 
 def field_list_value(value: JsonValue) -> Optional[ListValue]:
-    context: dict[str, str] = {
+    context: Dict[str, str] = {
         "object_type": "list",
         "field_name": "value",
     }
@@ -185,7 +184,7 @@ parse_setting_value = parse_pickle
 
 
 def field_setting_value(value: JsonValue) -> Optional[SettingValue]:
-    context: dict[str, str] = {
+    context: Dict[str, str] = {
         "object_type": "setting",
         "field_name": "value",
     }
@@ -203,7 +202,7 @@ def field_setting_value(value: JsonValue) -> Optional[SettingValue]:
 @final
 @dataclass
 class Package(SimpleData):
-    files: list["FileName"] = field(default_factory=list, init=False)
+    files: typing.List["FileName"] = field(default_factory=list, init=False)
 
     name: PackageName
     description: None = field(default=None, init=False)
@@ -221,17 +220,17 @@ class Package(SimpleData):
 @final
 @dataclass
 class File(SimpleData):
-    modules: list["ModuleName"] = field(default_factory=list, init=False)
-    contexts: list["ContextName"] = field(default_factory=list, init=False)
+    modules: typing.List["ModuleName"] = field(default_factory=list, init=False)
+    contexts: typing.List["ContextName"] = field(default_factory=list, init=False)
 
     name: FileName = field(init=False)
     description: None = field(default=None, init=False)
     location: Location
     parent_name: PackageName
-    parent_type: type[Package] = field(default=Package, init=False)
+    parent_type: Type[Package] = field(default=Package, init=False)
     serialisable: bool = field(default=True, init=False)
 
-    def __post_init__(self, *_args, **_kwargs) -> None:
+    def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
         self.name = ".".join((self.parent_name, *self.location.path.parts))
 
 
@@ -249,10 +248,10 @@ class Module(SimpleData):
     description: Optional[str]
     location: Location
     parent_name: FileName
-    parent_type: type[File] = field(default=File, init=False)
+    parent_type: Type[File] = field(default=File, init=False)
     serialisable: bool = field(default=True, init=False)
 
-    def __post_init__(self, *_args, **_kwargs) -> None:
+    def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
         if self.index == 0:
             self.name = f"{self.parent_name}"
         else:
@@ -263,17 +262,17 @@ class Module(SimpleData):
 @dataclass
 class Context(SimpleData):
     index: int
-    matches: list[Match]
-    commands: list["CommandName"] = field(default_factory=list, init=False)
+    matches: typing.List[Match]
+    commands: typing.List["CommandName"] = field(default_factory=list, init=False)
 
     name: ContextName = field(init=False)
     description: Optional[str]
     location: Location
     parent_name: FileName
-    parent_type: type[File] = field(default=File, init=False)
+    parent_type: Type[File] = field(default=File, init=False)
     serialisable: bool = field(default=True, init=False)
 
-    def __post_init__(self, *_args, **_kwargs) -> None:
+    def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
         if self.index == 0:
             self.name = f"{self.parent_name}"
         else:
@@ -289,7 +288,7 @@ class Context(SimpleData):
 ##############################################################################
 
 field_parent_type: Callable[
-    [JsonValue], Union[type[Module], type[Context]]
+    [JsonValue], Union[Type[Module], Type[Context]]
 ] = parse_field("parent_type", parse_class(Module, Context))
 
 
@@ -306,12 +305,12 @@ class Function(SimpleData):
     description: Optional[str] = field(init=False)
     location: Location
     parent_name: Union[ModuleName, ContextName]
-    parent_type: Union[type[Module], type[Context]]
+    parent_type: Union[Type[Module], Type[Context]]
     serialisable: bool = field(default=False, init=False)
 
     function: Callable[..., Any] = field(repr=False)
 
-    def __post_init__(self, *_args, **_kwargs) -> None:
+    def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
         self.name = f"{self.parent_name}:{self.namespace}.{self.function.__name__}"
         self.description = self.function.__doc__
 
@@ -328,13 +327,13 @@ class Callback(Data):
     description: Optional[str] = field(init=False)
     location: Location
     parent_name: FileName
-    parent_type: type[File] = field(default=File, init=False)
+    parent_type: Type[File] = field(default=File, init=False)
     serialisable: bool = field(default=False, init=False)
 
     event_code: EventCode
     function: Callable[..., Any] = field(repr=False)
 
-    def __post_init__(self, *_args, **_kwargs) -> None:
+    def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
         self.name = f"{self.parent_name}:{self.function.__name__}"
         self.description = self.function.__doc__
 
@@ -356,10 +355,10 @@ class Command(GroupData):
     description: Optional[str]
     location: Location
     parent_name: ContextName
-    parent_type: type[Context] = field(default=Context, init=False)
+    parent_type: Type[Context] = field(default=Context, init=False)
     serialisable: bool = field(default=True, init=False)
 
-    def __post_init__(self, *_args, **_kwargs) -> None:
+    def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
         self.name = rule_name(self.rule)
 
     @classmethod
@@ -388,7 +387,7 @@ class Command(GroupData):
 
 
 def field_action_function_signature(value: JsonValue) -> Optional[Signature]:
-    context: dict[str, str] = {
+    context: Dict[str, str] = {
         "object_type": "action",
         "field_name": "function_signature",
     }
@@ -409,7 +408,7 @@ class Action(GroupDataHasFunction):
     description: Optional[str]
     location: Union[Literal["builtin"], Location]
     parent_name: Union[ModuleName, ContextName]
-    parent_type: Union[type[Module], type[Context]]
+    parent_type: Union[Type[Module], Type[Context]]
     serialisable: bool = field(default=True, init=False)
 
     @classmethod
@@ -437,7 +436,7 @@ class Action(GroupDataHasFunction):
 
 
 def field_capture_function_signature(value: JsonValue) -> Optional[Signature]:
-    context: dict[str, str] = {
+    context: Dict[str, str] = {
         "object_type": "capture",
         "field_name": "default",
         "field_path": "function_signature.parameters",
@@ -460,7 +459,7 @@ class Capture(GroupDataHasFunction):
     description: Optional[str]
     location: Union[Literal["builtin"], Location]
     parent_name: Union[ModuleName, ContextName]
-    parent_type: Union[type[Module], type[Context]]
+    parent_type: Union[Type[Module], Type[Context]]
     serialisable: bool = field(default=True, init=False)
 
     @classmethod
@@ -493,16 +492,16 @@ class Capture(GroupDataHasFunction):
 @dataclass
 class List(GroupData):
     value: Optional[ListValue]
-    value_type_hint: Optional[type]
+    value_type_hint: Optional[Type[Any]]
 
     name: ListName
     description: Optional[str]
     location: Union[None, Literal["builtin"], Location]
     parent_name: Union[ModuleName, ContextName]
-    parent_type: Union[type[Module], type[Context]]
+    parent_type: Union[Type[Module], Type[Context]]
     serialisable: bool = field(default=True, init=False)
 
-    def __post_init__(self, *args, **kwargs) -> None:
+    def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
         if isinstance(self.value, Mapping):
             self.value = dict(self.value)
         elif isinstance(self.value, Sequence):
@@ -542,13 +541,13 @@ class List(GroupData):
 @dataclass
 class Setting(GroupData):
     value: Optional[SettingValue]
-    value_type_hint: Optional[type]
+    value_type_hint: Optional[Type[Any]]
 
     name: SettingName
     description: Optional[str]
     location: Union[None, Literal["builtin"], Location]
     parent_name: Union[ModuleName, ContextName]
-    parent_type: Union[type[Module], type[Context]]
+    parent_type: Union[Type[Module], Type[Context]]
     serialisable: bool = field(default=True, init=False)
 
     @classmethod
@@ -582,7 +581,7 @@ class Mode(SimpleData):
     description: Optional[str]
     location: Union[None, Literal["builtin"], Location]
     parent_name: ModuleName
-    parent_type: type[Module] = field(default=Module, init=False)
+    parent_type: Type[Module] = field(default=Module, init=False)
     serialisable: bool = field(default=True, init=False)
 
     @classmethod
@@ -610,7 +609,7 @@ class Tag(SimpleData):
     description: Optional[str]
     location: Union[None, Literal["builtin"], Location]
     parent_name: ModuleName
-    parent_type: type[Module] = field(default=Module, init=False)
+    parent_type: Type[Module] = field(default=Module, init=False)
     serialisable: bool = field(default=True, init=False)
 
     @classmethod

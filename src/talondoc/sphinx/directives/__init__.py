@@ -9,7 +9,7 @@ else:
     TalonDomain = Any
 
 
-class TalonDocDirective(sphinx.directives.SphinxDirective):
+class TalonDocDirective(sphinx.directives.SphinxDirective):  # type: ignore[misc, name-defined]
     @property
     def talon(self) -> TalonDomain:
         return cast(TalonDomain, self.env.get_domain("talon"))
@@ -41,5 +41,7 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):
             return __docstring_hook
 
 
-class TalonDocObjectDescription(sphinx.directives.ObjectDescription, TalonDocDirective):
+class TalonDocObjectDescription(
+    sphinx.directives.ObjectDescription[str], TalonDocDirective  # type: ignore[misc]
+):
     pass

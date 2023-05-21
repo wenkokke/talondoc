@@ -10,7 +10,7 @@ from .directives.command.table import TalonCommandTableDirective
 _LOGGER = getLogger(__name__)
 
 
-class TalonDomain(Domain):
+class TalonDomain(Domain):  # type: ignore[misc]
     """Talon language domain."""
 
     name = "talon"

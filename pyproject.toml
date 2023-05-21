@@ -29,7 +29,8 @@ dependencies = [
   "tree_sitter_talon >=3!1.0,<3!2",
   "colorlog >=6.7,<7",
   "packaging >=23.1,<24",
-  'pywin32;platform_system=="Windows"',
+  'pywin32; platform_system=="Windows"',
+  "singledispatchmethod >=1.0,<2; python_version <'3.8'",
 ]
 
 [project.optional-dependencies]
@@ -78,21 +79,10 @@ line_length = 88
 
 [tool.mypy]
 python_version = 3.7
-check_untyped_defs = true
-strict_optional = true
+strict = true
 ignore_missing_imports = true
-warn_redundant_casts = true
-warn_unused_ignores = false
-warn_no_return = true
-warn_return_any = true
-warn_unreachable = true
 implicit_reexport = false
-strict_concatenate = true
-strict_equality = true
-# disallow_untyped_calls = true
-# disallow_untyped_defs = true
-# disallow_incomplete_defs = true
-disallow_untyped_decorators = true
+warn_unused_ignores = false
 
 [tool.pytest.ini_options]
 enable_assertion_pass_hook = true
