@@ -29,7 +29,8 @@ dependencies = [
   "tree_sitter_talon >=3!1.0,<3!2",
   "colorlog >=6.7,<7",
   "packaging >=23.1,<24",
-  'pywin32;platform_system=="Windows"',
+  'pywin32; platform_system=="Windows"',
+  "singledispatchmethod >=1.0,<2; python_version <'3.8'",
 ]
 
 [project.optional-dependencies]
@@ -77,7 +78,7 @@ profile = "black"
 line_length = 88
 
 [tool.mypy]
-python_version = 3.8
+python_version = 3.7
 strict = true
 ignore_missing_imports = true
 implicit_reexport = false

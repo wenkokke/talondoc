@@ -294,14 +294,14 @@ class TalonContextTagsShim(Sequence[str]):
             self._add_tag_import(name)
 
     @overload
-    def __getitem__(self, index: int, /) -> str:
+    def __getitem__(self, index: int) -> str:
         ...
 
     @overload
-    def __getitem__(self, index: slice, /) -> Sequence[str]:
+    def __getitem__(self, index: slice) -> Sequence[str]:
         ...
 
-    def __getitem__(self, _index: Any, /) -> Sequence[Any]:
+    def __getitem__(self, _index: Any) -> Sequence[Any]:
         raise NotImplementedError()
 
     def __iter__(self) -> Iterator[str]:

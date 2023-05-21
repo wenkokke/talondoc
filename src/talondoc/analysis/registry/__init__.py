@@ -1,6 +1,5 @@
 import inspect
 from dataclasses import dataclass
-from functools import singledispatchmethod
 from typing import (
     Any,
     Callable,
@@ -22,6 +21,7 @@ from typing_extensions import Final
 
 from talondoc.analysis.registry.data.serialise import JsonValue
 
+from ..._util._compat_singledispatchmethod import singledispatchmethod
 from ..._util.logging import getLogger
 from . import data
 from .data import CallbackVar
@@ -65,7 +65,7 @@ class Registry:
     # Register Data
     ######################################################################
 
-    @singledispatchmethod
+    @singledispatchmethod  # type: ignore[misc]
     def register(self, value: DataVar) -> DataVar:
         raise TypeError(type(value))
 
