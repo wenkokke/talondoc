@@ -353,8 +353,11 @@ class Registry:
                 if issubclass(obj.parent_type, data.Module):
                     return _IS_DECLARATION
                 else:
-                    ctx = self.get(data.Context, obj.parent_name, referenced_by=obj)
-                    return _IS_ALWAYS_ON + len(ctx.matches)
+                    ctx = self.lookup(data.Context, obj.parent_name)
+                    if ctx is None:
+                        return _IS_ALWAYS_ON
+                    else:
+                        return _IS_ALWAYS_ON + len(ctx.matches)
 
             # Sort all objects in the group by the complexity of their matches:
             sorted_group = [(_complexity(obj), obj) for obj in group]
