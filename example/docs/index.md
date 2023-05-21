@@ -299,7 +299,7 @@ TalonDoc can generate documentation for lists using `talon:list`. For instance, 
 :::{talon:list} user.symbol_key
 :::
 
-In the current release of TalonDoc, list documentation is restricted to names and descriptions.
+List documentation is restricted to names and descriptions.
 
 
 ## Captures
@@ -322,7 +322,7 @@ TalonDoc can generate documentation for captures using `talon:capture`. For inst
 :::{talon:capture} user.any_alphanumeric_key
 :::
 
-In the current release of TalonDoc, capture documentation is restricted to names, rules, and descriptions.
+Capture documentation is restricted to names, rules, and descriptions.
 
 
 ## Tags
