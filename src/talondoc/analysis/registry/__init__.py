@@ -2,7 +2,7 @@ import inspect
 import itertools
 import json
 from collections.abc import Callable, Iterator, Mapping, Sequence
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass, fields
 from functools import singledispatchmethod
 from typing import Any, ClassVar, Optional, Union, cast, overload
 
@@ -246,127 +246,6 @@ class Registry:
             return None
 
     ######################################################################
-    # Combine data
-    ######################################################################
-
-    @singledispatchmethod
-    def group(self, group: Sequence[GroupData]) -> Optional[GroupData]:
-        if group:
-            raise TypeError(type(group[0]))
-        else:
-            return None
-
-    @group.register
-    def _(self, group: Sequence[data.Action]) -> Optional[data.Action]:
-        if group:
-            name = group[0].name
-            description = None
-            location = group[0].location
-            parent_name = group[0].parent_name
-            parent_type = group[0].parent_type
-            function_name = None
-            function_signature = None
-            for obj in group:
-                assert obj.name == name
-                description = description or obj.description
-                function_name = function_name or obj.function_name
-                function_signature = function_signature or obj.function_signature
-            return data.Action(
-                name=name,
-                description=description,
-                location=location,
-                parent_name=parent_name,
-                parent_type=parent_type,
-                function_name=function_name,
-                function_signature=function_signature,
-            )
-        else:
-            return None
-
-    @group.register
-    def _(self, group: Sequence[data.Capture]) -> Optional[data.Capture]:
-        if group:
-            name = group[0].name
-            rule = group[0].rule
-            description = None
-            location = group[0].location
-            parent_name = group[0].parent_name
-            parent_type = group[0].parent_type
-            function_name = None
-            function_signature = None
-            for obj in group:
-                assert obj.name == name
-                description = description or obj.description
-                function_name = function_name or obj.function_name
-                function_signature = function_signature or obj.function_signature
-            return data.Capture(
-                name=name,
-                description=description,
-                location=location,
-                parent_name=parent_name,
-                parent_type=parent_type,
-                rule=rule,
-                function_name=function_name,
-                function_signature=function_signature,
-            )
-        else:
-            return None
-
-    @group.register
-    def _(self, group: Sequence[data.List]) -> Optional[data.List]:
-        if group:
-            name = group[0].name
-            description = None
-            location = group[0].location
-            parent_name = group[0].parent_name
-            parent_type = group[0].parent_type
-            value = None
-            value_type_hint = None
-            for obj in group:
-                assert obj.name == name
-                description = description or obj.description
-                value = value or obj.value
-                value_type_hint = value_type_hint or obj.value_type_hint
-            return data.List(
-                name=name,
-                description=description,
-                location=location,
-                parent_name=parent_name,
-                parent_type=parent_type,
-                value=value,
-                value_type_hint=value_type_hint,
-            )
-        else:
-            return None
-
-    @group.register
-    def _(self, group: Sequence[data.Setting]) -> Optional[data.Setting]:
-        if group:
-            name = group[0].name
-            description = None
-            location = group[0].location
-            parent_name = group[0].parent_name
-            parent_type = group[0].parent_type
-            value = None
-            value_type_hint = None
-            for obj in group:
-                assert obj.name == name
-                description = description or obj.description
-                value = value or obj.value
-                value_type_hint = value_type_hint or obj.value_type_hint
-            return data.Setting(
-                name=name,
-                description=description,
-                location=location,
-                parent_name=parent_name,
-                parent_type=parent_type,
-                value=value,
-                value_type_hint=value_type_hint,
-            )
-        else:
-            return None
-
-    ######################################################################
     # Look Up Data
     ######################################################################
 
@@ -437,6 +316,26 @@ class Registry:
     def lookup(self, cls: type[Data], name: Any) -> Optional[Any]:
         return self._typed_store(cls).get(self.resolve_name(name), None)
 
+    def lookup_default(
+        self, cls: type[GroupDataVar], name: str
+    ) -> Optional[GroupDataVar]:
+        declaration, default_overrides, _ = self.lookup_partition(cls, name)
+        return self._combine(cls, itertools.chain((declaration,), default_overrides))
+
+    def _combine(
+        self, cls: type[GroupDataVar], data: Iterator[Optional[GroupDataVar]]
+    ) -> Optional[GroupDataVar]:
+        init_keys: set[str] = {field.name for field in fields(cls) if field.init}
+        init_args: dict[str, Any] = {}
+        for datum in data:
+            if isinstance(datum, cls):
+                for name in init_keys:
+                    init_args[name] = init_args.get(name, getattr(datum, name))
+        if init_args:
+            return cls(**init_args)
+        else:
+            return None
+
     def lookup_description(self, cls: type[Data], name: Any) -> Optional[str]:
         if issubclass(cls, SimpleData):
             simple = self.lookup(cls, name)
@@ -495,14 +394,6 @@ class Registry:
                     _LOGGER.warning(DuplicateData(default_overrides))
             return (declaration, default_overrides, other_overrides)
         return (None, (), ())
-
-    def lookup_default(
-        self, cls: type[GroupDataVar], name: str
-    ) -> Optional[GroupDataVar]:
-        declaration, default_overrides, _ = self.lookup_partition(cls, name)
-        return cast(
-            Optional[GroupDataVar], self.group([declaration, *default_overrides])
-        )
 
     def lookup_default_function(
         self, cls: type[GroupDataHasFunction], name: str

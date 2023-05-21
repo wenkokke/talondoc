@@ -189,7 +189,7 @@ class GroupData(Data):
         ...
 
     @abstractmethod
-    def to_dict(self) -> JsonValue:
+    def to_dict(self) -> dict[str, JsonValue]:
         ...
 
 

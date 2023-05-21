@@ -1,3 +1,5 @@
+import inspect
+
 from docutils import nodes
 from sphinx import addnodes
 from typing_extensions import override
@@ -26,13 +28,10 @@ class TalonActionDirective(TalonDocObjectDescription):
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
         default = self.talon.registry.lookup_default(data.Action, sig)
         if default:
-            signode += desc_name(nodes.Text(default.name))
+            signature = default.function_signature or inspect.Signature()
+            signode += desc_name(nodes.Text(default.name + str(signature)))
             if default.description:
                 signode += desc_content(paragraph(nodes.Text(default.description)))
-            if default.function_signature:
-                signode += desc_content(
-                    paragraph(nodes.Text(str(default.function_signature)))
-                )
             return default.name
         else:
             e = UnknownReference(
