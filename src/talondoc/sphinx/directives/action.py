@@ -24,20 +24,16 @@ class TalonActionDirective(TalonDocObjectDescription):
 
     @override
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
-        (
-            declaration,
-            default_overrides,
-            other_overrides,
-        ) = self.talon.registry.lookup_partition(data.Action, sig)
-        if declaration:
-            signode += desc_name(nodes.Text(declaration.name))
-            if declaration.description:
-                signode += desc_content(paragraph(nodes.Text(declaration.description)))
-            if declaration.function_signature:
+        default = self.talon.registry.lookup_default(data.Action, sig)
+        if default:
+            signode += desc_name(nodes.Text(default.name))
+            if default.description:
+                signode += desc_content(paragraph(nodes.Text(default.description)))
+            if default.function_signature:
                 signode += desc_content(
-                    paragraph(nodes.Text(str(declaration.function_signature)))
+                    paragraph(nodes.Text(str(default.function_signature)))
                 )
-            return declaration.name
+            return default.name
         else:
             e = UnknownReference(
                 ref_type=data.Action,

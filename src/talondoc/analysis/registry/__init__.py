@@ -246,6 +246,127 @@ class Registry:
             return None
 
     ######################################################################
+    # Combine data
+    ######################################################################
+
+    @singledispatchmethod
+    def group(self, group: Sequence[GroupData]) -> Optional[GroupData]:
+        if group:
+            raise TypeError(type(group[0]))
+        else:
+            return None
+
+    @group.register
+    def _(self, group: Sequence[data.Action]) -> Optional[data.Action]:
+        if group:
+            name = group[0].name
+            description = None
+            location = group[0].location
+            parent_name = group[0].parent_name
+            parent_type = group[0].parent_type
+            function_name = None
+            function_signature = None
+            for obj in group:
+                assert obj.name == name
+                description = description or obj.description
+                function_name = function_name or obj.function_name
+                function_signature = function_signature or obj.function_signature
+            return data.Action(
+                name=name,
+                description=description,
+                location=location,
+                parent_name=parent_name,
+                parent_type=parent_type,
+                function_name=function_name,
+                function_signature=function_signature,
+            )
+        else:
+            return None
+
+    @group.register
+    def _(self, group: Sequence[data.Capture]) -> Optional[data.Capture]:
+        if group:
+            name = group[0].name
+            rule = group[0].rule
+            description = None
+            location = group[0].location
+            parent_name = group[0].parent_name
+            parent_type = group[0].parent_type
+            function_name = None
+            function_signature = None
+            for obj in group:
+                assert obj.name == name
+                description = description or obj.description
+                function_name = function_name or obj.function_name
+                function_signature = function_signature or obj.function_signature
+            return data.Capture(
+                name=name,
+                description=description,
+                location=location,
+                parent_name=parent_name,
+                parent_type=parent_type,
+                rule=rule,
+                function_name=function_name,
+                function_signature=function_signature,
+            )
+        else:
+            return None
+
+    @group.register
+    def _(self, group: Sequence[data.List]) -> Optional[data.List]:
+        if group:
+            name = group[0].name
+            description = None
+            location = group[0].location
+            parent_name = group[0].parent_name
+            parent_type = group[0].parent_type
+            value = None
+            value_type_hint = None
+            for obj in group:
+                assert obj.name == name
+                description = description or obj.description
+                value = value or obj.value
+                value_type_hint = value_type_hint or obj.value_type_hint
+            return data.List(
+                name=name,
+                description=description,
+                location=location,
+                parent_name=parent_name,
+                parent_type=parent_type,
+                value=value,
+                value_type_hint=value_type_hint,
+            )
+        else:
+            return None
+
+    @group.register
+    def _(self, group: Sequence[data.Setting]) -> Optional[data.Setting]:
+        if group:
+            name = group[0].name
+            description = None
+            location = group[0].location
+            parent_name = group[0].parent_name
+            parent_type = group[0].parent_type
+            value = None
+            value_type_hint = None
+            for obj in group:
+                assert obj.name == name
+                description = description or obj.description
+                value = value or obj.value
+                value_type_hint = value_type_hint or obj.value_type_hint
+            return data.Setting(
+                name=name,
+                description=description,
+                location=location,
+                parent_name=parent_name,
+                parent_type=parent_type,
+                value=value,
+                value_type_hint=value_type_hint,
+            )
+        else:
+            return None
+
+    ######################################################################
     # Look Up Data
     ######################################################################
 
@@ -272,19 +393,8 @@ class Registry:
                 )
 
         elif issubclass(cls, GroupData):
-            declaration, default_overrides, other_overrides = self.lookup_partition(
-                cls, name
-            )
-            # NOTE:
-            #   Return one of the following, in order:
-            #
-            #     1. The declaration;
-            #     2. The override which is always on;
-            #     3. Any other override, with a preference for those with the shortest match header.
-            #
-            for obj in itertools.chain(
-                (declaration,), default_overrides, other_overrides
-            ):
+            declaration, defaults, others = self.lookup_partition(cls, name)
+            for obj in itertools.chain((declaration,), defaults, others):
                 if obj:
                     value = cast(DataVar, obj)
                     break
@@ -333,10 +443,9 @@ class Registry:
             if simple:
                 return simple.description
         if issubclass(cls, GroupData):
-            declaration, default_overrides = self.lookup_default(cls, name)
-            for obj in itertools.chain((declaration,), default_overrides):
-                if obj and obj.description:
-                    return obj.description
+            default = self.lookup_default(cls, name)
+            if default:
+                return default.description
         return None
 
     def lookup_partition(
@@ -389,23 +498,21 @@ class Registry:
 
     def lookup_default(
         self, cls: type[GroupDataVar], name: str
-    ) -> tuple[Optional[GroupDataVar], Sequence[GroupDataVar]]:
+    ) -> Optional[GroupDataVar]:
         declaration, default_overrides, _ = self.lookup_partition(cls, name)
-        return (declaration, default_overrides)
+        return cast(
+            Optional[GroupDataVar], self.group([declaration, *default_overrides])
+        )
 
     def lookup_default_function(
         self, cls: type[GroupDataHasFunction], name: str
     ) -> Optional[Callable[..., Any]]:
         # Find the default object:
-        declaration, default_overrides = self.lookup_default(cls, name)
-        default_function_name: Optional[str] = None
-        for obj in itertools.chain((declaration,), default_overrides):
-            if obj and obj.function_name:
-                default_function_name = obj.function_name
+        default = self.lookup_default(cls, name)
 
         # Find the associated function:
-        if default_function_name is not None:
-            function = self.lookup(data.Function, default_function_name)
+        if default is not None and default.function_name is not None:
+            function = self.lookup(data.Function, default.function_name)
             if function is not None:
                 # Create copy for _function_wrapper
                 func = function.function
