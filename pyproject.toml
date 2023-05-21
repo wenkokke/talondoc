@@ -13,12 +13,15 @@ keywords = ["talon", "sphinx"]
 classifiers = [
   "License :: OSI Approved :: MIT License",
   "Topic :: Software Development :: Compilers",
+  "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
 ]
-requires-python = ">=3.9,<3.12"
+requires-python = ">=3.7.1,<3.12"
 dependencies = [
   "awesome_progress_bar >=1.7,<2",
   "docstring_parser >=0.14,<0.16",
@@ -96,7 +99,7 @@ where = ["src"]
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py39-md, py39-rst, py310-md, py310-rst, py311-md, py311-rst
+envlist = py37-md, py37-rst, py38-md, py38-rst, py39-md, py39-rst, py310-md, py310-rst, py311-md, py311-rst
 isolated_build = true
 
 [md]
