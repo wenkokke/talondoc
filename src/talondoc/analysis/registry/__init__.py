@@ -1,6 +1,6 @@
 import inspect
-from collections.abc import Callable, Iterator, Mapping, Sequence
 import itertools
+from collections.abc import Callable, Iterator, Mapping, Sequence
 from dataclasses import dataclass
 from functools import singledispatchmethod
 from typing import Any, ClassVar, Optional, Union, cast, overload
