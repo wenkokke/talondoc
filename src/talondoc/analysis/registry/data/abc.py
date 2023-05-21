@@ -73,15 +73,16 @@ class Location:
             return None
 
     def __str__(self) -> str:
+        resolved_path = self.path.resolve().relative_to(Path.cwd())
         start_position = Location._str_from_point(self.start_line, self.start_column)
         if start_position is not None:
             end_position = Location._str_from_point(self.end_line, self.end_column)
             if end_position is not None:
-                return f"{self.path.resolve()}:{start_position}-{end_position}"
+                return f"{resolved_path}:{start_position}-{end_position}"
             else:
-                return f"{self.path.resolve()}:{start_position}"
+                return f"{resolved_path}:{start_position}"
         else:
-            return f"{self.path.resolve()}"
+            return f"{resolved_path}"
 
     @staticmethod
     def from_ast(path: Path, node: Node) -> "Location":
