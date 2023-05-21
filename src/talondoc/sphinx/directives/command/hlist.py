@@ -1,5 +1,4 @@
 import sys
-from typing import List
 
 from docutils import nodes
 from sphinx import addnodes
@@ -28,7 +27,7 @@ class TalonCommandHListDirective(TalonDocCommandListDescription):
     }
     final_argument_whitespace = False
 
-    def run(self) -> List[nodes.Node]:
+    def run(self) -> list[nodes.Node]:
         fulllist = [
             self.describe_command(
                 command,

@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Iterator, List, Optional, Sequence
+from typing import Iterator, Sequence
 
 from tree_sitter_talon import (
     ParseError,

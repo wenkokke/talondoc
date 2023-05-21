@@ -1,5 +1,4 @@
 import sys
-from typing import List
 
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
@@ -25,7 +24,7 @@ class TalonCommandDirective(TalonDocCommandDescription):
     final_argument_whitespace = False
 
     @override
-    def get_signatures(self) -> List[str]:
+    def get_signatures(self) -> list[str]:
         return [" ".join(self.arguments)]
 
     @override

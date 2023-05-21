@@ -1,6 +1,7 @@
 import re
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
-from typing import Iterable, Optional, Sequence, Tuple, Union
+from typing import Optional, Union
 
 import docstring_parser
 

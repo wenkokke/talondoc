@@ -1,8 +1,9 @@
 import datetime
 import os
 import subprocess
+from collections.abc import Sequence
 from pathlib import Path
-from typing import List, Optional, Sequence, Tuple, Union
+from typing import Optional, Union
 
 import jinja2
 import jinja2.sandbox
@@ -69,7 +70,7 @@ def autogen(
     release = release or "0.1.0"
 
     # Create jinja2 loaders
-    loaders: List[jinja2.BaseLoader] = []
+    loaders: list[jinja2.BaseLoader] = []
     if template_dir:
         loaders.append(jinja2.FileSystemLoader(template_dir))
     loaders.append(
@@ -119,7 +120,7 @@ def autogen(
     template_talon_file = env.get_template(f"talon_file.{format}.jinja2")
     template_python_file = env.get_template(f"python_file.{format}.jinja2")
 
-    toc: List[Path] = []
+    toc: list[Path] = []
     total: int = len(package.files)
     if generate_conf:
         total += 1

@@ -1,5 +1,5 @@
-from collections.abc import Callable
-from typing import Dict, Optional, Sequence, Union
+from collections.abc import Callable, Sequence
+from typing import Optional, Union
 
 from typing_extensions import NotRequired, Required, TypeAlias, TypedDict
 
@@ -17,7 +17,7 @@ TalonPackage = TypedDict(
 )
 
 TalonDocstringHook_Callable: TypeAlias = Callable[[str, str], Optional[str]]
-TalonDocstringHook_Dict: TypeAlias = Dict[str, Dict[str, str]]
+TalonDocstringHook_Dict: TypeAlias = dict[str, dict[str, str]]
 
 
 TalonDocstringHook: TypeAlias = Union[

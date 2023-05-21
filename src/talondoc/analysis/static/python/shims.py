@@ -1,20 +1,9 @@
 import inspect
 import platform
-from collections.abc import Callable, Iterator
+from collections.abc import Callable, Iterator, Mapping, Sequence
 from io import TextIOWrapper
 from types import ModuleType
-from typing import (
-    Any,
-    Dict,
-    List,
-    Mapping,
-    Optional,
-    Sequence,
-    Type,
-    Union,
-    cast,
-    overload,
-)
+from typing import Any, Optional, Union, cast, overload
 
 from tree_sitter_talon import Point
 
@@ -231,7 +220,7 @@ class TalonContextListsShim(Mapping[str, data.ListValue]):
         for name, value in values.items():
             self._add_list_value(name, value)
 
-    def __getitem__(self, key: str) -> Union[Dict[str, Any], List[str]]:
+    def __getitem__(self, key: str) -> Union[dict[str, Any], list[str]]:
         raise NotImplementedError()
 
     def __iter__(self) -> Iterator[Any]:
@@ -349,7 +338,7 @@ class TalonShim(ModuleShim):
             self._file.modules.append(self._module.name)
             self._registry.register(self._module)
 
-        def action_class(self, cls: Type[Any]) -> Type[Any]:
+        def action_class(self, cls: type[Any]) -> type[Any]:
             for name, func in inspect.getmembers(cls, inspect.isfunction):
                 assert callable(func)
                 package = self._registry.get_active_package()
@@ -519,8 +508,8 @@ class TalonShim(ModuleShim):
         def tags(self, values: Sequence[str]) -> None:
             self._tags.update(values)
 
-        def action_class(self, namespace: str) -> Callable[[Type[Any]], Type[Any]]:
-            def __decorator(cls: Type[Any]) -> Type[Any]:
+        def action_class(self, namespace: str) -> Callable[[type[Any]], type[Any]]:
+            def __decorator(cls: type[Any]) -> type[Any]:
                 for name, func in inspect.getmembers(cls, inspect.isfunction):
                     # LINT: check if function on decorated class is a function
                     assert callable(func)

@@ -1,5 +1,5 @@
 import os
-from typing import List, Optional
+from typing import Optional
 
 import click
 from typing_extensions import Literal
@@ -115,9 +115,9 @@ def _autogen(
     template_dir: Optional[str],
     package_dir: str,
     package_name: Optional[str],
-    include: List[str],
-    exclude: List[str],
-    trigger: List[str],
+    include: list[str],
+    exclude: list[str],
+    trigger: list[str],
     project: Optional[str],
     author: Optional[str],
     release: Optional[str],

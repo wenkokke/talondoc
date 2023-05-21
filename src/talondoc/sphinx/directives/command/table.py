@@ -1,5 +1,4 @@
 import sys
-from typing import List
 
 from docutils import nodes
 from sphinx.util.typing import OptionSpec
@@ -26,7 +25,7 @@ class TalonCommandTableDirective(TalonDocCommandListDescription):
     }
     final_argument_whitespace = False
 
-    def run(self) -> List[nodes.Node]:
+    def run(self) -> list[nodes.Node]:
         return [
             table(
                 title(nodes.Text(self.caption)),

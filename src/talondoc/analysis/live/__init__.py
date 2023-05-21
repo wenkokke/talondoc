@@ -4,10 +4,11 @@ import json
 import os
 import platform
 import subprocess
+from collections.abc import Sequence
 from contextlib import AbstractContextManager
 from importlib.resources import Resource
 from types import TracebackType
-from typing import Optional, Sequence, Type
+from typing import Optional
 
 from packaging.version import Version
 from typing_extensions import Self
@@ -86,7 +87,7 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
 
     def __exit__(
         self,
-        exc_type: Optional[Type[BaseException]],
+        exc_type: Optional[type[BaseException]],
         exc_val: Optional[BaseException],
         exc_tb: Optional[TracebackType],
     ) -> None:

@@ -1,9 +1,10 @@
 from abc import abstractmethod
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import asdict, dataclass
 from functools import singledispatch
 from inspect import Signature
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Callable, Dict, Optional, Sequence, Type, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 import editdistance
 from tree_sitter_talon import Node as Node
@@ -104,7 +105,7 @@ class Location:
 
     @staticmethod
     def from_dict(value: JsonValue) -> "Location":
-        if isinstance(value, Dict):
+        if isinstance(value, Mapping):
             return Location(
                 path=Path(parse_field("path", parse_str)(value)),
                 start_line=parse_optfield("start_line", parse_int)(value),
@@ -143,7 +144,7 @@ class Data:
     description: Optional[str]
     location: Union[None, Literal["builtin"], "Location"]
     parent_name: Optional[str]
-    parent_type: Optional[Union[Type[Package], Type[File], Type[Module], Type[Context]]]
+    parent_type: Optional[Union[type[Package], type[File], type[Module], type[Context]]]
     serialisable: bool
 
     @property
@@ -179,7 +180,7 @@ SimpleDataVar = TypeVar(
 @dataclass
 class GroupData(Data):
     parent_name: str
-    parent_type: Union[Type[Module], Type[Context]]
+    parent_type: Union[type[Module], type[Context]]
 
     @classmethod
     @abstractmethod
@@ -246,7 +247,7 @@ class DuplicateData(Exception):
 class UnknownReference(Exception):
     """Raised when an entry is defined in multiple modules."""
 
-    ref_type: Type[Data]
+    ref_type: type[Data]
     ref_name: str
 
     referenced_by: Optional[Data]

@@ -1,6 +1,6 @@
 import json
 import os
-from typing import Mapping
+from collections.abc import Mapping
 
 from .._util.logging import getLogger
 from ..analysis.live import TalonRepl

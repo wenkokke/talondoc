@@ -1,5 +1,5 @@
-from collections.abc import Iterable
-from typing import Any, Sequence, TypeVar, Union
+from collections.abc import Iterable, Sequence
+from typing import Any, TypeVar, Union
 
 from docutils import nodes
 from sphinx import addnodes

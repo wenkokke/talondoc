@@ -1,6 +1,6 @@
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from pathlib import Path
-from typing import Any, Dict, Optional, Sequence, Union, cast
+from typing import Any, Optional, Union, cast
 
 from sphinx.application import BuildEnvironment, Sphinx
 from typing_extensions import TypeGuard
@@ -139,7 +139,7 @@ def _talondoc_load_package(app: Sphinx, env: BuildEnvironment, *args: Any) -> No
         _LOGGER.exception(e)
 
 
-def setup(app: Sphinx) -> Dict[str, Any]:
+def setup(app: Sphinx) -> dict[str, Any]:
     app.add_domain(TalonDomain)
 
     app.add_config_value(

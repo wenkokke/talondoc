@@ -1,4 +1,6 @@
-from typing import Any, Callable, Optional, Type, TypeVar, cast
+from collections.abc import Callable
+from functools import singledispatchmethod
+from typing import Any, Optional, TypeVar
 
 from tree_sitter_talon import (
     Node,
@@ -22,7 +24,6 @@ from tree_sitter_talon import (
     TalonVariable,
 )
 
-from .._compat_singledispatchmethod import singledispatchmethod
 from .._util.logging import getLogger
 from ..analysis.registry import Registry, data
 from ..analysis.registry.data.abc import Data
@@ -91,7 +92,7 @@ class TalonScriptDescriber:
 
     def get_docstring(
         self,
-        cls: Type[Data],
+        cls: type[Data],
         name: str,
     ) -> Optional[str]:
         # Try the docstring_hook:

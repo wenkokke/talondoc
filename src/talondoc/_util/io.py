@@ -1,7 +1,8 @@
 import io
 import queue
 import threading
-from typing import Callable, Iterator, Optional
+from collections.abc import Callable, Iterator
+from typing import Optional
 
 
 class NonBlockingTextIOWrapper:

@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import List
 
 
 @dataclass
@@ -23,7 +22,7 @@ class AmbiguousSignature(Exception):
 
     loc: str
     sig: str
-    lst: List[str]
+    lst: list[str]
 
     def __str__(self) -> str:
         return "\n".join(

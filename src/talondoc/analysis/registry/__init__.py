@@ -1,27 +1,12 @@
 import inspect
+from collections.abc import Callable, Iterator, Mapping, Sequence
 from dataclasses import dataclass
-from typing import (
-    Any,
-    Callable,
-    ClassVar,
-    Dict,
-    Iterator,
-    List,
-    Mapping,
-    Optional,
-    Sequence,
-    Type,
-    Union,
-    cast,
-    overload,
-)
+from functools import singledispatchmethod
+from typing import Any, ClassVar, Optional, Union, cast, overload
 
 from talonfmt import talonfmt
 from typing_extensions import Final
 
-from talondoc.analysis.registry.data.serialise import JsonValue
-
-from ..._compat_singledispatchmethod import singledispatchmethod
 from ..._util.logging import getLogger
 from . import data
 from .data import CallbackVar
@@ -36,14 +21,15 @@ from .data.abc import (
     SimpleDataVar,
     UnknownReference,
 )
+from .data.serialise import JsonValue
 
 _LOGGER = getLogger(__name__)
 
 
 @dataclass
 class Registry:
-    _data: Final[Dict[str, Any]]
-    _temp_data: Final[Dict[str, Any]]
+    _data: Final[dict[str, Any]]
+    _temp_data: Final[dict[str, Any]]
 
     _active_package: Optional[data.Package] = None
     _active_file: Optional[data.File] = None
@@ -51,8 +37,8 @@ class Registry:
     def __init__(
         self,
         *,
-        data: Dict[str, Any] = {},
-        temp_data: Dict[str, Any] = {},
+        data: dict[str, Any] = {},
+        temp_data: dict[str, Any] = {},
         continue_on_error: bool = True,
     ):
         self._data = data
@@ -261,7 +247,7 @@ class Registry:
 
     def get(
         self,
-        cls: Type[DataVar],
+        cls: type[DataVar],
         name: str,
         *,
         referenced_by: Optional[Data] = None,
@@ -296,7 +282,7 @@ class Registry:
     @overload
     def lookup(
         self,
-        cls: Type[SimpleDataVar],
+        cls: type[SimpleDataVar],
         name: str,
     ) -> Optional[SimpleDataVar]:
         ...
@@ -304,23 +290,23 @@ class Registry:
     @overload
     def lookup(
         self,
-        cls: Type[GroupDataVar],
+        cls: type[GroupDataVar],
         name: str,
-    ) -> Optional[List[GroupDataVar]]:
+    ) -> Optional[list[GroupDataVar]]:
         ...
 
     @overload
     def lookup(
         self,
-        cls: Type[data.Callback],
+        cls: type[data.Callback],
         name: data.EventCode,
     ) -> Optional[Sequence[data.Callback]]:
         ...
 
-    def lookup(self, cls: Type[Data], name: Any) -> Optional[Any]:
+    def lookup(self, cls: type[Data], name: Any) -> Optional[Any]:
         return self._typed_store(cls).get(self.resolve_name(name), None)
 
-    def lookup_description(self, cls: Type[Data], name: Any) -> Optional[str]:
+    def lookup_description(self, cls: type[Data], name: Any) -> Optional[str]:
         if issubclass(cls, SimpleData):
             simple = self.lookup(cls, name)
             if simple:
@@ -332,7 +318,7 @@ class Registry:
         return None
 
     def lookup_default(
-        self, cls: Type[GroupDataVar], name: str
+        self, cls: type[GroupDataVar], name: str
     ) -> Optional[GroupDataVar]:
         group = self.lookup(cls, name)
         if group:
@@ -355,7 +341,7 @@ class Registry:
         return None
 
     def lookup_default_function(
-        self, cls: Type[GroupDataHasFunction], name: str
+        self, cls: type[GroupDataHasFunction], name: str
     ) -> Optional[Callable[..., Any]]:
         value = self.lookup_default(cls, name)
         if value and value.function_name:
@@ -370,7 +356,7 @@ class Registry:
                     act_argc = len(args) + len(kwargs)
                     exp_argc = len(func_type.parameters)
                     if act_argc != exp_argc:
-                        act_argv: List[str] = []
+                        act_argv: list[str] = []
                         act_argv.extend(map(str, args))
                         act_argv.extend(f"{key}={val}" for key, val in kwargs.items())
                         _LOGGER.warning(
@@ -397,7 +383,7 @@ class Registry:
         return name
 
     ######################################################################
-    # Typed Access To Data
+    # typed Access To Data
     ######################################################################
 
     @property
@@ -413,7 +399,7 @@ class Registry:
         return self._typed_store(data.Function)
 
     @property
-    def callbacks(self) -> Mapping[data.EventCode, List[data.Callback]]:
+    def callbacks(self) -> Mapping[data.EventCode, list[data.Callback]]:
         return self._typed_store(data.Callback)
 
     @property
@@ -425,23 +411,23 @@ class Registry:
         return self._typed_store(data.Context)
 
     @property
-    def commands(self) -> Mapping[str, List[data.Command]]:
+    def commands(self) -> Mapping[str, list[data.Command]]:
         return self._typed_store(data.Command)
 
     @property
-    def actions(self) -> Mapping[str, List[data.Action]]:
+    def actions(self) -> Mapping[str, list[data.Action]]:
         return self._typed_store(data.Action)
 
     @property
-    def captures(self) -> Mapping[str, List[data.Capture]]:
+    def captures(self) -> Mapping[str, list[data.Capture]]:
         return self._typed_store(data.Capture)
 
     @property
-    def lists(self) -> Mapping[str, List[data.List]]:
+    def lists(self) -> Mapping[str, list[data.List]]:
         return self._typed_store(data.List)
 
     @property
-    def settings(self) -> Mapping[str, List[data.Setting]]:
+    def settings(self) -> Mapping[str, list[data.Setting]]:
         return self._typed_store(data.Setting)
 
     @property
@@ -453,28 +439,28 @@ class Registry:
         return self._typed_store(data.Tag)
 
     ######################################################################
-    # Internal Typed Access To Data
+    # Internal typed Access To Data
     ######################################################################
 
     @overload
-    def _typed_store(self, cls: Type[SimpleDataVar]) -> Dict[str, SimpleDataVar]:
+    def _typed_store(self, cls: type[SimpleDataVar]) -> dict[str, SimpleDataVar]:
         ...
 
     @overload
-    def _typed_store(self, cls: Type[GroupDataVar]) -> Dict[str, List[GroupDataVar]]:
+    def _typed_store(self, cls: type[GroupDataVar]) -> dict[str, list[GroupDataVar]]:
         ...
 
     @overload
     def _typed_store(
-        self, cls: Type[data.Callback]
-    ) -> Dict[data.EventCode, List[data.Callback]]:
+        self, cls: type[data.Callback]
+    ) -> dict[data.EventCode, list[data.Callback]]:
         ...
 
     @overload
-    def _typed_store(self, cls: Type[Data]) -> Dict[Any, Any]:
+    def _typed_store(self, cls: type[Data]) -> dict[Any, Any]:
         ...
 
-    def _typed_store(self, cls: Type[Data]) -> Dict[Any, Any]:
+    def _typed_store(self, cls: type[Data]) -> dict[Any, Any]:
         # If the data is not serialisable, store it in temp_data:
         if cls.serialisable:
             data = self._data
