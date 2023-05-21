@@ -1,10 +1,12 @@
 import inspect
 import itertools
+import json
 from collections.abc import Callable, Iterator, Mapping, Sequence
 from dataclasses import dataclass
 from functools import singledispatchmethod
 from typing import Any, ClassVar, Optional, Union, cast, overload
 
+import importlib_resources
 from more_itertools import partition
 from talonfmt import talonfmt
 from typing_extensions import Final
@@ -23,7 +25,7 @@ from .data.abc import (
     SimpleDataVar,
     UnknownReference,
 )
-from .data.serialise import JsonValue
+from .data.serialise import JsonValue, parse_dict, parse_list
 
 _LOGGER = getLogger(__name__)
 
@@ -525,6 +527,48 @@ class Registry:
     ##################################################
     # Encoder/Decoder
     ##################################################
+
+    def load_builtin(self) -> None:
+        self._load_from_dict(
+            json.loads(
+                importlib_resources.open_text(
+                    "talondoc._cache_builtin.resources", "talon.json"
+                ).read()
+            )
+        )
+
+    def _load_from_dict(self, registry: JsonValue) -> None:
+        if isinstance(registry, Mapping):
+            for cls in (
+                data.Command,
+                data.Action,
+                data.Capture,
+                data.List,
+                data.Setting,
+                data.Mode,
+                data.Tag,
+            ):
+                store = parse_dict(registry.get(type.__name__, {}))
+                if issubclass(cls, GroupData):
+                    for name, group in store.items():
+                        for value in parse_list(group):
+                            parsed_group_value = cls.from_dict(value)
+                            if name != parsed_group_value.name:
+                                _LOGGER.warning(
+                                    f"Found {cls.__name__} {parsed_group_value.name} in group for {name}"
+                                )
+                            self.register(cls, parsed_group_value)
+
+                elif issubclass(cls, (data.Mode, data.Tag)):
+                    for name, value in store.items():
+                        parsed_simple_value = cls.from_dict(value)
+                        if name != parsed_simple_value.name:
+                            _LOGGER.warning(
+                                f"Found {cls.__name__} {parsed_simple_value.name} in group for {name}"
+                            )
+                    self.register(cls, parsed_simple_value)
+                else:
+                    raise TypeError(f"Unexpected data class {cls.__name__}")
 
     def to_dict(self) -> JsonValue:
         return {

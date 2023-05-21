@@ -36,3 +36,4 @@ class TalonDomain(Domain):  # type: ignore[misc]
             data=self.data,
             temp_data=self.env.temp_data,
         )
+        self.registry.load_builtin()
