@@ -274,6 +274,46 @@ Defaults to the module name, if given.
 : A list of command phrases.
 If `:exclude:` is specified, any commands matching one of these phrases are excluded.
 
+## Actions
+
+TalonDoc can generate documentation for actions using `talon:action`. For instance, the following code:
+
+:::::::::{tabs}
+::::::{code-tab} rst reStructuredText
+.. talon:action:: key
+::::::
+
+::::::{code-tab} markdown Markdown
+:::{talon:action} key
+:::
+::::::
+:::::::::
+
+...will generate the following bit of documentation:
+
+:::{talon:action} key
+:::
+
+## Captures
+
+TalonDoc can generate documentation for captures using `talon:capture`. For instance, the following code:
+
+:::::::::{tabs}
+::::::{code-tab} rst reStructuredText
+.. talon:capture:: user.any_alphanumeric_key
+::::::
+
+::::::{code-tab} markdown Markdown
+:::{talon:capture} user.any_alphanumeric_key
+:::
+::::::
+:::::::::
+
+...will generate the following bit of documentation:
+
+:::{talon:capture} user.any_alphanumeric_key
+:::
+
 ## Lists
 
 TalonDoc can generate documentation for lists using `talon:list`. For instance, the following code:
@@ -301,49 +341,7 @@ TalonDoc can generate documentation for lists using `talon:list`. For instance, 
 
 List documentation is restricted to names and descriptions.
 
-
-## Captures
-
-TalonDoc can generate documentation for captures using `talon:capture`. For instance, the following code:
-
-:::::::::{tabs}
-::::::{code-tab} rst reStructuredText
-.. talon:capture:: user.any_alphanumeric_key
-::::::
-
-::::::{code-tab} markdown Markdown
-:::{talon:capture} user.any_alphanumeric_key
-:::
-::::::
-:::::::::
-
-...will generate the following bit of documentation:
-
-:::{talon:capture} user.any_alphanumeric_key
-:::
-
-Capture documentation is restricted to names, rules, and descriptions.
-
-
-## Tags
-
-TalonDoc can generate documentation for tags using `talon:tag`. For instance, the following code:
-
-:::::::::{tabs}
-::::::{code-tab} rst reStructuredText
-.. talon:tag:: user.find_and_replace
-::::::
-
-::::::{code-tab} markdown Markdown
-:::{talon:tag} user.find_and_replace
-:::
-::::::
-:::::::::
-
-...will generate the following bit of documentation:
-
-:::{talon:tag} user.find_and_replace
-:::
+_Support for list values is underway._
 
 ## Modes
 
@@ -368,4 +366,53 @@ TalonDoc can generate documentation for modes using `talon:mode`. For instance, 
 :::{talon:mode} command
 :::
 :::{talon:mode} dictation
+:::
+
+## Settings
+
+TalonDoc can generate documentation for settings using `talon:setting`. For instance, the following code:
+
+:::::::::{tabs}
+::::::{code-tab} rst reStructuredText
+.. talon:setting:: user.letter
+.. talon:setting:: user.symbol_key
+::::::
+
+::::::{code-tab} markdown Markdown
+:::{talon:setting} user.letter
+:::
+:::{talon:setting} user.symbol_key
+:::
+::::::
+:::::::::
+
+...will generate the following bit of documentation:
+
+:::{talon:setting} user.letter
+:::
+:::{talon:setting} user.symbol_key
+:::
+
+Setting documentation is restricted to names and descriptions.
+
+_Support for setting values is underway._
+
+## Tags
+
+TalonDoc can generate documentation for tags using `talon:tag`. For instance, the following code:
+
+:::::::::{tabs}
+::::::{code-tab} rst reStructuredText
+.. talon:tag:: user.find_and_replace
+::::::
+
+::::::{code-tab} markdown Markdown
+:::{talon:tag} user.find_and_replace
+:::
+::::::
+:::::::::
+
+...will generate the following bit of documentation:
+
+:::{talon:tag} user.find_and_replace
 :::
