@@ -1,13 +1,15 @@
 from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
 
-from talondoc.sphinx.directives.list import TalonListDirective
-
 from .._util.logging import getLogger
 from ..analysis.registry import Registry
+from .directives.capture import TalonCaptureDirective
 from .directives.command import TalonCommandDirective
 from .directives.command.hlist import TalonCommandHListDirective
 from .directives.command.table import TalonCommandTableDirective
+from .directives.list import TalonListDirective
+from .directives.mode import TalonModeDirective
+from .directives.tag import TalonTagDirective
 
 _LOGGER = getLogger(__name__)
 
@@ -19,10 +21,13 @@ class TalonDomain(Domain):  # type: ignore[misc]
     label = "Talon"
 
     directives = {
+        "capture": TalonCaptureDirective,
         "command": TalonCommandDirective,
         "command-hlist": TalonCommandHListDirective,
         "command-table": TalonCommandTableDirective,
         "list": TalonListDirective,
+        "mode": TalonModeDirective,
+        "tag": TalonTagDirective,
     }
 
     def __init__(self, env: BuildEnvironment):
