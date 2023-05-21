@@ -169,12 +169,22 @@ whose value must be a list or tuple of package descriptions as described above.<
 <p>…will generate the following bit of documentation:</p>
 <dl class="talon command">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">hunt</span> <span class="pre">this</span></span></dt>
+<span class="sig-name descname"><span class="pre">hunt</span> <span class="pre">this</span></span><dd><p><span class="pre">Finds</span> <span class="pre">text</span> <span class="pre">in</span> <span class="pre">current</span> <span class="pre">editor</span></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dt>
 <dd></dd></dl>
 
 <dl class="talon command">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">hunt</span> <span class="pre">this</span> <span class="pre">pace</span></span></dt>
+<span class="sig-name descname"><span class="pre">hunt</span> <span class="pre">this</span> <span class="pre">(pace</span> <span class="pre">|</span> <span class="pre">paste)</span></span><dd><p><span class="pre">Finds</span> <span class="pre">text</span> <span class="pre">in</span> <span class="pre">current</span> <span class="pre">editor</span></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">25</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">paste</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dt>
 <dd></dd></dl>
 
 <p>TalonDoc will attempt to generate documentation for the command using the
@@ -207,7 +217,8 @@ following three options, in order:</p>
 <p>…and it generates the following bad documentation. It inserts the ambiguous command verbatim, and does not generate any other documentation for it:</p>
 <dl class="talon command">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">answer</span> <span class="pre">call</span></span></dt>
+<span class="sig-name descname"><span class="pre">answer</span> <span class="pre">call</span></span><dd><p><span class="pre">Answer</span> <span class="pre">incoming</span> <span class="pre">call</span></p>
+</dd></dt>
 <dd></dd></dl>
 
 <dl class="talon command">
@@ -233,12 +244,14 @@ following three options, in order:</p>
 <p>…will generate the following, much better looking documentation:</p>
 <dl class="talon command">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">answer</span> <span class="pre">call</span></span></dt>
+<span class="sig-name descname"><span class="pre">answer</span> <span class="pre">call</span></span><dd><p><span class="pre">Answer</span> <span class="pre">incoming</span> <span class="pre">call</span></p>
+</dd></dt>
 <dd></dd></dl>
 
 <dl class="talon command">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">decline</span> <span class="pre">call</span></span></dt>
+<span class="sig-name descname"><span class="pre">decline</span> <span class="pre">call</span></span><dd><p><span class="pre">Decline</span> <span class="pre">incoming</span> <span class="pre">call</span></p>
+</dd></dt>
 <dd></dd></dl>
 
 </section>
@@ -272,11 +285,23 @@ following three options, in order:</p>
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text"></span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
 <tbody>
+<tr class="row-odd"><td>answer call</td>
+<td><p>Answer incoming call</p></td>
+</tr>
+<tr class="row-even"><td>decline call</td>
+<td><p>Decline incoming call</p></td>
+</tr>
 </tbody>
 </table>
 <table class="compact docutils align-default" id="id2">
 <caption><span class="caption-text">A little custom hunting table.</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
 <tbody>
+<tr class="row-odd"><td>hunt this</td>
+<td><p>Finds text in current editor</p></td>
+</tr>
+<tr class="row-even"><td>hunt this (pace | paste)</td>
+<td><p>Finds text in current editor</p></td>
+</tr>
 </tbody>
 </table>
 <p>Similarily, the following code:</p>
@@ -295,11 +320,20 @@ following three options, in order:</p>
 </div>
 </div></div>
 <p>… generates the following list:</p>
-<table class="hlist"><tr><td><ul class="simple">
+<table class="hlist"><tr><td><ul>
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">toggle</span> <span class="pre">pins</span></span><dd><p><span class="pre">Toggle</span> <span class="pre">pins</span> <span class="pre">popout</span></p>
+</dd></dt>
 </ul>
-</td><td><ul class="simple">
+</td><td><ul>
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">toggle</span> <span class="pre">(members</span> <span class="pre">|</span> <span class="pre">member</span> <span class="pre">list)</span></span><dd><p><span class="pre">Toggle</span> <span class="pre">channel</span> <span class="pre">member</span> <span class="pre">list</span></p>
+</dd></dt>
 </ul>
-</td><td><ul class="simple">
+</td><td><ul>
+<dt class="sig sig-object">
+<span class="sig-name descname"><span class="pre">toggle</span> <span class="pre">(dee</span> <span class="pre">ems</span> <span class="pre">|</span> <span class="pre">dims)</span></span><dd><p><span class="pre">Toggle</span> <span class="pre">between</span> <span class="pre">dms</span> <span class="pre">and</span> <span class="pre">your</span> <span class="pre">most</span> <span class="pre">recent</span> <span class="pre">server</span></p>
+</dd></dt>
 </ul>
 </td></tr></table>
 <p>The <code class="docutils literal notranslate"><span class="pre">talon:command-table</span></code> and <code class="docutils literal notranslate"><span class="pre">talon:command-hlist</span></code> directives take any
@@ -390,7 +424,8 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 <p>…will generate the following bit of documentation:</p>
 <dl class="talon tag">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">user.find_and_replace</span></span></dt>
+<span class="sig-name descname"><span class="pre">user.find_and_replace</span></span><dd><p><span class="pre">Tag</span> <span class="pre">for</span> <span class="pre">enabling</span> <span class="pre">generic</span> <span class="pre">find</span> <span class="pre">and</span> <span class="pre">replace</span> <span class="pre">commands</span></p>
+</dd></dt>
 <dd></dd></dl>
 
 </section>
