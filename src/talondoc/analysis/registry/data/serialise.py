@@ -19,7 +19,7 @@ JsonValue: TypeAlias = Union[
     None,
     int,
     str,
-    dict[str, "JsonValue"],
+    Dict[str, "JsonValue"],
     list["JsonValue"],
 ]
 
@@ -75,7 +75,7 @@ def asdict_signature(sig: Signature) -> JsonValue:
 ##############################################################################
 
 
-def parse_pickle(value: JsonValue, *, context: dict[str, str] = {}) -> Any:
+def parse_pickle(value: JsonValue, *, context: Dict[str, str] = {}) -> Any:
     if isinstance(value, str):
         return parse_str(value)
     elif isinstance(value, Mapping):
@@ -191,7 +191,7 @@ parse_kind = parse_enum(
 )
 
 
-def parse_parameter(value: JsonValue, *, context: dict[str, str] = {}) -> Parameter:
+def parse_parameter(value: JsonValue, *, context: Dict[str, str] = {}) -> Parameter:
     return Parameter(
         name=parse_field("name", parse_str)(value),
         kind=parse_field("kind", parse_kind)(value),
@@ -203,12 +203,12 @@ def parse_parameter(value: JsonValue, *, context: dict[str, str] = {}) -> Parame
 
 
 def parse_parameters(
-    value: JsonValue, *, context: dict[str, str] = {}
+    value: JsonValue, *, context: Dict[str, str] = {}
 ) -> Sequence[Parameter]:
     return tuple(map(partial(parse_parameter, context=context), parse_list(value)))
 
 
-def parse_signature(value: JsonValue, *, context: dict[str, str] = {}) -> Signature:
+def parse_signature(value: JsonValue, *, context: Dict[str, str] = {}) -> Signature:
     return Signature(
         parameters=parse_field(
             "parameters", partial(parse_parameters, context=context)

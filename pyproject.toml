@@ -77,22 +77,11 @@ profile = "black"
 line_length = 88
 
 [tool.mypy]
-python_version = 3.7
-check_untyped_defs = true
-strict_optional = true
+python_version = 3.9
+strict = true
 ignore_missing_imports = true
-warn_redundant_casts = true
-warn_unused_ignores = false
-warn_no_return = true
-warn_return_any = true
-warn_unreachable = true
 implicit_reexport = false
-strict_concatenate = true
-strict_equality = true
-# disallow_untyped_calls = true
-# disallow_untyped_defs = true
-# disallow_incomplete_defs = true
-disallow_untyped_decorators = true
+warn_unused_ignores = false
 
 [tool.pytest.ini_options]
 enable_assertion_pass_hook = true

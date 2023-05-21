@@ -6,7 +6,7 @@ from importlib.abc import Loader, MetaPathFinder
 from importlib.machinery import ModuleSpec, PathFinder, SourceFileLoader
 from pathlib import Path
 from types import ModuleType
-from typing import ClassVar, Optional, Sequence, cast
+from typing import Any, ClassVar, Optional, Sequence, Tuple, cast
 
 from ...._util.logging import getLogger
 from ...._util.progress_bar import ProgressBar
@@ -22,16 +22,16 @@ class TalonShimFinder(MetaPathFinder):
     Makes the shims available under 'talon' and 'talon_plugins'.
     """
 
-    PACKAGES: ClassVar[tuple[str, ...]] = ("talon", "talon_plugins")
+    PACKAGES: ClassVar[Sequence[str]] = ("talon", "talon_plugins")
 
     class TalonShimLoader(Loader):
         def create_module(cls, spec: ModuleSpec) -> ModuleType:
-            return cast(ModuleType, cls.load_module(spec.name))
+            return cls.load_module(spec.name)
 
-        def exec_module(cls, module: ModuleType):
+        def exec_module(cls, module: ModuleType) -> None:
             pass
 
-        def load_module(cls, fullname: str):
+        def load_module(cls, fullname: str) -> ModuleType:
             if fullname == "talon":
                 return TalonShim()
             else:
@@ -73,13 +73,13 @@ def talon_package_shims(package: data.Package) -> Iterator[None]:
         """
 
         class ImplicitInitLoader(Loader):
-            def create_module(cls, spec: ModuleSpec):
+            def create_module(cls, spec: ModuleSpec) -> ModuleType:
                 return cls.load_module(spec.name)
 
-            def exec_module(cls, _module: ModuleType):
+            def exec_module(cls, _module: ModuleType) -> None:
                 pass
 
-            def load_module(cls, fullname: str):
+            def load_module(cls, fullname: str) -> ModuleType:
                 return ModuleType(fullname)
 
         @classmethod
@@ -96,7 +96,12 @@ def talon_package_shims(package: data.Package) -> Iterator[None]:
             return cls._is_module(fullname) and cls._module_path(fullname).is_dir()
 
         @classmethod
-        def find_spec(cls, fullname: str, path=None, _target=None):
+        def find_spec(
+            cls,
+            fullname: str,
+            path: Optional[Sequence[str]] = None,
+            target: Optional[ModuleType] = None,
+        ) -> Optional[ModuleSpec]:
             if cls._is_module(fullname):
                 if cls._is_subpackage(fullname):
                     module_spec = ModuleSpec(
@@ -131,7 +136,9 @@ def talon_package_shims(package: data.Package) -> Iterator[None]:
 
 
 @contextmanager
-def talon_shims(registry: Registry, *, package: Optional[data.Package] = None):
+def talon_shims(
+    registry: Registry, *, package: Optional[data.Package] = None
+) -> Iterator[None]:
     sys.meta_path.insert(0, TalonShimFinder)
     try:
         if package:
@@ -161,7 +168,7 @@ def analyse_files(
     paths: Sequence[Path],
     package: data.Package,
     *,
-    trigger: tuple[str, ...] = (),
+    trigger: Sequence[str] = (),
     show_progress: bool = False,
     continue_on_error: bool = True,
 ) -> None:

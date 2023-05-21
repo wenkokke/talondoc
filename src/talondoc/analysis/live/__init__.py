@@ -8,7 +8,7 @@ from contextlib import AbstractContextManager
 from functools import cached_property
 from importlib.resources import Resource
 from types import TracebackType
-from typing import Optional, Sequence
+from typing import Optional, Sequence, Type
 
 from packaging.version import Version
 from typing_extensions import Self
@@ -20,7 +20,7 @@ from ..registry import Registry, data
 _LOGGER = getLogger(__name__)
 
 
-class TalonRepl(AbstractContextManager):
+class TalonRepl(AbstractContextManager["TalonRepl"]):
     _session: Optional[subprocess.Popen[bytes]]
     _session_stdout: Optional[NonBlockingTextIOWrapper]
     _session_stderr: Optional[NonBlockingTextIOWrapper]
@@ -87,7 +87,7 @@ class TalonRepl(AbstractContextManager):
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
+        exc_type: Optional[Type[BaseException]],
         exc_val: Optional[BaseException],
         exc_tb: Optional[TracebackType],
     ) -> None:

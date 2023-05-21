@@ -1,5 +1,5 @@
 import os
-from typing import Optional
+from typing import List, Optional
 
 import click
 from typing_extensions import Literal
@@ -20,7 +20,7 @@ from ._version import __version__
     type=click.Choice(["ERROR", "WARNING", "INFO", "DEBUG"], case_sensitive=False),
     default="INFO",
 )
-def talondoc(*, log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"]):
+def talondoc(*, log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"]) -> None:
     logging.basicConfig(
         level={
             "ERROR": logging.ERROR,
@@ -115,9 +115,9 @@ def _autogen(
     template_dir: Optional[str],
     package_dir: str,
     package_name: Optional[str],
-    include: list[str],
-    exclude: list[str],
-    trigger: list[str],
+    include: List[str],
+    exclude: List[str],
+    trigger: List[str],
     project: Optional[str],
     author: Optional[str],
     release: Optional[str],
@@ -125,7 +125,7 @@ def _autogen(
     generate_index: bool,
     continue_on_error: bool,
     format: Literal["rst", "md"],
-):
+) -> None:
     autogen(
         package_dir,
         output_dir=output_dir,
@@ -152,7 +152,7 @@ def _autogen(
 )
 def _cache_builtin(
     output_dir: str,
-):
+) -> None:
     cache_builtin(output_dir=output_dir)
 
 

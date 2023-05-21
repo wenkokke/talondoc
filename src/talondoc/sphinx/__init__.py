@@ -1,6 +1,6 @@
 from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Optional, Sequence, Union, cast
+from typing import Any, Dict, Optional, Sequence, Tuple, Union, cast
 
 from sphinx.application import BuildEnvironment, Sphinx
 from typing_extensions import TypeGuard
@@ -85,7 +85,7 @@ def _canonicalize_talon_packages(talon_packages: Any) -> Sequence[TalonPackage]:
     raise TypeError(type(talon_packages))
 
 
-def _canonicalize_vararg(vararg: Union[None, str, Sequence[str]]) -> tuple[str, ...]:
+def _canonicalize_vararg(vararg: Union[None, str, Sequence[str]]) -> Sequence[str]:
     if vararg is None:
         return ()
     if type(vararg) == str:
@@ -111,7 +111,7 @@ def _talon_packages(env: BuildEnvironment) -> Sequence[TalonPackage]:
     return buffer
 
 
-def _talondoc_load_package(app: Sphinx, env: BuildEnvironment, *args):
+def _talondoc_load_package(app: Sphinx, env: BuildEnvironment, *args: Any) -> None:
     try:
         talon_domain = cast(TalonDomain, env.get_domain("talon"))
         talon_packages = _talon_packages(env)
@@ -139,7 +139,7 @@ def _talondoc_load_package(app: Sphinx, env: BuildEnvironment, *args):
         _LOGGER.exception(e)
 
 
-def setup(app: Sphinx) -> dict[str, Any]:
+def setup(app: Sphinx) -> Dict[str, Any]:
     app.add_domain(TalonDomain)
 
     app.add_config_value(
@@ -168,7 +168,7 @@ def setup(app: Sphinx) -> dict[str, Any]:
         rebuild="env",
         types=[
             list,  # list[TalonPackage]
-            tuple,  # tuple[TalonPackage]
+            tuple,  # Tuple[TalonPackage]
         ],
     )
 

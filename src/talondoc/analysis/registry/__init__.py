@@ -531,13 +531,13 @@ class Registry:
             pass
         raise NoActiveRegistry()
 
-    def activate(self: "Registry"):
+    def activate(self: "Registry") -> None:
         """
         Activate this registry.
         """
         Registry._active_global_registry = self
 
-    def deactivate(self: "Registry"):
+    def deactivate(self: "Registry") -> None:
         """
         Deactivate this registry.
         """

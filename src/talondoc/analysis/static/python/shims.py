@@ -3,7 +3,18 @@ import platform
 from collections.abc import Callable, Iterator
 from io import TextIOWrapper
 from types import ModuleType
-from typing import Any, Mapping, Optional, Sequence, cast
+from typing import (
+    Any,
+    Dict,
+    List,
+    Mapping,
+    Optional,
+    Sequence,
+    Type,
+    Union,
+    cast,
+    overload,
+)
 
 from tree_sitter_talon import Point
 
@@ -19,7 +30,7 @@ class ObjectShim:
     A simple shim which responds to any method.
     """
 
-    def register(self, event_code: data.EventCode, func: Callable[..., Any]):
+    def register(self, event_code: data.EventCode, func: Callable[..., Any]) -> None:
         if inspect.isfunction(func):
             registry = Registry.get_active_global_registry()
             registry.register(
@@ -35,7 +46,7 @@ class ObjectShim:
                 f"skip register {data.Callback.__name__}: callback of type {func.__class__.__qualname__} is not a function"
             )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *_args: Any, **_kwargs: Any) -> None:
         pass
 
     def __getattr__(self, name: str) -> Any:
@@ -44,58 +55,58 @@ class ObjectShim:
         except AttributeError:
             return self
 
-    def __setattr__(self, name: str, value: Any):
+    def __setattr__(self, name: str, value: Any) -> None:
         object.__setattr__(self, name, value)
 
     def __getitem__(self, name: str) -> Any:
         return self
 
-    def __setitem__(self, name: str, value: Any):
+    def __setitem__(self, name: str, value: Any) -> None:
         pass
 
     def __enter__(self) -> Any:
         return self
 
-    def __exit__(self, *args):
+    def __exit__(self, *_args: Any) -> None:
         pass
 
-    def __add__(self, other) -> Any:
+    def __add__(self, other: Any) -> Any:
         return self
 
-    def __sub__(self, other) -> Any:
+    def __sub__(self, other: Any) -> Any:
         return self
 
-    def __mul__(self, other) -> Any:
+    def __mul__(self, other: Any) -> Any:
         return self
 
-    def __pow__(self, other) -> Any:
+    def __pow__(self, other: Any) -> Any:
         return self
 
-    def __mod__(self, other) -> Any:
+    def __mod__(self, other: Any) -> Any:
         return self
 
-    def __floordiv__(self, other) -> Any:
+    def __floordiv__(self, other: Any) -> Any:
         return self
 
-    def __truediv__(self, other) -> Any:
+    def __truediv__(self, other: Any) -> Any:
         return self
 
-    def __radd__(self, other) -> Any:
+    def __radd__(self, other: Any) -> Any:
         return self
 
-    def __rsub__(self, other) -> Any:
+    def __rsub__(self, other: Any) -> Any:
         return self
 
-    def __rmul__(self, other) -> Any:
+    def __rmul__(self, other: Any) -> Any:
         return self
 
-    def __rmod__(self, other) -> Any:
+    def __rmod__(self, other: Any) -> Any:
         return self
 
-    def __rfloordiv__(self, other) -> Any:
+    def __rfloordiv__(self, other: Any) -> Any:
         return self
 
-    def __rtruediv__(self, other) -> Any:
+    def __rtruediv__(self, other: Any) -> Any:
         return self
 
     def __abs__(self) -> Any:
@@ -113,43 +124,43 @@ class ObjectShim:
     def __ceil__(self) -> Any:
         return self
 
-    def __and__(self, other) -> Any:
+    def __and__(self, other: Any) -> Any:
         return self
 
-    def __rand__(self, other) -> Any:
+    def __rand__(self, other: Any) -> Any:
         return self
 
-    def __or__(self, other) -> Any:
+    def __or__(self, other: Any) -> Any:
         return self
 
-    def __ror__(self, other) -> Any:
+    def __ror__(self, other: Any) -> Any:
         return self
 
-    def __xor__(self, other) -> Any:
+    def __xor__(self, other: Any) -> Any:
         return self
 
-    def __rxor__(self, other) -> Any:
+    def __rxor__(self, other: Any) -> Any:
         return self
 
     def __invert__(self) -> Any:
         return self
 
-    def __lshift__(self, other) -> Any:
+    def __lshift__(self, other: Any) -> Any:
         return self
 
-    def __rlshift__(self, other) -> Any:
+    def __rlshift__(self, other: Any) -> Any:
         return self
 
-    def __rshift__(self, other) -> Any:
+    def __rshift__(self, other: Any) -> Any:
         return self
 
-    def __rrshift__(self, other) -> Any:
+    def __rrshift__(self, other: Any) -> Any:
         return self
 
-    def __call__(self, *args, **kwargs) -> Any:
+    def __call__(self, *_args: Any, **_kwargs: Any) -> Any:
         return self
 
-    def __iter__(self) -> Iterator:
+    def __iter__(self) -> Iterator[Any]:
         return ().__iter__()
 
 
@@ -197,7 +208,7 @@ class TalonContextListsShim(Mapping[str, data.ListValue]):
     def __init__(self, context: "TalonShim.Context"):
         self._context = context
 
-    def _add_list_value(self, name: str, value: data.ListValue):
+    def _add_list_value(self, name: str, value: data.ListValue) -> None:
         self._context._registry.register(
             data.List(
                 value=value,
@@ -213,28 +224,28 @@ class TalonContextListsShim(Mapping[str, data.ListValue]):
             )
         )
 
-    def __setitem__(self, name: str, value: data.ListValue):
+    def __setitem__(self, name: str, value: data.ListValue) -> None:
         self._add_list_value(name, value)
 
-    def update(self, values: Mapping[str, data.ListValue]):
+    def update(self, values: Mapping[str, data.ListValue]) -> None:
         for name, value in values.items():
             self._add_list_value(name, value)
 
-    def __getitem__(self):
-        raise NotImplementedError
+    def __getitem__(self, key: str) -> Union[Dict[str, Any], List[str]]:
+        raise NotImplementedError()
 
-    def __iter__(self):
-        raise NotImplementedError
+    def __iter__(self) -> Iterator[Any]:
+        raise NotImplementedError()
 
-    def __len__(self):
-        raise NotImplementedError
+    def __len__(self) -> int:
+        raise NotImplementedError()
 
 
-class TalonContextSettingsShim(Mapping):
+class TalonContextSettingsShim(Mapping[str, data.SettingValue]):
     def __init__(self, context: "TalonShim.Context"):
         self._context = context
 
-    def _add_setting_value(self, name: str, value: data.SettingValue):
+    def _add_setting_value(self, name: str, value: data.SettingValue) -> None:
         self._context._registry.register(
             data.Setting(
                 value=value,
@@ -250,46 +261,54 @@ class TalonContextSettingsShim(Mapping):
             )
         )
 
-    def __setitem__(self, name: str, value: data.SettingValue):
+    def __setitem__(self, name: str, value: data.SettingValue) -> None:
         self._add_setting_value(name, value)
 
-    def update(self, values: Mapping[str, data.SettingValue]):
+    def update(self, values: Mapping[str, data.SettingValue]) -> None:
         for name, value in values.items():
             self._add_setting_value(name, value)
 
-    def __getitem__(self):
-        raise NotImplementedError
+    def __getitem__(self, key: str) -> data.SettingValue:
+        raise NotImplementedError()
 
-    def __iter__(self):
-        raise NotImplementedError
+    def __iter__(self) -> Iterator[data.SettingValue]:
+        raise NotImplementedError()
 
-    def __len__(self):
-        raise NotImplementedError
+    def __len__(self) -> int:
+        raise NotImplementedError()
 
 
-class TalonContextTagsShim(Sequence):
+class TalonContextTagsShim(Sequence[str]):
     def __init__(self, context: "TalonShim.Context"):
         self._context = context
 
-    def _add_tag_import(self, name: str):
+    def _add_tag_import(self, name: str) -> None:
         # TODO: add use entries
         pass
 
-    def __setitem__(self, name: str):
+    def __setitem__(self, name: str) -> None:
         self._add_tag_import(name)
 
-    def update(self, values: Sequence[str]):
+    def update(self, values: Sequence[str]) -> None:
         for name in values:
             self._add_tag_import(name)
 
-    def __getitem__(self):
-        raise NotImplementedError
+    @overload
+    def __getitem__(self, index: int, /) -> str:
+        ...
 
-    def __iter__(self):
-        raise NotImplementedError
+    @overload
+    def __getitem__(self, index: slice, /) -> Sequence[str]:
+        ...
 
-    def __len__(self):
-        raise NotImplementedError
+    def __getitem__(self, _index: Any, /) -> Sequence[Any]:
+        raise NotImplementedError()
+
+    def __iter__(self) -> Iterator[str]:
+        raise NotImplementedError()
+
+    def __len__(self) -> int:
+        raise NotImplementedError()
 
 
 class TalonResourceShim(ObjectShim):
@@ -297,10 +316,10 @@ class TalonResourceShim(ObjectShim):
         return cast(TextIOWrapper, open(file, mode))
 
     def read(self, file: str) -> str:
-        raise NotImplementedError
+        raise NotImplementedError()
 
-    def write(self, file: str, contents: str) -> str:
-        raise NotImplementedError
+    def write(self, _file: str, _contents: str) -> str:
+        raise NotImplementedError()
 
 
 class TalonShim(ModuleShim):
@@ -308,7 +327,7 @@ class TalonShim(ModuleShim):
     A shim for the 'talon' module.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__("talon")
         self.actions = TalonActionsShim()
         self.app = TalonAppShim()
@@ -317,7 +336,7 @@ class TalonShim(ModuleShim):
         # TODO: ui
 
     class Module(ObjectShim):
-        def __init__(self, desc: Optional[str] = None):
+        def __init__(self, desc: Optional[str] = None) -> None:
             self._registry = Registry.get_active_global_registry()
             self._package = self._registry.get_active_package()
             self._file = self._registry.get_active_file()
@@ -330,7 +349,7 @@ class TalonShim(ModuleShim):
             self._file.modules.append(self._module.name)
             self._registry.register(self._module)
 
-        def action_class(self, cls: type):
+        def action_class(self, cls: Type[Any]) -> Type[Any]:
             for name, func in inspect.getmembers(cls, inspect.isfunction):
                 assert callable(func)
                 package = self._registry.get_active_package()
@@ -352,6 +371,7 @@ class TalonShim(ModuleShim):
                     parent_type=data.Module,
                 )
                 self._registry.register(action)
+            return cls
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
             function = self._registry.lookup_default_function(data.Action, name)
@@ -392,7 +412,7 @@ class TalonShim(ModuleShim):
             type: type,
             default: data.SettingValue = None,
             desc: Optional[str] = None,
-        ):
+        ) -> None:
             self._registry.register(
                 data.Setting(
                     value=default,
@@ -410,7 +430,7 @@ class TalonShim(ModuleShim):
             self,
             name: str,
             desc: Optional[str] = None,
-        ):
+        ) -> None:
             self._registry.register(
                 data.List(
                     value=None,
@@ -428,7 +448,7 @@ class TalonShim(ModuleShim):
             self,
             name: str,
             desc: Optional[str] = None,
-        ):
+        ) -> None:
             self._registry.register(
                 data.Mode(
                     name=f"{self._package.name}.{name}",
@@ -442,7 +462,7 @@ class TalonShim(ModuleShim):
             self,
             name: str,
             desc: Optional[str] = None,
-        ):
+        ) -> None:
             self._registry.register(
                 data.Tag(
                     name=f"{self._package.name}.{name}",
@@ -456,7 +476,7 @@ class TalonShim(ModuleShim):
         # TODO: scope
 
     class Context(ObjectShim):
-        def __init__(self, desc: Optional[str] = None):
+        def __init__(self, desc: Optional[str] = None) -> None:
             self._registry = Registry.get_active_global_registry()
             self._package = self._registry.get_active_package()
             self._file = self._registry.get_active_file()
@@ -488,7 +508,7 @@ class TalonShim(ModuleShim):
             return self._settings
 
         @settings.setter
-        def settings(self, values: Mapping[str, data.SettingValue]):
+        def settings(self, values: Mapping[str, data.SettingValue]) -> None:
             self._settings.update(values)
 
         @property
@@ -496,11 +516,11 @@ class TalonShim(ModuleShim):
             return self._tags
 
         @tags.setter
-        def tags(self, values: Sequence[str]):
+        def tags(self, values: Sequence[str]) -> None:
             self._tags.update(values)
 
-        def action_class(self, namespace: str) -> Callable[[type], type]:
-            def __decorator(cls: type):
+        def action_class(self, namespace: str) -> Callable[[Type[Any]], Type[Any]]:
+            def __decorator(cls: Type[Any]) -> Type[Any]:
                 for name, func in inspect.getmembers(cls, inspect.isfunction):
                     # LINT: check if function on decorated class is a function
                     assert callable(func)
@@ -525,13 +545,14 @@ class TalonShim(ModuleShim):
                         parent_type=data.Context,
                     )
                     self._registry.register(action)
+                return cls
 
             return __decorator
 
         def action(
             self, name: str
         ) -> Optional[Callable[[Callable[..., Any]], Callable[..., Any]]]:
-            def __decorator(func: Callable[..., Any]):
+            def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
                 # LINT: check if function on decorated class is a function
                 assert callable(func)
                 namespace = name.split(".")[0]
@@ -556,6 +577,7 @@ class TalonShim(ModuleShim):
                     parent_type=data.Context,
                 )
                 self._registry.register(action)
+                return func
 
             return __decorator
 

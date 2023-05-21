@@ -2,7 +2,7 @@ import awesome_progress_bar
 
 
 class ProgressBar:
-    def __init__(self, total: int, show: bool = True):
+    def __init__(self, total: int, show: bool = True) -> None:
         self.line_width = 0
         self.show = show
         if self.show:
@@ -14,7 +14,7 @@ class ProgressBar:
                 use_spinner=False,
             )
 
-    def step(self, msg: str = ""):
+    def step(self, msg: str = "") -> None:
         self.line_width = max(self.line_width, len(msg))
         pad = self.line_width - len(msg)
         if self.show:

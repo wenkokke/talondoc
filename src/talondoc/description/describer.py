@@ -1,6 +1,5 @@
-from collections.abc import Callable
 from functools import singledispatchmethod
-from typing import Optional, TypeVar
+from typing import Any, Callable, Optional, TypeVar
 
 from tree_sitter_talon import (
     Node,
@@ -87,7 +86,7 @@ class TalonScriptDescriber:
         return Step(f"Press {ast.arguments.text.strip()}.")
 
     @describe.register
-    def _(self, ast: TalonSleepAction, **kwargs) -> Optional[Description]:
+    def _(self, ast: TalonSleepAction, **kwargs: Any) -> Optional[Description]:
         return None
 
     def get_docstring(

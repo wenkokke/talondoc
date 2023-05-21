@@ -1,7 +1,6 @@
-import dataclasses
 import re
-from collections.abc import Iterable
-from typing import Optional, Union
+from dataclasses import dataclass, field
+from typing import Iterable, Optional, Sequence, Tuple, Union
 
 import docstring_parser
 
@@ -10,7 +9,7 @@ from .._util.logging import getLogger
 _LOGGER = getLogger(__name__)
 
 
-@dataclasses.dataclass
+@dataclass
 class InvalidInterpolation(Exception):
     """Exception raised when attempting to interpolate a multiline doc string."""
 
@@ -35,7 +34,7 @@ class Description:
 DescLike = Union[None, str, Description, Iterable[Description]]
 
 
-@dataclasses.dataclass
+@dataclass
 class Value(Description):
     """
     The description of a value.
@@ -50,7 +49,7 @@ class Value(Description):
         return Steps(steps=(Step(self),))
 
 
-@dataclasses.dataclass
+@dataclass
 class Step(Description):
     """
     The description of one step in a series of steps.
@@ -65,13 +64,13 @@ class Step(Description):
         return Steps(steps=(self,))
 
 
-@dataclasses.dataclass
+@dataclass
 class Steps(Description):
     """
     The description of a series of steps.
     """
 
-    steps: tuple[Step, ...] = dataclasses.field(default_factory=tuple)
+    steps: Sequence[Step] = field(default_factory=tuple)
 
     def __str__(self) -> str:
         return "\n".join(str(step) for step in self.steps)
@@ -80,12 +79,12 @@ class Steps(Description):
         return self
 
 
-@dataclasses.dataclass
+@dataclass
 class StepsTemplate(Description):
     template: str
-    names: tuple[str, ...]
+    names: Sequence[str]
 
-    def __call__(self, values: tuple[Optional[Description], ...]) -> Steps:
+    def __call__(self, values: Sequence[Optional[Description]]) -> Steps:
         ret = self.template
         for name, value in zip(self.names, values):
             if isinstance(value, Value):
@@ -94,7 +93,7 @@ class StepsTemplate(Description):
                 raise InvalidInterpolation(argument=value, template=self)
         return Steps(steps=tuple(Step(desc=desc) for desc in ret.splitlines()))
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.template
 
     def as_steps(self) -> "Steps":
