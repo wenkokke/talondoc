@@ -1,12 +1,20 @@
 import io
 import queue
+import sys
 import threading
 from typing import Callable, Iterator, Optional
+
+from typing_extensions import TypeAlias
+
+if sys.version_info < (3, 9):
+    StrQueue: TypeAlias = queue.Queue
+else:
+    StrQueue: TypeAlias = queue.Queue[str]
 
 
 class NonBlockingTextIOWrapper:
     _stream: io.TextIOWrapper
-    _queue: queue.Queue[str]
+    _queue: StrQueue
     _daemon: threading.Thread
 
     def __init__(self, stream: io.TextIOWrapper, maxsize: int = 0) -> None:

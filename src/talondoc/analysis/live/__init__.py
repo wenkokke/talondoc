@@ -4,13 +4,13 @@ import json
 import os
 import platform
 import subprocess
-from contextlib import AbstractContextManager
+import sys
 from importlib.resources import Resource
 from types import TracebackType
 from typing import Optional, Sequence, Type
 
 from packaging.version import Version
-from typing_extensions import Self
+from typing_extensions import Self, TypeAlias
 
 from ..._util.io import NonBlockingTextIOWrapper
 from ..._util.logging import getLogger
@@ -18,9 +18,14 @@ from ..registry import Registry, data
 
 _LOGGER = getLogger(__name__)
 
+if sys.version_info < (3, 9):
+    BytesPopen: TypeAlias = subprocess.Popen
+else:
+    BytesPopen: TypeAlias = subprocess.Popen[bytes]
 
-class TalonRepl(AbstractContextManager["TalonRepl"]):
-    _session: Optional[subprocess.Popen[bytes]]
+
+class TalonRepl:
+    _session: Optional[BytesPopen]
     _session_stdout: Optional[NonBlockingTextIOWrapper]
     _session_stderr: Optional[NonBlockingTextIOWrapper]
 
