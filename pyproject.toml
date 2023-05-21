@@ -77,7 +77,7 @@ profile = "black"
 line_length = 88
 
 [tool.mypy]
-python_version = 3.9
+python_version = 3.8
 strict = true
 ignore_missing_imports = true
 implicit_reexport = false

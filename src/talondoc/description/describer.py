@@ -1,5 +1,5 @@
 from functools import singledispatchmethod
-from typing import Any, Callable, Optional, TypeVar
+from typing import Any, Callable, Optional, Type, TypeVar
 
 from tree_sitter_talon import (
     Node,
@@ -91,7 +91,7 @@ class TalonScriptDescriber:
 
     def get_docstring(
         self,
-        cls: type[Data],
+        cls: Type[Data],
         name: str,
     ) -> Optional[str]:
         # Try the docstring_hook:
