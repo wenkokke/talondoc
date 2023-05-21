@@ -5,8 +5,9 @@ from sphinx.util.typing import OptionSpec
 from typing_extensions import override
 
 from ...._util.logging import getLogger
+from ....analysis.registry.data.abc import UnknownReference
 from ..._util.typing import flag, optional_strlist
-from ..errors import AmbiguousSignature, UnmatchedSignature
+from ..errors import AmbiguousSignature
 from .abc import TalonDocCommandDescription
 
 _LOGGER = getLogger(__name__)
@@ -38,6 +39,6 @@ class TalonCommandDirective(TalonDocCommandDescription):
                 docstring_hook=self.docstring_hook,
             )
             return command.name
-        except (UnmatchedSignature, AmbiguousSignature) as e:
+        except (UnknownReference, AmbiguousSignature) as e:
             _LOGGER.error(e)
             raise ValueError(e)

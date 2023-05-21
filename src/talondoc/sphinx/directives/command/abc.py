@@ -9,12 +9,13 @@ from typing_extensions import final
 
 from ...._util.logging import getLogger
 from ....analysis.registry import data
+from ....analysis.registry.data.abc import UnknownReference
 from ....description import InvalidInterpolation
 from ....description.describer import TalonScriptDescriber
 from ....sphinx.directives import TalonDocObjectDescription
 from ....sphinx.typing import TalonDocstringHook_Callable
 from ..._util.addnodes import desc_content, desc_name, paragraph
-from ..errors import AmbiguousSignature, UnmatchedSignature
+from ..errors import AmbiguousSignature
 
 _LOGGER = getLogger(__name__)
 
@@ -41,7 +42,9 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
             self.find_commands(text, fullmatch=fullmatch, restrict_to=restrict_to)
         )
         if len(commands) == 0:
-            raise UnmatchedSignature(self.get_location(), text)
+            raise UnknownReference(
+                ref_type=data.Command, ref_name=text, location=self.get_location()
+            )
         if len(commands) >= 2:
             raise AmbiguousSignature(
                 self.get_location(),
@@ -102,10 +105,6 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
             )
         )
         return signode
-
-    @final
-    def describe_rule(self, rule: data.Rule) -> nodes.Text:
-        return nodes.Text(talonfmt(rule, safe=False))
 
     @final
     def describe_script(

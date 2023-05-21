@@ -66,22 +66,23 @@ class Location:
     def _str_from_point(line: Optional[int], column: Optional[int]) -> Optional[str]:
         if line is not None:
             if column is not None:
-                return f"{line}"
-            else:
                 return f"{line}:{column}"
+            else:
+                return f"{line}"
         else:
             return None
 
     def __str__(self) -> str:
+        resolved_path = self.path.resolve().relative_to(Path.cwd())
         start_position = Location._str_from_point(self.start_line, self.start_column)
-        if start_position:
+        if start_position is not None:
             end_position = Location._str_from_point(self.end_line, self.end_column)
-            if end_position:
-                return f"{self.path}:{start_position}-{end_position}"
+            if end_position is not None:
+                return f"{resolved_path}:{start_position}-{end_position}"
             else:
-                return f"{self.path}:{start_position}"
+                return f"{resolved_path}:{start_position}"
         else:
-            return f"{self.path}"
+            return f"{resolved_path}"
 
     @staticmethod
     def from_ast(path: Path, node: Node) -> "Location":
@@ -188,7 +189,7 @@ class GroupData(Data):
         ...
 
     @abstractmethod
-    def to_dict(self) -> JsonValue:
+    def to_dict(self) -> dict[str, JsonValue]:
         ...
 
 
@@ -250,11 +251,16 @@ class UnknownReference(Exception):
     ref_type: type[Data]
     ref_name: str
 
-    referenced_by: Optional[Data]
-    known_references: Optional[Sequence[str]]
+    location: Optional[str] = None
+    referenced_by: Optional[Data] = None
+    known_references: Optional[Sequence[str]] = None
 
     def __str__(self) -> str:
         buffer = []
+
+        # If location is set, include it:
+        if self.location is not None:
+            buffer.append(f"{self.location}:")
 
         # If referenced_by is set, include it:
         if self.referenced_by is not None:

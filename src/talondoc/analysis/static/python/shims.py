@@ -9,7 +9,7 @@ from tree_sitter_talon import Point
 
 from ...._util.logging import getLogger
 from ...registry import Registry, data
-from ...registry.data.abc import Location
+from ...registry.data.abc import Location, UnknownReference
 
 _LOGGER = getLogger(__name__)
 
@@ -177,7 +177,13 @@ class TalonActionsShim:
             )
         except AttributeError:
             registry = Registry.get_active_global_registry()
-            return registry.lookup_default_function(data.Action, name) or ObjectShim()
+            try:
+                default = registry.lookup_default_function(data.Action, name)
+                if default:
+                    return default
+            except UnknownReference as e:
+                _LOGGER.warning(e)
+            return ObjectShim()
 
 
 class TalonAppShim(ObjectShim):

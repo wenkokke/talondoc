@@ -1,17 +1,7 @@
-from dataclasses import dataclass
-
-
-@dataclass
-class UnmatchedSignature(Exception):
-    """
-    Exception raised when multiple objects match the given signature.
-    """
-
-    loc: str
-    sig: str
-
-    def __str__(self) -> str:
-        return f"{self.loc}: No match found for signature '{self.sig}'"
+import os
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Sequence
 
 
 @dataclass
@@ -20,14 +10,15 @@ class AmbiguousSignature(Exception):
     Exception raised when multiple objects match the given signature.
     """
 
-    loc: str
-    sig: str
-    lst: list[str]
+    location: str
+    signature: str
+    candidates: Sequence[str] = field(default_factory=tuple)
 
     def __str__(self) -> str:
         return "\n".join(
             [
-                f"{self.loc}: Multiple matches found for signature '{self.sig}'",
-                *map(lambda dsc: f"- {dsc}", self.lst),
+                f"{self.location}:"
+                f"Multiple matches found for signature '{self.signature}'",
+                *map(lambda dsc: f"- {dsc}", self.candidates),
             ]
         )

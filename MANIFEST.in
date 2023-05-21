@@ -1,3 +1,4 @@
 include src/talondoc/_autogen/resources/*.jinja2
+include src/talondoc/_cache_builtin/resources/*.json
 include src/talondoc/analysis/live/resources/*.json
 include src/talondoc/analysis/live/resources/*.py

@@ -1,9 +1,13 @@
 import inspect
+import itertools
+import json
 from collections.abc import Callable, Iterator, Mapping, Sequence
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass, fields
 from functools import singledispatchmethod
 from typing import Any, ClassVar, Optional, Union, cast, overload
 
+import importlib_resources
+from more_itertools import partition
 from talonfmt import talonfmt
 from typing_extensions import Final
 
@@ -21,7 +25,7 @@ from .data.abc import (
     SimpleDataVar,
     UnknownReference,
 )
-from .data.serialise import JsonValue
+from .data.serialise import JsonValue, parse_dict, parse_list
 
 _LOGGER = getLogger(__name__)
 
@@ -261,12 +265,18 @@ class Registry:
                     Optional[DataVar],
                     # Try the search again with ".talon" suffixed:
                     self.lookup(cls, f"{name}.talon") or
+                    # Try the search again with ".py" suffixed:
+                    self.lookup(cls, f"{name}.py") or
                     # Try the search again assuming name is a path:
                     self.lookup(cls, f"user.{name.replace('/', '.')}"),
                 )
 
         elif issubclass(cls, GroupData):
-            value = cast(Optional[DataVar], self.lookup_default(cls, name))
+            declaration, defaults, others = self.lookup_partition(cls, name)
+            for obj in itertools.chain((declaration,), defaults, others):
+                if obj:
+                    value = cast(DataVar, obj)
+                    break
         elif issubclass(cls, data.Callback):
             raise ValueError(f"Registry.get does not support callbacks")
         if value is not None:
@@ -306,20 +316,42 @@ class Registry:
     def lookup(self, cls: type[Data], name: Any) -> Optional[Any]:
         return self._typed_store(cls).get(self.resolve_name(name), None)
 
+    def lookup_default(
+        self, cls: type[GroupDataVar], name: str
+    ) -> Optional[GroupDataVar]:
+        declaration, default_overrides, _ = self.lookup_partition(cls, name)
+        return self._combine(cls, itertools.chain((declaration,), default_overrides))
+
+    def _combine(
+        self, cls: type[GroupDataVar], data: Iterator[Optional[GroupDataVar]]
+    ) -> Optional[GroupDataVar]:
+        init_keys: set[str] = {field.name for field in fields(cls) if field.init}
+        init_args: dict[str, Any] = {}
+        for datum in data:
+            if isinstance(datum, cls):
+                for name in init_keys:
+                    init_args[name] = init_args.get(name, getattr(datum, name))
+        if init_args:
+            return cls(**init_args)
+        else:
+            return None
+
     def lookup_description(self, cls: type[Data], name: Any) -> Optional[str]:
         if issubclass(cls, SimpleData):
             simple = self.lookup(cls, name)
             if simple:
                 return simple.description
         if issubclass(cls, GroupData):
-            group = self.lookup_default(cls, name)
-            if group:
-                return group.description
+            default = self.lookup_default(cls, name)
+            if default:
+                return default.description
         return None
 
-    def lookup_default(
-        self, cls: type[GroupDataVar], name: str
-    ) -> Optional[GroupDataVar]:
+    def lookup_partition(
+        self,
+        cls: type[GroupDataVar],
+        name: str,
+    ) -> tuple[Optional[GroupDataVar], Sequence[GroupDataVar], Sequence[GroupDataVar]]:
         group = self.lookup(cls, name)
         if group:
             _IS_DECLARATION: int = 0
@@ -329,23 +361,49 @@ class Registry:
                 if issubclass(obj.parent_type, data.Module):
                     return _IS_DECLARATION
                 else:
-                    ctx = self.get(data.Context, obj.parent_name, referenced_by=obj)
-                    return _IS_ALWAYS_ON + len(ctx.matches)
+                    ctx = self.lookup(data.Context, obj.parent_name)
+                    if ctx is None:
+                        return _IS_ALWAYS_ON
+                    else:
+                        return _IS_ALWAYS_ON + len(ctx.matches)
 
+            # Sort all objects in the group by the complexity of their matches:
             sorted_group = [(_complexity(obj), obj) for obj in group]
             sorted_group.sort(key=lambda tup: tup[0])
-            declarations = [obj for c, obj in sorted_group if c == _IS_DECLARATION]
+
+            # Extract all declarations:
+            declarations_iter, overrides_iter = partition(
+                lambda tup: tup[0] != _IS_DECLARATION, sorted_group
+            )
+            declarations = tuple(declarations_iter)
             if len(declarations) >= 2:
-                _LOGGER.warning(DuplicateData(declarations))
-            return sorted_group[0][1]
-        return None
+                _LOGGER.warning(DuplicateData([tup[1] for tup in declarations]))
+            declaration = declarations[0][1] if len(declarations) >= 1 else None
+
+            # Extract all overrides that are always on:
+            default_overrides_iter, other_overrides_iter = partition(
+                lambda tup: tup[0] == _IS_ALWAYS_ON, overrides_iter
+            )
+
+            default_overrides = tuple((tup[1] for tup in default_overrides_iter))
+            other_overrides = tuple((tup[1] for tup in other_overrides_iter))
+            if len(default_overrides) >= 2:
+                # NOTE: We warn the user if there are multiple overrides which
+                #       are always on, but suppress this warning for commands.
+                if not issubclass(cls, data.Command):
+                    _LOGGER.warning(DuplicateData(default_overrides))
+            return (declaration, default_overrides, other_overrides)
+        return (None, (), ())
 
     def lookup_default_function(
         self, cls: type[GroupDataHasFunction], name: str
     ) -> Optional[Callable[..., Any]]:
-        value = self.lookup_default(cls, name)
-        if value and value.function_name:
-            function = self.lookup(data.Function, value.function_name)
+        # Find the default object:
+        default = self.lookup_default(cls, name)
+
+        # Find the associated function:
+        if default is not None and default.function_name is not None:
+            function = self.lookup(data.Function, default.function_name)
             if function is not None:
                 # Create copy for _function_wrapper
                 func = function.function
@@ -367,8 +425,6 @@ class Registry:
                     return func(*args, **kwargs)
 
                 return _function_wrapper
-            else:
-                return None
         return None
 
     def resolve_name(self, name: str, *, package: Optional[data.Package] = None) -> str:
@@ -474,6 +530,53 @@ class Registry:
     ##################################################
     # Encoder/Decoder
     ##################################################
+
+    def load_builtin(self) -> None:
+        self._load_from_dict(
+            json.loads(
+                importlib_resources.open_text(
+                    "talondoc._cache_builtin.resources", "talon.json"
+                ).read()
+            )
+        )
+
+    def _load_from_dict(self, registry: JsonValue) -> None:
+        registry = parse_dict(registry)
+        for cls in (
+            data.Command,
+            data.Action,
+            data.Capture,
+            data.List,
+            data.Setting,
+            data.Mode,
+            data.Tag,
+        ):
+            _LOGGER.debug(f"Loading builtin {cls.__name__} objects...")
+            store = parse_dict(registry.get(cls.__name__, {}))
+            if issubclass(cls, GroupData):
+                for name, group in store.items():
+                    _LOGGER.debug(
+                        f"Found {len(group)} {cls.__name__} objects with {name}"
+                    )
+                    for value in parse_list(group):
+                        parsed_group_value = cls.from_dict(value)
+                        if name != parsed_group_value.name:
+                            _LOGGER.warning(
+                                f"Found {cls.__name__} {parsed_group_value.name} in group for {name}"
+                            )
+                        self.register(parsed_group_value)
+
+            elif issubclass(cls, (data.Mode, data.Tag)):
+                for name, value in store.items():
+                    _LOGGER.debug(f"Found {cls.__name__} object with {name}")
+                    parsed_simple_value = cls.from_dict(value)
+                    if name != parsed_simple_value.name:
+                        _LOGGER.warning(
+                            f"Found {cls.__name__} {parsed_simple_value.name} in group for {name}"
+                        )
+                    self.register(parsed_simple_value)
+            else:
+                raise TypeError(f"Unexpected data class {cls.__name__}")
 
     def to_dict(self) -> JsonValue:
         return {

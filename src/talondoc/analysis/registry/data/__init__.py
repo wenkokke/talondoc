@@ -371,7 +371,7 @@ class Command(GroupData):
             parent_name=field_parent_name(value),
         )
 
-    def to_dict(self) -> JsonValue:
+    def to_dict(self) -> dict[str, JsonValue]:
         return {
             "rule": self.rule.text,
             "script": self.script.text,
@@ -423,7 +423,7 @@ class Action(GroupDataHasFunction):
             parent_type=field_parent_type(value),
         )
 
-    def to_dict(self) -> JsonValue:
+    def to_dict(self) -> dict[str, JsonValue]:
         return {
             "function_name": None,
             "function_signature": asdict_opt(asdict_signature)(self.function_signature),
@@ -475,7 +475,7 @@ class Capture(GroupDataHasFunction):
             parent_type=field_parent_type(value),
         )
 
-    def to_dict(self) -> JsonValue:
+    def to_dict(self) -> dict[str, JsonValue]:
         return {
             "rule": self.rule.text,
             "function_name": None,
@@ -525,7 +525,7 @@ class List(GroupData):
             parent_type=field_parent_type(value),
         )
 
-    def to_dict(self) -> JsonValue:
+    def to_dict(self) -> dict[str, JsonValue]:
         return {
             "value": asdict_opt(asdict_list_value)(self.value),
             "value_type_hint": asdict_opt(asdict_class)(self.value_type_hint),
@@ -562,7 +562,7 @@ class Setting(GroupData):
             parent_type=field_parent_type(value),
         )
 
-    def to_dict(self) -> JsonValue:
+    def to_dict(self) -> dict[str, JsonValue]:
         return {
             "value": asdict_opt(asdict_pickle)(self.value),
             "value_type_hint": asdict_opt(asdict_class)(self.value_type_hint),
@@ -593,7 +593,7 @@ class Mode(SimpleData):
             parent_name=field_parent_name(value),
         )
 
-    def to_dict(self) -> JsonValue:
+    def to_dict(self) -> dict[str, JsonValue]:
         return {
             "name": self.name,
             "description": self.description,
@@ -621,7 +621,7 @@ class Tag(SimpleData):
             parent_name=field_parent_name(value),
         )
 
-    def to_dict(self) -> JsonValue:
+    def to_dict(self) -> dict[str, JsonValue]:
         return {
             "name": self.name,
             "description": self.description,
