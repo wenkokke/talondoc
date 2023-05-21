@@ -2,11 +2,12 @@ from docutils import nodes
 from sphinx import addnodes
 from typing_extensions import override
 
+from talondoc.analysis.registry.data.abc import UnknownReference
+
 from ..._util.logging import getLogger
 from ...analysis.registry import data
 from .._util.addnodes import desc_content, desc_name, paragraph
 from . import TalonDocObjectDescription
-from .errors import UnmatchedSignature
 
 _LOGGER = getLogger(__name__)
 
@@ -31,4 +32,11 @@ class TalonTagDirective(TalonDocObjectDescription):
                 signode += desc_content(paragraph(nodes.Text(tag.description)))
             return tag.name
         else:
-            raise UnmatchedSignature(self.get_location(), sig)
+            e = UnknownReference(
+                ref_type=data.Tag,
+                ref_name=sig,
+                location=self.get_location(),
+                known_references=tuple(self.talon.registry.tags.keys()),
+            )
+            _LOGGER.error(e)
+            raise ValueError(e)

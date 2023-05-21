@@ -250,11 +250,16 @@ class UnknownReference(Exception):
     ref_type: type[Data]
     ref_name: str
 
-    referenced_by: Optional[Data]
-    known_references: Optional[Sequence[str]]
+    location: Optional[str] = None
+    referenced_by: Optional[Data] = None
+    known_references: Optional[Sequence[str]] = None
 
     def __str__(self) -> str:
         buffer = []
+
+        # If location is set, include it:
+        if self.location is not None:
+            buffer.append(f"{self.location}:")
 
         # If referenced_by is set, include it:
         if self.referenced_by is not None:

@@ -4,9 +4,9 @@ from typing_extensions import override
 
 from ..._util.logging import getLogger
 from ...analysis.registry import data
+from ...analysis.registry.data.abc import UnknownReference
 from .._util.addnodes import desc_content, desc_name, paragraph
 from . import TalonDocObjectDescription
-from .errors import UnmatchedSignature
 
 _LOGGER = getLogger(__name__)
 
@@ -34,4 +34,12 @@ class TalonListDirective(TalonDocObjectDescription):
             if declaration.description:
                 signode += desc_content(paragraph(nodes.Text(declaration.description)))
             return declaration.name
-        raise UnmatchedSignature(self.get_location(), sig)
+        else:
+            e = UnknownReference(
+                ref_type=data.List,
+                ref_name=sig,
+                location=self.get_location(),
+                known_references=tuple(self.talon.registry.lists.keys()),
+            )
+            _LOGGER.error(e)
+            raise ValueError(e)

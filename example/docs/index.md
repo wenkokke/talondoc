@@ -331,23 +331,18 @@ TalonDoc can generate documentation for tags using `talon:tag`. For instance, th
 
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
-.. talon:tag:: browser
-.. talon:tag:: terminal
+.. talon:tag:: user.find_and_replace
 ::::::
 
 ::::::{code-tab} markdown Markdown
-:::{talon:tag} browser
-:::
-:::{talon:tag} terminal
+:::{talon:tag} user.find_and_replace
 :::
 ::::::
 :::::::::
 
 ...will generate the following bit of documentation:
 
-:::{talon:tag} browser
-:::
-:::{talon:tag} terminal
+:::{talon:tag} user.find_and_replace
 :::
 
 ## Modes
