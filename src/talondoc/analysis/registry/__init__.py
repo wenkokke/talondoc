@@ -1,5 +1,6 @@
 import inspect
 from collections.abc import Callable, Iterator, Mapping, Sequence
+import itertools
 from dataclasses import dataclass
 from functools import singledispatchmethod
 from typing import Any, ClassVar, Optional, Union, cast, overload
@@ -267,7 +268,22 @@ class Registry:
                 )
 
         elif issubclass(cls, GroupData):
-            value = cast(Optional[DataVar], self.lookup_default(cls, name))
+            declaration, default_overrides, other_overrides = self.lookup_partition(
+                cls, name
+            )
+            # NOTE:
+            #   Return one of the following, in order:
+            #
+            #     1. The declaration;
+            #     2. The override which is always on;
+            #     3. Any other override, with a preference for those with the shortest match header.
+            #
+            for obj in itertools.chain(
+                (declaration,), default_overrides, other_overrides
+            ):
+                if obj:
+                    value = cast(DataVar, obj)
+                    break
         elif issubclass(cls, data.Callback):
             raise ValueError(f"Registry.get does not support callbacks")
         if value is not None:
@@ -313,16 +329,17 @@ class Registry:
             if simple:
                 return simple.description
         if issubclass(cls, GroupData):
-            group = self.lookup_default(cls, name)
-            if group:
-                return group.description
+            declaration, default_overrides = self.lookup_default(cls, name)
+            for obj in itertools.chain((declaration,), default_overrides):
+                if obj and obj.description:
+                    return obj.description
         return None
 
     def lookup_partition(
         self,
         cls: type[GroupDataVar],
         name: str,
-    ) -> tuple[Optional[GroupDataVar], Optional[GroupDataVar], Sequence[GroupDataVar]]:
+    ) -> tuple[Optional[GroupDataVar], Sequence[GroupDataVar], Sequence[GroupDataVar]]:
         group = self.lookup(cls, name)
         if group:
             _IS_DECLARATION: int = 0
@@ -335,41 +352,53 @@ class Registry:
                     ctx = self.get(data.Context, obj.parent_name, referenced_by=obj)
                     return _IS_ALWAYS_ON + len(ctx.matches)
 
+            # Sort all objects in the group by the complexity of their matches:
             sorted_group = [(_complexity(obj), obj) for obj in group]
             sorted_group.sort(key=lambda tup: tup[0])
 
+            # Extract all declarations:
             declarations_iter, overrides_iter = partition(
-                lambda tup: tup[0] == _IS_DECLARATION, sorted_group
+                lambda tup: tup[0] != _IS_DECLARATION, sorted_group
             )
-            declarations_tup = tuple((tup[1] for tup in declarations_iter))
-            if len(declarations_tup) >= 2:
-                _LOGGER.warning(DuplicateData(declarations_tup))
-            declaration = declarations_tup[0] if len(declarations_tup) >= 1 else None
+            declarations = tuple(declarations_iter)
+            if len(declarations) >= 2:
+                _LOGGER.warning(DuplicateData([tup[1] for tup in declarations]))
+            declaration = declarations[0][1] if len(declarations) >= 1 else None
 
-            always_on_iter, other_overrides_iter = partition(
+            # Extract all overrides that are always on:
+            default_overrides_iter, other_overrides_iter = partition(
                 lambda tup: tup[0] == _IS_ALWAYS_ON, overrides_iter
             )
-            always_on_tup = tuple((tup[1] for tup in always_on_iter))
-            if len(always_on_tup) >= 2:
-                _LOGGER.warning(DuplicateData(always_on_tup))
-            always_on = always_on_tup[0] if len(always_on_tup) >= 1 else None
 
+            default_overrides = tuple((tup[1] for tup in default_overrides_iter))
             other_overrides = tuple((tup[1] for tup in other_overrides_iter))
-
-            return (declaration, always_on, other_overrides)
-        return (None, None, ())
+            if len(default_overrides) >= 2:
+                # NOTE: We warn the user if there are multiple overrides which
+                #       are always on, but suppress this warning for commands.
+                if not issubclass(cls, data.Command):
+                    _LOGGER.warning(DuplicateData(default_overrides))
+            return (declaration, default_overrides, other_overrides)
+        return (None, (), ())
 
     def lookup_default(
         self, cls: type[GroupDataVar], name: str
-    ) -> Optional[GroupDataVar]:
-        return self.lookup_partition(cls, name)[0]
+    ) -> tuple[Optional[GroupDataVar], Sequence[GroupDataVar]]:
+        declaration, default_overrides, _ = self.lookup_partition(cls, name)
+        return (declaration, default_overrides)
 
     def lookup_default_function(
         self, cls: type[GroupDataHasFunction], name: str
     ) -> Optional[Callable[..., Any]]:
-        value = self.lookup_default(cls, name)
-        if value and value.function_name:
-            function = self.lookup(data.Function, value.function_name)
+        # Find the default object:
+        declaration, default_overrides = self.lookup_default(cls, name)
+        default_function_name: Optional[str] = None
+        for obj in itertools.chain((declaration,), default_overrides):
+            if obj and obj.function_name:
+                default_function_name = obj.function_name
+
+        # Find the associated function:
+        if default_function_name is not None:
+            function = self.lookup(data.Function, default_function_name)
             if function is not None:
                 # Create copy for _function_wrapper
                 func = function.function
@@ -391,8 +420,6 @@ class Registry:
                     return func(*args, **kwargs)
 
                 return _function_wrapper
-            else:
-                return None
         return None
 
     def resolve_name(self, name: str, *, package: Optional[data.Package] = None) -> str:

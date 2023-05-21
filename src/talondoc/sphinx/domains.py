@@ -1,6 +1,8 @@
 from sphinx.domains import Domain
 from sphinx.environment import BuildEnvironment
 
+from talondoc.sphinx.directives.list import TalonListDirective
+
 from .._util.logging import getLogger
 from ..analysis.registry import Registry
 from .directives.command import TalonCommandDirective
@@ -20,6 +22,7 @@ class TalonDomain(Domain):  # type: ignore[misc]
         "command": TalonCommandDirective,
         "command-hlist": TalonCommandHListDirective,
         "command-table": TalonCommandTableDirective,
+        "list": TalonListDirective,
     }
 
     def __init__(self, env: BuildEnvironment):
