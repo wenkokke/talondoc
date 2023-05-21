@@ -341,7 +341,9 @@ TalonDoc can generate documentation for lists using `talon:list`. For instance, 
 
 List documentation is restricted to names and descriptions.
 
-_Support for list values is underway._
+:::{note}
+  Support for list values is underway.
+:::
 
 ## Modes
 
@@ -390,7 +392,9 @@ TalonDoc can generate documentation for settings using `talon:setting`. For inst
 
 Setting documentation is restricted to names and descriptions.
 
-_Support for setting values is underway._
+:::{note}
+  Support for setting values is underway.
+:::
 
 ## Tags
 
