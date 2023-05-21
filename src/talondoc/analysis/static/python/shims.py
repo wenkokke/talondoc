@@ -13,6 +13,7 @@ from typing import (
     Type,
     Union,
     cast,
+    overload,
 )
 
 from tree_sitter_talon import Point
@@ -292,8 +293,16 @@ class TalonContextTagsShim(Sequence[str]):
         for name in values:
             self._add_tag_import(name)
 
-    def __getitem__(self):
-        raise NotImplementedError
+    @overload
+    def __getitem__(self, index: int) -> str:
+        ...
+
+    @overload
+    def __getitem__(self, index: slice) -> Sequence[str]:
+        ...
+
+    def __getitem__(self, _index: Any) -> Sequence[Any]:
+        raise NotImplementedError()
 
     def __iter__(self) -> Iterator[str]:
         raise NotImplementedError()
