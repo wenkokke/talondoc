@@ -1,5 +1,3 @@
-from typing import List
-
 from docutils import nodes
 from sphinx import addnodes
 from typing_extensions import override
@@ -20,15 +18,17 @@ class TalonListDirective(TalonDocObjectDescription):
     final_argument_whitespace = False
 
     @override
-    def get_signatures(self) -> List[str]:
+    def get_signatures(self) -> list[str]:
         assert len(self.arguments) == 1
         return [str(self.arguments[0])]
 
     @override
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
-        declaration, always_on, overrides = self.talon.registry.lookup_partition(
-            data.List, sig
-        )
+        (
+            declaration,
+            default_overrides,
+            other_overrides,
+        ) = self.talon.registry.lookup_partition(data.List, sig)
         if declaration:
             signode += desc_name(nodes.Text(declaration.name))
             if declaration.description:
