@@ -136,8 +136,14 @@ def autogen(
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
+            command_names: set[str] = set()
+            for context_name in file.contexts:
+                context = registry.get(data.Context, context_name)
+                command_names.update(context.commands)
             output_path.write_text(
-                template_talon_file.render(file_name=file_name, **ctx)
+                template_talon_file.render(
+                    file_name=file_name, command_names=command_names, **ctx
+                )
             )
 
         # Create path/to/python/file/api.{md,rst}:
