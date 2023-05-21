@@ -1,5 +1,2 @@
 user.apps.okular.okular
 =======================
-
-.. talon:command-table::
-  :context: user.apps.okular.okular

@@ -1,5 +1,2 @@
 user.lang.javascript.javascriptreact
 ====================================
-
-.. talon:command-table::
-  :context: user.lang.javascript.javascriptreact

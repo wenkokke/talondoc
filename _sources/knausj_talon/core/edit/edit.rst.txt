@@ -1,5 +1,4 @@
 user.core.edit.edit
 ===================
-
 .. talon:command-table::
   :context: user.core.edit.edit

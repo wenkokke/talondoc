@@ -1,5 +1,2 @@
 user.apps.evince.evince
 =======================
-
-.. talon:command-table::
-  :context: user.apps.evince.evince

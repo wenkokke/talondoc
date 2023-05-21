@@ -1,5 +1,2 @@
 user.apps.conemu.conemu
 =======================
-
-.. talon:command-table::
-  :context: user.apps.conemu.conemu

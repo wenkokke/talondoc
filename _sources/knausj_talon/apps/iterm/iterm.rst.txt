@@ -1,5 +1,2 @@
 user.apps.iterm.iterm
 =====================
-
-.. talon:command-table::
-  :context: user.apps.iterm.iterm

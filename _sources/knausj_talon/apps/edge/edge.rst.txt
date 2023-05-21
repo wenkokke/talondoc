@@ -1,5 +1,2 @@
 user.apps.edge.edge
 ===================
-
-.. talon:command-table::
-  :context: user.apps.edge.edge

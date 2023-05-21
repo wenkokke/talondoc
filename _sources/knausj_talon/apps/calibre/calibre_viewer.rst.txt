@@ -1,5 +1,2 @@
 user.apps.calibre.calibre_viewer
 ================================
-
-.. talon:command-table::
-  :context: user.apps.calibre.calibre_viewer
