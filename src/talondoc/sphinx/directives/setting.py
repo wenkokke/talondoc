@@ -20,7 +20,7 @@ class TalonSettingDirective(TalonDocObjectDescription):
     @override
     def get_signatures(self) -> list[str]:
         assert len(self.arguments) == 1
-        return [str(self.arguments[0])]
+        return [str(self.arguments[0]).strip()]
 
     @override
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:

@@ -20,14 +20,15 @@ class TalonTagDirective(TalonDocObjectDescription):
     @override
     def get_signatures(self) -> list[str]:
         assert len(self.arguments) == 1
-        return [str(self.arguments[0])]
+        return [str(self.arguments[0]).strip()]
 
     @override
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
-        mode = self.talon.registry.lookup(data.Tag, sig)
-        if mode:
-            signode += desc_name(nodes.Text(mode.name))
-            if mode.description:
-                signode += desc_content(paragraph(nodes.Text(mode.description)))
-            return mode.name
-        raise UnmatchedSignature(self.get_location(), sig)
+        tag = self.talon.registry.lookup(data.Tag, sig)
+        if tag:
+            signode += desc_name(nodes.Text(tag.name))
+            if tag.description:
+                signode += desc_content(paragraph(nodes.Text(tag.description)))
+            return tag.name
+        else:
+            raise UnmatchedSignature(self.get_location(), sig)

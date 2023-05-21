@@ -538,37 +538,42 @@ class Registry:
         )
 
     def _load_from_dict(self, registry: JsonValue) -> None:
-        if isinstance(registry, Mapping):
-            for cls in (
-                data.Command,
-                data.Action,
-                data.Capture,
-                data.List,
-                data.Setting,
-                data.Mode,
-                data.Tag,
-            ):
-                store = parse_dict(registry.get(type.__name__, {}))
-                if issubclass(cls, GroupData):
-                    for name, group in store.items():
-                        for value in parse_list(group):
-                            parsed_group_value = cls.from_dict(value)
-                            if name != parsed_group_value.name:
-                                _LOGGER.warning(
-                                    f"Found {cls.__name__} {parsed_group_value.name} in group for {name}"
-                                )
-                            self.register(cls, parsed_group_value)
-
-                elif issubclass(cls, (data.Mode, data.Tag)):
-                    for name, value in store.items():
-                        parsed_simple_value = cls.from_dict(value)
-                        if name != parsed_simple_value.name:
+        registry = parse_dict(registry)
+        for cls in (
+            data.Command,
+            data.Action,
+            data.Capture,
+            data.List,
+            data.Setting,
+            data.Mode,
+            data.Tag,
+        ):
+            _LOGGER.debug(f"Loading builtin {cls.__name__} objects...")
+            store = parse_dict(registry.get(cls.__name__, {}))
+            if issubclass(cls, GroupData):
+                for name, group in store.items():
+                    _LOGGER.debug(
+                        f"Found {len(group)} {cls.__name__} objects with {name}"
+                    )
+                    for value in parse_list(group):
+                        parsed_group_value = cls.from_dict(value)
+                        if name != parsed_group_value.name:
                             _LOGGER.warning(
-                                f"Found {cls.__name__} {parsed_simple_value.name} in group for {name}"
+                                f"Found {cls.__name__} {parsed_group_value.name} in group for {name}"
                             )
-                        self.register(cls, parsed_simple_value)
-                else:
-                    raise TypeError(f"Unexpected data class {cls.__name__}")
+                        self.register(parsed_group_value)
+
+            elif issubclass(cls, (data.Mode, data.Tag)):
+                for name, value in store.items():
+                    _LOGGER.debug(f"Found {cls.__name__} object with {name}")
+                    parsed_simple_value = cls.from_dict(value)
+                    if name != parsed_simple_value.name:
+                        _LOGGER.warning(
+                            f"Found {cls.__name__} {parsed_simple_value.name} in group for {name}"
+                        )
+                    self.register(parsed_simple_value)
+            else:
+                raise TypeError(f"Unexpected data class {cls.__name__}")
 
     def to_dict(self) -> JsonValue:
         return {
