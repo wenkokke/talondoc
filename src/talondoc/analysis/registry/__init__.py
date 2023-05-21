@@ -265,6 +265,8 @@ class Registry:
                     Optional[DataVar],
                     # Try the search again with ".talon" suffixed:
                     self.lookup(cls, f"{name}.talon") or
+                    # Try the search again with ".py" suffixed:
+                    self.lookup(cls, f"{name}.py") or
                     # Try the search again assuming name is a path:
                     self.lookup(cls, f"user.{name.replace('/', '.')}"),
                 )
