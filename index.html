@@ -143,8 +143,10 @@ whose value must be a list or tuple of package descriptions as described above.<
 <p>For more information, see <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/markdown.html">the Sphinx documentation</a> and <a class="reference external" href="https://myst-parser.readthedocs.io/en/latest/">the MyST documentation</a>.</p>
 </div>
 </section>
-<section id="document-individual-commands">
-<h2>Document individual commands<a class="headerlink" href="#document-individual-commands" title="Permalink to this heading"></a></h2>
+<section id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this heading"></a></h2>
+<section id="individual-commands">
+<h3>Individual Commands<a class="headerlink" href="#individual-commands" title="Permalink to this heading"></a></h3>
 <p>TalonDoc can generate documentation for an individual command using <code class="docutils literal notranslate"><span class="pre">talon:command</span></code> by entering any phrase which triggers the command. For instance, the following code:</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-0-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-0-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-0-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-0-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-0-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:command</span><span class="p">::</span> hunt this
@@ -167,22 +169,12 @@ whose value must be a list or tuple of package descriptions as described above.<
 <p>…will generate the following bit of documentation:</p>
 <dl class="talon command">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">hunt</span> <span class="pre">this</span></span><dd><p><span class="pre">Finds</span> <span class="pre">text</span> <span class="pre">in</span> <span class="pre">current</span> <span class="pre">editor</span></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dt>
+<span class="sig-name descname"><span class="pre">hunt</span> <span class="pre">this</span></span></dt>
 <dd></dd></dl>
 
 <dl class="talon command">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">hunt</span> <span class="pre">this</span> <span class="pre">(pace</span> <span class="pre">|</span> <span class="pre">paste)</span></span><dd><p><span class="pre">Finds</span> <span class="pre">text</span> <span class="pre">in</span> <span class="pre">current</span> <span class="pre">editor</span></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">sleep</span><span class="p">(</span><span class="mi">25</span><span class="n">ms</span><span class="p">)</span>
-<span class="n">edit</span><span class="o">.</span><span class="n">paste</span><span class="p">()</span>
-</pre></div>
-</div>
-</dd></dt>
+<span class="sig-name descname"><span class="pre">hunt</span> <span class="pre">this</span> <span class="pre">pace</span></span></dt>
 <dd></dd></dl>
 
 <p>TalonDoc will attempt to generate documentation for the command using the
@@ -215,8 +207,7 @@ following three options, in order:</p>
 <p>…and it generates the following bad documentation. It inserts the ambiguous command verbatim, and does not generate any other documentation for it:</p>
 <dl class="talon command">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">answer</span> <span class="pre">call</span></span><dd><p><span class="pre">Answer</span> <span class="pre">incoming</span> <span class="pre">call</span></p>
-</dd></dt>
+<span class="sig-name descname"><span class="pre">answer</span> <span class="pre">call</span></span></dt>
 <dd></dd></dl>
 
 <dl class="talon command">
@@ -242,19 +233,17 @@ following three options, in order:</p>
 <p>…will generate the following, much better looking documentation:</p>
 <dl class="talon command">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">answer</span> <span class="pre">call</span></span><dd><p><span class="pre">Answer</span> <span class="pre">incoming</span> <span class="pre">call</span></p>
-</dd></dt>
+<span class="sig-name descname"><span class="pre">answer</span> <span class="pre">call</span></span></dt>
 <dd></dd></dl>
 
 <dl class="talon command">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">decline</span> <span class="pre">call</span></span><dd><p><span class="pre">Decline</span> <span class="pre">incoming</span> <span class="pre">call</span></p>
-</dd></dt>
+<span class="sig-name descname"><span class="pre">decline</span> <span class="pre">call</span></span></dt>
 <dd></dd></dl>
 
 </section>
-<section id="document-groups-of-commands">
-<h2>Document groups of commands<a class="headerlink" href="#document-groups-of-commands" title="Permalink to this heading"></a></h2>
+<section id="tables-of-commands">
+<h3>Tables of commands<a class="headerlink" href="#tables-of-commands" title="Permalink to this heading"></a></h3>
 <p>TalonDoc can generate documentation for groups of commands via two different directives: <code class="docutils literal notranslate"><span class="pre">talon:command-table</span></code> and <code class="docutils literal notranslate"><span class="pre">talon:command-hlist</span></code>. The first generates a table with two columns—the rule and the description (as above). The second generates a horizontal list with command descriptions as those generated by <code class="docutils literal notranslate"><span class="pre">talon:command</span></code>. Both directives have the same options.</p>
 <p>For instance, the following code:</p>
 <div class="sphinx-tabs docutils container">
@@ -283,23 +272,11 @@ following three options, in order:</p>
 <table class="compact docutils align-default" id="id1">
 <caption><span class="caption-text"></span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
 <tbody>
-<tr class="row-odd"><td>answer call</td>
-<td><p>Answer incoming call</p></td>
-</tr>
-<tr class="row-even"><td>decline call</td>
-<td><p>Decline incoming call</p></td>
-</tr>
 </tbody>
 </table>
 <table class="compact docutils align-default" id="id2">
 <caption><span class="caption-text">A little custom hunting table.</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
 <tbody>
-<tr class="row-odd"><td>hunt this</td>
-<td><p>Finds text in current editor</p></td>
-</tr>
-<tr class="row-even"><td>hunt this (pace | paste)</td>
-<td><p>Finds text in current editor</p></td>
-</tr>
 </tbody>
 </table>
 <p>Similarily, the following code:</p>
@@ -318,20 +295,11 @@ following three options, in order:</p>
 </div>
 </div></div>
 <p>… generates the following list:</p>
-<table class="hlist"><tr><td><ul>
-<dt class="sig sig-object">
-<span class="sig-name descname"><span class="pre">toggle</span> <span class="pre">pins</span></span><dd><p><span class="pre">Toggle</span> <span class="pre">pins</span> <span class="pre">popout</span></p>
-</dd></dt>
+<table class="hlist"><tr><td><ul class="simple">
 </ul>
-</td><td><ul>
-<dt class="sig sig-object">
-<span class="sig-name descname"><span class="pre">toggle</span> <span class="pre">(members</span> <span class="pre">|</span> <span class="pre">member</span> <span class="pre">list)</span></span><dd><p><span class="pre">Toggle</span> <span class="pre">channel</span> <span class="pre">member</span> <span class="pre">list</span></p>
-</dd></dt>
+</td><td><ul class="simple">
 </ul>
-</td><td><ul>
-<dt class="sig sig-object">
-<span class="sig-name descname"><span class="pre">toggle</span> <span class="pre">(dee</span> <span class="pre">ems</span> <span class="pre">|</span> <span class="pre">dims)</span></span><dd><p><span class="pre">Toggle</span> <span class="pre">between</span> <span class="pre">dms</span> <span class="pre">and</span> <span class="pre">your</span> <span class="pre">most</span> <span class="pre">recent</span> <span class="pre">server</span></p>
-</dd></dt>
+</td><td><ul class="simple">
 </ul>
 </td></tr></table>
 <p>The <code class="docutils literal notranslate"><span class="pre">talon:command-table</span></code> and <code class="docutils literal notranslate"><span class="pre">talon:command-hlist</span></code> directives take any
@@ -355,11 +323,110 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 </dd>
 </dl>
 </section>
-<section id="document-lists">
-<h2>Document lists<a class="headerlink" href="#document-lists" title="Permalink to this heading"></a></h2>
+</section>
+<section id="lists">
+<h2>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h2>
+<p>TalonDoc can generate documentation for lists using <code class="docutils literal notranslate"><span class="pre">talon:list</span></code>. For instance, the following code:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-5-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-5-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-5-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-5-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-5-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:list</span><span class="p">::</span> user.letter
+<span class="p">..</span> <span class="ow">talon:list</span><span class="p">::</span> user.symbol_key
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-5-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-5-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:list} user.letter
+:::
+:::{talon:list} user.symbol_key
+:::
+</pre></div>
+</div>
+</div></div>
+<p>…will generate the following bit of documentation:</p>
 <dl class="talon list">
 <dt class="sig sig-object talon">
 <span class="sig-name descname"><span class="pre">user.letter</span></span><dd><p><span class="pre">The</span> <span class="pre">spoken</span> <span class="pre">phonetic</span> <span class="pre">alphabet</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-name descname"><span class="pre">user.symbol_key</span></span><dd><p><span class="pre">All</span> <span class="pre">symbols</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">keyboard</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<p>List documentation is restricted to names and descriptions.</p>
+</section>
+<section id="captures">
+<h2>Captures<a class="headerlink" href="#captures" title="Permalink to this heading"></a></h2>
+<p>TalonDoc can generate documentation for captures using <code class="docutils literal notranslate"><span class="pre">talon:capture</span></code>. For instance, the following code:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-6-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-6-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-6-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-6-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:capture</span><span class="p">::</span> user.any_alphanumeric_key
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-6-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-6-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:capture} user.any_alphanumeric_key
+:::
+</pre></div>
+</div>
+</div></div>
+<p>…will generate the following bit of documentation:</p>
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-name descname"><span class="pre">user.any_alphanumeric_key</span></span><dd><span class="pre">(&lt;self.letter&gt;</span> <span class="pre">|</span> <span class="pre">&lt;self.number_key&gt;</span> <span class="pre">|</span> <span class="pre">&lt;self.symbol_key&gt;)</span></dd><dd><p><span class="pre">any</span> <span class="pre">alphanumeric</span> <span class="pre">key</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<p>Capture documentation is restricted to names, rules, and descriptions.</p>
+</section>
+<section id="tags">
+<h2>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h2>
+<p>TalonDoc can generate documentation for tags using <code class="docutils literal notranslate"><span class="pre">talon:tag</span></code>. For instance, the following code:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-7-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-7-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-7-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-7-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-7-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-7-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:tag</span><span class="p">::</span> browser
+<span class="p">..</span> <span class="ow">talon:tag</span><span class="p">::</span> terminal
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-7-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-7-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:tag} browser
+:::
+:::{talon:tag} terminal
+:::
+</pre></div>
+</div>
+</div></div>
+<p>…will generate the following bit of documentation:</p>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-name descname"><span class="pre">browser</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-name descname"><span class="pre">terminal</span></span></dt>
+<dd></dd></dl>
+
+</section>
+<section id="modes">
+<h2>Modes<a class="headerlink" href="#modes" title="Permalink to this heading"></a></h2>
+<p>TalonDoc can generate documentation for modes using <code class="docutils literal notranslate"><span class="pre">talon:mode</span></code>. For instance, the following code:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-8-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-8-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-8-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-8-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-8-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-8-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:mode</span><span class="p">::</span> command
+<span class="p">..</span> <span class="ow">talon:mode</span><span class="p">::</span> dictation
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-8-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-8-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:mode} command
+:::
+:::{talon:mode} dictation
+:::
+</pre></div>
+</div>
+</div></div>
+<p>…will generate the following bit of documentation:</p>
+<dl class="talon mode">
+<dt class="sig sig-object talon">
+<span class="sig-name descname"><span class="pre">command</span></span><dd><p><span class="pre">Voice</span> <span class="pre">commands</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon mode">
+<dt class="sig sig-object talon">
+<span class="sig-name descname"><span class="pre">dictation</span></span><dd><p><span class="pre">Direct</span> <span class="pre">speech</span> <span class="pre">to</span> <span class="pre">text</span></p>
 </dd></dt>
 <dd></dd></dl>
 
