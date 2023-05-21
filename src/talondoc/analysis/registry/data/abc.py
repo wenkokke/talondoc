@@ -66,22 +66,22 @@ class Location:
     def _str_from_point(line: Optional[int], column: Optional[int]) -> Optional[str]:
         if line is not None:
             if column is not None:
-                return f"{line}"
-            else:
                 return f"{line}:{column}"
+            else:
+                return f"{line}"
         else:
             return None
 
     def __str__(self) -> str:
         start_position = Location._str_from_point(self.start_line, self.start_column)
-        if start_position:
+        if start_position is not None:
             end_position = Location._str_from_point(self.end_line, self.end_column)
-            if end_position:
-                return f"{self.path}:{start_position}-{end_position}"
+            if end_position is not None:
+                return f"{self.path.resolve()}:{start_position}-{end_position}"
             else:
-                return f"{self.path}:{start_position}"
+                return f"{self.path.resolve()}:{start_position}"
         else:
-            return f"{self.path}"
+            return f"{self.path.resolve()}"
 
     @staticmethod
     def from_ast(path: Path, node: Node) -> "Location":
