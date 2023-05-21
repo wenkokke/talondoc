@@ -271,3 +271,8 @@ Defaults to the module name, if given.
 `:exclude:`
 : A list of command phrases.
 If `:exclude:` is specified, any commands matching one of these phrases are excluded.
+
+## Document lists
+
+:::{talon:list} user.letter
+:::
