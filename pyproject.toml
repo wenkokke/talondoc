@@ -77,7 +77,7 @@ profile = "black"
 line_length = 88
 
 [tool.mypy]
-python_version = 3.9
+python_version = 3.7
 check_untyped_defs = true
 strict_optional = true
 ignore_missing_imports = true
@@ -117,7 +117,7 @@ setenv =
 [rst]
 description = Tests TalonDoc with reStructuredText
 setenv =
-  TALONDOC_FORMAT = md
+  TALONDOC_FORMAT = rst
 
 [testenv]
 allowlist_externals = cp, mkdir, sh, rm
