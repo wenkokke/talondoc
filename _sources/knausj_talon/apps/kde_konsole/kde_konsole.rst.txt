@@ -1,0 +1,5 @@
+user.apps.kde_konsole.kde_konsole
+=================================
+
+.. talon:command-table::
+  :context: user.apps.kde_konsole.kde_konsole

@@ -1,0 +1,5 @@
+user.apps.kindle.kindle
+=======================
+
+.. talon:command-table::
+  :context: user.apps.kindle.kindle

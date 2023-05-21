@@ -1,0 +1,5 @@
+user.apps.safari.safari
+=======================
+
+.. talon:command-table::
+  :context: user.apps.safari.safari
