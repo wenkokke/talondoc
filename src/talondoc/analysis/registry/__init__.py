@@ -21,7 +21,7 @@ from typing_extensions import Final
 
 from talondoc.analysis.registry.data.serialise import JsonValue
 
-from ..._util._compat_singledispatchmethod import singledispatchmethod
+from ..._compat_singledispatchmethod import singledispatchmethod
 from ..._util.logging import getLogger
 from . import data
 from .data import CallbackVar

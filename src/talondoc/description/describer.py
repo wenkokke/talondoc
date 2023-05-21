@@ -22,7 +22,7 @@ from tree_sitter_talon import (
     TalonVariable,
 )
 
-from .._util._compat_singledispatchmethod import singledispatchmethod
+from .._compat_singledispatchmethod import singledispatchmethod
 from .._util.logging import getLogger
 from ..analysis.registry import Registry, data
 from ..analysis.registry.data.abc import Data

@@ -55,7 +55,7 @@ repos:
             "types_pytz",
             "types_setuptools",
           ]
-        exclude: "^src/talondoc/_util/_compat_singledispatchmethod\\.py$"
+        exclude: "^src/talondoc/_compat_singledispatchmethod\\.py$"
   - repo: https://github.com/wenkokke/talonfmt
     rev: 1.9.5
     hooks:
