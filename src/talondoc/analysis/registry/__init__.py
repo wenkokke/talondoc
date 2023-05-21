@@ -566,7 +566,7 @@ class Registry:
                             _LOGGER.warning(
                                 f"Found {cls.__name__} {parsed_simple_value.name} in group for {name}"
                             )
-                    self.register(cls, parsed_simple_value)
+                        self.register(cls, parsed_simple_value)
                 else:
                     raise TypeError(f"Unexpected data class {cls.__name__}")
 
