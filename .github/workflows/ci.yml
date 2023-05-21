@@ -130,10 +130,10 @@ jobs:
       - name: Build docs
         run: ./example/build.sh
 
-      - name: Deploy doc
+      - name: Publish docs to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
-          branch: example/docs
+          branch: docs
           folder: example/docs/_build/html
 
   ################################################################################
