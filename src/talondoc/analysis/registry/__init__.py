@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from functools import singledispatchmethod
 from typing import Any, ClassVar, Optional, Union, cast, overload
 
+from more_itertools import partition
 from talonfmt import talonfmt
 from typing_extensions import Final
 
@@ -317,9 +318,11 @@ class Registry:
                 return group.description
         return None
 
-    def lookup_default(
-        self, cls: type[GroupDataVar], name: str
-    ) -> Optional[GroupDataVar]:
+    def lookup_partition(
+        self,
+        cls: type[GroupDataVar],
+        name: str,
+    ) -> tuple[Optional[GroupDataVar], Optional[GroupDataVar], Sequence[GroupDataVar]]:
         group = self.lookup(cls, name)
         if group:
             _IS_DECLARATION: int = 0
@@ -334,11 +337,32 @@ class Registry:
 
             sorted_group = [(_complexity(obj), obj) for obj in group]
             sorted_group.sort(key=lambda tup: tup[0])
-            declarations = [obj for c, obj in sorted_group if c == _IS_DECLARATION]
-            if len(declarations) >= 2:
-                _LOGGER.warning(DuplicateData(declarations))
-            return sorted_group[0][1]
-        return None
+
+            declarations_iter, overrides_iter = partition(
+                lambda tup: tup[0] == _IS_DECLARATION, sorted_group
+            )
+            declarations_tup = tuple((tup[1] for tup in declarations_iter))
+            if len(declarations_tup) >= 2:
+                _LOGGER.warning(DuplicateData(declarations_tup))
+            declaration = declarations_tup[0] if len(declarations_tup) >= 1 else None
+
+            always_on_iter, other_overrides_iter = partition(
+                lambda tup: tup[0] == _IS_ALWAYS_ON, overrides_iter
+            )
+            always_on_tup = tuple((tup[1] for tup in always_on_iter))
+            if len(always_on_tup) >= 2:
+                _LOGGER.warning(DuplicateData(always_on_tup))
+            always_on = always_on_tup[0] if len(always_on_tup) >= 1 else None
+
+            other_overrides = tuple((tup[1] for tup in other_overrides_iter))
+
+            return (declaration, always_on, other_overrides)
+        return (None, None, ())
+
+    def lookup_default(
+        self, cls: type[GroupDataVar], name: str
+    ) -> Optional[GroupDataVar]:
+        return self.lookup_partition(cls, name)[0]
 
     def lookup_default_function(
         self, cls: type[GroupDataHasFunction], name: str
