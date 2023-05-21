@@ -104,10 +104,6 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         return signode
 
     @final
-    def describe_rule(self, rule: data.Rule) -> nodes.Text:
-        return nodes.Text(talonfmt(rule, safe=False))
-
-    @final
     def describe_script(
         self,
         command: data.Command,
