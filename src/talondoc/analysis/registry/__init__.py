@@ -65,7 +65,7 @@ class Registry:
     # Register Data
     ######################################################################
 
-    @singledispatchmethod  # type: ignore[misc]
+    @singledispatchmethod
     def register(self, value: DataVar) -> DataVar:
         raise TypeError(type(value))
 
