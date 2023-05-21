@@ -374,23 +374,18 @@ TalonDoc can generate documentation for settings using `talon:setting`. For inst
 
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
-.. talon:setting:: user.letter
-.. talon:setting:: user.symbol_key
+.. talon:setting:: key_hold
 ::::::
 
 ::::::{code-tab} markdown Markdown
-:::{talon:setting} user.letter
-:::
-:::{talon:setting} user.symbol_key
+:::{talon:setting} key_hold
 :::
 ::::::
 :::::::::
 
 ...will generate the following bit of documentation:
 
-:::{talon:setting} user.letter
-:::
-:::{talon:setting} user.symbol_key
+:::{talon:setting} key_hold
 :::
 
 Setting documentation is restricted to names and descriptions.
