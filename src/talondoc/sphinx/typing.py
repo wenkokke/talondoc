@@ -1,5 +1,4 @@
-from collections.abc import Callable
-from typing import Dict, Optional, Sequence, Union
+from typing import Callable, Dict, Optional, Sequence, Union
 
 from typing_extensions import NotRequired, Required, TypeAlias, TypedDict
 

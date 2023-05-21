@@ -1,11 +1,12 @@
 import inspect
 import platform
-from collections.abc import Callable, Iterator
 from io import TextIOWrapper
 from types import ModuleType
 from typing import (
     Any,
+    Callable,
     Dict,
+    Iterator,
     List,
     Mapping,
     Optional,

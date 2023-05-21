@@ -1,6 +1,5 @@
-from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Dict, Optional, Sequence, Union, cast
+from typing import Any, Callable, Dict, Optional, Sequence, Union, cast
 
 from sphinx.application import BuildEnvironment, Sphinx
 from typing_extensions import TypeGuard

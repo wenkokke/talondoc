@@ -1,12 +1,11 @@
 import importlib
 import sys
-from collections.abc import Iterator
 from contextlib import contextmanager
 from importlib.abc import Loader, MetaPathFinder
 from importlib.machinery import ModuleSpec, PathFinder, SourceFileLoader
 from pathlib import Path
 from types import ModuleType
-from typing import Any, ClassVar, Optional, Sequence, Tuple, cast
+from typing import ClassVar, Iterator, Optional, Sequence
 
 from ...._util.logging import getLogger
 from ...._util.progress_bar import ProgressBar

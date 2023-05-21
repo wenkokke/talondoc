@@ -1,10 +1,9 @@
 import base64
 import pickle
-from collections.abc import Callable
 from functools import partial
 from inspect import Parameter, Signature
 from logging import WARNING
-from typing import Any, Dict, List, Mapping, Optional, Sequence, Type, Union
+from typing import Any, Callable, Dict, List, Mapping, Optional, Sequence, Type, Union
 
 from typing_extensions import TypeAlias, TypeVar
 
