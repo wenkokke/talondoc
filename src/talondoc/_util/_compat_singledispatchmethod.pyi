@@ -4,7 +4,7 @@ if sys.version_info >= (3, 8):
     from functools import singledispatchmethod as singledispatchmethod
 else:
     from types import MappingProxyType
-    from typing import Any, Callable, Generic, overload
+    from typing import Any, Callable, Generic, Type, overload
 
     from typing_extensions import TypeVar
 
@@ -18,7 +18,7 @@ else:
         # def _(arg, verbose=False): ...
         @overload
         def register(
-            self, cls: type[Any], func: None = None
+            self, cls: Type[Any], func: None = None
         ) -> Callable[[Callable[..., _T]], Callable[..., _T]]: ...
         # @fun.register
         # def _(arg: int, verbose=False):
@@ -29,7 +29,7 @@ else:
         # fun.register(int, lambda x: x)
         @overload
         def register(
-            self, cls: type[Any], func: Callable[..., _T]
+            self, cls: Type[Any], func: Callable[..., _T]
         ) -> Callable[..., _T]: ...
         def _clear_cache(self) -> None: ...
         def __call__(__self, *args: Any, **kwargs: Any) -> _T: ...
@@ -42,7 +42,7 @@ else:
         def __isabstractmethod__(self) -> bool: ...
         @overload
         def register(
-            self, cls: type[Any], method: None = None
+            self, cls: Type[Any], method: None = None
         ) -> Callable[[Callable[..., _T]], Callable[..., _T]]: ...
         @overload
         def register(
@@ -50,8 +50,8 @@ else:
         ) -> Callable[..., _T]: ...
         @overload
         def register(
-            self, cls: type[Any], method: Callable[..., _T]
+            self, cls: Type[Any], method: Callable[..., _T]
         ) -> Callable[..., _T]: ...
         def __get__(
-            self, obj: _S, cls: type[_S] | None = None
+            self, obj: _S, cls: Type[_S] | None = None
         ) -> Callable[..., _T]: ...
