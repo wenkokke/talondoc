@@ -51,7 +51,3 @@ class TalonDocObjectDescription(
     sphinx.directives.ObjectDescription[str], TalonDocDirective  # type: ignore[misc]
 ):
     pass
-
-    @final
-    def describe_rule(self, rule: data.Rule) -> nodes.Text:
-        return nodes.Text(talonfmt(rule, safe=False))

@@ -4,7 +4,16 @@ from docutils import nodes
 from sphinx.util.typing import OptionSpec
 
 from ...._util.logging import getLogger
-from ..._util.addnodes import colspec, entry, row, table, tbody, tgroup, title
+from ..._util.addnodes import (
+    colspec,
+    describe_rule,
+    entry,
+    row,
+    table,
+    tbody,
+    tgroup,
+    title,
+)
 from ..._util.typing import flag, optional_str, optional_strlist
 from .abc import TalonDocCommandListDescription
 
@@ -34,7 +43,7 @@ class TalonCommandTableDirective(TalonDocCommandListDescription):
                     colspec(colwidth=1),
                     tbody(
                         row(
-                            entry(self.describe_rule(command.rule)),
+                            entry(describe_rule(command.rule)),
                             entry(
                                 *self.describe_script(
                                     command,

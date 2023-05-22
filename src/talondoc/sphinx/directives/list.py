@@ -1,3 +1,5 @@
+from typing import Mapping, Sequence
+
 from docutils import nodes
 from sphinx import addnodes
 from typing_extensions import override
@@ -5,7 +7,23 @@ from typing_extensions import override
 from ..._util.logging import getLogger
 from ...analysis.registry import data
 from ...analysis.registry.data.abc import UnknownReference
-from .._util.addnodes import desc_content, desc_name, paragraph
+from .._util.addnodes import (
+    NodeLike,
+    colspec,
+    desc_content,
+    desc_literal,
+    desc_name,
+    desc_qualname,
+    desc_sig_operator,
+    desc_sig_space,
+    desc_type,
+    entry,
+    paragraph,
+    row,
+    table,
+    tbody,
+    tgroup,
+)
 from . import TalonDocObjectDescription
 
 _LOGGER = getLogger(__name__)
@@ -26,9 +44,56 @@ class TalonListDirective(TalonDocObjectDescription):
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
         default = self.talon.registry.lookup_default(data.List, sig)
         if default:
-            signode += desc_name(nodes.Text(default.name))
+            desc_qualname(signode, default.name)
+
+            # Add the type hint
+            if default.value_type_hint:
+                signode += desc_sig_operator(nodes.Text(":"))
+                signode += desc_sig_space()
+                signode += desc_type(default.value_type_hint)
+
+            # Add the content
+            content: list[NodeLike] = []
+
+            # Add the description
             if default.description:
-                signode += desc_content(paragraph(nodes.Text(default.description)))
+                content.append(paragraph(nodes.Text(default.description)))
+
+            # Add the value
+            if default.value:
+                if isinstance(default.value, Mapping):
+                    content.append(
+                        table(
+                            tgroup(
+                                colspec(colwidth=1),
+                                colspec(colwidth=1),
+                                tbody(
+                                    row(
+                                        entry(desc_literal(key)),
+                                        entry(desc_literal(value)),
+                                    )
+                                    for key, value in default.value.items()
+                                ),
+                            )
+                        )
+                    )
+                elif isinstance(default.value, Sequence):
+                    content.append(
+                        table(
+                            tgroup(
+                                colspec(colwidth=1),
+                                tbody(
+                                    row(
+                                        entry(desc_literal(value)),
+                                    )
+                                    for value in default.value
+                                ),
+                            )
+                        )
+                    )
+
+            signode += desc_content(*content)
+
             return default.name
         else:
             e = UnknownReference(

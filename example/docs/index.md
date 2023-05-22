@@ -341,10 +341,6 @@ TalonDoc can generate documentation for lists using `talon:list`. For instance, 
 
 List documentation is restricted to names and descriptions.
 
-:::{note}
-  Support for list values is underway.
-:::
-
 ## Modes
 
 TalonDoc can generate documentation for modes using `talon:mode`. For instance, the following code:
@@ -389,12 +385,10 @@ TalonDoc can generate documentation for settings using `talon:setting`. For inst
 
 :::{talon:setting} key_hold
 :::
+:::{talon:setting} dictate.punctuation
+:::
 
 Setting documentation is restricted to names and descriptions.
-
-:::{note}
-  Support for setting values is underway.
-:::
 
 ## Tags
 

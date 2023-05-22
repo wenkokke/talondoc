@@ -14,7 +14,7 @@ from ....description import InvalidInterpolation
 from ....description.describer import TalonScriptDescriber
 from ....sphinx.directives import TalonDocObjectDescription
 from ....sphinx.typing import TalonDocstringHook_Callable
-from ..._util.addnodes import desc_content, desc_name, paragraph
+from ..._util.addnodes import desc_content, desc_name, describe_rule, paragraph
 from ..errors import AmbiguousSignature
 
 _LOGGER = getLogger(__name__)
@@ -96,7 +96,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         always_include_script: bool,
         docstring_hook: Optional[TalonDocstringHook_Callable],
     ) -> addnodes.desc_signature:
-        signode += desc_name(self.describe_rule(command.rule))
+        signode += desc_name(describe_rule(command.rule))
         signode += desc_content(
             *self.describe_script(
                 command,

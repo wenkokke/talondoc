@@ -1,8 +1,18 @@
 from collections.abc import Iterable, Sequence
+from inspect import Parameter, Signature
 from typing import Any, TypeVar, Union
 
 from docutils import nodes
 from sphinx import addnodes
+from talonfmt import talonfmt
+
+from ..._util.builtin import (
+    builtin_number_types,
+    builtin_string_types,
+    builtin_type_names,
+    builtin_types,
+)
+from ...analysis.registry import data
 
 NodeVar = TypeVar("NodeVar", bound=nodes.Node)
 
@@ -30,6 +40,208 @@ def _with_children_and_attributes(
 
 def desc_name(*children: NodeLike, **attributes: AttributeValue) -> addnodes.desc_name:
     return _with_children_and_attributes(addnodes.desc_name(), *children, **attributes)
+
+
+def desc_addname(
+    *children: NodeLike, **attributes: AttributeValue
+) -> addnodes.desc_addname:
+    return _with_children_and_attributes(
+        addnodes.desc_addname(), *children, **attributes
+    )
+
+
+def desc_qualname(
+    signode: addnodes.desc_signature, qualname: str, **attributes: AttributeValue
+) -> addnodes.desc_signature:
+    parts = list(qualname.split("."))
+    parts.reverse()
+    children: list[NodeLike] = []
+    children.append(desc_name(nodes.Text(parts.pop(0)), **attributes))
+    for part in parts:
+        children.append(desc_addname(nodes.Text(f"{part}."), **attributes))
+    children.reverse()
+    for child in children:
+        signode += child
+    return signode
+
+
+def describe_rule(rule: data.Rule) -> nodes.Text:
+    return nodes.Text(talonfmt(rule, safe=False))
+
+
+def desc_type(annotation: Any, **attributes: AttributeValue) -> addnodes.desc_type:
+    children: list[NodeLike] = []
+    if isinstance(annotation, type):
+        if annotation in builtin_types:
+            children.append(desc_sig_keyword_type(nodes.Text(annotation.__name__)))
+        else:
+            children.append(nodes.Text(annotation.__name__))
+    elif isinstance(annotation, str):
+        if annotation in builtin_type_names:
+            children.append(desc_sig_keyword_type(nodes.Text(annotation)))
+        else:
+            children.append(nodes.Text(annotation))
+    else:
+        children.append(nodes.Text(repr(annotation)))
+    return _with_children_and_attributes(addnodes.desc_type(), *children, **attributes)
+
+
+def desc_literal(value: Any, **attributes: AttributeValue) -> addnodes.desc_sig_element:
+    if value is None:
+        return desc_sig_keyword(nodes.Text("None"), **attributes)
+    elif isinstance(value, builtin_number_types):
+        return desc_sig_literal_number(nodes.Text(repr(value)), **attributes)
+    elif isinstance(value, builtin_string_types):
+        if len(value) == 1:
+            return desc_sig_literal_char(nodes.Text(repr(value)), **attributes)
+        else:
+            return desc_sig_literal_string(nodes.Text(repr(value)), **attributes)
+    else:
+        return desc_sig_element(nodes.Text(repr(value)), **attributes)
+
+
+def desc_signature(
+    signode: addnodes.desc_signature, signature: Signature, **attributes: AttributeValue
+) -> addnodes.desc_signature:
+    signode += desc_parameterlist(signature.parameters.values(), **attributes)
+    if signature.return_annotation is not Signature.empty:
+        signode += desc_sig_space()
+        signode += desc_sig_operator(nodes.Text("->"))
+        signode += desc_sig_space()
+        signode += desc_returns(signature.return_annotation, **attributes)
+    return signode
+
+
+def desc_returns(
+    annotation: Any, **attributes: AttributeValue
+) -> addnodes.desc_returns:
+    return _with_children_and_attributes(
+        addnodes.desc_returns(), desc_type(annotation, **attributes), **attributes
+    )
+
+
+def desc_parameterlist(
+    parameters: Iterable[Parameter], **attributes: AttributeValue
+) -> addnodes.desc_parameterlist:
+    children: list[NodeLike] = []
+    for parameter in parameters:
+        children.append(desc_parameter(parameter))
+    return _with_children_and_attributes(
+        addnodes.desc_parameterlist(), *children, **attributes
+    )
+
+
+def desc_parameter(
+    parameter: Parameter, **attributes: AttributeValue
+) -> addnodes.desc_parameter:
+    children: list[NodeLike] = []
+    # Add the parameter name:
+    children.append(desc_name(nodes.Text(parameter.name)))
+
+    # Add the parameter type:
+    if parameter.annotation is not Parameter.empty:
+        children.append(desc_sig_operator(nodes.Text(":")))
+        children.append(desc_sig_space())
+        children.append(desc_type(parameter.annotation, **attributes))
+
+    # Add the parameter default value:
+    if parameter.default is not Parameter.empty:
+        children.append(desc_sig_space())
+        children.append(desc_sig_operator(nodes.Text("=")))
+        children.append(desc_sig_space())
+        children.append(desc_literal(parameter.annotation, **attributes))
+
+    return _with_children_and_attributes(
+        addnodes.desc_parameter(), *children, **attributes
+    )
+
+
+def desc_optional(
+    *children: NodeLike, **attributes: AttributeValue
+) -> addnodes.desc_optional:
+    return _with_children_and_attributes(
+        addnodes.desc_optional(), *children, **attributes
+    )
+
+
+def desc_sig_element(
+    *children: NodeLike, **attributes: AttributeValue
+) -> addnodes.desc_sig_element:
+    return _with_children_and_attributes(
+        addnodes.desc_sig_element(), *children, **attributes
+    )
+
+
+def desc_sig_space(
+    *children: NodeLike, **attributes: AttributeValue
+) -> addnodes.desc_sig_space:
+    return _with_children_and_attributes(
+        addnodes.desc_sig_space(), *children, **attributes
+    )
+
+
+def desc_sig_name(
+    *children: NodeLike, **attributes: AttributeValue
+) -> addnodes.desc_sig_name:
+    return _with_children_and_attributes(
+        addnodes.desc_sig_name(), *children, **attributes
+    )
+
+
+def desc_sig_operator(
+    *children: NodeLike, **attributes: AttributeValue
+) -> addnodes.desc_sig_operator:
+    return _with_children_and_attributes(
+        addnodes.desc_sig_operator(), *children, **attributes
+    )
+
+
+def desc_sig_punctuation(
+    *children: NodeLike, **attributes: AttributeValue
+) -> addnodes.desc_sig_punctuation:
+    return _with_children_and_attributes(
+        addnodes.desc_sig_punctuation(), *children, **attributes
+    )
+
+
+def desc_sig_keyword(
+    *children: NodeLike, **attributes: AttributeValue
+) -> addnodes.desc_sig_keyword:
+    return _with_children_and_attributes(
+        addnodes.desc_sig_keyword(), *children, **attributes
+    )
+
+
+def desc_sig_keyword_type(
+    *children: NodeLike, **attributes: AttributeValue
+) -> addnodes.desc_sig_keyword_type:
+    return _with_children_and_attributes(
+        addnodes.desc_sig_keyword_type(), *children, **attributes
+    )
+
+
+def desc_sig_literal_number(
+    *children: NodeLike, **attributes: AttributeValue
+) -> addnodes.desc_sig_literal_number:
+    return _with_children_and_attributes(
+        addnodes.desc_sig_literal_number(), *children, **attributes
+    )
+
+
+def desc_sig_literal_string(
+    *children: NodeLike, **attributes: AttributeValue
+) -> addnodes.desc_sig_literal_string:
+    return _with_children_and_attributes(
+        addnodes.desc_sig_literal_string(), *children, **attributes
+    )
+
+
+def desc_sig_literal_char(
+    *children: NodeLike, **attributes: AttributeValue
+) -> addnodes.desc_sig_literal_char:
+    return _with_children_and_attributes(
+        addnodes.desc_sig_literal_char(), *children, **attributes
+    )
 
 
 def desc_content(
