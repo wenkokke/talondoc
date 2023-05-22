@@ -74,7 +74,12 @@ class Location:
             return None
 
     def __str__(self) -> str:
-        resolved_path = self.path.resolve().relative_to(Path.cwd())
+        resolved_path = self.path.resolve()
+        try:
+            if resolved_path.is_absolute():
+                resolved_path = resolved_path.relative_to(Path.cwd())
+        except ValueError as e:
+            _LOGGER.warning(e)
         start_position = Location._str_from_point(self.start_line, self.start_column)
         if start_position is not None:
             end_position = Location._str_from_point(self.end_line, self.end_column)
