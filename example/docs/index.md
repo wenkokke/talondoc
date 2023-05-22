@@ -198,7 +198,7 @@ For instance, the following code:
 .. talon:command-table::
 :caption: A bigger custom Discord table.
 :context: user.apps.discord.discord
-:table_width: 200
+:width: 200
 ::::::
 
 ::::::{code-tab} markdown Markdown
@@ -210,7 +210,7 @@ For instance, the following code:
 :::{talon:command-table}
 :caption: A bigger custom Discord table.
 :context: user.apps.discord.discord
-:table_width: 200
+:width: 200
 :::
 ::::::
 :::::::::
@@ -225,7 +225,7 @@ For instance, the following code:
 :::{talon:command-table}
 :caption: A bigger custom Discord table.
 :context: user.apps.discord.discord
-:table_width: 200
+:width: 200
 :::
 
 The `talon:command-table` directive take any number of arguments, which can either be file paths relative to the package root, _e.g._, `apps/discord/discord.talon`, or module names, _e.g._, `user.apps.discord.discord.talon`. For the latter, the `.talon` suffix is optional. If no arguments are given, commands are included from the _entire package_. Furthermore, these directives take the following options:
@@ -294,17 +294,17 @@ TalonDoc can generate documentation for lists using `talon:list`. For instance, 
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
 .. talon:list:: user.letter
-:table_width: 150
+:width: 150
 .. talon:list:: user.symbol_key
-:table_width: 150
+:width: 150
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:list} user.letter
-:table_width: 150
+:width: 150
 :::
 :::{talon:list} user.symbol_key
-:table_width: 150
+:width: 150
 :::
 ::::::
 :::::::::
@@ -312,15 +312,15 @@ TalonDoc can generate documentation for lists using `talon:list`. For instance, 
 ...will generate the following bit of documentation:
 
 :::{talon:list} user.letter
-:table_width: 150
+:width: 150
 :::
 :::{talon:list} user.symbol_key
-:table_width: 150
+:width: 150
 :::
 
-`:table_width:`
+`:width:`
 : The width of the table, in pixels.
-If `:table_width:` is specified, the table automatically fragments horizontally.
+If `:width:` is specified, the table automatically fragments horizontally.
 
 ## Modes
 

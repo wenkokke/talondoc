@@ -32,7 +32,7 @@ class TalonCommandTableDirective(TalonDocCommandListDescription):
         "caption": optional_str,
         "include": optional_strlist,
         "exclude": optional_strlist,
-        "table_width": optional_int,
+        "width": optional_int,
     }
     final_argument_whitespace = False
 
@@ -59,6 +59,6 @@ class TalonCommandTableDirective(TalonDocCommandListDescription):
                     cols=2,
                 ),
                 classes="compact",
-                table_width=self.table_width,
+                width=self.width,
             )
         ]

@@ -20,13 +20,11 @@ class fragtable(nodes.table):  # type: ignore[misc]
 
 def visit_fragtable_html(self: HTML5Translator, node: fragtable) -> None:
     atts: dict[str, Any] = {"classes": ["fragtable"]}
-    if "table_width" in node:
-        table_width = cast(Optional[int], node["table_width"])
-        if table_width:
+    if "width" in node:
+        width = cast(Optional[int], node["width"])
+        if width:
             atts["style"] = (
-                f"column-width: {table_width}px;"
-                f"column-fill: balance;"
-                f"width: 100%;"
+                f"column-width: {width}px;" f"column-fill: balance;" f"width: 100%;"
             )
     tag = self.starttag(node, "div", **atts)
     self.body.append(tag)
