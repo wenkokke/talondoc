@@ -55,8 +55,15 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
             io.TextIOWrapper(self._session.stderr, encoding="utf-8")
         )
         # Read at least one line from stdout:
-        for line in self._session_stdout.readlines(minlines=1):
+        line = self._session_stdout.readline(block=True, timeout=5)
+        if line:
             _LOGGER.debug(f"> {line}")
+        else:
+            buffer: list[str] = []
+            buffer.extend(self._session_stderr.readlines(timeout=3))
+            _LOGGER.debug("".join(buffer))
+            _LOGGER.error("Could not open repl. Is Talon running?")
+            exit(1)
 
     def eval(self, *line: str, encoding: str = "utf-8") -> str:
         assert self._session and self._session.stdin and self._session_stdout

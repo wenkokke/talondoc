@@ -24,7 +24,7 @@ class NonBlockingTextIOWrapper:
     def readline(
         self, block: bool = False, timeout: Optional[float] = None
     ) -> Optional[str]:
-        if self._queue.empty() and self._stream.closed:
+        if self._stream.closed and self._queue.qsize() == 0:
             return None
         else:
             try:
@@ -33,11 +33,10 @@ class NonBlockingTextIOWrapper:
                 return None
 
     def readlines(
-        self, minlines: int = 0, timeout: Optional[float] = None
+        self, block: bool = False, timeout: Optional[float] = None
     ) -> Iterator[str]:
         while True:
-            line = self.readline(block=minlines > 0, timeout=timeout)
-            minlines -= 1
+            line = self.readline(block=block, timeout=timeout)
             if line is None:
                 return
             else:
@@ -63,4 +62,4 @@ class NonBlockingTextIOWrapper:
                 else:
                     break
             else:
-                break
+                return

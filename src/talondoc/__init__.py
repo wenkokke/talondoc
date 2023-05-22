@@ -1,5 +1,10 @@
+import contextlib
 import os
-from typing import Optional
+import socket
+import threading
+import webbrowser
+from http.server import HTTPServer, SimpleHTTPRequestHandler, ThreadingHTTPServer
+from typing import Any, Optional
 
 import click
 from typing_extensions import Literal
@@ -24,7 +29,15 @@ from ._version import __version__
     type=click.Choice(["ERROR", "WARNING", "INFO", "DEBUG"], case_sensitive=False),
     default="INFO",
 )
-def talondoc(*, log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"]) -> None:
+@click.pass_context
+def talondoc(
+    ctx: click.Context,
+    *,
+    log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"],
+) -> None:
+    if ctx.obj is None:
+        ctx.obj = {}
+    ctx.obj["log_level"] = log_level
     logging.basicConfig(
         level={
             "ERROR": logging.ERROR,
@@ -33,7 +46,6 @@ def talondoc(*, log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"]) -> None
             "DEBUG": logging.DEBUG,
         }.get(log_level.upper(), logging.INFO),
     )
-    pass
 
 
 ################################################################################
@@ -160,6 +172,7 @@ def _autogen(
 
 
 @talondoc.command(name="build")
+@click.pass_context
 @click.argument(
     "source_dir",
     type=click.Path(),
@@ -168,20 +181,99 @@ def _autogen(
     "output_dir",
     type=click.Path(),
 )
+@click.option(
+    "--config-dir",
+    type=click.Path(),
+    default=None,
+)
+@click.option(
+    "--server/--no-server",
+    default=False,
+)
 def _build(
+    ctx: click.Context,
     source_dir: str,
     output_dir: str,
+    config_dir: Optional[str],
+    server: bool,
 ) -> None:
     import sphinx.cmd.build
 
+    args: list[str] = []
+
+    # Set BUILDER to html:
+    args.extend(["-b", "html"])
+
+    # Build ALL files:
+    args.extend(["-a"])
+
+    # Never run in parallel:
+    args.extend(["--jobs", "1"])
+
+    # Pass config_dir:
+    if config_dir:
+        args.extend(["-c", config_dir])
+
+    # Pass log_level:
+    if "log_level" in ctx.obj:
+        log_level = ctx.obj["log_level"]
+        if isinstance(log_level, str):
+            args.extend(
+                {
+                    "ERROR": ["-Q"],
+                    "WARNING": ["-q"],
+                    "DEBUG": ["-v", "-v"],
+                }.get(log_level.upper(), [])
+            )
+
     # NOTE: We always clean before building, as TalonDoc's support for
     #       merging Sphinx build environments is still under development.
-    exitcode = sphinx.cmd.build.make_main(["-M", "clean", source_dir, output_dir])
-    if exitcode != 0:
-        exit(exitcode)
+    sphinx.cmd.build.make_main(
+        [
+            "-M",
+            "clean",
+            source_dir,
+            output_dir,
+        ]
+    )
 
-    exitcode = sphinx.cmd.build.make_main(["-M", "html", source_dir, output_dir])
-    if exitcode != 0:
+    exitcode = sphinx.cmd.build.build_main(
+        [
+            *args,
+            source_dir,
+            output_dir,
+        ]
+    )
+
+    # Start server and open browser tab:
+    if server:
+
+        class DualStackServer(ThreadingHTTPServer):
+            def server_bind(self) -> None:
+                # suppress exception when protocol is IPv4
+                with contextlib.suppress(Exception):
+                    self.socket.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
+                return super().server_bind()
+
+            def finish_request(self, request: Any, client_address: Any) -> None:
+                self.RequestHandlerClass(  # type: ignore[call-arg]
+                    request, client_address, self, directory=output_dir  # type: ignore[arg-type]
+                )
+
+        def _start_server() -> None:
+            https = DualStackServer(("", 8000), SimpleHTTPRequestHandler)
+            https.serve_forever()
+
+        # Start server:
+        server_thread = threading.Thread(target=_start_server, daemon=True)
+        server_thread.start()
+
+        # Open browser tab:
+        webbrowser.open("http://localhost:8000")
+
+        # Wait for user to exit:
+        print("Starting server. Press any key to exit.")
+        _ = click.getchar()
         exit(exitcode)
 
 
@@ -203,3 +295,7 @@ def _cache_builtin(
 
 if __name__ == "__main__":
     talondoc()
+
+################################################################################
+# TalonDoc CLI - Set Log Level
+################################################################################
