@@ -73,5 +73,5 @@ class TalonSettingDirective(TalonDocObjectDescription):
                 location=self.get_location(),
                 known_references=tuple(self.talon.registry.settings.keys()),
             )
-            _LOGGER.error(e)
+            _LOGGER.error(f"talon:setting: {e}")
             raise ValueError(e)

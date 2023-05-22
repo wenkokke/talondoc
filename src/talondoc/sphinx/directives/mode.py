@@ -37,5 +37,5 @@ class TalonModeDirective(TalonDocObjectDescription):
                 location=self.get_location(),
                 known_references=tuple(self.talon.registry.modes.keys()),
             )
-            _LOGGER.error(e)
+            _LOGGER.error(f"talon:mode: {e}")
             raise ValueError(e)

@@ -44,5 +44,5 @@ class TalonActionDirective(TalonDocObjectDescription):
                 location=self.get_location(),
                 known_references=tuple(self.talon.registry.actions.keys()),
             )
-            _LOGGER.error(e)
+            _LOGGER.error(f"talon:action: {e}")
             raise ValueError(e)
