@@ -40,5 +40,5 @@ class TalonCommandDirective(TalonDocCommandDescription):
             )
             return command.name
         except (UnknownReference, AmbiguousSignature) as e:
-            _LOGGER.error(e)
+            _LOGGER.error(f"talon:command: {e}")
             raise ValueError(e)

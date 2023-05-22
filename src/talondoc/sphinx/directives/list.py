@@ -113,5 +113,5 @@ class TalonListDirective(TalonDocObjectDescription):
                 location=self.get_location(),
                 known_references=tuple(self.talon.registry.lists.keys()),
             )
-            _LOGGER.error(e)
+            _LOGGER.error(f"talon:list: {e}")
             raise ValueError(e)

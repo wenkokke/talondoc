@@ -1,3 +1,4 @@
+import re
 import textwrap
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
@@ -516,6 +517,7 @@ class List(GroupData):
     serialisable: bool = field(default=True, init=False)
 
     def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
+        self._validate_name()
         if isinstance(self.value, Mapping):
             self.value = dict(self.value)
         elif isinstance(self.value, Sequence):

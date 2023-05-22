@@ -1,3 +1,4 @@
+import re
 from abc import abstractmethod
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import asdict, dataclass
@@ -153,6 +154,19 @@ class Data:
         return self.name.split(".", maxsplit=2)[0] != "user" and (
             not self.parent_name or self.parent_name.split(".", maxsplit=2)[0] != "user"
         )
+
+    def _validate_name(self) -> None:
+        if re.match(r"^\s+", self.name) or re.match(r"\s+$", self.name):
+            _LOGGER.warning(
+                f"{self.location}: "
+                f"Leading or trailing whitespace "
+                f"in {self.__class__.__name__} "
+                f"name '{self.name}'"
+            )
+            self.name = self.name.strip()
+
+    def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
+        self._validate_name()
 
 
 DataVar = TypeVar("DataVar", bound=Data)

@@ -501,7 +501,7 @@ class TalonShim(ModuleShim):
             try:
                 self._context.matches.extend(data.parse_matches(matches))
             except tree_sitter_talon.ParseError as e:
-                _LOGGER.error(e)
+                _LOGGER.error(f"Could not parse matches:\n{matches}\n: {e}")
 
         @property
         def lists(self) -> Mapping[str, data.ListValue]:
@@ -597,14 +597,14 @@ class TalonShim(ModuleShim):
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
                 # LINT: check if decorated function is a function
                 if not inspect.isfunction(func):
-                    _LOGGER.error(f"decorated object is not a function")
+                    _LOGGER.error(f"Decorated object is not a function.")
                     return func
 
                 location = Location.from_function(func)
 
                 # LINT: check if rule is set
                 if rule is None:
-                    _LOGGER.error(f"missing capture rule at {location}")
+                    _LOGGER.error(f"Missing capture rule at {location}.")
                     # insert placeholder rule
                     parsed_rule = data.Rule(
                         text="",
@@ -631,9 +631,9 @@ class TalonShim(ModuleShim):
                     resolved_name = self._registry.resolve_name(name)
                 else:
                     _LOGGER.error(
-                        f"missing name for capture decorator "
+                        f"Missing name for capture decorator "
                         f"applied to {func.__name__} "
-                        f"at {location}"
+                        f"at {location}."
                     )
                     resolved_name = f"{self._package.name}.{func.__name__}"
 

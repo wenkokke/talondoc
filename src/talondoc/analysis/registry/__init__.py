@@ -142,7 +142,7 @@ class Registry:
                 try:
                     yield self.get(data.Package, package)
                 except UnknownReference as e:
-                    _LOGGER.error(e)
+                    _LOGGER.error(f"resolve_packages: {e}")
                     pass
 
     def resolve_files(
@@ -155,7 +155,7 @@ class Registry:
                 try:
                     yield self.get(data.File, file)
                 except UnknownReference as e:
-                    _LOGGER.error(e)
+                    _LOGGER.error(f"resolve_files: {e}")
                     pass
 
     def resolve_contexts(
@@ -169,7 +169,7 @@ class Registry:
                     try:
                         value = self.get(data.File, value)
                     except UnknownReference as e:
-                        _LOGGER.error(e)
+                        _LOGGER.error(f"resolve_contexts: {e}")
                         continue
                 assert isinstance(value, data.File)
                 for context_name in value.contexts:
@@ -231,7 +231,8 @@ class Registry:
         try:
             return self.get(data.Capture, name).rule
         except UnknownReference as e:
-            _LOGGER.warning(e)
+            if name != "phrase":
+                _LOGGER.warning(e)
             return None
 
     def _get_list_value(self, name: data.ListName) -> Optional[data.ListValue]:
@@ -316,9 +317,7 @@ class Registry:
     def lookup_default(
         self, cls: type[GroupDataVar], name: str
     ) -> Optional[GroupDataVar]:
-        declaration, default_overrides, other_overrides = self.lookup_partition(
-            cls, name
-        )
+        declaration, default_overrides, _ = self.lookup_partition(cls, name)
         return self._combine(cls, itertools.chain((declaration,), default_overrides))
 
     def _combine(
