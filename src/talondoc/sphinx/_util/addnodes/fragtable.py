@@ -34,8 +34,8 @@ def visit_fragtable_html(self: HTML5Translator, node: fragtable) -> None:
 
 
 def depart_fragtable_html(self: HTML5Translator, node: fragtable) -> None:
-    self.body.append("</div>\n")
     self.depart_table(node)
+    self.body.append("</div>\n")
 
 
 def visit_fragtable(self: SphinxTranslator, node: fragtable) -> None:

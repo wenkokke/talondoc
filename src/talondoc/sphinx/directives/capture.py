@@ -62,5 +62,5 @@ class TalonCaptureDirective(TalonDocObjectDescription):
                 location=self.get_location(),
                 known_references=tuple(self.talon.registry.captures.keys()),
             )
-            _LOGGER.error(e)
+            _LOGGER.error(f"talon:capture: {e}")
             raise ValueError(e)

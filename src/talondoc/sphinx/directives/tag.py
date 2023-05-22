@@ -38,5 +38,5 @@ class TalonTagDirective(TalonDocObjectDescription):
                 location=self.get_location(),
                 known_references=tuple(self.talon.registry.tags.keys()),
             )
-            _LOGGER.error(e)
+            _LOGGER.error(f"talon:tag: {e}")
             raise ValueError(e)
