@@ -384,9 +384,13 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 <p>TalonDoc can generate documentation for actions using <code class="docutils literal notranslate"><span class="pre">talon:action</span></code>. For instance, the following code:</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-4-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-4-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-4-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-4-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-4-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:action</span><span class="p">::</span> user.find
+<span class="p">..</span> <span class="ow">talon:action</span><span class="p">::</span> user.insert_formatted
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-4-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-4-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:action} user.find
+:::
+
+:::{talon:action} user.insert_formatted
 :::
 </pre></div>
 </div>
@@ -395,6 +399,12 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 <dl class="talon action">
 <dt class="sig sig-object talon">
 <span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Finds</span> <span class="pre">text</span> <span class="pre">in</span> <span class="pre">current</span> <span class="pre">editor</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">insert_formatted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">phrase</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">|</span></span><span class="w"> </span><span class="pre">...</span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">formatters</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">a</span> <span class="pre">phrase</span> <span class="pre">formatted</span> <span class="pre">according</span> <span class="pre">to</span> <span class="pre">formatters.</span> <span class="pre">Formatters</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">comma</span> <span class="pre">separated</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">formatters</span> <span class="pre">(e.g.</span> <span class="pre">'CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING')</span></p>
 </dd></dt>
 <dd></dd></dl>
 
