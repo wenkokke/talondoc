@@ -2,6 +2,7 @@ from collections.abc import Iterable, Sequence
 from inspect import Parameter, Signature
 from typing import Any, TypeVar, Union
 
+import more_itertools
 from docutils import nodes
 from sphinx import addnodes
 from sphinx.locale import _
@@ -13,6 +14,7 @@ from ...._util.builtin import (
     builtin_types,
 )
 from ...._util.logging import getLogger
+from ....analysis.static.python.shims import ObjectShim
 from . import fragtable as morenodes
 
 _LOGGER = getLogger(__name__)
@@ -78,11 +80,30 @@ def desc_qualname(
 
 def desc_type(annotation: Any, **attributes: AttributeValue) -> addnodes.desc_type:
     children: list[NodeLike] = []
-    if isinstance(annotation, type):
-        if annotation in builtin_types:
+    if isinstance(annotation, ObjectShim):
+        children.append(nodes.Text("..."))
+    elif isinstance(annotation, type):
+        if issubclass(annotation, ObjectShim):
+            children.append(nodes.Text("..."))
+        elif annotation in builtin_types:
             children.append(desc_sig_keyword_type(nodes.Text(annotation.__name__)))
         else:
             children.append(nodes.Text(annotation.__name__))
+    elif annotation.__class__.__name__ == "_UnionGenericAlias":
+        # NOTE: typing.Union is wild
+        if hasattr(annotation, "__args__"):
+            args: list[NodeLike] = []
+            for arg in annotation.__args__:
+                args.append(desc_type(arg))
+            if args:
+                children.append(args.pop(0))
+                for arg in args:
+                    children.append(desc_sig_space())
+                    children.append(desc_sig_operator(nodes.Text("|")))
+                    children.append(desc_sig_space())
+                    children.append(arg)
+        else:
+            children.append(nodes.Text(str(annotation)))
     elif isinstance(annotation, str):
         if annotation in builtin_type_names:
             children.append(desc_sig_keyword_type(nodes.Text(annotation)))
@@ -112,8 +133,6 @@ def desc_signature(
 ) -> addnodes.desc_signature:
     signode += desc_parameterlist(signature.parameters.values(), **attributes)
     if signature.return_annotation is not Signature.empty:
-        signode += desc_sig_space()
-        signode += desc_sig_operator(nodes.Text("->"))
         signode += desc_sig_space()
         signode += desc_returns(signature.return_annotation, **attributes)
     return signode

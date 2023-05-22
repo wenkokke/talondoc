@@ -254,10 +254,14 @@ TalonDoc can generate documentation for actions using `talon:action`. For instan
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
 .. talon:action:: user.find
+.. talon:action:: user.insert_formatted
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:action} user.find
+:::
+
+:::{talon:action} user.insert_formatted
 :::
 ::::::
 :::::::::
@@ -265,6 +269,9 @@ TalonDoc can generate documentation for actions using `talon:action`. For instan
 ...will generate the following bit of documentation:
 
 :::{talon:action} user.find
+:::
+
+:::{talon:action} user.insert_formatted
 :::
 
 ## Captures
