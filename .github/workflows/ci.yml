@@ -136,7 +136,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           branch: docs
-          folder: example/docs/_build/html
+          folder: example/docs/_build
 
   ################################################################################
   # Publish package to GitHub Releases
