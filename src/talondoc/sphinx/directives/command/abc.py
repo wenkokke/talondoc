@@ -15,6 +15,7 @@ from ....description.describer import TalonScriptDescriber
 from ....sphinx.directives import TalonDocObjectDescription
 from ....sphinx.typing import TalonDocstringHook_Callable
 from ..._util.addnodes import desc_content, desc_name, paragraph
+from ..._util.addnodes.rule import desc_rule
 from ..errors import AmbiguousSignature
 
 _LOGGER = getLogger(__name__)
@@ -96,7 +97,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         always_include_script: bool,
         docstring_hook: Optional[TalonDocstringHook_Callable],
     ) -> addnodes.desc_signature:
-        signode += desc_name(self.describe_rule(command.rule))
+        signode += desc_name(desc_rule(command.rule))
         signode += desc_content(
             *self.describe_script(
                 command,
@@ -213,6 +214,10 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
     @property
     def columns(self) -> int:
         return cast(int, self.options.get("columns", 2))
+
+    @property
+    def table_width(self) -> Optional[int]:
+        return cast(Optional[int], self.options.get("table_width", None))
 
     @property
     def commands(self) -> Iterator[data.Command]:

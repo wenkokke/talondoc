@@ -2,12 +2,6 @@ from collections.abc import Callable
 from typing import TYPE_CHECKING, Any, Optional, cast
 
 import sphinx.directives
-from docutils import nodes
-from sphinx import addnodes
-from talonfmt import talonfmt
-from typing_extensions import final
-
-from ...analysis.registry import data
 
 if TYPE_CHECKING:
     from ..domains import TalonDomain
@@ -51,7 +45,3 @@ class TalonDocObjectDescription(
     sphinx.directives.ObjectDescription[str], TalonDocDirective  # type: ignore[misc]
 ):
     pass
-
-    @final
-    def describe_rule(self, rule: data.Rule) -> nodes.Text:
-        return nodes.Text(talonfmt(rule, safe=False))

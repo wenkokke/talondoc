@@ -194,6 +194,7 @@ For instance, the following code:
 :context: user.apps.discord.discord
 :include: answer call, decline call
 
+
 .. talon:command-table::
 :caption: A little custom hunting table.
 :include: hunt this, hunt this pace
@@ -321,13 +322,17 @@ TalonDoc can generate documentation for lists using `talon:list`. For instance, 
 :::::::::{tabs}
 ::::::{code-tab} rst reStructuredText
 .. talon:list:: user.letter
+:table_width: 150
 .. talon:list:: user.symbol_key
+:table_width: 150
 ::::::
 
 ::::::{code-tab} markdown Markdown
 :::{talon:list} user.letter
+:table_width: 150
 :::
 :::{talon:list} user.symbol_key
+:table_width: 150
 :::
 ::::::
 :::::::::
@@ -335,15 +340,15 @@ TalonDoc can generate documentation for lists using `talon:list`. For instance, 
 ...will generate the following bit of documentation:
 
 :::{talon:list} user.letter
+:table_width: 150
 :::
 :::{talon:list} user.symbol_key
+:table_width: 150
 :::
 
-List documentation is restricted to names and descriptions.
-
-:::{note}
-  Support for list values is underway.
-:::
+`:table_width:`
+: The width of the table, in pixels.
+If `:table_width:` is specified, the table automatically fragments horizontally.
 
 ## Modes
 
@@ -389,12 +394,10 @@ TalonDoc can generate documentation for settings using `talon:setting`. For inst
 
 :::{talon:setting} key_hold
 :::
+:::{talon:setting} dictate.punctuation
+:::
 
 Setting documentation is restricted to names and descriptions.
-
-:::{note}
-  Support for setting values is underway.
-:::
 
 ## Tags
 

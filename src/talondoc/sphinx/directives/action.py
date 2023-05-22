@@ -7,7 +7,7 @@ from typing_extensions import override
 from ..._util.logging import getLogger
 from ...analysis.registry import data
 from ...analysis.registry.data.abc import UnknownReference
-from .._util.addnodes import desc_content, desc_name, paragraph
+from .._util.addnodes import desc_content, desc_qualname, desc_signature, paragraph
 from . import TalonDocObjectDescription
 
 _LOGGER = getLogger(__name__)
@@ -28,8 +28,12 @@ class TalonActionDirective(TalonDocObjectDescription):
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
         default = self.talon.registry.lookup_default(data.Action, sig)
         if default:
-            signature = default.function_signature or inspect.Signature()
-            signode += desc_name(nodes.Text(default.name + str(signature)))
+            # Add the action name:
+            desc_qualname(signode, default.name)
+
+            # Add the action type signature:
+            desc_signature(signode, default.function_signature or inspect.Signature())
+
             if default.description:
                 signode += desc_content(paragraph(nodes.Text(default.description)))
             return default.name

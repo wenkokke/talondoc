@@ -5,7 +5,7 @@ from typing_extensions import override
 from ..._util.logging import getLogger
 from ...analysis.registry import data
 from ...analysis.registry.data.abc import UnknownReference
-from .._util.addnodes import desc_content, desc_name, paragraph
+from .._util.addnodes import desc_content, desc_name, desc_qualname, paragraph
 from . import TalonDocObjectDescription
 
 _LOGGER = getLogger(__name__)
@@ -26,7 +26,7 @@ class TalonModeDirective(TalonDocObjectDescription):
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
         mode = self.talon.registry.lookup(data.Mode, sig)
         if mode:
-            signode += desc_name(nodes.Text(mode.name))
+            desc_qualname(signode, mode.name)
             if mode.description:
                 signode += desc_content(paragraph(nodes.Text(mode.description)))
             return mode.name
