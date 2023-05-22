@@ -6,7 +6,7 @@ from talondoc.analysis.registry.data.abc import UnknownReference
 
 from ..._util.logging import getLogger
 from ...analysis.registry import data
-from .._util.addnodes import desc_content, desc_name, paragraph
+from .._util.addnodes import desc_content, desc_name, desc_qualname, paragraph
 from . import TalonDocObjectDescription
 
 _LOGGER = getLogger(__name__)
@@ -27,7 +27,7 @@ class TalonTagDirective(TalonDocObjectDescription):
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
         tag = self.talon.registry.lookup(data.Tag, sig)
         if tag:
-            signode += desc_name(nodes.Text(tag.name))
+            desc_qualname(signode, tag.name)
             if tag.description:
                 signode += desc_content(paragraph(nodes.Text(tag.description)))
             return tag.name
