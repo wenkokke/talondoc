@@ -1,2 +1,0 @@
-user.apps.calibre.calibre_viewer
-================================

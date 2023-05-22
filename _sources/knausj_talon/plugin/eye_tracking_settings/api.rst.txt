@@ -1,2 +1,0 @@
-user.plugin.eye_tracking_settings.py
-====================================
