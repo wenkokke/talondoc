@@ -3,7 +3,7 @@ import os
 import subprocess
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Optional, Union
+from typing import Iterator, Optional, Union
 
 import jinja2
 import jinja2.sandbox
@@ -142,34 +142,43 @@ def autogen(
     if generate_index:
         total += 1
     bar = ProgressBar(total=total)
-    for file_name in package.files:
-        file: data.File = registry.get(data.File, file_name, referenced_by=package)
+    files: list[data.File] = [
+        registry.get(data.File, file_name, referenced_by=package)
+        for file_name in package.files
+    ]
+    talon_files: list[data.File] = [
+        file for file in files if file.location.path.parts[-1].endswith(".talon")
+    ]
+    python_files: list[data.File] = [
+        file for file in files if file.location.path.parts[-1].endswith(".py")
+    ]
 
-        # Get all modules
-        modules: list[data.Module] = []
-        for module_name in file.modules:
-            module = registry.lookup(data.Module, module_name)
-            if module:
-                modules.append(module)
+    def _modules(file: data.File) -> list[data.Module]:
+        return [registry.get(data.Module, name) for name in file.modules]
 
-        # Get all contexts
-        contexts: list[data.Context] = []
-        for context_name in file.contexts:
-            context = registry.lookup(data.Context, context_name)
-            if context:
-                contexts.append(context)
+    def _contexts(file: data.File) -> list[data.Context]:
+        return [registry.get(data.Context, name) for name in file.contexts]
 
+    for file in talon_files:
         # Create path/to/talon/file.{md,rst}:
-        if file.location.path.suffix == ".talon":
-            bar.step(f" {str(file.location.path)}")
-            output_relpath = file.location.path.with_suffix(f".{format}")
+        bar.step(f" {str(file.location.path)}")
+        output_relpath = file.location.path.with_suffix(f".{format}")
+        output_path = output_dir / output_relpath
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        modules = _modules(file)
+        contexts = _contexts(file)
+
+        # Check whether the file has any content
+        has_content = any(module.has_content() for module in modules) or any(
+            context.has_content() for context in contexts
+        )
+
+        # Check whether the file defines any commands
+        has_commands = any(bool(context.commands) for context in contexts)
+
+        if has_content:
             toc.append(output_relpath)
-            output_path = output_dir / output_relpath
-            output_path.parent.mkdir(parents=True, exist_ok=True)
-
-            # Check whether the file defines any commands
-            has_commands = any(bool(context.commands) for context in contexts)
-
             output_path.write_text(
                 template_talon_file.render(
                     file=file,
@@ -180,13 +189,23 @@ def autogen(
                 )
             )
 
+    for file in python_files:
         # Create path/to/python/file/api.{md,rst}:
-        elif file.location.path.suffix == ".py":
-            bar.step(f" {str(file.location.path)}")
-            output_relpath = file.location.path.with_suffix("") / f"api.{format}"
+        bar.step(f" {str(file.location.path)}")
+        output_relpath = file.location.path.with_suffix("") / f"api.{format}"
+        output_path = output_dir / output_relpath
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        modules = _modules(file)
+        contexts = _contexts(file)
+
+        # Check whether the file has any content
+        has_content = any(module.has_content() for module in modules) or any(
+            context.has_content() for context in contexts
+        )
+
+        if has_content:
             toc.append(output_relpath)
-            output_path = output_dir / output_relpath
-            output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(
                 template_python_file.render(
                     file=file,
@@ -195,10 +214,6 @@ def autogen(
                     **ctx,
                 )
             )
-
-        # Skip file entry:
-        else:
-            bar.step()
 
     # Create index.{md,rst}
     if generate_index:

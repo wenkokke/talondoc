@@ -268,6 +268,20 @@ class Module(SimpleData):
             self.name = f"{self.parent_name}.{self.index}"
         super().__post_init__(*_args, **_kwargs)
 
+    def has_content(self) -> bool:
+        return any(
+            map(
+                bool,
+                [
+                    self.actions,
+                    self.captures,
+                    self.lists,
+                    self.modes,
+                    self.tags,
+                ],
+            )
+        )
+
 
 @final
 @dataclass(unsafe_hash=True)
@@ -296,6 +310,21 @@ class Context(SimpleData):
         else:
             self.name = f"{self.parent_name}.{self.index}"
         super().__post_init__(*_args, **_kwargs)
+
+    def has_content(self) -> bool:
+        return any(
+            map(
+                bool,
+                [
+                    self.commands,
+                    self.actions,
+                    self.captures,
+                    self.lists,
+                    self.modes,
+                    self.tags,
+                ],
+            )
+        )
 
     @property
     def always_on(self) -> bool:

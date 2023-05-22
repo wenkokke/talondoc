@@ -11,7 +11,7 @@ test:
 #################################################################################
 
 .PHONY: serve
-serve:
+serve: .venv/bin/activate
 	@bash -c "source .venv/bin/activate; pip install -q .[docs]; python -m talondoc build ./example/docs ./example/docs/_build --server"
 
 .PHONY: docs
