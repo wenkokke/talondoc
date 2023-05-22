@@ -22,6 +22,18 @@ def _underline(title: str, line: str = "=") -> str:
     return title + "\n" + line * len(title)
 
 
+def _section(title: str) -> str:
+    return _underline(title, line="=")
+
+
+def _subsection(title: str) -> str:
+    return _underline(title, line="-")
+
+
+def _subsubsection(title: str) -> str:
+    return _underline(title, line="^")
+
+
 def _default_package_name(package_name: Optional[str], package_dir: Path) -> str:
     return package_name or package_dir.parts[-1]
 
