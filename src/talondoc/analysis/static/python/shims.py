@@ -337,7 +337,7 @@ class TalonShim(ModuleShim):
             self._package = self._registry.get_active_package()
             self._file = self._registry.get_active_file()
             self._module = data.Module(
-                index=len(self._file.modules),
+                index=len(self._file.modules) + 1,
                 description=desc,
                 location=self._file.location,
                 parent_name=self._file.name,
@@ -480,7 +480,7 @@ class TalonShim(ModuleShim):
             self._file = self._registry.get_active_file()
             self._context = data.Context(
                 matches=[],
-                index=len(self._file.contexts),
+                index=len(self._file.contexts) + 1,
                 description=desc,
                 location=self._file.location,
                 parent_name=self._file.name,

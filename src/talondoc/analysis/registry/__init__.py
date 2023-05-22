@@ -231,7 +231,7 @@ class Registry:
         try:
             return self.get(data.Capture, name).rule
         except UnknownReference as e:
-            if name != "phrase":
+            if name not in ["phrase", "word"]:
                 _LOGGER.warning(e)
             return None
 

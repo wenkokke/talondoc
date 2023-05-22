@@ -55,7 +55,7 @@ else:
 
 
 @final
-@dataclass
+@dataclass(unsafe_hash=True)
 class Location:
     path: Path
     start_line: Optional[int] = None
@@ -140,7 +140,7 @@ def asdict_location(location: Union[Literal["builtin"], "Location"]) -> JsonValu
 ##############################################################################
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Data:
     name: str
     description: Optional[str]
@@ -155,18 +155,18 @@ class Data:
             not self.parent_name or self.parent_name.split(".", maxsplit=2)[0] != "user"
         )
 
-    def _validate_name(self) -> None:
-        if re.match(r"^\s+", self.name) or re.match(r"\s+$", self.name):
+    def validate(self) -> None:
+        if re.match(r"^\s+.*", self.name) or re.match(r".*\s+$", self.name):
             _LOGGER.warning(
                 f"{self.location}: "
                 f"Leading or trailing whitespace "
-                f"in {self.__class__.__name__} "
+                f"in {self.__class__.__name__.lower()} "
                 f"name '{self.name}'"
             )
             self.name = self.name.strip()
 
     def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
-        self._validate_name()
+        self.validate()
 
 
 DataVar = TypeVar("DataVar", bound=Data)
@@ -192,7 +192,7 @@ SimpleDataVar = TypeVar(
 ##############################################################################
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class GroupData(Data):
     parent_name: str
     parent_type: Union[type[Module], type[Context]]
@@ -233,7 +233,7 @@ GroupDataHasFunctionVar = TypeVar(
 ##############################################################################
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class DuplicateData(Exception):
     """Raised when an entry is defined in multiple modules."""
 
@@ -258,7 +258,7 @@ class DuplicateData(Exception):
         )
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class UnknownReference(Exception):
     """Raised when an entry is defined in multiple modules."""
 
