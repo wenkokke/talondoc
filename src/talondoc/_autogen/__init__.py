@@ -129,6 +129,21 @@ def autogen(
     bar = ProgressBar(total=total)
     for file_name in package.files:
         file: data.File = registry.get(data.File, file_name, referenced_by=package)
+
+        # Get all modules
+        modules: list[data.Module] = []
+        for module_name in file.modules:
+            module = registry.lookup(data.Module, module_name)
+            if module:
+                modules.append(module)
+
+        # Get all contexts
+        contexts: list[data.Context] = []
+        for context_name in file.contexts:
+            context = registry.lookup(data.Context, context_name)
+            if context:
+                contexts.append(context)
+
         # Create path/to/talon/file.{md,rst}:
         if file.location.path.suffix == ".talon":
             bar.step(f" {str(file.location.path)}")
@@ -136,13 +151,17 @@ def autogen(
             toc.append(output_relpath)
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            command_names: set[str] = set()
-            for context_name in file.contexts:
-                context = registry.get(data.Context, context_name)
-                command_names.update(context.commands)
+
+            # Check whether the file defines any commands
+            has_commands = any(bool(context.commands) for context in contexts)
+
             output_path.write_text(
                 template_talon_file.render(
-                    file_name=file_name, command_names=command_names, **ctx
+                    file=file,
+                    modules=modules,
+                    contexts=contexts,
+                    has_commands=has_commands,
+                    **ctx,
                 )
             )
 
@@ -154,7 +173,12 @@ def autogen(
             output_path = output_dir / output_relpath
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_text(
-                template_python_file.render(file_name=file_name, **ctx)
+                template_python_file.render(
+                    file=file,
+                    modules=modules,
+                    contexts=contexts,
+                    **ctx,
+                )
             )
 
         # Skip file entry:

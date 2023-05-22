@@ -251,6 +251,13 @@ class Module(SimpleData):
     parent_type: type[File] = field(default=File, init=False)
     serialisable: bool = field(default=True, init=False)
 
+    actions: list["ActionName"] = field(default_factory=list, init=False)
+    captures: list["CaptureName"] = field(default_factory=list, init=False)
+    lists: list["ListName"] = field(default_factory=list, init=False)
+    modes: list["ModeName"] = field(default_factory=list, init=False)
+    settings: list["CaptureName"] = field(default_factory=list, init=False)
+    tags: list["TagName"] = field(default_factory=list, init=False)
+
     def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
         if self.index == 0:
             self.name = f"{self.parent_name}"
@@ -263,7 +270,6 @@ class Module(SimpleData):
 class Context(SimpleData):
     index: int
     matches: list[Match]
-    commands: list["CommandName"] = field(default_factory=list, init=False)
 
     name: ContextName = field(init=False)
     description: Optional[str]
@@ -271,6 +277,14 @@ class Context(SimpleData):
     parent_name: FileName
     parent_type: type[File] = field(default=File, init=False)
     serialisable: bool = field(default=True, init=False)
+
+    commands: list["CommandName"] = field(default_factory=list, init=False)
+    actions: list["ActionName"] = field(default_factory=list, init=False)
+    captures: list["CaptureName"] = field(default_factory=list, init=False)
+    lists: list["ListName"] = field(default_factory=list, init=False)
+    modes: list["ModeName"] = field(default_factory=list, init=False)
+    settings: list["CaptureName"] = field(default_factory=list, init=False)
+    tags: list["TagName"] = field(default_factory=list, init=False)
 
     def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
         if self.index == 0:

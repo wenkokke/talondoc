@@ -1,11 +1,11 @@
 import re
-from typing import ClassVar, Iterator, Optional, Sequence, cast
+from typing import ClassVar, Iterator, Optional, Sequence, Union, cast
 
 from docutils import nodes
 from sphinx import addnodes
 from talonfmt import talonfmt
 from tree_sitter_talon import TalonComment
-from typing_extensions import final
+from typing_extensions import Literal, final
 
 from ...._util.logging import getLogger
 from ....analysis.registry import data
@@ -200,10 +200,18 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
         return cast(str, self.options.get("caption", None) or ".".join(self.arguments))
 
     @property
-    def include(self) -> Sequence[Sequence[str]]:
-        return tuple(
-            self._split_phrase(phrase) for phrase in self.options.get("include", ())
+    def include(self) -> Union[Literal["*"], Sequence[Sequence[str]]]:
+        phrases = cast(
+            Union[Literal["*"], Sequence[str]], self.options.get("include", "*")
         )
+        if (
+            phrases == "*"
+            or len(phrases) == 0
+            or (len(phrases) == 1 and phrases[0] == "*")
+        ):
+            return "*"
+        else:
+            return tuple(map(self._split_phrase, phrases))
 
     @property
     def exclude(self) -> Sequence[Sequence[str]]:
@@ -248,7 +256,12 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
         *,
         fullmatch: bool = False,
     ) -> bool:
-        return self._match_any_of(rule, self.include, default=True, fullmatch=fullmatch)
+        if self.include == "*":
+            return True
+        else:
+            return self._match_any_of(
+                rule, self.include, default=True, fullmatch=fullmatch
+            )
 
     @final
     def _matches_exclude(
