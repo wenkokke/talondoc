@@ -5,6 +5,7 @@ from io import TextIOWrapper
 from types import ModuleType
 from typing import Any, Optional, Union, cast, overload
 
+import tree_sitter_talon
 from tree_sitter_talon import Point
 
 from ...._util.logging import getLogger
@@ -204,20 +205,20 @@ class TalonContextListsShim(Mapping[str, data.ListValue]):
         self._context = context
 
     def _add_list_value(self, name: str, value: data.ListValue) -> None:
-        self._context._registry.register(
-            data.List(
-                value=value,
-                value_type_hint=None,
-                # NOTE: list names on contexts are fully qualified
-                name=self._context._registry.resolve_name(
-                    name, package=self._context._package
-                ),
-                description=None,
-                location=self._context._context.location,
-                parent_name=self._context._context.name,
-                parent_type=data.Context,
-            )
+        datum = data.List(
+            value=value,
+            value_type_hint=None,
+            # NOTE: list names on contexts are fully qualified
+            name=self._context._registry.resolve_name(
+                name, package=self._context._package
+            ),
+            description=None,
+            location=self._context._context.location,
+            parent_name=self._context._context.name,
+            parent_type=data.Context,
         )
+        self._context._context.lists.append(datum.name)
+        self._context._registry.register(datum)
 
     def __setitem__(self, name: str, value: data.ListValue) -> None:
         self._add_list_value(name, value)
@@ -241,20 +242,20 @@ class TalonContextSettingsShim(Mapping[str, data.SettingValue]):
         self._context = context
 
     def _add_setting_value(self, name: str, value: data.SettingValue) -> None:
-        self._context._registry.register(
-            data.Setting(
-                value=value,
-                value_type_hint=None,
-                # NOTE: setting names on contexts are fully qualified
-                name=self._context._registry.resolve_name(
-                    name, package=self._context._package
-                ),
-                description=None,
-                location=self._context._context.location,
-                parent_name=self._context._context.name,
-                parent_type=data.Context,
-            )
+        datum = data.Setting(
+            value=value,
+            value_type_hint=None,
+            # NOTE: setting names on contexts are fully qualified
+            name=self._context._registry.resolve_name(
+                name, package=self._context._package
+            ),
+            description=None,
+            location=self._context._context.location,
+            parent_name=self._context._context.name,
+            parent_type=data.Context,
         )
+        self._context._context.settings.append(datum.name)
+        self._context._registry.register(datum)
 
     def __setitem__(self, name: str, value: data.SettingValue) -> None:
         self._add_setting_value(name, value)
@@ -336,7 +337,7 @@ class TalonShim(ModuleShim):
             self._package = self._registry.get_active_package()
             self._file = self._registry.get_active_file()
             self._module = data.Module(
-                index=len(self._file.modules),
+                index=len(self._file.modules) + 1,
                 description=desc,
                 location=self._file.location,
                 parent_name=self._file.name,
@@ -356,7 +357,7 @@ class TalonShim(ModuleShim):
                     parent_type=data.Module,
                 )
                 self._registry.register(function)
-                action = data.Action(
+                datum = data.Action(
                     function_name=function.name,
                     function_signature=inspect.signature(func),
                     name=f"{package.name}.{name}",
@@ -365,7 +366,8 @@ class TalonShim(ModuleShim):
                     parent_name=self._module.name,
                     parent_type=data.Module,
                 )
-                self._registry.register(action)
+                self._module.actions.append(datum.name)
+                self._registry.register(datum)
             return cls
 
         def action(self, name: str) -> Optional[Callable[..., Any]]:
@@ -386,7 +388,7 @@ class TalonShim(ModuleShim):
                     parent_type=data.Module,
                 )
                 self._registry.register(function)
-                capture = data.Capture(
+                datum = data.Capture(
                     rule=data.parse_rule(rule),
                     function_name=function.name,
                     function_signature=inspect.signature(func),
@@ -396,7 +398,8 @@ class TalonShim(ModuleShim):
                     parent_name=self._module.name,
                     parent_type=data.Module,
                 )
-                self._registry.register(capture)
+                self._module.captures.append(datum.name)
+                self._registry.register(datum)
                 return func
 
             return __decorator
@@ -408,64 +411,64 @@ class TalonShim(ModuleShim):
             default: data.SettingValue = None,
             desc: Optional[str] = None,
         ) -> None:
-            self._registry.register(
-                data.Setting(
-                    value=default,
-                    value_type_hint=type,
-                    # NOTE: list names passed to modules are unqualified
-                    name=f"{self._package.name}.{name}",
-                    description=desc,
-                    location=self._module.location,
-                    parent_name=self._module.name,
-                    parent_type=data.Module,
-                )
+            datum = data.Setting(
+                value=default,
+                value_type_hint=type,
+                # NOTE: list names passed to modules are unqualified
+                name=f"{self._package.name}.{name}",
+                description=desc,
+                location=self._module.location,
+                parent_name=self._module.name,
+                parent_type=data.Module,
             )
+            self._module.settings.append(datum.name)
+            self._registry.register(datum)
 
         def list(
             self,
             name: str,
             desc: Optional[str] = None,
         ) -> None:
-            self._registry.register(
-                data.List(
-                    value=None,
-                    value_type_hint=None,
-                    # NOTE: list names passed to modules are unqualified
-                    name=f"{self._package.name}.{name}",
-                    description=desc,
-                    location=self._module.location,
-                    parent_name=self._module.name,
-                    parent_type=data.Module,
-                )
+            datum = data.List(
+                value=None,
+                value_type_hint=None,
+                # NOTE: list names passed to modules are unqualified
+                name=f"{self._package.name}.{name}",
+                description=desc,
+                location=self._module.location,
+                parent_name=self._module.name,
+                parent_type=data.Module,
             )
+            self._module.lists.append(datum.name)
+            self._registry.register(datum)
 
         def mode(
             self,
             name: str,
             desc: Optional[str] = None,
         ) -> None:
-            self._registry.register(
-                data.Mode(
-                    name=f"{self._package.name}.{name}",
-                    description=desc,
-                    location=self._module.location,
-                    parent_name=self._module.name,
-                )
+            datum = data.Mode(
+                name=f"{self._package.name}.{name}",
+                description=desc,
+                location=self._module.location,
+                parent_name=self._module.name,
             )
+            self._module.modes.append(datum.name)
+            self._registry.register(datum)
 
         def tag(
             self,
             name: str,
             desc: Optional[str] = None,
         ) -> None:
-            self._registry.register(
-                data.Tag(
-                    name=f"{self._package.name}.{name}",
-                    description=desc,
-                    location=self._module.location,
-                    parent_name=self._module.name,
-                )
+            datum = data.Tag(
+                name=f"{self._package.name}.{name}",
+                description=desc,
+                location=self._module.location,
+                parent_name=self._module.name,
             )
+            self._module.tags.append(datum.name)
+            self._registry.register(datum)
 
         # TODO: apps
         # TODO: scope
@@ -477,7 +480,7 @@ class TalonShim(ModuleShim):
             self._file = self._registry.get_active_file()
             self._context = data.Context(
                 matches=[],
-                index=len(self._file.contexts),
+                index=len(self._file.contexts) + 1,
                 description=desc,
                 location=self._file.location,
                 parent_name=self._file.name,
@@ -487,8 +490,18 @@ class TalonShim(ModuleShim):
             self._lists = TalonContextListsShim(self)
             self._settings = TalonContextSettingsShim(self)
             self._tags = TalonContextTagsShim(self)
-            # TODO: matches
             # TODO: apps
+
+        @property
+        def matches(self) -> str:
+            return "\n".join(match.text for match in self._context.matches)
+
+        @matches.setter
+        def matches(self, matches: str) -> None:
+            try:
+                self._context.matches.extend(data.parse_matches(matches))
+            except tree_sitter_talon.ParseError as e:
+                _LOGGER.error(f"Could not parse matches:\n{matches}\n: {e}")
 
         @property
         def lists(self) -> Mapping[str, data.ListValue]:
@@ -529,7 +542,7 @@ class TalonShim(ModuleShim):
                         parent_type=data.Context,
                     )
                     self._registry.register(function)
-                    action = data.Action(
+                    datum = data.Action(
                         function_name=function.name,
                         function_signature=inspect.signature(func),
                         # NOTE: function names on action classes are unqualified
@@ -539,7 +552,8 @@ class TalonShim(ModuleShim):
                         parent_name=self._context.name,
                         parent_type=data.Context,
                     )
-                    self._registry.register(action)
+                    self._context.actions.append(datum.name)
+                    self._registry.register(datum)
                 return cls
 
             return __decorator
@@ -561,7 +575,7 @@ class TalonShim(ModuleShim):
                     parent_type=data.Context,
                 )
                 self._registry.register(function)
-                action = data.Action(
+                datum = data.Action(
                     function_name=function.name,
                     function_signature=inspect.signature(func),
                     # NOTE: function names on actions are fully qualified
@@ -571,7 +585,8 @@ class TalonShim(ModuleShim):
                     parent_name=self._context.name,
                     parent_type=data.Context,
                 )
-                self._registry.register(action)
+                self._context.actions.append(datum.name)
+                self._registry.register(datum)
                 return func
 
             return __decorator
@@ -582,14 +597,14 @@ class TalonShim(ModuleShim):
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
                 # LINT: check if decorated function is a function
                 if not inspect.isfunction(func):
-                    _LOGGER.error(f"decorated object is not a function")
+                    _LOGGER.error(f"Decorated object is not a function.")
                     return func
 
                 location = Location.from_function(func)
 
                 # LINT: check if rule is set
                 if rule is None:
-                    _LOGGER.error(f"missing capture rule at {location}")
+                    _LOGGER.error(f"Missing capture rule at {location}.")
                     # insert placeholder rule
                     parsed_rule = data.Rule(
                         text="",
@@ -616,9 +631,9 @@ class TalonShim(ModuleShim):
                     resolved_name = self._registry.resolve_name(name)
                 else:
                     _LOGGER.error(
-                        f"missing name for capture decorator "
+                        f"Missing name for capture decorator "
                         f"applied to {func.__name__} "
-                        f"at {location}"
+                        f"at {location}."
                     )
                     resolved_name = f"{self._package.name}.{func.__name__}"
 
@@ -630,7 +645,7 @@ class TalonShim(ModuleShim):
                     parent_type=data.Context,
                 )
                 self._registry.register(function)
-                capture = data.Capture(
+                datum = data.Capture(
                     rule=parsed_rule,
                     # NOTE: capture names passed to contexts are fully qualified
                     name=resolved_name,
@@ -641,7 +656,8 @@ class TalonShim(ModuleShim):
                     parent_name=self._context.name,
                     parent_type=data.Context,
                 )
-                self._registry.register(capture)
+                self._context.captures.append(datum.name)
+                self._registry.register(datum)
                 return func
 
             return __decorator

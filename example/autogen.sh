@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# POSIX compliant method for 'pipefail':
-fail=$(mktemp)
-
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 output_dir="$script_dir/docs"
 
@@ -27,28 +24,3 @@ output_dir="$script_dir/docs"
   --exclude "test/test_dictation.py" \
   --exclude "test/test_formatters.py" \
   || echo > "$fail"
-
-[ ! -s "$fail" ] && \
-  PYTHONUTF8=1 \
-  sphinx-build \
-  -M "clean" \
-  "$output_dir" \
-  "$output_dir/_build" \
-  || echo > "$fail"
-
-[ ! -s "$fail" ] && \
-  PYTHONUTF8=1 \
-  sphinx-build \
-  -M "html" \
-  "$output_dir" \
-  "$output_dir/_build" \
-  || echo > "$fail"
-
-if [ -s "$fail" ]; then
-    rm "$fail"
-    echo "Could not build example documentation for knausj_talon" >&2
-    exit 1
-else
-    rm "$fail"
-    exit 0
-fi

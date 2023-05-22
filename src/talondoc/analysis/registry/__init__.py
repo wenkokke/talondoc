@@ -61,7 +61,7 @@ class Registry:
 
     def _register_simple_data(self, value: SimpleDataVar) -> SimpleDataVar:
         # Print the value name to the log.
-        _LOGGER.debug(f"register {value.__class__.__name__} {value.name}")
+        _LOGGER.debug(f"Found declaration for {value.__class__.__name__} {value.name}")
         # Register the data in the store.
         store = self._typed_store(value.__class__)
         old_value = store.get(value.name, None)
@@ -82,7 +82,17 @@ class Registry:
 
     def _register_grouped_data(self, value: GroupDataVar) -> GroupDataVar:
         # Print the value name to the log.
-        _LOGGER.debug(f"register {value.__class__.__name__} {value.name}")
+        _LOGGER.debug(
+            " ".join(
+                [
+                    f"Found",
+                    "declaration"
+                    if issubclass(value.parent_type, data.Module)
+                    else "override",
+                    "for {value.__class__.__name__} {value.name}",
+                ]
+            )
+        )
         # Register the data in the store.
         store = self._typed_store(value.__class__)
         store.setdefault(value.name, []).append(value)
@@ -90,7 +100,7 @@ class Registry:
 
     def _register_callback(self, value: CallbackVar) -> CallbackVar:
         # Print the value name to the log.
-        _LOGGER.debug(f"register {value.__class__.__name__} {value.name}")
+        _LOGGER.debug(f"Found declaration for {value.__class__.__name__} {value.name}")
         # Register the data in the store.
         self._typed_store(data.Callback).setdefault(value.event_code, []).append(value)
         return value
@@ -132,7 +142,7 @@ class Registry:
                 try:
                     yield self.get(data.Package, package)
                 except UnknownReference as e:
-                    _LOGGER.error(e)
+                    _LOGGER.error(f"resolve_packages: {e}")
                     pass
 
     def resolve_files(
@@ -145,7 +155,7 @@ class Registry:
                 try:
                     yield self.get(data.File, file)
                 except UnknownReference as e:
-                    _LOGGER.error(e)
+                    _LOGGER.error(f"resolve_files: {e}")
                     pass
 
     def resolve_contexts(
@@ -159,7 +169,7 @@ class Registry:
                     try:
                         value = self.get(data.File, value)
                     except UnknownReference as e:
-                        _LOGGER.error(e)
+                        _LOGGER.error(f"resolve_contexts: {e}")
                         continue
                 assert isinstance(value, data.File)
                 for context_name in value.contexts:
@@ -216,24 +226,12 @@ class Registry:
             )
         return False
 
-    # TODO: remove once builtins are properly supported
-    _BUILTIN_CAPTURE_NAMES: ClassVar[Sequence[data.CaptureName]] = (
-        "digit_string",
-        "digits",
-        "number",
-        "number_signed",
-        "number_small",
-        "phrase",
-        "word",
-    )
-
     def _get_capture_rule(self, name: data.CaptureName) -> Optional[data.Rule]:
         """Get the rule for a capture. Hook for 'match'."""
         try:
             return self.get(data.Capture, name).rule
         except UnknownReference as e:
-            # If the capture is not a builtin capture, log a warning:
-            if name not in self.__class__._BUILTIN_CAPTURE_NAMES:
+            if name not in ["phrase", "word"]:
                 _LOGGER.warning(e)
             return None
 
@@ -278,7 +276,7 @@ class Registry:
                     value = cast(DataVar, obj)
                     break
         elif issubclass(cls, data.Callback):
-            raise ValueError(f"Registry.get does not support callbacks")
+            raise NotImplementedError(f"Registry.get does not support callbacks")
         if value is not None:
             return value
         else:
@@ -330,7 +328,7 @@ class Registry:
         for datum in data:
             if isinstance(datum, cls):
                 for name in init_keys:
-                    init_args[name] = init_args.get(name, getattr(datum, name))
+                    init_args[name] = init_args.get(name, None) or getattr(datum, name)
         if init_args:
             return cls(**init_args)
         else:
@@ -382,7 +380,7 @@ class Registry:
 
             # Extract all overrides that are always on:
             default_overrides_iter, other_overrides_iter = partition(
-                lambda tup: tup[0] == _IS_ALWAYS_ON, overrides_iter
+                lambda tup: tup[0] != _IS_ALWAYS_ON, overrides_iter
             )
 
             default_overrides = tuple((tup[1] for tup in default_overrides_iter))
@@ -555,9 +553,6 @@ class Registry:
             store = parse_dict(registry.get(cls.__name__, {}))
             if issubclass(cls, GroupData):
                 for name, group in store.items():
-                    _LOGGER.debug(
-                        f"Found {len(group)} {cls.__name__} objects with {name}"
-                    )
                     for value in parse_list(group):
                         parsed_group_value = cls.from_dict(value)
                         if name != parsed_group_value.name:
@@ -568,7 +563,6 @@ class Registry:
 
             elif issubclass(cls, (data.Mode, data.Tag)):
                 for name, value in store.items():
-                    _LOGGER.debug(f"Found {cls.__name__} object with {name}")
                     parsed_simple_value = cls.from_dict(value)
                     if name != parsed_simple_value.name:
                         _LOGGER.warning(

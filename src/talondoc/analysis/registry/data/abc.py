@@ -1,3 +1,4 @@
+import re
 from abc import abstractmethod
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import asdict, dataclass
@@ -54,7 +55,7 @@ else:
 
 
 @final
-@dataclass
+@dataclass(unsafe_hash=True)
 class Location:
     path: Path
     start_line: Optional[int] = None
@@ -73,7 +74,12 @@ class Location:
             return None
 
     def __str__(self) -> str:
-        resolved_path = self.path.resolve().relative_to(Path.cwd())
+        resolved_path = self.path.resolve()
+        try:
+            if resolved_path.is_absolute():
+                resolved_path = resolved_path.relative_to(Path.cwd())
+        except ValueError as e:
+            _LOGGER.warning(e)
         start_position = Location._str_from_point(self.start_line, self.start_column)
         if start_position is not None:
             end_position = Location._str_from_point(self.end_line, self.end_column)
@@ -139,7 +145,7 @@ def asdict_location(location: Union[Literal["builtin"], "Location"]) -> JsonValu
 ##############################################################################
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class Data:
     name: str
     description: Optional[str]
@@ -153,6 +159,19 @@ class Data:
         return self.name.split(".", maxsplit=2)[0] != "user" and (
             not self.parent_name or self.parent_name.split(".", maxsplit=2)[0] != "user"
         )
+
+    def validate(self) -> None:
+        if re.match(r"^\s+.*", self.name) or re.match(r".*\s+$", self.name):
+            _LOGGER.warning(
+                f"{self.location}: "
+                f"Leading or trailing whitespace "
+                f"in {self.__class__.__name__.lower()} "
+                f"name '{self.name}'"
+            )
+            self.name = self.name.strip()
+
+    def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
+        self.validate()
 
 
 DataVar = TypeVar("DataVar", bound=Data)
@@ -178,7 +197,7 @@ SimpleDataVar = TypeVar(
 ##############################################################################
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class GroupData(Data):
     parent_name: str
     parent_type: Union[type[Module], type[Context]]
@@ -219,7 +238,7 @@ GroupDataHasFunctionVar = TypeVar(
 ##############################################################################
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class DuplicateData(Exception):
     """Raised when an entry is defined in multiple modules."""
 
@@ -244,7 +263,7 @@ class DuplicateData(Exception):
         )
 
 
-@dataclass
+@dataclass(unsafe_hash=True)
 class UnknownReference(Exception):
     """Raised when an entry is defined in multiple modules."""
 

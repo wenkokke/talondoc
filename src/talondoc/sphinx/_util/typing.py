@@ -16,5 +16,12 @@ def optional_str(argument: Optional[str]) -> Optional[str]:
         return None
 
 
+def optional_int(argument: Optional[str]) -> Optional[int]:
+    if argument:
+        return int(argument)
+    else:
+        return None
+
+
 def flag(argument: Any) -> bool:
     return True

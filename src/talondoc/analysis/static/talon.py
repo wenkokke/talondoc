@@ -80,22 +80,19 @@ def analyse_file(registry: Registry, path: Path, package: data.Package) -> None:
             # Register settings:
             for statement in declaration.right.children:
                 if isinstance(statement, TalonAssignmentStatement):
-                    registry.register(
-                        data.Setting(
-                            value=statement.right,
-                            value_type_hint=None,
-                            name=statement.left.text,
-                            description=None,
-                            location=Location.from_ast(
-                                context.location.path, statement
-                            ),
-                            parent_name=context.name,
-                            parent_type=data.Context,
-                        )
+                    datum = data.Setting(
+                        value=statement.right,
+                        value_type_hint=None,
+                        name=statement.left.text,
+                        description=None,
+                        location=Location.from_ast(context.location.path, statement),
+                        parent_name=context.name,
+                        parent_type=data.Context,
                     )
+                    context.settings.append(datum.name)
+                    registry.register(datum)
         elif isinstance(declaration, TalonTagImportDeclaration):
-            # Register tag import:
-            # TODO: add use entries
+            # TODO: Register tag import:
             pass
 
 
