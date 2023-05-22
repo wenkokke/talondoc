@@ -226,25 +226,12 @@ class Registry:
             )
         return False
 
-    # TODO: remove once builtins are properly supported
-    _BUILTIN_CAPTURE_NAMES: ClassVar[Sequence[data.CaptureName]] = (
-        "digit_string",
-        "digits",
-        "number",
-        "number_signed",
-        "number_small",
-        "phrase",
-        "word",
-    )
-
     def _get_capture_rule(self, name: data.CaptureName) -> Optional[data.Rule]:
         """Get the rule for a capture. Hook for 'match'."""
         try:
             return self.get(data.Capture, name).rule
         except UnknownReference as e:
-            # If the capture is not a builtin capture, log a warning:
-            if name not in self.__class__._BUILTIN_CAPTURE_NAMES:
-                _LOGGER.warning(e)
+            _LOGGER.warning(e)
             return None
 
     def _get_list_value(self, name: data.ListName) -> Optional[data.ListValue]:
@@ -288,7 +275,7 @@ class Registry:
                     value = cast(DataVar, obj)
                     break
         elif issubclass(cls, data.Callback):
-            raise ValueError(f"Registry.get does not support callbacks")
+            raise NotImplementedError(f"Registry.get does not support callbacks")
         if value is not None:
             return value
         else:

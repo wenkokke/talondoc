@@ -96,6 +96,9 @@ def autogen(
         keep_trailing_newline=False,
     )
     env.filters["underline"] = _underline
+    env.filters["section"] = _section
+    env.filters["subsection"] = _subsection
+    env.filters["subsubsection"] = _subsubsection
 
     # Analyse the package
     registry = Registry()

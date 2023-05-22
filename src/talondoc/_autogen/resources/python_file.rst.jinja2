@@ -10,7 +10,8 @@ Actions
 ^^^^^^^
 {%- for action_name in module.actions %}
 .. talon:action:: {{ action_name }}
-{%- endfor %}
+
+{% endfor %}
 {%- endif %}
 
 {%- if module.captures %}
@@ -18,7 +19,8 @@ Captures
 ^^^^^^^^
 {%- for capture_name in module.captures %}
 .. talon:capture:: {{ capture_name }}
-{%- endfor %}
+
+{% endfor %}
 {%- endif %}
 
 {%- if module.lists %}
@@ -26,7 +28,8 @@ Lists
 ^^^^^
 {%- for list_name in module.lists %}
 .. talon:list:: {{ list_name }}
-{%- endfor %}
+
+{% endfor %}
 {%- endif %}
 
 {%- if module.modes %}
@@ -34,7 +37,8 @@ Modes
 ^^^^^
 {%- for mode_name in module.modes %}
 .. talon:mode:: {{ mode_name }}
-{%- endfor %}
+
+{% endfor %}
 {%- endif %}
 
 {%- if module.settings %}
@@ -42,7 +46,8 @@ Settings
 ^^^^^^^^
 {%- for setting_name in module.settings %}
 .. talon:setting:: {{ setting_name }}
-{%- endfor %}
+
+{% endfor %}
 {%- endif %}
 
 {%- if module.tags %}
@@ -50,10 +55,11 @@ Tags
 ^^^^
 {%- for tag_name in module.tags %}
 .. talon:tag:: {{ tag_name }}
-{%- endfor %}
+
+{% endfor %}
 {%- endif %}
 
-{%- endfor %}
+{% endfor %}
 {%- endif %}
 
 
@@ -67,7 +73,8 @@ Actions
 ^^^^^^^
 {%- for action_name in context.actions %}
 .. talon:action:: {{ action_name }}
-{%- endfor %}
+
+{% endfor %}
 {%- endif %}
 
 {%- if context.captures %}
@@ -75,7 +82,8 @@ Captures
 ^^^^^^^^
 {%- for capture_name in context.captures %}
 .. talon:capture:: {{ capture_name }}
-{%- endfor %}
+
+{% endfor %}
 {%- endif %}
 
 {%- if context.lists %}
@@ -83,7 +91,8 @@ Lists
 ^^^^^
 {%- for list_name in context.lists %}
 .. talon:list:: {{ list_name }}
-{%- endfor %}
+
+{% endfor %}
 {%- endif %}
 
 {%- if context.modes %}
@@ -91,7 +100,8 @@ Modes
 ^^^^^
 {%- for mode_name in context.modes %}
 .. talon:mode:: {{ mode_name }}
-{%- endfor %}
+
+{% endfor %}
 {%- endif %}
 
 {%- if context.settings %}
@@ -99,7 +109,8 @@ Settings
 ^^^^^^^^
 {%- for setting_name in context.settings %}
 .. talon:setting:: {{ setting_name }}
-{%- endfor %}
+
+{% endfor %}
 {%- endif %}
 
 {%- if context.tags %}
@@ -107,8 +118,9 @@ Tags
 ^^^^
 {%- for tag_name in context.tags %}
 .. talon:tag:: {{ tag_name }}
-{%- endfor %}
+
+{% endfor %}
 {%- endif %}
 
-{%- endfor %}
+{% endfor %}
 {%- endif %}

@@ -1,7 +1,7 @@
 {{ ("Documentation for " + project) | escape | underline }}
 
 .. toctree::
-:maxdepth: 1
-{%- for file in toc %}
+  :maxdepth: 1
+{% for file in toc %}
   {{ file }}
 {%- endfor %}

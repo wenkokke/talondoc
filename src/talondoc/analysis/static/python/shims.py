@@ -5,6 +5,7 @@ from io import TextIOWrapper
 from types import ModuleType
 from typing import Any, Optional, Union, cast, overload
 
+import tree_sitter_talon
 from tree_sitter_talon import Point
 
 from ...._util.logging import getLogger
@@ -489,8 +490,18 @@ class TalonShim(ModuleShim):
             self._lists = TalonContextListsShim(self)
             self._settings = TalonContextSettingsShim(self)
             self._tags = TalonContextTagsShim(self)
-            # TODO: matches
             # TODO: apps
+
+        @property
+        def matches(self) -> str:
+            return "\n".join(match.text for match in self._context.matches)
+
+        @matches.setter
+        def matches(self, matches: str) -> None:
+            try:
+                self._context.matches.extend(data.parse_matches(matches))
+            except tree_sitter_talon.ParseError as e:
+                _LOGGER.error(e)
 
         @property
         def lists(self) -> Mapping[str, data.ListValue]:
