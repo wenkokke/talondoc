@@ -30,16 +30,8 @@ output_dir="$script_dir/docs"
 
 [ ! -s "$fail" ] && \
   PYTHONUTF8=1 \
-  sphinx-build \
-  -M "clean" \
-  "$output_dir" \
-  "$output_dir/_build" \
-  || echo > "$fail"
-
-[ ! -s "$fail" ] && \
-  PYTHONUTF8=1 \
-  sphinx-build \
-  -M "html" \
+  talondoc \
+  build \
   "$output_dir" \
   "$output_dir/_build" \
   || echo > "$fail"
