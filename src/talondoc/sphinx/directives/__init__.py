@@ -2,12 +2,6 @@ from collections.abc import Callable
 from typing import TYPE_CHECKING, Any, Optional, cast
 
 import sphinx.directives
-from docutils import nodes
-from sphinx import addnodes
-from talonfmt import talonfmt
-from typing_extensions import final
-
-from ...analysis.registry import data
 
 if TYPE_CHECKING:
     from ..domains import TalonDomain

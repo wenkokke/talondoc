@@ -1,7 +1,8 @@
-from typing import Mapping, Sequence
+from typing import Mapping, Optional, Sequence, cast
 
 from docutils import nodes
 from sphinx import addnodes
+from sphinx.util.typing import OptionSpec
 from typing_extensions import override
 
 from ..._util.logging import getLogger
@@ -12,18 +13,19 @@ from .._util.addnodes import (
     colspec,
     desc_content,
     desc_literal,
-    desc_name,
     desc_qualname,
     desc_sig_operator,
     desc_sig_space,
     desc_type,
     entry,
+    fragtable,
     paragraph,
     row,
     table,
     tbody,
     tgroup,
 )
+from .._util.typing import optional_int
 from . import TalonDocObjectDescription
 
 _LOGGER = getLogger(__name__)
@@ -33,7 +35,14 @@ class TalonListDirective(TalonDocObjectDescription):
     has_content = True
     required_arguments = 1
     optional_arguments = 0
+    option_spec: OptionSpec = {
+        "table_width": optional_int,
+    }
     final_argument_whitespace = False
+
+    @property
+    def table_width(self) -> Optional[int]:
+        return cast(Optional[int], self.options.get("table_width", None))
 
     @override
     def get_signatures(self) -> list[str]:
@@ -63,7 +72,7 @@ class TalonListDirective(TalonDocObjectDescription):
             if default.value:
                 if isinstance(default.value, Mapping):
                     content.append(
-                        table(
+                        fragtable(
                             tgroup(
                                 colspec(colwidth=1),
                                 colspec(colwidth=1),
@@ -74,12 +83,13 @@ class TalonListDirective(TalonDocObjectDescription):
                                     )
                                     for key, value in default.value.items()
                                 ),
-                            )
+                            ),
+                            table_width=self.table_width,
                         )
                     )
                 elif isinstance(default.value, Sequence):
                     content.append(
-                        table(
+                        fragtable(
                             tgroup(
                                 colspec(colwidth=1),
                                 tbody(
@@ -88,7 +98,8 @@ class TalonListDirective(TalonDocObjectDescription):
                                     )
                                     for value in default.value
                                 ),
-                            )
+                            ),
+                            table_width=self.table_width,
                         )
                     )
 

@@ -9,14 +9,13 @@ from ...analysis.registry import data
 from ...analysis.registry.data.abc import UnknownReference
 from .._util.addnodes import (
     desc_content,
-    desc_name,
     desc_qualname,
     desc_sig_operator,
     desc_sig_space,
     desc_type,
-    describe_rule,
     paragraph,
 )
+from .._util.addnodes.rule import desc_rule
 from . import TalonDocObjectDescription
 
 _LOGGER = getLogger(__name__)
@@ -49,7 +48,7 @@ class TalonCaptureDirective(TalonDocObjectDescription):
                 signode += desc_type(default.function_signature.return_annotation)
 
             # Add the rule
-            signode += desc_content(describe_rule(default.rule))
+            signode += desc_content(desc_rule(default.rule))
 
             # Add the description
             if default.description:

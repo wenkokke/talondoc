@@ -9,6 +9,13 @@ from .._util.logging import getLogger
 from .._version import __version__
 from ..analysis.registry import NoActiveFile, NoActivePackage, NoActiveRegistry
 from ..analysis.static import analyse_package
+from ._util.addnodes.fragtable import (
+    depart_fragtable,
+    depart_fragtable_html,
+    fragtable,
+    visit_fragtable,
+    visit_fragtable_html,
+)
 from .domains import TalonDomain
 from .typing import TalonPackage
 
@@ -140,8 +147,18 @@ def _talondoc_load_package(app: Sphinx, env: BuildEnvironment, *args: Any) -> No
 
 
 def setup(app: Sphinx) -> dict[str, Any]:
+    # Add fragmenting table nodes
+    app.add_node(
+        fragtable,
+        html=(visit_fragtable_html, depart_fragtable_html),
+        latex=(visit_fragtable, depart_fragtable),
+        text=(visit_fragtable, depart_fragtable),
+    )
+
+    # Add the Talon domain
     app.add_domain(TalonDomain)
 
+    # Add the TalonDoc configuration options
     app.add_config_value(
         name="talon_docstring_hook",
         default=None,
@@ -172,6 +189,7 @@ def setup(app: Sphinx) -> dict[str, Any]:
         ],
     )
 
+    # Add the hook to load any Talon packages
     app.connect("env-before-read-docs", _talondoc_load_package)
 
     return {

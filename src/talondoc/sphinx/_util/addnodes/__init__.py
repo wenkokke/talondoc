@@ -4,21 +4,32 @@ from typing import Any, TypeVar, Union
 
 from docutils import nodes
 from sphinx import addnodes
-from talonfmt import talonfmt
+from sphinx.locale import _
 
-from ..._util.builtin import (
+from ...._util.builtin import (
     builtin_number_types,
     builtin_string_types,
     builtin_type_names,
     builtin_types,
 )
-from ...analysis.registry import data
+from ...._util.logging import getLogger
+from . import fragtable as morenodes
+
+_LOGGER = getLogger(__name__)
+
+################################################################################
+# Type Aliases
+################################################################################
 
 NodeVar = TypeVar("NodeVar", bound=nodes.Node)
 
 AttributeValue = Union[Any, Sequence[Any]]
 
 NodeLike = Union[nodes.Node, Iterable[nodes.Node]]
+
+################################################################################
+# Functional Wrappers around Sphinx node types
+################################################################################
 
 
 def _with_children_and_attributes(
@@ -63,10 +74,6 @@ def desc_qualname(
     for child in children:
         signode += child
     return signode
-
-
-def describe_rule(rule: data.Rule) -> nodes.Text:
-    return nodes.Text(talonfmt(rule, safe=False))
 
 
 def desc_type(annotation: Any, **attributes: AttributeValue) -> addnodes.desc_type:
@@ -274,6 +281,10 @@ def paragraph(*children: NodeLike, **attributes: AttributeValue) -> nodes.paragr
 
 def row(*children: NodeLike, **attributes: AttributeValue) -> nodes.row:
     return _with_children_and_attributes(nodes.row(), *children, **attributes)
+
+
+def fragtable(*children: NodeLike, **attributes: AttributeValue) -> morenodes.fragtable:
+    return _with_children_and_attributes(morenodes.fragtable(), *children, **attributes)
 
 
 def table(*children: NodeLike, **attributes: AttributeValue) -> nodes.table:
