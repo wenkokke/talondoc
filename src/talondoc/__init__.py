@@ -4,6 +4,7 @@ import socket
 import threading
 import webbrowser
 from http.server import HTTPServer, SimpleHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
 from typing import Any, Optional
 
 import click
@@ -199,6 +200,10 @@ def _build(
 ) -> None:
     import sphinx.cmd.build
 
+    from ._util.logging import getLogger
+
+    _LOGGER = getLogger(__name__)
+
     args: list[str] = []
 
     # Set BUILDER to html:
@@ -213,6 +218,22 @@ def _build(
     # Pass config_dir:
     if config_dir:
         args.extend(["-c", config_dir])
+    else:
+        config_dir = source_dir
+
+    # Check config_dir:
+    conf_py = Path(config_dir) / "conf.py"
+    if not conf_py.exists():
+        did_you_mean: Optional[str] = None
+        for dirpath, _dirnames, filenames in os.walk(str(source_dir)):
+            if "conf.py" in filenames:
+                did_you_mean = dirpath
+                break
+        buffer: list[str] = []
+        buffer.append(f"Could not find {conf_py}.")
+        if did_you_mean:
+            buffer.append(f"(Did you mean to pass '--config-dir={did_you_mean}'?")
+        _LOGGER.error(" ".join(buffer))
 
     # Pass log_level:
     if "log_level" in ctx.obj:
