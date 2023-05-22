@@ -1,6 +1,5 @@
-import re
 import textwrap
-from collections.abc import Callable, Mapping, Sequence
+from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from functools import partial
 from inspect import Signature
@@ -527,7 +526,7 @@ class List(GroupData):
     def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
         if isinstance(self.value, Mapping):
             self.value = dict(self.value)
-        elif isinstance(self.value, Sequence):
+        elif isinstance(self.value, Iterable):
             self.value = list(self.value)
         else:
             if type(self.value).__name__ != "ObjectShim" and self.value is not None:

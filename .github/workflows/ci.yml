@@ -128,7 +128,9 @@ jobs:
         run: pip install .[docs]
 
       - name: Build docs
-        run: ./example/build.sh
+        run: |
+          ./example/autogen.sh
+          talondoc build example/docs example/docs/_build
 
       - name: Publish docs to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.4.1
