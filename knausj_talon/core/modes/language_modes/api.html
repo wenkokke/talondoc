@@ -152,7 +152,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mouse_grid/mouse_grid/api.html">user.core.mouse_grid.mouse_grid.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../keys/keys/api.html">user.core.keys.keys.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../modes/api.html">user.core.modes.modes.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.modes.language_modes.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.modes.language_modes.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../vocabulary/vocabulary/api.html">user.core.vocabulary.vocabulary.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../homophones/homophones/api.html">user.core.homophones.homophones.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../abbreviate/abbreviate/api.html">user.core.abbreviate.abbreviate.py</a></li>
@@ -448,6 +456,398 @@
              
   <section id="user-core-modes-language-modes-py">
 <h1>user.core.modes.language_modes.py<a class="headerlink" href="#user-core-modes-language-modes-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_clear_language_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Clears</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">language</span> <span class="pre">mode,</span> <span class="pre">and</span> <span class="pre">re-enables</span> <span class="pre">code.language:</span> <span class="pre">extension</span> <span class="pre">matching</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_set_language_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">language</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Sets</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">language</span> <span class="pre">mode,</span> <span class="pre">and</span> <span class="pre">disables</span> <span class="pre">extension</span> <span class="pre">matching</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">language_mode</span></span><dd><p><span class="pre">Name</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">programming</span> <span class="pre">language</span> <span class="pre">mode.</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'batch'</span></span></td>
+<td><span class="s"><span class="pre">'batch'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="sc"><span class="pre">'c'</span></span></td>
+<td><span class="sc"><span class="pre">'c'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'see</span> <span class="pre">sharp'</span></span></td>
+<td><span class="s"><span class="pre">'csharp'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'c</span> <span class="pre">s</span> <span class="pre">s'</span></span></td>
+<td><span class="s"><span class="pre">'css'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'g</span> <span class="pre">d</span> <span class="pre">b'</span></span></td>
+<td><span class="s"><span class="pre">'gdb'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'go'</span></span></td>
+<td><span class="s"><span class="pre">'go'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'go</span> <span class="pre">lang'</span></span></td>
+<td><span class="s"><span class="pre">'go'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'go</span> <span class="pre">language'</span></span></td>
+<td><span class="s"><span class="pre">'go'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'java'</span></span></td>
+<td><span class="s"><span class="pre">'java'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'javascript'</span></span></td>
+<td><span class="s"><span class="pre">'javascript'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'javascriptreact'</span></span></td>
+<td><span class="s"><span class="pre">'javascriptreact'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'lua'</span></span></td>
+<td><span class="s"><span class="pre">'lua'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'markdown'</span></span></td>
+<td><span class="s"><span class="pre">'markdown'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'php'</span></span></td>
+<td><span class="s"><span class="pre">'php'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'python'</span></span></td>
+<td><span class="s"><span class="pre">'python'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'protobuf'</span></span></td>
+<td><span class="s"><span class="pre">'protobuf'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'are</span> <span class="pre">language'</span></span></td>
+<td><span class="sc"><span class="pre">'r'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'ruby'</span></span></td>
+<td><span class="s"><span class="pre">'ruby'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'rust'</span></span></td>
+<td><span class="s"><span class="pre">'rust'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'scala'</span></span></td>
+<td><span class="s"><span class="pre">'scala'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'scss'</span></span></td>
+<td><span class="s"><span class="pre">'scss'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'sql'</span></span></td>
+<td><span class="s"><span class="pre">'sql'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'talon'</span></span></td>
+<td><span class="s"><span class="pre">'talon'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'terraform'</span></span></td>
+<td><span class="s"><span class="pre">'terraform'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'tech'</span></span></td>
+<td><span class="s"><span class="pre">'tex'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'lay</span> <span class="pre">tech'</span></span></td>
+<td><span class="s"><span class="pre">'tex'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'latex'</span></span></td>
+<td><span class="s"><span class="pre">'tex'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'typescript'</span></span></td>
+<td><span class="s"><span class="pre">'typescript'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'typescriptreact'</span></span></td>
+<td><span class="s"><span class="pre">'typescriptreact'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'vimscript'</span></span></td>
+<td><span class="s"><span class="pre">'vimscript'</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">batch</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">batch_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">c</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">c_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">csharp</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">csharp_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">css</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">css_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">gdb</span></span><dd><p><span class="pre">Tag</span> <span class="pre">to</span> <span class="pre">enabled</span> <span class="pre">gdb-related</span> <span class="pre">functionality</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">gdb_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">go</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">go_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">java</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">java_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">javascript</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">javascript_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">javascriptreact</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">javascriptreact_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">lua</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">lua_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">markdown</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">markdown_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">php</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">php_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">python</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">python_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">protobuf</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">protobuf_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">r</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">r_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">ruby</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">ruby_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">rust</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">rust_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">scala</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">scala_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">scss</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">scss_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">sql</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">sql_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">terraform</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">terraform_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">tex</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">tex_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">typescript</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">typescript_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">typescriptreact</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">typescriptreact_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">vimscript</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">vimscript_forced</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">auto_lang</span></span></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

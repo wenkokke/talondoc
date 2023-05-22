@@ -452,9 +452,134 @@
 <table class="compact docutils align-default">
 <caption><span class="caption-text"></span></caption>
 <tbody>
-</tbody>
+<tr class="row-odd"><td>lend</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">line_end</span><span class="p">()</span>
+</pre></div>
 </div>
+</td>
+</tr>
+<tr class="row-even"><td>bend</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">line_start</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go &lt;number&gt;</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">jump_line</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go &lt;number&gt; end</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">jump_line</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">line_end</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>comment [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>comment &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>clear [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>clear &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>copy [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>copy &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>cut [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>cut [line] &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>(paste | replace) &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>(select | cell | sell) [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>(select | cell | sell) &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>tab that</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">indent_more</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>tab [line] &lt;number&gt;</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">jump_line</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">indent_more</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>tab &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>retab that</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">indent_less</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>retab [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>retab &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>drag [line] down</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">line_swap_down</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>drag [line] up</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">line_swap_up</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>drag up [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>drag up &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>drag down [line] &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-odd"><td>drag down &lt;number&gt; until &lt;number&gt;</td>
+<td><p>Selects lines from line_start to line line_end</p></td>
+</tr>
+<tr class="row-even"><td>clone [line] &lt;number&gt;</td>
+<td><p>Clones specified line at current position</p></td>
+</tr>
+<tr class="row-odd"><td>select camel left</td>
+<td><p>Extends the selection by camel/subword to the left</p></td>
+</tr>
+<tr class="row-even"><td>select camel right</td>
+<td><p>Extends the selection by camel/subword to the right</p></td>
+</tr>
+<tr class="row-odd"><td>go camel left</td>
+<td><p>Moves cursor to the left by camel case/subword</p></td>
+</tr>
+<tr class="row-even"><td>go camel right</td>
+<td><p>Move cursor to the right by camel case/subword</p></td>
+</tr>
+</tbody>
 </table>
+</div>
 </section>
 
 

@@ -58,7 +58,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../../vivaldi/vivaldi/api.html">user.apps.vivaldi.vivaldi.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../nitro_reader/nitro_reader_5/api.html">user.apps.nitro_reader.nitro_reader_5.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../mintty/mintty_win/api.html">user.apps.mintty.mintty_win.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.apps.i3wm.i3wm.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.apps.i3wm.i3wm.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../windows_explorer/windows_explorer/api.html">user.apps.windows_explorer.windows_explorer.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../git/git/api.html">user.apps.git.git.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../powershell/powershell_win/api.html">user.apps.powershell.powershell_win.py</a></li>
@@ -448,6 +456,138 @@
              
   <section id="user-apps-i3wm-i3wm-py">
 <h1>user.apps.i3wm.i3wm.py<a class="headerlink" href="#user-apps-i3wm-i3wm-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_float</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Toggle</span> <span class="pre">whether</span> <span class="pre">the</span> <span class="pre">focused</span> <span class="pre">container</span> <span class="pre">should</span> <span class="pre">float.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_focus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">what</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">focus</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_fullscreen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Fullscreen</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">container</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_launch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Trigger</span> <span class="pre">the</span> <span class="pre">i3</span> <span class="pre">launcher:</span> <span class="pre">ex</span> <span class="pre">rofi</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_layout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">layout</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">typing.Optional[str]</span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">typing.Optional[str]</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Change</span> <span class="pre">to</span> <span class="pre">specified</span> <span class="pre">layout.</span> <span class="pre">Toggle</span> <span class="pre">split</span> <span class="pre">if</span> <span class="pre">unspecified.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_lock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Trigger</span> <span class="pre">the</span> <span class="pre">lock</span> <span class="pre">screen</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Switch</span> <span class="pre">i3</span> <span class="pre">mode</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">to</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">the</span> <span class="pre">focused</span> <span class="pre">container</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_move_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">where</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">the</span> <span class="pre">focused</span> <span class="pre">container</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">specified</span> <span class="pre">position.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_move_to_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">which</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">the</span> <span class="pre">focused</span> <span class="pre">container</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">specified</span> <span class="pre">output.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_move_to_workspace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">which</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">typing.Union[str,</span> <span class="pre">int]</span></em><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">the</span> <span class="pre">focused</span> <span class="pre">container</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">specified</span> <span class="pre">workspace</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_reload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Reload</span> <span class="pre">the</span> <span class="pre">i3</span> <span class="pre">config</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Restart</span> <span class="pre">the</span> <span class="pre">window</span> <span class="pre">manager</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_shell</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Launch</span> <span class="pre">a</span> <span class="pre">shell</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_show_scratchpad</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Focus/cycle/hide</span> <span class="pre">the</span> <span class="pre">scratchpad</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">direction</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Split</span> <span class="pre">the</span> <span class="pre">focused</span> <span class="pre">container</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm_switch_to_workspace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">which</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">typing.Union[str,</span> <span class="pre">int]</span></em><span class="sig-paren">)</span><dd><p><span class="pre">Focus</span> <span class="pre">the</span> <span class="pre">specified</span> <span class="pre">workspace</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3_config_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">'~/.i3/config'</span></span><dd><p><span class="pre">Where</span> <span class="pre">to</span> <span class="pre">find</span> <span class="pre">the</span> <span class="pre">configuration</span> <span class="pre">path</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3_mod_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">'super'</span></span><dd><p><span class="pre">The</span> <span class="pre">default</span> <span class="pre">key</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">for</span> <span class="pre">i3wm</span> <span class="pre">commands</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">i3wm</span></span><dd><p><span class="pre">tag</span> <span class="pre">for</span> <span class="pre">loading</span> <span class="pre">i3wm</span> <span class="pre">related</span> <span class="pre">files</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

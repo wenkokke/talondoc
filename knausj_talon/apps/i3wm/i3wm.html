@@ -452,9 +452,159 @@
 <table class="compact docutils align-default">
 <caption><span class="caption-text"></span></caption>
 <tbody>
-</tbody>
+<tr class="row-odd"><td>port &lt;number_small&gt;</td>
+<td><p>Focus the specified workspace</p></td>
+</tr>
+<tr class="row-even"><td>(port flip | flipper)</td>
+<td><p>Focus the specified workspace</p></td>
+</tr>
+<tr class="row-odd"><td>port right</td>
+<td><p>Focus the specified workspace</p></td>
+</tr>
+<tr class="row-even"><td>port left</td>
+<td><p>Focus the specified workspace</p></td>
+</tr>
+<tr class="row-odd"><td>(win | window) left</td>
+<td><p>Move focus</p></td>
+</tr>
+<tr class="row-even"><td>(win | window) right</td>
+<td><p>Move focus</p></td>
+</tr>
+<tr class="row-odd"><td>(win | window) up</td>
+<td><p>Move focus</p></td>
+</tr>
+<tr class="row-even"><td>(win | window) down</td>
+<td><p>Move focus</p></td>
+</tr>
+<tr class="row-odd"><td>(win | window) kill</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">app</span><span class="o">.</span><span class="n">window_close</span><span class="p">()</span>
+</pre></div>
 </div>
+</td>
+</tr>
+<tr class="row-even"><td>(win | window) stacking</td>
+<td><p>Change to specified layout. Toggle split if unspecified.</p></td>
+</tr>
+<tr class="row-odd"><td>(win | window) default</td>
+<td><p>Change to specified layout. Toggle split if unspecified.</p></td>
+</tr>
+<tr class="row-even"><td>(win | window) tabbed</td>
+<td><p>Change to specified layout. Toggle split if unspecified.</p></td>
+</tr>
+<tr class="row-odd"><td>reload i three config</td>
+<td><p>Reload the i3 config</p></td>
+</tr>
+<tr class="row-even"><td>restart i three</td>
+<td><p>Restart the window manager</p></td>
+</tr>
+<tr class="row-odd"><td>(full screen | scuba)</td>
+<td><p>Fullscreen the current container</p></td>
+</tr>
+<tr class="row-even"><td>toggle floating</td>
+<td><p>Send a command to Jetbrains product</p></td>
+</tr>
+<tr class="row-odd"><td>focus floating</td>
+<td><p>Move focus</p></td>
+</tr>
+<tr class="row-even"><td>center window</td>
+<td><p>Move the focused container to the specified position.</p></td>
+</tr>
+<tr class="row-odd"><td>resize mode</td>
+<td><p>Switch i3 mode</p></td>
+</tr>
+<tr class="row-even"><td>focus parent</td>
+<td><p>Move focus</p></td>
+</tr>
+<tr class="row-odd"><td>focus child</td>
+<td><p>Move focus</p></td>
+</tr>
+<tr class="row-even"><td>grow window</td>
+<td><p>Switch i3 mode
+Press right:10.
+Press down:10.
+Press escape.
+Move the focused container to the specified position.</p></td>
+</tr>
+<tr class="row-odd"><td>shrink window</td>
+<td><p>Switch i3 mode
+Press left:10.
+Press up:10.
+Press escape.
+Move the focused container to the specified position.</p></td>
+</tr>
+<tr class="row-even"><td>horizontal (shell | terminal)</td>
+<td><p>Split the focused container
+Launch a shell</p></td>
+</tr>
+<tr class="row-odd"><td>vertical (shell | terminal)</td>
+<td><p>Split the focused container
+Launch a shell</p></td>
+</tr>
+<tr class="row-even"><td>(shuffle | move (win | window) [to] port) &lt;number_small&gt;</td>
+<td><p>Move the focused container to the specified workspace</p></td>
+</tr>
+<tr class="row-odd"><td>(shuffle | move (win | window) [to] last port)</td>
+<td><p>Move the focused container to the specified workspace</p></td>
+</tr>
+<tr class="row-even"><td>(shuffle | move) flipper</td>
+<td><p>Move the focused container to the specified workspace</p></td>
+</tr>
+<tr class="row-odd"><td>(shuffle | move (win | window) left)</td>
+<td><p>Move the focused container</p></td>
+</tr>
+<tr class="row-even"><td>(shuffle | move (win | window) right)</td>
+<td><p>Move the focused container</p></td>
+</tr>
+<tr class="row-odd"><td>(shuffle | move (win | window) up)</td>
+<td><p>Move the focused container</p></td>
+</tr>
+<tr class="row-even"><td>(shuffle | move (win | window) down)</td>
+<td><p>Move the focused container</p></td>
+</tr>
+<tr class="row-odd"><td>(win | window) horizontal</td>
+<td><p>Split the focused container</p></td>
+</tr>
+<tr class="row-even"><td>(win | window) vertical</td>
+<td><p>Split the focused container</p></td>
+</tr>
+<tr class="row-odd"><td>make scratch</td>
+<td><p>Move the focused container</p></td>
+</tr>
+<tr class="row-even"><td>[(show | hide)] scratch</td>
+<td><p>Focus/cycle/hide the scratchpad</p></td>
+</tr>
+<tr class="row-odd"><td>next scratch</td>
+<td><p>Focus/cycle/hide the scratchpad
+Focus/cycle/hide the scratchpad</p></td>
+</tr>
+<tr class="row-even"><td>launch</td>
+<td><p>Trigger the i3 launcher: ex rofi</p></td>
+</tr>
+<tr class="row-odd"><td>launch &lt;user.text&gt;</td>
+<td><p>Trigger the i3 launcher: ex rofi
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>lock screen</td>
+<td><p>Trigger the lock screen</p></td>
+</tr>
+<tr class="row-odd"><td>(launch shell | koopa)</td>
+<td><p>Launch a shell</p></td>
+</tr>
+<tr class="row-even"><td>new scratch (shell | window)</td>
+<td><p>Launch a shell
+Move the focused container
+Focus/cycle/hide the scratchpad</p></td>
+</tr>
+<tr class="row-odd"><td>murder</td>
+<td><p>
+        Notify the user that the given voice command is deprecated and should
+        not be used into the future; the command `replacement` should be used
+        instead.
+        </p></td>
+</tr>
+</tbody>
 </table>
+</div>
 </section>
 
 

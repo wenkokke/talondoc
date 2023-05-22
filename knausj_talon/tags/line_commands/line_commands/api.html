@@ -184,7 +184,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../splits/splits/api.html">user.tags.splits.splits.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../multiple_cursors/multiple_cursors/api.html">user.tags.multiple_cursors.multiple_cursors.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../emoji/emoji/api.html">user.tags.emoji.emoji.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.tags.line_commands.line_commands.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.tags.line_commands.line_commands.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../file_manager/file_manager/api.html">user.tags.file_manager.file_manager.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../snippets/snippets/api.html">user.tags.snippets.snippets.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../snippets/snippet_watcher/api.html">user.tags.snippets.snippet_watcher.py</a></li>
@@ -448,6 +455,63 @@
              
   <section id="user-tags-line-commands-line-commands-py">
 <h1>user.tags.line_commands.line_commands.py<a class="headerlink" href="#user-tags-line-commands-line-commands-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">camel_left</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Moves</span> <span class="pre">cursor</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">left</span> <span class="pre">by</span> <span class="pre">camel</span> <span class="pre">case/subword</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">camel_right</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">cursor</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">right</span> <span class="pre">by</span> <span class="pre">camel</span> <span class="pre">case/subword</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">extend_camel_left</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Extends</span> <span class="pre">the</span> <span class="pre">selection</span> <span class="pre">by</span> <span class="pre">camel/subword</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">left</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">extend_camel_right</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Extends</span> <span class="pre">the</span> <span class="pre">selection</span> <span class="pre">by</span> <span class="pre">camel/subword</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">right</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">extend_until_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">line</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Extends</span> <span class="pre">the</span> <span class="pre">selection</span> <span class="pre">from</span> <span class="pre">current</span> <span class="pre">line</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">specified</span> <span class="pre">line</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">line_clone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">line</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Clones</span> <span class="pre">specified</span> <span class="pre">line</span> <span class="pre">at</span> <span class="pre">current</span> <span class="pre">position</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">select_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">line_start</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">line_end</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Selects</span> <span class="pre">lines</span> <span class="pre">from</span> <span class="pre">line_start</span> <span class="pre">to</span> <span class="pre">line</span> <span class="pre">line_end</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">line_commands</span></span><dd><p><span class="pre">Tag</span> <span class="pre">for</span> <span class="pre">enabling</span> <span class="pre">generic</span> <span class="pre">line</span> <span class="pre">navigation</span> <span class="pre">and</span> <span class="pre">selection</span> <span class="pre">commands</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

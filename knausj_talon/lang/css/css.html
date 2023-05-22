@@ -451,9 +451,56 @@
 <table class="compact docutils align-default">
 <caption><span class="caption-text"></span></caption>
 <tbody>
+<tr class="row-odd"><td>block</td>
+<td><p>Inserts equivalent of {
+} for the active language, and places the cursor appropriately</p></td>
+</tr>
+<tr class="row-even"><td>attribute [&lt;user.text&gt;]</td>
+<td><p>Let &lt;name&gt; be Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)
+Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>prop &lt;user.text&gt;</td>
+<td><p>Let &lt;name&gt; be Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)
+Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-even"><td>rule &lt;user.text&gt;</td>
+<td><p>Let &lt;name&gt; be Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>value &lt;user.number_string&gt; [{user.css_unit}]</td>
+<td><p>Insert “{ number_string } { css_unit or ‘’ }”</p></td>
+</tr>
+<tr class="row-even"><td>value &lt;user.number_string&gt; point &lt;digit_string&gt; [{user.css_unit}]</td>
+<td><p>Insert “{ number_string } . { digit_string } { css_unit or ‘’ }”</p></td>
+</tr>
+<tr class="row-odd"><td>(value | state) {user.css_global_value}</td>
+<td><p>Insert “{ css_global_value }”</p></td>
+</tr>
+<tr class="row-even"><td>value &lt;user.text&gt;</td>
+<td><p>Inserts a phrase formatted according to formatters. Formatters is a comma separated list of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)</p></td>
+</tr>
+<tr class="row-odd"><td>variable &lt;user.text&gt;</td>
+<td><p>Let &lt;name&gt; be Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>op var</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>at {user.css_at_rule}</td>
+<td><p>Insert “&#64; { css_at_rule }  “</p></td>
+</tr>
+<tr class="row-even"><td>unit {user.css_unit}</td>
+<td><p>Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>[value] current color</td>
+<td><p>Insert “currentColor”</p></td>
+</tr>
+<tr class="row-even"><td>op important</td>
+<td><p>Insert ” !important”</p></td>
+</tr>
 </tbody>
-</div>
 </table>
+</div>
 </section>
 
 

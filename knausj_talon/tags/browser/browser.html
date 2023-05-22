@@ -452,9 +452,146 @@
 <table class="compact docutils align-default">
 <caption><span class="caption-text"></span></caption>
 <tbody>
-</tbody>
+<tr class="row-odd"><td>address bar | go address | go url</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">focus_address</span><span class="p">()</span>
+</pre></div>
 </div>
+</td>
+</tr>
+<tr class="row-even"><td>go page | page focus</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">focus_page</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>address copy | url copy | copy address | copy url</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">focus_address</span><span class="p">()</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">50</span><span class="n">ms</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go home</td>
+<td><p>Press alt-home.</p></td>
+</tr>
+<tr class="row-odd"><td>[go] forward</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">go_forward</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go (back | backward)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">go_back</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go to {user.website}</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">go</span><span class="p">(</span><span class="n">website</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go private</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">open_private_window</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>bookmark it</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">bookmark</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>bookmark tabs</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">bookmark_tabs</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>(refresh | reload) it</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>(refresh | reload) it hard</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">reload_hard</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>bookmark show</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">bookmarks</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>bookmark bar [show]</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">bookmarks_bar</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>downloads show</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">show_downloads</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>extensions show</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">show_extensions</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>history show</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">show_history</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>cache show</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">show_clear_cache</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>dev tools [show]</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">toggle_dev_tools</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>show downloads</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">show_downloads</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>show extensions</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">show_extensions</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>show history</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">show_history</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>show cache</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">show_clear_cache</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
 </table>
+</div>
 </section>
 
 

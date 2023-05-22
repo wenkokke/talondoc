@@ -198,7 +198,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../terminal/terminal/api.html">user.tags.terminal.terminal.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../terminal/windows_shell/api.html">user.tags.terminal.windows_shell.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../terminal/unix_utilities/api.html">user.tags.terminal.unix_utilities.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.tags.find_and_replace.find_and_replace.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.tags.find_and_replace.find_and_replace.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../../lang/terraform/terraform/api.html">user.lang.terraform.terraform.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../lang/talon/talon/api.html">user.lang.talon.talon.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../lang/vimscript/vimscript/api.html">user.lang.vimscript.vimscript.py</a></li>
@@ -448,6 +455,99 @@
              
   <section id="user-tags-find-and-replace-find-and-replace-py">
 <h1>user.tags.find_and_replace.find_and_replace.py<a class="headerlink" href="#user-tags-find-and-replace-find-and-replace-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Finds</span> <span class="pre">text</span> <span class="pre">in</span> <span class="pre">current</span> <span class="pre">editor</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">find_everywhere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Finds</span> <span class="pre">text</span> <span class="pre">across</span> <span class="pre">project</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">find_next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Navigates</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">occurrence</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">find_previous</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Navigates</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">previous</span> <span class="pre">occurrence</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">find_toggle_match_by_case</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Toggles</span> <span class="pre">find</span> <span class="pre">match</span> <span class="pre">by</span> <span class="pre">case</span> <span class="pre">sensitivity</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">find_toggle_match_by_regex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Toggles</span> <span class="pre">find</span> <span class="pre">match</span> <span class="pre">by</span> <span class="pre">regex</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">find_toggle_match_by_word</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Toggles</span> <span class="pre">find</span> <span class="pre">match</span> <span class="pre">by</span> <span class="pre">whole</span> <span class="pre">words</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Search</span> <span class="pre">and</span> <span class="pre">replace</span> <span class="pre">for</span> <span class="pre">text</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">editor</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">replace_confirm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Confirm</span> <span class="pre">replace</span> <span class="pre">at</span> <span class="pre">current</span> <span class="pre">position</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">replace_confirm_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Confirm</span> <span class="pre">replace</span> <span class="pre">all</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">replace_everywhere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Search</span> <span class="pre">and</span> <span class="pre">replaces</span> <span class="pre">for</span> <span class="pre">text</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">entire</span> <span class="pre">project</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">select_next_occurrence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Selects</span> <span class="pre">the</span> <span class="pre">next</span> <span class="pre">occurrence</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">text,</span> <span class="pre">and</span> <span class="pre">suppresses</span> <span class="pre">any</span> <span class="pre">find/replace</span> <span class="pre">dialogs.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">select_previous_occurrence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Selects</span> <span class="pre">the</span> <span class="pre">previous</span> <span class="pre">occurrence</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">text,</span> <span class="pre">and</span> <span class="pre">suppresses</span> <span class="pre">any</span> <span class="pre">find/replace</span> <span class="pre">dialogs.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">find_and_replace</span></span><dd><p><span class="pre">Tag</span> <span class="pre">for</span> <span class="pre">enabling</span> <span class="pre">generic</span> <span class="pre">find</span> <span class="pre">and</span> <span class="pre">replace</span> <span class="pre">commands</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

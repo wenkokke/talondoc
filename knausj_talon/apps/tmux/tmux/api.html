@@ -113,7 +113,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../okular/okular/api.html">user.apps.okular.okular.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../safari/safari/api.html">user.apps.safari.safari.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../gdb/gdb/api.html">user.apps.gdb.gdb.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.apps.tmux.tmux.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.apps.tmux.tmux.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../thunderbird/thunderbird/api.html">user.apps.thunderbird.thunderbird.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../thunderbird/thunderbird_linux/api.html">user.apps.thunderbird.thunderbird_linux.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../thunderbird/thunderbird_win/api.html">user.apps.thunderbird.thunderbird_win.py</a></li>
@@ -448,6 +455,51 @@
              
   <section id="user-apps-tmux-tmux-py">
 <h1>user.apps.tmux.tmux.py<a class="headerlink" href="#user-apps-tmux-tmux-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">tmux_enter_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">command</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">&lt;class</span> <span class="pre">'str'&gt;</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Enter</span> <span class="pre">tmux</span> <span class="pre">command</span> <span class="pre">mode</span> <span class="pre">and</span> <span class="pre">optionally</span> <span class="pre">insert</span> <span class="pre">a</span> <span class="pre">command</span> <span class="pre">without</span> <span class="pre">executing</span> <span class="pre">it.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">tmux_execute_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">command</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">execute</span> <span class="pre">tmux</span> <span class="pre">command</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">tmux_execute_command_with_confirmation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">command</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">confirmation_prompt</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">execute</span> <span class="pre">tmux</span> <span class="pre">command</span> <span class="pre">with</span> <span class="pre">confirm-before</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">tmux_keybind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">key</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">press</span> <span class="pre">tmux</span> <span class="pre">prefix</span> <span class="pre">followed</span> <span class="pre">by</span> <span class="pre">a</span> <span class="pre">key</span> <span class="pre">bind</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">tmux_prefix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">press</span> <span class="pre">control</span> <span class="pre">and</span> <span class="pre">the</span> <span class="pre">configured</span> <span class="pre">tmux</span> <span class="pre">prefix</span> <span class="pre">key</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">tmux_prefix_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="sc"><span class="pre">'b'</span></span><dd><p><span class="pre">The</span> <span class="pre">key</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">prefix</span> <span class="pre">all</span> <span class="pre">tmux</span> <span class="pre">commands</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

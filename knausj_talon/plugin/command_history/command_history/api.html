@@ -165,7 +165,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../cancel/cancel/api.html">user.plugin.cancel.cancel.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../mouse/mouse/api.html">user.plugin.mouse.mouse.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../media/media/api.html">user.plugin.media.media.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.plugin.command_history.command_history.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.plugin.command_history.command_history.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_navigation/text_navigation/api.html">user.plugin.text_navigation.text_navigation.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../microphone_selection/microphone_selection/api.html">user.plugin.microphone_selection.microphone_selection.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../datetimeinsert/datetimeinsert/api.html">user.plugin.datetimeinsert.datetimeinsert.py</a></li>
@@ -448,6 +455,73 @@
              
   <section id="user-plugin-command-history-command-history-py">
 <h1>user.plugin.command_history.command_history.py<a class="headerlink" href="#user-plugin-command-history-command-history-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">history_clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Clear</span> <span class="pre">the</span> <span class="pre">history</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">history_disable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Disables</span> <span class="pre">the</span> <span class="pre">history</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">history_enable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Enables</span> <span class="pre">the</span> <span class="pre">history</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">history_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">number</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">returns</span> <span class="pre">the</span> <span class="pre">history</span> <span class="pre">entry</span> <span class="pre">at</span> <span class="pre">the</span> <span class="pre">specified</span> <span class="pre">index</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">history_less</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Show</span> <span class="pre">less</span> <span class="pre">history</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">history_more</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Show</span> <span class="pre">more</span> <span class="pre">history</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">history_toggle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Toggles</span> <span class="pre">viewing</span> <span class="pre">the</span> <span class="pre">history</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">history_transform_phrase_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">words</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[str]</span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">typing.Optional[str]</span></span></span><dd><p><span class="pre">Transforms</span> <span class="pre">phrase</span> <span class="pre">text</span> <span class="pre">for</span> <span class="pre">presentation</span> <span class="pre">in</span> <span class="pre">history.</span> <span class="pre">Return</span> <span class="pre">`None`</span> <span class="pre">to</span> <span class="pre">omit</span> <span class="pre">from</span> <span class="pre">history</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">command_history_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">50</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">command_history_display</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">10</span></span></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

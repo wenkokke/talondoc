@@ -181,7 +181,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../plugin/desktops/desktops_linux/api.html">user.plugin.desktops.desktops_linux.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../plugin/desktops/desktops_mac/api.html">user.plugin.desktops.desktops_mac.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../debugger/debugger/api.html">user.tags.debugger.debugger.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.tags.splits.splits.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.tags.splits.splits.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../multiple_cursors/multiple_cursors/api.html">user.tags.multiple_cursors.multiple_cursors.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../emoji/emoji/api.html">user.tags.emoji.emoji.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../line_commands/line_commands/api.html">user.tags.line_commands.line_commands.py</a></li>
@@ -448,6 +455,111 @@
              
   <section id="user-tags-splits-splits-py">
 <h1>user.tags.splits.splits.py<a class="headerlink" href="#user-tags-splits-splits-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Clears</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">split</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_clear_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Clears</span> <span class="pre">all</span> <span class="pre">splits</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_flip</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Flips</span> <span class="pre">the</span> <span class="pre">orietation</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">split</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_last</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Goes</span> <span class="pre">to</span> <span class="pre">last</span> <span class="pre">split</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_maximize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Maximizes</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">split</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Goes</span> <span class="pre">to</span> <span class="pre">next</span> <span class="pre">split</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">index</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Navigates</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">the</span> <span class="pre">specified</span> <span class="pre">split</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Resets</span> <span class="pre">the</span> <span class="pre">split</span> <span class="pre">sizes</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_window</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Splits</span> <span class="pre">the</span> <span class="pre">window</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_window_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">active</span> <span class="pre">tab</span> <span class="pre">to</span> <span class="pre">lower</span> <span class="pre">split</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_window_horizontally</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Splits</span> <span class="pre">window</span> <span class="pre">horizontally</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_window_left</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">active</span> <span class="pre">tab</span> <span class="pre">to</span> <span class="pre">left</span> <span class="pre">split</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_window_right</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">active</span> <span class="pre">tab</span> <span class="pre">to</span> <span class="pre">right</span> <span class="pre">split</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_window_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">active</span> <span class="pre">tab</span> <span class="pre">to</span> <span class="pre">upper</span> <span class="pre">split</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">split_window_vertically</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Splits</span> <span class="pre">window</span> <span class="pre">vertically</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">splits</span></span><dd><p><span class="pre">Tag</span> <span class="pre">for</span> <span class="pre">enabling</span> <span class="pre">generic</span> <span class="pre">window</span> <span class="pre">split</span> <span class="pre">commands</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

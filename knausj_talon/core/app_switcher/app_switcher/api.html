@@ -143,7 +143,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../../edit/edit/api.html">user.core.edit.edit.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../edit/edit_linux/api.html">user.core.edit.edit_linux.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../edit/insert_between/api.html">user.core.edit.insert_between.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.app_switcher.app_switcher.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.app_switcher.app_switcher.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#captures">Captures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../file_extension/file_extension/api.html">user.core.file_extension.file_extension.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../numbers/ordinals/api.html">user.core.numbers.ordinals.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../numbers/numbers/api.html">user.core.numbers.numbers.py</a></li>
@@ -448,6 +456,90 @@
              
   <section id="user-core-app-switcher-app-switcher-py">
 <h1>user.core.app_switcher.app_switcher.py<a class="headerlink" href="#user-core-app-switcher-app-switcher-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">get_running_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">&lt;talondoc.analysis.static.python.shims.ObjectShim</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fc934da2550&gt;</span></span></span><dd><p><span class="pre">Get</span> <span class="pre">the</span> <span class="pre">first</span> <span class="pre">available</span> <span class="pre">running</span> <span class="pre">app</span> <span class="pre">with</span> <span class="pre">`name`.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">switcher_focus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Focus</span> <span class="pre">a</span> <span class="pre">new</span> <span class="pre">application</span> <span class="pre">by</span> <span class="pre">name</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">switcher_focus_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">app</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">&lt;talondoc.analysis.static.python.shims.ObjectShim</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fc934da2550&gt;</span></em><span class="sig-paren">)</span><dd><p><span class="pre">Focus</span> <span class="pre">application</span> <span class="pre">and</span> <span class="pre">wait</span> <span class="pre">until</span> <span class="pre">switch</span> <span class="pre">is</span> <span class="pre">made</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">switcher_focus_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">window</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">&lt;talondoc.analysis.static.python.shims.ObjectShim</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fc934da2550&gt;</span></em><span class="sig-paren">)</span><dd><p><span class="pre">Focus</span> <span class="pre">window</span> <span class="pre">and</span> <span class="pre">wait</span> <span class="pre">until</span> <span class="pre">switch</span> <span class="pre">is</span> <span class="pre">made</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">switcher_hide_running</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Hides</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">running</span> <span class="pre">applications</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">switcher_launch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">path</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Launch</span> <span class="pre">a</span> <span class="pre">new</span> <span class="pre">application</span> <span class="pre">by</span> <span class="pre">path</span> <span class="pre">(all</span> <span class="pre">OSes),</span> <span class="pre">or</span> <span class="pre">AppUserModel_ID</span> <span class="pre">path</span> <span class="pre">on</span> <span class="pre">Windows</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">switcher_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Open</span> <span class="pre">a</span> <span class="pre">menu</span> <span class="pre">of</span> <span class="pre">running</span> <span class="pre">apps</span> <span class="pre">to</span> <span class="pre">switch</span> <span class="pre">to</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">switcher_toggle_running</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Shows/hides</span> <span class="pre">all</span> <span class="pre">running</span> <span class="pre">applications</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="captures">
+<h3>Captures<a class="headerlink" href="#captures" title="Permalink to this heading"></a></h3>
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">running_applications</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">{self.running}</span></dd><dd><p><span class="pre">Returns</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">application</span> <span class="pre">name</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">launch_applications</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">{self.launch}</span></dd><dd><p><span class="pre">Returns</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">application</span> <span class="pre">name</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">running</span></span><dd><p><span class="pre">all</span> <span class="pre">running</span> <span class="pre">applications</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">launch</span></span><dd><p><span class="pre">all</span> <span class="pre">launchable</span> <span class="pre">applications</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

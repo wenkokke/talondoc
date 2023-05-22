@@ -1,2 +1,47 @@
 user.apps.vscode.command_client.vscode.py
 =========================================
+Modules
+-------
+Actions
+^^^^^^^
+.. talon:action:: user.command_server_directory
+
+
+.. talon:action:: user.did_emit_pre_phrase_signal
+
+
+.. talon:action:: user.emit_pre_phrase_signal
+
+
+.. talon:action:: user.run_rpc_command
+
+
+.. talon:action:: user.run_rpc_command_and_wait
+
+
+.. talon:action:: user.run_rpc_command_get
+
+
+.. talon:action:: user.trigger_command_server_command_execution
+
+
+
+
+Actions
+^^^^^^^
+.. talon:action:: user.vscode
+
+
+.. talon:action:: user.vscode_and_wait
+
+
+.. talon:action:: user.vscode_get
+
+
+.. talon:action:: user.vscode_with_plugin
+
+
+.. talon:action:: user.vscode_with_plugin_and_wait
+
+
+

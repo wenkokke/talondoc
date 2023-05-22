@@ -147,7 +147,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../file_extension/file_extension/api.html">user.core.file_extension.file_extension.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../numbers/ordinals/api.html">user.core.numbers.ordinals.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../numbers/numbers/api.html">user.core.numbers.numbers.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.help.help.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.help.help.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../help_scope/api.html">user.core.help.help_scope.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../mouse_grid/mouse_grid/api.html">user.core.mouse_grid.mouse_grid.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../keys/keys/api.html">user.core.keys.keys.py</a></li>
@@ -448,6 +457,117 @@
              
   <section id="user-core-help-help-py">
 <h1>user.core.help.help.py<a class="headerlink" href="#user-core-help-help-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Display</span> <span class="pre">contextual</span> <span class="pre">command</span> <span class="pre">info</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_context_enabled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Display</span> <span class="pre">contextual</span> <span class="pre">command</span> <span class="pre">info</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_formatters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">ab</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Provides</span> <span class="pre">the</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">formatter</span> <span class="pre">keywords</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_hide</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Hides</span> <span class="pre">the</span> <span class="pre">help</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">ab</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Provides</span> <span class="pre">the</span> <span class="pre">symbol</span> <span class="pre">dictionary</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Navigates</span> <span class="pre">to</span> <span class="pre">next</span> <span class="pre">page</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_previous</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Navigates</span> <span class="pre">to</span> <span class="pre">previous</span> <span class="pre">page</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_refresh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Refreshes</span> <span class="pre">the</span> <span class="pre">help</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_return</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Returns</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">main</span> <span class="pre">help</span> <span class="pre">window</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">phrase</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Display</span> <span class="pre">command</span> <span class="pre">info</span> <span class="pre">for</span> <span class="pre">search</span> <span class="pre">phrase</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_select_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">index</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Select</span> <span class="pre">the</span> <span class="pre">context</span> <span class="pre">by</span> <span class="pre">a</span> <span class="pre">number</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_selected_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">m</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Display</span> <span class="pre">command</span> <span class="pre">info</span> <span class="pre">for</span> <span class="pre">selected</span> <span class="pre">context</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_contexts</span></span><dd><p><span class="pre">list</span> <span class="pre">of</span> <span class="pre">available</span> <span class="pre">contexts</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_max_contexts_per_page</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">20</span></span><dd><p><span class="pre">Max</span> <span class="pre">contexts</span> <span class="pre">to</span> <span class="pre">display</span> <span class="pre">per</span> <span class="pre">page</span> <span class="pre">in</span> <span class="pre">help</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_max_command_lines_per_page</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">50</span></span><dd><p><span class="pre">Max</span> <span class="pre">lines</span> <span class="pre">of</span> <span class="pre">command</span> <span class="pre">to</span> <span class="pre">display</span> <span class="pre">per</span> <span class="pre">page</span> <span class="pre">in</span> <span class="pre">help</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">help_open</span></span><dd><p><span class="pre">tag</span> <span class="pre">for</span> <span class="pre">commands</span> <span class="pre">that</span> <span class="pre">are</span> <span class="pre">available</span> <span class="pre">only</span> <span class="pre">when</span> <span class="pre">help</span> <span class="pre">is</span> <span class="pre">visible</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

@@ -452,9 +452,266 @@
 <table class="compact docutils align-default">
 <caption><span class="caption-text"></span></caption>
 <tbody>
+<tr class="row-odd"><td>variadic</td>
+<td><p>Insert “…”</p></td>
+</tr>
+<tr class="row-even"><td>logical and</td>
+<td><p>Insert ” &amp;&amp; “</p></td>
+</tr>
+<tr class="row-odd"><td>logical or</td>
+<td><p>Insert ” || “</p></td>
+</tr>
+<tr class="row-even"><td>state comment</td>
+<td><p>Insert “// “</p></td>
+</tr>
+<tr class="row-odd"><td>[line] comment &lt;user.text&gt;</td>
+<td><p>Press “cmd-right”.
+Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>state (funk | func | fun)</td>
+<td><p>Insert “func “</p></td>
+</tr>
+<tr class="row-odd"><td>function (Annette | init) [over]</td>
+<td><p>Insert “func init()  { \n”</p></td>
+</tr>
+<tr class="row-even"><td>function &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>method &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>state var</td>
+<td><p>Insert “var “</p></td>
+</tr>
+<tr class="row-odd"><td>variable [&lt;user.text&gt;] [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>of type [&lt;user.text&gt;] [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state break</td>
+<td><p>Inserts break statement</p></td>
+</tr>
+<tr class="row-even"><td>state (chan | channel)</td>
+<td><p>Insert ” chan “</p></td>
+</tr>
+<tr class="row-odd"><td>state go</td>
+<td><p>Insert “go “</p></td>
+</tr>
+<tr class="row-even"><td>state if</td>
+<td><p>Inserts if statement</p></td>
+</tr>
+<tr class="row-odd"><td>if &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>spawn &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state else if</td>
+<td><p>Inserts else if statement</p></td>
+</tr>
+<tr class="row-even"><td>else if &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state else</td>
+<td><p>Inserts else statement</p></td>
+</tr>
+<tr class="row-even"><td>else &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Press “enter”.
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state while</td>
+<td><p>Inserts while statement</p></td>
+</tr>
+<tr class="row-even"><td>while &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state for</td>
+<td><p>Inserts for statement</p></td>
+</tr>
+<tr class="row-even"><td>for &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state for range</td>
+<td><p>Insert “forr “</p></td>
+</tr>
+<tr class="row-even"><td>range &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state format</td>
+<td><p>Insert “fmt”</p></td>
+</tr>
+<tr class="row-even"><td>format &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state switch</td>
+<td><p>Inserts switch statement</p></td>
+</tr>
+<tr class="row-even"><td>switch &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state select</td>
+<td><p>Insert “select “</p></td>
+</tr>
+<tr class="row-even"><td>state (const | constant)</td>
+<td><p>Insert ” const “</p></td>
+</tr>
+<tr class="row-odd"><td>constant &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>state case</td>
+<td><p>Inserts case statement</p></td>
+</tr>
+<tr class="row-odd"><td>state default</td>
+<td><p>Insert “default: \n break;”</p></td>
+</tr>
+<tr class="row-even"><td>case &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state type</td>
+<td><p>Insert ” type “</p></td>
+</tr>
+<tr class="row-even"><td>type &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state true</td>
+<td><p>Insert True value</p></td>
+</tr>
+<tr class="row-even"><td>state false</td>
+<td><p>Insert False value</p></td>
+</tr>
+<tr class="row-odd"><td>state (start | struct | struck)</td>
+<td><p>Insert text at the current cursor position
+Press “enter”.</p></td>
+</tr>
+<tr class="row-even"><td>(struct | struck) &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Press “enter”.
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>[state] empty interface</td>
+<td><p>Insert ” interface { }  “</p></td>
+</tr>
+<tr class="row-even"><td>state interface</td>
+<td><p>Insert text at the current cursor position
+Press “enter”.</p></td>
+</tr>
+<tr class="row-odd"><td>interface &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Press “enter”.
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>state string</td>
+<td><p>Insert ” string “</p></td>
+</tr>
+<tr class="row-odd"><td>[state] (int | integer | ant)</td>
+<td><p>Insert “int”</p></td>
+</tr>
+<tr class="row-even"><td>state slice</td>
+<td><p>Insert ” []”</p></td>
+</tr>
+<tr class="row-odd"><td>slice of</td>
+<td><p>Insert “[]”</p></td>
+</tr>
+<tr class="row-even"><td>[state] (no | nil)</td>
+<td><p>Insert “nil”</p></td>
+</tr>
+<tr class="row-odd"><td>state (int | integer | ant) sixty four</td>
+<td><p>Insert ” int64 “</p></td>
+</tr>
+<tr class="row-even"><td>state tag</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>field tag &lt;user.text&gt; [over]</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.
+Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>state return</td>
+<td><p>Inserts return statement</p></td>
+</tr>
+<tr class="row-odd"><td>return &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>map of string to string</td>
+<td><p>Insert ” map[string]string “</p></td>
+</tr>
+<tr class="row-odd"><td>map of &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position
+Press “right”.</p></td>
+</tr>
+<tr class="row-even"><td>receive</td>
+<td><p>Insert ” &lt;- “</p></td>
+</tr>
+<tr class="row-odd"><td>make</td>
+<td><p>Insert “make(”</p></td>
+</tr>
+<tr class="row-even"><td>loggers [&lt;user.text&gt;] [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>length &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>append &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state (air | err)</td>
+<td><p>Insert “err”</p></td>
+</tr>
+<tr class="row-even"><td>error</td>
+<td><p>Insert ” err “</p></td>
+</tr>
+<tr class="row-odd"><td>loop over [&lt;user.text&gt;] [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>item &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>value &lt;user.text&gt; [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>address of [&lt;user.text&gt;] [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>pointer to [&lt;user.text&gt;] [over]</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>swipe [&lt;user.text&gt;] [over]</td>
+<td><p>Press “right”.
+Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
 </tbody>
-</div>
 </table>
+</div>
 </section>
 
 

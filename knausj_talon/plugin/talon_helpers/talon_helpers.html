@@ -452,9 +452,103 @@
 <table class="compact docutils align-default">
 <caption><span class="caption-text"></span></caption>
 <tbody>
+<tr class="row-odd"><td>talon check updates</td>
+<td><p>Check for updates</p></td>
+</tr>
+<tr class="row-even"><td>talon open log</td>
+<td><p>Open Talon log</p></td>
+</tr>
+<tr class="row-odd"><td>talon open rebel</td>
+<td><p>Open Talon REPL</p></td>
+</tr>
+<tr class="row-even"><td>talon home</td>
+<td><p>Open Talon config folder</p></td>
+</tr>
+<tr class="row-odd"><td>talon copy context pie</td>
+<td><p>Adds os-specific context info to the clipboard for the focused app for .py files. Assumes you’ve a Module named mod declared.</p></td>
+</tr>
+<tr class="row-even"><td>talon copy context</td>
+<td><p>Adds os-specific context info to the clipboard for the focused app for .talon files</p></td>
+</tr>
+<tr class="row-odd"><td>talon copy name</td>
+<td><p>Let &lt;name&gt; be Get active app’s name
+Set clipboard text</p></td>
+</tr>
+<tr class="row-even"><td>talon copy executable</td>
+<td><p>Let &lt;executable&gt; be Get active app’s executable name
+Set clipboard text</p></td>
+</tr>
+<tr class="row-odd"><td>talon copy bundle</td>
+<td><p>Let &lt;bundle&gt; be Get active app’s bundle identifier
+Set clipboard text</p></td>
+</tr>
+<tr class="row-even"><td>talon copy title</td>
+<td><p>Let &lt;title&gt; be Get window title
+Set clipboard text</p></td>
+</tr>
+<tr class="row-odd"><td>talon dump version</td>
+<td><p>Let &lt;result&gt; be Returns talon &amp; operation system verison information
+Display an object in the log</p></td>
+</tr>
+<tr class="row-even"><td>talon insert version</td>
+<td><p>Let &lt;result&gt; be Returns talon &amp; operation system verison information
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-odd"><td>talon dump context</td>
+<td><p>Let &lt;result&gt; be Returns active context info
+Display an object in the log</p></td>
+</tr>
+<tr class="row-even"><td>^talon test last$</td>
+<td><p>Let &lt;phrase&gt; be returns the history entry at the specified index
+Sims the phrase in the active app and dumps to the log</p></td>
+</tr>
+<tr class="row-odd"><td>^talon test numb &lt;number_small&gt;$</td>
+<td><p>Let &lt;phrase&gt; be returns the history entry at the specified index
+Sims the phrase in the active app and dumps to the log</p></td>
+</tr>
+<tr class="row-even"><td>^talon test &lt;phrase&gt;$</td>
+<td><p>Sims the phrase in the active app and dumps to the log</p></td>
+</tr>
+<tr class="row-odd"><td>^talon debug action {user.talon_actions}$</td>
+<td><p>Runs action.find for the provided action and dumps to the log</p></td>
+</tr>
+<tr class="row-even"><td>^talon debug list {user.talon_lists}$</td>
+<td><p>Dumps the contents of list to the console</p></td>
+</tr>
+<tr class="row-odd"><td>^talon copy list {user.talon_lists}$</td>
+<td><p>Dumps the contents of list to the console</p></td>
+</tr>
+<tr class="row-even"><td>^talon debug tags$</td>
+<td><p>Dumps the active tags to the console</p></td>
+</tr>
+<tr class="row-odd"><td>^talon debug modes$</td>
+<td><p>Dumps active modes to the console</p></td>
+</tr>
+<tr class="row-even"><td>^talon debug scope {user.talon_scopes}$</td>
+<td><p>Dumps the active scope information to the console</p></td>
+</tr>
+<tr class="row-odd"><td>^talon debug setting {user.talon_settings}$</td>
+<td><p>Dumps the current setting to the console</p></td>
+</tr>
+<tr class="row-even"><td>^talon debug all settings$</td>
+<td><p>Dumps all settings to the console</p></td>
+</tr>
+<tr class="row-odd"><td>^talon debug active app$</td>
+<td><p>Let &lt;result&gt; be Returns all active app info to the cliboard
+Display an object in the log
+Display an object in the log
+Display an object in the log</p></td>
+</tr>
+<tr class="row-even"><td>^talon copy active app$</td>
+<td><p>Let &lt;result&gt; be Returns all active app info to the cliboard
+Set clipboard text</p></td>
+</tr>
+<tr class="row-odd"><td>talon (bug report | report bug)</td>
+<td><p>Visit the given URL.</p></td>
+</tr>
 </tbody>
-</div>
 </table>
+</div>
 </section>
 
 

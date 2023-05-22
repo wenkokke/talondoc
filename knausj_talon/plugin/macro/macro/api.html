@@ -175,7 +175,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../talon_draft_window/__init__/api.html">user.plugin.talon_draft_window.__init__.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../draft_editor/draft_editor/api.html">user.plugin.draft_editor.draft_editor.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../screenshot/screenshot/api.html">user.plugin.screenshot.screenshot.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.plugin.macro.macro.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.plugin.macro.macro.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../desktops/desktops/api.html">user.plugin.desktops.desktops.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../desktops/desktops_win/api.html">user.plugin.desktops.desktops_win.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../desktops/desktops_linux/api.html">user.plugin.desktops.desktops_linux.py</a></li>
@@ -448,6 +455,69 @@
              
   <section id="user-plugin-macro-macro-py">
 <h1>user.plugin.macro.macro.py<a class="headerlink" href="#user-plugin-macro-macro-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">macro_append_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">words</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[str]</span></em><span class="sig-paren">)</span><dd><p><span class="pre">Appends</span> <span class="pre">a</span> <span class="pre">command</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">macro;</span> <span class="pre">called</span> <span class="pre">when</span> <span class="pre">a</span> <span class="pre">voice</span> <span class="pre">command</span> <span class="pre">is</span> <span class="pre">uttered</span> <span class="pre">while</span> <span class="pre">recording</span> <span class="pre">a</span> <span class="pre">macro.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">macro_copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Copied</span> <span class="pre">the</span> <span class="pre">specified</span> <span class="pre">macro</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">clipboard</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">Talon</span> <span class="pre">command.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">macro_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">List</span> <span class="pre">all</span> <span class="pre">saved</span> <span class="pre">macros.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">macro_list_close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Closed</span> <span class="pre">the</span> <span class="pre">saved</span> <span class="pre">macros</span> <span class="pre">list.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">macro_play</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Execute</span> <span class="pre">the</span> <span class="pre">commands</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">recorded</span> <span class="pre">macro.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">macro_record</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Begin</span> <span class="pre">recording</span> <span class="pre">a</span> <span class="pre">new</span> <span class="pre">voice</span> <span class="pre">command</span> <span class="pre">macro.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">macro_save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Save</span> <span class="pre">the</span> <span class="pre">macro.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">macro_stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Stop</span> <span class="pre">recording</span> <span class="pre">the</span> <span class="pre">macro.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">saved_macros</span></span><dd><p><span class="pre">list</span> <span class="pre">of</span> <span class="pre">macros</span> <span class="pre">that</span> <span class="pre">have</span> <span class="pre">been</span> <span class="pre">saved</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">'macro</span> <span class="pre">save'</span> <span class="pre">command</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

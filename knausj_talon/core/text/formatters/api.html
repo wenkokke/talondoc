@@ -156,7 +156,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../../vocabulary/vocabulary/api.html">user.core.vocabulary.vocabulary.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../homophones/homophones/api.html">user.core.homophones.homophones.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../abbreviate/abbreviate/api.html">user.core.abbreviate.abbreviate.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.text.formatters.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.text.formatters.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#captures">Captures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../phrase_history/api.html">user.core.text.phrase_history.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../text_and_dictation/api.html">user.core.text.text_and_dictation.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../plugin/paste_to_insert/api.html">user.plugin.paste_to_insert.py</a></li>
@@ -448,6 +456,115 @@
              
   <section id="user-core-text-formatters-py">
 <h1>user.core.text.formatters.py<a class="headerlink" href="#user-core-text-formatters-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">formatted_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">phrase</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">typing.Union[str,</span> <span class="pre">&lt;talondoc.analysis.static.python.shims.ObjectShim</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fc934e45f90&gt;]</span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">formatters</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">Formats</span> <span class="pre">a</span> <span class="pre">phrase</span> <span class="pre">according</span> <span class="pre">to</span> <span class="pre">formatters.</span> <span class="pre">formatters</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">comma-separated</span> <span class="pre">string</span> <span class="pre">of</span> <span class="pre">formatters</span> <span class="pre">(e.g.</span> <span class="pre">'CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING')</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">formatters_reformat_last</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">formatters</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">Clears</span> <span class="pre">and</span> <span class="pre">reformats</span> <span class="pre">last</span> <span class="pre">formatted</span> <span class="pre">phrase</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">formatters_reformat_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">formatters</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">Reformats</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">selection.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">get_formatters_words</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">dict</span></span></span></span><dd><p><span class="pre">returns</span> <span class="pre">a</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">words</span> <span class="pre">currently</span> <span class="pre">used</span> <span class="pre">as</span> <span class="pre">formatters,</span> <span class="pre">and</span> <span class="pre">a</span> <span class="pre">demonstration</span> <span class="pre">string</span> <span class="pre">using</span> <span class="pre">those</span> <span class="pre">formatters</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">insert_formatted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">phrase</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">typing.Union[str,</span> <span class="pre">&lt;talondoc.analysis.static.python.shims.ObjectShim</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fc934e45f90&gt;]</span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">formatters</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">a</span> <span class="pre">phrase</span> <span class="pre">formatted</span> <span class="pre">according</span> <span class="pre">to</span> <span class="pre">formatters.</span> <span class="pre">Formatters</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">comma</span> <span class="pre">separated</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">formatters</span> <span class="pre">(e.g.</span> <span class="pre">'CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING')</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">insert_many</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">strings</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[str]</span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><dd><p><span class="pre">Insert</span> <span class="pre">a</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">strings,</span> <span class="pre">sequentially.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">insert_with_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">some</span> <span class="pre">text,</span> <span class="pre">remembering</span> <span class="pre">it</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">phrase</span> <span class="pre">history.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">reformat_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">formatters</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">Reformat</span> <span class="pre">the</span> <span class="pre">text.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="captures">
+<h3>Captures<a class="headerlink" href="#captures" title="Permalink to this heading"></a></h3>
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">formatters</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">{self.formatters}+</span></dd><dd><p><span class="pre">Returns</span> <span class="pre">a</span> <span class="pre">comma-separated</span> <span class="pre">string</span> <span class="pre">of</span> <span class="pre">formatters</span> <span class="pre">e.g.</span> <span class="pre">'SNAKE,DUBSTRING'</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">format_text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">&lt;self.formatters&gt;</span> <span class="pre">&lt;user.text&gt;</span> <span class="pre">(&lt;user.text&gt;</span> <span class="pre">|</span> <span class="pre">&lt;user.formatter_immune&gt;)*</span></dd><dd><p><span class="pre">Formats</span> <span class="pre">the</span> <span class="pre">text</span> <span class="pre">and</span> <span class="pre">returns</span> <span class="pre">a</span> <span class="pre">string</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">formatter_immune</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ImmuneString</span><dd><span class="pre">(&lt;user.symbol_key&gt;</span> <span class="pre">|</span> <span class="pre">(numb</span> <span class="pre">|</span> <span class="pre">numeral)</span> <span class="pre">&lt;number&gt;)</span></dd><dd><p><span class="pre">Text</span> <span class="pre">that</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">interspersed</span> <span class="pre">into</span> <span class="pre">a</span> <span class="pre">formatter,</span> <span class="pre">e.g.</span> <span class="pre">characters.</span>
+
+&#160;&#160;&#160; <span class="pre">It</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">inserted</span> <span class="pre">directly,</span> <span class="pre">without</span> <span class="pre">being</span> <span class="pre">formatted.</span>
+
+&#160;&#160;&#160; </p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">formatters</span></span><dd><p><span class="pre">list</span> <span class="pre">of</span> <span class="pre">formatters</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">prose_formatter</span></span><dd><p><span class="pre">words</span> <span class="pre">to</span> <span class="pre">start</span> <span class="pre">dictating</span> <span class="pre">prose,</span> <span class="pre">and</span> <span class="pre">the</span> <span class="pre">formatter</span> <span class="pre">they</span> <span class="pre">apply</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'say'</span></span></td>
+<td><span class="s"><span class="pre">'NOOP'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'speak'</span></span></td>
+<td><span class="s"><span class="pre">'NOOP'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sentence'</span></span></td>
+<td><span class="s"><span class="pre">'CAPITALIZE_FIRST_WORD'</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

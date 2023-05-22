@@ -452,9 +452,74 @@
 <table class="compact docutils align-default">
 <caption><span class="caption-text"></span></caption>
 <tbody>
+<tr class="row-odd"><td>state local</td>
+<td><p>Insert “local”</p></td>
+</tr>
+<tr class="row-even"><td>state end</td>
+<td><p>Insert “end”</p></td>
+</tr>
+<tr class="row-odd"><td>state then</td>
+<td><p>Insert “then”</p></td>
+</tr>
+<tr class="row-even"><td>state repeat</td>
+<td><p>Insert “repeat”</p></td>
+</tr>
+<tr class="row-odd"><td>state until</td>
+<td><p>Insert “until”</p></td>
+</tr>
+<tr class="row-even"><td>state return (null | nil)</td>
+<td><p>Insert “return nil”</p></td>
+</tr>
+<tr class="row-odd"><td>state return true</td>
+<td><p>Insert “return true”</p></td>
+</tr>
+<tr class="row-even"><td>state return false</td>
+<td><p>Insert “return false”</p></td>
+</tr>
+<tr class="row-odd"><td>state return table</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-even"><td>state append string</td>
+<td><p>Insert ” .. “</p></td>
+</tr>
+<tr class="row-odd"><td>state label &lt;user.text&gt;</td>
+<td><p>Insert text at the current cursor position
+Inserts a phrase formatted according to formatters. Formatters is a comma separated list of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>require &lt;user.code_libraries&gt;</td>
+<td><p>Inserts a library and positions the cursor appropriately
+Press end enter.</p></td>
+</tr>
+<tr class="row-odd"><td>state (variable | var) [&lt;user.text&gt;] [over]</td>
+<td><p>inserts properly formatted private function name</p></td>
+</tr>
+<tr class="row-even"><td>state local (variable | var) [&lt;user.text&gt;] [over]</td>
+<td><p>Insert text at the current cursor position
+inserts properly formatted private function name</p></td>
+</tr>
+<tr class="row-odd"><td>method &lt;user.text&gt;</td>
+<td><p>Insert text at the current cursor position
+inserts properly formatted private function name
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>self dot</td>
+<td><p>Inserts a reference to the current object (e.g., C++ “this” or Python’s “self”)
+Inserts the object accessor operator (e.g., Java’s “.” or PHP’s “-&gt;)</p></td>
+</tr>
+<tr class="row-odd"><td>index &lt;user.word&gt;</td>
+<td><p>Insert “[” { word } “]”</p></td>
+</tr>
+<tr class="row-even"><td>index (var | variable) &lt;user.text&gt;</td>
+<td><p>Let &lt;var&gt; be Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>state return dick</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
 </tbody>
-</div>
 </table>
+</div>
 </section>
 
 

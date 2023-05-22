@@ -452,9 +452,164 @@
 <table class="compact docutils align-default">
 <caption><span class="caption-text"></span></caption>
 <tbody>
-</tbody>
+<tr class="row-odd"><td>^press &lt;user.modifiers&gt;$</td>
+<td><p>Press modifiers.</p></td>
+</tr>
+<tr class="row-even"><td>^press &lt;user.keys&gt;$</td>
+<td><p>Press keys.</p></td>
+</tr>
+<tr class="row-odd"><td>&lt;user.raw_prose&gt;</td>
+<td><p>Inserts dictated text, formatted appropriately.</p></td>
+</tr>
+<tr class="row-even"><td>cap</td>
+<td><p>Sets the dictation formatter to capitalize</p></td>
+</tr>
+<tr class="row-odd"><td>(no cap | no-caps)</td>
+<td><p>Sets the dictation formatter to not capitalize</p></td>
+</tr>
+<tr class="row-even"><td>(no space | no-space)</td>
+<td><p>Sets the dictation formatter to not prepend a space</p></td>
+</tr>
+<tr class="row-odd"><td>^cap that$</td>
+<td><p>Capitalizes the last utterance</p></td>
+</tr>
+<tr class="row-even"><td>^(no cap | no-caps) that$</td>
+<td><p>Lowercases the last utterance</p></td>
+</tr>
+<tr class="row-odd"><td>^(no space | no-space) that$</td>
+<td><p>Removes space before the last utterance</p></td>
+</tr>
+<tr class="row-even"><td>go up &lt;number_small&gt; (line | lines)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">up</span><span class="p">()</span>
+<span class="n">repeat</span><span class="p">(</span><span class="n">number_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
 </div>
+</td>
+</tr>
+<tr class="row-odd"><td>go down &lt;number_small&gt; (line | lines)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">down</span><span class="p">()</span>
+<span class="n">repeat</span><span class="p">(</span><span class="n">number_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go left &lt;number_small&gt; (word | words)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">word_left</span><span class="p">()</span>
+<span class="n">repeat</span><span class="p">(</span><span class="n">number_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go right &lt;number_small&gt; (word | words)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">word_right</span><span class="p">()</span>
+<span class="n">repeat</span><span class="p">(</span><span class="n">number_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>go line start</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">line_start</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>go line end</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">line_end</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>select left &lt;number_small&gt; (word | words)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">extend_word_left</span><span class="p">()</span>
+<span class="n">repeat</span><span class="p">(</span><span class="n">number_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>select right &lt;number_small&gt; (word | words)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">extend_word_right</span><span class="p">()</span>
+<span class="n">repeat</span><span class="p">(</span><span class="n">number_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>select left &lt;number_small&gt; (character | characters)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">extend_left</span><span class="p">()</span>
+<span class="n">repeat</span><span class="p">(</span><span class="n">number_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>select right &lt;number_small&gt; (character | characters)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">extend_right</span><span class="p">()</span>
+<span class="n">repeat</span><span class="p">(</span><span class="n">number_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>clear left &lt;number_small&gt; (word | words)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">extend_word_left</span><span class="p">()</span>
+<span class="n">repeat</span><span class="p">(</span><span class="n">number_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>clear right &lt;number_small&gt; (word | words)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">extend_word_right</span><span class="p">()</span>
+<span class="n">repeat</span><span class="p">(</span><span class="n">number_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>clear left &lt;number_small&gt; (character | characters)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">extend_left</span><span class="p">()</span>
+<span class="n">repeat</span><span class="p">(</span><span class="n">number_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>clear right &lt;number_small&gt; (character | characters)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">extend_right</span><span class="p">()</span>
+<span class="n">repeat</span><span class="p">(</span><span class="n">number_small</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">edit</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>formatted &lt;user.format_text&gt;</td>
+<td><p>Inserts text as-is, without invoking the dictation formatter.</p></td>
+</tr>
+<tr class="row-odd"><td>^format selection &lt;user.formatters&gt;$</td>
+<td><p>Reformats the current selection.</p></td>
+</tr>
+<tr class="row-even"><td>nope that | scratch that</td>
+<td><p>Clears the last phrase</p></td>
+</tr>
+<tr class="row-odd"><td>(nope | scratch) selection</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edit</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>select that</td>
+<td><p>Selects the last phrase</p></td>
+</tr>
+<tr class="row-odd"><td>spell that &lt;user.letters&gt;</td>
+<td><p>Inserts dictated text, formatted appropriately.</p></td>
+</tr>
+<tr class="row-even"><td>spell that &lt;user.formatters&gt; &lt;user.letters&gt;</td>
+<td><p>Let &lt;result&gt; be Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. ‘CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING’)
+Inserts text as-is, without invoking the dictation formatter.</p></td>
+</tr>
+<tr class="row-odd"><td>^escape &lt;user.text&gt;$</td>
+<td><p>Inserts dictated text, formatted appropriately.</p></td>
+</tr>
+</tbody>
 </table>
+</div>
 </section>
 
 

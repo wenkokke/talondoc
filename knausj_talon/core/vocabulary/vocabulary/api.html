@@ -153,7 +153,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../keys/keys/api.html">user.core.keys.keys.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modes/modes/api.html">user.core.modes.modes.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modes/language_modes/api.html">user.core.modes.language_modes.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.vocabulary.vocabulary.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.vocabulary.vocabulary.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../homophones/homophones/api.html">user.core.homophones.homophones.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../abbreviate/abbreviate/api.html">user.core.abbreviate.abbreviate.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text/formatters/api.html">user.core.text.formatters.py</a></li>
@@ -448,6 +455,70 @@
              
   <section id="user-core-vocabulary-vocabulary-py">
 <h1>user.core.vocabulary.vocabulary.py<a class="headerlink" href="#user-core-vocabulary-vocabulary-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">add_selection_to_vocabulary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">phrase</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">typing.Union[&lt;talondoc.analysis.static.python.shims.ObjectShim</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fc934dfe350&gt;,</span> <span class="pre">str]</span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">typing.Union[&lt;talondoc.analysis.static.python.shims.ObjectShim</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fc934dfe350&gt;,</span> <span class="pre">str]</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">type</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">&lt;class</span> <span class="pre">'str'&gt;</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Permanently</span> <span class="pre">adds</span> <span class="pre">the</span> <span class="pre">currently</span> <span class="pre">selected</span> <span class="pre">text</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">vocabulary</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">provided</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">spoken</span> <span class="pre">form</span> <span class="pre">and</span> <span class="pre">adds</span> <span class="pre">variants</span> <span class="pre">based</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">type</span> <span class="pre">(&quot;noun&quot;</span> <span class="pre">or</span> <span class="pre">&quot;name&quot;).</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">add_selection_to_words_to_replace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">phrase</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">&lt;talondoc.analysis.static.python.shims.ObjectShim</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fc934dfe350&gt;</span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">type</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">&lt;class</span> <span class="pre">'str'&gt;</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Permanently</span> <span class="pre">adds</span> <span class="pre">the</span> <span class="pre">currently</span> <span class="pre">selected</span> <span class="pre">text</span> <span class="pre">as</span> <span class="pre">replacement</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">provided</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">original</span> <span class="pre">form</span> <span class="pre">and</span> <span class="pre">adds</span> <span class="pre">variants</span> <span class="pre">based</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">type</span> <span class="pre">(&quot;noun&quot;</span> <span class="pre">or</span> <span class="pre">&quot;name&quot;).</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">vocabulary</span></span><dd><p><span class="pre">additional</span> <span class="pre">vocabulary</span> <span class="pre">words</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'N</span> <span class="pre">map'</span></span></td>
+<td><span class="s"><span class="pre">'nmap'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'under</span> <span class="pre">documented'</span></span></td>
+<td><span class="s"><span class="pre">'under-documented'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'nmap'</span></span></td>
+<td><span class="s"><span class="pre">'nmap'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'admin'</span></span></td>
+<td><span class="s"><span class="pre">'admin'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'Cisco'</span></span></td>
+<td><span class="s"><span class="pre">'Cisco'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Citrix'</span></span></td>
+<td><span class="s"><span class="pre">'Citrix'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'VPN'</span></span></td>
+<td><span class="s"><span class="pre">'VPN'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'DNS'</span></span></td>
+<td><span class="s"><span class="pre">'DNS'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'Minecraft'</span></span></td>
+<td><span class="s"><span class="pre">'Minecraft'</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

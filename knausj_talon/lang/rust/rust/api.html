@@ -205,7 +205,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../csharp/csharp/api.html">user.lang.csharp.csharp.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../python/python/api.html">user.lang.python.python.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../proto/proto/api.html">user.lang.proto.proto.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.lang.rust.rust.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.lang.rust.rust.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../r/r/api.html">user.lang.r.r.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../sql/sql/api.html">user.lang.sql.sql.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../markdown/markdown/api.html">user.lang.markdown.markdown.py</a></li>
@@ -448,6 +455,105 @@
              
   <section id="user-lang-rust-rust-py">
 <h1>user.lang.rust.rust.py<a class="headerlink" href="#user-lang-rust-rust-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_comment_documentation_block</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">a</span> <span class="pre">block</span> <span class="pre">document</span> <span class="pre">comment</span> <span class="pre">and</span> <span class="pre">positions</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">appropriately</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_comment_documentation_block_inner</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">an</span> <span class="pre">inner</span> <span class="pre">block</span> <span class="pre">document</span> <span class="pre">comment</span> <span class="pre">and</span> <span class="pre">positions</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">appropriately</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_comment_documentation_inner</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">an</span> <span class="pre">inner</span> <span class="pre">document</span> <span class="pre">comment</span> <span class="pre">and</span> <span class="pre">positions</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">appropriately</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_insert_if_let_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">if</span> <span class="pre">let</span> <span class="pre">error</span> <span class="pre">block,</span> <span class="pre">positioning</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">appropriately</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_insert_if_let_some</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">if</span> <span class="pre">let</span> <span class="pre">some</span> <span class="pre">block,</span> <span class="pre">positioning</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">appropriately</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_insert_macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">selection</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">a</span> <span class="pre">macro</span> <span class="pre">and</span> <span class="pre">positions</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">appropriately</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_insert_macro_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">selection</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">a</span> <span class="pre">macro</span> <span class="pre">array</span> <span class="pre">and</span> <span class="pre">positions</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">appropriately</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_insert_macro_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">selection</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">a</span> <span class="pre">macro</span> <span class="pre">block</span> <span class="pre">and</span> <span class="pre">positions</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">appropriately</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_insert_return_trait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">type</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">a</span> <span class="pre">return</span> <span class="pre">type</span> <span class="pre">for</span> <span class="pre">implementor</span> <span class="pre">of</span> <span class="pre">trait</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_insert_trait_annotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">type</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">type</span> <span class="pre">annotation</span> <span class="pre">for</span> <span class="pre">implementor</span> <span class="pre">of</span> <span class="pre">trait</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_implements</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">implements</span> <span class="pre">block,</span> <span class="pre">positioning</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">appropriately</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_unsafe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">an</span> <span class="pre">unsafe</span> <span class="pre">block</span> <span class="pre">and</span> <span class="pre">positions</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">appropriately</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_type_modifier</span></span><dd><p><span class="pre">List</span> <span class="pre">of</span> <span class="pre">type</span> <span class="pre">modifiers</span> <span class="pre">for</span> <span class="pre">active</span> <span class="pre">language</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_macros</span></span><dd><p><span class="pre">List</span> <span class="pre">of</span> <span class="pre">macros</span> <span class="pre">for</span> <span class="pre">active</span> <span class="pre">language</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_trait</span></span><dd><p><span class="pre">List</span> <span class="pre">of</span> <span class="pre">traits</span> <span class="pre">for</span> <span class="pre">active</span> <span class="pre">language</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

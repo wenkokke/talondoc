@@ -158,7 +158,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../abbreviate/abbreviate/api.html">user.core.abbreviate.abbreviate.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../formatters/api.html">user.core.text.formatters.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../phrase_history/api.html">user.core.text.phrase_history.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.text.text_and_dictation.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.text.text_and_dictation.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#captures">Captures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../../plugin/paste_to_insert/api.html">user.plugin.paste_to_insert.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../plugin/eye_tracking_settings/api.html">user.plugin.eye_tracking_settings.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../plugin/talon_helpers/talon_helpers/api.html">user.plugin.talon_helpers.talon_helpers.py</a></li>
@@ -448,6 +457,209 @@
              
   <section id="user-core-text-text-and-dictation-py">
 <h1>user.core.text.text_and_dictation.py<a class="headerlink" href="#user-core-text-text-and-dictation-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">dictation_format_cap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Sets</span> <span class="pre">the</span> <span class="pre">dictation</span> <span class="pre">formatter</span> <span class="pre">to</span> <span class="pre">capitalize</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">dictation_format_no_cap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Sets</span> <span class="pre">the</span> <span class="pre">dictation</span> <span class="pre">formatter</span> <span class="pre">to</span> <span class="pre">not</span> <span class="pre">capitalize</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">dictation_format_no_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Sets</span> <span class="pre">the</span> <span class="pre">dictation</span> <span class="pre">formatter</span> <span class="pre">to</span> <span class="pre">not</span> <span class="pre">prepend</span> <span class="pre">a</span> <span class="pre">space</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">dictation_format_reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Resets</span> <span class="pre">the</span> <span class="pre">dictation</span> <span class="pre">formatter</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">dictation_insert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">auto_cap</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">&lt;class</span> <span class="pre">'bool'&gt;</span></span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">Inserts</span> <span class="pre">dictated</span> <span class="pre">text,</span> <span class="pre">formatted</span> <span class="pre">appropriately.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">dictation_insert_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">text</span> <span class="pre">as-is,</span> <span class="pre">without</span> <span class="pre">invoking</span> <span class="pre">the</span> <span class="pre">dictation</span> <span class="pre">formatter.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">dictation_peek</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">left</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">right</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple[typing.Optional[str],</span> <span class="pre">typing.Optional[str]]</span></span></span><dd><p>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Gets</span> <span class="pre">text</span> <span class="pre">around</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">to</span> <span class="pre">inform</span> <span class="pre">auto-spacing</span> <span class="pre">and</span> <span class="pre">-capitalization.</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Returns</span> <span class="pre">(before,</span> <span class="pre">after),</span> <span class="pre">where</span> <span class="pre">`before`</span> <span class="pre">is</span> <span class="pre">some</span> <span class="pre">text</span> <span class="pre">before</span> <span class="pre">the</span> <span class="pre">cursor,</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">and</span> <span class="pre">`after`</span> <span class="pre">some</span> <span class="pre">text</span> <span class="pre">after</span> <span class="pre">it.</span> <span class="pre">Results</span> <span class="pre">are</span> <span class="pre">not</span> <span class="pre">guaranteed;</span> <span class="pre">`before`</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">and/or</span> <span class="pre">`after`</span> <span class="pre">may</span> <span class="pre">be</span> <span class="pre">None,</span> <span class="pre">indicating</span> <span class="pre">no</span> <span class="pre">information.</span> <span class="pre">If</span> <span class="pre">`before`</span> <span class="pre">is</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">the</span> <span class="pre">empty</span> <span class="pre">string,</span> <span class="pre">this</span> <span class="pre">means</span> <span class="pre">there</span> <span class="pre">is</span> <span class="pre">nothing</span> <span class="pre">before</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">(we</span> <span class="pre">are</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">at</span> <span class="pre">the</span> <span class="pre">beginning</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">document);</span> <span class="pre">likewise</span> <span class="pre">for</span> <span class="pre">`after`.</span>
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">To</span> <span class="pre">optimize</span> <span class="pre">performance,</span> <span class="pre">pass</span> <span class="pre">`left</span> <span class="pre">=</span> <span class="pre">False`</span> <span class="pre">if</span> <span class="pre">you</span> <span class="pre">won't</span> <span class="pre">need</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">`before`,</span> <span class="pre">and</span> <span class="pre">`right</span> <span class="pre">=</span> <span class="pre">False`</span> <span class="pre">if</span> <span class="pre">you</span> <span class="pre">won't</span> <span class="pre">need</span> <span class="pre">`after`.</span>
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">dictation_peek()</span> <span class="pre">is</span> <span class="pre">intended</span> <span class="pre">for</span> <span class="pre">use</span> <span class="pre">before</span> <span class="pre">inserting</span> <span class="pre">text,</span> <span class="pre">so</span> <span class="pre">it</span> <span class="pre">may</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">delete</span> <span class="pre">any</span> <span class="pre">currently</span> <span class="pre">selected</span> <span class="pre">text.</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">dictation_reformat_cap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Capitalizes</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">utterance</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">dictation_reformat_no_cap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Lowercases</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">utterance</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">dictation_reformat_no_space</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Removes</span> <span class="pre">space</span> <span class="pre">before</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">utterance</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="captures">
+<h3>Captures<a class="headerlink" href="#captures" title="Permalink to this heading"></a></h3>
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">prose_modifier</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">typing.Callable</span><dd><span class="pre">{user.prose_modifiers}</span></dd></dt>
+<dd></dd></dl>
+
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">prose_simple_number</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">(numb</span> <span class="pre">|</span> <span class="pre">numeral)</span> <span class="pre">&lt;user.number_string&gt;</span></dd></dt>
+<dd></dd></dl>
+
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">prose_number_with_dot</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">(numb</span> <span class="pre">|</span> <span class="pre">numeral)</span> <span class="pre">&lt;user.number_string&gt;</span> <span class="pre">(dot</span> <span class="pre">|</span> <span class="pre">point)</span> <span class="pre">&lt;digit_string&gt;</span></dd></dt>
+<dd></dd></dl>
+
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">prose_number_with_colon</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">(numb</span> <span class="pre">|</span> <span class="pre">numeral)</span> <span class="pre">&lt;user.number_string&gt;</span> <span class="pre">colon</span> <span class="pre">&lt;user.number_string&gt;</span></dd></dt>
+<dd></dd></dl>
+
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">prose_number</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">&lt;user.prose_simple_number&gt;</span> <span class="pre">|</span> <span class="pre">&lt;user.prose_number_with_dot&gt;</span> <span class="pre">|</span> <span class="pre">&lt;user.prose_number_with_colon&gt;</span></dd></dt>
+<dd></dd></dl>
+
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">word</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">({user.vocabulary}</span> <span class="pre">|</span> <span class="pre">&lt;word&gt;)</span></dd><dd><p><span class="pre">A</span> <span class="pre">single</span> <span class="pre">word,</span> <span class="pre">including</span> <span class="pre">user-defined</span> <span class="pre">vocabulary.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">({user.vocabulary}</span> <span class="pre">|</span> <span class="pre">&lt;phrase&gt;)+</span></dd><dd><p><span class="pre">A</span> <span class="pre">sequence</span> <span class="pre">of</span> <span class="pre">words,</span> <span class="pre">including</span> <span class="pre">user-defined</span> <span class="pre">vocabulary.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">prose</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">({user.vocabulary}</span> <span class="pre">|</span> <span class="pre">{user.punctuation}</span> <span class="pre">|</span> <span class="pre">{user.prose_snippets}</span> <span class="pre">|</span> <span class="pre">&lt;phrase&gt;</span> <span class="pre">|</span> <span class="pre">&lt;user.prose_number&gt;</span> <span class="pre">|</span> <span class="pre">&lt;user.prose_modifier&gt;)+</span></dd><dd><p><span class="pre">Mixed</span> <span class="pre">words</span> <span class="pre">and</span> <span class="pre">punctuation,</span> <span class="pre">auto-spaced</span> <span class="pre">&amp;</span> <span class="pre">capitalized.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">raw_prose</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">({user.vocabulary}</span> <span class="pre">|</span> <span class="pre">{user.punctuation}</span> <span class="pre">|</span> <span class="pre">{user.prose_snippets}</span> <span class="pre">|</span> <span class="pre">&lt;phrase&gt;</span> <span class="pre">|</span> <span class="pre">&lt;user.prose_number&gt;)+</span></dd><dd><p><span class="pre">Mixed</span> <span class="pre">words</span> <span class="pre">and</span> <span class="pre">punctuation,</span> <span class="pre">auto-spaced</span> <span class="pre">&amp;</span> <span class="pre">capitalized,</span> <span class="pre">without</span> <span class="pre">quote</span> <span class="pre">straightening</span> <span class="pre">and</span> <span class="pre">commands</span> <span class="pre">(for</span> <span class="pre">use</span> <span class="pre">in</span> <span class="pre">dictation</span> <span class="pre">mode).</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">prose_modifiers</span></span><dd><p><span class="pre">Modifiers</span> <span class="pre">that</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">within</span> <span class="pre">prose</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'cap'</span></span></td>
+<td><span class="s"><span class="pre">'cap'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'no</span> <span class="pre">cap'</span></span></td>
+<td><span class="s"><span class="pre">'no_cap'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'no</span> <span class="pre">caps'</span></span></td>
+<td><span class="s"><span class="pre">'no_cap'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'no</span> <span class="pre">space'</span></span></td>
+<td><span class="s"><span class="pre">'no_space'</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">prose_snippets</span></span><dd><p><span class="pre">Snippets</span> <span class="pre">that</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">within</span> <span class="pre">prose</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'spacebar'</span></span></td>
+<td><span class="sc"><span class="pre">'</span> <span class="pre">'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'new</span> <span class="pre">line'</span></span></td>
+<td><span class="sc"><span class="pre">'\n'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'new</span> <span class="pre">paragraph'</span></span></td>
+<td><span class="s"><span class="pre">'\n\n'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'open</span> <span class="pre">quote'</span></span></td>
+<td><span class="sc"><span class="pre">'“'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'close</span> <span class="pre">quote'</span></span></td>
+<td><span class="sc"><span class="pre">'”'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'smiley'</span></span></td>
+<td><span class="s"><span class="pre">':-)'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'winky'</span></span></td>
+<td><span class="s"><span class="pre">';-)'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'frowny'</span></span></td>
+<td><span class="s"><span class="pre">':-('</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">context_sensitive_dictation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><dd><p><span class="pre">Look</span> <span class="pre">at</span> <span class="pre">surrounding</span> <span class="pre">text</span> <span class="pre">to</span> <span class="pre">improve</span> <span class="pre">auto-capitalization/spacing</span> <span class="pre">in</span> <span class="pre">dictation</span> <span class="pre">mode.</span> <span class="pre">By</span> <span class="pre">default,</span> <span class="pre">this</span> <span class="pre">works</span> <span class="pre">by</span> <span class="pre">selecting</span> <span class="pre">that</span> <span class="pre">text</span> <span class="pre">&amp;</span> <span class="pre">copying</span> <span class="pre">it</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">clipboard,</span> <span class="pre">so</span> <span class="pre">it</span> <span class="pre">may</span> <span class="pre">be</span> <span class="pre">slow</span> <span class="pre">or</span> <span class="pre">fail</span> <span class="pre">in</span> <span class="pre">some</span> <span class="pre">applications.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

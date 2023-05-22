@@ -452,9 +452,77 @@
 <table class="compact docutils align-default">
 <caption><span class="caption-text"></span></caption>
 <tbody>
+<tr class="row-odd"><td>dot talon</td>
+<td><p>Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>action block</td>
+<td><p>Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>setting block</td>
+<td><p>Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>setting {user.talon_settings}</td>
+<td><p>Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-odd"><td>win require</td>
+<td><p>Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>mac require</td>
+<td><p>Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>linux require</td>
+<td><p>Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>title require</td>
+<td><p>Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>application [require] [{user.talon_apps}]</td>
+<td><p>Let &lt;app&gt; be &lt;talon_apps&gt; or None
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-even"><td>mode require [{user.talon_modes}]</td>
+<td><p>Let &lt;mode&gt; be &lt;talon_modes&gt; or None
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-odd"><td>tag require [{user.talon_tags}]</td>
+<td><p>Let &lt;tag&gt; be &lt;talon_tags&gt; or None
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-even"><td>tag set [{user.talon_tags}]</td>
+<td><p>Let &lt;tag&gt; be &lt;talon_tags&gt; or None
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-odd"><td>host require</td>
+<td><p>Let &lt;hostname&gt; be Returns the hostname
+Pastes text and preserves clipboard</p></td>
+</tr>
+<tr class="row-even"><td>list {user.talon_lists}</td>
+<td><p>Insert “{{ { talon_lists }} }”</p></td>
+</tr>
+<tr class="row-odd"><td>capture {user.talon_captures}</td>
+<td><p>Insert “&lt; { talon_captures } &gt;”</p></td>
+</tr>
+<tr class="row-even"><td>key &lt;user.keys&gt; over</td>
+<td><p>Insert “{ keys }”</p></td>
+</tr>
+<tr class="row-odd"><td>key &lt;user.modifiers&gt; over</td>
+<td><p>Insert “{ modifiers }”</p></td>
+</tr>
+<tr class="row-even"><td>funk {user.talon_actions}</td>
+<td><p>Inserts a function and positions the cursor appropriately</p></td>
+</tr>
+<tr class="row-odd"><td>funk cell &lt;number&gt;</td>
+<td><p>Inserts the selected function when the imgui is open</p></td>
+</tr>
+<tr class="row-even"><td>funk wrap &lt;user.code_common_function&gt;</td>
+<td><p>Inserts a function and positions the cursor appropriately</p></td>
+</tr>
+<tr class="row-odd"><td>funk wrap &lt;number&gt;</td>
+<td><p>Inserts the selected function when the imgui is open</p></td>
+</tr>
 </tbody>
-</div>
 </table>
+</div>
 </section>
 
 

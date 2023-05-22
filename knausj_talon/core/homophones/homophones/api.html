@@ -154,7 +154,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../modes/modes/api.html">user.core.modes.modes.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modes/language_modes/api.html">user.core.modes.language_modes.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../vocabulary/vocabulary/api.html">user.core.vocabulary.vocabulary.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.homophones.homophones.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.homophones.homophones.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#captures">Captures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../abbreviate/abbreviate/api.html">user.core.abbreviate.abbreviate.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text/formatters/api.html">user.core.text.formatters.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text/phrase_history/api.html">user.core.text.phrase_history.py</a></li>
@@ -448,6 +457,1415 @@
              
   <section id="user-core-homophones-homophones-py">
 <h1>user.core.homophones.homophones.py<a class="headerlink" href="#user-core-homophones-homophones-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">homophones_force_show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">m</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Show</span> <span class="pre">the</span> <span class="pre">homophones</span> <span class="pre">display</span> <span class="pre">forcibly</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">homophones_force_show_selection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Show</span> <span class="pre">the</span> <span class="pre">homophones</span> <span class="pre">display</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">selected</span> <span class="pre">text</span> <span class="pre">forcibly</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">homophones_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">word</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">[&lt;class</span> <span class="pre">'str'&gt;]</span></span></span><dd><p><span class="pre">Get</span> <span class="pre">homophones</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">given</span> <span class="pre">word</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">homophones_hide</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Hides</span> <span class="pre">the</span> <span class="pre">homophones</span> <span class="pre">display</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">homophones_select</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">number</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">selects</span> <span class="pre">the</span> <span class="pre">homophone</span> <span class="pre">by</span> <span class="pre">number</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">homophones_show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">m</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Show</span> <span class="pre">the</span> <span class="pre">homophones</span> <span class="pre">display</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">homophones_show_auto</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Show</span> <span class="pre">homophones</span> <span class="pre">for</span> <span class="pre">selection,</span> <span class="pre">or</span> <span class="pre">current</span> <span class="pre">word</span> <span class="pre">if</span> <span class="pre">selection</span> <span class="pre">is</span> <span class="pre">empty.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">homophones_show_selection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Show</span> <span class="pre">the</span> <span class="pre">homophones</span> <span class="pre">display</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">selected</span> <span class="pre">text</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="captures">
+<h3>Captures<a class="headerlink" href="#captures" title="Permalink to this heading"></a></h3>
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">homophones_canonical</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">{self.homophones_canonicals}</span></dd><dd><p><span class="pre">Returns</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">string</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">homophones_canonicals</span></span><dd><p><span class="pre">list</span> <span class="pre">of</span> <span class="pre">words</span> </p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'able'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Adam'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'Cain'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Chile'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'check'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Dane'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'finish'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'gale'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'Hugh'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="sc"><span class="pre">'I'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'Jim'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'laps'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'Lou'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Nice'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'Paul'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Pete'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sue'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Wayne'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'acclamation'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'add'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'addition'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'adds'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'adherence'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'ado'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'aerial'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Aaron'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'affected'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'afterward'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'aid'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'ale'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'align'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'all'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'alluded'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'illusion'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'allowed'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'alter'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'analyst'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'appetite'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'apprize'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'arc'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'ascent'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'assistance'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'augur'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'aunt'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'oral'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'oriole'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'away'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'acts'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'axis'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'axle'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'eyes'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bah'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'Babel'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bad'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bait'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bald'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bail'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'band'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'barred'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'baron'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'barrel'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'basil'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'base'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'baseline'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'basis'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'basque'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'based'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'baited'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'ball'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bizarre'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bear'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'beat'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bow'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'be'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'beach'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'been'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'beer'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bell'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'better'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bib'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bite'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bird'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'birth'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'blue'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'block'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bore'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'boulder'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bomb'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bought'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'booty'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'border'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'board'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'born'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bow'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bowed'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bold'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'braid'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'brays'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'breach'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'break'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bread'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'brews'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bridal'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'broach'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'brewed'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'browse'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'brute'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'build'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bullion'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'boy'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'burger'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'borough'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bury'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bust'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'but'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'by'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'caddy'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'calendar'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'callous'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'cannon'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'cantor'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'canvas'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'capital'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'carol'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'carrot'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'cash'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'cached'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'cast'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'caster'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'cause'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'seed'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'ceiling'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'seller'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'sensor'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sent'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'serial'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'chance'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'chased'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'chauffeur'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'cheap'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'chic'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'choose'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'cited'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'clack'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'clammer'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'clause'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'clue'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'click'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'climb'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'close'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'coal'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'course'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'coat'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'coax'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'collared'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'complacent'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'complement'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'conceded'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'consonants'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'consul'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'continents'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'coup'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'coulee'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'cops'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'coral'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'cord'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'core'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'coughers'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'council'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'coupe'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'coarser'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'cousin'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'coward'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'craft'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'creek'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'crepe'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'cruel'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'cruise'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'queue'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'current'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'cursor'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'signet'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'symbol'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Cyprus'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'damn'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'days'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'dear'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'dense'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'diffused'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'discrete'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'disperse'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'descent'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'do'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'doc'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'do'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'does'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'draft'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'ducked'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'ducks'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'dual'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'done'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'die'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'dying'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'adduce'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'eke'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'effect'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'effects'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'eight'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'illicit'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'elude'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'elusive'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'emend'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'innumerable'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'errant'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'eve'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'exceed'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'except'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'exercise'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'end'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">&quot;I'd&quot;</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'faint'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'fair'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'fairy'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'foe'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'fawn'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'facts'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'phase'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'feet'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'fens'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'fete'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'few'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Phil'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'find'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'fisher'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'flare'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'flee'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'flow'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'flower'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'flew'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'flyer'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'fold'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'for'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'foregone'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'forward'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'fort'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'fourth'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'foul'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'frank'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'phrase'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'freeze'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'friar'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'fur'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'gaffe'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'gate'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'gamble'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'gel'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'gene'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'jibe'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'guild'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'gilder'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'guilt'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'gnome'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'gopher'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'gourd'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'gorilla'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'graham'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'graft'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'great'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'greater'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'grade'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'graze'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Greece'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'grill'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'grizzly'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'grown'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'guest'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'gauge'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'hail'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'hall'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'have'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'handmade'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'hangar'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'handsome'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'hair'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'hey'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'haze'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'heart'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">&quot;he'll&quot;</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'air'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'heard'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'here'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'heroin'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">&quot;he'd&quot;</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'high'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'higher'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'ho'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'hold'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'whole'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'holy'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'horde'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'horse'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'hose'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'hostile'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'humorous'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'hurts'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'him'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'idle'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'imminent'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'impassable'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'in'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'innocence'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'insight'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'instance'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'intense'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">&quot;I'll&quot;</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'islet'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'its'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'jam'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'json'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'jinx'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'kernel'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'nap'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'nave'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'new'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'knit'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'knock'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'no'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'coy'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'crawl'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'lacks'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'latter'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'laid'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'lama'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'lane'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'lee'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'lead'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'leak'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'lean'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'least'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'leach'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'lay'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'lays'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'lens'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'lesson'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">&quot;let's&quot;</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'levy'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'light'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'liken'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'links'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'literal'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'loathe'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'loch'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'load'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'loan'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'loot'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'low'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'lochs'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'lumber'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'lie'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'liar'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'matter'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'made'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'maze'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'male'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'mall'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'main'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'manner'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'mantle'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'mayor'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'mark'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'martial'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'martin'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'mast'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'mat'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'meet'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'meteor'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'metal'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'medal'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'Mary'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'metal'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'mule'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'mean'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'mill'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'mince'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'mind'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'minor'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'Mrs'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'missile'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'missed'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'might'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'mode'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'mood'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'mourn'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'moat'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'morning'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'moose'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'moan'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'mucus'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'muscle'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'muse'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'must'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'mustard'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'naval'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'need'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'nay'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'nice'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'knickers'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'night'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'none'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'knows'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'not'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'or'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'owed'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'oh'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'our'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'ours'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'outcast'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'overdue'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'overseas'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'paste'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'packed'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pale'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'pain'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'palette'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'pair'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'parley'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'past'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'patients'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'patted'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pause'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'piece'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'peas'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'pedal'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pee'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'peel'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'peer'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'penance'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'paean'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'per'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'parish'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'petrol'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pew'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'flocks'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pie'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'picot'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pigeon'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'pilot'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'peak'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'pistol'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'plaque'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'plate'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'plane'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'please'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'plum'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'poll'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pull'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'pour'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'praise'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'precedence'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'premier'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'presence'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pray'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'pride'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'primer'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'principle'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'prince'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'profit'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pros'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'perl'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pervade'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'quartz'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'quince'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'choir'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'rabbit'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'rain'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'wrap'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'wrapper'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'wrapped'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'raise'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'read'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'read'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'real'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'wreak'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'residents'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'rest'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'wretch'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'review'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'rigor'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'ring'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'right'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'roads'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Rome'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'row'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'role'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'room'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'rose'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'rough'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'route'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'rue'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'road'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'rude'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'rumor'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'rung'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Russell'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sack'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'sacks'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sale'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'sane'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sachet'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'saver'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'seen'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'sense'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'skull'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'seer'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'see'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'scalar'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'cedar'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'seem'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sees'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'sell'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'series'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'session'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sheer'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'shoe'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'shoot'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'shown'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sick'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'side'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'size'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'site'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sink'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'slay'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'slight'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'slow'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'slew'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'sword'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sold'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'son'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sore'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'sorry'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'soul'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'so'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sewing'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'spade'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'stayed'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'stare'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'stationary'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'stake'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'steel'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'step'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'style'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'straightened'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'straight'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'swayed'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'suit'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'some'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'summary'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Sunday'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'surf'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'surge'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sweet'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'tax'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'tacked'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'tale'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'taper'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'terry'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'taupe'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'taught'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'tea'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'team'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'tease'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'tear'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'tens'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'tense'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'than'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'the'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">&quot;there's&quot;</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'their'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'through'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'thrown'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'throws'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'time'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'tick'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'tie'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'tied'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'tear'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'Tigris'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'timber'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'to'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'toe'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'told'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'tool'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'tort'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'torturous'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'towed'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'tracked'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'trader'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'troop'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'trust'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'turbine'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'turn'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'tutor'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'tucks'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'utter'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'undo'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'earn'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'use'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'veil'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'valence'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'vain'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'vein'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'Venus'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'versus'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'very'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'vile'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'vice'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'waste'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'wait'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'waiter'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'whale'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'wears'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'wave'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'wax'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'way'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'we'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'where'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'were'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'whether'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">&quot;we'd&quot;</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'week'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'wade'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'ways'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'wet'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">&quot;we've&quot;</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'Wales'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">&quot;we'll&quot;</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'wheeled'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'with'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'which'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'while'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'word'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'hoop'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'whose'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'wine'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'wind'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'whoa'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'walk'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'one'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'want'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'would'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'war'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'ward'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'world'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'worn'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'rack'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'wrote'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'rye'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'you'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'yoke'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'your'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">&quot;you'll&quot;</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">homophones_open</span></span><dd><p><span class="pre">Tag</span> <span class="pre">for</span> <span class="pre">enabling</span> <span class="pre">homophones</span> <span class="pre">commands</span> <span class="pre">when</span> <span class="pre">the</span> <span class="pre">associated</span> <span class="pre">gui</span> <span class="pre">is</span> <span class="pre">open</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

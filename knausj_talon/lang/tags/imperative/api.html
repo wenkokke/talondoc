@@ -223,7 +223,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../operators_lambda/api.html">user.lang.tags.operators_lambda.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data_null/api.html">user.lang.tags.data_null.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../comment_line/api.html">user.lang.tags.comment_line.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.lang.tags.imperative.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.lang.tags.imperative.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../object_oriented/api.html">user.lang.tags.object_oriented.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../operators_assignment/api.html">user.lang.tags.operators_assignment.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../comment_documentation/api.html">user.lang.tags.comment_documentation.py</a></li>
@@ -448,6 +455,124 @@
              
   <section id="user-lang-tags-imperative-py">
 <h1>user.lang.tags.imperative.py<a class="headerlink" href="#user-lang-tags-imperative-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_block</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">equivalent</span> <span class="pre">of</span> <span class="pre">{</span>
+<span class="pre">}</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">language,</span> <span class="pre">and</span> <span class="pre">places</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">appropriately</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_break</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">break</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">next</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_case</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">case</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_continue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">continue</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_do</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">do</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_else</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">else</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_else_if</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">else</span> <span class="pre">if</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_for</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">for</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_for_each</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">for</span> <span class="pre">each</span> <span class="pre">equivalent</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_go_to</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">inserts</span> <span class="pre">go-to</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_if</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">if</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_infinite_loop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">infinite</span> <span class="pre">loop</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_return</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">return</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_switch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">switch</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_state_while</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">while</span> <span class="pre">statement</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_try_catch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">try/catch.</span> <span class="pre">If</span> <span class="pre">selection</span> <span class="pre">is</span> <span class="pre">true,</span> <span class="pre">does</span> <span class="pre">so</span> <span class="pre">around</span> <span class="pre">the</span> <span class="pre">selection</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_imperative</span></span><dd><p><span class="pre">Tag</span> <span class="pre">for</span> <span class="pre">enabling</span> <span class="pre">basic</span> <span class="pre">imperative</span> <span class="pre">programming</span> <span class="pre">commands</span> <span class="pre">(loops,</span> <span class="pre">functions,</span> <span class="pre">etc)</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

@@ -119,7 +119,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../../apps/thunderbird/thunderbird_win/api.html">user.apps.thunderbird.thunderbird_win.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../apps/thunderbird/thunderbird_mac/api.html">user.apps.thunderbird.thunderbird_mac.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../apps/terminator/terminator_linux/api.html">user.apps.terminator.terminator_linux.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.delayed_speech_off.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.delayed_speech_off.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../noise/api.html">user.core.noise.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system_paths/api.html">user.core.system_paths.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tags/api.html">user.core.tags.py</a></li>
@@ -448,6 +454,27 @@
              
   <section id="user-core-delayed-speech-off-py">
 <h1>user.core.delayed_speech_off.py<a class="headerlink" href="#user-core-delayed-speech-off-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">delayed_speech_off</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Disables</span> <span class="pre">&quot;temporary</span> <span class="pre">speech&quot;</span> <span class="pre">mode</span> <span class="pre">lazily,</span> <span class="pre">meaning</span> <span class="pre">that</span> <span class="pre">the</span> <span class="pre">next</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">phrase</span> <span class="pre">that</span> <span class="pre">finishes</span> <span class="pre">will</span> <span class="pre">turn</span> <span class="pre">speech</span> <span class="pre">off.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">delayed_speech_on</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Activates</span> <span class="pre">a</span> <span class="pre">&quot;temporary</span> <span class="pre">speech&quot;</span> <span class="pre">mode</span> <span class="pre">that</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">disabled</span> <span class="pre">lazily,</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">so</span> <span class="pre">that</span> <span class="pre">the</span> <span class="pre">actual</span> <span class="pre">disable</span> <span class="pre">command</span> <span class="pre">happens</span> <span class="pre">after</span> <span class="pre">whatever</span> <span class="pre">phrase</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">finishes</span> <span class="pre">next.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

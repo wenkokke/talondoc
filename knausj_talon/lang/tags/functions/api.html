@@ -216,7 +216,17 @@
 <li class="toctree-l2"><a class="reference internal" href="../libraries/api.html">user.lang.tags.libraries.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../comment_block/api.html">user.lang.tags.comment_block.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../functions_common/api.html">user.lang.tags.functions_common.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.lang.tags.functions.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.lang.tags.functions.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#captures">Captures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../keywords/api.html">user.lang.tags.keywords.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../operators_pointer/api.html">user.lang.tags.operators_pointer.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data_bool/api.html">user.lang.tags.data_bool.py</a></li>
@@ -448,6 +458,208 @@
              
   <section id="user-lang-tags-functions-py">
 <h1>user.lang.tags.functions.py<a class="headerlink" href="#user-lang-tags-functions-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_default_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">function</span> <span class="pre">declaration</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_insert_named_argument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">parameter_name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">a</span> <span class="pre">named</span> <span class="pre">argument</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_insert_return_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">type</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">a</span> <span class="pre">return</span> <span class="pre">type</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_insert_type_annotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">type</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">a</span> <span class="pre">type</span> <span class="pre">annotation</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_modified_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">modifiers</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">typing.Union[list[str],</span> <span class="pre">int]</span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Inserts</span> <span class="pre">function</span> <span class="pre">declaration</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">given</span> <span class="pre">modifiers.</span> <span class="pre">modifiers</span> <span class="pre">==</span> <span class="pre">0</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">implies</span> <span class="pre">no</span> <span class="pre">modifiers</span> <span class="pre">(.talon</span> <span class="pre">files</span> <span class="pre">don't</span> <span class="pre">have</span> <span class="pre">empty</span> <span class="pre">list</span> <span class="pre">literal</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">syntax)</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_private_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">private</span> <span class="pre">function</span> <span class="pre">declaration</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_private_function_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">private</span> <span class="pre">function</span> <span class="pre">name</span> <span class="pre">with</span> <span class="pre">formatter</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_private_static_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">private</span> <span class="pre">static</span> <span class="pre">function</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_private_variable_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">inserts</span> <span class="pre">properly</span> <span class="pre">formatted</span> <span class="pre">private</span> <span class="pre">function</span> <span class="pre">name</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_protected_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">protected</span> <span class="pre">function</span> <span class="pre">declaration</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_protected_function_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">inserts</span> <span class="pre">properly</span> <span class="pre">formatted</span> <span class="pre">private</span> <span class="pre">function</span> <span class="pre">name</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_protected_static_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">public</span> <span class="pre">function</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_protected_variable_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">inserts</span> <span class="pre">properly</span> <span class="pre">formatted</span> <span class="pre">private</span> <span class="pre">function</span> <span class="pre">name</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_public_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">public</span> <span class="pre">function</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_public_function_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">inserts</span> <span class="pre">properly</span> <span class="pre">formatted</span> <span class="pre">private</span> <span class="pre">function</span> <span class="pre">name</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_public_static_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Inserts</span> <span class="pre">public</span> <span class="pre">function</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_public_variable_formatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">inserts</span> <span class="pre">properly</span> <span class="pre">formatted</span> <span class="pre">private</span> <span class="pre">function</span> <span class="pre">name</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="captures">
+<h3>Captures<a class="headerlink" href="#captures" title="Permalink to this heading"></a></h3>
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_type</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">{user.code_type}</span></dd><dd><p><span class="pre">Returns</span> <span class="pre">a</span> <span class="pre">macro</span> <span class="pre">name</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_type</span></span><dd><p><span class="pre">List</span> <span class="pre">of</span> <span class="pre">types</span> <span class="pre">for</span> <span class="pre">active</span> <span class="pre">language</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_parameter_name</span></span><dd><p><span class="pre">List</span> <span class="pre">of</span> <span class="pre">common</span> <span class="pre">parameter</span> <span class="pre">names</span> <span class="pre">for</span> <span class="pre">active</span> <span class="pre">language</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_function_modifier</span></span><dd><p><span class="pre">List</span> <span class="pre">of</span> <span class="pre">function</span> <span class="pre">modifiers</span> <span class="pre">(e.g.</span> <span class="pre">private,</span> <span class="pre">async,</span> <span class="pre">static)</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'pub'</span></span></td>
+<td><span class="s"><span class="pre">'public'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pro'</span></span></td>
+<td><span class="s"><span class="pre">'protected'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'private'</span></span></td>
+<td><span class="s"><span class="pre">'private'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'static'</span></span></td>
+<td><span class="s"><span class="pre">'static'</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_private_function_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_protected_function_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_public_function_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_private_variable_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_protected_variable_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_public_variable_formatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">code_functions</span></span><dd><p><span class="pre">Tag</span> <span class="pre">for</span> <span class="pre">enabling</span> <span class="pre">commands</span> <span class="pre">for</span> <span class="pre">functions</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

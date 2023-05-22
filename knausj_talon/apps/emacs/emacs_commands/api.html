@@ -81,7 +81,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../atril/atril/api.html">user.apps.atril.atril.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../kubectl/kubectl/api.html">user.apps.kubectl.kubectl.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../emacs/api.html">user.apps.emacs.emacs.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.apps.emacs.emacs_commands.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.apps.emacs.emacs_commands.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../brave/brave/api.html">user.apps.brave.brave.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../evince/evince_linux/api.html">user.apps.evince.evince_linux.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../kde_konsole/kde_konsole/api.html">user.apps.kde_konsole.kde_konsole.py</a></li>
@@ -448,6 +455,31 @@
              
   <section id="user-apps-emacs-emacs-commands-py">
 <h1>user.apps.emacs.emacs_commands.py<a class="headerlink" href="#user-apps-emacs-emacs-commands-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">emacs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">command_name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">prefix</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">typing.Optional[int]</span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">typing.Optional[int]</span></span></em><span class="sig-paren">)</span><dd><p>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Runs</span> <span class="pre">the</span> <span class="pre">emacs</span> <span class="pre">command</span> <span class="pre">`command_name`.</span> <span class="pre">Defaults</span> <span class="pre">to</span> <span class="pre">using</span> <span class="pre">M-x,</span> <span class="pre">but</span> <span class="pre">may</span> <span class="pre">use</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">a</span> <span class="pre">key</span> <span class="pre">binding</span> <span class="pre">if</span> <span class="pre">known</span> <span class="pre">or</span> <span class="pre">rpc</span> <span class="pre">if</span> <span class="pre">available.</span> <span class="pre">Provides</span> <span class="pre">numeric</span> <span class="pre">prefix</span> <span class="pre">argument</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">`prefix`</span> <span class="pre">if</span> <span class="pre">specified.</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">emacs_command</span></span><dd><p><span class="pre">Emacs</span> <span class="pre">commands</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

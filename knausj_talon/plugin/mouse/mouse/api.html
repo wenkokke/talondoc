@@ -163,7 +163,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../eye_tracking_settings/api.html">user.plugin.eye_tracking_settings.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../talon_helpers/talon_helpers/api.html">user.plugin.talon_helpers.talon_helpers.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cancel/cancel/api.html">user.plugin.cancel.cancel.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.plugin.mouse.mouse.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.plugin.mouse.mouse.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../media/media/api.html">user.plugin.media.media.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_history/command_history/api.html">user.plugin.command_history.command_history.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../text_navigation/text_navigation/api.html">user.plugin.text_navigation.text_navigation.py</a></li>
@@ -448,6 +457,171 @@
              
   <section id="user-plugin-mouse-mouse-py">
 <h1>user.plugin.mouse.mouse.py<a class="headerlink" href="#user-plugin-mouse-mouse-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">copy_mouse_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Copy</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">mouse</span> <span class="pre">position</span> <span class="pre">coordinates</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_drag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">button</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Press</span> <span class="pre">and</span> <span class="pre">hold/release</span> <span class="pre">a</span> <span class="pre">specific</span> <span class="pre">mouse</span> <span class="pre">button</span> <span class="pre">for</span> <span class="pre">dragging</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_drag_end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Releases</span> <span class="pre">any</span> <span class="pre">held</span> <span class="pre">mouse</span> <span class="pre">buttons</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_gaze_scroll</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Starts</span> <span class="pre">gaze</span> <span class="pre">scroll</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_hide_cursor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Hides</span> <span class="pre">the</span> <span class="pre">cursor</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_move_center_active_window</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">move</span> <span class="pre">the</span> <span class="pre">mouse</span> <span class="pre">cursor</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">center</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">currently</span> <span class="pre">active</span> <span class="pre">window</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_scroll_down</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">amount</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">&lt;class</span> <span class="pre">'float'&gt;</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Scrolls</span> <span class="pre">down</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_scroll_down_continuous</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Scrolls</span> <span class="pre">down</span> <span class="pre">continuously</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_scroll_left</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">amount</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">&lt;class</span> <span class="pre">'float'&gt;</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Scrolls</span> <span class="pre">left</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_scroll_right</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">amount</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">&lt;class</span> <span class="pre">'float'&gt;</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Scrolls</span> <span class="pre">right</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_scroll_stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Stops</span> <span class="pre">scrolling</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_scroll_up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">amount</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">&lt;class</span> <span class="pre">'float'&gt;</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Scrolls</span> <span class="pre">up</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_scroll_up_continuous</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Scrolls</span> <span class="pre">up</span> <span class="pre">continuously</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_show_cursor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Shows</span> <span class="pre">the</span> <span class="pre">cursor</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_sleep</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Disables</span> <span class="pre">control</span> <span class="pre">mouse,</span> <span class="pre">zoom</span> <span class="pre">mouse,</span> <span class="pre">and</span> <span class="pre">re-enables</span> <span class="pre">cursor</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_wake</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Enable</span> <span class="pre">control</span> <span class="pre">mouse,</span> <span class="pre">zoom</span> <span class="pre">mouse,</span> <span class="pre">and</span> <span class="pre">disables</span> <span class="pre">cursor</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_button</span></span><dd><p><span class="pre">List</span> <span class="pre">of</span> <span class="pre">mouse</span> <span class="pre">button</span> <span class="pre">words</span> <span class="pre">to</span> <span class="pre">mouse_click</span> <span class="pre">index</span> <span class="pre">parameter</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_enable_pop_click</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">TalonInteger(text='1',</span> <span class="pre">type_name='integer',</span> <span class="pre">start_position=Point(line=24,</span> <span class="pre">column=34),</span> <span class="pre">end_position=Point(line=24,</span> <span class="pre">column=35))</span></span><dd><p><span class="pre">Pop</span> <span class="pre">noise</span> <span class="pre">clicks</span> <span class="pre">left</span> <span class="pre">mouse</span> <span class="pre">button.</span> <span class="pre">0</span> <span class="pre">=</span> <span class="pre">off,</span> <span class="pre">1</span> <span class="pre">=</span> <span class="pre">on</span> <span class="pre">with</span> <span class="pre">eyetracker</span> <span class="pre">but</span> <span class="pre">not</span> <span class="pre">with</span> <span class="pre">zoom</span> <span class="pre">mouse</span> <span class="pre">mode,</span> <span class="pre">2</span> <span class="pre">=</span> <span class="pre">on</span> <span class="pre">but</span> <span class="pre">not</span> <span class="pre">with</span> <span class="pre">zoom</span> <span class="pre">mouse</span> <span class="pre">mode</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_enable_pop_stops_scroll</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">TalonInteger(text='1',</span> <span class="pre">type_name='integer',</span> <span class="pre">start_position=Point(line=18,</span> <span class="pre">column=41),</span> <span class="pre">end_position=Point(line=18,</span> <span class="pre">column=42))</span></span><dd><p><span class="pre">When</span> <span class="pre">enabled,</span> <span class="pre">pop</span> <span class="pre">stops</span> <span class="pre">continuous</span> <span class="pre">scroll</span> <span class="pre">modes</span> <span class="pre">(wheel</span> <span class="pre">upper/downer/gaze)</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_wake_hides_cursor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">TalonInteger(text='0',</span> <span class="pre">type_name='integer',</span> <span class="pre">start_position=Point(line=30,</span> <span class="pre">column=35),</span> <span class="pre">end_position=Point(line=30,</span> <span class="pre">column=36))</span></span><dd><p><span class="pre">When</span> <span class="pre">enabled,</span> <span class="pre">mouse</span> <span class="pre">wake</span> <span class="pre">will</span> <span class="pre">hide</span> <span class="pre">the</span> <span class="pre">cursor.</span> <span class="pre">mouse_wake</span> <span class="pre">enables</span> <span class="pre">zoom</span> <span class="pre">mouse.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_hide_mouse_gui</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">TalonInteger(text='0',</span> <span class="pre">type_name='integer',</span> <span class="pre">start_position=Point(line=27,</span> <span class="pre">column=32),</span> <span class="pre">end_position=Point(line=27,</span> <span class="pre">column=33))</span></span><dd><p><span class="pre">When</span> <span class="pre">enabled,</span> <span class="pre">the</span> <span class="pre">'Scroll</span> <span class="pre">Mouse'</span> <span class="pre">GUI</span> <span class="pre">will</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">shown.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_continuous_scroll_amount</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">80</span></span><dd><p><span class="pre">The</span> <span class="pre">default</span> <span class="pre">amount</span> <span class="pre">used</span> <span class="pre">when</span> <span class="pre">scrolling</span> <span class="pre">continuously</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_wheel_down_amount</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">120</span></span><dd><p><span class="pre">The</span> <span class="pre">amount</span> <span class="pre">to</span> <span class="pre">scroll</span> <span class="pre">up/down</span> <span class="pre">(equivalent</span> <span class="pre">to</span> <span class="pre">mouse</span> <span class="pre">wheel</span> <span class="pre">on</span> <span class="pre">Windows</span> <span class="pre">by</span> <span class="pre">default)</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_wheel_horizontal_amount</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">40</span></span><dd><p><span class="pre">The</span> <span class="pre">amount</span> <span class="pre">to</span> <span class="pre">scroll</span> <span class="pre">left/right</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_cursor_commands_enable</span></span><dd><p><span class="pre">Tag</span> <span class="pre">enables</span> <span class="pre">hide/show</span> <span class="pre">mouse</span> <span class="pre">cursor</span> <span class="pre">commands</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

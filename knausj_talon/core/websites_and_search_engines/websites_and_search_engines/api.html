@@ -137,7 +137,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../windows_and_tabs/tabs/api.html">user.core.windows_and_tabs.tabs.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../windows_and_tabs/windows_and_tabs_win/api.html">user.core.windows_and_tabs.windows_and_tabs_win.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../windows_and_tabs/windows_and_tabs_linux/api.html">user.core.windows_and_tabs.windows_and_tabs_linux.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.websites_and_search_engines.websites_and_search_engines.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.websites_and_search_engines.websites_and_search_engines.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../edit/edit_win/api.html">user.core.edit.edit_win.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../edit/edit_mac/api.html">user.core.edit.edit_mac.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../edit/edit/api.html">user.core.edit.edit.py</a></li>
@@ -448,6 +455,114 @@
              
   <section id="user-core-websites-and-search-engines-websites-and-search-engines-py">
 <h1>user.core.websites_and_search_engines.websites_and_search_engines.py<a class="headerlink" href="#user-core-websites-and-search-engines-websites-and-search-engines-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">open_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">url</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Visit</span> <span class="pre">the</span> <span class="pre">given</span> <span class="pre">URL.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">search_with_search_engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">search_template</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">search_text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Search</span> <span class="pre">a</span> <span class="pre">search</span> <span class="pre">engine</span> <span class="pre">for</span> <span class="pre">given</span> <span class="pre">text</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">website</span></span><dd><p><span class="pre">A</span> <span class="pre">website.</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'talon</span> <span class="pre">home</span> <span class="pre">page'</span></span></td>
+<td><span class="s"><span class="pre">'http://talonvoice.com'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'talon</span> <span class="pre">slack'</span></span></td>
+<td><span class="s"><span class="pre">'http://talonvoice.slack.com/messages/help'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'talon</span> <span class="pre">wiki'</span></span></td>
+<td><span class="s"><span class="pre">'https://talon.wiki/'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'talon</span> <span class="pre">practice'</span></span></td>
+<td><span class="s"><span class="pre">'https://chaosparrot.github.io/talon_practice/'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'talon</span> <span class="pre">repository</span> <span class="pre">search'</span></span></td>
+<td><span class="s"><span class="pre">'https://search.talonvoice.com/search/'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'amazon'</span></span></td>
+<td><span class="s"><span class="pre">'https://www.amazon.com/'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'dropbox'</span></span></td>
+<td><span class="s"><span class="pre">'https://dropbox.com/'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'google'</span></span></td>
+<td><span class="s"><span class="pre">'https://www.google.com/'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'google</span> <span class="pre">calendar'</span></span></td>
+<td><span class="s"><span class="pre">'https://calendar.google.com'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'google</span> <span class="pre">maps'</span></span></td>
+<td><span class="s"><span class="pre">'https://maps.google.com/'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'google</span> <span class="pre">scholar'</span></span></td>
+<td><span class="s"><span class="pre">'https://scholar.google.com/'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'gmail'</span></span></td>
+<td><span class="s"><span class="pre">'https://mail.google.com/'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'github'</span></span></td>
+<td><span class="s"><span class="pre">'https://github.com/'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'gist'</span></span></td>
+<td><span class="s"><span class="pre">'https://gist.github.com/'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'wikipedia'</span></span></td>
+<td><span class="s"><span class="pre">'https://en.wikipedia.org/'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'youtube'</span></span></td>
+<td><span class="s"><span class="pre">'https://www.youtube.com/'</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">search_engine</span></span><dd><p><span class="pre">A</span> <span class="pre">search</span> <span class="pre">engine.</span>&#160; <span class="pre">Any</span> <span class="pre">instance</span> <span class="pre">of</span> <span class="pre">%s</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">replaced</span> <span class="pre">by</span> <span class="pre">query</span> <span class="pre">text</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'amazon'</span></span></td>
+<td><span class="s"><span class="pre">'https://www.amazon.com/s/?field-keywords=%s'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'google'</span></span></td>
+<td><span class="s"><span class="pre">'https://www.google.com/search?q=%s'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'map'</span></span></td>
+<td><span class="s"><span class="pre">'https://maps.google.com/maps?q=%s'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'scholar'</span></span></td>
+<td><span class="s"><span class="pre">'https://scholar.google.com/scholar?q=%s'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'wiki'</span></span></td>
+<td><span class="s"><span class="pre">'https://en.wikipedia.org/w/index.php?search=%s'</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

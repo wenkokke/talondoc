@@ -185,7 +185,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../multiple_cursors/multiple_cursors/api.html">user.tags.multiple_cursors.multiple_cursors.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../emoji/emoji/api.html">user.tags.emoji.emoji.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../line_commands/line_commands/api.html">user.tags.line_commands.line_commands.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.tags.file_manager.file_manager.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.tags.file_manager.file_manager.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../snippets/snippets/api.html">user.tags.snippets.snippets.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../snippets/snippet_watcher/api.html">user.tags.snippets.snippet_watcher.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chapters/chapters/api.html">user.tags.chapters.chapters.py</a></li>
@@ -448,6 +457,201 @@
              
   <section id="user-tags-file-manager-file-manager-py">
 <h1>user.tags.file_manager.file_manager.py<a class="headerlink" href="#user-tags-file-manager-file-manager-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_current_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">Returns</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">path</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">file</span> <span class="pre">manager.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_get_directory_by_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">index</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">Returns</span> <span class="pre">the</span> <span class="pre">requested</span> <span class="pre">directory</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">imgui</span> <span class="pre">display</span> <span class="pre">by</span> <span class="pre">index</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_get_file_by_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">index</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">Returns</span> <span class="pre">the</span> <span class="pre">requested</span> <span class="pre">directory</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">imgui</span> <span class="pre">display</span> <span class="pre">by</span> <span class="pre">index</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_go_back</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">file_manager_go_forward_directory</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_go_forward</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">file_manager_go_forward_directory</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_hide_pickers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Hides</span> <span class="pre">the</span> <span class="pre">pickers</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_new_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Creates</span> <span class="pre">a</span> <span class="pre">new</span> <span class="pre">folder</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">gui</span> <span class="pre">filemanager</span> <span class="pre">or</span> <span class="pre">inserts</span> <span class="pre">the</span> <span class="pre">command</span> <span class="pre">to</span> <span class="pre">do</span> <span class="pre">so</span> <span class="pre">for</span> <span class="pre">terminals</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_next_file_page</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">next_file_page</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_next_folder_page</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">next_folder_page</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_open_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">path</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">opens</span> <span class="pre">the</span> <span class="pre">directory</span> <span class="pre">that's</span> <span class="pre">already</span> <span class="pre">visible</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">view</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_open_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">path</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">opens</span> <span class="pre">the</span> <span class="pre">file</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_open_parent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">file_manager_open_parent</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_open_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">volume</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">file_manager_open_volume</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_previous_file_page</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">previous_file_page</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_previous_folder_page</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">previous_folder_page</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_refresh_title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Refreshes</span> <span class="pre">the</span> <span class="pre">title</span> <span class="pre">to</span> <span class="pre">match</span> <span class="pre">current</span> <span class="pre">directory.</span> <span class="pre">this</span> <span class="pre">is</span> <span class="pre">for</span> <span class="pre">e.g.</span> <span class="pre">windows</span> <span class="pre">command</span> <span class="pre">prompt</span> <span class="pre">that</span> <span class="pre">will</span> <span class="pre">need</span> <span class="pre">to</span> <span class="pre">do</span> <span class="pre">some</span> <span class="pre">magic.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_select_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">path</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">selects</span> <span class="pre">the</span> <span class="pre">directory</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_select_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">path</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">selects</span> <span class="pre">the</span> <span class="pre">file</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_show_properties</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Shows</span> <span class="pre">the</span> <span class="pre">properties</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">file</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_terminal_here</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Opens</span> <span class="pre">terminal</span> <span class="pre">at</span> <span class="pre">current</span> <span class="pre">location</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_toggle_pickers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Shows</span> <span class="pre">the</span> <span class="pre">pickers</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_update_lists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Forces</span> <span class="pre">an</span> <span class="pre">update</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">lists</span> <span class="pre">(e.g.,</span> <span class="pre">when</span> <span class="pre">file</span> <span class="pre">or</span> <span class="pre">folder</span> <span class="pre">created)</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_directories</span></span><dd><p><span class="pre">List</span> <span class="pre">of</span> <span class="pre">subdirectories</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">path</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_files</span></span><dd><p><span class="pre">List</span> <span class="pre">of</span> <span class="pre">files</span> <span class="pre">at</span> <span class="pre">the</span> <span class="pre">root</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">path</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_auto_show_pickers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">TalonInteger(text='0',</span> <span class="pre">type_name='integer',</span> <span class="pre">start_position=Point(line=6,</span> <span class="pre">column=42),</span> <span class="pre">end_position=Point(line=6,</span> <span class="pre">column=43))</span></span><dd><p><span class="pre">Enable</span> <span class="pre">to</span> <span class="pre">show</span> <span class="pre">the</span> <span class="pre">file/directories</span> <span class="pre">pickers</span> <span class="pre">automatically</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_folder_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1000</span></span><dd><p><span class="pre">Maximum</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">files/folders</span> <span class="pre">to</span> <span class="pre">iterate</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_file_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1000</span></span><dd><p><span class="pre">Maximum</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">files</span> <span class="pre">to</span> <span class="pre">iterate</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_imgui_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">20</span></span><dd><p><span class="pre">Maximum</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">files/folders</span> <span class="pre">to</span> <span class="pre">display</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">imgui</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager_string_limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">20</span></span><dd><p><span class="pre">Maximum</span> <span class="pre">like</span> <span class="pre">of</span> <span class="pre">string</span> <span class="pre">to</span> <span class="pre">display</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">imgui</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">file_manager</span></span><dd><p><span class="pre">Tag</span> <span class="pre">for</span> <span class="pre">enabling</span> <span class="pre">generic</span> <span class="pre">file</span> <span class="pre">management</span> <span class="pre">commands</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

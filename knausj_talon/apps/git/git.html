@@ -452,9 +452,62 @@
 <table class="compact docutils align-default">
 <caption><span class="caption-text"></span></caption>
 <tbody>
+<tr class="row-odd"><td>git {user.git_command} [&lt;user.git_arguments&gt;]</td>
+<td><p>Let &lt;args&gt; be &lt;git_arguments&gt; or None
+Insert “git  { git_command } { args }  “</p></td>
+</tr>
+<tr class="row-even"><td>git commit [&lt;user.git_arguments&gt;] message [&lt;user.prose&gt;]</td>
+<td><p>Let &lt;args&gt; be &lt;git_arguments&gt; or None
+Let &lt;message&gt; be &lt;prose&gt; or None
+Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-odd"><td>git stash [push] [&lt;user.git_arguments&gt;] message [&lt;user.prose&gt;]</td>
+<td><p>Let &lt;args&gt; be &lt;git_arguments&gt; or None
+Let &lt;message&gt; be &lt;prose&gt; or None
+Insert `before + after`, leaving cursor between `before` and `after`. Not entirely reliable if `after` contains newlines.</p></td>
+</tr>
+<tr class="row-even"><td>git status$</td>
+<td><p>Insert “git status \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git add patch$</td>
+<td><p>Insert “git add –patch \n”</p></td>
+</tr>
+<tr class="row-even"><td>git show head$</td>
+<td><p>Insert “git show HEAD \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git diff$</td>
+<td><p>Insert “git diff \n”</p></td>
+</tr>
+<tr class="row-even"><td>git diff (cached | cashed)$</td>
+<td><p>Insert “git diff –cached \n”</p></td>
+</tr>
+<tr class="row-odd"><td>git clone clipboard</td>
+<td><p>Insert text at the current cursor position
+Press enter.</p></td>
+</tr>
+<tr class="row-even"><td>git diff highlighted</td>
+<td><p>Insert text at the current cursor position
+Press enter.</p></td>
+</tr>
+<tr class="row-odd"><td>git diff clipboard</td>
+<td><p>Insert text at the current cursor position
+Press enter.</p></td>
+</tr>
+<tr class="row-even"><td>git add highlighted</td>
+<td><p>Insert text at the current cursor position
+Press enter.</p></td>
+</tr>
+<tr class="row-odd"><td>git add clipboard</td>
+<td><p>Insert text at the current cursor position
+Press enter.</p></td>
+</tr>
+<tr class="row-even"><td>git commit highlighted</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
 </tbody>
-</div>
 </table>
+</div>
 </section>
 
 

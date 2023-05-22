@@ -133,7 +133,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../create_spoken_forms/api.html">user.core.create_spoken_forms.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../screens/screens/api.html">user.core.screens.screens.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../windows_and_tabs_mac/api.html">user.core.windows_and_tabs.windows_and_tabs_mac.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.windows_and_tabs.window_snap.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.windows_and_tabs.window_snap.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#captures">Captures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../tabs/api.html">user.core.windows_and_tabs.tabs.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../windows_and_tabs_win/api.html">user.core.windows_and_tabs.windows_and_tabs_win.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../windows_and_tabs_linux/api.html">user.core.windows_and_tabs.windows_and_tabs_linux.py</a></li>
@@ -448,6 +457,83 @@
              
   <section id="user-core-windows-and-tabs-window-snap-py">
 <h1>user.core.windows_and_tabs.window_snap.py<a class="headerlink" href="#user-core-windows-and-tabs-window-snap-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">move_app_to_screen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">app_name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">screen_number</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">a</span> <span class="pre">specific</span> <span class="pre">application</span> <span class="pre">to</span> <span class="pre">another</span> <span class="pre">screen.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">move_window_next_screen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><dd><p><span class="pre">Move</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">window</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">specific</span> <span class="pre">screen.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">move_window_previous_screen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><dd><p><span class="pre">Move</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">window</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">previous</span> <span class="pre">screen.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">move_window_to_screen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">screen_number</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><dd><p><span class="pre">Move</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">window</span> <span class="pre">leftward</span> <span class="pre">by</span> <span class="pre">one.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">snap_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">app_name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">pos</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">RelativeScreenPos</span></em><span class="sig-paren">)</span><dd><p><span class="pre">Snap</span> <span class="pre">a</span> <span class="pre">specific</span> <span class="pre">application</span> <span class="pre">to</span> <span class="pre">another</span> <span class="pre">screen.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">snap_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">pos</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">RelativeScreenPos</span></em><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><dd><p><span class="pre">Move</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">window</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">specific</span> <span class="pre">position</span> <span class="pre">on-screen.</span>
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">See</span> <span class="pre">`RelativeScreenPos`</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">structure</span> <span class="pre">of</span> <span class="pre">this</span> <span class="pre">position.</span>
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="captures">
+<h3>Captures<a class="headerlink" href="#captures" title="Permalink to this heading"></a></h3>
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">window_snap_position</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">RelativeScreenPos</span><dd><span class="pre">{user.window_snap_positions}</span></dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">window_snap_positions</span></span><dd><p><span class="pre">Predefined</span> <span class="pre">window</span> <span class="pre">positions</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">window.</span> <span class="pre">See</span> <span class="pre">`RelativeScreenPos`.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">window_snap_screen</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">'proportional'</span></span><dd><p><span class="pre">How</span> <span class="pre">to</span> <span class="pre">position</span> <span class="pre">and</span> <span class="pre">size</span> <span class="pre">windows</span> <span class="pre">when</span> <span class="pre">snapping</span> <span class="pre">across</span> <span class="pre">different</span> <span class="pre">physical</span> <span class="pre">screens.</span> <span class="pre">Options:</span>
+
+&#160; <span class="pre">&quot;proportional&quot;</span> <span class="pre">(default):</span> <span class="pre">Preserve</span> <span class="pre">the</span> <span class="pre">window's</span> <span class="pre">relative</span> <span class="pre">position</span> <span class="pre">and</span> <span class="pre">size</span> <span class="pre">proportional</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">screen.</span>
+
+&#160; <span class="pre">&quot;size</span> <span class="pre">aware&quot;:</span> <span class="pre">Preserve</span> <span class="pre">position</span> <span class="pre">relative</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">screen,</span> <span class="pre">but</span> <span class="pre">keep</span> <span class="pre">absolute</span> <span class="pre">size</span> <span class="pre">the</span> <span class="pre">same,</span> <span class="pre">except</span> <span class="pre">if</span> <span class="pre">window</span> <span class="pre">is</span> <span class="pre">full-height</span> <span class="pre">or</span> <span class="pre">-width,</span> <span class="pre">keep</span> <span class="pre">it</span> <span class="pre">so.</span>
+</p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

@@ -166,7 +166,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mouse/mouse/api.html">user.plugin.mouse.mouse.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../media/media/api.html">user.plugin.media.media.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../command_history/command_history/api.html">user.plugin.command_history.command_history.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.plugin.text_navigation.text_navigation.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.plugin.text_navigation.text_navigation.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#captures">Captures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../microphone_selection/microphone_selection/api.html">user.plugin.microphone_selection.microphone_selection.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../datetimeinsert/datetimeinsert/api.html">user.plugin.datetimeinsert.datetimeinsert.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../talon_draft_window/test_draft_ui/api.html">user.plugin.talon_draft_window.test_draft_ui.py</a></li>
@@ -448,6 +457,138 @@
              
   <section id="user-plugin-text-navigation-text-navigation-py">
 <h1>user.plugin.text_navigation.text_navigation.py<a class="headerlink" href="#user-plugin-text-navigation-text-navigation-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">navigation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">navigation_action</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">direction</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">navigation_target_name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">before_or_after</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">regex</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Pattern</span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">occurrence_number</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Navigate</span> <span class="pre">in</span> <span class="pre">`direction`</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">occurrence_number-th</span> <span class="pre">time</span> <span class="pre">that</span> <span class="pre">`regex`</span> <span class="pre">occurs,</span> <span class="pre">then</span> <span class="pre">execute</span> <span class="pre">`navigation_action`</span> <span class="pre">at</span> <span class="pre">the</span> <span class="pre">given</span> <span class="pre">`before_or_after`</span> <span class="pre">position.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">navigation_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">navigation_action</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">direction</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">before_or_after</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">navigation_target_name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">occurrence_number</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Like</span> <span class="pre">user.navigation,</span> <span class="pre">but</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">named</span> <span class="pre">target.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="captures">
+<h3>Captures<a class="headerlink" href="#captures" title="Permalink to this heading"></a></h3>
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">navigation_target</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Pattern</span><dd><span class="pre">&lt;user.any_alphanumeric_key&gt;</span> <span class="pre">|</span> <span class="pre">{user.navigation_target_name}</span> <span class="pre">|</span> <span class="pre">phrase</span> <span class="pre">&lt;user.text&gt;</span></dd><dd><p><span class="pre">A</span> <span class="pre">target</span> <span class="pre">to</span> <span class="pre">navigate</span> <span class="pre">to.</span> <span class="pre">Returns</span> <span class="pre">a</span> <span class="pre">regular</span> <span class="pre">expression.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">navigation_action</span></span><dd><p><span class="pre">actions</span> <span class="pre">to</span> <span class="pre">perform,</span> <span class="pre">for</span> <span class="pre">instance</span> <span class="pre">move,</span> <span class="pre">select,</span> <span class="pre">cut,</span> <span class="pre">etc</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'move'</span></span></td>
+<td><span class="s"><span class="pre">'GO'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'extend'</span></span></td>
+<td><span class="s"><span class="pre">'EXTEND'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'select'</span></span></td>
+<td><span class="s"><span class="pre">'SELECT'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'clear'</span></span></td>
+<td><span class="s"><span class="pre">'DELETE'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'cut'</span></span></td>
+<td><span class="s"><span class="pre">'CUT'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'copy'</span></span></td>
+<td><span class="s"><span class="pre">'COPY'</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">before_or_after</span></span><dd><p><span class="pre">words</span> <span class="pre">to</span> <span class="pre">indicate</span> <span class="pre">if</span> <span class="pre">the</span> <span class="pre">cursor</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">moved</span> <span class="pre">before</span> <span class="pre">or</span> <span class="pre">after</span> <span class="pre">a</span> <span class="pre">given</span> <span class="pre">reference</span> <span class="pre">point</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'before'</span></span></td>
+<td><span class="s"><span class="pre">'BEFORE'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'after'</span></span></td>
+<td><span class="s"><span class="pre">'AFTER'</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">navigation_target_name</span></span><dd><p><span class="pre">names</span> <span class="pre">for</span> <span class="pre">regular</span> <span class="pre">expressions</span> <span class="pre">for</span> <span class="pre">common</span> <span class="pre">things</span> <span class="pre">to</span> <span class="pre">navigate</span> <span class="pre">to,</span> <span class="pre">for</span> <span class="pre">instance</span> <span class="pre">a</span> <span class="pre">word</span> <span class="pre">with</span> <span class="pre">or</span> <span class="pre">without</span> <span class="pre">underscores</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'word'</span></span></td>
+<td><span class="s"><span class="pre">'\\w+'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'small'</span></span></td>
+<td><span class="s"><span class="pre">'[A-Z]?[a-z0-9]+'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'big'</span></span></td>
+<td><span class="s"><span class="pre">'[\\S]+'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'parens'</span></span></td>
+<td><span class="s"><span class="pre">'\\((.*?)\\)'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'squares'</span></span></td>
+<td><span class="s"><span class="pre">'\\[(.*?)\\]'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'braces'</span></span></td>
+<td><span class="s"><span class="pre">'\\{(.*?)\\}'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'quotes'</span></span></td>
+<td><span class="s"><span class="pre">'\\&quot;(.*?)\\&quot;'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'angles'</span></span></td>
+<td><span class="s"><span class="pre">'\\&lt;(.*?)\\&gt;'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'all'</span></span></td>
+<td><span class="s"><span class="pre">'(.+)'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'method'</span></span></td>
+<td><span class="s"><span class="pre">'\\w+\\((.*?)\\)'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'constant'</span></span></td>
+<td><span class="s"><span class="pre">'[A-Z_][A-Z_]+'</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">text_navigation_max_line_search</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">10</span></span><dd><p><span class="pre">the</span> <span class="pre">maximum</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">rows</span> <span class="pre">that</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">included</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">search</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">keywords</span> <span class="pre">above</span> <span class="pre">and</span> <span class="pre">below</span> <span class="pre">in</span> <span class="pre">&lt;user</span> <span class="pre">direction&gt;</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

@@ -126,7 +126,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../system_command/api.html">user.core.system_command.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../edit_text_file/api.html">user.core.edit_text_file.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../application_matches/api.html">user.core.application_matches.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.deprecations.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.deprecations.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../user_settings/api.html">user.core.user_settings.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../app_running/api.html">user.core.app_running.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../engine/api.html">user.core.engine.py</a></li>
@@ -448,6 +455,50 @@
              
   <section id="user-core-deprecations-py">
 <h1>user.core.deprecations.py<a class="headerlink" href="#user-core-deprecations-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">deprecate_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">time_deprecated</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Notify</span> <span class="pre">the</span> <span class="pre">user</span> <span class="pre">that</span> <span class="pre">the</span> <span class="pre">given</span> <span class="pre">action</span> <span class="pre">is</span> <span class="pre">deprecated</span> <span class="pre">and</span> <span class="pre">should</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">not</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">into</span> <span class="pre">the</span> <span class="pre">future.</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">deprecate_capture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">time_deprecated</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Notify</span> <span class="pre">the</span> <span class="pre">user</span> <span class="pre">that</span> <span class="pre">the</span> <span class="pre">given</span> <span class="pre">capture</span> <span class="pre">is</span> <span class="pre">deprecated</span> <span class="pre">and</span> <span class="pre">should</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">not</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">into</span> <span class="pre">the</span> <span class="pre">future.</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">deprecate_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">time_deprecated</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="sig-name descname"><span class="pre">replacement</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">Notify</span> <span class="pre">the</span> <span class="pre">user</span> <span class="pre">that</span> <span class="pre">the</span> <span class="pre">given</span> <span class="pre">voice</span> <span class="pre">command</span> <span class="pre">is</span> <span class="pre">deprecated</span> <span class="pre">and</span> <span class="pre">should</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">not</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">into</span> <span class="pre">the</span> <span class="pre">future;</span> <span class="pre">the</span> <span class="pre">command</span> <span class="pre">`replacement`</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">used</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">instead.</span>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160; </p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">deprecate_warning_interval_hours</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">24</span></span><dd><p><span class="pre">How</span> <span class="pre">long,</span> <span class="pre">in</span> <span class="pre">hours,</span> <span class="pre">to</span> <span class="pre">wait</span> <span class="pre">before</span> <span class="pre">notifying</span> <span class="pre">the</span> <span class="pre">user</span> <span class="pre">again</span> <span class="pre">of</span> <span class="pre">a</span>
+&#160;&#160;&#160; <span class="pre">deprecated</span> <span class="pre">action/command/capture.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

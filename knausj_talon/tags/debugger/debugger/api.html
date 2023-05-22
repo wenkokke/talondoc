@@ -180,7 +180,16 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../plugin/desktops/desktops_win/api.html">user.plugin.desktops.desktops_win.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../plugin/desktops/desktops_linux/api.html">user.plugin.desktops.desktops_linux.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../plugin/desktops/desktops_mac/api.html">user.plugin.desktops.desktops_mac.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.tags.debugger.debugger.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.tags.debugger.debugger.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#captures">Captures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../splits/splits/api.html">user.tags.splits.splits.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../multiple_cursors/multiple_cursors/api.html">user.tags.multiple_cursors.multiple_cursors.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../emoji/emoji/api.html">user.tags.emoji.emoji.py</a></li>
@@ -448,6 +457,285 @@
              
   <section id="user-tags-debugger-debugger-py">
 <h1>user.tags.debugger.debugger.py<a class="headerlink" href="#user-tags-debugger-debugger-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_add_hw_breakpoint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Add</span> <span class="pre">one</span> <span class="pre">hardware</span> <span class="pre">breakpoint</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_add_sw_breakpoint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Add</span> <span class="pre">one</span> <span class="pre">software</span> <span class="pre">breakpoint</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_backtrace</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Print</span> <span class="pre">a</span> <span class="pre">back</span> <span class="pre">trace</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_break_here</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Set</span> <span class="pre">a</span> <span class="pre">break</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">line</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_break_now</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Break</span> <span class="pre">into</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_clear_all_breakpoints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Clear</span> <span class="pre">all</span> <span class="pre">breakpoints</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_clear_breakpoint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Clear</span> <span class="pre">one</span> <span class="pre">breakpoint</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_clear_breakpoint_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">number_small</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Clear</span> <span class="pre">one</span> <span class="pre">breakpoint</span> <span class="pre">id</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_clear_line</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Clear</span> <span class="pre">unwanted</span> <span class="pre">data</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">command</span> <span class="pre">line</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_continue</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Continue</span> <span class="pre">execution</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_detach</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Detach</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_disable_all_breakpoints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Disable</span> <span class="pre">all</span> <span class="pre">breakpoints</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_disable_breakpoint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Disable</span> <span class="pre">one</span> <span class="pre">breakpoint</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_disable_breakpoint_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">number_small</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Disable</span> <span class="pre">one</span> <span class="pre">breakpoint</span> <span class="pre">id</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_disassemble</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Preps</span> <span class="pre">the</span> <span class="pre">disassemble</span> <span class="pre">command</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_disassemble_clipboard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Disassemble</span> <span class="pre">instructions</span> <span class="pre">at</span> <span class="pre">an</span> <span class="pre">address</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">clipboard</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_disassemble_here</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Disassembles</span> <span class="pre">instructions</span> <span class="pre">at</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">instruction</span> <span class="pre">pointer</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_dump_ascii_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Display</span> <span class="pre">as</span> <span class="pre">specific</span> <span class="pre">address</span> <span class="pre">as</span> <span class="pre">an</span> <span class="pre">ascii</span> <span class="pre">string</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_dump_pointers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Display</span> <span class="pre">as</span> <span class="pre">specific</span> <span class="pre">address</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">list</span> <span class="pre">of</span> <span class="pre">pointers</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_dump_unicode_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Display</span> <span class="pre">as</span> <span class="pre">specific</span> <span class="pre">address</span> <span class="pre">as</span> <span class="pre">an</span> <span class="pre">unicode</span> <span class="pre">string</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_enable_all_breakpoints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Enable</span> <span class="pre">all</span> <span class="pre">breakpoints</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_enable_breakpoint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Enable</span> <span class="pre">one</span> <span class="pre">breakpoint</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_enable_breakpoint_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">number_small</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Enable</span> <span class="pre">one</span> <span class="pre">breakpoint</span> <span class="pre">id</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_exit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Exit</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_get_register</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Print</span> <span class="pre">specific</span> <span class="pre">register</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_goto_address</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Jump</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">specific</span> <span class="pre">address</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_goto_clipboard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Jump</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">specific</span> <span class="pre">address</span> <span class="pre">stored</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">clipboard</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_goto_highlighted</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Jump</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">specific</span> <span class="pre">highlighted</span> <span class="pre">address</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_inspect_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Inspect</span> <span class="pre">a</span> <span class="pre">specific</span> <span class="pre">data</span> <span class="pre">type</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_list_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">List</span> <span class="pre">the</span> <span class="pre">loaded</span> <span class="pre">modules</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debuggee</span> <span class="pre">memory</span> <span class="pre">space</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Restart</span> <span class="pre">execution</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_set_register</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Set</span> <span class="pre">specific</span> <span class="pre">register</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_show_breakpoints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Print</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">breakpoints</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_show_registers</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Print</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">registers</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Start</span> <span class="pre">debugging</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_step_into</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Step</span> <span class="pre">into</span> <span class="pre">an</span> <span class="pre">instruction</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_step_line</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Step</span> <span class="pre">into</span> <span class="pre">a</span> <span class="pre">source</span> <span class="pre">line</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_step_out</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Step</span> <span class="pre">until</span> <span class="pre">function</span> <span class="pre">exit</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_step_over</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Step</span> <span class="pre">over</span> <span class="pre">an</span> <span class="pre">instruction</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_step_over_line</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Step</span> <span class="pre">over</span> <span class="pre">a</span> <span class="pre">source</span> <span class="pre">line</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger_stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Stop</span> <span class="pre">the</span> <span class="pre">debugger</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="captures">
+<h3>Captures<a class="headerlink" href="#captures" title="Permalink to this heading"></a></h3>
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">registers</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">{self.registers}</span></dd><dd><p><span class="pre">Returns</span> <span class="pre">a</span> <span class="pre">register</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">registers</span></span><dd><p><span class="pre">Main</span> <span class="pre">architecture</span> <span class="pre">register</span> <span class="pre">set</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">debugger</span></span><dd><p><span class="pre">Tag</span> <span class="pre">for</span> <span class="pre">enabling</span> <span class="pre">generic</span> <span class="pre">debugger</span> <span class="pre">commands</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

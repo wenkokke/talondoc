@@ -190,7 +190,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../snippets/snippet_watcher/api.html">user.tags.snippets.snippet_watcher.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../chapters/chapters/api.html">user.tags.chapters.chapters.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pages/pages/api.html">user.tags.pages.pages.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.tags.messaging.messaging.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.tags.messaging.messaging.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../browser/browser_mac/api.html">user.tags.browser.browser_mac.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../browser/browser/api.html">user.tags.browser.browser.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../terminal/unix_shell/api.html">user.tags.terminal.unix_shell.py</a></li>
@@ -448,6 +455,87 @@
              
   <section id="user-tags-messaging-messaging-py">
 <h1>user.tags.messaging.messaging.py<a class="headerlink" href="#user-tags-messaging-messaging-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">messaging_channel_next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">to</span> <span class="pre">next</span> <span class="pre">channel</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">messaging_channel_previous</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">to</span> <span class="pre">previous</span> <span class="pre">channel</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">messaging_mark_channel_read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Mark</span> <span class="pre">this</span> <span class="pre">channel</span> <span class="pre">as</span> <span class="pre">read.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">messaging_mark_workspace_read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Mark</span> <span class="pre">this</span> <span class="pre">workspace/server</span> <span class="pre">as</span> <span class="pre">read</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">messaging_open_channel_picker</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Open</span> <span class="pre">channel</span> <span class="pre">picker</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">messaging_open_search</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Open</span> <span class="pre">message</span> <span class="pre">search</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">messaging_unread_next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Moved</span> <span class="pre">to</span> <span class="pre">next</span> <span class="pre">unread</span> <span class="pre">channel</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">messaging_unread_previous</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">to</span> <span class="pre">previous</span> <span class="pre">unread</span> <span class="pre">channel</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">messaging_upload_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Upload</span> <span class="pre">a</span> <span class="pre">file</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">message</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">messaging_workspace_next</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">to</span> <span class="pre">next</span> <span class="pre">qorkspace/server</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">messaging_workspace_previous</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Move</span> <span class="pre">to</span> <span class="pre">previous</span> <span class="pre">workspace/server</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">messaging</span></span><dd><p><span class="pre">Tag</span> <span class="pre">for</span> <span class="pre">generic</span> <span class="pre">multi-channel</span> <span class="pre">messaging</span> <span class="pre">apps</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

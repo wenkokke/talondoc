@@ -149,7 +149,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../../numbers/numbers/api.html">user.core.numbers.numbers.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../help/help/api.html">user.core.help.help.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../help/help_scope/api.html">user.core.help.help_scope.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.mouse_grid.mouse_grid.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.core.mouse_grid.mouse_grid.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../keys/keys/api.html">user.core.keys.keys.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modes/modes/api.html">user.core.modes.modes.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../modes/language_modes/api.html">user.core.modes.language_modes.py</a></li>
@@ -448,6 +456,90 @@
              
   <section id="user-core-mouse-grid-mouse-grid-py">
 <h1>user.core.mouse_grid.mouse_grid.py<a class="headerlink" href="#user-core-mouse-grid-mouse-grid-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">grid_activate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Show</span> <span class="pre">mouse</span> <span class="pre">grid</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">grid_close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Close</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">grid</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">grid_go_back</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Sets</span> <span class="pre">the</span> <span class="pre">grid</span> <span class="pre">state</span> <span class="pre">back</span> <span class="pre">to</span> <span class="pre">what</span> <span class="pre">it</span> <span class="pre">was</span> <span class="pre">before</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">command</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">grid_narrow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">digit</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">typing.Union[int,</span> <span class="pre">str]</span></em><span class="sig-paren">)</span><dd><p><span class="pre">Choose</span> <span class="pre">a</span> <span class="pre">field</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">grid</span> <span class="pre">and</span> <span class="pre">narrow</span> <span class="pre">the</span> <span class="pre">selection</span> <span class="pre">down</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">grid_narrow_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">digit_list</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list[str]</span></em><span class="sig-paren">)</span><dd><p><span class="pre">Choose</span> <span class="pre">fields</span> <span class="pre">multiple</span> <span class="pre">times</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">row</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">grid_place_window</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Places</span> <span class="pre">the</span> <span class="pre">grid</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">currently</span> <span class="pre">active</span> <span class="pre">window</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">grid_reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Resets</span> <span class="pre">the</span> <span class="pre">grid</span> <span class="pre">to</span> <span class="pre">fill</span> <span class="pre">the</span> <span class="pre">whole</span> <span class="pre">screen</span> <span class="pre">again</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">grid_select_screen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">screen</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Brings</span> <span class="pre">up</span> <span class="pre">mouse</span> <span class="pre">grid</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">grid_narrow_expansion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><dd><p><span class="pre">After</span> <span class="pre">narrowing,</span> <span class="pre">grow</span> <span class="pre">the</span> <span class="pre">new</span> <span class="pre">region</span> <span class="pre">by</span> <span class="pre">this</span> <span class="pre">many</span> <span class="pre">pixels</span> <span class="pre">in</span> <span class="pre">every</span> <span class="pre">direction,</span> <span class="pre">to</span> <span class="pre">make</span> <span class="pre">things</span> <span class="pre">immediately</span> <span class="pre">on</span> <span class="pre">edges</span> <span class="pre">easier</span> <span class="pre">to</span> <span class="pre">hit,</span> <span class="pre">and</span> <span class="pre">when</span> <span class="pre">the</span> <span class="pre">grid</span> <span class="pre">is</span> <span class="pre">at</span> <span class="pre">its</span> <span class="pre">smallest,</span> <span class="pre">it</span> <span class="pre">allows</span> <span class="pre">you</span> <span class="pre">to</span> <span class="pre">still</span> <span class="pre">nudge</span> <span class="pre">it</span> <span class="pre">around</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">grids_put_one_bottom_left</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span><span class="pre">TalonInteger(text='1',</span> <span class="pre">type_name='integer',</span> <span class="pre">start_position=Point(line=39,</span> <span class="pre">column=37),</span> <span class="pre">end_position=Point(line=39,</span> <span class="pre">column=38))</span></span><dd><p><span class="pre">Allows</span> <span class="pre">you</span> <span class="pre">to</span> <span class="pre">switch</span> <span class="pre">mouse</span> <span class="pre">grid</span> <span class="pre">and</span> <span class="pre">friends</span> <span class="pre">between</span> <span class="pre">a</span> <span class="pre">computer</span> <span class="pre">numpad</span> <span class="pre">and</span> <span class="pre">a</span> <span class="pre">phone</span> <span class="pre">numpad</span> <span class="pre">(the</span> <span class="pre">number</span> <span class="pre">one</span> <span class="pre">goes</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">bottom</span> <span class="pre">left</span> <span class="pre">or</span> <span class="pre">the</span> <span class="pre">top</span> <span class="pre">left)</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_grid_showing</span></span><dd><p><span class="pre">Tag</span> <span class="pre">indicates</span> <span class="pre">whether</span> <span class="pre">the</span> <span class="pre">mouse</span> <span class="pre">grid</span> <span class="pre">is</span> <span class="pre">showing</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">mouse_grid_enabled</span></span><dd><p><span class="pre">Deprecated:</span> <span class="pre">do</span> <span class="pre">not</span> <span class="pre">use.</span>&#160; <span class="pre">Activates</span> <span class="pre">legacy</span> <span class="pre">m</span> <span class="pre">grid</span> <span class="pre">command</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

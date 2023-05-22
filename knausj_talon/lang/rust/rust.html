@@ -452,9 +452,147 @@
 <table class="compact docutils align-default">
 <caption><span class="caption-text"></span></caption>
 <tbody>
-</tbody>
+<tr class="row-odd"><td>state unsafe</td>
+<td><p>Insert “unsafe “</p></td>
+</tr>
+<tr class="row-even"><td>unsafe block</td>
+<td><p>Inserts an unsafe block and positions the cursor appropriately</p></td>
+</tr>
+<tr class="row-odd"><td>state (struct | structure) &lt;user.text&gt;</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>state enum &lt;user.text&gt;</td>
+<td><p>Insert text at the current cursor position
+Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>toggle use</td>
+<td><p>GUI: List libraries for active language</p></td>
+</tr>
+<tr class="row-even"><td>borrow</td>
+<td><p>Insert “&amp;”</p></td>
+</tr>
+<tr class="row-odd"><td>borrow mutable</td>
+<td><p>Insert “&amp;mut “</p></td>
+</tr>
+<tr class="row-even"><td>state (a sink | async | asynchronous)</td>
+<td><p>Insert “async “</p></td>
+</tr>
+<tr class="row-odd"><td>state (pub | public)</td>
+<td><p>Insert “pub “</p></td>
+</tr>
+<tr class="row-even"><td>state (pub | public) crate</td>
+<td><p>Insert “pub(crate) “</p></td>
+</tr>
+<tr class="row-odd"><td>state (dyn | dynamic)</td>
+<td><p>Insert “dyn “</p></td>
+</tr>
+<tr class="row-even"><td>state constant</td>
+<td><p>Insert “const “</p></td>
+</tr>
+<tr class="row-odd"><td>state (funk | func | function)</td>
+<td><p>Insert “fn “</p></td>
+</tr>
+<tr class="row-even"><td>state (imp | implements)</td>
+<td><p>Insert “impl “</p></td>
+</tr>
+<tr class="row-odd"><td>state let mute</td>
+<td><p>Insert “let mut “</p></td>
+</tr>
+<tr class="row-even"><td>state let</td>
+<td><p>Insert “let “</p></td>
+</tr>
+<tr class="row-odd"><td>state (mute | mutable)</td>
+<td><p>Insert “mut “</p></td>
+</tr>
+<tr class="row-even"><td>state (mod | module)</td>
+<td><p>Insert “mod “</p></td>
+</tr>
+<tr class="row-odd"><td>state ref (mute | mutable)</td>
+<td><p>Insert “ref mut “</p></td>
+</tr>
+<tr class="row-even"><td>state ref</td>
+<td><p>Insert “ref “</p></td>
+</tr>
+<tr class="row-odd"><td>state trait</td>
+<td><p>Insert “trait “</p></td>
+</tr>
+<tr class="row-even"><td>state match</td>
+<td><p>Inserts switch statement</p></td>
+</tr>
+<tr class="row-odd"><td>state (some | sum)</td>
+<td><p>Insert “Some”</p></td>
+</tr>
+<tr class="row-even"><td>state static</td>
+<td><p>Insert “static “</p></td>
+</tr>
+<tr class="row-odd"><td>self taught</td>
+<td><p>Insert “self.”</p></td>
+</tr>
+<tr class="row-even"><td>state use</td>
+<td><p>import/using equivalent</p></td>
+</tr>
+<tr class="row-odd"><td>use &lt;user.code_libraries&gt;</td>
+<td><p>Inserts a library and positions the cursor appropriately
+Press ; enter.</p></td>
+</tr>
+<tr class="row-even"><td>state if let some</td>
+<td><p>Inserts if let some block, positioning the cursor appropriately</p></td>
+</tr>
+<tr class="row-odd"><td>state if let (ok | okay)</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span><span class="o">.</span><span class="n">code_insert_if_let_okay</span><span class="p">()</span>
+</pre></div>
 </div>
+</td>
+</tr>
+<tr class="row-even"><td>state if let error</td>
+<td><p>Inserts if let error block, positioning the cursor appropriately</p></td>
+</tr>
+<tr class="row-odd"><td>is some</td>
+<td><p>Inserts check for non-null</p></td>
+</tr>
+<tr class="row-even"><td>implement (struct | structure)</td>
+<td><p>Inserts implements block, positioning the cursor appropriately</p></td>
+</tr>
+<tr class="row-odd"><td>is implemented trait {user.code_trait}</td>
+<td><p>Inserts type annotation for implementor of trait</p></td>
+</tr>
+<tr class="row-even"><td>is implemented trait</td>
+<td><p>Insert “: impl “</p></td>
+</tr>
+<tr class="row-odd"><td>returns implemented trait {user.code_trait}</td>
+<td><p>Inserts a return type for implementor of trait</p></td>
+</tr>
+<tr class="row-even"><td>returns implemented trait</td>
+<td><p>Insert ” -&gt; impl “</p></td>
+</tr>
+<tr class="row-odd"><td>trait {user.code_trait}</td>
+<td><p>Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>implemented trait {user.code_trait}</td>
+<td><p>Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-odd"><td>dynamic trait {user.code_trait}</td>
+<td><p>Insert text at the current cursor position</p></td>
+</tr>
+<tr class="row-even"><td>macro {user.code_macros}</td>
+<td><p>Inserts a macro and positions the cursor appropriately</p></td>
+</tr>
+<tr class="row-odd"><td>macro wrap {user.code_macros}</td>
+<td><p>Inserts a macro and positions the cursor appropriately</p></td>
+</tr>
+<tr class="row-even"><td>block dock comment</td>
+<td><p>Inserts a block document comment and positions the cursor appropriately</p></td>
+</tr>
+<tr class="row-odd"><td>inner dock comment</td>
+<td><p>Inserts an inner document comment and positions the cursor appropriately</p></td>
+</tr>
+<tr class="row-even"><td>inner block dock comment</td>
+<td><p>Inserts an inner block document comment and positions the cursor appropriately</p></td>
+</tr>
+</tbody>
 </table>
+</div>
 </section>
 
 

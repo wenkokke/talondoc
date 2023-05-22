@@ -2,6 +2,8 @@ Documentation for knausj_talon
 ==============================
 
 .. toctree::
+  :maxdepth: 1
+
   apps/discord/discord_win/api.rst
   apps/discord/discord/api.rst
   apps/discord/discord_mac/api.rst

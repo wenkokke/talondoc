@@ -60,7 +60,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../mintty/mintty_win/api.html">user.apps.mintty.mintty_win.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../i3wm/i3wm/api.html">user.apps.i3wm.i3wm.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../windows_explorer/windows_explorer/api.html">user.apps.windows_explorer.windows_explorer.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.apps.git.git.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.apps.git.git.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#captures">Captures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lists">Lists</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../powershell/powershell_win/api.html">user.apps.powershell.powershell_win.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../guake/guake_linux/api.html">user.apps.guake.guake_linux.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../apple_notes/apple_notes/api.html">user.apps.apple_notes.apple_notes.py</a></li>
@@ -448,6 +455,447 @@
              
   <section id="user-apps-git-git-py">
 <h1>user.apps.git.git.py<a class="headerlink" href="#user-apps-git-git-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="captures">
+<h3>Captures<a class="headerlink" href="#captures" title="Permalink to this heading"></a></h3>
+<dl class="talon capture">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">git_arguments</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">{user.git_argument}+</span></dd><dd><p><span class="pre">A</span> <span class="pre">non-empty</span> <span class="pre">sequence</span> <span class="pre">of</span> <span class="pre">git</span> <span class="pre">command</span> <span class="pre">arguments,</span> <span class="pre">preceded</span> <span class="pre">by</span> <span class="pre">a</span> <span class="pre">space.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="lists">
+<h3>Lists<a class="headerlink" href="#lists" title="Permalink to this heading"></a></h3>
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">git_command</span></span><dd><p><span class="pre">Git</span> <span class="pre">commands.</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'add'</span></span></td>
+<td><span class="s"><span class="pre">'add'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'archive'</span></span></td>
+<td><span class="s"><span class="pre">'archive'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bisect'</span></span></td>
+<td><span class="s"><span class="pre">'bisect'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'blame'</span></span></td>
+<td><span class="s"><span class="pre">'blame'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'branch'</span></span></td>
+<td><span class="s"><span class="pre">'branch'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'checkout'</span></span></td>
+<td><span class="s"><span class="pre">'checkout'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'cherry</span> <span class="pre">pick'</span></span></td>
+<td><span class="s"><span class="pre">'cherry-pick'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'clean'</span></span></td>
+<td><span class="s"><span class="pre">'clean'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'clone'</span></span></td>
+<td><span class="s"><span class="pre">'clone'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'commit'</span></span></td>
+<td><span class="s"><span class="pre">'commit'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'config'</span></span></td>
+<td><span class="s"><span class="pre">'config'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'diff'</span></span></td>
+<td><span class="s"><span class="pre">'diff'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'diff</span> <span class="pre">tool'</span></span></td>
+<td><span class="s"><span class="pre">'difftool'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'fetch'</span></span></td>
+<td><span class="s"><span class="pre">'fetch'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'gc'</span></span></td>
+<td><span class="s"><span class="pre">'gc'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'grep'</span></span></td>
+<td><span class="s"><span class="pre">'grep'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'help'</span></span></td>
+<td><span class="s"><span class="pre">'help'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'in</span> <span class="pre">it'</span></span></td>
+<td><span class="s"><span class="pre">'init'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'log'</span></span></td>
+<td><span class="s"><span class="pre">'log'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'ls</span> <span class="pre">files'</span></span></td>
+<td><span class="s"><span class="pre">'ls-files'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'merge'</span></span></td>
+<td><span class="s"><span class="pre">'merge'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'merge</span> <span class="pre">tool'</span></span></td>
+<td><span class="s"><span class="pre">'mergetool'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'move'</span></span></td>
+<td><span class="s"><span class="pre">'mv'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pull'</span></span></td>
+<td><span class="s"><span class="pre">'pull'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'push'</span></span></td>
+<td><span class="s"><span class="pre">'push'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'range</span> <span class="pre">diff'</span></span></td>
+<td><span class="s"><span class="pre">'range-diff'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'rebase'</span></span></td>
+<td><span class="s"><span class="pre">'rebase'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'ref</span> <span class="pre">log'</span></span></td>
+<td><span class="s"><span class="pre">'reflog'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'remote'</span></span></td>
+<td><span class="s"><span class="pre">'remote'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'remote</span> <span class="pre">add'</span></span></td>
+<td><span class="s"><span class="pre">'remote</span> <span class="pre">add'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'remote</span> <span class="pre">remove'</span></span></td>
+<td><span class="s"><span class="pre">'remote</span> <span class="pre">remove'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'remote</span> <span class="pre">rename'</span></span></td>
+<td><span class="s"><span class="pre">'remote</span> <span class="pre">rename'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'remote</span> <span class="pre">set</span> <span class="pre">url'</span></span></td>
+<td><span class="s"><span class="pre">'remote</span> <span class="pre">set-url'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'remote</span> <span class="pre">set</span> <span class="pre">you</span> <span class="pre">are</span> <span class="pre">el'</span></span></td>
+<td><span class="s"><span class="pre">'remote</span> <span class="pre">set-url'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'remote</span> <span class="pre">show'</span></span></td>
+<td><span class="s"><span class="pre">'remote</span> <span class="pre">show'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'rerere'</span></span></td>
+<td><span class="s"><span class="pre">'rerere'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'rerere</span> <span class="pre">diff'</span></span></td>
+<td><span class="s"><span class="pre">'rerere</span> <span class="pre">diff'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'rerere</span> <span class="pre">status'</span></span></td>
+<td><span class="s"><span class="pre">'rerere</span> <span class="pre">status'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'reset'</span></span></td>
+<td><span class="s"><span class="pre">'reset'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'restore'</span></span></td>
+<td><span class="s"><span class="pre">'restore'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'revert'</span></span></td>
+<td><span class="s"><span class="pre">'revert'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'remove'</span></span></td>
+<td><span class="s"><span class="pre">'rm'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'short</span> <span class="pre">log'</span></span></td>
+<td><span class="s"><span class="pre">'shortlog'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'show'</span></span></td>
+<td><span class="s"><span class="pre">'show'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sparse</span> <span class="pre">checkout'</span></span></td>
+<td><span class="s"><span class="pre">'sparse-checkout'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'stash'</span></span></td>
+<td><span class="s"><span class="pre">'stash'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'stash</span> <span class="pre">apply'</span></span></td>
+<td><span class="s"><span class="pre">'stash</span> <span class="pre">apply'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'stash</span> <span class="pre">list'</span></span></td>
+<td><span class="s"><span class="pre">'stash</span> <span class="pre">list'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'stash</span> <span class="pre">pop'</span></span></td>
+<td><span class="s"><span class="pre">'stash</span> <span class="pre">pop'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'stash</span> <span class="pre">push'</span></span></td>
+<td><span class="s"><span class="pre">'stash</span> <span class="pre">push'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'stash</span> <span class="pre">show'</span></span></td>
+<td><span class="s"><span class="pre">'stash</span> <span class="pre">show'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'stash</span> <span class="pre">save'</span></span></td>
+<td><span class="s"><span class="pre">'stash</span> <span class="pre">save'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'status'</span></span></td>
+<td><span class="s"><span class="pre">'status'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'submodule'</span></span></td>
+<td><span class="s"><span class="pre">'submodule'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'submodule</span> <span class="pre">add'</span></span></td>
+<td><span class="s"><span class="pre">'submodule</span> <span class="pre">add'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'submodule</span> <span class="pre">in</span> <span class="pre">it'</span></span></td>
+<td><span class="s"><span class="pre">'submodule</span> <span class="pre">init'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'submodule</span> <span class="pre">status'</span></span></td>
+<td><span class="s"><span class="pre">'submodule</span> <span class="pre">status'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'submodule</span> <span class="pre">update'</span></span></td>
+<td><span class="s"><span class="pre">'submodule</span> <span class="pre">update'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'switch'</span></span></td>
+<td><span class="s"><span class="pre">'switch'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'tag'</span></span></td>
+<td><span class="s"><span class="pre">'tag'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'worktree'</span></span></td>
+<td><span class="s"><span class="pre">'worktree'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'worktree</span> <span class="pre">add'</span></span></td>
+<td><span class="s"><span class="pre">'worktree</span> <span class="pre">add'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'worktree</span> <span class="pre">list'</span></span></td>
+<td><span class="s"><span class="pre">'worktree</span> <span class="pre">list'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'worktree</span> <span class="pre">lock'</span></span></td>
+<td><span class="s"><span class="pre">'worktree</span> <span class="pre">lock'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'worktree</span> <span class="pre">move'</span></span></td>
+<td><span class="s"><span class="pre">'worktree</span> <span class="pre">move'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'worktree</span> <span class="pre">prune'</span></span></td>
+<td><span class="s"><span class="pre">'worktree</span> <span class="pre">prune'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'worktree</span> <span class="pre">remove'</span></span></td>
+<td><span class="s"><span class="pre">'worktree</span> <span class="pre">remove'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'worktree</span> <span class="pre">repair'</span></span></td>
+<td><span class="s"><span class="pre">'worktree</span> <span class="pre">repair'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'worktree</span> <span class="pre">unlock'</span></span></td>
+<td><span class="s"><span class="pre">'worktree</span> <span class="pre">unlock'</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon list">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">git_argument</span></span><dd><p><span class="pre">Command-line</span> <span class="pre">git</span> <span class="pre">options</span> <span class="pre">and</span> <span class="pre">arguments.</span></p>
+<div class="fragtable">
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'abort'</span></span></td>
+<td><span class="s"><span class="pre">'--abort'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'all'</span></span></td>
+<td><span class="s"><span class="pre">'--all'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'allow</span> <span class="pre">empty'</span></span></td>
+<td><span class="s"><span class="pre">'--allow-empty'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'amend'</span></span></td>
+<td><span class="s"><span class="pre">'--amend'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'cached'</span></span></td>
+<td><span class="s"><span class="pre">'--cached'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'cashed'</span></span></td>
+<td><span class="s"><span class="pre">'--cached'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'color</span> <span class="pre">words'</span></span></td>
+<td><span class="s"><span class="pre">'--color-words'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'colour</span> <span class="pre">words'</span></span></td>
+<td><span class="s"><span class="pre">'--color-words'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'continue'</span></span></td>
+<td><span class="s"><span class="pre">'--continue'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'copy'</span></span></td>
+<td><span class="s"><span class="pre">'--copy'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'create'</span></span></td>
+<td><span class="s"><span class="pre">'--create'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'delete'</span></span></td>
+<td><span class="s"><span class="pre">'--delete'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'detach'</span></span></td>
+<td><span class="s"><span class="pre">'--detach'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'dir</span> <span class="pre">diff'</span></span></td>
+<td><span class="s"><span class="pre">'--dir-diff'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'directory</span> <span class="pre">diff'</span></span></td>
+<td><span class="s"><span class="pre">'--dir-diff'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'dry</span> <span class="pre">run'</span></span></td>
+<td><span class="s"><span class="pre">'--dry-run'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'edit'</span></span></td>
+<td><span class="s"><span class="pre">'--edit'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'fast</span> <span class="pre">forward</span> <span class="pre">only'</span></span></td>
+<td><span class="s"><span class="pre">'--ff-only'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'force'</span></span></td>
+<td><span class="s"><span class="pre">'--force'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'force</span> <span class="pre">create'</span></span></td>
+<td><span class="s"><span class="pre">'--force-create'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'force</span> <span class="pre">with</span> <span class="pre">lease'</span></span></td>
+<td><span class="s"><span class="pre">'--force-with-lease'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'global'</span></span></td>
+<td><span class="s"><span class="pre">'--global'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'hard'</span></span></td>
+<td><span class="s"><span class="pre">'--hard'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'ignore</span> <span class="pre">case'</span></span></td>
+<td><span class="s"><span class="pre">'--ignore-case'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'include</span> <span class="pre">untracked'</span></span></td>
+<td><span class="s"><span class="pre">'--include-untracked'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'interactive'</span></span></td>
+<td><span class="s"><span class="pre">'--interactive'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'keep</span> <span class="pre">index'</span></span></td>
+<td><span class="s"><span class="pre">'--keep-index'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'list'</span></span></td>
+<td><span class="s"><span class="pre">'--list'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'local'</span></span></td>
+<td><span class="s"><span class="pre">'--local'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'mixed'</span></span></td>
+<td><span class="s"><span class="pre">'--mixed'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'move'</span></span></td>
+<td><span class="s"><span class="pre">'--move'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'no</span> <span class="pre">edit'</span></span></td>
+<td><span class="s"><span class="pre">'--no-edit'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'no</span> <span class="pre">keep</span> <span class="pre">index'</span></span></td>
+<td><span class="s"><span class="pre">'--no-keep-index'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'no</span> <span class="pre">track'</span></span></td>
+<td><span class="s"><span class="pre">'--no-track'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'no</span> <span class="pre">verify'</span></span></td>
+<td><span class="s"><span class="pre">'--no-verify'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'orphan'</span></span></td>
+<td><span class="s"><span class="pre">'--orphan'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'patch'</span></span></td>
+<td><span class="s"><span class="pre">'--patch'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'prune'</span></span></td>
+<td><span class="s"><span class="pre">'--prune'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'quiet'</span></span></td>
+<td><span class="s"><span class="pre">'--quiet'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'quit'</span></span></td>
+<td><span class="s"><span class="pre">'--quit'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'rebase'</span></span></td>
+<td><span class="s"><span class="pre">'--rebase'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'remote'</span></span></td>
+<td><span class="s"><span class="pre">'--remote'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'set</span> <span class="pre">up</span> <span class="pre">stream'</span></span></td>
+<td><span class="s"><span class="pre">'--set-upstream'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'set</span> <span class="pre">up</span> <span class="pre">stream</span> <span class="pre">to'</span></span></td>
+<td><span class="s"><span class="pre">'--set-upstream-to'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'short'</span></span></td>
+<td><span class="s"><span class="pre">'--short'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'short</span> <span class="pre">stat'</span></span></td>
+<td><span class="s"><span class="pre">'--shortstat'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'skip'</span></span></td>
+<td><span class="s"><span class="pre">'--skip'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'soft'</span></span></td>
+<td><span class="s"><span class="pre">'--soft'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'staged'</span></span></td>
+<td><span class="s"><span class="pre">'--staged'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'stat'</span></span></td>
+<td><span class="s"><span class="pre">'--stat'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'system'</span></span></td>
+<td><span class="s"><span class="pre">'--system'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'track'</span></span></td>
+<td><span class="s"><span class="pre">'--track'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'update'</span></span></td>
+<td><span class="s"><span class="pre">'--update'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'verbose'</span></span></td>
+<td><span class="s"><span class="pre">'--verbose'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'branch'</span></span></td>
+<td><span class="s"><span class="pre">'-b'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'combined'</span></span></td>
+<td><span class="s"><span class="pre">'-c'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'deep'</span></span></td>
+<td><span class="s"><span class="pre">'-d'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'very</span> <span class="pre">verbose'</span></span></td>
+<td><span class="s"><span class="pre">'-vv'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'HEAD'</span></span></td>
+<td><span class="s"><span class="pre">'HEAD'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'main'</span></span></td>
+<td><span class="s"><span class="pre">'main'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'master'</span></span></td>
+<td><span class="s"><span class="pre">'master'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'origin'</span></span></td>
+<td><span class="s"><span class="pre">'origin'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'upstream'</span></span></td>
+<td><span class="s"><span class="pre">'upstream'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'origin</span> <span class="pre">main'</span></span></td>
+<td><span class="s"><span class="pre">'origin/main'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'origin</span> <span class="pre">master'</span></span></td>
+<td><span class="s"><span class="pre">'origin/master'</span></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

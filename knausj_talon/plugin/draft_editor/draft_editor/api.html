@@ -173,7 +173,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../../talon_draft_window/draft_talon_helpers/api.html">user.plugin.talon_draft_window.draft_talon_helpers.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../talon_draft_window/draft_ui/api.html">user.plugin.talon_draft_window.draft_ui.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../talon_draft_window/__init__/api.html">user.plugin.talon_draft_window.__init__.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.plugin.draft_editor.draft_editor.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.plugin.draft_editor.draft_editor.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#settings">Settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tags">Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../screenshot/screenshot/api.html">user.plugin.screenshot.screenshot.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../macro/macro/api.html">user.plugin.macro.macro.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../desktops/desktops/api.html">user.plugin.desktops.desktops.py</a></li>
@@ -448,6 +456,60 @@
              
   <section id="user-plugin-draft-editor-draft-editor-py">
 <h1>user.plugin.draft_editor.draft_editor.py<a class="headerlink" href="#user-plugin-draft-editor-draft-editor-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">draft_editor_discard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Discard</span> <span class="pre">draft</span> <span class="pre">editor</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">draft_editor_open</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Open</span> <span class="pre">draft</span> <span class="pre">editor</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">draft_editor_paste_last</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Paste</span> <span class="pre">last</span> <span class="pre">submitted</span> <span class="pre">draft</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">draft_editor_submit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Submit/save</span> <span class="pre">draft</span> <span class="pre">editor</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="settings">
+<h3>Settings<a class="headerlink" href="#settings" title="Permalink to this heading"></a></h3>
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">draft_editor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><p><span class="pre">List</span> <span class="pre">of</span> <span class="pre">application</span> <span class="pre">names</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">for</span> <span class="pre">draft</span> <span class="pre">editor</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">draft_editor_active</span></span><dd><p><span class="pre">Indicates</span> <span class="pre">whether</span> <span class="pre">the</span> <span class="pre">draft</span> <span class="pre">editor</span> <span class="pre">has</span> <span class="pre">been</span> <span class="pre">activated</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon tag">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">draft_editor_app_focused</span></span><dd><p><span class="pre">Indicates</span> <span class="pre">that</span> <span class="pre">the</span> <span class="pre">draft</span> <span class="pre">editor</span> <span class="pre">app</span> <span class="pre">currently</span> <span class="pre">has</span> <span class="pre">focus</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 

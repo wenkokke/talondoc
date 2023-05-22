@@ -452,9 +452,25 @@
 <table class="compact docutils align-default">
 <caption><span class="caption-text"></span></caption>
 <tbody>
+<tr class="row-odd"><td>^{user.code_function_modifier}* funky &lt;user.text&gt;$</td>
+<td><p>
+        Inserts function declaration with the given modifiers. modifiers == 0
+        implies no modifiers (.talon files don’t have empty list literal
+        syntax)
+        </p></td>
+</tr>
+<tr class="row-even"><td>is type &lt;user.code_type&gt;</td>
+<td><p>Inserts a type annotation</p></td>
+</tr>
+<tr class="row-odd"><td>returns [type] &lt;user.code_type&gt;</td>
+<td><p>Inserts a return type</p></td>
+</tr>
+<tr class="row-even"><td>type &lt;user.code_type&gt;</td>
+<td><p>Insert text at the current cursor position</p></td>
+</tr>
 </tbody>
-</div>
 </table>
+</div>
 </section>
 
 

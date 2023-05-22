@@ -161,7 +161,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../core/text/text_and_dictation/api.html">user.core.text.text_and_dictation.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../paste_to_insert/api.html">user.plugin.paste_to_insert.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../eye_tracking_settings/api.html">user.plugin.eye_tracking_settings.py</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">user.plugin.talon_helpers.talon_helpers.py</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user.plugin.talon_helpers.talon_helpers.py</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#modules">Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#actions">Actions</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../cancel/cancel/api.html">user.plugin.cancel.cancel.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../mouse/mouse/api.html">user.plugin.mouse.mouse.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../media/media/api.html">user.plugin.media.media.py</a></li>
@@ -448,6 +454,120 @@
              
   <section id="user-plugin-talon-helpers-talon-helpers-py">
 <h1>user.plugin.talon_helpers.talon_helpers.py<a class="headerlink" href="#user-plugin-talon-helpers-talon-helpers-py" title="Permalink to this heading"></a></h1>
+<section id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<section id="actions">
+<h3>Actions<a class="headerlink" href="#actions" title="Permalink to this heading"></a></h3>
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_action_find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">action</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Runs</span> <span class="pre">action.find</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">provided</span> <span class="pre">action</span> <span class="pre">and</span> <span class="pre">dumps</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">log</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_add_context_clipboard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Adds</span> <span class="pre">os-specific</span> <span class="pre">context</span> <span class="pre">info</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">clipboard</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">focused</span> <span class="pre">app</span> <span class="pre">for</span> <span class="pre">.talon</span> <span class="pre">files</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_add_context_clipboard_python</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Adds</span> <span class="pre">os-specific</span> <span class="pre">context</span> <span class="pre">info</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">clipboard</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">focused</span> <span class="pre">app</span> <span class="pre">for</span> <span class="pre">.py</span> <span class="pre">files.</span> <span class="pre">Assumes</span> <span class="pre">you've</span> <span class="pre">a</span> <span class="pre">Module</span> <span class="pre">named</span> <span class="pre">mod</span> <span class="pre">declared.</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_copy_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Dumps</span> <span class="pre">the</span> <span class="pre">contents</span> <span class="pre">of</span> <span class="pre">list</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">console</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_debug_all_settings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Dumps</span> <span class="pre">all</span> <span class="pre">settings</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">console</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_debug_app_windows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">app</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Pretty</span> <span class="pre">prints</span> <span class="pre">the</span> <span class="pre">application</span> <span class="pre">windows</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_debug_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Dumps</span> <span class="pre">the</span> <span class="pre">contents</span> <span class="pre">of</span> <span class="pre">list</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">console</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_debug_modes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Dumps</span> <span class="pre">active</span> <span class="pre">modes</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">console</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_debug_scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Dumps</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">scope</span> <span class="pre">information</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">console</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_debug_setting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">name</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Dumps</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">setting</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">console</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_debug_tags</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><dd><p><span class="pre">Dumps</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">tags</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">console</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_get_active_application_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">Returns</span> <span class="pre">all</span> <span class="pre">active</span> <span class="pre">app</span> <span class="pre">info</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">cliboard</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_get_active_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">Returns</span> <span class="pre">active</span> <span class="pre">context</span> <span class="pre">info</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_get_hostname</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">Returns</span> <span class="pre">the</span> <span class="pre">hostname</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_pretty_format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">obj</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">object</span></em><span class="sig-paren">)</span><dd><p><span class="pre">Pretty</span> <span class="pre">formats</span> <span class="pre">an</span> <span class="pre">object</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_pretty_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">obj</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">object</span></em><span class="sig-paren">)</span><dd><p><span class="pre">Uses</span> <span class="pre">pretty</span> <span class="pre">print</span> <span class="pre">to</span> <span class="pre">dump</span> <span class="pre">an</span> <span class="pre">object</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_sim_phrase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">phrase</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="pre">typing.Union[str,</span> <span class="pre">&lt;talondoc.analysis.static.python.shims.ObjectShim</span> <span class="pre">object</span> <span class="pre">at</span> <span class="pre">0x7fc934ca0ed0&gt;]</span></em><span class="sig-paren">)</span><dd><p><span class="pre">Sims</span> <span class="pre">the</span> <span class="pre">phrase</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">active</span> <span class="pre">app</span> <span class="pre">and</span> <span class="pre">dumps</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">log</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+<dl class="talon action">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">talon_version_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="kt"><span class="pre">str</span></span></span></span><dd><p><span class="pre">Returns</span> <span class="pre">talon</span> <span class="pre">&amp;</span> <span class="pre">operation</span> <span class="pre">system</span> <span class="pre">verison</span> <span class="pre">information</span></p>
+</dd></dt>
+<dd></dd></dl>
+
+</section>
+</section>
 </section>
 
 
