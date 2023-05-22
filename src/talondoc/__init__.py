@@ -9,6 +9,10 @@ from ._cache_builtin import cache_builtin
 from ._util import logging
 from ._version import __version__
 
+################################################################################
+# TalonDoc CLI
+################################################################################
+
 
 @click.group(name="talondoc")
 @click.version_option(
@@ -30,6 +34,11 @@ def talondoc(*, log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"]) -> None
         }.get(log_level.upper(), logging.INFO),
     )
     pass
+
+
+################################################################################
+# TalonDoc CLI - Autogen
+################################################################################
 
 
 @talondoc.command(name="autogen")
@@ -143,6 +152,42 @@ def _autogen(
         continue_on_error=continue_on_error,
         format=format,
     )
+
+
+################################################################################
+# TalonDoc CLI - Build
+################################################################################
+
+
+@talondoc.command(name="build")
+@click.argument(
+    "source_dir",
+    type=click.Path(),
+)
+@click.argument(
+    "output_dir",
+    type=click.Path(),
+)
+def _build(
+    source_dir: str,
+    output_dir: str,
+) -> None:
+    import sphinx.cmd.build
+
+    # NOTE: We always clean before building, as TalonDoc's support for
+    #       merging Sphinx build environments is still under development.
+    exitcode = sphinx.cmd.build.make_main(["-M", "clean", source_dir, output_dir])
+    if exitcode != 0:
+        exit(exitcode)
+
+    exitcode = sphinx.cmd.build.make_main(["-M", "html", source_dir, output_dir])
+    if exitcode != 0:
+        exit(exitcode)
+
+
+################################################################################
+# TalonDoc CLI - Cache Builtin
+################################################################################
 
 
 @talondoc.command(name="cache_builtin")
