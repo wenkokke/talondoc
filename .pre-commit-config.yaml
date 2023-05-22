@@ -57,7 +57,7 @@ repos:
           ]
         exclude: "^src/talondoc/_compat_singledispatchmethod\\.py$"
   - repo: https://github.com/wenkokke/talonfmt
-    rev: 1.9.5
+    rev: 1.10.0
     hooks:
       - id: talonfmt
         args: ["--in-place", "--max-line-width=88"]
