@@ -36,13 +36,13 @@ class TalonListDirective(TalonDocObjectDescription):
     required_arguments = 1
     optional_arguments = 0
     option_spec: OptionSpec = {
-        "table_width": optional_int,
+        "width": optional_int,
     }
     final_argument_whitespace = False
 
     @property
-    def table_width(self) -> Optional[int]:
-        return cast(Optional[int], self.options.get("table_width", None))
+    def width(self) -> Optional[int]:
+        return cast(Optional[int], self.options.get("width", None))
 
     @override
     def get_signatures(self) -> list[str]:
@@ -84,7 +84,7 @@ class TalonListDirective(TalonDocObjectDescription):
                                     for key, value in default.value.items()
                                 ),
                             ),
-                            table_width=self.table_width,
+                            width=self.width,
                         )
                     )
                 elif isinstance(default.value, Sequence):
@@ -99,7 +99,7 @@ class TalonListDirective(TalonDocObjectDescription):
                                     for value in default.value
                                 ),
                             ),
-                            table_width=self.table_width,
+                            width=self.width,
                         )
                     )
 
