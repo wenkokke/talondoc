@@ -232,7 +232,7 @@ def _build(
         buffer: list[str] = []
         buffer.append(f"Could not find {conf_py}.")
         if did_you_mean:
-            buffer.append(f"(Did you mean to pass '--config-dir={did_you_mean}'?)")
+            buffer.append(f"Did you mean to pass '--config-dir={did_you_mean}'?")
         _LOGGER.error(" ".join(buffer))
         exit(1)
 
