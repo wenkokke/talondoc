@@ -267,7 +267,7 @@ following three options, in order:</p>
 <span class="p">..</span> <span class="ow">talon:command-table</span><span class="p">::</span>
 <span class="nc">:caption:</span> A bigger custom Discord table.
 <span class="nc">:context:</span> user.apps.discord.discord
-<span class="nc">:table_width:</span> 200
+<span class="nc">:width:</span> 200
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-3-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-3-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:command-table}
@@ -278,14 +278,14 @@ following three options, in order:</p>
 :::{talon:command-table}
 :caption: A bigger custom Discord table.
 :context: user.apps.discord.discord
-:table_width: 200
+:width: 200
 :::
 </pre></div>
 </div>
 </div></div>
 <p>… generates the following two tables:</p>
 <div class="fragtable compact">
-<table class="compact docutils align-default">
+<table class="compact docutils align-default" style="width: None">
 <caption><span class="caption-text">A little custom hunting table.</span></caption>
 <tbody>
 <tr class="row-odd"><td>hunt this</td>
@@ -298,7 +298,7 @@ following three options, in order:</p>
 </table>
 </div>
 <div class="fragtable compact" style="column-width: 200px;column-fill: balance;width: 100%;">
-<table class="compact docutils align-default">
+<table class="compact docutils align-default" style="width: 200">
 <caption><span class="caption-text">A bigger custom Discord table.</span></caption>
 <tbody>
 <tr class="row-odd"><td>{user.discord_destination} [&lt;user.text&gt;]</td>
@@ -424,16 +424,16 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 <p>TalonDoc can generate documentation for lists using <code class="docutils literal notranslate"><span class="pre">talon:list</span></code>. For instance, the following code:</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" role="tablist"><button aria-controls="panel-6-cmVTdHJ1Y3R1cmVkVGV4dA==" aria-selected="true" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tab" tabindex="0">reStructuredText</button><button aria-controls="panel-6-TWFya2Rvd24=" aria-selected="false" class="sphinx-tabs-tab code-tab group-tab" id="tab-6-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tab" tabindex="-1">Markdown</button></div><div aria-labelledby="tab-6-cmVTdHJ1Y3R1cmVkVGV4dA==" class="sphinx-tabs-panel code-tab group-tab" id="panel-6-cmVTdHJ1Y3R1cmVkVGV4dA==" name="cmVTdHJ1Y3R1cmVkVGV4dA==" role="tabpanel" tabindex="0"><div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">talon:list</span><span class="p">::</span> user.letter
-<span class="nc">:table_width:</span> 150
+<span class="nc">:width:</span> 150
 <span class="p">..</span> <span class="ow">talon:list</span><span class="p">::</span> user.symbol_key
-<span class="nc">:table_width:</span> 150
+<span class="nc">:width:</span> 150
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-6-TWFya2Rvd24=" class="sphinx-tabs-panel code-tab group-tab" hidden="true" id="panel-6-TWFya2Rvd24=" name="TWFya2Rvd24=" role="tabpanel" tabindex="0"><div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>:::{talon:list} user.letter
-:table_width: 150
+:width: 150
 :::
 :::{talon:list} user.symbol_key
-:table_width: 150
+:width: 150
 :::
 </pre></div>
 </div>
@@ -443,7 +443,7 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 <dt class="sig sig-object talon">
 <span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">letter</span></span><dd><p><span class="pre">The</span> <span class="pre">spoken</span> <span class="pre">phonetic</span> <span class="pre">alphabet</span></p>
 <div class="fragtable" style="column-width: 150px;column-fill: balance;width: 100%;">
-<table class="docutils align-default">
+<table class="docutils align-default" style="width: 150">
 <tbody>
 <tr class="row-odd"><td><span class="s"><span class="pre">'air'</span></span></td>
 <td><span class="sc"><span class="pre">'a'</span></span></td>
@@ -533,7 +533,7 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 <dt class="sig sig-object talon">
 <span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">symbol_key</span></span><dd><p><span class="pre">All</span> <span class="pre">symbols</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">keyboard</span></p>
 <div class="fragtable" style="column-width: 150px;column-fill: balance;width: 100%;">
-<table class="docutils align-default">
+<table class="docutils align-default" style="width: 150">
 <tbody>
 <tr class="row-odd"><td><span class="s"><span class="pre">'dot'</span></span></td>
 <td><span class="sc"><span class="pre">'.'</span></span></td>
@@ -770,8 +770,8 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 <dd></dd></dl>
 
 <dl class="simple myst">
-<dt><code class="docutils literal notranslate"><span class="pre">:table_width:</span></code></dt><dd><p>The width of the table, in pixels.
-If <code class="docutils literal notranslate"><span class="pre">:table_width:</span></code> is specified, the table automatically fragments horizontally.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">:width:</span></code></dt><dd><p>The width of the table, in pixels.
+If <code class="docutils literal notranslate"><span class="pre">:width:</span></code> is specified, the table automatically fragments horizontally.</p>
 </dd>
 </dl>
 </section>
