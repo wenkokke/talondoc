@@ -373,7 +373,7 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 <p>…will generate the following bit of documentation:</p>
 <dl class="talon action">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">user.find(text:</span> <span class="pre">str)</span></span><dd><p><span class="pre">Finds</span> <span class="pre">text</span> <span class="pre">in</span> <span class="pre">current</span> <span class="pre">editor</span></p>
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="sig-name descname"><span class="pre">text</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span></em><span class="sig-paren">)</span><dd><p><span class="pre">Finds</span> <span class="pre">text</span> <span class="pre">in</span> <span class="pre">current</span> <span class="pre">editor</span></p>
 </dd></dt>
 <dd></dd></dl>
 
@@ -393,7 +393,7 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 <p>…will generate the following bit of documentation:</p>
 <dl class="talon capture">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">user.any_alphanumeric_key</span></span><dd><span class="pre">(&lt;self.letter&gt;</span> <span class="pre">|</span> <span class="pre">&lt;self.number_key&gt;</span> <span class="pre">|</span> <span class="pre">&lt;self.symbol_key&gt;)</span></dd><dd><p><span class="pre">any</span> <span class="pre">alphanumeric</span> <span class="pre">key</span></p>
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">any_alphanumeric_key</span></span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">str</span></span><dd><span class="pre">(&lt;self.letter&gt;</span> <span class="pre">|</span> <span class="pre">&lt;self.number_key&gt;</span> <span class="pre">|</span> <span class="pre">&lt;self.symbol_key&gt;)</span></dd><dd><p><span class="pre">any</span> <span class="pre">alphanumeric</span> <span class="pre">key</span></p>
 </dd></dt>
 <dd></dd></dl>
 
@@ -416,21 +416,331 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 <p>…will generate the following bit of documentation:</p>
 <dl class="talon list">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">user.letter</span></span><dd><p><span class="pre">The</span> <span class="pre">spoken</span> <span class="pre">phonetic</span> <span class="pre">alphabet</span></p>
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">letter</span></span><dd><p><span class="pre">The</span> <span class="pre">spoken</span> <span class="pre">phonetic</span> <span class="pre">alphabet</span></p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'air'</span></span></td>
+<td><span class="sc"><span class="pre">'a'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bat'</span></span></td>
+<td><span class="sc"><span class="pre">'b'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'cap'</span></span></td>
+<td><span class="sc"><span class="pre">'c'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'drum'</span></span></td>
+<td><span class="sc"><span class="pre">'d'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'each'</span></span></td>
+<td><span class="sc"><span class="pre">'e'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'fine'</span></span></td>
+<td><span class="sc"><span class="pre">'f'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'gust'</span></span></td>
+<td><span class="sc"><span class="pre">'g'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'harp'</span></span></td>
+<td><span class="sc"><span class="pre">'h'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sit'</span></span></td>
+<td><span class="sc"><span class="pre">'i'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'jury'</span></span></td>
+<td><span class="sc"><span class="pre">'j'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'crunch'</span></span></td>
+<td><span class="sc"><span class="pre">'k'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'look'</span></span></td>
+<td><span class="sc"><span class="pre">'l'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'made'</span></span></td>
+<td><span class="sc"><span class="pre">'m'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'near'</span></span></td>
+<td><span class="sc"><span class="pre">'n'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'odd'</span></span></td>
+<td><span class="sc"><span class="pre">'o'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'pit'</span></span></td>
+<td><span class="sc"><span class="pre">'p'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'quench'</span></span></td>
+<td><span class="sc"><span class="pre">'q'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'red'</span></span></td>
+<td><span class="sc"><span class="pre">'r'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'sun'</span></span></td>
+<td><span class="sc"><span class="pre">'s'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'trap'</span></span></td>
+<td><span class="sc"><span class="pre">'t'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'urge'</span></span></td>
+<td><span class="sc"><span class="pre">'u'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'vest'</span></span></td>
+<td><span class="sc"><span class="pre">'v'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'whale'</span></span></td>
+<td><span class="sc"><span class="pre">'w'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'plex'</span></span></td>
+<td><span class="sc"><span class="pre">'x'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'yank'</span></span></td>
+<td><span class="sc"><span class="pre">'y'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'zip'</span></span></td>
+<td><span class="sc"><span class="pre">'z'</span></span></td>
+</tr>
+</tbody>
+</table>
 </dd></dt>
 <dd></dd></dl>
 
 <dl class="talon list">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">user.symbol_key</span></span><dd><p><span class="pre">All</span> <span class="pre">symbols</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">keyboard</span></p>
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">symbol_key</span></span><dd><p><span class="pre">All</span> <span class="pre">symbols</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">keyboard</span></p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><span class="s"><span class="pre">'dot'</span></span></td>
+<td><span class="sc"><span class="pre">'.'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'point'</span></span></td>
+<td><span class="sc"><span class="pre">'.'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'quote'</span></span></td>
+<td><span class="sc"><span class="pre">&quot;'&quot;</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'question'</span></span></td>
+<td><span class="sc"><span class="pre">'?'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'apostrophe'</span></span></td>
+<td><span class="sc"><span class="pre">&quot;'&quot;</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'L</span> <span class="pre">square'</span></span></td>
+<td><span class="sc"><span class="pre">'['</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'left</span> <span class="pre">square'</span></span></td>
+<td><span class="sc"><span class="pre">'['</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'square'</span></span></td>
+<td><span class="sc"><span class="pre">'['</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'R</span> <span class="pre">square'</span></span></td>
+<td><span class="sc"><span class="pre">']'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'right</span> <span class="pre">square'</span></span></td>
+<td><span class="sc"><span class="pre">']'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'slash'</span></span></td>
+<td><span class="sc"><span class="pre">'/'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'backslash'</span></span></td>
+<td><span class="sc"><span class="pre">'\\'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'minus'</span></span></td>
+<td><span class="sc"><span class="pre">'-'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'dash'</span></span></td>
+<td><span class="sc"><span class="pre">'-'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'equals'</span></span></td>
+<td><span class="sc"><span class="pre">'='</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'plus'</span></span></td>
+<td><span class="sc"><span class="pre">'+'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'grave'</span></span></td>
+<td><span class="sc"><span class="pre">'`'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'tilde'</span></span></td>
+<td><span class="sc"><span class="pre">'~'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'bang'</span></span></td>
+<td><span class="sc"><span class="pre">'!'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'down</span> <span class="pre">score'</span></span></td>
+<td><span class="sc"><span class="pre">'_'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'underscore'</span></span></td>
+<td><span class="sc"><span class="pre">'_'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'paren'</span></span></td>
+<td><span class="sc"><span class="pre">'('</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'brace'</span></span></td>
+<td><span class="sc"><span class="pre">'{'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'left</span> <span class="pre">brace'</span></span></td>
+<td><span class="sc"><span class="pre">'{'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'brack'</span></span></td>
+<td><span class="sc"><span class="pre">'{'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'bracket'</span></span></td>
+<td><span class="sc"><span class="pre">'{'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'left</span> <span class="pre">bracket'</span></span></td>
+<td><span class="sc"><span class="pre">'{'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'r</span> <span class="pre">brace'</span></span></td>
+<td><span class="sc"><span class="pre">'}'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'right</span> <span class="pre">brace'</span></span></td>
+<td><span class="sc"><span class="pre">'}'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'r</span> <span class="pre">brack'</span></span></td>
+<td><span class="sc"><span class="pre">'}'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'r</span> <span class="pre">bracket'</span></span></td>
+<td><span class="sc"><span class="pre">'}'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'right</span> <span class="pre">bracket'</span></span></td>
+<td><span class="sc"><span class="pre">'}'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'angle'</span></span></td>
+<td><span class="sc"><span class="pre">'&lt;'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'left</span> <span class="pre">angle'</span></span></td>
+<td><span class="sc"><span class="pre">'&lt;'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'less</span> <span class="pre">than'</span></span></td>
+<td><span class="sc"><span class="pre">'&lt;'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'rangle'</span></span></td>
+<td><span class="sc"><span class="pre">'&gt;'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'R</span> <span class="pre">angle'</span></span></td>
+<td><span class="sc"><span class="pre">'&gt;'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'right</span> <span class="pre">angle'</span></span></td>
+<td><span class="sc"><span class="pre">'&gt;'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'greater</span> <span class="pre">than'</span></span></td>
+<td><span class="sc"><span class="pre">'&gt;'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'star'</span></span></td>
+<td><span class="sc"><span class="pre">'*'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'hash'</span></span></td>
+<td><span class="sc"><span class="pre">'#'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'percent'</span></span></td>
+<td><span class="sc"><span class="pre">'%'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'caret'</span></span></td>
+<td><span class="sc"><span class="pre">'^'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'amper'</span></span></td>
+<td><span class="sc"><span class="pre">'&amp;'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'pipe'</span></span></td>
+<td><span class="sc"><span class="pre">'|'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'dub</span> <span class="pre">quote'</span></span></td>
+<td><span class="sc"><span class="pre">'&quot;'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'double</span> <span class="pre">quote'</span></span></td>
+<td><span class="sc"><span class="pre">'&quot;'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'dollar'</span></span></td>
+<td><span class="sc"><span class="pre">'$'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'pound'</span></span></td>
+<td><span class="sc"><span class="pre">'£'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="sc"><span class="pre">'`'</span></span></td>
+<td><span class="sc"><span class="pre">'`'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="sc"><span class="pre">','</span></span></td>
+<td><span class="sc"><span class="pre">','</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'back</span> <span class="pre">tick'</span></span></td>
+<td><span class="sc"><span class="pre">'`'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'comma'</span></span></td>
+<td><span class="sc"><span class="pre">','</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'coma'</span></span></td>
+<td><span class="sc"><span class="pre">','</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'period'</span></span></td>
+<td><span class="sc"><span class="pre">'.'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'full</span> <span class="pre">stop'</span></span></td>
+<td><span class="sc"><span class="pre">'.'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'semicolon'</span></span></td>
+<td><span class="sc"><span class="pre">';'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'colon'</span></span></td>
+<td><span class="sc"><span class="pre">':'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'forward</span> <span class="pre">slash'</span></span></td>
+<td><span class="sc"><span class="pre">'/'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'question</span> <span class="pre">mark'</span></span></td>
+<td><span class="sc"><span class="pre">'?'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'exclamation</span> <span class="pre">mark'</span></span></td>
+<td><span class="sc"><span class="pre">'!'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'exclamation</span> <span class="pre">point'</span></span></td>
+<td><span class="sc"><span class="pre">'!'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'asterisk'</span></span></td>
+<td><span class="sc"><span class="pre">'*'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'hash</span> <span class="pre">sign'</span></span></td>
+<td><span class="sc"><span class="pre">'#'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'number</span> <span class="pre">sign'</span></span></td>
+<td><span class="sc"><span class="pre">'#'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'percent</span> <span class="pre">sign'</span></span></td>
+<td><span class="sc"><span class="pre">'%'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'at</span> <span class="pre">sign'</span></span></td>
+<td><span class="sc"><span class="pre">'&#64;'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'and</span> <span class="pre">sign'</span></span></td>
+<td><span class="sc"><span class="pre">'&amp;'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'ampersand'</span></span></td>
+<td><span class="sc"><span class="pre">'&amp;'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'dollar</span> <span class="pre">sign'</span></span></td>
+<td><span class="sc"><span class="pre">'$'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'pound</span> <span class="pre">sign'</span></span></td>
+<td><span class="sc"><span class="pre">'£'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'hyphen'</span></span></td>
+<td><span class="sc"><span class="pre">'-'</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'L</span> <span class="pre">paren'</span></span></td>
+<td><span class="sc"><span class="pre">'('</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'left</span> <span class="pre">paren'</span></span></td>
+<td><span class="sc"><span class="pre">'('</span></span></td>
+</tr>
+<tr class="row-odd"><td><span class="s"><span class="pre">'R</span> <span class="pre">paren'</span></span></td>
+<td><span class="sc"><span class="pre">')'</span></span></td>
+</tr>
+<tr class="row-even"><td><span class="s"><span class="pre">'right</span> <span class="pre">paren'</span></span></td>
+<td><span class="sc"><span class="pre">')'</span></span></td>
+</tr>
+</tbody>
+</table>
 </dd></dt>
 <dd></dd></dl>
 
 <p>List documentation is restricted to names and descriptions.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Support for list values is underway.</p>
-</div>
 </section>
 <section id="modes">
 <h2>Modes<a class="headerlink" href="#modes" title="Permalink to this heading"></a></h2>
@@ -476,15 +786,16 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 <p>…will generate the following bit of documentation:</p>
 <dl class="talon setting">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">key_hold</span></span><dd><p><span class="pre">milliseconds</span> <span class="pre">to</span> <span class="pre">wait</span> <span class="pre">between</span> <span class="pre">key</span> <span class="pre">press</span> <span class="pre">and</span> <span class="pre">release</span></p>
+<span class="sig-name descname"><span class="pre">key_hold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><dd><p><span class="pre">milliseconds</span> <span class="pre">to</span> <span class="pre">wait</span> <span class="pre">between</span> <span class="pre">key</span> <span class="pre">press</span> <span class="pre">and</span> <span class="pre">release</span></p>
 </dd></dt>
 <dd></dd></dl>
 
+<dl class="talon setting">
+<dt class="sig sig-object talon">
+<span class="sig-prename descclassname"><span class="pre">dictate.</span></span><span class="sig-name descname"><span class="pre">punctuation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">list</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">'.,-!?'</span></span></dt>
+<dd></dd></dl>
+
 <p>Setting documentation is restricted to names and descriptions.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Support for setting values is underway.</p>
-</div>
 </section>
 <section id="tags">
 <h2>Tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h2>
@@ -501,7 +812,7 @@ If <code class="docutils literal notranslate"><span class="pre">:exclude:</span>
 <p>…will generate the following bit of documentation:</p>
 <dl class="talon tag">
 <dt class="sig sig-object talon">
-<span class="sig-name descname"><span class="pre">user.find_and_replace</span></span><dd><p><span class="pre">Tag</span> <span class="pre">for</span> <span class="pre">enabling</span> <span class="pre">generic</span> <span class="pre">find</span> <span class="pre">and</span> <span class="pre">replace</span> <span class="pre">commands</span></p>
+<span class="sig-prename descclassname"><span class="pre">user.</span></span><span class="sig-name descname"><span class="pre">find_and_replace</span></span><dd><p><span class="pre">Tag</span> <span class="pre">for</span> <span class="pre">enabling</span> <span class="pre">generic</span> <span class="pre">find</span> <span class="pre">and</span> <span class="pre">replace</span> <span class="pre">commands</span></p>
 </dd></dt>
 <dd></dd></dl>
 
