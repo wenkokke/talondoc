@@ -176,11 +176,11 @@ def _build(
 
     # NOTE: We always clean before building, as TalonDoc's support for
     #       merging Sphinx build environments is still under development.
-    exitcode = sphinx.cmd.build.build_main(["-M", "clean", source_dir, output_dir])
+    exitcode = sphinx.cmd.build.make_main(["-M", "clean", source_dir, output_dir])
     if exitcode != 0:
         exit(exitcode)
 
-    exitcode = sphinx.cmd.build.build_main(["-M", "html", source_dir, output_dir])
+    exitcode = sphinx.cmd.build.make_main(["-M", "html", source_dir, output_dir])
     if exitcode != 0:
         exit(exitcode)
 
