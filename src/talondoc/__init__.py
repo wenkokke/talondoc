@@ -30,6 +30,8 @@ def talondoc(
     *,
     log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"],
 ) -> None:
+    if ctx.obj is None:
+        ctx.obj = {}
     ctx.obj["log_level"] = log_level
     logging.basicConfig(
         level={
