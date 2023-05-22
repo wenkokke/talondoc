@@ -1,5 +1,10 @@
+import contextlib
 import os
-from typing import Optional
+import socket
+import threading
+import webbrowser
+from http.server import HTTPServer, SimpleHTTPRequestHandler, ThreadingHTTPServer
+from typing import Any, Optional
 
 import click
 from typing_extensions import Literal
@@ -181,15 +186,26 @@ def _autogen(
     type=click.Path(),
     default=None,
 )
+@click.option(
+    "--server/--no-server",
+    default=False,
+)
 def _build(
     ctx: click.Context,
     source_dir: str,
     output_dir: str,
     config_dir: Optional[str],
+    server: bool,
 ) -> None:
     import sphinx.cmd.build
 
     args: list[str] = []
+
+    # Set BUILDER to html:
+    args.extend(["-b", "html"])
+
+    # Build ALL files:
+    args.extend(["-a"])
 
     # Never run in parallel:
     args.extend(["--jobs", "1"])
@@ -206,35 +222,58 @@ def _build(
                 {
                     "ERROR": ["-Q"],
                     "WARNING": ["-q"],
-                    "INFO": ["-v"],
                     "DEBUG": ["-v", "-v"],
                 }.get(log_level.upper(), [])
             )
 
     # NOTE: We always clean before building, as TalonDoc's support for
     #       merging Sphinx build environments is still under development.
-    exitcode = sphinx.cmd.build.make_main(
+    sphinx.cmd.build.make_main(
         [
             "-M",
             "clean",
-            *args,
             source_dir,
             output_dir,
         ]
     )
-    if exitcode != 0:
-        exit(exitcode)
 
-    exitcode = sphinx.cmd.build.make_main(
+    exitcode = sphinx.cmd.build.build_main(
         [
-            "-M",
-            "html",
             *args,
             source_dir,
             output_dir,
         ]
     )
-    if exitcode != 0:
+
+    # Start server and open browser tab:
+    if server:
+
+        class DualStackServer(ThreadingHTTPServer):
+            def server_bind(self) -> None:
+                # suppress exception when protocol is IPv4
+                with contextlib.suppress(Exception):
+                    self.socket.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
+                return super().server_bind()
+
+            def finish_request(self, request: Any, client_address: Any) -> None:
+                self.RequestHandlerClass(  # type: ignore[call-arg]
+                    request, client_address, self, directory=output_dir  # type: ignore[arg-type]
+                )
+
+        def _start_server() -> None:
+            https = DualStackServer(("", 8000), SimpleHTTPRequestHandler)
+            https.serve_forever()
+
+        # Start server:
+        server_thread = threading.Thread(target=_start_server, daemon=True)
+        server_thread.start()
+
+        # Open browser tab:
+        webbrowser.open("http://localhost:8000")
+
+        # Wait for user to exit:
+        print("Starting server. Press any key to exit.")
+        _ = click.getchar()
         exit(exitcode)
 
 

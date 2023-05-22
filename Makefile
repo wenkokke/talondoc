@@ -12,11 +12,15 @@ test:
 
 .PHONY: serve
 serve:
-	@.venv/bin/python -m http.server --directory ./example/docs/_build/html
+	@bash -c "source .venv/bin/activate; pip install -q .[docs]; python -m talondoc build ./example/docs ./example/docs/_build --server"
 
 .PHONY: docs
 docs: .venv/bin/activate
-	@bash -c "source .venv/bin/activate; pip install -q .[docs]; ./example/build.sh"
+	@bash -c "source .venv/bin/activate; pip install -q .[docs]; python -m talondoc build ./example/docs ./example/docs/_build"
+
+.PHONY: autogen
+autogen: .venv/bin/activate
+	@bash -c "source .venv/bin/activate; pip install -q .[docs]; ./example/autogen.sh"
 
 .venv/bin/activate:
 	@python -m venv .venv
