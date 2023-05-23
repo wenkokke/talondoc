@@ -104,7 +104,6 @@ allowlist_externals = cp, mkdir, rm
 extras =
   test
 setenv =
-  PYTHONUTF8 = 1
   TALONDOC_STRICT = 1
 commands_pre =
   cp -R '{tox_root}/example/knausj_talon' '{env_tmp_dir}/knausj_talon'
@@ -114,8 +113,8 @@ commands_pre =
   cp -R '{tox_root}/example/docs/_static' '{env_tmp_dir}/docs/_static'
 commands =
   {envpython} -m bumpver update --patch --no-fetch --dry
-  {envpython} -m talondoc autogen '{env_tmp_dir}/docs' -o 'knausj_talon' --generate-index
-  {envpython} -m talondoc build '{env_tmp_dir}/docs' '{env_tmp_dir}/docs/_build'
+  {envpython} -X utf8 -m talondoc autogen '{env_tmp_dir}/docs' -o 'knausj_talon' --generate-index
+  {envpython} -X utf8 -m talondoc build '{env_tmp_dir}/docs' '{env_tmp_dir}/docs/_build'
 commands_post =
   rm -rf '{env_tmp_dir}/knausj_talon'
   rm -f '{env_tmp_dir}/docs/conf.py'
