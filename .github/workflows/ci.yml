@@ -109,7 +109,6 @@ jobs:
   pyinstaller:
     name: PyInstaller / ${{ matrix.os.name }}
     runs-on: ${{ matrix.os.type }}
-    needs: [build, test]
 
     strategy:
       matrix:
@@ -212,7 +211,7 @@ jobs:
     name: Publish package to GitHub Releases
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
-    needs: [build, test]
+    needs: [build, test, pyinstaller]
 
     permissions:
       contents: write
