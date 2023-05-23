@@ -104,6 +104,7 @@ allowlist_externals = cp, mkdir, rm
 extras =
   test
 setenv =
+  PYTHONUTF8 = 1
   TALONDOC_STRICT = 1
 commands_pre =
   cp -R '{tox_root}/example/knausj_talon' '{env_tmp_dir}/knausj_talon'

@@ -131,6 +131,8 @@ jobs:
         run: |
           talondoc autogen example/docs -o knausj_talon --generate-index
           talondoc build example/docs example/docs/_build
+        env:
+          PYTHONUTF8: "1"
 
       - name: Publish docs to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.4.1
