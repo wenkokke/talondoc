@@ -1,0 +1,5 @@
+# user.plugin.media.media.py
+## Modules
+### Actions
+:::{talon:action} user.play_pause
+:::

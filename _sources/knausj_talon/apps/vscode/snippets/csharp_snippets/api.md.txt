@@ -1,0 +1,1 @@
+# user.apps.vscode.snippets.csharp_snippets.py

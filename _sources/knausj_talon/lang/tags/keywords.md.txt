@@ -1,0 +1,4 @@
+# user.lang.tags.keywords
+:::{talon:command-table}
+:context: user.lang.tags.keywords
+:::

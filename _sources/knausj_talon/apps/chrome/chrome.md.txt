@@ -1,0 +1,4 @@
+# user.apps.chrome.chrome
+:::{talon:command-table}
+:context: user.apps.chrome.chrome
+:::

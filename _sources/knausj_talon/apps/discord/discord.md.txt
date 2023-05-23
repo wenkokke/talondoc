@@ -1,0 +1,4 @@
+# user.apps.discord.discord
+:::{talon:command-table}
+:context: user.apps.discord.discord
+:::

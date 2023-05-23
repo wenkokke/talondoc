@@ -1,0 +1,4 @@
+# user.plugin.mouse.mouse
+:::{talon:command-table}
+:context: user.plugin.mouse.mouse
+:::

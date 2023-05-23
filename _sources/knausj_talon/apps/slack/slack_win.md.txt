@@ -1,0 +1,4 @@
+# user.apps.slack.slack_win
+:::{talon:command-table}
+:context: user.apps.slack.slack_win
+:::

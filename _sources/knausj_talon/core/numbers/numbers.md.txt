@@ -1,0 +1,4 @@
+# user.core.numbers.numbers
+:::{talon:command-table}
+:context: user.core.numbers.numbers
+:::

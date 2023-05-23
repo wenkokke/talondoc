@@ -1,2 +1,0 @@
-user.apps.thunderbird.thunderbird_linux.py
-==========================================

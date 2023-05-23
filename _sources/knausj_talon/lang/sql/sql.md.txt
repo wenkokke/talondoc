@@ -1,0 +1,4 @@
+# user.lang.sql.sql
+:::{talon:command-table}
+:context: user.lang.sql.sql
+:::

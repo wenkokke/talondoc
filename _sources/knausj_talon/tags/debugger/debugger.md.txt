@@ -1,0 +1,4 @@
+# user.tags.debugger.debugger
+:::{talon:command-table}
+:context: user.tags.debugger.debugger
+:::

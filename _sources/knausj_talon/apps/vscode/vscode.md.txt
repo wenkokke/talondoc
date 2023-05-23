@@ -1,0 +1,4 @@
+# user.apps.vscode.vscode
+:::{talon:command-table}
+:context: user.apps.vscode.vscode
+:::

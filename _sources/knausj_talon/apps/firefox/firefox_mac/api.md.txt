@@ -1,0 +1,1 @@
+# user.apps.firefox.firefox_mac.py
