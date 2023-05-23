@@ -294,7 +294,7 @@ def autogen(
     template_talon_file = env.get_template(f"talon_file.{format}.jinja2")
     template_python_file = env.get_template(f"python_file.{format}.jinja2")
 
-    toc: list[Path] = []
+    toc: list[str] = []
     total: int = len(package.files)
     if generate_conf:
         total += 1
@@ -305,12 +305,6 @@ def autogen(
         registry.get(data.File, file_name, referenced_by=package)
         for file_name in package.files
     ]
-    talon_files: list[data.File] = [
-        file for file in files if file.location.path.parts[-1].endswith(".talon")
-    ]
-    python_files: list[data.File] = [
-        file for file in files if file.location.path.parts[-1].endswith(".py")
-    ]
 
     def _modules(file: data.File) -> list[data.Module]:
         return [registry.get(data.Module, name) for name in file.modules]
@@ -318,6 +312,10 @@ def autogen(
     def _contexts(file: data.File) -> list[data.Context]:
         return [registry.get(data.Context, name) for name in file.contexts]
 
+    # Handle all .talon files:
+    talon_files: list[data.File] = [
+        file for file in files if file.location.path.parts[-1].endswith(".talon")
+    ]
     for file in talon_files:
         # Create path/to/talon/file.{md,rst}:
         bar.step(f" {str(file.location.path)}")
@@ -329,15 +327,18 @@ def autogen(
         contexts = _contexts(file)
 
         # Check whether the file has any content
-        has_content = any(module.has_content() for module in modules) or any(
-            context.has_content() for context in contexts
+        has_content = any(
+            [
+                *[module.has_content() for module in modules],
+                *[context.has_content() for context in contexts],
+            ]
         )
 
         # Check whether the file defines any commands
         has_commands = any(bool(context.commands) for context in contexts)
 
         if has_content:
-            toc.append(output_relpath)
+            toc.append(str(output_relpath))
             output_path.write_text(
                 template_talon_file.render(
                     file=file,
@@ -348,6 +349,10 @@ def autogen(
                 )
             )
 
+    # Handle all .py files:
+    python_files: list[data.File] = [
+        file for file in files if file.location.path.parts[-1].endswith(".py")
+    ]
     for file in python_files:
         # Create path/to/python/file/api.{md,rst}:
         bar.step(f" {str(file.location.path)}")
@@ -359,12 +364,15 @@ def autogen(
         contexts = _contexts(file)
 
         # Check whether the file has any content
-        has_content = any(module.has_content() for module in modules) or any(
-            context.has_content() for context in contexts
+        has_content = any(
+            [
+                *[module.has_content() for module in modules],
+                *[context.has_content() for context in contexts],
+            ]
         )
 
         if has_content:
-            toc.append(output_relpath)
+            toc.append(str(output_relpath))
             output_path.write_text(
                 template_python_file.render(
                     file=file,
