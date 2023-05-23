@@ -338,7 +338,7 @@ def autogen(
         has_commands = any(bool(context.commands) for context in contexts)
 
         if has_content:
-            toc.append(str(output_relpath))
+            toc.append(output_relpath.as_posix())
             output_path.write_text(
                 template_talon_file.render(
                     file=file,
@@ -372,7 +372,7 @@ def autogen(
         )
 
         if has_content:
-            toc.append(str(output_relpath))
+            toc.append(output_relpath.as_posix())
             output_path.write_text(
                 template_python_file.render(
                     file=file,
