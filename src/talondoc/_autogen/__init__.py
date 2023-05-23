@@ -77,11 +77,11 @@ def autogen(
 ) -> None:
     # Ensure config_dir is Path:
     if isinstance(config_dir, str):
-        config_dir = Path(config_dir)
+        config_dir = Path(config_dir).resolve()
 
     # Ensure output_dir is Path:
     if isinstance(output_dir, str):
-        output_dir = Path(output_dir)
+        output_dir = Path(output_dir).resolve()
 
     if output_dir and output_dir.is_absolute():
         _LOGGER.warning(
