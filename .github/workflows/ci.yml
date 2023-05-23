@@ -251,7 +251,7 @@ jobs:
 
     environment:
       name: pypi
-      url: https://pypi.org/p/talonfmt
+      url: https://pypi.org/p/talondoc
 
     permissions:
       id-token: write # IMPORTANT: this permission is mandatory for trusted publishing

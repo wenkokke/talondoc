@@ -12,7 +12,7 @@ import sys
 project = "TalonDoc"
 copyright = "2022, Wen Kokke"
 author = "Wen Kokke"
-release = "1.0.0rc4"
+release = "1.0.0rc5"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
