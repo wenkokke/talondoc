@@ -129,7 +129,7 @@ jobs:
 
       - name: Build docs
         run: |
-          ./example/autogen.sh
+          talondoc autogen example/docs -o knausj_talon --generate-index
           talondoc build example/docs example/docs/_build
 
       - name: Publish docs to GitHub Pages

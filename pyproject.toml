@@ -100,13 +100,12 @@ envlist = py39, py39-md, py310, py310-md, py311, py311-md
 isolated_build = true
 
 [testenv]
-allowlist_externals = cp, mkdir, sh, rm
+allowlist_externals = cp, mkdir, rm
 extras =
   test
 setenv =
   TALONDOC_STRICT = 1
 commands_pre =
-  cp '{tox_root}/example/autogen.sh' '{env_tmp_dir}/autogen.sh'
   cp -R '{tox_root}/example/knausj_talon' '{env_tmp_dir}/knausj_talon'
   mkdir -p '{env_tmp_dir}/docs'
   cp '{tox_root}/example/docs/conf.py' '{env_tmp_dir}/docs/conf.py'
@@ -114,10 +113,9 @@ commands_pre =
   cp -R '{tox_root}/example/docs/_static' '{env_tmp_dir}/docs/_static'
 commands =
   {envpython} -m bumpver update --patch --no-fetch --dry
-  sh '{env_tmp_dir}/autogen.sh'
+  {envpython} -m talondoc autogen '{env_tmp_dir}/docs' -o 'knausj_talon' --generate-index
   {envpython} -m talondoc build '{env_tmp_dir}/docs' '{env_tmp_dir}/docs/_build'
 commands_post =
-  rm -f '{env_tmp_dir}/autogen.sh'
   rm -rf '{env_tmp_dir}/knausj_talon'
   rm -f '{env_tmp_dir}/docs/conf.py'
   rm -f '{env_tmp_dir}/docs/index.md'

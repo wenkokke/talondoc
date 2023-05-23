@@ -5,7 +5,7 @@ import threading
 import webbrowser
 from http.server import HTTPServer, SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Optional, Sequence
 
 import click
 from typing_extensions import Literal
@@ -55,6 +55,8 @@ def talondoc(
 
 
 @talondoc.command(name="autogen")
+@click.argument("config_dir", type=click.Path(), default=os.path.curdir)
+@click.option("-o", "--output-dir", type=click.Path())
 @click.option(
     "--package-name",
     type=str,
@@ -63,16 +65,7 @@ def talondoc(
 @click.option(
     "--package-dir",
     type=click.Path(),
-    required=True,
-)
-@click.option(
-    "-o",
-    "--output-dir",
-    type=click.Path(),
-)
-@click.option(
-    "--sphinx-root",
-    type=click.Path(),
+    default=None,
 )
 @click.option(
     "-t",
@@ -84,19 +77,19 @@ def talondoc(
     "--include",
     type=click.Path(),
     multiple=True,
-    default=[],
+    default=None,
 )
 @click.option(
     "--exclude",
     type=click.Path(),
     multiple=True,
-    default=[],
+    default=None,
 )
 @click.option(
     "--trigger",
     type=str,
     multiple=True,
-    default=["ready"],
+    default=None,
 )
 @click.option(
     "--project",
@@ -115,11 +108,11 @@ def talondoc(
 )
 @click.option(
     "--generate-conf/--no-generate-conf",
-    default=True,
+    default=False,
 )
 @click.option(
     "--generate-index/--no-generate-index",
-    default=True,
+    default=False,
 )
 @click.option(
     "--continue-on-error/--no-continue-on-error",
@@ -128,35 +121,35 @@ def talondoc(
 @click.option(
     "--format",
     type=click.Choice(["rst", "md"]),
-    default="rst",
+    default=None,
 )
 def _autogen(
+    config_dir: str,
     *,
-    output_dir: str,
-    sphinx_root: str,
-    template_dir: Optional[str],
-    package_dir: str,
+    output_dir: Optional[str],
+    package_dir: Optional[str],
     package_name: Optional[str],
-    include: list[str],
-    exclude: list[str],
-    trigger: list[str],
+    template_dir: Optional[str],
+    include: Optional[Sequence[str]],
+    exclude: Optional[Sequence[str]],
+    trigger: Optional[Sequence[str]],
     project: Optional[str],
     author: Optional[str],
     release: Optional[str],
     generate_conf: bool,
     generate_index: bool,
     continue_on_error: bool,
-    format: Literal["rst", "md"],
+    format: Optional[Literal["rst", "md"]],
 ) -> None:
     autogen(
-        package_dir,
+        config_dir=config_dir,
         output_dir=output_dir,
-        sphinx_root=sphinx_root,
         template_dir=template_dir,
         package_name=package_name,
-        include=tuple(include),
-        exclude=tuple(exclude),
-        trigger=tuple(trigger),
+        package_dir=package_dir,
+        include=include,
+        exclude=exclude,
+        trigger=trigger,
         project=project,
         author=author,
         release=release,
@@ -183,6 +176,7 @@ def _autogen(
     type=click.Path(),
 )
 @click.option(
+    "-c",
     "--config-dir",
     type=click.Path(),
     default=None,

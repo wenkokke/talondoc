@@ -121,7 +121,7 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
         try:
             actions_fields = json.loads(actions_json)
         except json.JSONDecodeError as e:
-            _LOGGER.error(e)
+            _LOGGER.warning(e)
             return ()
         return tuple(map(data.Action.from_dict, actions_fields))
 
@@ -135,7 +135,7 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
         try:
             captures_fields = json.loads(captures_json)
         except json.JSONDecodeError as e:
-            _LOGGER.error(e)
+            _LOGGER.warning(e)
             return ()
         return tuple(map(data.Capture.from_dict, captures_fields))
 
@@ -149,7 +149,7 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
         try:
             commands_fields = json.loads(commands_json)
         except json.JSONDecodeError as e:
-            _LOGGER.error(e)
+            _LOGGER.warning(e)
             return ()
         return tuple(map(data.Command.from_dict, commands_fields))
 
@@ -159,7 +159,7 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
         try:
             lists_fields = json.loads(lists_json)
         except json.JSONDecodeError as e:
-            _LOGGER.error(e)
+            _LOGGER.warning(e)
             return ()
         return tuple(map(data.List.from_dict, lists_fields))
 
@@ -173,7 +173,7 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
         try:
             settings_fields = json.loads(settings_json)
         except json.JSONDecodeError as e:
-            _LOGGER.error(e)
+            _LOGGER.warning(e)
             return ()
         return tuple(map(data.Setting.from_dict, settings_fields))
 
@@ -187,7 +187,7 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
         try:
             modes_fields = json.loads(modes_json)
         except json.JSONDecodeError as e:
-            _LOGGER.error(e)
+            _LOGGER.warning(e)
             return ()
         return tuple(map(data.Mode.from_dict, modes_fields))
 
@@ -201,7 +201,7 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
         try:
             tags_fields = json.loads(tags_json)
         except json.JSONDecodeError as e:
-            _LOGGER.error(e)
+            _LOGGER.warning(e)
             return ()
         return tuple(map(data.Tag.from_dict, tags_fields))
 

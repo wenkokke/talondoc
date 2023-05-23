@@ -142,7 +142,7 @@ class Registry:
                 try:
                     yield self.get(data.Package, package)
                 except UnknownReference as e:
-                    _LOGGER.error(f"resolve_packages: {e}")
+                    _LOGGER.warning(f"resolve_packages: {e}")
                     pass
 
     def resolve_files(
@@ -155,7 +155,7 @@ class Registry:
                 try:
                     yield self.get(data.File, file)
                 except UnknownReference as e:
-                    _LOGGER.error(f"resolve_files: {e}")
+                    _LOGGER.warning(f"resolve_files: {e}")
                     pass
 
     def resolve_contexts(
@@ -169,7 +169,7 @@ class Registry:
                     try:
                         value = self.get(data.File, value)
                     except UnknownReference as e:
-                        _LOGGER.error(f"resolve_contexts: {e}")
+                        _LOGGER.warning(f"resolve_contexts: {e}")
                         continue
                 assert isinstance(value, data.File)
                 for context_name in value.contexts:
