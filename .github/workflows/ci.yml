@@ -51,13 +51,14 @@ jobs:
       - name: Build sdist
         run: pipx run --spec build pyproject-build --outdir dist
 
-      - name: Upload sdist
+      - name: Upload dist
         uses: actions/upload-artifact@v3
         with:
           name: dist
           path: |
             ./dist/*.tar.gz
             ./dist/*.whl
+          if-no-files-found: error
 
   ################################################################################
   # Test package with Tox
@@ -100,6 +101,71 @@ jobs:
 
       - name: Test
         run: pipx run tox
+
+  ################################################################################
+  # Build binaries with PyInstaller
+  ################################################################################
+
+  pyinstaller:
+    name: PyInstaller / ${{ matrix.os.name }}
+    runs-on: ${{ matrix.os.type }}
+    needs: [build, test]
+
+    strategy:
+      matrix:
+        os:
+          - name: "Linux"
+            type: "ubuntu-20.04"
+          - name: "macOS"
+            type: "macos-11"
+          - name: "Windows"
+            type: "windows-2022"
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Get source
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - # Required to run job via act: https://github.com/nektos/act
+        name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          cache: "pip"
+          cache-dependency-path: "./requirements-ci.txt"
+          python-version: ${{ env.DEFAULT_PYTHON_VERSION }}
+
+      - # Required to run job via act: https://github.com/nektos/act
+        name: Setup dependencies
+        run: pip install -r "./requirements-ci.txt"
+
+      - name: Build
+        run: ./scripts/pyinstaller.sh
+
+      - name: Test
+        run: |
+          ./bin/talondoc autogen example/docs -o knausj_talon --generate-index
+          ./bin/talondoc build example/docs example/docs/_build
+
+      - if: runner.os == 'Linux' || runner.os == 'macOS'
+        run: |
+          mv ./bin/talondoc \
+             ./bin/talondoc-${{ matrix.os.type }}-${{ runner.arch }}
+
+      - if: runner.os == 'Windows'
+        run: |
+          mv ./bin/talondoc.exe \
+             ./bin/talondoc-${{ matrix.os.type }}-${{ runner.arch }}.exe
+
+      - name: Upload bin
+        uses: actions/upload-artifact@v3
+        with:
+          name: bin
+          path: "./bin/talondoc-*"
+          if-no-files-found: error
 
   ################################################################################
   # Publish docs to GitHub Pages
@@ -152,6 +218,12 @@ jobs:
       contents: write
 
     steps:
+      - name: Download bin
+        uses: actions/download-artifact@v3
+        with:
+          name: bin
+          path: bin
+
       - name: Download dist
         uses: actions/download-artifact@v3
         with:
@@ -162,6 +234,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
+            bin/talondoc-*
             dist/*.tar.gz
             dist/*.whl
           fail_on_unmatched_files: true

@@ -10,18 +10,21 @@ python -m venv "${ROOT_DIR}/.venv"
 source "${ROOT_DIR}/.venv/bin/activate"
 
 # Install TalonDoc
-pip install "${ROOT_DIR}"
+pip install -q "${ROOT_DIR}"
 
 # Install PyInstaller
-pip install pyinstaller
+pip install -q pyinstaller
 
 # Install hidden modules
-pip install myst_parser
-pip install sphinx_rtd_theme
-pip install sphinx_tabs
+pip install -q myst_parser
+pip install -q sphinx_rtd_theme
+pip install -q sphinx_tabs
+
 
 # Compile TalonDoc with PyInstaller
 pyinstaller                                                                                                    \
+  --distpath "bin"                                                                                             \
+  --python-option "-X utf8"                                                                                    \
   --collect-data "tree_sitter_talon"                                                                           \
   --collect-data "talondoc"                                                                                    \
   --collect-data "sphinx"                                                                                      \
