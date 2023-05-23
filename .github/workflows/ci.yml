@@ -149,15 +149,13 @@ jobs:
           ./bin/talondoc autogen example/docs -o knausj_talon --generate-index
           ./bin/talondoc build example/docs example/docs/_build
 
-      - if: runner.os == 'Linux' || runner.os == 'macOS'
-        run: |
-          mv ./bin/talondoc \
-             ./bin/talondoc-${{ matrix.os.type }}-${{ runner.arch }}
+      - name: Add target to binary name (Linux or macOS)
+        if: runner.os == 'Linux' || runner.os == 'macOS'
+        run: mv ./bin/talondoc ./bin/talondoc-${{ matrix.os.type }}-${{ runner.arch }}
 
-      - if: runner.os == 'Windows'
-        run: |
-          mv ./bin/talondoc.exe \
-             ./bin/talondoc-${{ matrix.os.type }}-${{ runner.arch }}.exe
+      - name: Add target to binary name (Windows)
+        if: runner.os == 'Windows'
+        run: mv ./bin/talondoc.exe ./bin/talondoc-${{ matrix.os.type }}-${{ runner.arch }}.exe
 
       - name: Upload bin
         uses: actions/upload-artifact@v3
