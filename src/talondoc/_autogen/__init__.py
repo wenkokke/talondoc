@@ -81,7 +81,7 @@ def autogen(
 
     # Ensure output_dir is Path:
     if isinstance(output_dir, str):
-        output_dir = Path(output_dir).resolve()
+        output_dir = Path(output_dir)
 
     if output_dir and output_dir.is_absolute():
         _LOGGER.warning(
