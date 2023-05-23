@@ -24,6 +24,8 @@ pip install sphinx_tabs
 pyinstaller                                                                                                    \
   --collect-data "tree_sitter_talon"                                                                           \
   --collect-data "talondoc"                                                                                    \
+  --collect-data "sphinx"                                                                                      \
+  --collect-data "sphinxcontrib"                                                                               \
   --collect-data "myst_parser"      --collect-submodules "myst_parser"      --hidden-import "myst_parser"      \
   --collect-data "sphinx_rtd_theme" --collect-submodules "sphinx_rtd_theme" --hidden-import "sphinx_rtd_theme" \
   --collect-data "sphinx_tabs"      --collect-submodules "sphinx_tabs"      --hidden-import "sphinx_tabs"      \

@@ -9,8 +9,6 @@
 import os
 import sys
 
-from sphinx.application import Sphinx
-
 project = "TalonDoc"
 copyright = "2022, Wen Kokke"
 author = "Wen Kokke"
@@ -18,8 +16,6 @@ release = "1.0.0rc4"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-
-sys.path.append(os.path.abspath("../.."))
 
 extensions = [
     # Enables support for Markdown
@@ -81,12 +77,17 @@ talon_package = {
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-
-# import sphinx_bootstrap_theme
-
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
 html_css_files = [
     # Add a custom stylesheet for Sphinx Tabs
     "css/custom-tabs.css",
 ]
+
+# -- Setup function for PyInstaller  -----------------------------------------
+
+from sphinx.application import Sphinx
+
+def setup(app: Sphinx) -> None:
+    import sphinx_rtd_theme
+    sphinx_rtd_theme.setup(app)

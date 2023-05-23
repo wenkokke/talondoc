@@ -3,8 +3,9 @@ import os
 import socket
 import threading
 import webbrowser
-from http.server import HTTPServer, SimpleHTTPRequestHandler, ThreadingHTTPServer
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from sys import exit
 from typing import Any, Optional, Sequence
 
 import click

@@ -7,6 +7,7 @@ import subprocess
 from collections.abc import Sequence
 from contextlib import AbstractContextManager
 from importlib.resources import Resource
+from sys import exit
 from types import TracebackType
 from typing import Optional
 

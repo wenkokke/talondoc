@@ -3,7 +3,8 @@ import os
 import subprocess
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Any, Iterable, Iterator, Optional, Union
+from sys import exit
+from typing import Any, Optional, Union
 
 import jinja2
 import jinja2.sandbox
