@@ -1,5 +1,7 @@
 # talondoc
 
+/bin/talondoc
+/bin/__main__.py
 /example/docs/_build
 /example/docs/knausj_talon
 
