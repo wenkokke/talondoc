@@ -4,10 +4,10 @@
 ROOT_DIR="$(dirname "$( cd -- "$(dirname "$0")" >/dev/null 2>&1 || exit ; pwd -P )" )"
 
 # Create a virtual environment:
-python -m venv "${ROOT_DIR}/.venv"
+python -m venv "${ROOT_DIR}/_venv"
 
 # Activate the virtual environment:
-source "${ROOT_DIR}/.venv/bin/activate"
+source "${ROOT_DIR}/_venv/bin/activate"
 
 # Install TalonDoc
 pip install -q "${ROOT_DIR}"
@@ -33,4 +33,4 @@ pyinstaller                                                                     
   --collect-data "sphinx_rtd_theme" --collect-submodules "sphinx_rtd_theme" --hidden-import "sphinx_rtd_theme" \
   --collect-data "sphinx_tabs"      --collect-submodules "sphinx_tabs"      --hidden-import "sphinx_tabs"      \
   --onefile                                                                                                    \
-  "${ROOT_DIR}/.venv/bin/talondoc"
+  "${ROOT_DIR}/_venv/bin/talondoc"
