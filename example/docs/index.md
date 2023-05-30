@@ -316,10 +316,6 @@ TalonDoc can generate documentation for lists using `talon:list`. For instance, 
 :::{talon:list} user.symbol_key
 :::
 
-`:width:`
-: The width of the table, in pixels.
-If `:width:` is specified, the table automatically fragments horizontally.
-
 ## Modes
 
 TalonDoc can generate documentation for modes using `talon:mode`. For instance, the following code:
