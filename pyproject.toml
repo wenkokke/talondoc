@@ -84,6 +84,10 @@ ignore_missing_imports = true
 implicit_reexport = false
 warn_unused_ignores = false
 
+[[tool.mypy.overrides]]
+module = "sphinx.application"
+implicit_reexport = true
+
 [tool.pytest.ini_options]
 enable_assertion_pass_hook = true
 filterwarnings = ["ignore::DeprecationWarning:.*:"]
