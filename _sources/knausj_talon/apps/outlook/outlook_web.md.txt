@@ -1,4 +1,0 @@
-# user.apps.outlook.outlook_web
-:::{talon:command-table}
-:context: user.apps.outlook.outlook_web
-:::

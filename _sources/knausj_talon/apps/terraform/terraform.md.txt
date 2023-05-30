@@ -1,4 +1,0 @@
-# user.apps.terraform.terraform
-:::{talon:command-table}
-:context: user.apps.terraform.terraform
-:::
