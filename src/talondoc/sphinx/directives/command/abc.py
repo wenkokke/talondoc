@@ -224,10 +224,6 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
         return cast(int, self.options.get("columns", 2))
 
     @property
-    def width(self) -> Optional[int]:
-        return cast(Optional[int], self.options.get("width", None))
-
-    @property
     def commands(self) -> Iterator[data.Command]:
         for command in self.get_commands(restrict_to=self.contexts):
             if self._should_include(command.rule):

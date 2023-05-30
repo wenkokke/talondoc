@@ -1,4 +1,4 @@
-from typing import Mapping, Optional, Sequence, cast
+from typing import Mapping, Sequence, cast
 
 from docutils import nodes
 from sphinx import addnodes
@@ -35,14 +35,7 @@ class TalonListDirective(TalonDocObjectDescription):
     has_content = True
     required_arguments = 1
     optional_arguments = 0
-    option_spec: OptionSpec = {
-        "width": optional_int,
-    }
     final_argument_whitespace = False
-
-    @property
-    def width(self) -> Optional[int]:
-        return cast(Optional[int], self.options.get("width", None))
 
     @override
     def get_signatures(self) -> list[str]:
@@ -84,7 +77,6 @@ class TalonListDirective(TalonDocObjectDescription):
                                     for key, value in default.value.items()
                                 ),
                             ),
-                            width=self.width,
                         )
                     )
                 elif isinstance(default.value, Sequence):
@@ -99,7 +91,6 @@ class TalonListDirective(TalonDocObjectDescription):
                                     for value in default.value
                                 ),
                             ),
-                            width=self.width,
                         )
                     )
 
