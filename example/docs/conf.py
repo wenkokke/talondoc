@@ -58,8 +58,8 @@ sphinx_tabs_disable_css_loading = True
 # -- Options for TalonDoc ----------------------------------------------------
 
 talon_package = {
-    "path": "../knausj_talon",
     "name": "user",
+    "path": "../knausj_talon",
     "exclude": [
         "conftest.py",
         "test/stubs/talon/__init__.py",
@@ -81,12 +81,13 @@ talon_package = {
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-
-# import sphinx_bootstrap_theme
-
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
-html_css_files = [
-    # Add a custom stylesheet for Sphinx Tabs
-    "css/custom-tabs.css",
-]
+
+def setup(app: Sphinx) -> None:
+    # Add custom styles for Sphinx Tabs
+    app.add_css_file("css/custom-tabs.css")
+    # Add custom styles for fragmenting tables
+    app.add_css_file("css/custom-fragtables.css")
+    # Add custom script for fragmenting tables
+    app.add_js_file("js/custom-fragtables.js")
