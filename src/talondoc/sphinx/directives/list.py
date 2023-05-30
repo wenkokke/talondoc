@@ -1,8 +1,7 @@
-from typing import Mapping, Sequence, cast
+from typing import Mapping, Sequence
 
 from docutils import nodes
 from sphinx import addnodes
-from sphinx.util.typing import OptionSpec
 from typing_extensions import override
 
 from ..._util.logging import getLogger

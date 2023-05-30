@@ -1,5 +1,3 @@
-from typing import Sequence
-
 builtin_number_types: tuple[type, ...] = (
     int,
     float,

@@ -1,4 +1,4 @@
-from typing import Any, Optional, cast
+from typing import Any
 
 from docutils import nodes
 from sphinx.locale import _

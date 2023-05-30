@@ -3,17 +3,13 @@ import os
 import subprocess
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Any, Iterable, Iterator, Optional, Union
+from typing import Any, Optional, Union
 
 import jinja2
 import jinja2.sandbox
 from typing_extensions import Literal
 
-from talondoc.sphinx import (
-    _canonicalize_talon_package,
-    _canonicalize_talon_packages,
-    _canonicalize_vararg,
-)
+from talondoc.sphinx import _canonicalize_talon_package, _canonicalize_vararg
 from talondoc.sphinx.typing import TalonPackage
 
 from .._util.logging import getLogger

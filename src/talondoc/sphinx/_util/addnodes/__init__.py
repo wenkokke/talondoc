@@ -2,7 +2,6 @@ from collections.abc import Iterable, Sequence
 from inspect import Parameter, Signature
 from typing import Any, TypeVar, Union
 
-import more_itertools
 from docutils import nodes
 from sphinx import addnodes
 from sphinx.locale import _

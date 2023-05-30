@@ -2,7 +2,7 @@ import inspect
 import itertools
 import json
 from collections.abc import Callable, Iterator, Mapping, Sequence
-from dataclasses import asdict, dataclass, fields
+from dataclasses import dataclass, fields
 from functools import singledispatchmethod
 from typing import Any, ClassVar, Optional, Union, cast, overload
 

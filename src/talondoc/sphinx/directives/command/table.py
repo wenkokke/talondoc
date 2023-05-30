@@ -15,7 +15,7 @@ from ..._util.addnodes import (
     title,
 )
 from ..._util.addnodes.rule import desc_rule
-from ..._util.typing import flag, optional_int, optional_str, optional_strlist
+from ..._util.typing import flag, optional_str, optional_strlist
 from .abc import TalonDocCommandListDescription
 
 _LOGGER = getLogger(__name__)
