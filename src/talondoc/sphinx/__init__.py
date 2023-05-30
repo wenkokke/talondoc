@@ -122,6 +122,7 @@ def _talondoc_load_package(app: Sphinx, env: BuildEnvironment, *args: Any) -> No
     try:
         talon_domain = cast(TalonDomain, env.get_domain("talon"))
         talon_packages = _talon_packages(env)
+        continue_on_error = bool(env.config["talon_continue_on_error"])
         srcdir = Path(env.srcdir)
         for talon_package in talon_packages:
             package_dir = srcdir / talon_package["path"]
@@ -135,6 +136,7 @@ def _talondoc_load_package(app: Sphinx, env: BuildEnvironment, *args: Any) -> No
                     include=_canonicalize_vararg(talon_package.get("include")),
                     exclude=_canonicalize_vararg(talon_package.get("exclude")),
                     trigger=_canonicalize_vararg(talon_package.get("trigger")),
+                    continue_on_error=continue_on_error,
                 )
             except NoActiveRegistry as e:
                 _LOGGER.exception(e)
@@ -187,6 +189,12 @@ def setup(app: Sphinx) -> dict[str, Any]:
             list,  # list[TalonPackage]
             tuple,  # Tuple[TalonPackage]
         ],
+    )
+    app.add_config_value(
+        name="talon_continue_on_error",
+        default=None,
+        rebuild="env",
+        types=[bool],
     )
 
     # Add the hook to load any Talon packages

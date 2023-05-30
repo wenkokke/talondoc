@@ -41,3 +41,7 @@ class TalonDomain(Domain):  # type: ignore[misc]
             temp_data=self.env.temp_data,
         )
         self.registry.load_builtin()
+
+    @property
+    def continue_on_error(self) -> bool:
+        return bool(self.env.config["talon_continue_on_error"])
