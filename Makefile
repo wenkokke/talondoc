@@ -12,15 +12,15 @@ test:
 
 .PHONY: serve
 serve: .venv/bin/activate
-	@bash -c "source .venv/bin/activate; pip install -q .[docs]; python -m talondoc build ./example/docs ./example/docs/_build --server"
+	@bash -c "source .venv/bin/activate; pip install -q .[docs]; python -X utf8 -m talondoc build ./example/docs ./example/docs/_build --server"
 
 .PHONY: docs
 docs: .venv/bin/activate
-	@bash -c "source .venv/bin/activate; pip install -q .[docs]; python -m talondoc build ./example/docs ./example/docs/_build"
+	@bash -c "source .venv/bin/activate; pip install -q .[docs]; python -X utf8 -m talondoc build ./example/docs ./example/docs/_build"
 
 .PHONY: autogen
 autogen: .venv/bin/activate
-	@bash -c "source .venv/bin/activate; pip install -q .[docs]; ./example/autogen.sh"
+	@bash -c "source .venv/bin/activate; pip install -q .[docs]; python -X utf8 -m talondoc autogen example/docs -o knausj_talon --generate-index"
 
 .venv/bin/activate:
 	@python -m venv .venv
