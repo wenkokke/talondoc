@@ -111,6 +111,18 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     needs: [test]
 
+    # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+    # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+
     steps:
       - name: Get source
         uses: actions/checkout@v3
@@ -133,11 +145,20 @@ jobs:
           python -X utf8 -m talondoc autogen example/docs -o knausj_talon --generate-index
           python -X utf8 -m talondoc build example/docs example/docs/_build
 
-      - name: Publish docs to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
+      - name: Setup Pages
+        if: github.event_name == 'push'
+        uses: actions/configure-pages@v3
+
+      - name: Upload Pages artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v1
         with:
-          branch: docs
-          folder: example/docs/_build
+          path: example/docs/_build
+
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push'
+        id: deployment
+        uses: actions/deploy-pages@v2
 
   ################################################################################
   # Publish package to GitHub Releases
