@@ -354,9 +354,9 @@ def autogen(
         file for file in files if file.location.path.parts[-1].endswith(".py")
     ]
     for file in python_files:
-        # Create path/to/python/file/api.{md,rst}:
+        # Create path/to/python/file.py.{md,rst}:
         bar.step(f" {str(file.location.path)}")
-        output_relpath = file.location.path.with_suffix("") / f"api.{format}"
+        output_relpath = file.location.path.with_suffix(f".py.{format}")
         output_path = output_dir / output_relpath
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
