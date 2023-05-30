@@ -26,7 +26,6 @@ class TalonDomain(Domain):  # type: ignore[misc]
         "action": TalonActionDirective,
         "capture": TalonCaptureDirective,
         "command": TalonCommandDirective,
-        "command-hlist": TalonCommandHListDirective,
         "command-table": TalonCommandTableDirective,
         "list": TalonListDirective,
         "mode": TalonModeDirective,
