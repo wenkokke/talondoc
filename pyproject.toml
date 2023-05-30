@@ -58,8 +58,8 @@ docs = [
 talondoc = "talondoc:talondoc"
 
 [tool.bumpver]
-current_version = "1.0.0-rc"
-version_pattern = "MAJOR.MINOR.PATCH[-TAG]"
+current_version = "1.0.0rc"
+version_pattern = "MAJOR.MINOR.PATCH[TAG]"
 commit_message = "Bump version {old_version} -> {new_version}"
 commit = true
 tag = true

@@ -30,11 +30,16 @@ from ._version import __version__
     type=click.Choice(["ERROR", "WARNING", "INFO", "DEBUG"], case_sensitive=False),
     default="INFO",
 )
+@click.option(
+    "--continue-on-error/--no-continue-on-error",
+    default=bool(os.environ.get("TALONDOC_STRICT", None)),
+)
 @click.pass_context
 def talondoc(
     ctx: click.Context,
     *,
     log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"],
+    continue_on_error: Optional[bool],
 ) -> None:
     if ctx.obj is None:
         ctx.obj = {}
@@ -47,6 +52,8 @@ def talondoc(
             "DEBUG": logging.DEBUG,
         }.get(log_level.upper(), logging.INFO),
     )
+    if continue_on_error is not None:
+        ctx.obj["continue_on_error"] = continue_on_error
 
 
 ################################################################################
@@ -115,15 +122,13 @@ def talondoc(
     default=False,
 )
 @click.option(
-    "--continue-on-error/--no-continue-on-error",
-    default=bool(os.environ.get("TALONDOC_STRICT", False)),
-)
-@click.option(
     "--format",
     type=click.Choice(["rst", "md"]),
     default=None,
 )
+@click.pass_context
 def _autogen(
+    ctx: click.Context,
     config_dir: str,
     *,
     output_dir: Optional[str],
@@ -138,9 +143,13 @@ def _autogen(
     release: Optional[str],
     generate_conf: bool,
     generate_index: bool,
-    continue_on_error: bool,
     format: Optional[Literal["rst", "md"]],
 ) -> None:
+    continue_on_error = (
+        hasattr(ctx, "obj")
+        and "continue_on_error" in ctx.obj
+        and ctx.obj["continue_on_error"]
+    )
     autogen(
         config_dir=config_dir,
         output_dir=output_dir,
@@ -241,6 +250,11 @@ def _build(
                     "DEBUG": ["-v", "-v"],
                 }.get(log_level.upper(), [])
             )
+
+    # Pass continue_on_error:
+    if hasattr(ctx, "obj") and "continue_on_error" in ctx.obj:
+        continue_on_error = str(bool(ctx.obj["continue_on_error"]))
+        args.extend([f"-Dtalon_continue_on_error={continue_on_error}"])
 
     # NOTE: We always clean before building, as TalonDoc's support for
     #       merging Sphinx build environments is still under development.

@@ -108,6 +108,7 @@ jobs:
   publish-docs-to-github-pages:
     name: Publish docs to GitHub Pages
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
     needs: [test]
 
     steps:
