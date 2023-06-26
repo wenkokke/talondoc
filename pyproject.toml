@@ -100,7 +100,7 @@ where = ["src"]
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py39, py39-md, py310, py310-md, py311, py311-md
+envlist = py{39,310,311}-{rst,md}
 isolated_build = true
 
 [testenv]
@@ -109,6 +109,8 @@ extras =
   test
 setenv =
   TALONDOC_STRICT = 1
+  rst: TALONDOC_FORMAT = rst
+  md: TALONDOC_FORMAT = md
 commands_pre =
   cp -R '{tox_root}/example/knausj_talon' '{env_tmp_dir}/knausj_talon'
   mkdir -p '{env_tmp_dir}/docs'
@@ -124,16 +126,4 @@ commands_post =
   rm -f '{env_tmp_dir}/docs/conf.py'
   rm -f '{env_tmp_dir}/docs/index.md'
   rm -rf '{env_tmp_dir}/docs/_static'
-
-[testenv:py39-md]
-setenv =
-  TALONDOC_FORMAT = md
-
-[testenv:py310-md]
-setenv =
-  TALONDOC_FORMAT = md
-
-[testenv:py311-md]
-setenv =
-  TALONDOC_FORMAT = md
 """
