@@ -86,9 +86,11 @@ class Registry:
             " ".join(
                 [
                     f"Found",
-                    "declaration"
-                    if issubclass(value.parent_type, data.Module)
-                    else "override",
+                    (
+                        "declaration"
+                        if issubclass(value.parent_type, data.Module)
+                        else "override"
+                    ),
                     "for {value.__class__.__name__} {value.name}",
                 ]
             )
@@ -292,24 +294,21 @@ class Registry:
         self,
         cls: type[SimpleDataVar],
         name: str,
-    ) -> Optional[SimpleDataVar]:
-        ...
+    ) -> Optional[SimpleDataVar]: ...
 
     @overload
     def lookup(
         self,
         cls: type[GroupDataVar],
         name: str,
-    ) -> Optional[list[GroupDataVar]]:
-        ...
+    ) -> Optional[list[GroupDataVar]]: ...
 
     @overload
     def lookup(
         self,
         cls: type[data.Callback],
         name: data.EventCode,
-    ) -> Optional[Sequence[data.Callback]]:
-        ...
+    ) -> Optional[Sequence[data.Callback]]: ...
 
     def lookup(self, cls: type[Data], name: Any) -> Optional[Any]:
         return self._typed_store(cls).get(self.resolve_name(name), None)
@@ -497,22 +496,20 @@ class Registry:
     ######################################################################
 
     @overload
-    def _typed_store(self, cls: type[SimpleDataVar]) -> dict[str, SimpleDataVar]:
-        ...
+    def _typed_store(self, cls: type[SimpleDataVar]) -> dict[str, SimpleDataVar]: ...
 
     @overload
-    def _typed_store(self, cls: type[GroupDataVar]) -> dict[str, list[GroupDataVar]]:
-        ...
+    def _typed_store(
+        self, cls: type[GroupDataVar]
+    ) -> dict[str, list[GroupDataVar]]: ...
 
     @overload
     def _typed_store(
         self, cls: type[data.Callback]
-    ) -> dict[data.EventCode, list[data.Callback]]:
-        ...
+    ) -> dict[data.EventCode, list[data.Callback]]: ...
 
     @overload
-    def _typed_store(self, cls: type[Data]) -> dict[Any, Any]:
-        ...
+    def _typed_store(self, cls: type[Data]) -> dict[Any, Any]: ...
 
     def _typed_store(self, cls: type[Data]) -> dict[Any, Any]:
         # If the data is not serialisable, store it in temp_data:
