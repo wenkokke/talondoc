@@ -335,9 +335,9 @@ class Context(SimpleData):
 # Common Decoders - Cont'd
 ##############################################################################
 
-field_parent_type: Callable[
-    [JsonValue], Union[type[Module], type[Context]]
-] = parse_field("parent_type", parse_class(Module, Context))
+field_parent_type: Callable[[JsonValue], Union[type[Module], type[Context]]] = (
+    parse_field("parent_type", parse_class(Module, Context))
+)
 
 
 ##############################################################################
