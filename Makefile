@@ -20,7 +20,7 @@ docs: .venv/bin/activate
 
 .PHONY: autogen
 autogen: .venv/bin/activate
-	@bash -c "source .venv/bin/activate; pip install -q .[docs]; python -X utf8 -m talondoc autogen example/docs -o knausj_talon --generate-index"
+	@bash -c "source .venv/bin/activate; pip install -q .[docs]; python -X utf8 -m talondoc autogen example/docs -o community --generate-index"
 
 .venv/bin/activate:
 	@python -m venv .venv
