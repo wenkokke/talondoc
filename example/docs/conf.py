@@ -59,7 +59,7 @@ sphinx_tabs_disable_css_loading = True
 
 talon_package = {
     "name": "user",
-    "path": "../knausj_talon",
+    "path": "../community",
     "exclude": [
         "conftest.py",
         "test/stubs/talon/__init__.py",
@@ -83,6 +83,7 @@ talon_package = {
 
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
+
 
 def setup(app: Sphinx) -> None:
     # Add custom styles for Sphinx Tabs
