@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch talondoc CLI",
+      "module": "talondoc",
+      "args": [
+        "--continue-on-error",
+        "autogen",
+        "${workspaceFolder}/example/docs",
+        "-o",
+        "community",
+        "--generate-index"
+      ]
+    }
+  ]
+}
