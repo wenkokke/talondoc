@@ -24,11 +24,11 @@ class TalonCommandDirective(TalonDocCommandDescription):
     }
     final_argument_whitespace = False
 
-    @override
+    @override  # type: ignore[misc]
     def get_signatures(self) -> list[str]:
         return [" ".join(self.arguments)]
 
-    @override
+    @override  # type: ignore[misc]
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
         try:
             command = self.find_command(sig, fullmatch=False, restrict_to=self.contexts)
