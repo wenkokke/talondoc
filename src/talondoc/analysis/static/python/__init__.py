@@ -182,13 +182,19 @@ def analyse_files(
                 analyse_file(registry, file_path, package)
             except Exception as e:
                 if continue_on_error:
-                    raise e
-                else:
                     _LOGGER.exception(e)
+                else:
+                    raise e
 
         # Trigger callbacks:
         for event_code in trigger:
             callbacks = registry.lookup(data.Callback, event_code)
             if callbacks is not None:
                 for callback in callbacks:
-                    callback.function()
+                    try:
+                        callback.function()
+                    except Exception as e:
+                        if continue_on_error:
+                            _LOGGER.exception(e)
+                        else:
+                            raise e
