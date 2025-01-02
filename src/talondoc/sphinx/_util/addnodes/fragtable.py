@@ -31,8 +31,8 @@ def depart_fragtable_html(self: HTML5Translator, node: fragtable) -> None:
 
 
 def visit_fragtable(self: SphinxTranslator, node: fragtable) -> None:
-    self.visit_table(node)
+    self.visit_table(node)  # type: ignore
 
 
 def depart_fragtable(self: SphinxTranslator, node: fragtable) -> None:
-    self.depart_table(node)
+    self.depart_table(node)  # type: ignore
