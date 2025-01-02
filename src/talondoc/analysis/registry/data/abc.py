@@ -5,7 +5,7 @@ from dataclasses import asdict, dataclass
 from functools import singledispatch
 from inspect import Signature
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, TypeGuard, Union
 
 import editdistance
 from tree_sitter_talon import Node as Node
@@ -316,85 +316,53 @@ def _rule_name_escape(text: str) -> str:
     return text.replace("_", "_5f").replace(".", "_2e")
 
 
-@singledispatch
 def rule_name(
-    rule: Union[
-        TalonRule,
-        TalonCapture,
-        TalonChoice,
-        TalonEndAnchor,
-        TalonList,
-        TalonOptional,
-        TalonParenthesizedRule,
-        TalonRepeat,
-        TalonRepeat1,
-        TalonSeq,
-        TalonStartAnchor,
-        TalonWord,
-        TalonComment,
-    ]
+    rule: TalonRule
+    | TalonCapture
+    | TalonChoice
+    | TalonEndAnchor
+    | TalonList
+    | TalonOptional
+    | TalonParenthesizedRule
+    | TalonRepeat
+    | TalonRepeat1
+    | TalonSeq
+    | TalonStartAnchor
+    | TalonWord
+    | TalonComment,
 ) -> str:
-    raise TypeError(f"Unexpected value {type(rule)}")
+    def not_comment(rule: object) -> bool:
+        return not isinstance(rule, TalonComment)
 
-
-@rule_name.register
-def _(rule: TalonRule) -> str:
-    _not_comment = lambda rule: not isinstance(rule, TalonComment)
-    return f"__{'__'.join(map(rule_name, filter(_not_comment, rule.children)))}__"
-
-
-@rule_name.register
-def _(rule: TalonCapture) -> str:
-    return f"_lt{_rule_name_escape(rule.capture_name.text)}_gt"
-
-
-@rule_name.register
-def _(rule: TalonChoice) -> str:
-    _not_comment = lambda rule: not isinstance(rule, TalonComment)
-    return "_pi".join(map(rule_name, filter(_not_comment, rule.children)))
-
-
-@rule_name.register
-def _(rule: TalonEndAnchor) -> str:
-    return "_ra"
-
-
-@rule_name.register
-def _(rule: TalonList) -> str:
-    return f"_lb{_rule_name_escape(rule.list_name.text)}_rb"
-
-
-@rule_name.register
-def _(rule: TalonOptional) -> str:
-    return f"_ls{rule_name(rule.get_child())}_rs"
-
-
-@rule_name.register
-def _(rule: TalonParenthesizedRule) -> str:
-    return f"_lp{rule_name(rule.get_child())}_rp"
-
-
-@rule_name.register
-def _(rule: TalonRepeat) -> str:
-    return f"{rule.get_child()}_st"
-
-
-@rule_name.register
-def _(rule: TalonRepeat1) -> str:
-    return f"{rule.get_child()}_pl"
-
-
-@rule_name.register
-def _(rule: TalonSeq) -> str:
-    _not_comment = lambda rule: not isinstance(rule, TalonComment)
-    return "__".join(map(rule_name, filter(_not_comment, rule.children)))
-
-
-@rule_name.register
-def _(rule: TalonStartAnchor) -> str:
-    return "_la"
-
-
-@rule_name.register
-def _(rule: TalonWord) -> str:
-    return _rule_name_escape(rule.text)
+    match rule:
+        case TalonRule(children=children):
+            return f"__{'__'.join(map(rule_name, filter(not_comment, children)))}__"
+        case TalonCapture(capture_name=capture_name):
+            return f"_lt{_rule_name_escape(capture_name.text)}_gt"
+        case TalonChoice(children=children):
+            return "_pi".join(map(rule_name, filter(not_comment, children)))
+        case TalonEndAnchor():
+            return "_ra"
+        case TalonList(list_name=list_name):
+            return f"_lb{_rule_name_escape(list_name.text)}_rb"
+        case TalonOptional():
+            return f"_ls{rule_name(rule.get_child())}_rs"
+        case TalonParenthesizedRule():
+            return f"_lp{rule_name(rule.get_child())}_rp"
+        case TalonRepeat():
+            return f"{rule_name(rule.get_child())}_st"
+        case TalonRepeat1():
+            return f"{rule_name(rule.get_child())}_pl"
+        case TalonSeq(children=children):
+            return "__".join(
+                map(
+                    rule_name,
+                    filter(lambda rule: not isinstance(rule, TalonComment), children),
+                )
+            )
+        case TalonStartAnchor():
+            return "_la"
+        case TalonWord(text=text):
+            return _rule_name_escape(text)
+        case _:
+            raise TypeError(f"Unexpected value {type(rule)}")
