@@ -1,4 +1,5 @@
 import sys
+from typing import ClassVar
 
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
@@ -17,7 +18,7 @@ class TalonCommandDirective(TalonDocCommandDescription):
     has_content = True
     required_arguments = 1
     optional_arguments = sys.maxsize
-    option_spec: OptionSpec = {
+    option_spec: ClassVar[OptionSpec] = {  # type: ignore
         "context": optional_strlist,
         "contexts": optional_strlist,
         "always_include_script": flag,
