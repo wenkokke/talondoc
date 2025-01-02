@@ -36,12 +36,12 @@ class TalonListDirective(TalonDocObjectDescription):
     optional_arguments = 0
     final_argument_whitespace = False
 
-    @override
+    @override  # type: ignore[misc]
     def get_signatures(self) -> list[str]:
         assert len(self.arguments) == 1
         return [str(self.arguments[0]).strip()]
 
-    @override
+    @override  # type: ignore[misc]
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
         default = self.talon.registry.lookup_default(data.List, sig)
         if default:

@@ -9,11 +9,11 @@ knausj_talon/index
 ## Loading a Talon package
 
 TalonDoc can analyse a Talon package or user directory. To load all Talon and
-Python files in `example/knausj_talon` we add the following to `conf.py`:
+Python files in `example/community` we add the following to `conf.py`:
 
 ```python
 talon_package = {
-  'path': '../knausj_talon',
+  'path': '../community',
   'name': 'user',
   'exclude': ['conftest.py', 'test/**'],
   'trigger': 'ready'

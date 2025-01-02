@@ -11,6 +11,7 @@ from ...._util.builtin import (
     builtin_string_types,
     builtin_type_names,
     builtin_types,
+    is_builtin_string_type,
 )
 from ...._util.logging import getLogger
 from ....analysis.static.python.shims import ObjectShim
@@ -118,7 +119,7 @@ def desc_literal(value: Any, **attributes: AttributeValue) -> addnodes.desc_sig_
         return desc_sig_keyword(nodes.Text("None"), **attributes)
     elif isinstance(value, builtin_number_types):
         return desc_sig_literal_number(nodes.Text(repr(value)), **attributes)
-    elif isinstance(value, builtin_string_types):
+    elif is_builtin_string_type(value):
         if len(value) == 1:
             return desc_sig_literal_char(nodes.Text(repr(value)), **attributes)
         else:

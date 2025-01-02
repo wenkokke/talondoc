@@ -1,4 +1,5 @@
 import sys
+from typing import ClassVar
 
 from sphinx import addnodes
 from sphinx.util.typing import OptionSpec
@@ -17,18 +18,18 @@ class TalonCommandDirective(TalonDocCommandDescription):
     has_content = True
     required_arguments = 1
     optional_arguments = sys.maxsize
-    option_spec: OptionSpec = {
+    option_spec: ClassVar[OptionSpec] = {  # type: ignore
         "context": optional_strlist,
         "contexts": optional_strlist,
         "always_include_script": flag,
     }
     final_argument_whitespace = False
 
-    @override
+    @override  # type: ignore[misc]
     def get_signatures(self) -> list[str]:
         return [" ".join(self.arguments)]
 
-    @override
+    @override  # type: ignore[misc]
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
         try:
             command = self.find_command(sig, fullmatch=False, restrict_to=self.contexts)
