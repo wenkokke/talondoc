@@ -61,3 +61,4 @@ repos:
     hooks:
       - id: talonfmt
         args: ["--in-place", "--max-line-width=88"]
+        language_version: python3.10
