@@ -1,107 +1,105 @@
 [build-system]
-  requires      = ["setuptools>=45"]
-  build-backend = "setuptools.build_meta"
+requires = ["setuptools>=45"]
+build-backend = "setuptools.build_meta"
 
 [project]
-  name = "talondoc"
-  version = "1.0.0"
-  description = "A Sphinx extension for Talon user directories."
-  license = { file = 'LICENSE' }
-  authors = [
-    { name = "Wen Kokke", email = "wenkokke@users.noreply.github.com" },
-  ]
-  readme = "README.md"
-  keywords = ["talon", "sphinx"]
-  classifiers = [
-    "License :: OSI Approved :: MIT License",
-    "Topic :: Software Development :: Compilers",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-  ]
-  requires-python = ">=3.10,<3.12"
-  dependencies = [
-    "awesome_progress_bar >=1.7,<2",
-    "docstring_parser >=0.14,<0.16",
-    "editdistance >=0.6,<0.7",
-    "Jinja2 >=3,<4",
-    "Sphinx >=5,<8",
-    "talonfmt >=1.7.4,<2",
-    "tree_sitter_talon >=3!1.0,<3!2",
-    "colorlog >=6.7,<7",
-    "packaging >=23.1,<24",
-    'pywin32; platform_system=="Windows"',
-    "singledispatchmethod >=1.0,<2; python_version <'3.8'",
-  ]
+name = "talondoc"
+version = "1.0.0"
+description = "A Sphinx extension for Talon user directories."
+license = { file = 'LICENSE' }
+authors = [{ name = "Wen Kokke", email = "wenkokke@users.noreply.github.com" }]
+readme = "README.md"
+keywords = ["talon", "sphinx"]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Topic :: Software Development :: Compilers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+]
+requires-python = ">=3.10,<3.12"
+dependencies = [
+  "awesome_progress_bar >=1.7,<2",
+  "docstring_parser >=0.14,<0.16",
+  "editdistance >=0.6,<0.7",
+  "Jinja2 >=3,<4",
+  "Sphinx >=5,<8",
+  "talonfmt >=1.7.4,<2",
+  "tree_sitter_talon >=3!1.0,<3!2",
+  "colorlog >=6.7,<7",
+  "packaging >=23.1,<24",
+  'pywin32; platform_system=="Windows"',
+  "singledispatchmethod >=1.0,<2; python_version <'3.8'",
+]
 
-  [project.optional-dependencies]
-    mypy = [
-      "types_click",
-      "types_docutils",
-      "types_editdistance",
-      "types_jinja2",
-      "types_pytz",
-      "types_setuptools",
-    ]
-    test = [
-      "bumpver",
-      "myst_parser >=1,<2",
-      "sphinx_rtd_theme >=1.2,<2",
-      "sphinx_tabs >=3.4,<5",
-    ]
-    docs = [
-      "myst_parser >=1,<2",
-      "sphinx_rtd_theme >=1.2,<2",
-      "sphinx_tabs >=3.4,<5",
-    ]
+[project.optional-dependencies]
+mypy = [
+  "types_click",
+  "types_docutils",
+  "types_editdistance",
+  "types_jinja2",
+  "types_pytz",
+  "types_setuptools",
+]
+test = [
+  "bumpver",
+  "myst_parser >=1,<2",
+  "sphinx_rtd_theme >=1.2,<2",
+  "sphinx_tabs >=3.4,<5",
+]
+docs = [
+  "myst_parser >=1,<2",
+  "sphinx_rtd_theme >=1.2,<2",
+  "sphinx_tabs >=3.4,<5",
+]
 
-  [project.scripts]
-    talondoc = "talondoc:talondoc"
+[project.scripts]
+talondoc = "talondoc:talondoc"
 
 [tool.bumpver]
-  current_version = "1.0.0"
-  version_pattern = "MAJOR.MINOR.PATCH[TAG]"
-  commit_message  = "Bump version {old_version} -> {new_version}"
-  commit          = true
-  tag             = true
-  push            = true
+current_version = "1.0.0"
+version_pattern = "MAJOR.MINOR.PATCH[TAG]"
+commit_message = "Bump version {old_version} -> {new_version}"
+commit = true
+tag = true
+push = true
 
-  [tool.bumpver.file_patterns]
-    "pyproject.toml" = [
-      '^current_version = "{version}"$',
-      '^version = "{pep440_version}"$',
-    ]
-    "example/docs/conf.py" = ['^release = "{pep440_version}"$']
-    "src/talondoc/_version.py" = ['^__version__: str = "{pep440_version}"$']
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+  '^current_version = "{version}"$',
+  '^version = "{pep440_version}"$',
+]
+"example/docs/conf.py" = ['^release = "{pep440_version}"$']
+"src/talondoc/_version.py" = ['^__version__: str = "{pep440_version}"$']
 
 [tool.isort]
-  profile     = "black"
-  line_length = 88
+profile = "black"
+line_length = 88
 
 [tool.mypy]
-  python_version         = "3.10"
-  strict                 = true
-  ignore_missing_imports = true
-  implicit_reexport      = false
-  warn_unused_ignores    = false
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+implicit_reexport = false
+warn_unused_ignores = false
 
-  [[tool.mypy.overrides]]
-    module            = "sphinx.application"
-    implicit_reexport = true
+[[tool.mypy.overrides]]
+module = "sphinx.application"
+implicit_reexport = true
 
 [tool.pytest.ini_options]
-  enable_assertion_pass_hook = true
-  filterwarnings             = ["ignore::DeprecationWarning:.*:"]
-  minversion                 = "6.0"
-  testpaths                  = ["tests"]
+enable_assertion_pass_hook = true
+filterwarnings = ["ignore::DeprecationWarning:.*:"]
+minversion = "6.0"
+testpaths = ["tests"]
 
 [tool.setuptools.packages.find]
-  where = ["src"]
+where = ["src"]
 
 [tool.tox]
 
 
-  legacy_tox_ini = """
+legacy_tox_ini = """
 [tox]
 envlist = py{310,311}-{rst,md}
 isolated_build = true
