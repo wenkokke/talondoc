@@ -204,12 +204,10 @@ class GroupData(Data):
 
     @classmethod
     @abstractmethod
-    def from_dict(cls, value: JsonValue) -> Self:
-        ...
+    def from_dict(cls, value: JsonValue) -> Self: ...
 
     @abstractmethod
-    def to_dict(self) -> dict[str, JsonValue]:
-        ...
+    def to_dict(self) -> dict[str, JsonValue]: ...
 
 
 GroupDataVar = TypeVar(
