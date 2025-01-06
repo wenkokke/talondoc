@@ -2,7 +2,7 @@ minimum_pre_commit_version: "2.9.0"
 exclude: "^(build|example)"
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v5.0.0
     hooks:
       - id: check-added-large-files
       - id: check-byte-order-marker
@@ -24,7 +24,7 @@ repos:
       - id: mixed-line-ending
       - id: trailing-whitespace
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: "v3.0.1"
+    rev: "v4.0.0-alpha.8"
     hooks:
       - id: prettier
         exclude: "^(tests/data/golden|src/talondoc/_cache_builtin/resources|)s"
@@ -33,12 +33,12 @@ repos:
     hooks:
       - id: flynt
   - repo: https://github.com/pycqa/isort
-    rev: "5.12.0"
+    rev: "5.13.2"
     hooks:
       - id: isort
         args: ["--profile=black", "--filter-files", "--line-width=88"]
   - repo: https://github.com/psf/black
-    rev: "23.7.0"
+    rev: "24.10.0"
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/mirrors-mypy
@@ -57,7 +57,7 @@ repos:
           ]
         exclude: "^src/talondoc/_compat_singledispatchmethod\\.py$"
   - repo: https://github.com/wenkokke/talonfmt
-    rev: 1.10.1
+    rev: 1.10.2
     hooks:
       - id: talonfmt
         args: ["--in-place", "--max-line-width=88"]
