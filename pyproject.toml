@@ -27,7 +27,7 @@ dependencies = [
   "talonfmt >=1.7.4,<2",
   "tree_sitter_talon >=3!1.0,<3!2",
   "colorlog >=6.7,<7",
-  "packaging >=23.1,<24",
+  "packaging >=23.1,<25",
   'pywin32; platform_system=="Windows"',
   "singledispatchmethod >=1.0,<2; python_version <'3.8'",
 ]
