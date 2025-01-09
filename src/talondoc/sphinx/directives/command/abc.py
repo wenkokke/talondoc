@@ -119,7 +119,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         Describe the script using the docstrings on the script, the docstrings on
         the actions, or finally by including it as a code block.
         """
-        buffer = []
+        buffer: list[nodes.Element] = []
 
         # 1. Use the Talon docstrings in the command script. Talon docstrings are comments which start with ###.
         desc = self._try_describe_script_with_script_docstrings(command)

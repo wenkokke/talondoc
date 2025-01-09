@@ -19,11 +19,11 @@ class TalonTagDirective(TalonDocObjectDescription):
     final_argument_whitespace = False
 
     @override
-    def get_signatures(self) -> list[str]:
+    def get_signatures(self) -> list[str]:  # type: ignore[misc, name-defined]
         assert len(self.arguments) == 1
         return [str(self.arguments[0]).strip()]
 
-    @override
+    @override  # type: ignore[misc, name-defined]
     def handle_signature(self, sig: str, signode: addnodes.desc_signature) -> str:
         tag = self.talon.registry.lookup(data.Tag, sig)
         if tag:

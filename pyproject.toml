@@ -14,21 +14,20 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Topic :: Software Development :: Compilers",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
 ]
-requires-python = ">=3.9,<3.12"
+requires-python = ">=3.10,<3.12"
 dependencies = [
   "awesome_progress_bar >=1.7,<2",
-  "docstring_parser >=0.14,<0.16",
+  "docstring_parser >=0.14,<0.17",
   "editdistance >=0.6,<0.7",
   "Jinja2 >=3,<4",
-  "Sphinx >=5,<8",
+  "Sphinx >=5,<9",
   "talonfmt >=1.7.4,<2",
   "tree_sitter_talon >=3!1.0,<3!2",
   "colorlog >=6.7,<7",
-  "packaging >=23.1,<24",
+  "packaging >=23.1,<25",
   'pywin32; platform_system=="Windows"',
   "singledispatchmethod >=1.0,<2; python_version <'3.8'",
 ]
@@ -45,12 +44,12 @@ mypy = [
 test = [
   "bumpver",
   "myst_parser >=1,<3",
-  "sphinx_rtd_theme >=1.2,<2",
+  "sphinx_rtd_theme >=1.2,<4",
   "sphinx_tabs >=3.4,<5"
 ]
 docs = [
   "myst_parser >=1,<3",
-  "sphinx_rtd_theme >=1.2,<2",
+  "sphinx_rtd_theme >=1.2,<4",
   "sphinx_tabs >=3.4,<5"
 ]
 
@@ -78,7 +77,7 @@ profile = "black"
 line_length = 88
 
 [tool.mypy]
-python_version = 3.9
+python_version = "3.10"
 strict = true
 ignore_missing_imports = true
 implicit_reexport = false
@@ -98,9 +97,11 @@ testpaths = ["tests"]
 where = ["src"]
 
 [tool.tox]
+
+
 legacy_tox_ini = """
 [tox]
-envlist = py39, py39-md, py310, py310-md, py311, py311-md
+envlist = py{310,311}-{rst,md}
 isolated_build = true
 
 [testenv]
@@ -109,31 +110,21 @@ extras =
   test
 setenv =
   TALONDOC_STRICT = 1
+  rst: TALONDOC_FORMAT = rst
+  md: TALONDOC_FORMAT = md
 commands_pre =
-  cp -R '{tox_root}/example/knausj_talon' '{env_tmp_dir}/knausj_talon'
+  cp -R '{tox_root}/example/community' '{env_tmp_dir}/community'
   mkdir -p '{env_tmp_dir}/docs'
   cp '{tox_root}/example/docs/conf.py' '{env_tmp_dir}/docs/conf.py'
   cp '{tox_root}/example/docs/index.md' '{env_tmp_dir}/docs/index.md'
   cp -R '{tox_root}/example/docs/_static' '{env_tmp_dir}/docs/_static'
 commands =
   {envpython} -m bumpver update --patch --no-fetch --dry
-  {envpython} -X utf8 -m talondoc autogen '{env_tmp_dir}/docs' -o 'knausj_talon' --generate-index
+  {envpython} -X utf8 -m talondoc autogen '{env_tmp_dir}/docs' -o 'community' --generate-index
   {envpython} -X utf8 -m talondoc build '{env_tmp_dir}/docs' '{env_tmp_dir}/docs/_build'
 commands_post =
-  rm -rf '{env_tmp_dir}/knausj_talon'
+  rm -rf '{env_tmp_dir}/community'
   rm -f '{env_tmp_dir}/docs/conf.py'
   rm -f '{env_tmp_dir}/docs/index.md'
   rm -rf '{env_tmp_dir}/docs/_static'
-
-[testenv:py39-md]
-setenv =
-  TALONDOC_FORMAT = md
-
-[testenv:py310-md]
-setenv =
-  TALONDOC_FORMAT = md
-
-[testenv:py311-md]
-setenv =
-  TALONDOC_FORMAT = md
 """
