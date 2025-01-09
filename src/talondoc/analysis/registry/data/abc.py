@@ -204,12 +204,10 @@ class GroupData(Data):
 
     @classmethod
     @abstractmethod
-    def from_dict(cls, value: JsonValue) -> Self:
-        ...
+    def from_dict(cls, value: JsonValue) -> Self: ...
 
     @abstractmethod
-    def to_dict(self) -> dict[str, JsonValue]:
-        ...
+    def to_dict(self) -> dict[str, JsonValue]: ...
 
 
 GroupDataVar = TypeVar(
@@ -317,19 +315,21 @@ def _rule_name_escape(text: str) -> str:
 
 
 def rule_name(
-    rule: TalonRule
-    | TalonCapture
-    | TalonChoice
-    | TalonEndAnchor
-    | TalonList
-    | TalonOptional
-    | TalonParenthesizedRule
-    | TalonRepeat
-    | TalonRepeat1
-    | TalonSeq
-    | TalonStartAnchor
-    | TalonWord
-    | TalonComment,
+    rule: (
+        TalonRule
+        | TalonCapture
+        | TalonChoice
+        | TalonEndAnchor
+        | TalonList
+        | TalonOptional
+        | TalonParenthesizedRule
+        | TalonRepeat
+        | TalonRepeat1
+        | TalonSeq
+        | TalonStartAnchor
+        | TalonWord
+        | TalonComment
+    ),
 ) -> str:
     def not_comment(rule: object) -> bool:
         return not isinstance(rule, TalonComment)
