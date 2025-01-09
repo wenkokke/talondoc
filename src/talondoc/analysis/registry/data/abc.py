@@ -315,19 +315,21 @@ def _rule_name_escape(text: str) -> str:
 
 
 def rule_name(
-    rule: TalonRule
-    | TalonCapture
-    | TalonChoice
-    | TalonEndAnchor
-    | TalonList
-    | TalonOptional
-    | TalonParenthesizedRule
-    | TalonRepeat
-    | TalonRepeat1
-    | TalonSeq
-    | TalonStartAnchor
-    | TalonWord
-    | TalonComment,
+    rule: (
+        TalonRule
+        | TalonCapture
+        | TalonChoice
+        | TalonEndAnchor
+        | TalonList
+        | TalonOptional
+        | TalonParenthesizedRule
+        | TalonRepeat
+        | TalonRepeat1
+        | TalonSeq
+        | TalonStartAnchor
+        | TalonWord
+        | TalonComment
+    ),
 ) -> str:
     def not_comment(rule: object) -> bool:
         return not isinstance(rule, TalonComment)
