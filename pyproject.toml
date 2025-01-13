@@ -21,7 +21,7 @@ requires-python = ">=3.10,<3.12"
 dependencies = [
   "awesome_progress_bar >=1.7,<2",
   "docstring_parser >=0.14,<0.17",
-  "editdistance >=0.6,<0.7",
+  "editdistance >=0.6,<0.9",
   "Jinja2 >=3,<4",
   "Sphinx >=5,<9",
   "talonfmt >=1.7.4,<2",
