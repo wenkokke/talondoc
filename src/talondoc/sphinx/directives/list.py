@@ -20,11 +20,9 @@ from .._util.addnodes import (
     fragtable,
     paragraph,
     row,
-    table,
     tbody,
     tgroup,
 )
-from .._util.typing import optional_int
 from . import TalonDocObjectDescription
 
 _LOGGER = getLogger(__name__)

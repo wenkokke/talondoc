@@ -85,7 +85,7 @@ class Registry:
         _LOGGER.debug(
             " ".join(
                 [
-                    f"Found",
+                    "Found",
                     (
                         "declaration"
                         if issubclass(value.parent_type, data.Module)
@@ -278,7 +278,7 @@ class Registry:
                     value = cast(DataVar, obj)
                     break
         elif issubclass(cls, data.Callback):
-            raise NotImplementedError(f"Registry.get does not support callbacks")
+            raise NotImplementedError("Registry.get does not support callbacks")
         if value is not None:
             return value
         else:
@@ -623,7 +623,7 @@ class Registry:
         Deactivate this registry.
         """
         if self is not None and self != Registry._active_global_registry:
-            _LOGGER.warning(f"attempted to deactivate registry that is inactive")
+            _LOGGER.warning("attempted to deactivate registry that is inactive")
         Registry._active_global_registry = None
 
     ##################################################

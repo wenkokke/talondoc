@@ -158,7 +158,7 @@ def from_docstring(docstring: str) -> Optional[Description]:
             desc = Value(desc=doc.returns.description)
             return desc
 
-    except docstring_parser.ParseError as e:
+    except docstring_parser.ParseError:
         pass
 
     # Treat the docstring as a series of steps:

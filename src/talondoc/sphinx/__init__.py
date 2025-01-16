@@ -62,13 +62,15 @@ def _is_talon_package(talon_package: Any) -> TypeGuard[TalonPackage]:
 
 
 def _canonicalize_talon_package(talon_package: Any) -> Optional[TalonPackage]:
-    if talon_package is None:
-        return None
-    if type(talon_package) == str:
-        return {"path": talon_package}
-    if _is_talon_package(talon_package):
-        return talon_package
-    raise TypeError(type(talon_package))
+    match talon_package:
+        case str():
+            return {"path": talon_package}
+        case dict() if _is_talon_package(talon_package):
+            return talon_package
+        case None:
+            return None
+        case _:
+            raise TypeError(type(talon_package))
 
 
 def _canonicalize_talon_packages(talon_packages: Any) -> Sequence[TalonPackage]:
@@ -93,13 +95,15 @@ def _canonicalize_talon_packages(talon_packages: Any) -> Sequence[TalonPackage]:
 
 
 def _canonicalize_vararg(vararg: Union[None, str, Sequence[str]]) -> Sequence[str]:
-    if vararg is None:
-        return ()
-    if type(vararg) == str:
-        return (vararg,)
-    if isinstance(vararg, Sequence):
-        return tuple(vararg)
-    raise TypeError(type(vararg))
+    match vararg:
+        case str():
+            return (vararg,)
+        case Sequence():
+            return tuple(vararg)
+        case None:
+            return ()
+        case _:
+            raise TypeError(type(vararg))
 
 
 def _talon_packages(env: BuildEnvironment) -> Sequence[TalonPackage]:

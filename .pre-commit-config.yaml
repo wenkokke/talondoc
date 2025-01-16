@@ -28,19 +28,17 @@ repos:
     hooks:
       - id: prettier
         exclude: "^(tests/data/golden|src/talondoc/_cache_builtin/resources|)s"
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.1
+    hooks:
+      # Run the linter.
+      - id: ruff
+      # Run the formatter.
+      # - id: ruff-format
   - repo: https://github.com/ikamensh/flynt/
     rev: "1.0.1"
     hooks:
       - id: flynt
-  - repo: https://github.com/pycqa/isort
-    rev: "6.0.0"
-    hooks:
-      - id: isort
-        args: ["--profile=black", "--filter-files", "--line-width=88"]
-  - repo: https://github.com/psf/black
-    rev: "25.1.0"
-    hooks:
-      - id: black
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: "v1.14.1"
     hooks:

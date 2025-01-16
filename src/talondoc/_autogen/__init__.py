@@ -81,7 +81,7 @@ def autogen(
 
     if output_dir and output_dir.is_absolute():
         _LOGGER.warning(
-            f"The output directory should be relative to the configuration directory."
+            "The output directory should be relative to the configuration directory."
         )
         try:
             output_dir = output_dir.relative_to(config_dir)
@@ -114,7 +114,7 @@ def autogen(
             _LOGGER.warning(f"Could not read talon_package in {conf_py}.")
     if "talon_packages" in sphinx_config:
         _LOGGER.warning(
-            f"The autogen command does not support reading the configuration 'talon_packages'."
+            "The autogen command does not support reading the configuration 'talon_packages'."
         )
 
     # Resolve package directory:
