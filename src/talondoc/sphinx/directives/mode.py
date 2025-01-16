@@ -5,7 +5,7 @@ from typing_extensions import override
 from ..._util.logging import getLogger
 from ...analysis.registry import data
 from ...analysis.registry.data.abc import UnknownReference
-from .._util.addnodes import desc_content, desc_name, desc_qualname, paragraph
+from .._util.addnodes import desc_content, desc_qualname, paragraph
 from . import TalonDocObjectDescription
 
 _LOGGER = getLogger(__name__)

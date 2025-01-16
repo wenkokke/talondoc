@@ -1,6 +1,5 @@
 from collections.abc import Callable
-from functools import singledispatchmethod
-from typing import Any, Optional, TypeVar
+from typing import Optional, TypeVar
 
 from tree_sitter_talon import (
     Node,

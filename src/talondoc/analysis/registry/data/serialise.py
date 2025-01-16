@@ -89,11 +89,11 @@ def parse_pickle(value: JsonValue, *, context: dict[str, str] = {}) -> Any:
                 field_name = context.get("field_name", None)
                 field_path = context.get("field_path", None)
                 message_buffer: list[str] = []
-                message_buffer.append(f"Cannot decode")
+                message_buffer.append("Cannot decode")
                 if field_name:
                     message_buffer.append(f"field {field_name}")
                 else:
-                    message_buffer.append(f"unknown field")
+                    message_buffer.append("unknown field")
                 if field_path:
                     message_buffer.append(f"in {field_path}")
                 if object_name:
@@ -161,7 +161,7 @@ def parse_optfield(
     def _parser(value: JsonValue) -> Optional[_T]:
         try:
             return parse_field(name, parse_opt(parser))(value)
-        except KeyError as e:
+        except KeyError:
             return None
 
     return _parser

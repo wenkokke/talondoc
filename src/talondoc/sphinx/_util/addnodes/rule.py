@@ -1,5 +1,4 @@
 from docutils import nodes
-from sphinx.locale import _
 from talonfmt import talonfmt
 
 from ...._util.logging import getLogger

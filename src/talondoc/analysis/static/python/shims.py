@@ -595,7 +595,7 @@ class TalonShim(ModuleShim):
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
                 # LINT: check if decorated function is a function
                 if not inspect.isfunction(func):
-                    _LOGGER.warning(f"Decorated object is not a function.")
+                    _LOGGER.warning("Decorated object is not a function.")
                     return func
 
                 location = Location.from_function(func)

@@ -68,7 +68,10 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
     def eval(self, *line: str, encoding: str = "utf-8") -> str:
         assert self._session and self._session.stdin and self._session_stdout
         __EOR__ = "END_OF_RESPONSE"
-        is_EOR = lambda line: line == __EOR__
+
+        def is_EOR(line: str) -> bool:
+            return line == __EOR__
+
         print_EOR = f"print('{__EOR__}')"
         self._session.stdin.write(bytes("\n".join([*line, print_EOR]) + "\n", encoding))
         self._session.stdin.flush()
@@ -77,8 +80,8 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
     def eval_file(self, file: str, *, encoding: str = "utf-8") -> str:
         return self.eval(
             f"with open('{file}', 'r', encoding='{encoding}') as f:",
-            f"    exec(f.read())",
-            f"",
+            "    exec(f.read())",
+            "",
         )
 
     def eval_resource(self, resource: Resource, *, encoding: str = "utf-8") -> str:

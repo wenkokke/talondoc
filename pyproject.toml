@@ -45,13 +45,14 @@ test = [
   "bumpver",
   "myst_parser >=1,<5",
   "sphinx_rtd_theme >=1.2,<4",
-  "sphinx_tabs >=3.4,<5"
+  "sphinx_tabs >=3.4,<5",
 ]
 docs = [
   "myst_parser >=1,<5",
   "sphinx_rtd_theme >=1.2,<4",
-  "sphinx_tabs >=3.4,<5"
+  "sphinx_tabs >=3.4,<5",
 ]
+dev = ["ruff>=0.9,<1"]
 
 [project.scripts]
 talondoc = "talondoc:talondoc"
@@ -72,9 +73,15 @@ push = true
 "example/docs/conf.py" = ['^release = "{pep440_version}"$']
 "src/talondoc/_version.py" = ['^__version__: str = "{pep440_version}"$']
 
-[tool.isort]
-profile = "black"
-line_length = 88
+[tool.ruff]
+# line-length = 88
+
+[tool.ruff.lint]
+# Add the `line-too-long` rule to the enforced rule set. By default, Ruff omits rules that
+# overlap with the use of a formatter, like Black, but we can override this behavior by
+# explicitly adding the rule.
+# extend-select = ["E501"]
+
 
 [tool.mypy]
 python_version = "3.10"

@@ -2,10 +2,9 @@ import re
 from abc import abstractmethod
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import asdict, dataclass
-from functools import singledispatch
 from inspect import Signature
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Optional, TypeGuard, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 import editdistance
 from tree_sitter_talon import Node as Node

@@ -4,11 +4,9 @@ from typing import Any, TypeVar, Union
 
 from docutils import nodes
 from sphinx import addnodes
-from sphinx.locale import _
 
 from ...._util.builtin import (
     builtin_number_types,
-    builtin_string_types,
     builtin_type_names,
     builtin_types,
     is_builtin_string_type,
