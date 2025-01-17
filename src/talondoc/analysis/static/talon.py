@@ -1,5 +1,5 @@
+from collections.abc import Iterator, Sequence
 from pathlib import Path
-from typing import Iterator, Sequence
 
 from tree_sitter_talon import (
     ParseError,

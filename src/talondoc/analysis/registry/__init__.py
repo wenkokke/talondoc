@@ -4,12 +4,11 @@ import json
 from collections.abc import Callable, Iterator, Mapping, Sequence
 from dataclasses import dataclass, fields
 from functools import singledispatchmethod
-from typing import Any, ClassVar, Optional, Union, cast, overload
+from typing import Any, ClassVar, Final, Optional, cast, overload
 
 import importlib_resources
 from more_itertools import partition
 from talonfmt import talonfmt
-from typing_extensions import Final
 
 from ..._util.logging import getLogger
 from . import data
@@ -35,18 +34,18 @@ class Registry:
     _data: Final[dict[str, Any]]
     _temp_data: Final[dict[str, Any]]
 
-    _active_package: Optional[data.Package] = None
-    _active_file: Optional[data.File] = None
+    _active_package: data.Package | None = None
+    _active_file: data.File | None = None
 
     def __init__(
         self,
         *,
-        data: dict[str, Any] = {},
-        temp_data: dict[str, Any] = {},
+        data: dict[str, Any] | None = None,
+        temp_data: dict[str, Any] | None = None,
         continue_on_error: bool = True,
     ):
-        self._data = data
-        self._temp_data = temp_data
+        self._data = data if data is not None else {}
+        self._temp_data = temp_data if temp_data is not None else {}
         self._active_package = None
         self._active_file = None
         self._continue_on_error = continue_on_error
@@ -135,7 +134,7 @@ class Registry:
     ######################################################################
 
     def resolve_packages(
-        self, packages: Iterator[Union[data.PackageName, data.Package]]
+        self, packages: Iterator[data.PackageName | data.Package]
     ) -> Iterator[data.Package]:
         for package in packages:
             if isinstance(package, data.Package):
@@ -148,7 +147,7 @@ class Registry:
                     pass
 
     def resolve_files(
-        self, files: Iterator[Union[data.FileName, data.File]]
+        self, files: Iterator[data.FileName | data.File]
     ) -> Iterator[data.File]:
         for file in files:
             if isinstance(file, data.File):
@@ -161,7 +160,7 @@ class Registry:
                     pass
 
     def resolve_contexts(
-        self, contexts: Iterator[Union[data.FileName, data.File, data.Context]]
+        self, contexts: Iterator[data.FileName | data.File | data.Context]
     ) -> Iterator[data.Context]:
         for value in contexts:
             if isinstance(value, data.Context):
@@ -180,15 +179,12 @@ class Registry:
     def get_commands(
         self,
         *,
-        restrict_to: Optional[
-            Iterator[Union[data.FileName, data.File, data.Context]]
-        ] = None,
+        restrict_to: Iterator[data.FileName | data.File | data.Context] | None = None,
     ) -> Iterator[data.Command]:
         if restrict_to is None:
             for group in self.commands.values():
                 assert isinstance(group, list), f"Unexpected value {group}"
-                for command in group:
-                    yield command
+                yield from group
         else:
             for context in self.resolve_contexts(restrict_to):
                 for command_name in context.commands:
@@ -199,7 +195,7 @@ class Registry:
         text: Sequence[str],
         *,
         fullmatch: bool = False,
-        restrict_to: Optional[Iterator[Union[data.FileName, data.Context]]] = None,
+        restrict_to: Iterator[data.FileName | data.Context] | None = None,
     ) -> Iterator[data.Command]:
         for command in self.get_commands(restrict_to=restrict_to):
             if self.match(text, command.rule, fullmatch=fullmatch):
@@ -228,7 +224,7 @@ class Registry:
             )
         return False
 
-    def _get_capture_rule(self, name: data.CaptureName) -> Optional[data.Rule]:
+    def _get_capture_rule(self, name: data.CaptureName) -> data.Rule | None:
         """Get the rule for a capture. Hook for 'match'."""
         try:
             return self.get(data.Capture, name).rule
@@ -237,7 +233,7 @@ class Registry:
                 _LOGGER.warning(e)
             return None
 
-    def _get_list_value(self, name: data.ListName) -> Optional[data.ListValue]:
+    def _get_list_value(self, name: data.ListName) -> data.ListValue | None:
         """Get the values for a list. Hook for 'match'."""
         try:
             return self.get(data.List, name).value
@@ -254,19 +250,21 @@ class Registry:
         cls: type[DataVar],
         name: str,
         *,
-        referenced_by: Optional[Data] = None,
+        referenced_by: Data | None = None,
     ) -> DataVar:
-        value: Optional[DataVar] = None
+        value: DataVar | None = None
         if issubclass(cls, SimpleData):
-            value = cast(Optional[DataVar], self.lookup(cls, name))
+            value = cast(DataVar | None, self.lookup(cls, name))
             # For files, try various alternatives:
             if value is None and issubclass(cls, data.File):
                 value = cast(
-                    Optional[DataVar],
+                    DataVar | None,
                     # Try the search again with ".talon" suffixed:
-                    self.lookup(cls, f"{name}.talon") or
+                    self.lookup(cls, f"{name}.talon")
+                    or
                     # Try the search again with ".py" suffixed:
-                    self.lookup(cls, f"{name}.py") or
+                    self.lookup(cls, f"{name}.py")
+                    or
                     # Try the search again assuming name is a path:
                     self.lookup(cls, f"user.{name.replace('/', '.')}"),
                 )
@@ -294,46 +292,44 @@ class Registry:
         self,
         cls: type[SimpleDataVar],
         name: str,
-    ) -> Optional[SimpleDataVar]: ...
+    ) -> SimpleDataVar | None: ...
 
     @overload
     def lookup(
         self,
         cls: type[GroupDataVar],
         name: str,
-    ) -> Optional[list[GroupDataVar]]: ...
+    ) -> list[GroupDataVar] | None: ...
 
     @overload
     def lookup(
         self,
         cls: type[data.Callback],
         name: data.EventCode,
-    ) -> Optional[Sequence[data.Callback]]: ...
+    ) -> Sequence[data.Callback] | None: ...
 
-    def lookup(self, cls: type[Data], name: Any) -> Optional[Any]:
+    def lookup(self, cls: type[Data], name: Any) -> Any | None:
         return self._typed_store(cls).get(self.resolve_name(name), None)
 
-    def lookup_default(
-        self, cls: type[GroupDataVar], name: str
-    ) -> Optional[GroupDataVar]:
+    def lookup_default(self, cls: type[GroupDataVar], name: str) -> GroupDataVar | None:
         declaration, default_overrides, _ = self.lookup_partition(cls, name)
         return self._combine(cls, itertools.chain((declaration,), default_overrides))
 
     def _combine(
-        self, cls: type[GroupDataVar], data: Iterator[Optional[GroupDataVar]]
-    ) -> Optional[GroupDataVar]:
+        self, cls: type[GroupDataVar], data: Iterator[GroupDataVar | None]
+    ) -> GroupDataVar | None:
         init_keys: set[str] = {field.name for field in fields(cls) if field.init}
         init_args: dict[str, Any] = {}
         for datum in data:
             if isinstance(datum, cls):
                 for name in init_keys:
-                    init_args[name] = init_args.get(name, None) or getattr(datum, name)
+                    init_args[name] = init_args.get(name) or getattr(datum, name)
         if init_args:
             return cls(**init_args)
         else:
             return None
 
-    def lookup_description(self, cls: type[Data], name: Any) -> Optional[str]:
+    def lookup_description(self, cls: type[Data], name: Any) -> str | None:
         if issubclass(cls, SimpleData):
             simple = self.lookup(cls, name)
             if simple:
@@ -348,7 +344,7 @@ class Registry:
         self,
         cls: type[GroupDataVar],
         name: str,
-    ) -> tuple[Optional[GroupDataVar], Sequence[GroupDataVar], Sequence[GroupDataVar]]:
+    ) -> tuple[GroupDataVar | None, Sequence[GroupDataVar], Sequence[GroupDataVar]]:
         group = self.lookup(cls, name)
         if group:
             _IS_DECLARATION: int = 0
@@ -382,19 +378,19 @@ class Registry:
                 lambda tup: tup[0] != _IS_ALWAYS_ON, overrides_iter
             )
 
-            default_overrides = tuple((tup[1] for tup in default_overrides_iter))
-            other_overrides = tuple((tup[1] for tup in other_overrides_iter))
-            if len(default_overrides) >= 2:
+            default_overrides = tuple(tup[1] for tup in default_overrides_iter)
+            other_overrides = tuple(tup[1] for tup in other_overrides_iter)
+            if len(default_overrides) >= 2 and not issubclass(cls, data.Command):
                 # NOTE: We warn the user if there are multiple overrides which
                 #       are always on, but suppress this warning for commands.
-                if not issubclass(cls, data.Command):
-                    _LOGGER.warning(DuplicateData(default_overrides))
+
+                _LOGGER.warning(DuplicateData(default_overrides))
             return (declaration, default_overrides, other_overrides)
         return (None, (), ())
 
     def lookup_default_function(
         self, cls: type[GroupDataHasFunction], name: str
-    ) -> Optional[Callable[..., Any]]:
+    ) -> Callable[..., Any] | None:
         # Find the default object:
         default = self.lookup_default(cls, name)
 
@@ -424,7 +420,7 @@ class Registry:
                 return _function_wrapper
         return None
 
-    def resolve_name(self, name: str, *, package: Optional[data.Package] = None) -> str:
+    def resolve_name(self, name: str, *, package: data.Package | None = None) -> str:
         try:
             if package is None:
                 package = self.get_active_package()
@@ -512,11 +508,8 @@ class Registry:
     def _typed_store(self, cls: type[Data]) -> dict[Any, Any]: ...
 
     def _typed_store(self, cls: type[Data]) -> dict[Any, Any]:
-        # If the data is not serialisable, store it in temp_data:
-        if cls.serialisable:
-            data = self._data
-        else:
-            data = self._temp_data
+        # If the data is not serializable, store it in temp_data:
+        data = self._data if cls.serialisable else self._temp_data
         # Store the data in a dictionary indexed by its type name.
         store = data.setdefault(cls.__name__, {})
         assert isinstance(store, dict)
@@ -554,16 +547,16 @@ class Registry:
                         parsed_group_value = cls.from_dict(value)
                         if name != parsed_group_value.name:
                             _LOGGER.warning(
-                                f"Found {cls.__name__} {parsed_group_value.name} in group for {name}"
+                                f"Found {cls.__name__} {parsed_group_value.name} in group for {name}"  # noqa: E501
                             )
                         self.register(parsed_group_value)
 
-            elif issubclass(cls, (data.Mode, data.Tag)):
+            elif issubclass(cls, data.Mode | data.Tag):
                 for name, value in store.items():
                     parsed_simple_value = cls.from_dict(value)
                     if name != parsed_simple_value.name:
                         _LOGGER.warning(
-                            f"Found {cls.__name__} {parsed_simple_value.name} in group for {name}"
+                            f"Found {cls.__name__} {parsed_simple_value.name} in group for {name}"  # noqa: E501
                         )
                     self.register(parsed_simple_value)
             else:

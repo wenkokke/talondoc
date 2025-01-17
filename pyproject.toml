@@ -74,13 +74,56 @@ push = true
 "src/talondoc/_version.py" = ['^__version__: str = "{pep440_version}"$']
 
 [tool.ruff]
-# line-length = 88
+line-length = 88
 
 [tool.ruff.lint]
 # Add the `line-too-long` rule to the enforced rule set. By default, Ruff omits rules that
 # overlap with the use of a formatter, like Black, but we can override this behavior by
 # explicitly adding the rule.
 # extend-select = ["E501"]
+
+select = [
+  # pycodestyle
+  "E",
+  # Pyflakes
+  "F",
+  # pyupgrade
+  "UP",
+  # flake8-bugbear
+  "B",
+  # flake8-simplify
+  "SIM",
+  # isort
+  "I",
+]
+
+ignore = [
+  # These are recommended to be disabled when using ruff format.
+
+  "W191",   # tab-indentation (W191)
+  "E111",   # indentation-with-invalid-multiple (E111)
+  "E114",   # indentation-with-invalid-multiple-comment (E114)
+  "E117",   # over-indented (E117)
+  "D206",   # docstring-tab-indentation (D206)
+  "D300",   # triple-single-quotes (D300)
+  "Q000",   # bad-quotes-inline-string (Q000)
+  "Q001",   # bad-quotes-multiline-string (Q001)
+  "Q002",   # bad-quotes-docstring (Q002)
+  "Q003",   # avoidable-escaped-quote (Q003)
+  "COM812", # missing-trailing-comma (COM812)
+  "COM819", # prohibited-trailing-comma (COM819)
+  "ISC002", # multi-line-implicit-string-concatenation (ISC002) if used without ISC001 and flake8-implicit-str-concat.allow-multiline = false
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [
+  "E402",
+] # Ignore `E402` (import violations) in all `__init__.py` files, and in selected subdirectories.
+
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 45
 
 
 [tool.mypy]

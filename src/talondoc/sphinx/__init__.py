@@ -1,9 +1,8 @@
 from collections.abc import Callable, Sequence
 from pathlib import Path
-from typing import Any, Optional, Union, cast
+from typing import Any, TypeGuard, cast
 
 from sphinx.application import BuildEnvironment, Sphinx
-from typing_extensions import TypeGuard
 
 from .._util.logging import getLogger
 from .._version import __version__
@@ -26,25 +25,25 @@ def _is_talon_package(talon_package: Any) -> TypeGuard[TalonPackage]:
     try:
         assert isinstance(talon_package, dict)
         path = talon_package.get("path", None)
-        assert isinstance(path, (str, Path))
+        assert isinstance(path, str | Path)
         name = talon_package.get("name", None)
-        assert isinstance(name, (str,))
+        assert isinstance(name, str)
         include = talon_package.get("include", None)
         assert (
             include is None
-            or isinstance(include, (str, Path))
+            or isinstance(include, str | Path)
             or (
                 isinstance(include, Sequence)
-                and all(isinstance(path, (str, Path)) for path in include)
+                and all(isinstance(path, str | Path) for path in include)
             )
         )
         exclude = talon_package.get("exclude", None)
         assert (
             exclude is None
-            or isinstance(exclude, (str, Path))
+            or isinstance(exclude, str | Path)
             or (
                 isinstance(exclude, Sequence)
-                and all(isinstance(path, (str, Path)) for path in exclude)
+                and all(isinstance(path, str | Path) for path in exclude)
             )
         )
         trigger = talon_package.get("trigger", None)
@@ -53,7 +52,7 @@ def _is_talon_package(talon_package: Any) -> TypeGuard[TalonPackage]:
             or isinstance(trigger, str)
             or (
                 isinstance(trigger, Sequence)
-                and all(isinstance(event, (str,)) for event in trigger)
+                and all(isinstance(event, str) for event in trigger)
             )
         )
         return True
@@ -61,7 +60,7 @@ def _is_talon_package(talon_package: Any) -> TypeGuard[TalonPackage]:
         return False
 
 
-def _canonicalize_talon_package(talon_package: Any) -> Optional[TalonPackage]:
+def _canonicalize_talon_package(talon_package: Any) -> TalonPackage | None:
     match talon_package:
         case str():
             return {"path": talon_package}
@@ -94,7 +93,7 @@ def _canonicalize_talon_packages(talon_packages: Any) -> Sequence[TalonPackage]:
     raise TypeError(type(talon_packages))
 
 
-def _canonicalize_vararg(vararg: Union[None, str, Sequence[str]]) -> Sequence[str]:
+def _canonicalize_vararg(vararg: None | str | Sequence[str]) -> Sequence[str]:
     match vararg:
         case str():
             return (vararg,)

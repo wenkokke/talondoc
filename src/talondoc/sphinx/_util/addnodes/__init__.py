@@ -1,6 +1,6 @@
 from collections.abc import Iterable, Sequence
 from inspect import Parameter, Signature
-from typing import Any, TypeVar, Union
+from typing import Any, TypeVar
 
 from docutils import nodes
 from sphinx import addnodes
@@ -23,9 +23,9 @@ _LOGGER = getLogger(__name__)
 
 NodeVar = TypeVar("NodeVar", bound=nodes.Node)
 
-AttributeValue = Union[Any, Sequence[Any]]
+AttributeValue = Any | Sequence[Any]
 
-NodeLike = Union[nodes.Node, Iterable[nodes.Node]]
+NodeLike = nodes.Node | Iterable[nodes.Node]
 
 ################################################################################
 # Functional Wrappers around Sphinx node types

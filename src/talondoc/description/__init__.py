@@ -1,7 +1,7 @@
 import re
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
-from typing import Optional, Union
+from typing import Optional
 
 import docstring_parser
 
@@ -32,7 +32,7 @@ class Description:
         return Steps(())
 
 
-DescLike = Union[None, str, Description, Iterable[Description]]
+DescLike = None | str | Description | Iterable[Description]
 
 
 @dataclass
@@ -56,7 +56,7 @@ class Step(Description):
     The description of one step in a series of steps.
     """
 
-    desc: Union[str, Value]
+    desc: str | Value
 
     def __str__(self) -> str:
         return str(self.desc)
@@ -85,9 +85,9 @@ class StepsTemplate(Description):
     template: str
     names: Sequence[str]
 
-    def __call__(self, values: Sequence[Optional[Description]]) -> Steps:
+    def __call__(self, values: Sequence[Description | None]) -> Steps:
         ret = self.template
-        for name, value in zip(self.names, values):
+        for name, value in zip(self.names, values, strict=False):
             if isinstance(value, Value):
                 ret = ret.replace(f"<{name}>", value.desc)
             else:
@@ -102,8 +102,8 @@ class StepsTemplate(Description):
 
 
 def and_then(
-    desc1: Optional[Description], desc2: Optional[Description]
-) -> Optional[Description]:
+    desc1: Description | None, desc2: Description | None
+) -> Description | None:
     if desc1 is None:
         return desc2
     elif desc2 is None:
@@ -114,8 +114,8 @@ def and_then(
         return Steps(steps=(*desc1.as_steps().steps, *desc2.as_steps().steps))
 
 
-def concat(*desclike: DescLike) -> Optional[Description]:
-    ret: Optional[Description] = None
+def concat(*desclike: DescLike) -> Description | None:
+    ret: Description | None = None
     for desc in desclike:
         if desc is None:
             pass
@@ -128,9 +128,9 @@ def concat(*desclike: DescLike) -> Optional[Description]:
     return ret
 
 
-def from_docstring(docstring: str) -> Optional[Description]:
+def from_docstring(docstring: str) -> Description | None:
     # Attempt to create a description:
-    desc: Optional[Description]
+    desc: Description | None
 
     # Handle docstrings of the form "Return XXX":
     return_value_desc_en = re.match("^[Rr]eturns? (.*)", docstring)
