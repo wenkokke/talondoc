@@ -2,7 +2,6 @@ import io
 import queue
 import threading
 from collections.abc import Callable, Iterator
-from typing import Optional
 
 
 class NonBlockingTextIOWrapper:
@@ -21,9 +20,7 @@ class NonBlockingTextIOWrapper:
             self._queue.put(line)
         self._stream.close()
 
-    def readline(
-        self, block: bool = False, timeout: Optional[float] = None
-    ) -> Optional[str]:
+    def readline(self, block: bool = False, timeout: float | None = None) -> str | None:
         if self._stream.closed and self._queue.qsize() == 0:
             return None
         else:
@@ -33,7 +30,7 @@ class NonBlockingTextIOWrapper:
                 return None
 
     def readlines(
-        self, block: bool = False, timeout: Optional[float] = None
+        self, block: bool = False, timeout: float | None = None
     ) -> Iterator[str]:
         while True:
             line = self.readline(block=block, timeout=timeout)
@@ -43,7 +40,7 @@ class NonBlockingTextIOWrapper:
                 yield line
 
     def readuntil(
-        self, predicate: Callable[[str], bool], timeout: Optional[float] = None
+        self, predicate: Callable[[str], bool], timeout: float | None = None
     ) -> Iterator[str]:
         yield from self.readwhile(
             predicate=lambda line: not predicate(line),
@@ -51,7 +48,7 @@ class NonBlockingTextIOWrapper:
         )
 
     def readwhile(
-        self, predicate: Callable[[str], bool], timeout: Optional[float] = None
+        self, predicate: Callable[[str], bool], timeout: float | None = None
     ) -> Iterator[str]:
         while True:
             line = self.readline(block=True, timeout=timeout)

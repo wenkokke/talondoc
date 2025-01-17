@@ -1,4 +1,3 @@
-
 from docutils import nodes
 from sphinx import addnodes
 from typing_extensions import override

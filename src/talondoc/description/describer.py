@@ -1,5 +1,5 @@
 from collections.abc import Callable
-from typing import Optional, TypeVar
+from typing import TypeVar
 
 from tree_sitter_talon import (
     Node,
@@ -39,7 +39,7 @@ class TalonScriptDescriber:
         self,
         registry: Registry,
         *,
-        docstring_hook: Optional[Callable[[str, str], Optional[str]]] = None,
+        docstring_hook: Callable[[str, str], str | None] | None = None,
     ) -> None:
         self.registry = registry
         self.docstring_hook = docstring_hook or (lambda clsname, name: None)
@@ -48,14 +48,14 @@ class TalonScriptDescriber:
         self,
         cls: type[Data],
         name: str,
-    ) -> Optional[str]:
+    ) -> str | None:
         # Try the docstring_hook:
         docstring = self.docstring_hook(cls.__name__, name)
         # Try the registry:
         docstring = docstring or self.registry.lookup_description(cls, name)
         return docstring
 
-    def describe(self, ast: Node) -> Optional[Description]:
+    def describe(self, ast: Node) -> Description | None:
         match ast:
             case TalonSleepAction() | TalonComment():
                 return None
@@ -73,7 +73,7 @@ class TalonScriptDescriber:
             #  Nodes that use format strings
             case TalonBinaryOperator():
                 return Value(
-                    f"{self.describe(ast.left)} {ast.operator.text} {self.describe(ast.right)}"
+                    f"{self.describe(ast.left)} {ast.operator.text} {self.describe(ast.right)}"  # noqa: E501
                 )
             case TalonExpressionStatement() if isinstance(ast.expression, TalonString):
                 return Step(desc=f'Insert "{self.describe(ast.expression)}"')

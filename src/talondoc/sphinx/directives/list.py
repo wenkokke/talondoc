@@ -1,4 +1,4 @@
-from typing import Mapping, Sequence
+from collections.abc import Mapping, Sequence
 
 from docutils import nodes
 from sphinx import addnodes

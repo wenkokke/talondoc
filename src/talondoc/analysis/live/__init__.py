@@ -8,7 +8,6 @@ from collections.abc import Sequence
 from contextlib import AbstractContextManager
 from importlib.resources import Resource
 from types import TracebackType
-from typing import Optional
 
 from packaging.version import Version
 from typing_extensions import Self
@@ -21,9 +20,9 @@ _LOGGER = getLogger(__name__)
 
 
 class TalonRepl(AbstractContextManager["TalonRepl"]):
-    _session: Optional[subprocess.Popen[bytes]]
-    _session_stdout: Optional[NonBlockingTextIOWrapper]
-    _session_stderr: Optional[NonBlockingTextIOWrapper]
+    _session: subprocess.Popen[bytes] | None
+    _session_stdout: NonBlockingTextIOWrapper | None
+    _session_stderr: NonBlockingTextIOWrapper | None
 
     @property
     def executable_path(self) -> str:
@@ -97,9 +96,9 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
     ) -> None:
         self.close()
 

@@ -15,7 +15,7 @@ def _get_settings() -> None:
                 "pickle": base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
             }
 
-    def asdict_class(cls: type) -> typing.Optional[str]:
+    def asdict_class(cls: type) -> str | None:
         if hasattr(cls, "__name__"):
             return cls.__name__
         return repr(cls)

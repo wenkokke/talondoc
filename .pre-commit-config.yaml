@@ -33,8 +33,9 @@ repos:
     hooks:
       # Run the linter.
       - id: ruff
+        args: ["--fix"]
       # Run the formatter.
-      # - id: ruff-format
+      - id: ruff-format
   - repo: https://github.com/ikamensh/flynt/
     rev: "1.0.1"
     hooks:

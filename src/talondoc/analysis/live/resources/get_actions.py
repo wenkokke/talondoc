@@ -18,14 +18,14 @@ def _get_actions() -> None:
                 "pickle": base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
             }
 
-    def asdict_class(cls: type) -> typing.Optional[str]:
+    def asdict_class(cls: type) -> str | None:
         if cls in (inspect.Signature.empty, inspect.Parameter.empty):
             return None
         if hasattr(cls, "__name__"):
             return cls.__name__
         return repr(cls)
 
-    def asdict_parameter(par: inspect.Parameter) -> typing.Dict[str, typing.Any]:
+    def asdict_parameter(par: inspect.Parameter) -> dict[str, typing.Any]:
         return {
             "name": par.name,
             "kind": par.kind,
@@ -33,7 +33,7 @@ def _get_actions() -> None:
             "annotation": asdict_class(par.annotation),
         }
 
-    def asdict_signature(sig: inspect.Signature) -> typing.Dict[str, typing.Any]:
+    def asdict_signature(sig: inspect.Signature) -> dict[str, typing.Any]:
         return {
             "parameters": [asdict_parameter(par) for par in sig.parameters.values()],
             "return_annotation": asdict_class(sig.return_annotation),

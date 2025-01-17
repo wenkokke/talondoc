@@ -4,7 +4,7 @@ from collections.abc import Callable, Mapping, Sequence
 from dataclasses import asdict, dataclass
 from inspect import Signature
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any, Literal, Union
 
 import editdistance
 from tree_sitter_talon import Node as Node
@@ -24,7 +24,7 @@ from tree_sitter_talon import (
     TalonStartAnchor,
     TalonWord,
 )
-from typing_extensions import Literal, Self, TypeVar, final
+from typing_extensions import Self, TypeVar, final
 
 from ...._util.logging import getLogger
 from .serialise import (
@@ -57,13 +57,13 @@ else:
 @dataclass(unsafe_hash=True)
 class Location:
     path: Path
-    start_line: Optional[int] = None
-    start_column: Optional[int] = None
-    end_line: Optional[int] = None
-    end_column: Optional[int] = None
+    start_line: int | None = None
+    start_column: int | None = None
+    end_line: int | None = None
+    end_column: int | None = None
 
     @staticmethod
-    def _str_from_point(line: Optional[int], column: Optional[int]) -> Optional[str]:
+    def _str_from_point(line: int | None, column: int | None) -> str | None:
         if line is not None:
             if column is not None:
                 return f"{line}:{column}"
@@ -147,10 +147,10 @@ def asdict_location(location: Union[Literal["builtin"], "Location"]) -> JsonValu
 @dataclass(unsafe_hash=True)
 class Data:
     name: str
-    description: Optional[str]
+    description: str | None
     location: Union[None, Literal["builtin"], "Location"]
-    parent_name: Optional[str]
-    parent_type: Optional[Union[type[Package], type[File], type[Module], type[Context]]]
+    parent_name: str | None
+    parent_type: type[Package] | type[File] | type[Module] | type[Context] | None
     serialisable: bool
 
     @property
@@ -199,7 +199,7 @@ SimpleDataVar = TypeVar(
 @dataclass(unsafe_hash=True)
 class GroupData(Data):
     parent_name: str
-    parent_type: Union[type[Module], type[Context]]
+    parent_type: type[Module] | type[Context]
 
     @classmethod
     @abstractmethod
@@ -221,8 +221,8 @@ GroupDataVar = TypeVar(
 
 
 class GroupDataHasFunction(GroupData):
-    function_name: Optional[str]
-    function_signature: Optional[Signature]
+    function_name: str | None
+    function_signature: Signature | None
 
 
 GroupDataHasFunctionVar = TypeVar(
@@ -267,9 +267,9 @@ class UnknownReference(Exception):
     ref_type: type[Data]
     ref_name: str
 
-    location: Optional[str] = None
-    referenced_by: Optional[Data] = None
-    known_references: Optional[Sequence[str]] = None
+    location: str | None = None
+    referenced_by: Data | None = None
+    known_references: Sequence[str] | None = None
 
     def __str__(self) -> str:
         buffer = []
