@@ -311,7 +311,7 @@ def autogen(
     ]
     for file in talon_files:
         # Create path/to/talon/file.{md,rst}:
-        bar.step(f" {str(file.location.path)}")
+        bar.step(f" {file.location.path!s}")
         output_relpath = file.location.path.with_suffix(f".{format}")
         output_path = output_dir / output_relpath
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -348,7 +348,7 @@ def autogen(
     ]
     for file in python_files:
         # Create path/to/python/file.py.{md,rst}:
-        bar.step(f" {str(file.location.path)}")
+        bar.step(f" {file.location.path!s}")
         output_relpath = file.location.path.with_suffix(f".py.{format}")
         output_path = output_dir / output_relpath
         output_path.parent.mkdir(parents=True, exist_ok=True)

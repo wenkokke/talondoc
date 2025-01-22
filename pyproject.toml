@@ -76,6 +76,8 @@ push = true
 [tool.ruff]
 line-length = 88
 
+exclude = [".venv", ".tox", "example/community/*"]
+
 [tool.ruff.lint]
 # Add the `line-too-long` rule to the enforced rule set. By default, Ruff omits rules that
 # overlap with the use of a formatter, like Black, but we can override this behavior by
@@ -95,6 +97,11 @@ select = [
   "SIM",
   # isort
   "I",
+
+  "UP", # alert you when better syntax is available in your python version
+
+  # Ruff Specific Rules
+  "RUF",
 ]
 
 ignore = [
