@@ -242,12 +242,12 @@ class DuplicateData(Exception):
     data: Sequence[Data]
 
     def __str__(self) -> str:
-        cls_names = set([data.__class__.__name__ for data in self.data])
+        cls_names = {data.__class__.__name__ for data in self.data}
         if len(cls_names) >= 2:
             _LOGGER.warning(
                 f"DuplicateData exception with types {', '.join(cls_names)}"
             )
-        data_names = set([data.name for data in self.data])
+        data_names = {data.name for data in self.data}
         if len(data_names) >= 2:
             _LOGGER.warning(
                 f"DuplicateData exception with names {', '.join(data_names)}"

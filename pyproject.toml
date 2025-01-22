@@ -93,18 +93,26 @@ select = [
   "UP",
   # flake8-bugbear
   "B",
+
+  # flake8-comprehensions (C4)
+  "C4",
+
   # flake8-simplify
   "SIM",
   # isort
   "I",
 
-  "UP", # alert you when better syntax is available in your python version
 
   # Ruff Specific Rules
   "RUF",
+
+
+  # flake8-annotations
+  # "ANN", # enforce type hints
 ]
 
 ignore = [
+
   # These are recommended to be disabled when using ruff format.
 
   "W191",   # tab-indentation (W191)
