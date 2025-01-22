@@ -144,7 +144,6 @@ class Registry:
                     yield self.get(data.Package, package)
                 except UnknownReference as e:
                     _LOGGER.warning(f"resolve_packages: {e}")
-                    pass
 
     def resolve_files(
         self, files: Iterator[data.FileName | data.File]
@@ -157,7 +156,6 @@ class Registry:
                     yield self.get(data.File, file)
                 except UnknownReference as e:
                     _LOGGER.warning(f"resolve_files: {e}")
-                    pass
 
     def resolve_contexts(
         self, contexts: Iterator[data.FileName | data.File | data.Context]
