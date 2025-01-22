@@ -101,6 +101,9 @@ select = [
   "SIM",
   # flake8-pie (PIE)
   "PIE",
+  # flake8-pyi (PYI)
+  "PYI",
+
   # isort
   "I",
 

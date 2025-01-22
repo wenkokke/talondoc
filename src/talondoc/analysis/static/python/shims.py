@@ -60,7 +60,7 @@ class ObjectShim:
     def __enter__(self) -> Any:
         return self
 
-    def __exit__(self, *_args: Any) -> None:
+    def __exit__(self, *_args: object) -> None:
         pass
 
     def __add__(self, other: Any) -> Any:
