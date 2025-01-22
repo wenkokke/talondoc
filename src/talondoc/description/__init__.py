@@ -18,9 +18,9 @@ class InvalidInterpolation(Exception):
     template: Optional["StepsTemplate"] = None
 
     def __str__(self) -> str:
-        msg = f"Cannot interpolate '{repr(self.argument)}'"
+        msg = f"Cannot interpolate '{self.argument!r}'"
         if self.template:
-            msg += f" into template '{repr(self.template)}'"
+            msg += f" into template '{self.template!r}'"
         return msg
 
 

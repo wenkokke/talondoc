@@ -101,7 +101,7 @@ class Location:
 
     @staticmethod
     def from_function(function: Callable[..., Any]) -> "Location":
-        assert callable(function), f"Location.from_function received {repr(function)}"
+        assert callable(function), f"Location.from_function received {function!r}"
         path = Path(function.__code__.co_filename)
         return Location(path=path, start_line=function.__code__.co_firstlineno)
 
@@ -119,7 +119,7 @@ class Location:
                 end_line=parse_optfield("end_line", parse_int)(value),
                 end_column=parse_optfield("end_column", parse_int)(value),
             )
-        raise TypeError(f"Expected literal 'builtin' or Location, found {repr(value)}")
+        raise TypeError(f"Expected literal 'builtin' or Location, found {value!r}")
 
     def to_dict(self) -> JsonValue:
         return asdict(self)
