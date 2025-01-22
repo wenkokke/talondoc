@@ -99,6 +99,8 @@ select = [
 
   # flake8-simplify
   "SIM",
+  # flake8-pie (PIE)
+  "PIE",
   # isort
   "I",
 
