@@ -6,8 +6,8 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-import os
 import sys
+from pathlib import Path
 
 from sphinx.application import Sphinx
 
@@ -19,7 +19,7 @@ release = "1.0.0"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-sys.path.append(os.path.abspath("../.."))
+sys.path.append(str(Path("../..").resolve()))
 
 extensions = [
     # Enables support for Markdown
