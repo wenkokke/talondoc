@@ -52,8 +52,7 @@ class TalonScriptDescriber:
         # Try the docstring_hook:
         docstring = self.docstring_hook(cls.__name__, name)
         # Try the registry:
-        docstring = docstring or self.registry.lookup_description(cls, name)
-        return docstring
+        return docstring or self.registry.lookup_description(cls, name)
 
     def describe(self, ast: Node) -> Description | None:
         match ast:

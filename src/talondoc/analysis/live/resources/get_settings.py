@@ -10,10 +10,9 @@ def _get_settings() -> None:
     def asdict_pickle(value: typing.Any) -> typing.Any:
         if isinstance(value, str):
             return value
-        else:
-            return {
-                "pickle": base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
-            }
+        return {
+            "pickle": base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
+        }
 
     def asdict_class(cls: type) -> str | None:
         if hasattr(cls, "__name__"):

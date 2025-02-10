@@ -106,12 +106,11 @@ def and_then(
 ) -> Description | None:
     if desc1 is None:
         return desc2
-    elif desc2 is None:
+    if desc2 is None:
         return desc1
-    elif isinstance(desc1, Value) and isinstance(desc2, Value):
+    if isinstance(desc1, Value) and isinstance(desc2, Value):
         return Value(f"{desc1} {desc2}")
-    else:
-        return Steps(steps=(*desc1.as_steps().steps, *desc2.as_steps().steps))
+    return Steps(steps=(*desc1.as_steps().steps, *desc2.as_steps().steps))
 
 
 def concat(*desclike: DescLike) -> Description | None:

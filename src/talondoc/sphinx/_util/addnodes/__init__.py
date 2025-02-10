@@ -115,15 +115,13 @@ def desc_type(annotation: Any, **attributes: AttributeValue) -> addnodes.desc_ty
 def desc_literal(value: Any, **attributes: AttributeValue) -> addnodes.desc_sig_element:
     if value is None:
         return desc_sig_keyword(nodes.Text("None"), **attributes)
-    elif isinstance(value, builtin_number_types):
+    if isinstance(value, builtin_number_types):
         return desc_sig_literal_number(nodes.Text(repr(value)), **attributes)
-    elif is_builtin_string_type(value):
+    if is_builtin_string_type(value):
         if len(value) == 1:
             return desc_sig_literal_char(nodes.Text(repr(value)), **attributes)
-        else:
-            return desc_sig_literal_string(nodes.Text(repr(value)), **attributes)
-    else:
-        return desc_sig_element(nodes.Text(repr(value)), **attributes)
+        return desc_sig_literal_string(nodes.Text(repr(value)), **attributes)
+    return desc_sig_element(nodes.Text(repr(value)), **attributes)
 
 
 def desc_signature(

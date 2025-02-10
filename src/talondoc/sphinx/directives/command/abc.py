@@ -158,8 +158,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
                     comments.append(comment.removeprefix("###").strip())
         if comments:
             return nodes.Text(" ".join(comments))
-        else:
-            return None
+        return None
 
     @final
     def _try_describe_script_with_action_docstrings(
@@ -210,8 +209,7 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
             or (len(phrases) == 1 and phrases[0] == "*")
         ):
             return "*"
-        else:
-            return tuple(map(self._split_phrase, phrases))
+        return tuple(map(self._split_phrase, phrases))
 
     @property
     def exclude(self) -> Sequence[Sequence[str]]:
@@ -254,10 +252,7 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
     ) -> bool:
         if self.include == "*":
             return True
-        else:
-            return self._match_any_of(
-                rule, self.include, default=True, fullmatch=fullmatch
-            )
+        return self._match_any_of(rule, self.include, default=True, fullmatch=fullmatch)
 
     @final
     def _matches_exclude(

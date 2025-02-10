@@ -26,8 +26,7 @@ def asdict_opt(asdict: Callable[[_S], _T]) -> Callable[[_S | None], _T | None]:
     def _asdict(value: _S | None) -> _T | None:
         if value is None:
             return None
-        else:
-            return asdict(value)
+        return asdict(value)
 
     return _asdict
 
@@ -35,9 +34,8 @@ def asdict_opt(asdict: Callable[[_S], _T]) -> Callable[[_S | None], _T | None]:
 def asdict_pickle(value: Any) -> JsonValue:
     if isinstance(value, str):
         return value
-    else:
-        value = base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
-        return {"pickle": value}
+    value = base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
+    return {"pickle": value}
 
 
 def asdict_class(cls: type) -> JsonValue:
@@ -74,7 +72,7 @@ def parse_pickle(value: JsonValue, *, context: dict[str, str] | None = None) -> 
         context = {}
     if isinstance(value, str):
         return parse_str(value)
-    elif isinstance(value, Mapping):
+    if isinstance(value, Mapping):
         value = parse_str(value["pickle"])
         try:
             return pickle.loads(base64.b64decode(value, validate=True))
@@ -126,8 +124,7 @@ def parse_opt(parser: Callable[[JsonValue], _T]) -> Callable[[JsonValue], _T | N
     def _parser(value: JsonValue) -> _T | None:
         if value is None:
             return None
-        else:
-            return parser(value)
+        return parser(value)
 
     return _parser
 

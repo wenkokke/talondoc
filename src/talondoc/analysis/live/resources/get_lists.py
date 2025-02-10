@@ -10,10 +10,9 @@ def _get_lists() -> None:
     def asdict_pickle(value: typing.Any) -> typing.Any:
         if isinstance(value, str):
             return value
-        else:
-            return {
-                "pickle": base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
-            }
+        return {
+            "pickle": base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
+        }
 
     def asdict_list_value(value: typing.Mapping[typing.Any, typing.Any]) -> typing.Any:
         return {key: asdict_pickle(val) for key, val in value.items()}

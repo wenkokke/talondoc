@@ -19,8 +19,7 @@ if "sphinx" not in sys.modules:
         def format(self, record: LogRecord) -> str:
             if record.levelno == INFO:
                 return record.getMessage()
-            else:
-                return super().format(record)  # type: ignore[no-any-return]
+            return super().format(record)  # type: ignore[no-any-return]
 
     _FORMATTER = PrettyColoredFormatter(
         fmt="%(log_color)s%(levelname)s: %(message)s",

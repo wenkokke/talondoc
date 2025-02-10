@@ -17,28 +17,26 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):  # type: ignore[misc
     @property
     def docstring_hook(self) -> Callable[[str, str], str | None]:
         docstring_hook = self.env.config["talon_docstring_hook"]
-        if docstring_hook is None:
 
-            def __docstring_hook(sort: str, name: str) -> str | None:
-                return None
+        match docstring_hook:
+            case None:
 
-            return __docstring_hook
-        elif isinstance(docstring_hook, dict):
+                def __docstring_hook(sort: str, name: str) -> str | None:
+                    return None
+            case dict():
 
-            def __docstring_hook(sort: str, name: str) -> str | None:
-                value = docstring_hook.get(sort, {}).get(name, None)
-                assert value is None or isinstance(value, str)
-                return value
+                def __docstring_hook(sort: str, name: str) -> str | None:
+                    value = docstring_hook.get(sort, {}).get(name, None)
+                    assert value is None or isinstance(value, str)
+                    return value
+            case _:
 
-            return __docstring_hook
-        else:
+                def __docstring_hook(sort: str, name: str) -> str | None:
+                    value = docstring_hook(sort, name)
+                    assert value is None or isinstance(value, str)
+                    return value
 
-            def __docstring_hook(sort: str, name: str) -> str | None:
-                value = docstring_hook(sort, name)
-                assert value is None or isinstance(value, str)
-                return value
-
-            return __docstring_hook
+        return __docstring_hook
 
 
 class TalonDocObjectDescription(

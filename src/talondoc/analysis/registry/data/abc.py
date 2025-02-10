@@ -67,10 +67,8 @@ class Location:
         if line is not None:
             if column is not None:
                 return f"{line}:{column}"
-            else:
-                return f"{line}"
-        else:
-            return None
+            return f"{line}"
+        return None
 
     def __str__(self) -> str:
         resolved_path = self.path.resolve()
@@ -84,10 +82,8 @@ class Location:
             end_position = Location._str_from_point(self.end_line, self.end_column)
             if end_position is not None:
                 return f"{resolved_path}:{start_position}-{end_position}"
-            else:
-                return f"{resolved_path}:{start_position}"
-        else:
-            return f"{resolved_path}"
+            return f"{resolved_path}:{start_position}"
+        return f"{resolved_path}"
 
     @staticmethod
     def from_ast(path: Path, node: Node) -> "Location":
@@ -128,15 +124,13 @@ class Location:
 def parse_location(value: JsonValue) -> Union[Literal["builtin"], "Location"]:
     if isinstance(value, str) and value == "builtin":
         return "builtin"
-    else:
-        return Location.from_dict(parse_dict(value))
+    return Location.from_dict(parse_dict(value))
 
 
 def asdict_location(location: Union[Literal["builtin"], "Location"]) -> JsonValue:
     if isinstance(location, str) and location == "builtin":
         return "builtin"
-    else:
-        return location.to_dict()
+    return location.to_dict()
 
 
 ##############################################################################
