@@ -91,6 +91,7 @@ select = [
   "I",   # isort
 
   # Additional
+  "PTH", # flake8-use-pathlib
   "C4",  # flake8-comprehensions (C4)
   "PIE", # flake8-pie (PIE)
   "PYI", # flake8-pyi (PYI)
@@ -99,9 +100,10 @@ select = [
 ]
 
 ignore = [
+  # PTH (flake8-use-pathlib), allow use of open() instead of Path.open()
+  "PTH123", # builtin-open-pathlib (PTH123)
 
   # These are recommended to be disabled when using ruff format.
-
   "COM812", # missing-trailing-comma (COM812)
   "COM819", # prohibited-trailing-comma (COM819)
   "D206",   # docstring-tab-indentation (D206)
