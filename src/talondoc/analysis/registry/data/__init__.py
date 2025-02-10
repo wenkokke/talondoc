@@ -147,8 +147,7 @@ field_script = parse_field("script", parse_script)
 def asdict_list_value(value: ListValue) -> JsonValue:
     if isinstance(value, Mapping):
         return {key: asdict_pickle(val) for key, val in value.items()}
-    else:
-        return list(value)
+    return list(value)
 
 
 def parse_list_value(

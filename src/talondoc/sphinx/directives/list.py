@@ -94,12 +94,11 @@ class TalonListDirective(TalonDocObjectDescription):
             signode += desc_content(*content)
 
             return default.name
-        else:
-            e = UnknownReference(
-                ref_type=data.List,
-                ref_name=sig,
-                location=self.get_location(),
-                known_references=tuple(self.talon.registry.lists.keys()),
-            )
-            _LOGGER.error(f"talon:list: {e}")
-            raise ValueError(e)
+        e = UnknownReference(
+            ref_type=data.List,
+            ref_name=sig,
+            location=self.get_location(),
+            known_references=tuple(self.talon.registry.lists.keys()),
+        )
+        _LOGGER.error(f"talon:list: {e}")
+        raise ValueError(e)

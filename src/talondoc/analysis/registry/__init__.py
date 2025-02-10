@@ -69,8 +69,7 @@ class Registry:
             if self._continue_on_error:
                 _LOGGER.warning(exc)
                 return old_value
-            else:
-                raise exc
+            raise exc
         store[value.name] = value
         # Set the active package, file, module, or context.
         if isinstance(value, data.Package):
@@ -277,13 +276,12 @@ class Registry:
             raise NotImplementedError("Registry.get does not support callbacks")
         if value is not None:
             return value
-        else:
-            raise UnknownReference(
-                cls,
-                name,
-                referenced_by=referenced_by,
-                known_references=tuple(self._typed_store(cls).keys()),
-            )
+        raise UnknownReference(
+            cls,
+            name,
+            referenced_by=referenced_by,
+            known_references=tuple(self._typed_store(cls).keys()),
+        )
 
     @overload
     def lookup(
@@ -324,8 +322,7 @@ class Registry:
                     init_args[name] = init_args.get(name) or getattr(datum, name)
         if init_args:
             return cls(**init_args)
-        else:
-            return None
+        return None
 
     def lookup_description(self, cls: type[Data], name: Any) -> str | None:
         if issubclass(cls, SimpleData):
@@ -351,12 +348,10 @@ class Registry:
             def _complexity(obj: GroupDataVar) -> int:
                 if issubclass(obj.parent_type, data.Module):
                     return _IS_DECLARATION
-                else:
-                    ctx = self.lookup(data.Context, obj.parent_name)
-                    if ctx is None:
-                        return _IS_ALWAYS_ON
-                    else:
-                        return _IS_ALWAYS_ON + len(ctx.matches)
+                ctx = self.lookup(data.Context, obj.parent_name)
+                if ctx is None:
+                    return _IS_ALWAYS_ON
+                return _IS_ALWAYS_ON + len(ctx.matches)
 
             # Sort all objects in the group by the complexity of their matches:
             sorted_group = [(_complexity(obj), obj) for obj in group]

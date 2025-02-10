@@ -28,8 +28,7 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
     def executable_path(self) -> str:
         if platform.system() == "Windows":
             return os.path.expandvars("%APPDATA%\\talon\\.venv\\Scripts\\repl.bat")
-        else:
-            return os.path.expandvars("$HOME/.talon/.venv/bin/repl")
+        return os.path.expandvars("$HOME/.talon/.venv/bin/repl")
 
     def __enter__(self) -> Self:
         self.open()

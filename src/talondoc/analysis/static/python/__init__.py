@@ -34,8 +34,7 @@ class TalonShimFinder(MetaPathFinder):
         def load_module(cls, fullname: str) -> ModuleType:
             if fullname == "talon":
                 return TalonShim()
-            else:
-                return ModuleShim(fullname)
+            return ModuleShim(fullname)
 
     @classmethod
     def _is_module(cls, fullname: str) -> bool:
@@ -57,9 +56,8 @@ class TalonShimFinder(MetaPathFinder):
                 loader=cls.TalonShimLoader(),
                 is_package=True,
             )
-        else:
-            # Allow normal sys.path stuff to handle everything else
-            return None
+        # Allow normal sys.path stuff to handle everything else
+        return None
 
 
 @contextmanager
@@ -114,19 +112,17 @@ def talon_package_shims(package: data.Package) -> Iterator[None]:
                         submodule_search_location
                     )
                     return module_spec
-                else:
-                    path = str(cls._module_path(fullname).with_suffix(".py"))
-                    module_spec = ModuleSpec(
-                        name=fullname,
-                        loader=SourceFileLoader(fullname, path),
-                        origin=path,
-                        is_package=False,
-                    )
-                    module_spec.has_location = True
-                    return module_spec
-            else:
-                # Allow normal sys.path stuff to handle everything else
-                return None
+                path = str(cls._module_path(fullname).with_suffix(".py"))
+                module_spec = ModuleSpec(
+                    name=fullname,
+                    loader=SourceFileLoader(fullname, path),
+                    origin=path,
+                    is_package=False,
+                )
+                module_spec.has_location = True
+                return module_spec
+            # Allow normal sys.path stuff to handle everything else
+            return None
 
     sys.meta_path.insert(0, PackagePathFinder)
     try:

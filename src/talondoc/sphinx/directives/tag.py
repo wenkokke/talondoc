@@ -31,12 +31,11 @@ class TalonTagDirective(TalonDocObjectDescription):
             if tag.description:
                 signode += desc_content(paragraph(nodes.Text(tag.description)))
             return tag.name
-        else:
-            e = UnknownReference(
-                ref_type=data.Tag,
-                ref_name=sig,
-                location=self.get_location(),
-                known_references=tuple(self.talon.registry.tags.keys()),
-            )
-            _LOGGER.error(f"talon:tag: {e}")
-            raise ValueError(e)
+        e = UnknownReference(
+            ref_type=data.Tag,
+            ref_name=sig,
+            location=self.get_location(),
+            known_references=tuple(self.talon.registry.tags.keys()),
+        )
+        _LOGGER.error(f"talon:tag: {e}")
+        raise ValueError(e)

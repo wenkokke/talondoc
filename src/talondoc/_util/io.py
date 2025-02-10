@@ -23,11 +23,10 @@ class NonBlockingTextIOWrapper:
     def readline(self, block: bool = False, timeout: float | None = None) -> str | None:
         if self._stream.closed and self._queue.qsize() == 0:
             return None
-        else:
-            try:
-                return self._queue.get(block=block, timeout=timeout)
-            except queue.Empty:
-                return None
+        try:
+            return self._queue.get(block=block, timeout=timeout)
+        except queue.Empty:
+            return None
 
     def readlines(
         self, block: bool = False, timeout: float | None = None
