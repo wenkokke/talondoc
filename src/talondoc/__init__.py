@@ -3,12 +3,12 @@ import os
 import socket
 import threading
 import webbrowser
+from collections.abc import Sequence
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from typing import Any, Optional, Sequence
+from typing import Any, Literal
 
 import click
-from typing_extensions import Literal
 
 from ._autogen import autogen
 from ._cache_builtin import cache_builtin
@@ -39,7 +39,7 @@ def talondoc(
     ctx: click.Context,
     *,
     log_level: Literal["ERROR", "WARNING", "INFO", "DEBUG"],
-    continue_on_error: Optional[bool],
+    continue_on_error: bool | None,
 ) -> None:
     if ctx.obj is None:
         ctx.obj = {}
@@ -131,19 +131,19 @@ def _autogen(
     ctx: click.Context,
     config_dir: str,
     *,
-    output_dir: Optional[str],
-    package_dir: Optional[str],
-    package_name: Optional[str],
-    template_dir: Optional[str],
-    include: Optional[Sequence[str]],
-    exclude: Optional[Sequence[str]],
-    trigger: Optional[Sequence[str]],
-    project: Optional[str],
-    author: Optional[str],
-    release: Optional[str],
+    output_dir: str | None,
+    package_dir: str | None,
+    package_name: str | None,
+    template_dir: str | None,
+    include: Sequence[str] | None,
+    exclude: Sequence[str] | None,
+    trigger: Sequence[str] | None,
+    project: str | None,
+    author: str | None,
+    release: str | None,
     generate_conf: bool,
     generate_index: bool,
-    format: Optional[Literal["rst", "md"]],
+    format: Literal["rst", "md"] | None,
 ) -> None:
     continue_on_error = (
         hasattr(ctx, "obj")
@@ -198,7 +198,7 @@ def _build(
     ctx: click.Context,
     source_dir: str,
     output_dir: str,
-    config_dir: Optional[str],
+    config_dir: str | None,
     server: bool,
 ) -> None:
     import sphinx.cmd.build
@@ -227,7 +227,7 @@ def _build(
     # Check config_dir:
     conf_py = Path(config_dir) / "conf.py"
     if not conf_py.exists():
-        did_you_mean: Optional[str] = None
+        did_you_mean: str | None = None
         for dirpath, _dirnames, filenames in os.walk(str(source_dir)):
             if "conf.py" in filenames:
                 did_you_mean = dirpath
@@ -287,7 +287,10 @@ def _build(
 
             def finish_request(self, request: Any, client_address: Any) -> None:
                 self.RequestHandlerClass(  # type: ignore[call-arg]
-                    request, client_address, self, directory=output_dir  # type: ignore[arg-type]
+                    request,
+                    client_address,
+                    self,  # type: ignore[arg-type]
+                    directory=output_dir,  # type: ignore[arg-type]
                 )
 
         def _start_server() -> None:

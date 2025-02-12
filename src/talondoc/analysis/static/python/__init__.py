@@ -6,7 +6,7 @@ from importlib.abc import Loader, MetaPathFinder
 from importlib.machinery import ModuleSpec, PathFinder, SourceFileLoader
 from pathlib import Path
 from types import ModuleType
-from typing import ClassVar, Optional
+from typing import ClassVar
 
 from ...._util.logging import getLogger
 from ...._util.progress_bar import ProgressBar
@@ -34,8 +34,7 @@ class TalonShimFinder(MetaPathFinder):
         def load_module(cls, fullname: str) -> ModuleType:
             if fullname == "talon":
                 return TalonShim()
-            else:
-                return ModuleShim(fullname)
+            return ModuleShim(fullname)
 
     @classmethod
     def _is_module(cls, fullname: str) -> bool:
@@ -48,18 +47,17 @@ class TalonShimFinder(MetaPathFinder):
     def find_spec(
         cls,
         fullname: str,
-        path: Optional[Sequence[str]] = None,
-        target: Optional[ModuleType] = None,
-    ) -> Optional[ModuleSpec]:
+        path: Sequence[str] | None = None,
+        target: ModuleType | None = None,
+    ) -> ModuleSpec | None:
         if cls._is_module(fullname):
             return ModuleSpec(
                 name=fullname,
                 loader=cls.TalonShimLoader(),
                 is_package=True,
             )
-        else:
-            # Allow normal sys.path stuff to handle everything else
-            return None
+        # Allow normal sys.path stuff to handle everything else
+        return None
 
 
 @contextmanager
@@ -99,9 +97,9 @@ def talon_package_shims(package: data.Package) -> Iterator[None]:
         def find_spec(
             cls,
             fullname: str,
-            path: Optional[Sequence[str]] = None,
-            target: Optional[ModuleType] = None,
-        ) -> Optional[ModuleSpec]:
+            path: Sequence[str] | None = None,
+            target: ModuleType | None = None,
+        ) -> ModuleSpec | None:
             if cls._is_module(fullname):
                 if cls._is_subpackage(fullname):
                     module_spec = ModuleSpec(
@@ -114,19 +112,17 @@ def talon_package_shims(package: data.Package) -> Iterator[None]:
                         submodule_search_location
                     )
                     return module_spec
-                else:
-                    path = str(cls._module_path(fullname).with_suffix(".py"))
-                    module_spec = ModuleSpec(
-                        name=fullname,
-                        loader=SourceFileLoader(fullname, path),
-                        origin=path,
-                        is_package=False,
-                    )
-                    module_spec.has_location = True
-                    return module_spec
-            else:
-                # Allow normal sys.path stuff to handle everything else
-                return None
+                path = str(cls._module_path(fullname).with_suffix(".py"))
+                module_spec = ModuleSpec(
+                    name=fullname,
+                    loader=SourceFileLoader(fullname, path),
+                    origin=path,
+                    is_package=False,
+                )
+                module_spec.has_location = True
+                return module_spec
+            # Allow normal sys.path stuff to handle everything else
+            return None
 
     sys.meta_path.insert(0, PackagePathFinder)
     try:
@@ -137,7 +133,7 @@ def talon_package_shims(package: data.Package) -> Iterator[None]:
 
 @contextmanager
 def talon_shims(
-    registry: Registry, *, package: Optional[data.Package] = None
+    registry: Registry, *, package: data.Package | None = None
 ) -> Iterator[None]:
     sys.meta_path.insert(0, TalonShimFinder)
     try:

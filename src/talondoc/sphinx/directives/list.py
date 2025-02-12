@@ -1,4 +1,4 @@
-from typing import Mapping, Sequence
+from collections.abc import Mapping, Sequence
 
 from docutils import nodes
 from sphinx import addnodes
@@ -20,11 +20,9 @@ from .._util.addnodes import (
     fragtable,
     paragraph,
     row,
-    table,
     tbody,
     tgroup,
 )
-from .._util.typing import optional_int
 from . import TalonDocObjectDescription
 
 _LOGGER = getLogger(__name__)
@@ -96,12 +94,11 @@ class TalonListDirective(TalonDocObjectDescription):
             signode += desc_content(*content)
 
             return default.name
-        else:
-            e = UnknownReference(
-                ref_type=data.List,
-                ref_name=sig,
-                location=self.get_location(),
-                known_references=tuple(self.talon.registry.lists.keys()),
-            )
-            _LOGGER.error(f"talon:list: {e}")
-            raise ValueError(e)
+        e = UnknownReference(
+            ref_type=data.List,
+            ref_name=sig,
+            location=self.get_location(),
+            known_references=tuple(self.talon.registry.lists.keys()),
+        )
+        _LOGGER.error(f"talon:list: {e}")
+        raise ValueError(e)

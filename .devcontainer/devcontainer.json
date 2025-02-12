@@ -11,7 +11,7 @@
   "postCreateCommand": {
     "git-submodules": "git submodule update --init",
     "pre-commit": "pre-commit install",
-    "pip": "pip install .[docs]",
+    "pip": "pip install .[docs,dev]",
     "mypy": "mypy --install-types --non-interactive"
   },
   "customizations": {
@@ -19,7 +19,8 @@
       "extensions": [
         "ms-python.python",
         "ms-python.vscode-pylance",
-        "ms-vscode.makefile-tools"
+        "ms-vscode.makefile-tools",
+        "charliermarsh.ruff"
       ]
     }
   }

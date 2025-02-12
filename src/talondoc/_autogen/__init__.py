@@ -3,11 +3,10 @@ import os
 import subprocess
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any, Literal
 
 import jinja2
 import jinja2.sandbox
-from typing_extensions import Literal
 
 from talondoc.sphinx import _canonicalize_talon_package, _canonicalize_vararg
 from talondoc.sphinx.typing import TalonPackage
@@ -40,11 +39,11 @@ def _subsubsection(title: str) -> str:
     return _underline(title, line="^")
 
 
-def _default_package_name(package_name: Optional[str], package_dir: Path) -> str:
+def _default_package_name(package_name: str | None, package_dir: Path) -> str:
     return package_name or package_dir.parts[-1]
 
 
-def _default_author(author: Optional[str]) -> str:
+def _default_author(author: str | None) -> str:
     if author:
         return author
     try:
@@ -54,22 +53,22 @@ def _default_author(author: Optional[str]) -> str:
 
 
 def autogen(
-    config_dir: Union[str, Path],
+    config_dir: str | Path,
     *,
-    package_name: Optional[str] = None,
-    package_dir: Union[None, str, Path] = None,
-    output_dir: Union[None, str, Path] = None,
-    template_dir: Union[None, str, Path] = None,
-    include: Optional[Sequence[str]] = None,
-    exclude: Optional[Sequence[str]] = None,
-    trigger: Optional[Sequence[str]] = None,
-    project: Optional[str] = None,
-    author: Optional[str] = None,
-    release: Optional[str] = None,
+    package_name: str | None = None,
+    package_dir: None | str | Path = None,
+    output_dir: None | str | Path = None,
+    template_dir: None | str | Path = None,
+    include: Sequence[str] | None = None,
+    exclude: Sequence[str] | None = None,
+    trigger: Sequence[str] | None = None,
+    project: str | None = None,
+    author: str | None = None,
+    release: str | None = None,
     generate_conf: bool = False,
     generate_index: bool = False,
     continue_on_error: bool = True,
-    format: Optional[Literal["md", "rst"]] = None,
+    format: Literal["md", "rst"] | None = None,
 ) -> None:
     # Ensure config_dir is Path:
     if isinstance(config_dir, str):
@@ -81,7 +80,7 @@ def autogen(
 
     if output_dir and output_dir.is_absolute():
         _LOGGER.warning(
-            f"The output directory should be relative to the configuration directory."
+            "The output directory should be relative to the configuration directory."
         )
         try:
             output_dir = output_dir.relative_to(config_dir)
@@ -89,10 +88,7 @@ def autogen(
             _LOGGER.error(e)
             exit(1)
 
-    if output_dir:
-        output_dir = config_dir / output_dir
-    else:
-        output_dir = config_dir
+    output_dir = config_dir / output_dir if output_dir else config_dir
 
     # Check for conf.py:
     conf_py = config_dir / "conf.py"
@@ -107,14 +103,15 @@ def autogen(
             _LOGGER.warning(e)
 
     # Get talon_package from conf.py:
-    talon_package: Optional[TalonPackage] = None
+    talon_package: TalonPackage | None = None
     if "talon_package" in sphinx_config:
         talon_package = _canonicalize_talon_package(sphinx_config["talon_package"])
         if talon_package is None:
             _LOGGER.warning(f"Could not read talon_package in {conf_py}.")
     if "talon_packages" in sphinx_config:
         _LOGGER.warning(
-            f"The autogen command does not support reading the configuration 'talon_packages'."
+            "The autogen command does not support reading"
+            " the configuration 'talon_packages'."
         )
 
     # Resolve package directory:
@@ -314,7 +311,7 @@ def autogen(
     ]
     for file in talon_files:
         # Create path/to/talon/file.{md,rst}:
-        bar.step(f" {str(file.location.path)}")
+        bar.step(f" {file.location.path!s}")
         output_relpath = file.location.path.with_suffix(f".{format}")
         output_path = output_dir / output_relpath
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -351,7 +348,7 @@ def autogen(
     ]
     for file in python_files:
         # Create path/to/python/file.py.{md,rst}:
-        bar.step(f" {str(file.location.path)}")
+        bar.step(f" {file.location.path!s}")
         output_relpath = file.location.path.with_suffix(f".py.{format}")
         output_path = output_dir / output_relpath
         output_path.parent.mkdir(parents=True, exist_ok=True)

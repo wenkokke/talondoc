@@ -1,7 +1,6 @@
 from typing import Any
 
 from docutils import nodes
-from sphinx.locale import _
 from sphinx.util.docutils import SphinxTranslator
 from sphinx.writers.html5 import HTML5Translator
 

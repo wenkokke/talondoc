@@ -37,12 +37,11 @@ class TalonActionDirective(TalonDocObjectDescription):
             if default.description:
                 signode += desc_content(paragraph(nodes.Text(default.description)))
             return default.name
-        else:
-            e = UnknownReference(
-                ref_type=data.Action,
-                ref_name=sig,
-                location=self.get_location(),
-                known_references=tuple(self.talon.registry.actions.keys()),
-            )
-            _LOGGER.error(f"talon:action: {e}")
-            raise ValueError(e)
+        e = UnknownReference(
+            ref_type=data.Action,
+            ref_name=sig,
+            location=self.get_location(),
+            known_references=tuple(self.talon.registry.actions.keys()),
+        )
+        _LOGGER.error(f"talon:action: {e}")
+        raise ValueError(e)
