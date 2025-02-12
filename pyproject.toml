@@ -98,6 +98,8 @@ select = [
   "RUF", # Ruff Specific Rules
   "RET", # flake8-return (RET)
 
+  "FLY", # flynt (FLY)
+
 ]
 
 ignore = [
