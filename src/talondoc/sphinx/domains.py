@@ -14,8 +14,6 @@ from .directives.tag import TalonTagDirective
 
 _LOGGER = getLogger(__name__)
 
-__talonDirectiveClasses__ = TalonActionDirective | TalonCaptureDirective
-
 
 class TalonDomain(Domain):  # type: ignore[misc]
     """Talon language domain."""
