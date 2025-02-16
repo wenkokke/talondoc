@@ -2,6 +2,7 @@ import inspect
 import platform
 from collections.abc import Callable, Iterator, Mapping, Sequence
 from io import TextIOWrapper
+from pathlib import Path
 from types import ModuleType
 from typing import Any, cast, overload
 
@@ -310,7 +311,7 @@ class TalonContextTagsShim(Sequence[str]):
 
 class TalonResourceShim(ObjectShim):
     def open(self, file: str, mode: str = "r") -> TextIOWrapper:
-        return cast(TextIOWrapper, open(file, mode))
+        return cast(TextIOWrapper, Path(file).open(mode))
 
     def read(self, file: str) -> str:
         raise NotImplementedError()

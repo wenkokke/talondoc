@@ -19,6 +19,6 @@ def cache_builtin(output_dir: str) -> None:
                 if isinstance(objs, Mapping):
                     _LOGGER.info(f"Found {len(objs)} {cls.lower()}s")
         output_path = Path(output_dir) / "talon.json"
-        with open(output_path, "w") as f:
+        with Path(output_path).open("w") as f:
             json.dump(builtin, f)
         _LOGGER.info(f"Wrote {output_path}")

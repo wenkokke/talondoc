@@ -105,9 +105,6 @@ select = [
 ]
 
 ignore = [
-  # PTH (flake8-use-pathlib), allow use of open() instead of Path.open()
-  "PTH123", # builtin-open-pathlib (PTH123)
-
   # These are recommended to be disabled when using ruff format.
   "COM812", # missing-trailing-comma (COM812)
   "COM819", # prohibited-trailing-comma (COM819)
