@@ -97,7 +97,8 @@ class Location:
 
     @staticmethod
     def from_function(function: Callable[..., Any]) -> "Location":
-        assert callable(function), f"Location.from_function received {function!r}"
+        if not callable(function):
+            raise TypeError(f"Location.from_function received {function!r}")
         path = Path(function.__code__.co_filename)
         return Location(path=path, start_line=function.__code__.co_firstlineno)
 

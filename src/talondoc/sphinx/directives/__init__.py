@@ -27,13 +27,19 @@ class TalonDocDirective(sphinx.directives.SphinxDirective):  # type: ignore[misc
 
                 def __docstring_hook(sort: str, name: str) -> str | None:
                     value = docstring_hook.get(sort, {}).get(name, None)
-                    assert value is None or isinstance(value, str)
+                    if not (value is None or isinstance(value, str)):
+                        raise ValueError(
+                            f"value must be a string or None and is ${value!r}"
+                        )
                     return value
             case _:
 
                 def __docstring_hook(sort: str, name: str) -> str | None:
                     value = docstring_hook(sort, name)
-                    assert value is None or isinstance(value, str)
+                    if not (value is None or isinstance(value, str)):
+                        raise ValueError(
+                            f"value must be a string or None and is ${value!r}"
+                        )
                     return value
 
         return __docstring_hook

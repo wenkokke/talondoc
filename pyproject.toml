@@ -101,6 +101,7 @@ select = [
   "RET", # flake8-return (RET)
 
   "FLY", # flynt (FLY)
+  "S",
 
 ]
 

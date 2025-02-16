@@ -169,7 +169,8 @@ class Registry:
                     except UnknownReference as e:
                         _LOGGER.warning(f"resolve_contexts: {e}")
                         continue
-                assert isinstance(value, data.File)
+                if not isinstance(value, data.File):
+                    raise TypeError(f"Unexpected value {value!r}")
                 for context_name in value.contexts:
                     yield self.get(data.Context, context_name, referenced_by=value)
 
@@ -180,7 +181,8 @@ class Registry:
     ) -> Iterator[data.Command]:
         if restrict_to is None:
             for group in self.commands.values():
-                assert isinstance(group, list), f"Unexpected value {group}"
+                if not isinstance(group, list):
+                    raise ValueError(f"Unexpected value {group!r}")
                 yield from group
         else:
             for context in self.resolve_contexts(restrict_to):
@@ -505,7 +507,8 @@ class Registry:
         data = self._data if cls.serialisable else self._temp_data
         # Store the data in a dictionary indexed by its type name.
         store = data.setdefault(cls.__name__, {})
-        assert isinstance(store, dict)
+        if not isinstance(store, dict):
+            raise TypeError(f"store has unexpected type: {store!r}")
         return store
 
     ##################################################

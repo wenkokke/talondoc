@@ -88,7 +88,8 @@ def parse_matches(value: Any) -> Sequence[Match]:
         value = "\n".join([line.strip() for line in value.splitlines()])
     src = f"{parse_str(value)}\n-\n"
     ast = tree_sitter_talon.parse(src, raise_parse_error=True)
-    assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
+    if not isinstance(ast, tree_sitter_talon.TalonSourceFile):
+        raise ValueError(f"Unexpected ast type: {ast!r}")
     for child in ast.children:
         if isinstance(child, tree_sitter_talon.TalonMatches):
             return [
@@ -109,7 +110,8 @@ field_matches = parse_field("matches", parse_matches)
 def parse_rule(value: Any) -> Rule:
     src = f"-\n{parse_str(value)}: skip\n"
     ast = tree_sitter_talon.parse(src, raise_parse_error=True)
-    assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
+    if not isinstance(ast, tree_sitter_talon.TalonSourceFile):
+        raise ValueError(f"Unexpected ast type: {ast!r}")
     for child in ast.children:
         if isinstance(child, tree_sitter_talon.TalonDeclarations):
             for declaration in child.children:
@@ -128,7 +130,8 @@ field_rule = parse_field("rule", parse_rule)
 def parse_script(value: Any) -> Script:
     src = f"-\nskip:\n{textwrap.indent(parse_str(value), '  ')}\n"
     ast = tree_sitter_talon.parse(src, raise_parse_error=True)
-    assert isinstance(ast, tree_sitter_talon.TalonSourceFile)
+    if not isinstance(ast, tree_sitter_talon.TalonSourceFile):
+        raise ValueError(f"Unexpected ast type: {ast!r}")
     for child in ast.children:
         if isinstance(child, tree_sitter_talon.TalonDeclarations):
             for declaration in child.children:

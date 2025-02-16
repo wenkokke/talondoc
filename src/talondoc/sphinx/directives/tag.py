@@ -20,7 +20,8 @@ class TalonTagDirective(TalonDocObjectDescription):
 
     @override
     def get_signatures(self) -> list[str]:  # type: ignore[misc, name-defined]
-        assert len(self.arguments) == 1
+        if not len(self.arguments) == 1:
+            raise ValueError("invalid signature")
         return [str(self.arguments[0]).strip()]
 
     @override  # type: ignore[misc, name-defined]
