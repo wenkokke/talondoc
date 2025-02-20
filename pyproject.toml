@@ -16,8 +16,9 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
 ]
-requires-python = ">=3.10,<3.12"
+requires-python = ">=3.10,<3.14"
 dependencies = [
   "awesome_progress_bar >=1.7,<2",
   "docstring_parser >=0.14,<0.17",
@@ -152,7 +153,7 @@ where = ["src"]
 
 legacy_tox_ini = """
 [tox]
-envlist = py{310,311}-{rst,md}
+envlist = py{310,311,312}-{rst,md}
 isolated_build = true
 
 [testenv]
