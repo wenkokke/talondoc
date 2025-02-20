@@ -23,65 +23,40 @@ _LOGGER = getLogger(__name__)
 
 def _is_talon_package(talon_package: Any) -> TypeGuard[TalonPackage]:
     try:
-        if not isinstance(talon_package, dict):
-            raise TypeError(
-                "talon_package must be a dictionary"
-                f"and is {type(talon_package).__name__}"
-            )
-
+        assert isinstance(talon_package, dict)
         path = talon_package.get("path", None)
-        if not isinstance(path, str | Path):
-            raise TypeError("talon_package path must be a string or a path")
-
+        assert isinstance(path, str | Path)
         name = talon_package.get("name", None)
-        if not isinstance(name, str):
-            raise TypeError(
-                f"talon_package.name must be a string and is {type(name).__name__}"
-            )
-
+        assert isinstance(name, str)
         include = talon_package.get("include", None)
-        if not (
+        assert (
             include is None
             or isinstance(include, str | Path)
             or (
                 isinstance(include, Sequence)
                 and all(isinstance(path, str | Path) for path in include)
             )
-        ):
-            raise TypeError(
-                "talon_package.include must be none, a string, or a sequence of strings"
-                f"and is {type(include).__name__}"
-            )
-
+        )
         exclude = talon_package.get("exclude", None)
-        if not (
+        assert (
             exclude is None
             or isinstance(exclude, str | Path)
             or (
                 isinstance(exclude, Sequence)
                 and all(isinstance(path, str | Path) for path in exclude)
             )
-        ):
-            raise TypeError(
-                "talon_package.exclude must be none,a string, or a sequence of strings"
-                f"and is {type(exclude).__name__}"
-            )
-
+        )
         trigger = talon_package.get("trigger", None)
-        if not (
+        assert (
             trigger is None
             or isinstance(trigger, str)
             or (
                 isinstance(trigger, Sequence)
                 and all(isinstance(event, str) for event in trigger)
             )
-        ):
-            raise TypeError(
-                "talon_package.trigger must be none, a string, or a sequence of strings"
-                f"and is {type(trigger).__name__}"
-            )
+        )
         return True
-    except TypeError:
+    except AssertionError:
         return False
 
 

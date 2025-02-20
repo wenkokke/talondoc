@@ -47,10 +47,7 @@ def _default_author(author: str | None) -> str:
     if author:
         return author
     try:
-        return subprocess.getoutput("git config --get user.name")  # noqa: S605, S607
-        # Ignore S607 Starting a process with a partial executable path
-        # Ignore S605 Starting a process with a shell: seems safe, but may be
-        #   changed in the future; consider rewriting without `shell`
+        return subprocess.getoutput("git config --get user.name")
     except subprocess.CalledProcessError:
         return os.getlogin()
 
@@ -101,7 +98,7 @@ def autogen(
             _LOGGER.error(f"The file {conf_py} exists.")
             exit(1)
         try:
-            exec(conf_py.read_text(), sphinx_config)  # noqa: S102 Warning about using exec
+            exec(conf_py.read_text(), sphinx_config)
         except BaseException as e:
             _LOGGER.warning(e)
 
@@ -142,10 +139,7 @@ def autogen(
         )
         exit(1)
 
-    if not isinstance(package_dir, Path):
-        raise TypeError(
-            f"package_dir must be a Path but is {type(package_dir).__name__}"
-        )
+    assert isinstance(package_dir, Path)
     print(package_dir)
 
     # Resolve package name:
@@ -270,8 +264,7 @@ def autogen(
         show_progress=True,
         continue_on_error=continue_on_error,
     )
-    if package_name not in registry.packages:
-        raise ValueError(f"Package {package_name} not found in registry.")
+    assert package_name in registry.packages
     package: data.Package = registry.get(data.Package, package_name)
 
     # Make package path relative to output_dir:

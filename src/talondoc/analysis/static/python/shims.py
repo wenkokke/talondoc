@@ -349,11 +349,7 @@ class TalonShim(ModuleShim):
 
         def action_class(self, cls: type[Any]) -> type[Any]:
             for name, func in inspect.getmembers(cls, inspect.isfunction):
-                if not callable(func):
-                    raise ValueError(
-                        f"Decorated action class {name} member {func} is a"
-                        f"{type(func).__name__} not a callable."
-                    )
+                assert callable(func)
                 package = self._registry.get_active_package()
                 function = data.Function(
                     namespace=package.name,
@@ -384,11 +380,7 @@ class TalonShim(ModuleShim):
             self, rule: str
         ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
-                if not callable(func):
-                    raise TypeError(
-                        "Decorated capture object is not a callable,"
-                        f" it is a {type(func).__name__}"
-                    )
+                assert callable(func)
                 package = self._registry.get_active_package()
                 function = data.Function(
                     namespace=package.name,
@@ -541,11 +533,7 @@ class TalonShim(ModuleShim):
             def __decorator(cls: type[Any]) -> type[Any]:
                 for name, func in inspect.getmembers(cls, inspect.isfunction):
                     # LINT: check if function on decorated class is a function
-                    if not (callable(func)):
-                        raise ValueError(
-                            f"Decorated object member {func!r} is a "
-                            f"{type(func).__name__} not a function"
-                        )
+                    assert callable(func)
 
                     location = Location.from_function(func)
                     function = data.Function(
@@ -577,11 +565,7 @@ class TalonShim(ModuleShim):
         ) -> Callable[[Callable[..., Any]], Callable[..., Any]] | None:
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
                 # LINT: check if function on decorated class is a function
-                if not callable(func):
-                    raise TypeError(
-                        "Decorated action object is a "
-                        f"{type(func).__name__} not a function"
-                    )
+                assert callable(func)
                 namespace = name.split(".")[0]
 
                 location = Location.from_function(func)

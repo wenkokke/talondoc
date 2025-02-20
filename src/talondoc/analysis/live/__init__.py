@@ -35,7 +35,7 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
         return self
 
     def open(self) -> None:
-        self._session = subprocess.Popen(  # noqa: S603 check for execution of untrusted input
+        self._session = subprocess.Popen(
             [],
             executable=self.executable_path,
             stdin=subprocess.PIPE,
@@ -43,14 +43,12 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
             stderr=subprocess.PIPE,
         )
         # Create stdout wrapper:
-        if self._session.stdout is None:
-            raise ValueError("stdout is None")
+        assert self._session.stdout is not None
         self._session_stdout = NonBlockingTextIOWrapper(
             io.TextIOWrapper(self._session.stdout, encoding="utf-8")
         )
         # Create stderr wrapper:
-        if self._session.stderr is None:
-            raise ValueError("stderr is None")
+        assert self._session.stderr is not None
         self._session_stderr = NonBlockingTextIOWrapper(
             io.TextIOWrapper(self._session.stderr, encoding="utf-8")
         )
@@ -66,8 +64,7 @@ class TalonRepl(AbstractContextManager["TalonRepl"]):
             exit(1)
 
     def eval(self, *line: str, encoding: str = "utf-8") -> str:
-        if not (self._session and self._session.stdin and self._session_stdout):
-            raise ValueError("repl is not open")
+        assert self._session and self._session.stdin and self._session_stdout
         __EOR__ = "END_OF_RESPONSE"
 
         def is_EOR(line: str) -> bool:

@@ -75,7 +75,7 @@ def parse_pickle(value: JsonValue, *, context: dict[str, str] | None = None) -> 
     if isinstance(value, Mapping):
         value = parse_str(value["pickle"])
         try:
-            return pickle.loads(base64.b64decode(value, validate=True))  # noqa: S301 Error about using pickle
+            return pickle.loads(base64.b64decode(value, validate=True))
         except ModuleNotFoundError as e:
             if _LOGGER.isEnabledFor(WARNING):
                 object_name = context.get("object_name")

@@ -50,8 +50,7 @@ def analyse_file(registry: Registry, path: Path, package: data.Package) -> None:
 
     # Parse file:
     ast = parse_file(package.location.path / path, raise_parse_error=True)
-    if not isinstance(ast, TalonSourceFile):
-        raise ValueError(f"unexpected ast type: {ast!r}")
+    assert isinstance(ast, TalonSourceFile)
 
     # Create a context entry:
     context = data.Context(

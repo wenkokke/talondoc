@@ -86,8 +86,7 @@ def talon_package_shims(package: data.Package) -> Iterator[None]:
 
         @classmethod
         def _module_path(cls, fullname: str) -> Path:
-            if not cls._is_module(fullname):
-                raise ValueError(f"not a module: {fullname}")
+            assert cls._is_module(fullname)
             return Path(package_path, *fullname.split(".")[1:])
 
         @classmethod
