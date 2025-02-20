@@ -1,8 +1,6 @@
-import inspect
-
 from docutils import nodes
 from sphinx import addnodes
-from typing_extensions import final, override
+from typing_extensions import override
 
 from ..._util.logging import getLogger
 from ...analysis.registry import data
@@ -10,12 +8,7 @@ from ...analysis.registry.data.abc import UnknownReference
 from .._util.addnodes import (
     desc_content,
     desc_literal,
-    desc_name,
     desc_qualname,
-    desc_sig_element,
-    desc_sig_literal_char,
-    desc_sig_literal_number,
-    desc_sig_literal_string,
     desc_sig_punctuation,
     desc_sig_space,
     desc_type,
@@ -66,12 +59,11 @@ class TalonSettingDirective(TalonDocObjectDescription):
                 signode += desc_content(paragraph(nodes.Text(default.description)))
 
             return default.name
-        else:
-            e = UnknownReference(
-                ref_type=data.Setting,
-                ref_name=sig,
-                location=self.get_location(),
-                known_references=tuple(self.talon.registry.settings.keys()),
-            )
-            _LOGGER.error(f"talon:setting: {e}")
-            raise ValueError(e)
+        e = UnknownReference(
+            ref_type=data.Setting,
+            ref_name=sig,
+            location=self.get_location(),
+            known_references=tuple(self.talon.registry.settings.keys()),
+        )
+        _LOGGER.error(f"talon:setting: {e}")
+        raise ValueError(e)

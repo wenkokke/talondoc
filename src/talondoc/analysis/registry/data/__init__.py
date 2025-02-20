@@ -3,13 +3,13 @@ from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from functools import partial
 from inspect import Signature
-from typing import Any, Optional, Union
+from typing import Any, Literal, TypeAlias
 
 import tree_sitter_talon
 from tree_sitter_talon import Node as Node
 from tree_sitter_talon import Point as Point
 from tree_sitter_talon import TalonBlock, TalonMatch, TalonRule
-from typing_extensions import Literal, TypeAlias, TypeVar, final
+from typing_extensions import TypeVar, final
 
 from ...._util.logging import getLogger
 from .abc import (
@@ -59,9 +59,9 @@ SettingName: TypeAlias = str
 ModeName: TypeAlias = str
 TagName: TypeAlias = str
 
-EventCode: TypeAlias = Union[int, str]
+EventCode: TypeAlias = int | str
 Script: TypeAlias = TalonBlock
-ListValue: TypeAlias = Union[dict[str, Any], list[str]]
+ListValue: TypeAlias = dict[str, Any] | list[str]
 SettingValue: TypeAlias = Any
 Match: TypeAlias = TalonMatch
 Rule: TypeAlias = TalonRule
@@ -147,11 +147,14 @@ field_script = parse_field("script", parse_script)
 def asdict_list_value(value: ListValue) -> JsonValue:
     if isinstance(value, Mapping):
         return {key: asdict_pickle(val) for key, val in value.items()}
-    else:
-        return list(value)
+    return list(value)
 
 
-def parse_list_value(value: JsonValue, *, context: dict[str, str] = {}) -> ListValue:
+def parse_list_value(
+    value: JsonValue, *, context: dict[str, str] | None = None
+) -> ListValue:
+    if context is None:
+        context = {}
     if isinstance(value, Mapping):
         return {
             key: parse_pickle(val, context=context)
@@ -164,7 +167,7 @@ def parse_list_value(value: JsonValue, *, context: dict[str, str] = {}) -> ListV
     )
 
 
-def field_list_value(value: JsonValue) -> Optional[ListValue]:
+def field_list_value(value: JsonValue) -> ListValue | None:
     context: dict[str, str] = {
         "object_type": "list",
         "field_name": "value",
@@ -185,7 +188,7 @@ asdict_setting_value = asdict_pickle
 parse_setting_value = parse_pickle
 
 
-def field_setting_value(value: JsonValue) -> Optional[SettingValue]:
+def field_setting_value(value: JsonValue) -> SettingValue | None:
     context: dict[str, str] = {
         "object_type": "setting",
         "field_name": "value",
@@ -248,7 +251,7 @@ class Module(SimpleData):
     index: int
 
     name: ModuleName = field(init=False, hash=False)
-    description: Optional[str]
+    description: str | None
     location: Location
     parent_name: FileName
     parent_type: type[File] = field(default=File, init=False, hash=False)
@@ -290,7 +293,7 @@ class Context(SimpleData):
     matches: list[Match]
 
     name: ContextName = field(init=False, hash=False)
-    description: Optional[str]
+    description: str | None
     location: Location
     parent_name: FileName
     parent_type: type[File] = field(default=File, init=False, hash=False)
@@ -335,8 +338,8 @@ class Context(SimpleData):
 # Common Decoders - Cont'd
 ##############################################################################
 
-field_parent_type: Callable[[JsonValue], Union[type[Module], type[Context]]] = (
-    parse_field("parent_type", parse_class(Module, Context))
+field_parent_type: Callable[[JsonValue], type[Module] | type[Context]] = parse_field(
+    "parent_type", parse_class(Module, Context)
 )
 
 
@@ -350,10 +353,10 @@ field_parent_type: Callable[[JsonValue], Union[type[Module], type[Context]]] = (
 class Function(SimpleData):
     namespace: str
     name: str = field(init=False, hash=False)
-    description: Optional[str] = field(init=False, hash=False)
+    description: str | None = field(init=False, hash=False)
     location: Location
-    parent_name: Union[ModuleName, ContextName]
-    parent_type: Union[type[Module], type[Context]]
+    parent_name: ModuleName | ContextName
+    parent_type: type[Module] | type[Context]
     serialisable: bool = field(default=False, init=False, hash=False)
 
     function: Callable[..., Any] = field(repr=False)
@@ -373,7 +376,7 @@ class Function(SimpleData):
 @dataclass(unsafe_hash=True)
 class Callback(Data):
     name: str = field(init=False, hash=False)
-    description: Optional[str] = field(init=False, hash=False)
+    description: str | None = field(init=False, hash=False)
     location: Location
     parent_name: FileName
     parent_type: type[File] = field(default=File, init=False, hash=False)
@@ -402,7 +405,7 @@ class Command(GroupData):
     script: Script
 
     name: str = field(init=False, hash=False)
-    description: Optional[str]
+    description: str | None
     location: Location
     parent_name: ContextName
     parent_type: type[Context] = field(default=Context, init=False, hash=False)
@@ -437,7 +440,7 @@ class Command(GroupData):
 ##############################################################################
 
 
-def field_action_function_signature(value: JsonValue) -> Optional[Signature]:
+def field_action_function_signature(value: JsonValue) -> Signature | None:
     context: dict[str, str] = {
         "object_type": "action",
         "field_name": "function_signature",
@@ -452,14 +455,14 @@ def field_action_function_signature(value: JsonValue) -> Optional[Signature]:
 @final
 @dataclass(unsafe_hash=True)
 class Action(GroupDataHasFunction):
-    function_name: Optional[FunctionName]
-    function_signature: Optional[Signature]
+    function_name: FunctionName | None
+    function_signature: Signature | None
 
     name: ActionName
-    description: Optional[str]
-    location: Union[Literal["builtin"], Location]
-    parent_name: Union[ModuleName, ContextName]
-    parent_type: Union[type[Module], type[Context]]
+    description: str | None
+    location: Literal["builtin"] | Location
+    parent_name: ModuleName | ContextName
+    parent_type: type[Module] | type[Context]
     serialisable: bool = field(default=True, init=False, hash=False)
 
     @classmethod
@@ -486,7 +489,7 @@ class Action(GroupDataHasFunction):
         }
 
 
-def field_capture_function_signature(value: JsonValue) -> Optional[Signature]:
+def field_capture_function_signature(value: JsonValue) -> Signature | None:
     context: dict[str, str] = {
         "object_type": "capture",
         "field_name": "default",
@@ -503,14 +506,14 @@ def field_capture_function_signature(value: JsonValue) -> Optional[Signature]:
 @dataclass(unsafe_hash=True)
 class Capture(GroupDataHasFunction):
     rule: Rule
-    function_name: Optional[FunctionName]
-    function_signature: Optional[Signature]
+    function_name: FunctionName | None
+    function_signature: Signature | None
 
     name: CaptureName
-    description: Optional[str]
-    location: Union[Literal["builtin"], Location]
-    parent_name: Union[ModuleName, ContextName]
-    parent_type: Union[type[Module], type[Context]]
+    description: str | None
+    location: Literal["builtin"] | Location
+    parent_name: ModuleName | ContextName
+    parent_type: type[Module] | type[Context]
     serialisable: bool = field(default=True, init=False, hash=False)
 
     @classmethod
@@ -542,14 +545,14 @@ class Capture(GroupDataHasFunction):
 @final
 @dataclass(unsafe_hash=True)
 class List(GroupData):
-    value: Optional[ListValue]
-    value_type_hint: Optional[type[Any]]
+    value: ListValue | None
+    value_type_hint: type[Any] | None
 
     name: ListName
-    description: Optional[str]
-    location: Union[None, Literal["builtin"], Location]
-    parent_name: Union[ModuleName, ContextName]
-    parent_type: Union[type[Module], type[Context]]
+    description: str | None
+    location: None | Literal["builtin"] | Location
+    parent_name: ModuleName | ContextName
+    parent_type: type[Module] | type[Context]
     serialisable: bool = field(default=True, init=False, hash=False)
 
     def __post_init__(self, *_args: Any, **_kwargs: Any) -> None:
@@ -560,7 +563,8 @@ class List(GroupData):
         else:
             if type(self.value).__name__ != "ObjectShim" and self.value is not None:
                 _LOGGER.warning(  # type: ignore[unreachable]
-                    f"List value for {self.name} should be list or dict, found {type(self.value)}"
+                    f"List value for {self.name} should be "
+                    f"list or dict, found {type(self.value)}"
                 )
             self.value = None
         super().__post_init__(*_args, **_kwargs)
@@ -592,14 +596,14 @@ class List(GroupData):
 @final
 @dataclass(unsafe_hash=True)
 class Setting(GroupData):
-    value: Optional[SettingValue]
-    value_type_hint: Optional[type[Any]]
+    value: SettingValue | None
+    value_type_hint: type[Any] | None
 
     name: SettingName
-    description: Optional[str]
-    location: Union[None, Literal["builtin"], Location]
-    parent_name: Union[ModuleName, ContextName]
-    parent_type: Union[type[Module], type[Context]]
+    description: str | None
+    location: None | Literal["builtin"] | Location
+    parent_name: ModuleName | ContextName
+    parent_type: type[Module] | type[Context]
     serialisable: bool = field(default=True, init=False, hash=False)
 
     @classmethod
@@ -630,8 +634,8 @@ class Setting(GroupData):
 @dataclass(unsafe_hash=True)
 class Mode(SimpleData):
     name: ModeName
-    description: Optional[str]
-    location: Union[None, Literal["builtin"], Location]
+    description: str | None
+    location: None | Literal["builtin"] | Location
     parent_name: ModuleName
     parent_type: type[Module] = field(default=Module, init=False, hash=False)
     serialisable: bool = field(default=True, init=False, hash=False)
@@ -658,8 +662,8 @@ class Mode(SimpleData):
 @dataclass(unsafe_hash=True)
 class Tag(SimpleData):
     name: TagName
-    description: Optional[str]
-    location: Union[None, Literal["builtin"], Location]
+    description: str | None
+    location: None | Literal["builtin"] | Location
     parent_name: ModuleName
     parent_type: type[Module] = field(default=Module, init=False, hash=False)
     serialisable: bool = field(default=True, init=False, hash=False)

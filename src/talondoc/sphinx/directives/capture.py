@@ -55,12 +55,11 @@ class TalonCaptureDirective(TalonDocObjectDescription):
                 signode += desc_content(paragraph(nodes.Text(default.description)))
 
             return default.name
-        else:
-            e = UnknownReference(
-                ref_type=data.Capture,
-                ref_name=sig,
-                location=self.get_location(),
-                known_references=tuple(self.talon.registry.captures.keys()),
-            )
-            _LOGGER.error(f"talon:capture: {e}")
-            raise ValueError(e)
+        e = UnknownReference(
+            ref_type=data.Capture,
+            ref_name=sig,
+            location=self.get_location(),
+            known_references=tuple(self.talon.registry.captures.keys()),
+        )
+        _LOGGER.error(f"talon:capture: {e}")
+        raise ValueError(e)

@@ -25,11 +25,10 @@ dependencies = [
   "Jinja2 >=3,<4",
   "Sphinx >=5,<9",
   "talonfmt >=1.7.4,<2",
-  "tree_sitter_talon >=3!1.0,<3!2",
   "colorlog >=6.7,<7",
   "packaging >=23.1,<25",
+  "tree_sitter_talon >=3!1.0,<3!2",
   'pywin32; platform_system=="Windows"',
-  "singledispatchmethod >=1.0,<2; python_version <'3.8'",
 ]
 
 [project.optional-dependencies]
@@ -45,13 +44,14 @@ test = [
   "bumpver",
   "myst_parser >=1,<5",
   "sphinx_rtd_theme >=1.2,<4",
-  "sphinx_tabs >=3.4,<5"
+  "sphinx_tabs >=3.4,<5",
 ]
 docs = [
   "myst_parser >=1,<5",
   "sphinx_rtd_theme >=1.2,<4",
-  "sphinx_tabs >=3.4,<5"
+  "sphinx_tabs >=3.4,<5",
 ]
+dev = ["ruff>=0.9,<1"]
 
 [project.scripts]
 talondoc = "talondoc:talondoc"
@@ -72,9 +72,60 @@ push = true
 "example/docs/conf.py" = ['^release = "{pep440_version}"$']
 "src/talondoc/_version.py" = ['^__version__: str = "{pep440_version}"$']
 
-[tool.isort]
-profile = "black"
-line_length = 88
+[tool.ruff]
+line-length = 88
+
+exclude = [".venv", ".tox", "example/community/*"]
+
+[tool.ruff.lint]
+# Add the `line-too-long` rule to the enforced rule set. By default, Ruff omits rules that
+# overlap with the use of a formatter, like Black, but we can override this behavior by
+# explicitly adding the rule.
+# extend-select = ["E501"]
+
+select = [
+  # Recommended Initial
+  "E",   # pycodestyle
+  "F",   # Pyflakes
+  "UP",  # pyupgrade
+  "B",   # flake8-bugbear
+  "SIM", # flake8-simplify
+  "I",   # isort
+
+  # Additional
+  "PTH", # flake8-use-pathlib
+  "C4",  # flake8-comprehensions (C4)
+  "PIE", # flake8-pie (PIE)
+  "PYI", # flake8-pyi (PYI)
+  "RUF", # Ruff Specific Rules
+  "RET", # flake8-return (RET)
+
+  "FLY", # flynt (FLY)
+
+]
+
+ignore = [
+  # These are recommended to be disabled when using ruff format.
+  "COM812", # missing-trailing-comma (COM812)
+  "COM819", # prohibited-trailing-comma (COM819)
+  "D206",   # docstring-tab-indentation (D206)
+  "D300",   # triple-single-quotes (D300)
+  "E111",   # indentation-with-invalid-multiple (E111)
+  "E114",   # indentation-with-invalid-multiple-comment (E114)
+  "E117",   # over-indented (E117)
+  "ISC002", # multi-line-implicit-string-concatenation (ISC002) if used without ISC001 and flake8-implicit-str-concat.allow-multiline = false
+  "Q000",   # bad-quotes-inline-string (Q000)
+  "Q001",   # bad-quotes-multiline-string (Q001)
+  "Q002",   # bad-quotes-docstring (Q002)
+  "Q003",   # avoidable-escaped-quote (Q003)
+  "W191",   # tab-indentation (W191)
+]
+
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 45
+
 
 [tool.mypy]
 python_version = "3.10"

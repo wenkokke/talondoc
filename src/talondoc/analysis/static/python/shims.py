@@ -2,8 +2,9 @@ import inspect
 import platform
 from collections.abc import Callable, Iterator, Mapping, Sequence
 from io import TextIOWrapper
+from pathlib import Path
 from types import ModuleType
-from typing import Any, Optional, Union, cast, overload
+from typing import Any, cast, overload
 
 import tree_sitter_talon
 from tree_sitter_talon import Point
@@ -33,7 +34,10 @@ class ObjectShim:
             )
         else:
             _LOGGER.debug(
-                f"skip register {data.Callback.__name__}: callback of type {func.__class__.__qualname__} is not a function"
+                (
+                    f"skip register {data.Callback.__name__}: callback of type ",
+                    f"{func.__class__.__qualname__} is not a function",
+                )
             )
 
     def __init__(self, *_args: Any, **_kwargs: Any) -> None:
@@ -57,7 +61,7 @@ class ObjectShim:
     def __enter__(self) -> Any:
         return self
 
-    def __exit__(self, *_args: Any) -> None:
+    def __exit__(self, *_args: object) -> None:
         pass
 
     def __add__(self, other: Any) -> Any:
@@ -170,10 +174,10 @@ class ModuleShim(ModuleType):
 
 
 class TalonActionsShim:
-    def __getattr__(self, name: str) -> Optional[Callable[..., Any]]:
+    def __getattr__(self, name: str) -> Callable[..., Any] | None:
         try:
             return cast(
-                Optional[Callable[..., Any]],
+                Callable[..., Any] | None,
                 object.__getattribute__(self, name),
             )
         except AttributeError:
@@ -227,7 +231,7 @@ class TalonContextListsShim(Mapping[str, data.ListValue]):
         for name, value in values.items():
             self._add_list_value(name, value)
 
-    def __getitem__(self, key: str) -> Union[dict[str, Any], list[str]]:
+    def __getitem__(self, key: str) -> dict[str, Any] | list[str]:
         raise NotImplementedError()
 
     def __iter__(self) -> Iterator[Any]:
@@ -307,7 +311,7 @@ class TalonContextTagsShim(Sequence[str]):
 
 class TalonResourceShim(ObjectShim):
     def open(self, file: str, mode: str = "r") -> TextIOWrapper:
-        return cast(TextIOWrapper, open(file, mode))
+        return cast(TextIOWrapper, Path(file).open(mode))
 
     def read(self, file: str) -> str:
         raise NotImplementedError()
@@ -330,7 +334,7 @@ class TalonShim(ModuleShim):
         # TODO: ui
 
     class Module(ObjectShim):
-        def __init__(self, desc: Optional[str] = None) -> None:
+        def __init__(self, desc: str | None = None) -> None:
             self._registry = Registry.get_active_global_registry()
             self._package = self._registry.get_active_package()
             self._file = self._registry.get_active_file()
@@ -368,7 +372,7 @@ class TalonShim(ModuleShim):
                 self._registry.register(datum)
             return cls
 
-        def action(self, name: str) -> Optional[Callable[..., Any]]:
+        def action(self, name: str) -> Callable[..., Any] | None:
             function = self._registry.lookup_default_function(data.Action, name)
             return function or ObjectShim()
 
@@ -407,7 +411,7 @@ class TalonShim(ModuleShim):
             name: str,
             type: type,
             default: data.SettingValue = None,
-            desc: Optional[str] = None,
+            desc: str | None = None,
         ) -> None:
             datum = data.Setting(
                 value=default,
@@ -425,7 +429,7 @@ class TalonShim(ModuleShim):
         def list(
             self,
             name: str,
-            desc: Optional[str] = None,
+            desc: str | None = None,
         ) -> None:
             datum = data.List(
                 value=None,
@@ -443,7 +447,7 @@ class TalonShim(ModuleShim):
         def mode(
             self,
             name: str,
-            desc: Optional[str] = None,
+            desc: str | None = None,
         ) -> None:
             datum = data.Mode(
                 name=f"{self._package.name}.{name}",
@@ -457,7 +461,7 @@ class TalonShim(ModuleShim):
         def tag(
             self,
             name: str,
-            desc: Optional[str] = None,
+            desc: str | None = None,
         ) -> None:
             datum = data.Tag(
                 name=f"{self._package.name}.{name}",
@@ -472,7 +476,7 @@ class TalonShim(ModuleShim):
         # TODO: scope
 
     class Context(ObjectShim):
-        def __init__(self, desc: Optional[str] = None) -> None:
+        def __init__(self, desc: str | None = None) -> None:
             self._registry = Registry.get_active_global_registry()
             self._package = self._registry.get_active_package()
             self._file = self._registry.get_active_file()
@@ -558,7 +562,7 @@ class TalonShim(ModuleShim):
 
         def action(
             self, name: str
-        ) -> Optional[Callable[[Callable[..., Any]], Callable[..., Any]]]:
+        ) -> Callable[[Callable[..., Any]], Callable[..., Any]] | None:
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
                 # LINT: check if function on decorated class is a function
                 assert callable(func)
@@ -590,12 +594,12 @@ class TalonShim(ModuleShim):
             return __decorator
 
         def capture(
-            self, name: Optional[str] = None, rule: Optional[str] = None
+            self, name: str | None = None, rule: str | None = None
         ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
             def __decorator(func: Callable[..., Any]) -> Callable[..., Any]:
                 # LINT: check if decorated function is a function
                 if not inspect.isfunction(func):
-                    _LOGGER.warning(f"Decorated object is not a function.")
+                    _LOGGER.warning("Decorated object is not a function.")
                     return func
 
                 location = Location.from_function(func)
@@ -614,7 +618,8 @@ class TalonShim(ModuleShim):
                 else:
                     parsed_rule = data.parse_rule(rule)
 
-                # LINT: resolve capture name and check if decorated function has expected name
+                # LINT: resolve capture name and check if
+                #  decorated function has expected name
                 if name is not None:
                     exp_funcname = name.split(".")[-1]
                     act_funcname = func.__name__

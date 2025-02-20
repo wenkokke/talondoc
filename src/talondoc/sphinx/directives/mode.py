@@ -5,7 +5,7 @@ from typing_extensions import override
 from ..._util.logging import getLogger
 from ...analysis.registry import data
 from ...analysis.registry.data.abc import UnknownReference
-from .._util.addnodes import desc_content, desc_name, desc_qualname, paragraph
+from .._util.addnodes import desc_content, desc_qualname, paragraph
 from . import TalonDocObjectDescription
 
 _LOGGER = getLogger(__name__)
@@ -30,12 +30,11 @@ class TalonModeDirective(TalonDocObjectDescription):
             if mode.description:
                 signode += desc_content(paragraph(nodes.Text(mode.description)))
             return mode.name
-        else:
-            e = UnknownReference(
-                ref_type=data.Mode,
-                ref_name=sig,
-                location=self.get_location(),
-                known_references=tuple(self.talon.registry.modes.keys()),
-            )
-            _LOGGER.error(f"talon:mode: {e}")
-            raise ValueError(e)
+        e = UnknownReference(
+            ref_type=data.Mode,
+            ref_name=sig,
+            location=self.get_location(),
+            known_references=tuple(self.talon.registry.modes.keys()),
+        )
+        _LOGGER.error(f"talon:mode: {e}")
+        raise ValueError(e)

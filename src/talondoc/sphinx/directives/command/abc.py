@@ -1,11 +1,12 @@
 import re
-from typing import ClassVar, Iterator, Optional, Sequence, Union, cast
+from collections.abc import Iterator, Sequence
+from typing import ClassVar, Literal, cast
 
 from docutils import nodes
 from sphinx import addnodes
 from talonfmt import talonfmt
 from tree_sitter_talon import TalonComment
-from typing_extensions import Literal, final
+from typing_extensions import final
 
 from ...._util.logging import getLogger
 from ....analysis.registry import data
@@ -23,7 +24,7 @@ _LOGGER = getLogger(__name__)
 
 class TalonDocCommandDescription(TalonDocObjectDescription):
     @property
-    def contexts(self) -> Optional[Iterator[str]]:
+    def contexts(self) -> Iterator[str] | None:
         result = [*self.options.get("context", []), *self.options.get("contexts", [])]
         return iter(result) if result else None
 
@@ -37,7 +38,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         text: str,
         *,
         fullmatch: bool = False,
-        restrict_to: Optional[Iterator[str]] = None,
+        restrict_to: Iterator[str] | None = None,
     ) -> data.Command:
         commands = list(
             self.find_commands(text, fullmatch=fullmatch, restrict_to=restrict_to)
@@ -61,7 +62,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
     def get_commands(
         self,
         *,
-        restrict_to: Optional[Iterator[str]] = None,
+        restrict_to: Iterator[str] | None = None,
     ) -> Iterator[data.Command]:
         yield from self.talon.registry.get_commands(restrict_to=restrict_to)
 
@@ -71,7 +72,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         text: str,
         *,
         fullmatch: bool = False,
-        restrict_to: Optional[Iterator[str]] = None,
+        restrict_to: Iterator[str] | None = None,
     ) -> Iterator[data.Command]:
         _LOGGER.debug(
             f"searching for commands matching '{text}' (restricted by {restrict_to})"
@@ -95,7 +96,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         signode: addnodes.desc_signature,
         *,
         always_include_script: bool,
-        docstring_hook: Optional[TalonDocstringHook_Callable],
+        docstring_hook: TalonDocstringHook_Callable | None,
     ) -> addnodes.desc_signature:
         signode += desc_name(desc_rule(command.rule))
         signode += desc_content(
@@ -113,7 +114,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         command: data.Command,
         *,
         always_include_script: bool,
-        docstring_hook: Optional[TalonDocstringHook_Callable],
+        docstring_hook: TalonDocstringHook_Callable | None,
     ) -> Sequence[nodes.Element]:
         """
         Describe the script using the docstrings on the script, the docstrings on
@@ -121,7 +122,8 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
         """
         buffer: list[nodes.Element] = []
 
-        # 1. Use the Talon docstrings in the command script. Talon docstrings are comments which start with ###.
+        # 1. Use the Talon docstrings in the command script.
+        #   Talon docstrings are comments which start with ###.
         desc = self._try_describe_script_with_script_docstrings(command)
 
         # 2. Use the Python docstrings from the actions used in the command script.
@@ -144,7 +146,7 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
     def _try_describe_script_with_script_docstrings(
         self,
         command: data.Command,
-    ) -> Optional[nodes.Text]:
+    ) -> nodes.Text | None:
         """
         Describe the script using the docstrings present in the script itself.
         """
@@ -156,16 +158,15 @@ class TalonDocCommandDescription(TalonDocObjectDescription):
                     comments.append(comment.removeprefix("###").strip())
         if comments:
             return nodes.Text(" ".join(comments))
-        else:
-            return None
+        return None
 
     @final
     def _try_describe_script_with_action_docstrings(
         self,
         command: data.Command,
         *,
-        docstring_hook: Optional[TalonDocstringHook_Callable],
-    ) -> Optional[nodes.Text]:
+        docstring_hook: TalonDocstringHook_Callable | None,
+    ) -> nodes.Text | None:
         """
         Describe the script using the docstrings on the actions used by the script.
         """
@@ -200,18 +201,15 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
         return cast(str, self.options.get("caption", None) or ".".join(self.arguments))
 
     @property
-    def include(self) -> Union[Literal["*"], Sequence[Sequence[str]]]:
-        phrases = cast(
-            Union[Literal["*"], Sequence[str]], self.options.get("include", "*")
-        )
+    def include(self) -> Literal["*"] | Sequence[Sequence[str]]:
+        phrases = cast(Literal["*"] | Sequence[str], self.options.get("include", "*"))
         if (
             phrases == "*"
             or len(phrases) == 0
             or (len(phrases) == 1 and phrases[0] == "*")
         ):
             return "*"
-        else:
-            return tuple(map(self._split_phrase, phrases))
+        return tuple(map(self._split_phrase, phrases))
 
     @property
     def exclude(self) -> Sequence[Sequence[str]]:
@@ -254,10 +252,7 @@ class TalonDocCommandListDescription(TalonDocCommandDescription):
     ) -> bool:
         if self.include == "*":
             return True
-        else:
-            return self._match_any_of(
-                rule, self.include, default=True, fullmatch=fullmatch
-            )
+        return self._match_any_of(rule, self.include, default=True, fullmatch=fullmatch)
 
     @final
     def _matches_exclude(

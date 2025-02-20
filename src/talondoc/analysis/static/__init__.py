@@ -1,6 +1,5 @@
 from collections.abc import Sequence
 from pathlib import Path
-from typing import Optional
 
 from ..registry import Registry
 from ..registry.data import Package
@@ -26,7 +25,7 @@ def analyse_package(
     registry: Registry,
     package_dir: Path,
     *,
-    package_name: Optional[str] = None,
+    package_name: str | None = None,
     include: Sequence[str] = (),
     exclude: Sequence[str] = (),
     trigger: Sequence[str] = (),

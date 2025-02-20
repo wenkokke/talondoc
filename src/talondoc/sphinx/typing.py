@@ -1,26 +1,21 @@
 from collections.abc import Callable, Sequence
-from typing import Optional, Union
+from typing import TypeAlias
 
-from typing_extensions import NotRequired, Required, TypeAlias, TypedDict
+from typing_extensions import NotRequired, Required, TypedDict
 
 TalonEvent = str
 
-TalonPackage = TypedDict(
-    "TalonPackage",
-    {
-        "path": Required[str],
-        "name": NotRequired[str],
-        "include": NotRequired[Union[str, Sequence[str]]],
-        "exclude": NotRequired[Union[str, Sequence[str]]],
-        "trigger": NotRequired[Union[TalonEvent, Sequence[TalonEvent]]],
-    },
-)
 
-TalonDocstringHook_Callable: TypeAlias = Callable[[str, str], Optional[str]]
+class TalonPackage(TypedDict):
+    path: Required[str]
+    name: NotRequired[str]
+    include: NotRequired[str | Sequence[str]]
+    exclude: NotRequired[str | Sequence[str]]
+    trigger: NotRequired[TalonEvent | Sequence[TalonEvent]]
+
+
+TalonDocstringHook_Callable: TypeAlias = Callable[[str, str], str | None]
 TalonDocstringHook_Dict: TypeAlias = dict[str, dict[str, str]]
 
 
-TalonDocstringHook: TypeAlias = Union[
-    TalonDocstringHook_Callable,
-    TalonDocstringHook_Dict,
-]
+TalonDocstringHook: TypeAlias = TalonDocstringHook_Callable | TalonDocstringHook_Dict

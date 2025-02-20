@@ -4,9 +4,9 @@ from collections.abc import Callable, Mapping, Sequence
 from functools import partial
 from inspect import Parameter, Signature
 from logging import WARNING
-from typing import Any, Optional, Union
+from typing import Any, TypeAlias
 
-from typing_extensions import TypeAlias, TypeVar
+from typing_extensions import TypeVar
 
 from ...._util.logging import getLogger
 
@@ -15,25 +15,18 @@ _LOGGER = getLogger(__name__)
 _S = TypeVar("_S")
 _T = TypeVar("_T")
 
-JsonValue: TypeAlias = Union[
-    None,
-    int,
-    str,
-    dict[str, "JsonValue"],
-    list["JsonValue"],
-]
+JsonValue: TypeAlias = None | int | str | dict[str, "JsonValue"] | list["JsonValue"]
 
 ##############################################################################
 # Decoder
 ##############################################################################
 
 
-def asdict_opt(asdict: Callable[[_S], _T]) -> Callable[[Optional[_S]], Optional[_T]]:
-    def _asdict(value: Optional[_S]) -> Optional[_T]:
+def asdict_opt(asdict: Callable[[_S], _T]) -> Callable[[_S | None], _T | None]:
+    def _asdict(value: _S | None) -> _T | None:
         if value is None:
             return None
-        else:
-            return asdict(value)
+        return asdict(value)
 
     return _asdict
 
@@ -41,9 +34,8 @@ def asdict_opt(asdict: Callable[[_S], _T]) -> Callable[[Optional[_S]], Optional[
 def asdict_pickle(value: Any) -> JsonValue:
     if isinstance(value, str):
         return value
-    else:
-        value = base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
-        return {"pickle": value}
+    value = base64.b64encode(pickle.dumps(value)).decode(encoding="utf-8")
+    return {"pickle": value}
 
 
 def asdict_class(cls: type) -> JsonValue:
@@ -75,25 +67,27 @@ def asdict_signature(sig: Signature) -> JsonValue:
 ##############################################################################
 
 
-def parse_pickle(value: JsonValue, *, context: dict[str, str] = {}) -> Any:
+def parse_pickle(value: JsonValue, *, context: dict[str, str] | None = None) -> Any:
+    if context is None:
+        context = {}
     if isinstance(value, str):
         return parse_str(value)
-    elif isinstance(value, Mapping):
+    if isinstance(value, Mapping):
         value = parse_str(value["pickle"])
         try:
             return pickle.loads(base64.b64decode(value, validate=True))
         except ModuleNotFoundError as e:
             if _LOGGER.isEnabledFor(WARNING):
-                object_name = context.get("object_name", None)
+                object_name = context.get("object_name")
                 object_type = context.get("object_type", "object")
-                field_name = context.get("field_name", None)
-                field_path = context.get("field_path", None)
+                field_name = context.get("field_name")
+                field_path = context.get("field_path")
                 message_buffer: list[str] = []
-                message_buffer.append(f"Cannot decode")
+                message_buffer.append("Cannot decode")
                 if field_name:
                     message_buffer.append(f"field {field_name}")
                 else:
-                    message_buffer.append(f"unknown field")
+                    message_buffer.append("unknown field")
                 if field_path:
                     message_buffer.append(f"in {field_path}")
                 if object_name:
@@ -126,12 +120,11 @@ def parse_list_of(parser: Callable[[JsonValue], _T]) -> Callable[[JsonValue], li
     return lambda value: list(map(parser, parse_list(value)))
 
 
-def parse_opt(parser: Callable[[JsonValue], _T]) -> Callable[[JsonValue], Optional[_T]]:
-    def _parser(value: JsonValue) -> Optional[_T]:
+def parse_opt(parser: Callable[[JsonValue], _T]) -> Callable[[JsonValue], _T | None]:
+    def _parser(value: JsonValue) -> _T | None:
         if value is None:
             return None
-        else:
-            return parser(value)
+        return parser(value)
 
     return _parser
 
@@ -150,18 +143,18 @@ def parse_field(
         try:
             return parser(value[name])
         except TypeError as e:
-            raise TypeError(f"Error when checking type for field {name}. {e}")
+            raise TypeError(f"Error when checking type for field {name}. {e}") from e
 
     return _parser
 
 
 def parse_optfield(
     name: str, parser: Callable[[JsonValue], _T]
-) -> Callable[[JsonValue], Optional[_T]]:
-    def _parser(value: JsonValue) -> Optional[_T]:
+) -> Callable[[JsonValue], _T | None]:
+    def _parser(value: JsonValue) -> _T | None:
         try:
             return parse_field(name, parse_opt(parser))(value)
-        except KeyError as e:
+        except KeyError:
             return None
 
     return _parser
@@ -191,7 +184,11 @@ parse_kind = parse_enum(
 )
 
 
-def parse_parameter(value: JsonValue, *, context: dict[str, str] = {}) -> Parameter:
+def parse_parameter(
+    value: JsonValue, *, context: dict[str, str] | None = None
+) -> Parameter:
+    if context is None:
+        context = {}
     return Parameter(
         name=parse_field("name", parse_str)(value),
         kind=parse_field("kind", parse_kind)(value),
@@ -203,12 +200,18 @@ def parse_parameter(value: JsonValue, *, context: dict[str, str] = {}) -> Parame
 
 
 def parse_parameters(
-    value: JsonValue, *, context: dict[str, str] = {}
+    value: JsonValue, *, context: dict[str, str] | None = None
 ) -> Sequence[Parameter]:
+    if context is None:
+        context = {}
     return tuple(map(partial(parse_parameter, context=context), parse_list(value)))
 
 
-def parse_signature(value: JsonValue, *, context: dict[str, str] = {}) -> Signature:
+def parse_signature(
+    value: JsonValue, *, context: dict[str, str] | None = None
+) -> Signature:
+    if context is None:
+        context = {}
     return Signature(
         parameters=parse_field(
             "parameters", partial(parse_parameters, context=context)

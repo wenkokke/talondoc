@@ -10,7 +10,6 @@ from ..._util.addnodes import (
     entry,
     fragtable,
     row,
-    table,
     tbody,
     tgroup,
     title,

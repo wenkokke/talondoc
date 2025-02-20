@@ -6,7 +6,6 @@ from ..analysis.registry import Registry
 from .directives.action import TalonActionDirective
 from .directives.capture import TalonCaptureDirective
 from .directives.command import TalonCommandDirective
-from .directives.command.hlist import TalonCommandHListDirective
 from .directives.command.table import TalonCommandTableDirective
 from .directives.list import TalonListDirective
 from .directives.mode import TalonModeDirective
@@ -22,7 +21,7 @@ class TalonDomain(Domain):  # type: ignore[misc]
     name = "talon"
     label = "Talon"
 
-    directives = {
+    directives = {  # noqa: RUF012 (wants this to be a class var)
         "action": TalonActionDirective,
         "capture": TalonCaptureDirective,
         "command": TalonCommandDirective,
