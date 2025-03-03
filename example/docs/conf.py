@@ -78,11 +78,18 @@ talon_package = {
 #     return None
 #
 
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "sphinx_rtd_theme"
+# html_theme = "sphinx_rtd_theme"
+html_theme = "furo"
 html_static_path = ["_static"]
+
+# -- Options HTML Theme Furo -------------------------------------------------
+html_theme_options = {
+    "navigation_with_keys": True,
+}
 
 
 def setup(app: Sphinx) -> None:

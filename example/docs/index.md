@@ -3,7 +3,7 @@
 :::{toctree}
 :maxdepth: 1
 
-knausj_talon/index
+community/index
 :::
 
 ## Loading a Talon package
