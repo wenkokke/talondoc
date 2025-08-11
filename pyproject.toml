@@ -21,7 +21,7 @@ classifiers = [
 requires-python = ">=3.10,<3.14"
 dependencies = [
   "awesome_progress_bar >=1.7,<2",
-  "docstring_parser >=0.14,<0.17",
+  "docstring_parser >=0.14,<0.18",
   "editdistance >=0.6,<0.9",
   "Jinja2 >=3,<4",
   "Sphinx >=5,<9",
