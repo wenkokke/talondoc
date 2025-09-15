@@ -38,7 +38,7 @@ jobs:
 
       - # Required to run job via act: https://github.com/nektos/act
         name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           cache: "pip"
           cache-dependency-path: "./requirements-ci.txt"
@@ -85,7 +85,7 @@ jobs:
 
       - # Required to run job via act: https://github.com/nektos/act
         name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           cache: "pip"
           cache-dependency-path: "./requirements-ci.txt"
@@ -131,7 +131,7 @@ jobs:
 
       - # Required to run job via act: https://github.com/nektos/act
         name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           cache: "pip"
           cache-dependency-path: "./pyproject.toml"
